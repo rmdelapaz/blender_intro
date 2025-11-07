@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master 3D navigation in Blender. Learn to orbit, pan, zoom, and move through your 3D scenes with confidence and precision.">
+    <meta name="author" content="Blender Course">
+    <title>Navigation and Viewport Control - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <nav class="main-nav" aria-label="Main Navigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">🎨 Blender Mastery Course</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <div class="nav-links">
+                <a href="index.html">Course Home</a>
+                <a href="index.html#modules">Modules</a>
+                <a href="index.html#about">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> &gt; 
+        <a href="index.html#module-1">Module 1</a> &gt; 
+        <span>Lesson 3</span>
+    </div>
+
+    <main class="container">
+        <article>
+            <header class="lesson-header">
+                <h1>🧭 Navigation and Viewport Control</h1>
+                <p class="lead">Imagine trying to paint a portrait while standing in one fixed position—you could never see the other side of your subject! In 3D work, being able to move freely around your creations is essential. This lesson will teach you to navigate Blender's 3D space with the fluidity of a camera operator, giving you complete control over your viewpoint and making you feel truly at home in the three-dimensional world.</p>
+            </header>
+
+            <div class="card">
+                <h3>📚 What You'll Learn</h3>
+                <ul>
+                    <li>The three fundamental navigation operations: orbit, pan, and zoom</li>
+                    <li>Using your mouse and keyboard together for smooth navigation</li>
+                    <li>Understanding perspective vs. orthographic views</li>
+                    <li>Quick navigation to standard views (front, side, top)</li>
+                    <li>Focusing on objects and framing your scene</li>
+                    <li>Camera view and understanding what will render</li>
+                    <li>Navigation best practices and common mistakes to avoid</li>
+                    <li>Advanced navigation techniques for precision work</li>
+                </ul>
+                <p><strong>⏱️ Estimated Time:</strong> 60-75 minutes</p>
+                <p><strong>🎯 Project:</strong> Navigation obstacle course to build muscle memory</p>
+            </div>
+
+            <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                    <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                </summary>
+                <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                    <ol>
+                        <li><a href="#why-navigation-matters" class="toc-link">Why Navigation Matters</a></li>
+                        <li><a href="#the-big-three" class="toc-link">The Big Three: Orbit, Pan, Zoom</a></li>
+                        <li><a href="#mouse-navigation" class="toc-link">Mouse and Keyboard Navigation</a></li>
+                        <li><a href="#perspective-ortho" class="toc-link">Perspective vs. Orthographic Views</a></li>
+                        <li><a href="#standard-views" class="toc-link">Standard Views and Quick Navigation</a></li>
+                        <li><a href="#focus-frame" class="toc-link">Focusing and Framing Objects</a></li>
+                        <li><a href="#camera-view" class="toc-link">Camera View and What You'll Render</a></li>
+                        <li><a href="#advanced-techniques" class="toc-link">Advanced Navigation Techniques</a></li>
+                        <li><a href="#navigation-project" class="toc-link">Project: Navigation Mastery</a></li>
+                        <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                    </ol>
+                </nav>
+            </details>
+<!-- PART 1 END -->
+<!-- PART 2 START -->
+            <section id="why-navigation-matters">
+                <h2>🎯 Why Navigation Matters</h2>
+                
+                <p>Before diving into the techniques, let's understand why smooth navigation is so crucial for 3D work.</p>
+
+                <h3>The Foundation of 3D Work</h3>
+
+                <p>Think about how a sculptor works with clay. They constantly rotate their sculpture, view it from different angles, step back to see the whole piece, and lean in close to work on details. They never work from just one viewpoint—movement and multiple perspectives are essential to creating balanced, well-proportioned work.</p>
+
+                <p>3D digital work is exactly the same. You need to:</p>
+                <ul>
+                    <li><strong>See all sides:</strong> What looks perfect from the front might have problems from the side</li>
+                    <li><strong>Check proportions:</strong> Distance views show overall balance, close views show detail</li>
+                    <li><strong>Work precisely:</strong> Aligning elements requires viewing from multiple angles</li>
+                    <li><strong>Understand depth:</strong> 3D space on a 2D screen requires constant viewpoint changes</li>
+                </ul>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 The Navigation Principle</h4>
+                    <p>Good navigation becomes invisible—you stop thinking about it and just <em>move</em>. Like learning to drive, navigation feels clunky at first, but becomes automatic with practice. Once mastered, your mind focuses on creating while your hands handle navigation unconsciously.</p>
+                </div>
+
+                <h3>The Challenge of 3D on 2D Screens</h3>
+
+                <p>Here's the fundamental challenge: you're working in three dimensions (height, width, depth) but viewing through a two-dimensional screen. Your monitor can't show depth the way real life does. This is why navigation is so important—you compensate for the missing dimension by constantly changing your viewpoint.</p>
+
+                <p>Imagine trying to understand a complex building from a single photograph. You'd miss so much! But if you could walk around it, view it from above, see it from different distances—suddenly it makes sense. That's what navigation gives you in Blender.</p>
+
+                <blockquote>
+                    <p><strong>Real-World Parallel:</strong> Professional architects don't design buildings from one fixed viewpoint. They create models and walk around them, use multiple drawing views (plan, elevation, section), and constantly shift perspective. Blender's navigation system is your digital equivalent of walking around a physical model.</p>
+                </blockquote>
+
+                <h3>Speed and Workflow</h3>
+
+                <p>Smooth navigation directly impacts your productivity. Artists who navigate fluidly work faster because they:</p>
+                <ul>
+                    <li>Spend less mental energy on "how do I see this angle?"</li>
+                    <li>Catch mistakes earlier by naturally viewing from multiple perspectives</li>
+                    <li>Move seamlessly between broad composition and fine details</li>
+                    <li>Build better spatial understanding of their scenes</li>
+                </ul>
+
+                <p>The good news? Navigation is mostly muscle memory. Once your hands learn the movements, they'll execute without conscious thought, freeing your mind to focus on creative decisions.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Learning Approach</h4>
+                    <p>This lesson will feel very hands-on because navigation must be practiced, not just read about. Have Blender open as you work through each section. Actually perform each action multiple times. Your goal isn't to understand navigation intellectually—it's to make it automatic.</p>
+                </div>
+            </section>
+
+            <section id="the-big-three">
+                <h2>🔄 The Big Three: Orbit, Pan, Zoom</h2>
+
+                <p>All viewport navigation comes down to three fundamental operations. Master these three, and you can navigate anywhere in your 3D scene.</p>
+
+                <h3>Orbit: Rotating Around Your Scene</h3>
+
+                <p>Orbiting means rotating your view around a central point, like a camera circling around a sculpture. This is how you see different sides of your objects without moving them.</p>
+
+                <div class="card">
+                    <h4>🖱️ How to Orbit</h4>
+                    <p><strong>Middle Mouse Button (MMB) + Drag</strong></p>
+                    <ul>
+                        <li>Click and hold your middle mouse button (scroll wheel click)</li>
+                        <li>Move your mouse in any direction</li>
+                        <li>Your view rotates around the scene</li>
+                        <li>Release to stop orbiting</li>
+                    </ul>
+                </div>
+
+                <p>Think of orbit like this: imagine your viewpoint is on a sphere surrounding your object. Orbiting moves you around that sphere, always looking at the center. You're not moving the object—you're moving yourself around it.</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Try It Now: Basic Orbit</h4>
+                    <ol>
+                        <li>Open Blender with the default scene (cube, camera, light)</li>
+                        <li>Click and hold your middle mouse button</li>
+                        <li>Drag left and right—you orbit horizontally around the cube</li>
+                        <li>Drag up and down—you orbit vertically</li>
+                        <li>Drag in circles—you can orbit from any angle!</li>
+                        <li>Practice for 30 seconds, getting comfortable with the motion</li>
+                    </ol>
+                </div>
+
+                <h4>Understanding the Orbit Center</h4>
+
+                <p>By default, Blender orbits around a point in the middle of your visible scene. This center point adjusts based on your selection and what's visible. We'll learn to control this precisely in the advanced techniques section.</p>
+
+                <h3>Pan: Moving Sideways Through Your Scene</h3>
+
+                <p>Panning means sliding your view left, right, up, or down without rotating. Imagine looking through a window and moving sideways to see different parts of the view—that's panning.</p>
+
+                <div class="card">
+                    <h4>🖱️ How to Pan</h4>
+                    <p><strong>Shift + Middle Mouse Button (MMB) + Drag</strong></p>
+                    <ul>
+                        <li>Hold down Shift on your keyboard</li>
+                        <li>Click and hold middle mouse button</li>
+                        <li>Move your mouse to slide the view</li>
+                        <li>Your view moves parallel to the screen</li>
+                    </ul>
+                </div>
+
+                <p>Panning is essential for centering objects in your view, working on off-center areas, and precisely positioning elements. Unlike orbit, panning doesn't change your viewing angle—just your position.</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Try It Now: Basic Pan</h4>
+                    <ol>
+                        <li>Look at your default cube in Blender</li>
+                        <li>Hold Shift + Middle Mouse Button and drag right</li>
+                        <li>The cube slides to the left side of your view</li>
+                        <li>Shift + MMB drag left to bring it back</li>
+                        <li>Try dragging up and down too</li>
+                        <li>Practice panning the cube to different areas of your screen</li>
+                    </ol>
+                </div>
+
+                <h3>Zoom: Moving Closer or Further Away</h3>
+
+                <p>Zooming changes your distance from objects—moving your viewpoint closer to see details or further away to see the whole scene.</p>
+
+                <div class="card">
+                    <h4>🖱️ How to Zoom</h4>
+                    <p><strong>Mouse Scroll Wheel</strong></p>
+                    <ul>
+                        <li>Scroll up (roll wheel away from you) to zoom in</li>
+                        <li>Scroll down (roll wheel toward you) to zoom out</li>
+                        <li>Each scroll increment moves you closer or further</li>
+                    </ul>
+                    <p><strong>Alternative: Ctrl + Middle Mouse Button + Drag</strong></p>
+                    <ul>
+                        <li>Hold Ctrl + Middle Mouse Button</li>
+                        <li>Drag up to zoom in</li>
+                        <li>Drag down to zoom out</li>
+                        <li>More precise control than scroll wheel</li>
+                    </ul>
+                </div>
+
+                <p>Zooming is your tool for adjusting working distance. Zoom in for detailed work, zoom out for composition and overall structure.</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Try It Now: Basic Zoom</h4>
+                    <ol>
+                        <li>Looking at your default cube, scroll your mouse wheel up</li>
+                        <li>You zoom closer to the cube</li>
+                        <li>Scroll down to zoom back out</li>
+                        <li>Get very close, then very far away</li>
+                        <li>Now try Ctrl + MMB drag up and down</li>
+                        <li>Notice how this gives smoother, more controlled zooming</li>
+                    </ol>
+                </div>
+
+                <h3>Combining the Three Operations</h3>
+
+                <p>Real navigation fluency comes from combining orbit, pan, and zoom seamlessly. You might orbit to see a different angle, pan to center something, zoom in for detail work, orbit again, zoom out—all in a few seconds.</p>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Navigation Goals] --> B[See Different Angle?]
+                    A --> C[Center Object?]
+                    A --> D[Get Closer/Further?]
+                    B --> E[Orbit - MMB Drag]
+                    C --> F[Pan - Shift+MMB Drag]
+                    D --> G[Zoom - Scroll Wheel]
+                    E --> H[Fluid Navigation]
+                    F --> H
+                    G --> H
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style H fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Practice Exercise: Combine All Three</h4>
+                    <p>Let's practice combining operations:</p>
+                    <ol>
+                        <li>Orbit around your cube to view it from behind</li>
+                        <li>Pan to move the cube to the left side of your screen</li>
+                        <li>Zoom in close to the cube</li>
+                        <li>Orbit again to see it from a different close-up angle</li>
+                        <li>Pan to recenter it</li>
+                        <li>Zoom out to see the whole scene</li>
+                    </ol>
+                    <p>Repeat this sequence three times, trying to move smoothly between operations. Your hands are learning the choreography!</p>
+                </div>
+
+                <blockquote>
+                    <p><strong>Muscle Memory Development:</strong> Navigation might feel awkward for the first hour or two of practice. This is normal! Your hands are learning new motor patterns. By your third or fourth Blender session, the movements will start feeling natural. By your tenth session, you won't even think about them.</p>
+                </blockquote>
+            </section>
+<!-- PART 2 END -->
+<!-- PART 3 START -->
+            <section id="mouse-navigation">
+                <h2>🖱️ Mouse and Keyboard Navigation</h2>
+
+                <p>Now let's explore the full range of navigation controls, including keyboard alternatives and combinations that give you even more control.</p>
+
+                <h3>The Middle Mouse Button (Your Navigation Key)</h3>
+
+                <p>The middle mouse button is central to Blender navigation. If you're using a laptop trackpad or a mouse without a middle button, you have options:</p>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ No Middle Mouse Button?</h4>
+                    <p><strong>Option 1: Enable "Emulate 3 Button Mouse"</strong></p>
+                    <ul>
+                        <li>Go to Edit → Preferences → Input</li>
+                        <li>Check "Emulate 3 Button Mouse"</li>
+                        <li>Now Alt + Left Click acts as middle mouse button</li>
+                    </ul>
+                    <p><strong>Option 2: Get a Basic Mouse</strong></p>
+                    <p>Seriously consider getting an inexpensive three-button mouse with a scroll wheel. It costs $10-15 and will dramatically improve your Blender experience. Think of it as a necessary tool for 3D work.</p>
+                </div>
+
+                <h3>Complete Navigation Reference</h3>
+
+                <p>Here's your complete guide to navigation controls. Don't try to memorize this all at once—refer back as needed.</p>
+
+                <h4>Orbit (Rotation)</h4>
+                <div class="card">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px;"><strong>Action</strong></td>
+                            <td style="padding: 8px;"><strong>Mouse</strong></td>
+                            <td style="padding: 8px;"><strong>Result</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Free Orbit</td>
+                            <td style="padding: 8px;"><code>MMB + Drag</code></td>
+                            <td style="padding: 8px;">Rotate view in any direction</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Constrained Orbit</td>
+                            <td style="padding: 8px;"><code>Shift + Alt + MMB + Drag</code></td>
+                            <td style="padding: 8px;">Orbit locked to horizontal or vertical</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Roll View</td>
+                            <td style="padding: 8px;"><code>Shift + MMB + Drag (Ortho view)</code></td>
+                            <td style="padding: 8px;">Rotate view around screen center</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h4>Pan (Slide)</h4>
+                <div class="card">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px;"><strong>Action</strong></td>
+                            <td style="padding: 8px;"><strong>Mouse/Keyboard</strong></td>
+                            <td style="padding: 8px;"><strong>Result</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Free Pan</td>
+                            <td style="padding: 8px;"><code>Shift + MMB + Drag</code></td>
+                            <td style="padding: 8px;">Slide view in any direction</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Pan Left/Right</td>
+                            <td style="padding: 8px;"><code>Ctrl + Numpad 4/6</code></td>
+                            <td style="padding: 8px;">Pan in precise increments</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Pan Up/Down</td>
+                            <td style="padding: 8px;"><code>Ctrl + Numpad 8/2</code></td>
+                            <td style="padding: 8px;">Pan vertically in increments</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h4>Zoom</h4>
+                <div class="card">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px;"><strong>Action</strong></td>
+                            <td style="padding: 8px;"><strong>Mouse/Keyboard</strong></td>
+                            <td style="padding: 8px;"><strong>Result</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Quick Zoom</td>
+                            <td style="padding: 8px;"><code>Scroll Wheel</code></td>
+                            <td style="padding: 8px;">Fast zoom in/out</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Smooth Zoom</td>
+                            <td style="padding: 8px;"><code>Ctrl + MMB + Drag</code></td>
+                            <td style="padding: 8px;">Controlled zoom (drag up/down)</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Zoom In</td>
+                            <td style="padding: 8px;"><code>Numpad +</code></td>
+                            <td style="padding: 8px;">Incremental zoom in</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Zoom Out</td>
+                            <td style="padding: 8px;"><code>Numpad -</code></td>
+                            <td style="padding: 8px;">Incremental zoom out</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Numpad Navigation</h4>
+                    <p>The numpad (number keys on the right side of full keyboards) provides precise navigation controls. If you're on a laptop without a numpad, you can enable "Emulate Numpad" in preferences to use the top row numbers instead. However, many laptop users just stick with mouse navigation.</p>
+                </div>
+
+                <h3>Trackpad Navigation (For Laptop Users)</h3>
+
+                <p>Working on a laptop? Blender supports trackpad gestures on macOS and some Windows trackpads:</p>
+
+                <div class="card">
+                    <h4>🖐️ Trackpad Gestures (macOS)</h4>
+                    <ul>
+                        <li><strong>Two-finger drag:</strong> Pan (slide view)</li>
+                        <li><strong>Two-finger pinch:</strong> Zoom in/out</li>
+                        <li><strong>Two-finger rotate:</strong> Rotate view (if enabled)</li>
+                        <li><strong>Shift + Two-finger drag:</strong> Pan (alternative)</li>
+                    </ul>
+                    <p>Enable trackpad navigation in Edit → Preferences → Input → "Emulate 3 Button Mouse" and "Emulate Numpad"</p>
+                </div>
+
+                <h3>Navigation Best Practices</h3>
+
+                <p>Now that you know the controls, let's talk about using them effectively:</p>
+
+                <h4>Keep One Hand on the Keyboard</h4>
+                <p>Professional artists typically work with their dominant hand on the mouse and their other hand resting on the keyboard near common keys (Shift, Ctrl, Alt). This allows instant access to modifier keys without looking.</p>
+
+                <h4>Use Small, Frequent Adjustments</h4>
+                <p>Rather than making large sweeping movements, navigate in small increments. Orbit a little, check your view, orbit more if needed. This gives you more control and reduces motion sickness some people feel with rapid 3D movement.</p>
+
+                <h4>Stay Oriented</h4>
+                <p>Keep track of which direction is "up" in your scene. The Z-axis (vertical) should generally stay roughly vertical in your view. If you get disoriented, use the standard view shortcuts we'll learn next to reorient yourself.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Practice Circuit: Navigation Drills</h4>
+                    <p>Build muscle memory with this practice sequence:</p>
+                    <ol>
+                        <li><strong>Orbit drill:</strong> Orbit completely around the cube (360°), keeping it centered in view</li>
+                        <li><strong>Pan drill:</strong> Pan the cube to each corner of your screen, then back to center</li>
+                        <li><strong>Zoom drill:</strong> Zoom in until you're very close, then zoom out until the cube is tiny</li>
+                        <li><strong>Combo drill:</strong> Orbit while panning to keep the cube centered as you move</li>
+                        <li><strong>Random drill:</strong> Randomly combine all three for 2 minutes—just move!</li>
+                    </ol>
+                    <p>Do these drills 2-3 times. Each repetition builds the neural pathways that make navigation automatic.</p>
+                </div>
+
+                <blockquote>
+                    <p><strong>Hardware Investment:</strong> If you're serious about learning Blender, a three-button mouse with a scroll wheel is the single best investment you can make. Even a $15 basic mouse will transform your experience compared to a trackpad. Many professional 3D artists also eventually upgrade to a 3D mouse (like a SpaceMouse) for even more fluid navigation, though that's definitely not necessary for learning.</p>
+                </blockquote>
+            </section>
+
+            <section id="perspective-ortho">
+                <h2>👁️ Perspective vs. Orthographic Views</h2>
+
+                <p>Blender offers two fundamentally different ways to view your 3D scene: perspective and orthographic. Understanding the difference is crucial for different types of work.</p>
+
+                <h3>Perspective View: How Eyes See</h3>
+
+                <p>Perspective view mimics how human eyes perceive the world—objects further away appear smaller. This is the default view in Blender and how most 3D visualization works.</p>
+
+                <p>Imagine standing on train tracks. The rails appear to converge in the distance, even though you know they're parallel. That's perspective—distant objects appear smaller, and parallel lines appear to converge at a vanishing point.</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 When to Use Perspective View</h4>
+                    <ul>
+                        <li><strong>General 3D work:</strong> Most creation and manipulation</li>
+                        <li><strong>Artistic composition:</strong> Setting up scenes for rendering</li>
+                        <li><strong>Realistic visualization:</strong> How the final result will look</li>
+                        <li><strong>Sculpting:</strong> Organic modeling where you need depth perception</li>
+                    </ul>
+                </div>
+
+                <h3>Orthographic View: Technical Precision</h3>
+
+                <p>Orthographic view eliminates perspective—all parallel lines stay parallel, and objects are the same size regardless of distance. This is like looking at an architectural blueprint or technical drawing.</p>
+
+                <p>Think of orthographic view as if you had infinitely good eyes that could focus on everything at once without perspective distortion. Objects 10 feet away and 100 feet away appear the same size if they actually are the same size.</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 When to Use Orthographic View</h4>
+                    <ul>
+                        <li><strong>Precise modeling:</strong> When you need to judge exact sizes and alignments</li>
+                        <li><strong>Technical work:</strong> Mechanical parts, architecture, hard-surface modeling</li>
+                        <li><strong>UV editing:</strong> Laying out textures (usually automatic in UV workspace)</li>
+                        <li><strong>Checking alignment:</strong> Making sure elements line up perfectly</li>
+                    </ul>
+                </div>
+
+                <h3>Switching Between Perspective and Orthographic</h3>
+
+                <div class="card">
+                    <h4>🔄 Toggle Perspective/Orthographic</h4>
+                    <p><strong>Numpad 5:</strong> Toggle between perspective and orthographic</p>
+                    <p>OR</p>
+                    <p><strong>View menu → Perspective/Orthographic</strong></p>
+                </div>
+
+                <p>In the top-left corner of your viewport, you'll see text indicating your current view mode. Look for "Persp" (Perspective) or "Ortho" (Orthographic).</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: See the Difference</h4>
+                    <ol>
+                        <li>Look at your default cube in Blender</li>
+                        <li>Add more objects: Press Shift+A → Mesh → UV Sphere, then click to place it</li>
+                        <li>Press Shift+A → Mesh → Cone, click to place</li>
+                        <li>Press G then X then 5 to move the cone 5 units on the X-axis</li>
+                        <li>Now press Numpad 5 to switch to Orthographic view</li>
+                        <li>Notice how the objects look "flatter" and more technical</li>
+                        <li>Press Numpad 5 again to return to Perspective</li>
+                        <li>See how objects now have depth and perspective distortion</li>
+                        <li>Toggle back and forth a few times to understand the difference</li>
+                    </ol>
+                </div>
+
+                <h3>Visual Comparison</h3>
+
+                <div class="mermaid">
+                    graph LR
+                    A[Your Viewpoint] --> B[Perspective View]
+                    A --> C[Orthographic View]
+                    B --> D[Objects get smaller with distance]
+                    B --> E[Parallel lines converge]
+                    B --> F[Looks realistic and natural]
+                    C --> G[All objects same size]
+                    C --> H[Parallel lines stay parallel]
+                    C --> I[Looks technical and flat]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style B fill:#4CAF50,stroke:#333,stroke-width:2px
+                    style C fill:#2196F3,stroke:#333,stroke-width:2px
+                </div>
+
+                <h3>Practical Usage Tips</h3>
+
+                <p>Most artists work primarily in perspective view and switch to orthographic when they need precision. Here's a typical workflow:</p>
+
+                <ol>
+                    <li><strong>Start in perspective</strong> for general scene building and creative work</li>
+                    <li><strong>Switch to orthographic</strong> when aligning objects or checking measurements</li>
+                    <li><strong>Use standard orthographic views</strong> (front, side, top) for technical modeling</li>
+                    <li><strong>Return to perspective</strong> to see how things look naturally</li>
+                    <li><strong>Final composition</strong> always in perspective (or camera view)</li>
+                </ol>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Common Beginner Mistake</h4>
+                    <p>New users sometimes accidentally switch to orthographic view and wonder why everything looks "weird." If your view suddenly looks flat or you press Numpad 5 by accident, just press it again to return to perspective. Check the top-left corner of the viewport to see which mode you're in.</p>
+                </div>
+
+                <blockquote>
+                    <p><strong>Professional Insight:</strong> CAD and technical modelers often work exclusively in orthographic views because precision matters more than visual realism. Artistic modelers and character artists typically work in perspective because they're focused on how things look, not exact measurements. Choose the view that serves your current task!</p>
+                </blockquote>
+            </section>
+<!-- PART 3 END -->
+<!-- PART 4 START -->
+            <section id="standard-views">
+                <h2>🧭 Standard Views and Quick Navigation</h2>
+
+                <p>Sometimes you need to view your scene from precise, standard angles—front, back, left, right, top, or bottom. These are called standard views, and Blender makes them instantly accessible.</p>
+
+                <h3>The Six Standard Views</h3>
+
+                <p>Think of your scene as being inside a cube. The six standard views are like looking at it from each face of that cube—perfectly aligned with your scene's axes.</p>
+
+                <div class="card">
+                    <h4>📐 Standard View Shortcuts (Numpad)</h4>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px;"><strong>Key</strong></td>
+                            <td style="padding: 8px;"><strong>View</strong></td>
+                            <td style="padding: 8px;"><strong>What You See</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;"><code>Numpad 1</code></td>
+                            <td style="padding: 8px;">Front View</td>
+                            <td style="padding: 8px;">Looking at the front of your scene</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;"><code>Ctrl + Numpad 1</code></td>
+                            <td style="padding: 8px;">Back View</td>
+                            <td style="padding: 8px;">Looking at the back (opposite of front)</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;"><code>Numpad 3</code></td>
+                            <td style="padding: 8px;">Right View</td>
+                            <td style="padding: 8px;">Looking from the right side</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;"><code>Ctrl + Numpad 3</code></td>
+                            <td style="padding: 8px;">Left View</td>
+                            <td style="padding: 8px;">Looking from the left side</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;"><code>Numpad 7</code></td>
+                            <td style="padding: 8px;">Top View</td>
+                            <td style="padding: 8px;">Looking down from above</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;"><code>Ctrl + Numpad 7</code></td>
+                            <td style="padding: 8px;">Bottom View</td>
+                            <td style="padding: 8px;">Looking up from below</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Your 3D Scene] --> B[Numpad 1: Front]
+                    A --> C[Numpad 3: Right]
+                    A --> D[Numpad 7: Top]
+                    A --> E[Ctrl+Numpad 1: Back]
+                    A --> F[Ctrl+Numpad 3: Left]
+                    A --> G[Ctrl+Numpad 7: Bottom]
+                    style A fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
+                    style B fill:#4CAF50,stroke:#333,stroke-width:2px
+                    style C fill:#4CAF50,stroke:#333,stroke-width:2px
+                    style D fill:#4CAF50,stroke:#333,stroke-width:2px
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Remember the Pattern</h4>
+                    <p>The numpad keys follow a logical pattern:</p>
+                    <ul>
+                        <li><strong>1, 3, 7:</strong> The primary views (front, right, top)</li>
+                        <li><strong>Ctrl + 1, 3, 7:</strong> The opposite views (back, left, bottom)</li>
+                        <li>These three numbers are easy to remember and give you all six views!</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Tour the Standard Views</h4>
+                    <ol>
+                        <li>Press <code>Numpad 1</code> — you're now looking at the front of your scene</li>
+                        <li>Notice "Front Ortho" appears in the top-left corner</li>
+                        <li>Press <code>Numpad 3</code> — you jump to the right side view</li>
+                        <li>Press <code>Numpad 7</code> — you're now looking down from the top</li>
+                        <li>Press <code>Ctrl + Numpad 1</code> — you flip to the back view</li>
+                        <li>Press <code>Ctrl + Numpad 3</code> — you're viewing from the left</li>
+                        <li>Press <code>Ctrl + Numpad 7</code> — you're looking up from below</li>
+                        <li>Cycle through all six views a few times to build the muscle memory</li>
+                    </ol>
+                </div>
+
+                <h3>Automatic Orthographic Mode</h3>
+
+                <p>Notice something? When you jump to a standard view, Blender automatically switches to orthographic mode. This is intentional—standard views are typically used for technical work where you need precise, non-distorted views.</p>
+
+                <p>If you want to return to perspective mode while staying in a standard view, just press <code>Numpad 5</code> to toggle back to perspective.</p>
+
+                <h3>The Opposite View Trick</h3>
+
+                <p>Here's a useful shortcut: pressing <code>Numpad 9</code> flips you to the opposite view of wherever you currently are. Looking at the front? Numpad 9 takes you to the back. At the top? Numpad 9 flips you to the bottom. This is faster than remembering whether you need Ctrl or not!</p>
+
+                <h3>Camera View</h3>
+
+                <p>There's one more critical view to know about:</p>
+
+                <div class="card">
+                    <h4>📷 Camera View</h4>
+                    <p><strong>Numpad 0:</strong> Toggle camera view on/off</p>
+                    <p>Camera view shows exactly what will be rendered in your final image. The viewport frame shows the camera's boundaries—anything outside won't appear in renders.</p>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Try It Now: Camera View</h4>
+                    <ol>
+                        <li>Press <code>Numpad 0</code> to enter camera view</li>
+                        <li>You see a rectangular frame—this is your render boundary</li>
+                        <li>"Camera" appears in the top-left corner</li>
+                        <li>Try orbiting with MMB—you're now orbiting around the camera</li>
+                        <li>Press <code>Numpad 0</code> again to exit camera view</li>
+                    </ol>
+                    <p>Camera view is crucial for composition—it shows exactly what your audience will see!</p>
+                </div>
+
+                <h3>The Tilde (~) Quick Menu</h3>
+
+                <p>Don't have a numpad? There's an alternative! Press the tilde key <code>~</code> (usually top-left of the keyboard, same key as backtick) to open a pie menu with all the standard views.</p>
+
+                <div class="card">
+                    <h4>🥧 Tilde Pie Menu</h4>
+                    <p>Press <code>~</code> then:</p>
+                    <ul>
+                        <li>Move mouse to select view direction</li>
+                        <li>Click to jump to that view</li>
+                        <li>Or press number keys 1-9 while menu is open</li>
+                        <li>Esc to cancel</li>
+                    </ul>
+                </div>
+
+                <h3>Using Standard Views Effectively</h3>
+
+                <p>Standard views are essential for specific tasks. Here's when to use each:</p>
+
+                <div class="card">
+                    <h4>Front View (Numpad 1)</h4>
+                    <ul>
+                        <li>Character modeling from reference images</li>
+                        <li>Checking symmetry on faces or objects</li>
+                        <li>Aligning elements that need to be centered</li>
+                        <li>Building facades for architectural work</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Right/Left View (Numpad 3 / Ctrl+3)</h4>
+                    <ul>
+                        <li>Profile views of characters or objects</li>
+                        <li>Side elevations in architecture</li>
+                        <li>Checking depth and thickness of models</li>
+                        <li>Aligning elements along the X-axis</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Top View (Numpad 7)</h4>
+                    <ul>
+                        <li>Floor plans and layout work</li>
+                        <li>Arranging multiple objects in a scene</li>
+                        <li>Creating roads, terrain features, or paths</li>
+                        <li>Checking object placement and spacing</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Camera View (Numpad 0)</h4>
+                    <ul>
+                        <li>Final composition and framing</li>
+                        <li>Lighting setup and checking shadows</li>
+                        <li>Ensuring important elements are in frame</li>
+                        <li>Previewing exactly what will render</li>
+                    </ul>
+                </div>
+
+                <h3>The View Rotation Shortcuts</h3>
+
+                <p>Want to rotate your view in precise increments? These shortcuts rotate your current view by 15° or 90°:</p>
+
+                <div class="card">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px;"><strong>Shortcut</strong></td>
+                            <td style="padding: 8px;"><strong>Action</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;"><code>Numpad 4</code></td>
+                            <td style="padding: 8px;">Rotate view 15° left</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;"><code>Numpad 6</code></td>
+                            <td style="padding: 8px;">Rotate view 15° right</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;"><code>Numpad 8</code></td>
+                            <td style="padding: 8px;">Rotate view 15° up</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;"><code>Numpad 2</code></td>
+                            <td style="padding: 8px;">Rotate view 15° down</td>
+                        </tr>
+                    </table>
+                    <p style="margin-top: 1rem;">These are like nudging your view in small, controlled increments—useful for fine-tuning your viewing angle!</p>
+                </div>
+
+                <blockquote>
+                    <p><strong>Professional Workflow:</strong> Experienced artists fluidly switch between free navigation (MMB orbit) and standard views. They might orbit freely to find a good angle, snap to front view for precision work, orbit again, check top view, then return to camera view for composition. This constant view-switching becomes second nature and dramatically speeds up work.</p>
+                </blockquote>
+            </section>
+
+            <section id="focus-frame">
+                <h2>🎯 Focusing and Framing Objects</h2>
+
+                <p>One of the most frustrating experiences for beginners is losing track of objects—they zoom out too far, or an object ends up off-screen. Blender has powerful tools to help you focus on what matters.</p>
+
+                <h3>Frame All: See Everything</h3>
+
+                <p>The "Frame All" command automatically adjusts your view to show all visible objects in your scene. Think of it as "zoom to fit everything."</p>
+
+                <div class="card">
+                    <h4>🔍 Frame All Objects</h4>
+                    <p><strong>Home Key:</strong> Frames all objects in the viewport</p>
+                    <p>OR</p>
+                    <p><strong>View menu → Frame All</strong></p>
+                </div>
+
+                <p>Use this when:</p>
+                <ul>
+                    <li>You've zoomed in too close and want to see the big picture</li>
+                    <li>Objects are scattered and you want to see them all at once</li>
+                    <li>You've lost your orientation and need to reset</li>
+                    <li>Starting work on a new scene to get your bearings</li>
+                </ul>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Frame All</h4>
+                    <ol>
+                        <li>Zoom way in on your cube until it fills the screen</li>
+                        <li>Pan randomly so you're looking at a weird angle</li>
+                        <li>Now press <code>Home</code></li>
+                        <li>Instantly, you can see all objects nicely framed!</li>
+                        <li>Zoom and pan randomly again, then press Home to reset</li>
+                    </ol>
+                </div>
+
+                <h3>Frame Selected: Focus on What Matters</h3>
+
+                <p>Even more useful than Frame All is Frame Selected—this zooms to show only the selected object(s), ignoring everything else. It's like saying "show me THIS thing, nothing else matters right now."</p>
+
+                <div class="card">
+                    <h4>🎯 Frame Selected Object</h4>
+                    <p><strong>Numpad Period (.)</strong>: Frames the selected object(s)</p>
+                    <p>OR</p>
+                    <p><strong>View menu → Frame Selected</strong></p>
+                </div>
+
+                <p>This is incredibly useful when:</p>
+                <ul>
+                    <li>Working on a specific object in a crowded scene</li>
+                    <li>You can't find where a selected object is located</li>
+                    <li>Switching focus between different objects quickly</li>
+                    <li>Modeling details on one part of a larger object</li>
+                </ul>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Frame Selected</h4>
+                    <ol>
+                        <li>Click to select your cube (it will have an orange outline)</li>
+                        <li>Press <code>Numpad .</code> (period)</li>
+                        <li>The view zooms and frames just the cube</li>
+                        <li>Click to select the light instead</li>
+                        <li>Press <code>Numpad .</code> again</li>
+                        <li>Now you're zoomed to just the light</li>
+                        <li>Select the camera and frame it the same way</li>
+                    </ol>
+                    <p>This becomes muscle memory: select object, tap numpad period, work on it, select something else, tap period, work on that. Lightning fast!</p>
+                </div>
+
+                <h3>Zoom to Mouse Cursor</h3>
+
+                <p>By default, zooming centers on the middle of your viewport. But you can change this to zoom toward wherever your mouse cursor is pointing—incredibly intuitive once you try it!</p>
+
+                <div class="card">
+                    <h4>🖱️ Enable Zoom to Mouse</h4>
+                    <ol>
+                        <li>Go to Edit → Preferences → Navigation</li>
+                        <li>Check "Zoom to Mouse Position"</li>
+                        <li>Now when you scroll to zoom, you zoom toward your cursor</li>
+                        <li>Point at something, zoom in—you zoom right to it!</li>
+                    </ol>
+                </div>
+
+                <p>Many artists love this option because it makes zooming feel more natural—you look at what interests you, scroll to zoom, and you zoom to exactly that spot.</p>
+
+                <h3>Center View to Cursor</h3>
+
+                <p>Sometimes you want to make a specific point in 3D space the center of your orbit. Place your 3D cursor (we'll cover this more in the next lesson), then use this shortcut:</p>
+
+                <div class="card">
+                    <h4>📍 Center View to 3D Cursor</h4>
+                    <p><strong>Alt + Home:</strong> Centers your view and orbit point on the 3D cursor</p>
+                </div>
+
+                <h3>The Local View: Isolate Your Focus</h3>
+
+                <p>Here's a powerful feature many beginners don't discover for months: Local View. This temporarily hides everything except your selected objects, eliminating distractions.</p>
+
+                <div class="card">
+                    <h4>🔬 Local View (Isolation Mode)</h4>
+                    <p><strong>Numpad /</strong> (forward slash): Toggle local view on/off</p>
+                    <p><strong>How it works:</strong></p>
+                    <ol>
+                        <li>Select one or more objects</li>
+                        <li>Press <code>Numpad /</code></li>
+                        <li>Everything else disappears—you see only selected objects</li>
+                        <li>Work on your objects without distractions</li>
+                        <li>Press <code>Numpad /</code> again to exit and see everything</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Try It Now: Local View</h4>
+                    <ol>
+                        <li>Select your cube</li>
+                        <li>Press <code>Numpad /</code></li>
+                        <li>Everything else disappears—just the cube remains</li>
+                        <li>Notice "(Local)" appears in the top-left corner</li>
+                        <li>Navigate around—the cube stays isolated</li>
+                        <li>Press <code>Numpad /</code> again to exit local view</li>
+                        <li>Everything reappears!</li>
+                    </ol>
+                </div>
+
+                <p>Local View is fantastic when you're working on one object in a complex scene and don't want visual clutter. It's like having a clean workbench for just that one object.</p>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Local View Gotcha</h4>
+                    <p>If you accidentally enter local view and don't realize it, you might wonder why you can't see other objects! Check the top-left corner of the viewport—if it says "(Local)", press <code>Numpad /</code> to exit and see everything again.</p>
+                </div>
+
+                <blockquote>
+                    <p><strong>Pro Tip:</strong> Combine Frame Selected with Local View for maximum focus. Select an object, press Numpad / to isolate it, then Numpad . to frame it perfectly. Now you're in a distraction-free workspace optimized for that object. This is a professional workflow technique that dramatically improves concentration on complex models.</p>
+                </blockquote>
+            </section>
+<!-- PART 4 END -->
+<!-- PART 5 START -->
+            <section id="camera-view">
+                <h2>📷 Camera View and What You'll Render</h2>
+
+                <p>Everything we've discussed so far is about navigating your working view. But there's one view that's fundamentally different and critically important: Camera View. This is what your audience will actually see in the final render.</p>
+
+                <h3>Understanding the Camera</h3>
+
+                <p>Think of Blender's camera like a real camera on a film set. You can walk around the set, view props from any angle, move lights, adjust things—but what matters in the end is what the camera sees. That's what appears in the final movie or photograph.</p>
+
+                <p>In Blender, it's the same. You navigate freely to work, but only what's visible through the camera gets rendered. The camera is like an actor in your scene—it's an object you can move, rotate, and adjust just like any other object.</p>
+
+                <h3>Entering Camera View</h3>
+
+                <div class="card">
+                    <h4>📸 Camera View Shortcut</h4>
+                    <p><strong>Numpad 0:</strong> Toggle camera view on/off</p>
+                    <p>When active, you'll see:</p>
+                    <ul>
+                        <li>A rectangular frame showing the render boundaries</li>
+                        <li>"Camera" text in the top-left corner</li>
+                        <li>Anything outside the frame won't render</li>
+                        <li>Dashed lines showing the "safe areas"</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Explore Camera View</h4>
+                    <ol>
+                        <li>Press <code>Numpad 0</code> to enter camera view</li>
+                        <li>You see the rectangular frame—this is your render boundary</li>
+                        <li>Try orbiting with MMB—you orbit around the camera</li>
+                        <li>Notice the cube might be partially out of frame</li>
+                        <li>Press <code>Numpad 0</code> to exit camera view</li>
+                        <li>Enter again with <code>Numpad 0</code></li>
+                        <li>Get comfortable toggling in and out of camera view</li>
+                    </ol>
+                </div>
+
+                <h3>The Camera Frame</h3>
+
+                <p>The frame you see in camera view isn't just decorative—it shows exactly what will render:</p>
+
+                <ul>
+                    <li><strong>Solid frame:</strong> This is the render boundary—nothing outside renders</li>
+                    <li><strong>Dashed inner lines:</strong> "Title safe" and "action safe" guides from video production</li>
+                    <li><strong>Center cross:</strong> The exact center of your frame</li>
+                    <li><strong>Triangles at corners:</strong> Show the camera's orientation</li>
+                </ul>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Composition in Camera View</h4>
+                    <p>Professional artists spend significant time in camera view adjusting composition. Just like a photographer frames their shot carefully, you'll frame your 3D scenes. Everything outside the camera frame doesn't matter for the final image—only what's in frame counts!</p>
+                </div>
+
+                <h3>Moving the Camera</h3>
+
+                <p>You can move the camera in two ways:</p>
+
+                <h4>Method 1: Select and Transform (Precise)</h4>
+                <ol>
+                    <li>Exit camera view (Numpad 0) so you can see the camera object</li>
+                    <li>Click to select the camera (it looks like a pyramid wireframe)</li>
+                    <li>Press <code>G</code> to grab/move it</li>
+                    <li>Press <code>R</code> to rotate it</li>
+                    <li>Enter camera view to see the result</li>
+                </ol>
+
+                <h4>Method 2: Camera View Navigation (Intuitive)</h4>
+                <p>There's a special lock mode that lets you navigate in camera view and actually move the camera:</p>
+
+                <div class="card">
+                    <h4>🔒 Camera to View</h4>
+                    <ol>
+                        <li>Enter camera view (<code>Numpad 0</code>)</li>
+                        <li>Press <code>N</code> to open the sidebar</li>
+                        <li>Find the "View" tab</li>
+                        <li>Check the box "Camera to View"</li>
+                        <li>Now when you navigate (orbit, pan, zoom), the camera moves!</li>
+                        <li>Uncheck it when done to prevent accidental camera movement</li>
+                    </ol>
+                </div>
+
+                <p>This "Camera to View" mode is incredibly intuitive—you just navigate to frame your shot perfectly, and the camera follows your movements.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Camera to View</h4>
+                    <ol>
+                        <li>Press <code>Numpad 0</code> to enter camera view</li>
+                        <li>Press <code>N</code> to open sidebar</li>
+                        <li>Click the "View" tab in the sidebar</li>
+                        <li>Check "Camera to View"</li>
+                        <li>Now orbit with MMB—the camera moves!</li>
+                        <li>Pan with Shift+MMB—the camera pans!</li>
+                        <li>Zoom—the camera moves closer or further!</li>
+                        <li>Frame your cube nicely in the center</li>
+                        <li>Uncheck "Camera to View" when satisfied</li>
+                    </ol>
+                </div>
+
+                <h3>Quick Camera Framing Trick</h3>
+
+                <p>Want to quickly set your camera to match your current view? Here's a fantastic shortcut:</p>
+
+                <div class="card">
+                    <h4>📐 Align Camera to View</h4>
+                    <p><strong>Ctrl + Alt + Numpad 0:</strong> Makes the camera match your current view</p>
+                    <p><strong>How to use:</strong></p>
+                    <ol>
+                        <li>Navigate freely to find a perfect angle for your scene</li>
+                        <li>Get the composition exactly how you want it</li>
+                        <li>Press <code>Ctrl + Alt + Numpad 0</code></li>
+                        <li>The camera jumps to match your view!</li>
+                        <li>Enter camera view to confirm</li>
+                    </ol>
+                </div>
+
+                <p>This is a professional workflow technique: navigate freely to find the perfect shot, then press Ctrl+Alt+Numpad 0 to lock it in as your camera view. Much faster than manually positioning the camera object!</p>
+
+                <h3>Multiple Cameras</h3>
+
+                <p>You can have multiple cameras in a scene (useful for different shots or angles). To switch which camera is active:</p>
+
+                <ol>
+                    <li>Select the camera you want to make active</li>
+                    <li>Press <code>Ctrl + Numpad 0</code> (this also works to create a camera at your current view if none exists)</li>
+                    <li>That camera is now the active render camera</li>
+                </ol>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Remember to Check Camera View</h4>
+                    <p>A common beginner mistake: spending hours perfecting a scene, then rendering to find half of it isn't in frame! Always check camera view (Numpad 0) before rendering. What you see in free navigation isn't what renders—only camera view shows the actual render.</p>
+                </div>
+
+                <h3>Camera Settings</h3>
+
+                <p>With the camera selected, check the Properties panel (camera icon) to adjust:</p>
+
+                <ul>
+                    <li><strong>Focal Length:</strong> Like a camera lens—35mm for wide angle, 85mm for portrait</li>
+                    <li><strong>Sensor Size:</strong> Affects field of view</li>
+                    <li><strong>Depth of Field:</strong> Blur based on distance (we'll cover this in detail later)</li>
+                    <li><strong>Clipping:</strong> Near and far render distances</li>
+                </ul>
+
+                <p>Don't worry about mastering these yet—we'll cover camera settings in depth in Module 5. For now, just understand that camera view is what renders!</p>
+
+                <blockquote>
+                    <p><strong>Professional Practice:</strong> Artists typically work with two monitors or split views—one showing their working view for manipulation, another showing camera view for composition checking. If you have one monitor, get in the habit of frequently pressing Numpad 0 to check how your work looks from the camera's perspective.</p>
+                </blockquote>
+            </section>
+
+            <section id="advanced-techniques">
+                <h2>🎓 Advanced Navigation Techniques</h2>
+
+                <p>Now that you've mastered the basics, let's explore some advanced navigation techniques that will make you even more efficient.</p>
+
+                <h3>Walk/Fly Navigation</h3>
+
+                <p>Blender has a special navigation mode that lets you "walk" through your scene like a first-person video game. This is perfect for architectural visualization or exploring large environments.</p>
+
+                <div class="card">
+                    <h4>🚶 Walk Navigation Mode</h4>
+                    <p><strong>Shift + `</strong> (backtick/tilde key): Enter walk mode</p>
+                    <p><strong>Controls in walk mode:</strong></p>
+                    <ul>
+                        <li><strong>W/A/S/D:</strong> Move forward/left/backward/right</li>
+                        <li><strong>E/Q:</strong> Move up/down</li>
+                        <li><strong>Mouse movement:</strong> Look around</li>
+                        <li><strong>Scroll wheel:</strong> Adjust movement speed</li>
+                        <li><strong>Left click or Enter:</strong> Confirm and exit</li>
+                        <li><strong>Right click or Esc:</strong> Cancel and return to original view</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 When to Use Walk Mode</h4>
+                    <ul>
+                        <li>Exploring interior spaces (rooms, buildings)</li>
+                        <li>Navigating large outdoor scenes</li>
+                        <li>Setting up first-person camera views</li>
+                        <li>Getting a human-scale perspective of your environment</li>
+                    </ul>
+                </div>
+
+                <h3>Fly Navigation</h3>
+
+                <p>Similar to walk mode but with 3D freedom—you can move in any direction without gravity constraints.</p>
+
+                <div class="card">
+                    <h4>🕊️ Fly Navigation Mode</h4>
+                    <p>Same controls as walk mode, but you're not constrained to a ground plane. Move freely in all three dimensions like a bird or drone.</p>
+                    <p>Enable in Preferences → Navigation → "Navigation Mode" → Choose Fly instead of Walk</p>
+                </div>
+
+                <h3>Dolly Zoom</h3>
+
+                <p>Want to zoom while keeping the object the same size in frame? This professional camera technique is built into Blender:</p>
+
+                <div class="card">
+                    <h4>🎥 Dolly Zoom</h4>
+                    <p><strong>Shift + Ctrl + MMB + Drag:</strong> Dolly zoom effect</p>
+                    <p>The background changes perspective while the focal point stays the same size—creates a dramatic effect!</p>
+                </div>
+
+                <h3>Roll View</h3>
+
+                <p>Sometimes you need to tilt your view—like tilting your head to look at something from an angle:</p>
+
+                <div class="card">
+                    <h4>🔄 Roll Viewport</h4>
+                    <p><strong>Shift + Numpad 4/6:</strong> Roll view left/right in 15° increments</p>
+                    <p>Useful for matching reference images at odd angles or creating Dutch angle compositions</p>
+                </div>
+
+                <h3>Quadview: See Four Views at Once</h3>
+
+                <p>Professional modeling often requires seeing multiple angles simultaneously. Quadview divides your viewport into four sections:</p>
+
+                <div class="card">
+                    <h4>🔲 Toggle Quadview</h4>
+                    <p><strong>Ctrl + Alt + Q:</strong> Toggle quadview on/off</p>
+                    <p><strong>Layout:</strong></p>
+                    <ul>
+                        <li>Top-left: Top view (orthographic)</li>
+                        <li>Top-right: Front view (orthographic)</li>
+                        <li>Bottom-left: Right view (orthographic)</li>
+                        <li>Bottom-right: Camera/User view (perspective)</li>
+                    </ul>
+                    <p>Each quadrant can be navigated independently!</p>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Quadview</h4>
+                    <ol>
+                        <li>Press <code>Ctrl + Alt + Q</code> to enter quadview</li>
+                        <li>Your viewport splits into four sections</li>
+                        <li>Move your mouse into different quadrants</li>
+                        <li>Try navigating in each section</li>
+                        <li>Notice how each shows a different standard view</li>
+                        <li>Press <code>Ctrl + Alt + Q</code> again to exit</li>
+                    </ol>
+                </div>
+
+                <p>Quadview is particularly useful for technical modeling where you need to ensure accuracy from multiple angles simultaneously. Game asset creators and mechanical modelers love this feature.</p>
+
+                <h3>Navigation Sensitivity Adjustment</h3>
+
+                <p>Find navigation too fast or too slow? You can adjust it:</p>
+
+                <ol>
+                    <li>Go to Edit → Preferences → Navigation</li>
+                    <li>Adjust "Orbit Sensitivity" for rotation speed</li>
+                    <li>Adjust "Zoom Speed" for scroll wheel sensitivity</li>
+                    <li>Experiment to find what feels natural for you</li>
+                </ol>
+
+                <h3>Smart Orbit Around Selection</h3>
+
+                <p>By default, Blender orbits around the median point of visible objects. But you can make it orbit around your selection:</p>
+
+                <ol>
+                    <li>Edit → Preferences → Navigation</li>
+                    <li>Set "Orbit Around" to "Selection"</li>
+                    <li>Now orbiting centers on whatever you have selected</li>
+                </ol>
+
+                <p>This makes it feel like you're orbiting around the object you're working on, which many artists find more intuitive.</p>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Advanced Navigation] --> B[Walk/Fly Mode]
+                    A --> C[Quadview]
+                    A --> D[Special Effects]
+                    B --> E[Explore Large Scenes]
+                    C --> F[Multiple Views at Once]
+                    D --> G[Dolly Zoom, Roll View]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style B fill:#4CAF50,stroke:#333,stroke-width:2px
+                    style C fill:#4CAF50,stroke:#333,stroke-width:2px
+                    style D fill:#4CAF50,stroke:#333,stroke-width:2px
+                </div>
+
+                <blockquote>
+                    <p><strong>Don't Overwhelm Yourself:</strong> These advanced techniques are here for when you need them. Master the basic navigation first (orbit, pan, zoom, standard views). Then gradually incorporate advanced techniques as specific needs arise. You don't need to memorize everything immediately!</p>
+                </blockquote>
+            </section>
+<!-- PART 5 END -->
+<!-- PART 6 START -->
+            <section id="navigation-project">
+                <h2>🎯 Project: Navigation Mastery</h2>
+
+                <p>Time to put everything together! This project is designed as a navigation obstacle course—a series of challenges that will build your muscle memory and confidence. Don't rush through this—the time you invest now in building navigation skills will pay off in every future Blender session.</p>
+
+                <h3>Project Setup</h3>
+
+                <p>Before we start the challenges, let's create a more interesting scene to navigate around:</p>
+
+                <div class="card">
+                    <h4>Setting Up Your Navigation Playground</h4>
+                    <ol>
+                        <li>Start with a fresh Blender file (File → New → General)</li>
+                        <li>You have the default cube, camera, and light</li>
+                        <li>Let's add more objects to make navigation more interesting:
+                            <ul>
+                                <li>Press <code>Shift + A</code> → Mesh → UV Sphere</li>
+                                <li>Press <code>G</code> then <code>X</code> then type <code>3</code> and Enter (moves sphere 3 units on X-axis)</li>
+                                <li>Press <code>Shift + A</code> → Mesh → Cone</li>
+                                <li>Press <code>G</code> then <code>X</code> then type <code>-3</code> and Enter (moves cone left)</li>
+                                <li>Press <code>Shift + A</code> → Mesh → Torus</li>
+                                <li>Press <code>G</code> then <code>Z</code> then type <code>2</code> and Enter (moves torus up)</li>
+                                <li>Press <code>Shift + A</code> → Mesh → Cylinder</li>
+                                <li>Press <code>G</code> then <code>Y</code> then type <code>3</code> and Enter (moves cylinder on Y-axis)</li>
+                            </ul>
+                        </li>
+                        <li>Now you have a scene with six objects to navigate around!</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Don't Worry About the Commands Yet</h4>
+                    <p>We used some keyboard shortcuts you haven't learned in depth yet (G for grab/move, X/Y/Z for axis constraints). That's okay—we'll cover object manipulation in the next lesson. For now, just follow the steps to create a more interesting navigation scene.</p>
+                </div>
+
+                <h3>Challenge 1: Basic Navigation Circuit</h3>
+
+                <div class="card">
+                    <h4>⭐ Objective: Master the Three Core Operations</h4>
+                    <p><strong>Task sequence:</strong></p>
+                    <ol>
+                        <li><strong>Orbit:</strong> Use MMB to orbit 360° around the scene, keeping objects centered</li>
+                        <li><strong>Pan:</strong> Pan each object to each corner of your screen (4 corners × 6 objects = practice!)</li>
+                        <li><strong>Zoom:</strong> Zoom in very close to the cube, then zoom far out to see all objects tiny</li>
+                        <li><strong>Combo:</strong> Pick any object, orbit around it while panning to keep it centered</li>
+                    </ol>
+                    <p><strong>Success criteria:</strong> Movements feel smooth and deliberate, not jerky or uncertain</p>
+                    <p><strong>Time to practice:</strong> 3-5 minutes</p>
+                </div>
+
+                <h3>Challenge 2: Standard View Speed Run</h3>
+
+                <div class="card">
+                    <h4>⭐ Objective: Make Standard View Shortcuts Automatic</h4>
+                    <p><strong>Task sequence:</strong></p>
+                    <ol>
+                        <li>Press <code>Numpad 1</code> (Front view)</li>
+                        <li>Press <code>Numpad 3</code> (Right view)</li>
+                        <li>Press <code>Numpad 7</code> (Top view)</li>
+                        <li>Press <code>Ctrl + Numpad 1</code> (Back view)</li>
+                        <li>Press <code>Ctrl + Numpad 3</code> (Left view)</li>
+                        <li>Press <code>Ctrl + Numpad 7</code> (Bottom view)</li>
+                        <li>Now do it again, faster!</li>
+                        <li>Repeat 3 times total, trying to speed up each time</li>
+                    </ol>
+                    <p><strong>Success criteria:</strong> You can cycle through all six views without hesitation</p>
+                    <p><strong>Time to practice:</strong> 2-3 minutes</p>
+                </div>
+
+                <h3>Challenge 3: Perspective vs. Orthographic</h3>
+
+                <div class="card">
+                    <h4>⭐ Objective: Understand View Mode Switching</h4>
+                    <p><strong>Task sequence:</strong></p>
+                    <ol>
+                        <li>Free orbit to a random angle</li>
+                        <li>Press <code>Numpad 5</code> to switch to orthographic—observe the change</li>
+                        <li>Press <code>Numpad 5</code> to return to perspective</li>
+                        <li>Go to front view (<code>Numpad 1</code>)—automatically orthographic</li>
+                        <li>Press <code>Numpad 5</code> to make it perspective front view—see the difference?</li>
+                        <li>Try this for right view and top view</li>
+                        <li>Notice how perspective adds depth, ortho keeps things flat</li>
+                    </ol>
+                    <p><strong>Success criteria:</strong> You can clearly see and explain the difference between the modes</p>
+                    <p><strong>Time to practice:</strong> 2-3 minutes</p>
+                </div>
+
+                <h3>Challenge 4: Frame and Focus Mastery</h3>
+
+                <div class="card">
+                    <h4>⭐ Objective: Quick Object Focusing</h4>
+                    <p><strong>Task sequence:</strong></p>
+                    <ol>
+                        <li>Zoom in very close on one object so you're disoriented</li>
+                        <li>Press <code>Home</code> to frame all—instant reset!</li>
+                        <li>Click to select the sphere</li>
+                        <li>Press <code>Numpad .</code> to frame it—zoom right to it!</li>
+                        <li>Select the cone and frame it (<code>Numpad .</code>)</li>
+                        <li>Do this for all six objects in your scene</li>
+                        <li>Now speed run: select and frame each object as fast as possible</li>
+                    </ol>
+                    <p><strong>Success criteria:</strong> You can select and frame any object in under 2 seconds</p>
+                    <p><strong>Time to practice:</strong> 3-4 minutes</p>
+                </div>
+
+                <h3>Challenge 5: Local View Isolation</h3>
+
+                <div class="card">
+                    <h4>⭐ Objective: Master Isolation Mode</h4>
+                    <p><strong>Task sequence:</strong></p>
+                    <ol>
+                        <li>Select the cube</li>
+                        <li>Press <code>Numpad /</code> to enter local view—everything else disappears</li>
+                        <li>Navigate around the isolated cube</li>
+                        <li>Press <code>Numpad /</code> to exit—everything returns</li>
+                        <li>Select the torus and isolate it</li>
+                        <li>Practice entering and exiting local view for each object</li>
+                        <li>Try selecting multiple objects (Shift + Click) then isolate them together</li>
+                    </ol>
+                    <p><strong>Success criteria:</strong> You understand when local view is useful and can toggle it confidently</p>
+                    <p><strong>Time to practice:</strong> 3-4 minutes</p>
+                </div>
+
+                <h3>Challenge 6: Camera View Composition</h3>
+
+                <div class="card">
+                    <h4>⭐ Objective: Frame Shots Like a Photographer</h4>
+                    <p><strong>Task sequence:</strong></p>
+                    <ol>
+                        <li>Press <code>Numpad 0</code> to enter camera view</li>
+                        <li>Notice what's in frame and what's not</li>
+                        <li>Exit camera view and navigate to find an interesting angle</li>
+                        <li>Try to frame all six objects in a visually interesting way</li>
+                        <li>Once you have a good composition, press <code>Ctrl + Alt + Numpad 0</code></li>
+                        <li>This sets the camera to your current view!</li>
+                        <li>Press <code>Numpad 0</code> to verify the camera now shows your composition</li>
+                        <li>Try this 3 more times with different compositions</li>
+                    </ol>
+                    <p><strong>Success criteria:</strong> You can compose a scene and set the camera view confidently</p>
+                    <p><strong>Time to practice:</strong> 5 minutes</p>
+                </div>
+
+                <h3>Challenge 7: The Random Navigation Test</h3>
+
+                <div class="card">
+                    <h4>⭐ Objective: Fluid, Unconscious Navigation</h4>
+                    <p><strong>Task sequence (do these in random order):</strong></p>
+                    <ul>
+                        <li>Orbit to view the scene from behind</li>
+                        <li>Jump to top view</li>
+                        <li>Frame the cylinder</li>
+                        <li>Zoom in very close</li>
+                        <li>Switch to front view</li>
+                        <li>Pan the view to the right</li>
+                        <li>Frame all objects</li>
+                        <li>Isolate the sphere in local view</li>
+                        <li>Exit local view</li>
+                        <li>Toggle perspective/orthographic</li>
+                        <li>Enter camera view</li>
+                        <li>Exit camera view</li>
+                        <li>Go to right side view</li>
+                        <li>Free orbit to a random angle</li>
+                    </ul>
+                    <p><strong>Success criteria:</strong> You complete the sequence without having to think about which keys to press</p>
+                    <p><strong>Time to practice:</strong> Repeat 2-3 times, about 5 minutes total</p>
+                </div>
+
+                <h3>Challenge 8: Camera to View Practice</h3>
+
+                <div class="card">
+                    <h4>⭐ Objective: Dynamic Camera Positioning</h4>
+                    <p><strong>Task sequence:</strong></p>
+                    <ol>
+                        <li>Press <code>Numpad 0</code> to enter camera view</li>
+                        <li>Press <code>N</code> to open sidebar if it's not already open</li>
+                        <li>Go to View tab and check "Camera to View"</li>
+                        <li>Now orbit—the camera moves with you!</li>
+                        <li>Pan to center the cube in frame</li>
+                        <li>Zoom to frame it nicely</li>
+                        <li>Orbit to find an interesting angle</li>
+                        <li>Pan to adjust composition</li>
+                        <li>When satisfied, uncheck "Camera to View"</li>
+                        <li>Exit camera view and see where your camera ended up</li>
+                    </ol>
+                    <p><strong>Success criteria:</strong> You can intuitively position the camera through navigation</p>
+                    <p><strong>Time to practice:</strong> 4-5 minutes</p>
+                </div>
+
+                <h3>Challenge 9: Speed Navigation Drill</h3>
+
+                <div class="card">
+                    <h4>⭐ Objective: Build Speed and Fluidity</h4>
+                    <p><strong>Time yourself completing this sequence:</strong></p>
+                    <ol>
+                        <li>Start from any random view</li>
+                        <li>Press Home to frame all</li>
+                        <li>Select the sphere and frame it</li>
+                        <li>Go to front view</li>
+                        <li>Go to top view</li>
+                        <li>Toggle to perspective</li>
+                        <li>Orbit 180° around</li>
+                        <li>Go to camera view</li>
+                        <li>Exit camera view</li>
+                        <li>Frame all objects</li>
+                    </ol>
+                    <p><strong>Do this sequence 3 times:</strong></p>
+                    <ul>
+                        <li>First run: Just complete it, noting your time</li>
+                        <li>Second run: Try to beat your first time</li>
+                        <li>Third run: Go for your best time yet!</li>
+                    </ul>
+                    <p><strong>Success criteria:</strong> Third run is noticeably faster than first run</p>
+                </div>
+
+                <h3>Bonus Challenge: Advanced Techniques</h3>
+
+                <div class="card">
+                    <h4>🌟 Optional: Explore Advanced Features</h4>
+                    <p>If you want to go further:</p>
+                    <ol>
+                        <li><strong>Try quadview:</strong> Press <code>Ctrl + Alt + Q</code> and navigate in all four views</li>
+                        <li><strong>Walk mode:</strong> Press <code>Shift + `</code> and walk through your scene with WASD</li>
+                        <li><strong>Roll view:</strong> Press <code>Shift + Numpad 4</code> or <code>6</code> to roll the viewport</li>
+                        <li><strong>Experiment:</strong> Just play around, try random combinations, see what happens!</li>
+                    </ol>
+                </div>
+
+                <h3>Project Success Checklist</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Project Completion</h4>
+                    <p>You've successfully mastered navigation when you can:</p>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li>✅ Orbit, pan, and zoom smoothly without thinking about the controls</li>
+                        <li>✅ Jump to any standard view (front, right, top) instantly</li>
+                        <li>✅ Toggle between perspective and orthographic confidently</li>
+                        <li>✅ Frame all objects or frame selected object on command</li>
+                        <li>✅ Enter and exit local view for focused work</li>
+                        <li>✅ Work in camera view and adjust camera position</li>
+                        <li>✅ Set the camera to match your current view</li>
+                        <li>✅ Navigate without looking at the keyboard or thinking about shortcuts</li>
+                        <li>✅ Feel comfortable exploring 3D space from any angle</li>
+                    </ul>
+                </div>
+
+                <h3>Reflection Exercise</h3>
+
+                <p>After completing the challenges, take a moment to reflect:</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>📝 Journal Questions</h4>
+                    <ol>
+                        <li>Which navigation operations feel most natural now?</li>
+                        <li>Which shortcuts are you still memorizing?</li>
+                        <li>How did your speed improve from first to third attempt?</li>
+                        <li>What's one navigation technique you want to practice more?</li>
+                        <li>Can you navigate without conscious thought, or does it still require mental effort?</li>
+                    </ol>
+                    <p>Write brief answers in your learning journal. Reviewing these later will show your progress!</p>
+                </div>
+
+                <blockquote>
+                    <p><strong>The Path to Mastery:</strong> Navigation is the foundation of everything in Blender. Don't rush past this lesson thinking "I'll pick it up as I go." Invest the time now to make navigation automatic, and every future lesson will be easier. Professional artists can navigate Blender as naturally as they walk through their own home—with practice, you'll get there too!</p>
+                </blockquote>
+            </section>
+<!-- PART 6 END -->
+<!-- PART 7 START -->
+            <section id="summary">
+                <h2>📝 Lesson Summary</h2>
+
+                <p>Congratulations! You've completed one of the most foundational skills in 3D work—navigation. Let's review what you've accomplished.</p>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎓 Key Takeaways</h3>
+                    <ul style="color: white;">
+                        <li><strong>The Big Three operations—orbit, pan, zoom</strong>—form the foundation of all viewport navigation</li>
+                        <li><strong>Middle mouse button is your navigation key</strong> combined with Shift and Ctrl for different operations</li>
+                        <li><strong>Perspective view mimics natural vision</strong> while orthographic view provides technical precision</li>
+                        <li><strong>Standard views (front, right, top)</strong> give you instant access to perfectly aligned angles</li>
+                        <li><strong>Frame All and Frame Selected</strong> keep you oriented and focused on what matters</li>
+                        <li><strong>Camera view shows what will render</strong>—check it often before finalizing work</li>
+                        <li><strong>Local view isolates selected objects</strong> for distraction-free detailed work</li>
+                        <li><strong>Navigation becomes automatic with practice</strong>—your hands will learn the choreography</li>
+                    </ul>
+                </div>
+
+                <h3>What You've Accomplished</h3>
+
+                <p>In this lesson, you:</p>
+                <ul>
+                    <li>Learned the three fundamental navigation operations and practiced them extensively</li>
+                    <li>Mastered mouse and keyboard combinations for fluid movement through 3D space</li>
+                    <li>Understood the difference between perspective and orthographic views</li>
+                    <li>Memorized shortcuts to jump instantly to standard views</li>
+                    <li>Practiced focusing on specific objects with Frame All and Frame Selected</li>
+                    <li>Explored camera view and learned to position the camera for renders</li>
+                    <li>Discovered advanced techniques like local view, walk mode, and quadview</li>
+                    <li>Completed comprehensive navigation challenges to build muscle memory</li>
+                    <li>Developed the foundation for efficient 3D workflow</li>
+                </ul>
+
+                <h3>Essential Navigation Shortcuts Reference</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>⌨️ Your Navigation Cheat Sheet</h4>
+                    
+                    <h5>Core Navigation</h5>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px; width: 40%;"><strong>Action</strong></td>
+                            <td style="padding: 8px;"><strong>Shortcut</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Orbit</td>
+                            <td style="padding: 8px;"><code>MMB + Drag</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Pan</td>
+                            <td style="padding: 8px;"><code>Shift + MMB + Drag</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Zoom</td>
+                            <td style="padding: 8px;"><code>Scroll Wheel</code> or <code>Ctrl + MMB + Drag</code></td>
+                        </tr>
+                    </table>
+
+                    <h5>Standard Views</h5>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px; width: 40%;"><strong>View</strong></td>
+                            <td style="padding: 8px;"><strong>Shortcut</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Front / Back</td>
+                            <td style="padding: 8px;"><code>Numpad 1</code> / <code>Ctrl + Numpad 1</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Right / Left</td>
+                            <td style="padding: 8px;"><code>Numpad 3</code> / <code>Ctrl + Numpad 3</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Top / Bottom</td>
+                            <td style="padding: 8px;"><code>Numpad 7</code> / <code>Ctrl + Numpad 7</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Camera View</td>
+                            <td style="padding: 8px;"><code>Numpad 0</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Toggle Persp/Ortho</td>
+                            <td style="padding: 8px;"><code>Numpad 5</code></td>
+                        </tr>
+                    </table>
+
+                    <h5>Focus & Framing</h5>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px; width: 40%;"><strong>Action</strong></td>
+                            <td style="padding: 8px;"><strong>Shortcut</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Frame All</td>
+                            <td style="padding: 8px;"><code>Home</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Frame Selected</td>
+                            <td style="padding: 8px;"><code>Numpad .</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Local View (Isolate)</td>
+                            <td style="padding: 8px;"><code>Numpad /</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Align Camera to View</td>
+                            <td style="padding: 8px;"><code>Ctrl + Alt + Numpad 0</code></td>
+                        </tr>
+                    </table>
+
+                    <p style="margin-top: 1rem;"><em>Print this reference or keep it handy while working!</em></p>
+                </div>
+
+                <h3>Common Questions at This Stage</h3>
+
+                <div class="card">
+                    <h4>❓ "I keep accidentally entering weird views—help!"</h4>
+                    <p>This is normal! Your fingers are still learning the keyboard layout. Common accidents include pressing Numpad 5 (perspective toggle) or Numpad / (local view) by mistake. Solution: Just press <code>Home</code> to frame all objects and reorient yourself. Check the top-left corner of the viewport to see what mode you're in, then correct it. With practice, these accidents decrease dramatically.</p>
+                </div>
+
+                <div class="card">
+                    <h4>❓ "My navigation feels slow/laggy—is something wrong?"</h4>
+                    <p>Several possible causes: (1) Your scene might have high-detail objects—try working in solid shading mode instead of rendered, (2) Check if you accidentally enabled overlays or effects that slow viewport performance, (3) Your computer's GPU might be struggling—check Edit → Preferences → System to ensure GPU is being used, (4) Large textures or many objects can slow navigation—use local view to isolate work areas.</p>
+                </div>
+
+                <div class="card">
+                    <h4>❓ "Should I learn all the numpad shortcuts if I don't have a numpad?"</h4>
+                    <p>You can enable "Emulate Numpad" in preferences to use the top number row instead. However, many laptop users find the tilde (~) pie menu more convenient for standard views. Use what works for your hardware! The important thing is learning the concepts—the specific keys matter less than understanding what each view does.</p>
+                </div>
+
+                <div class="card">
+                    <h4>❓ "How long until navigation feels natural?"</h4>
+                    <p>Most people start feeling comfortable after 3-5 hours of active Blender use. By your third or fourth project, navigation becomes largely automatic. The key is consistent practice—doing these exercises once isn't enough. Navigation improves naturally as you work on actual projects, because you'll be constantly moving through 3D space. Be patient with yourself!</p>
+                </div>
+
+                <div class="card">
+                    <h4>❓ "I get motion sickness from orbiting—any solutions?"</h4>
+                    <p>This affects some people, especially when orbiting quickly. Solutions: (1) Navigate in smaller increments—many small movements instead of dramatic sweeps, (2) Reduce orbit sensitivity in preferences, (3) Take breaks every 20-30 minutes, (4) Focus on a fixed point while orbiting, (5) Work in orthographic views more often. Most people adapt within a few sessions, but if it persists, emphasize standard views over free orbiting.</p>
+                </div>
+
+                <h3>Navigation Best Practices Recap</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Professional Navigation Habits</h4>
+                    <ul>
+                        <li><strong>Check camera view frequently</strong>—don't assume your working view matches what will render</li>
+                        <li><strong>Use Frame Selected liberally</strong>—it's faster than manually zooming and panning to objects</li>
+                        <li><strong>Keep one hand on the keyboard</strong>—mouse in dominant hand, other hand ready for modifiers</li>
+                        <li><strong>Navigate in small increments</strong>—better control and less disorientation</li>
+                        <li><strong>Switch between standard and free views</strong>—use each for their strengths</li>
+                        <li><strong>Use local view for detail work</strong>—reduces visual clutter and improves focus</li>
+                        <li><strong>Orient yourself with standard views</strong>—if lost, press Numpad 7 for top view to reorient</li>
+                        <li><strong>Verify before rendering</strong>—always check camera view before clicking render!</li>
+                    </ul>
+                </div>
+
+                <h3>Looking Ahead: Next Lesson</h3>
+
+                <p>Now that you can navigate confidently through 3D space, it's time to start actually manipulating objects! In the next lesson, we'll cover:</p>
+
+                <ul>
+                    <li><strong>Selecting objects:</strong> Different selection methods and techniques</li>
+                    <li><strong>The transformation tools:</strong> Moving (grab), rotating, and scaling objects</li>
+                    <li><strong>Precision controls:</strong> Numeric input, axis constraints, and snapping</li>
+                    <li><strong>The 3D cursor:</strong> Your reference point and tool for precise placement</li>
+                    <li><strong>Duplicating objects:</strong> Creating copies and arrays</li>
+                    <li><strong>Object relationships:</strong> Parenting and organizing hierarchies</li>
+                </ul>
+
+                <p>These manipulation skills, combined with your navigation abilities, will let you start building actual 3D scenes!</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Before the Next Lesson</h4>
+                    <p>Reinforce your navigation skills by:</p>
+                    <ul>
+                        <li><strong>Daily practice:</strong> Spend 5 minutes each day just navigating around Blender's default scene</li>
+                        <li><strong>Variation:</strong> Try different combinations—orbit while zooming, pan to corners, frame random objects</li>
+                        <li><strong>Speed challenges:</strong> Time yourself going through all standard views, try to beat your time</li>
+                        <li><strong>Explore freely:</strong> Add random objects (Shift+A) and practice navigating around complex scenes</li>
+                        <li><strong>No-look challenge:</strong> Try navigating without looking at your keyboard—build true muscle memory</li>
+                    </ul>
+                    <p>The more you practice now, the more automatic navigation becomes for all future work!</p>
+                </div>
+
+                <h3>Celebrate Your Progress</h3>
+
+                <p>Take a moment to appreciate what you've learned. Three lessons in, and you now:</p>
+
+                <ul>
+                    <li>✅ Understand what Blender is and why it's powerful</li>
+                    <li>✅ Navigate Blender's interface with confidence</li>
+                    <li>✅ Move fluidly through 3D space like a pro</li>
+                </ul>
+
+                <p>These are the foundational skills that every professional Blender artist uses every single day. You've built a solid base—everything else will build on this foundation.</p>
+
+                <p>Navigation might still require conscious thought, and that's okay. With each lesson, each project, each time you open Blender, it becomes more automatic. Your brain is forming new neural pathways for spatial thinking and hand-eye coordination in 3D space. This is real learning happening!</p>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 2rem;">
+                    <h3 style="color: white; margin-top: 0;">🎯 You're Now a Navigator!</h3>
+                    <p style="color: white; font-size: 1.1em; margin-bottom: 0;">You can move through 3D space with purpose and precision. You understand different view modes and when to use them. You can focus on what matters and frame your scenes like a cinematographer.</p>
+                    <p style="color: white; font-size: 1.1em; margin-bottom: 0;"><strong>Next up: We're going to grab, move, rotate, and scale objects—bringing your 3D scenes to life!</strong></p>
+                </div>
+
+                <h3>Final Navigation Wisdom</h3>
+
+                <blockquote>
+                    <p><strong>Remember:</strong> "Smooth navigation isn't about speed—it's about confidence. It's about knowing exactly how to see what you need to see, when you need to see it. Speed comes naturally once you have that confidence."</p>
+                    <p style="text-align: right; font-style: italic;">— Every professional 3D artist who started exactly where you are</p>
+                </blockquote>
+
+                <p>You've completed one of the most important lessons in this entire course. Navigation is the skill you'll use in every single Blender session for the rest of your 3D career. You've invested your time wisely.</p>
+
+                <p>Take pride in this accomplishment, practice these skills daily, and get ready for the next exciting step: actually creating and manipulating 3D objects!</p>
+
+            </section>
+
+        </article>
+
+        <nav class="lesson-nav" aria-label="Lesson Navigation">
+            <a href="lesson_02_the_blender_interface.html" class="prev-lesson">← Previous: The Blender Interface</a>
+            <a href="index.html" class="home-link">🏠 Course Home</a>
+            <a href="lesson_04_basic_object_manipulation.html" class="next-lesson">Next: Basic Object Manipulation →</a>
+        </nav>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+    </footer>
+
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>

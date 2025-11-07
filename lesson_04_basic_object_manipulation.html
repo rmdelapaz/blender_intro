@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn to select, move, rotate, and scale objects in Blender. Master the fundamental transformation tools that bring your 3D scenes to life.">
+    <meta name="author" content="Blender Course">
+    <title>Basic Object Manipulation - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <nav class="main-nav" aria-label="Main Navigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">🎨 Blender Mastery Course</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <div class="nav-links">
+                <a href="index.html">Course Home</a>
+                <a href="index.html#modules">Modules</a>
+                <a href="index.html#about">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> &gt; 
+        <a href="index.html#module-1">Module 1</a> &gt; 
+        <span>Lesson 4</span>
+    </div>
+
+    <main class="container">
+        <article>
+            <header class="lesson-header">
+                <h1>🎮 Basic Object Manipulation</h1>
+                <p class="lead">You've learned to navigate through 3D space—now it's time to start actually creating! In this lesson, you'll learn the fundamental operations that every 3D artist uses dozens of times per session: selecting objects, moving them around, rotating them into position, and scaling them to the right size. These are the building blocks of all 3D work, and mastering them will make everything else in Blender feel natural and intuitive.</p>
+            </header>
+
+            <div class="card">
+                <h3>📚 What You'll Learn</h3>
+                <ul>
+                    <li>Selecting objects with precision and efficiency</li>
+                    <li>The three fundamental transformations: Move (Grab), Rotate, and Scale</li>
+                    <li>Using axis constraints for precise control</li>
+                    <li>Working with the 3D cursor and pivot points</li>
+                    <li>Duplicating objects and creating arrays</li>
+                    <li>Numeric input for exact transformations</li>
+                    <li>Snapping and precision tools</li>
+                    <li>Understanding object origin points and transforms</li>
+                </ul>
+                <p><strong>⏱️ Estimated Time:</strong> 75-90 minutes</p>
+                <p><strong>🎯 Project:</strong> Build a simple scene using all transformation tools</p>
+            </div>
+
+            <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                    <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                </summary>
+                <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                    <ol>
+                        <li><a href="#selection-basics" class="toc-link">Selection: Choosing What to Manipulate</a></li>
+                        <li><a href="#move-grab" class="toc-link">Move (Grab): Positioning Objects</a></li>
+                        <li><a href="#rotate" class="toc-link">Rotate: Changing Orientation</a></li>
+                        <li><a href="#scale" class="toc-link">Scale: Adjusting Size</a></li>
+                        <li><a href="#axis-constraints" class="toc-link">Axis Constraints and Precision</a></li>
+                        <li><a href="#3d-cursor" class="toc-link">The 3D Cursor: Your Reference Point</a></li>
+                        <li><a href="#duplication" class="toc-link">Duplicating Objects</a></li>
+                        <li><a href="#origin-transform" class="toc-link">Origins and Transform Properties</a></li>
+                        <li><a href="#manipulation-project" class="toc-link">Project: Build Your First Scene</a></li>
+                        <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                    </ol>
+                </nav>
+            </details>
+<!-- PART 1 END -->
+<!-- PART 2 START -->
+            <section id="selection-basics">
+                <h2>🎯 Selection: Choosing What to Manipulate</h2>
+                
+                <p>Before you can move, rotate, or scale anything, you need to select it. Selection in Blender is fundamental—it tells Blender "work on THIS object, not the others." Let's master the various ways to select objects.</p>
+
+                <h3>Basic Selection Methods</h3>
+
+                <p>Think of selection like pointing at something and saying "I want to work with this." In Blender, selected objects get highlighted with an orange outline, making it clear what you're working on.</p>
+
+                <div class="card">
+                    <h4>🖱️ Primary Selection Methods</h4>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px; width: 35%;"><strong>Action</strong></td>
+                            <td style="padding: 8px;"><strong>Method</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Select Single Object</td>
+                            <td style="padding: 8px;"><strong>Left Click</strong> on the object</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Add to Selection</td>
+                            <td style="padding: 8px;"><strong>Shift + Left Click</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Box Select</td>
+                            <td style="padding: 8px;"><strong>B</strong> then click-drag, or <strong>Click-drag with left mouse</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Circle Select</td>
+                            <td style="padding: 8px;"><strong>C</strong> then move mouse, left-click to select, middle-click to deselect</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Select All</td>
+                            <td style="padding: 8px;"><strong>A</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Deselect All</td>
+                            <td style="padding: 8px;"><strong>Alt + A</strong> or <strong>A</strong> twice</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Invert Selection</td>
+                            <td style="padding: 8px;"><strong>Ctrl + I</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Select in Outliner</td>
+                            <td style="padding: 8px;">Click object name in Outliner</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Basic Selection</h4>
+                    <ol>
+                        <li>Start with Blender's default scene (cube, camera, light)</li>
+                        <li>Click on the cube—it gets an orange outline (selected)</li>
+                        <li>Click on the camera—cube deselects, camera selected</li>
+                        <li>Click on the cube again to select it</li>
+                        <li>Hold <code>Shift</code> and click the light—both cube and light selected!</li>
+                        <li>Hold <code>Shift</code> and click the camera—all three selected</li>
+                        <li>Press <code>A</code> to select all—everything highlights</li>
+                        <li>Press <code>Alt + A</code> to deselect all—all outlines disappear</li>
+                    </ol>
+                </div>
+
+                <h3>Understanding Selection States</h3>
+
+                <p>Blender uses color to show selection states:</p>
+
+                <ul>
+                    <li><strong>Orange outline:</strong> Selected and active (most recent selection)</li>
+                    <li><strong>Light orange/yellow outline:</strong> Selected but not active</li>
+                    <li><strong>No outline:</strong> Not selected</li>
+                    <li><strong>Dark outline:</strong> Hidden or disabled in viewport</li>
+                </ul>
+
+                <p>The "active" object is the last one you selected—it's the one whose properties show in the Properties panel. When multiple objects are selected, the active object is slightly brighter orange.</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Active Object Matters</h4>
+                    <p>Many operations use the active object as a reference. For example, when joining objects, they merge into the active object. When copying properties, they copy from the active object. Always be aware which object is active (brightest orange)!</p>
+                </div>
+
+                <h3>Box Select: Selecting Multiple Objects</h3>
+
+                <p>Box select lets you drag a rectangular selection box around objects—perfect for selecting multiple objects quickly.</p>
+
+                <div class="card">
+                    <h4>📦 Box Select Tool</h4>
+                    <p><strong>Method 1:</strong> Press <code>B</code> then click and drag</p>
+                    <p><strong>Method 2:</strong> Click and drag with left mouse button (in Blender 4.0+)</p>
+                    <p><strong>Usage:</strong></p>
+                    <ul>
+                        <li>Your cursor becomes a crosshair</li>
+                        <li>Click and drag to create a selection rectangle</li>
+                        <li>Everything inside the box gets selected</li>
+                        <li>Release to confirm</li>
+                        <li>Middle-click or <code>Esc</code> to cancel</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Box Select</h4>
+                    <ol>
+                        <li>Add some objects to practice: Press <code>Shift + A</code> → Mesh → UV Sphere</li>
+                        <li>Add another: <code>Shift + A</code> → Mesh → Cone</li>
+                        <li>Press <code>Alt + A</code> to deselect all</li>
+                        <li>Press <code>B</code> to activate box select</li>
+                        <li>Click and drag a box around the cube and sphere</li>
+                        <li>Both objects become selected!</li>
+                        <li>Try selecting all objects with one big box</li>
+                    </ol>
+                </div>
+
+                <h3>Circle Select: Brush-Style Selection</h3>
+
+                <p>Circle select gives you a circular "brush" for selecting—great for selecting specific objects in crowded scenes.</p>
+
+                <div class="card">
+                    <h4>⭕ Circle Select Tool</h4>
+                    <p>Press <code>C</code> to activate circle select</p>
+                    <p><strong>Controls:</strong></p>
+                    <ul>
+                        <li><strong>Move mouse:</strong> Position the circle</li>
+                        <li><strong>Scroll wheel:</strong> Adjust circle size</li>
+                        <li><strong>Left click:</strong> Select objects under circle</li>
+                        <li><strong>Middle click:</strong> Deselect objects under circle</li>
+                        <li><strong>Right click or Esc:</strong> Exit circle select</li>
+                    </ul>
+                </div>
+
+                <p>Circle select is particularly useful when you need to "paint" selection over objects, or when working with dense geometry where box select would catch too many objects.</p>
+
+                <h3>Selection Through the Outliner</h3>
+
+                <p>Sometimes the cleanest way to select objects is through the Outliner, especially in complex scenes where objects overlap visually.</p>
+
+                <div class="card">
+                    <h4>📋 Outliner Selection</h4>
+                    <ul>
+                        <li><strong>Left click:</strong> Select single object</li>
+                        <li><strong>Shift + Click:</strong> Add to selection</li>
+                        <li><strong>Click and drag:</strong> Select multiple items in list</li>
+                        <li><strong>Ctrl + Click:</strong> Select hierarchies (object and children)</li>
+                    </ul>
+                    <p>Selected objects in the Outliner highlight and appear selected in the viewport—perfect synchronization!</p>
+                </div>
+
+                <h3>Advanced Selection Techniques</h3>
+
+                <div class="card">
+                    <h4>🎯 More Selection Tools</h4>
+                    <p><strong>Lasso Select:</strong> Press <code>Ctrl + Left Click and Drag</code> to draw a freeform selection shape</p>
+                    <p><strong>Select Linked:</strong> Press <code>L</code> with mouse over object to select all connected geometry</p>
+                    <p><strong>Select Similar:</strong> Select one object, press <code>Shift + G</code> to select all similar objects (by type, color, etc.)</p>
+                    <p><strong>Select Random:</strong> Select → Select Random (in header menu) for random object selection</p>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Selection Methods] --> B[Direct Click]
+                    A --> C[Box Select - B]
+                    A --> D[Circle Select - C]
+                    A --> E[Outliner]
+                    A --> F[Lasso Select]
+                    B --> G[Single or Shift+Click for Multiple]
+                    C --> H[Rectangular Area]
+                    D --> I[Circular Brush]
+                    E --> J[List-Based Selection]
+                    F --> K[Freeform Shape]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Can't Select Objects?</h4>
+                    <p>If clicking objects doesn't select them, check these common issues:</p>
+                    <ul>
+                        <li><strong>Outliner visibility:</strong> Object might be hidden (eye icon in Outliner)</li>
+                        <li><strong>Selection disabled:</strong> Arrow icon in Outliner might be disabled</li>
+                        <li><strong>Wrong mode:</strong> You might be in Edit Mode—press <code>Tab</code> to return to Object Mode</li>
+                        <li><strong>Local view:</strong> Object might not be in your current local view—press <code>Numpad /</code> to exit</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>Professional Tip:</strong> Efficient selection is the mark of an experienced artist. Rather than always clicking individual objects, professionals fluidly switch between box select for groups, direct clicking for specific items, and Outliner selection for complex hierarchies. Develop comfort with all selection methods—each has its place!</p>
+                </blockquote>
+            </section>
+
+            <section id="move-grab">
+                <h2>📍 Move (Grab): Positioning Objects</h2>
+
+                <p>Now that you can select objects, let's move them around! The Move operation (also called "Grab" in Blender) is one of the three fundamental transformations you'll use constantly.</p>
+
+                <h3>The Grab Command</h3>
+
+                <p>Moving objects in Blender is intuitive once you learn the shortcut. It's called "Grab" because you're essentially grabbing the object and moving it with your mouse.</p>
+
+                <div class="card">
+                    <h4>🖐️ Move (Grab) an Object</h4>
+                    <p><strong>Press <code>G</code></strong> to activate Grab/Move mode</p>
+                    <p><strong>Workflow:</strong></p>
+                    <ol>
+                        <li>Select the object you want to move</li>
+                        <li>Press <code>G</code></li>
+                        <li>Move your mouse—the object follows!</li>
+                        <li>Left click or press <code>Enter</code> to confirm</li>
+                        <li>Right click or press <code>Esc</code> to cancel</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Your First Move</h4>
+                    <ol>
+                        <li>Click to select the cube in your default scene</li>
+                        <li>Press <code>G</code> (for Grab)</li>
+                        <li>Move your mouse around—the cube follows your cursor!</li>
+                        <li>Move it to a new position</li>
+                        <li>Left click to confirm the movement</li>
+                        <li>Press <code>G</code> again and move it somewhere else</li>
+                        <li>This time press <code>Esc</code> to cancel—it returns to the previous position</li>
+                        <li>Practice grabbing and moving all three objects in the scene</li>
+                    </ol>
+                </div>
+
+                <h3>Understanding the Move Gizmo</h3>
+
+                <p>When you have an object selected, you might see arrows pointing in different directions—this is the Transform Gizmo. It provides visual handles for transformations.</p>
+
+                <ul>
+                    <li><strong>Red arrow:</strong> X-axis (left/right)</li>
+                    <li><strong>Green arrow:</strong> Y-axis (forward/backward)</li>
+                    <li><strong>Blue arrow:</strong> Z-axis (up/down)</li>
+                    <li><strong>White circle:</strong> Move freely in all directions</li>
+                </ul>
+
+                <p>You can click and drag these arrows to move along specific axes, but keyboard shortcuts (which we'll cover next) are usually faster.</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Showing/Hiding the Gizmo</h4>
+                    <p>Toggle the transform gizmo on or off by clicking the gizmo icon in the top-right of the viewport (looks like a small coordinate system). Some artists prefer working without it for a cleaner view, relying purely on keyboard shortcuts. Try both ways and see what you prefer!</p>
+                </div>
+
+                <h3>Moving Along Specific Axes</h3>
+
+                <p>Free movement is useful, but often you need to move objects along just one axis—straight left/right, straight up/down, or straight forward/backward. This is where axis constraints come in.</p>
+
+                <div class="card">
+                    <h4>🎯 Axis-Constrained Movement</h4>
+                    <p>Press <code>G</code> then immediately press an axis key:</p>
+                    <ul>
+                        <li><strong>G then X:</strong> Move along X-axis only (red, left/right)</li>
+                        <li><strong>G then Y:</strong> Move along Y-axis only (green, forward/back)</li>
+                        <li><strong>G then Z:</strong> Move along Z-axis only (blue, up/down)</li>
+                    </ul>
+                    <p>The movement becomes constrained to a straight line along that axis!</p>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Constrained Movement</h4>
+                    <ol>
+                        <li>Select the cube</li>
+                        <li>Press <code>G</code> then <code>Z</code></li>
+                        <li>Move your mouse—the cube only moves up and down!</li>
+                        <li>Notice a blue line appears showing the constraint</li>
+                        <li>Click to confirm</li>
+                        <li>Now try <code>G</code> then <code>X</code>—moves left/right only</li>
+                        <li>Then try <code>G</code> then <code>Y</code>—forward/backward only</li>
+                        <li>Practice each axis until the movement feels natural</li>
+                    </ol>
+                </div>
+
+                <h3>Numeric Input for Precision</h3>
+
+                <p>Sometimes you need exact movement—move exactly 5 units to the right, or precisely 2.5 units up. Blender lets you type numbers while transforming.</p>
+
+                <div class="card">
+                    <h4>🔢 Precise Movement with Numbers</h4>
+                    <p><strong>Method:</strong> Press <code>G</code>, then an axis letter, then type a number</p>
+                    <p><strong>Examples:</strong></p>
+                    <ul>
+                        <li><code>G</code> <code>X</code> <code>5</code> <code>Enter</code> — Moves 5 units on X-axis</li>
+                        <li><code>G</code> <code>Z</code> <code>2.5</code> <code>Enter</code> — Moves 2.5 units on Z-axis</li>
+                        <li><code>G</code> <code>Y</code> <code>-3</code> <code>Enter</code> — Moves -3 units on Y-axis (negative = opposite direction)</li>
+                    </ul>
+                    <p>The number appears at the top of the viewport as you type!</p>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Numeric Movement</h4>
+                    <ol>
+                        <li>Select the cube</li>
+                        <li>Press <code>G</code> <code>Z</code> <code>3</code> <code>Enter</code></li>
+                        <li>The cube moves exactly 3 units up!</li>
+                        <li>Try <code>G</code> <code>X</code> <code>-2</code> <code>Enter</code></li>
+                        <li>It moves exactly 2 units in the negative X direction</li>
+                        <li>Experiment with different numbers on different axes</li>
+                        <li>Try decimal values like <code>G</code> <code>Y</code> <code>1.75</code> <code>Enter</code></li>
+                    </ol>
+                </div>
+
+                <h3>Moving Multiple Objects</h3>
+
+                <p>When multiple objects are selected, they all move together, maintaining their relative positions to each other.</p>
+
+                <ol>
+                    <li>Select multiple objects (using Shift + Click or box select)</li>
+                    <li>Press <code>G</code> to move</li>
+                    <li>All selected objects move as a group</li>
+                    <li>Their spacing and relationships are preserved</li>
+                </ol>
+
+                <p>This is perfect for moving entire groups or assemblies while keeping everything aligned!</p>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Common Move Mistakes</h4>
+                    <ul>
+                        <li><strong>Object disappears:</strong> You accidentally moved it far away—press <code>Ctrl + Z</code> to undo</li>
+                        <li><strong>Won't move on axis:</strong> Make sure you press the axis key (X/Y/Z) right after G</li>
+                        <li><strong>Moves tiny amounts:</strong> You're too zoomed out—zoom in closer for better control</li>
+                        <li><strong>Movement feels wrong:</strong> Check your view angle—what looks like horizontal movement from one angle is diagonal from another</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>Workflow Wisdom:</strong> Professional artists develop a rhythm: select, press G, press axis key, position, confirm—all in about two seconds. It becomes like muscle memory. Don't worry about speed yet; focus on accuracy and understanding. Speed comes naturally with practice!</p>
+                </blockquote>
+            </section>
+<!-- PART 2 END -->
+<!-- PART 3 START -->
+            <section id="rotate">
+                <h2>🔄 Rotate: Changing Orientation</h2>
+
+                <p>Moving objects is great, but you also need to rotate them—tilt a cube, spin a sphere, angle a light. Rotation is the second fundamental transformation, and it works very similarly to movement.</p>
+
+                <h3>The Rotate Command</h3>
+
+                <p>Just like <code>G</code> for Grab/Move, <code>R</code> is for Rotate. The concept is the same: select, activate the tool, adjust, confirm.</p>
+
+                <div class="card">
+                    <h4>🔁 Rotate an Object</h4>
+                    <p><strong>Press <code>R</code></strong> to activate Rotate mode</p>
+                    <p><strong>Workflow:</strong></p>
+                    <ol>
+                        <li>Select the object you want to rotate</li>
+                        <li>Press <code>R</code></li>
+                        <li>Move your mouse—the object rotates!</li>
+                        <li>Left click or press <code>Enter</code> to confirm</li>
+                        <li>Right click or press <code>Esc</code> to cancel</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: First Rotation</h4>
+                    <ol>
+                        <li>Select the cube</li>
+                        <li>Press <code>R</code> (for Rotate)</li>
+                        <li>Move your mouse in a circle around the cube</li>
+                        <li>Watch it rotate based on your mouse movement</li>
+                        <li>Click to confirm</li>
+                        <li>Try it again, but this time press <code>Esc</code> to cancel</li>
+                        <li>Notice how canceling returns it to the previous rotation</li>
+                    </ol>
+                </div>
+
+                <h3>Free vs. Constrained Rotation</h3>
+
+                <p>By default, pressing <code>R</code> rotates the object around your view angle—it rotates relative to how you're looking at it. But usually, you want to rotate around a specific axis (spin it around horizontally, tilt it vertically, etc.).</p>
+
+                <div class="card">
+                    <h4>🎯 Axis-Constrained Rotation</h4>
+                    <p>Press <code>R</code> then immediately press an axis key:</p>
+                    <ul>
+                        <li><strong>R then X:</strong> Rotate around X-axis (spin on horizontal rod)</li>
+                        <li><strong>R then Y:</strong> Rotate around Y-axis (spin on front-to-back rod)</li>
+                        <li><strong>R then Z:</strong> Rotate around Z-axis (spin like a top)</li>
+                    </ul>
+                    <p>A colored circle appears showing which axis you're rotating around!</p>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Axis Rotation</h4>
+                    <ol>
+                        <li>Select the cube and press <code>R</code> then <code>Z</code></li>
+                        <li>Move your mouse—the cube spins around its vertical axis like a spinning top!</li>
+                        <li>A blue circle appears showing the Z-axis rotation</li>
+                        <li>Click to confirm</li>
+                        <li>Try <code>R</code> then <code>X</code>—it tilts forward/backward</li>
+                        <li>Try <code>R</code> then <code>Y</code>—it tilts left/right</li>
+                        <li>Practice each axis until you can predict which way it will rotate</li>
+                    </ol>
+                </div>
+
+                <h3>Understanding Rotation Axes</h3>
+
+                <p>Think of rotation axes like rods through your object:</p>
+
+                <ul>
+                    <li><strong>X-axis (Red):</strong> Imagine a rod going through the object left to right—rotation tilts it forward/back</li>
+                    <li><strong>Y-axis (Green):</strong> Rod going through front to back—rotation tilts it left/right</li>
+                    <li><strong>Z-axis (Blue):</strong> Rod going through top to bottom—rotation spins it horizontally</li>
+                </ul>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Rotation Axes] --> B[X-Axis - Red]
+                    A --> C[Y-Axis - Green]
+                    A --> D[Z-Axis - Blue]
+                    B --> E[Horizontal Rod<br/>Tilts Forward/Back]
+                    C --> F[Front-Back Rod<br/>Tilts Left/Right]
+                    D --> G[Vertical Rod<br/>Spins Horizontally]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style B fill:#f44336,stroke:#333,stroke-width:2px,color:#fff
+                    style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style D fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h3>Precise Rotation with Numbers</h3>
+
+                <p>Just like movement, you can type exact rotation amounts in degrees.</p>
+
+                <div class="card">
+                    <h4>🔢 Numeric Rotation</h4>
+                    <p><strong>Method:</strong> Press <code>R</code>, then axis letter, then type degrees</p>
+                    <p><strong>Examples:</strong></p>
+                    <ul>
+                        <li><code>R</code> <code>Z</code> <code>90</code> <code>Enter</code> — Rotates exactly 90° around Z-axis</li>
+                        <li><code>R</code> <code>X</code> <code>45</code> <code>Enter</code> — Rotates 45° around X-axis</li>
+                        <li><code>R</code> <code>Y</code> <code>-30</code> <code>Enter</code> — Rotates -30° around Y-axis (opposite direction)</li>
+                        <li><code>R</code> <code>Z</code> <code>180</code> <code>Enter</code> — Rotates exactly 180° (flip)</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Precise Angles</h4>
+                    <ol>
+                        <li>Select the cube</li>
+                        <li>Press <code>R</code> <code>Z</code> <code>45</code> <code>Enter</code></li>
+                        <li>The cube rotates exactly 45 degrees—like a diamond!</li>
+                        <li>Try <code>R</code> <code>Z</code> <code>45</code> <code>Enter</code> again</li>
+                        <li>Now it's rotated 90 degrees total</li>
+                        <li>Try <code>R</code> <code>Z</code> <code>90</code> <code>Enter</code></li>
+                        <li>It completes the 180° rotation</li>
+                        <li>Practice with different angles: 30, 60, 120, etc.</li>
+                    </ol>
+                </div>
+
+                <h3>Common Rotation Angles</h3>
+
+                <p>Certain angles are used frequently in 3D work:</p>
+
+                <ul>
+                    <li><strong>90°:</strong> Quarter turn—perfect for perpendicular alignment</li>
+                    <li><strong>180°:</strong> Flip around—complete reversal</li>
+                    <li><strong>45°:</strong> Diagonal angle—creates dynamic, tilted look</li>
+                    <li><strong>30°/60°:</strong> Common for architectural and mechanical work</li>
+                </ul>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Rotation Tip: The Double-Tap Trick</h4>
+                    <p>Want to rotate in the local axis instead of global? Press the axis key twice!</p>
+                    <ul>
+                        <li><code>R</code> <code>X</code> <code>X</code> — Rotate around object's local X-axis</li>
+                        <li><code>R</code> <code>Z</code> <code>Z</code> — Rotate around object's local Z-axis</li>
+                    </ul>
+                    <p>This becomes important when objects are already rotated—their "local" axes point in different directions than the "global" world axes. We'll explore this more in advanced lessons!</p>
+                </div>
+
+                <blockquote>
+                    <p><strong>Real-World Analogy:</strong> Think of rotation like turning objects on a pottery wheel (Z-axis), or tilting a picture frame on the wall (X-axis), or rotating a door on its hinges (Y-axis). Each axis creates a different type of rotation movement.</p>
+                </blockquote>
+            </section>
+
+            <section id="scale">
+                <h2>📏 Scale: Adjusting Size</h2>
+
+                <p>The third fundamental transformation is Scale—making objects larger or smaller. Unlike real life where you can't just make things bigger or smaller at will, in 3D you have total control over size!</p>
+
+                <h3>The Scale Command</h3>
+
+                <p>Following the same pattern as Move and Rotate, <code>S</code> is for Scale.</p>
+
+                <div class="card">
+                    <h4>📐 Scale an Object</h4>
+                    <p><strong>Press <code>S</code></strong> to activate Scale mode</p>
+                    <p><strong>Workflow:</strong></p>
+                    <ol>
+                        <li>Select the object you want to scale</li>
+                        <li>Press <code>S</code></li>
+                        <li>Move your mouse away from object to enlarge, toward it to shrink</li>
+                        <li>Left click or press <code>Enter</code> to confirm</li>
+                        <li>Right click or press <code>Esc</code> to cancel</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Basic Scaling</h4>
+                    <ol>
+                        <li>Select the cube</li>
+                        <li>Press <code>S</code> (for Scale)</li>
+                        <li>Move your mouse away from the cube—it grows larger!</li>
+                        <li>Move your mouse toward the cube—it shrinks!</li>
+                        <li>Make it about twice as big and click to confirm</li>
+                        <li>Press <code>S</code> again and make it smaller</li>
+                        <li>Try making it really tiny, then really huge</li>
+                    </ol>
+                </div>
+
+                <h3>Uniform vs. Non-Uniform Scaling</h3>
+
+                <p>By default, pressing <code>S</code> scales uniformly—the object grows or shrinks equally in all directions, maintaining its proportions. But sometimes you want to stretch or squash an object along just one axis.</p>
+
+                <div class="card">
+                    <h4>🎯 Axis-Constrained Scaling</h4>
+                    <p>Press <code>S</code> then immediately press an axis key:</p>
+                    <ul>
+                        <li><strong>S then X:</strong> Scale only along X-axis (stretch/squash horizontally)</li>
+                        <li><strong>S then Y:</strong> Scale only along Y-axis (stretch/squash front-to-back)</li>
+                        <li><strong>S then Z:</strong> Scale only along Z-axis (stretch/squash vertically)</li>
+                    </ul>
+                    <p>This creates stretched or squashed shapes!</p>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Stretch and Squash</h4>
+                    <ol>
+                        <li>Select the cube (or reset it to default size first with <code>Alt + S</code>)</li>
+                        <li>Press <code>S</code> then <code>Z</code></li>
+                        <li>Move mouse up—the cube stretches tall like a skyscraper!</li>
+                        <li>Move mouse down—it squashes flat like a pancake!</li>
+                        <li>Confirm when you have a tall tower shape</li>
+                        <li>Now try <code>S</code> then <code>X</code>—it stretches horizontally</li>
+                        <li>Try <code>S</code> then <code>Y</code>—stretches front to back</li>
+                        <li>Play with making elongated, squashed, and stretched shapes</li>
+                    </ol>
+                </div>
+
+                <h3>Numeric Scaling</h3>
+
+                <p>Scale can also use numeric input, but it works a bit differently than move and rotate. A scale value of 1 means original size, 2 means double size, 0.5 means half size.</p>
+
+                <div class="card">
+                    <h4>🔢 Precise Scaling</h4>
+                    <p><strong>Method:</strong> Press <code>S</code>, then optionally an axis, then type a number</p>
+                    <p><strong>Examples:</strong></p>
+                    <ul>
+                        <li><code>S</code> <code>2</code> <code>Enter</code> — Doubles size uniformly</li>
+                        <li><code>S</code> <code>0.5</code> <code>Enter</code> — Halves size uniformly</li>
+                        <li><code>S</code> <code>Z</code> <code>3</code> <code>Enter</code> — Makes 3× taller</li>
+                        <li><code>S</code> <code>X</code> <code>0.25</code> <code>Enter</code> — Compresses to ¼ width</li>
+                    </ul>
+                    <p><strong>Scale values:</strong></p>
+                    <ul>
+                        <li>Greater than 1 = larger (2 = double, 3 = triple, etc.)</li>
+                        <li>Between 0 and 1 = smaller (0.5 = half, 0.1 = one-tenth, etc.)</li>
+                        <li>Exactly 1 = original size (no change)</li>
+                        <li>Negative values = mirror flip (advanced, we'll cover later)</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Numeric Scaling</h4>
+                    <ol>
+                        <li>Select the cube</li>
+                        <li>Press <code>S</code> <code>2</code> <code>Enter</code></li>
+                        <li>The cube exactly doubles in size!</li>
+                        <li>Press <code>S</code> <code>0.5</code> <code>Enter</code></li>
+                        <li>Back to original size (half of double = original)</li>
+                        <li>Try <code>S</code> <code>Z</code> <code>4</code> <code>Enter</code></li>
+                        <li>Creates a tall column 4× the height</li>
+                        <li>Experiment with different scale values on different axes</li>
+                    </ol>
+                </div>
+
+                <h3>Resetting Scale</h3>
+
+                <p>Made a mess with scaling? You can reset an object to its original scale:</p>
+
+                <div class="card">
+                    <h4>🔄 Reset to Original Scale</h4>
+                    <p><strong>Alt + S:</strong> Resets scale to 1.0 on all axes</p>
+                    <p>This returns the object to its default size, undoing all scaling operations.</p>
+                </div>
+
+                <h3>Scaling Multiple Objects</h3>
+
+                <p>When multiple objects are selected, they all scale from their collective center point, growing or shrinking together while maintaining their relative positions.</p>
+
+                <p>This is useful for scaling entire groups or assemblies while keeping their relationships intact.</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Planar Scaling (Two Axes at Once)</h4>
+                    <p>Want to scale on two axes but not the third? Use <code>Shift + Axis</code>:</p>
+                    <ul>
+                        <li><code>S</code> <code>Shift + Z</code> — Scale on X and Y, but not Z (flatten/expand footprint)</li>
+                        <li><code>S</code> <code>Shift + X</code> — Scale on Y and Z, but not X</li>
+                        <li><code>S</code> <code>Shift + Y</code> — Scale on X and Z, but not Y</li>
+                    </ul>
+                    <p>This is perfect for adjusting an object's footprint without changing its height, or vice versa!</p>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Scale Gotchas</h4>
+                    <ul>
+                        <li><strong>Never scale to 0:</strong> This collapses the object into a point—nearly impossible to recover from without undo</li>
+                        <li><strong>Non-uniform scale and modifiers:</strong> Stretched objects can behave oddly with certain modifiers (we'll cover this later)</li>
+                        <li><strong>Scale inheritance:</strong> If objects are parented (we'll learn this soon), they inherit parent scale—can cause unexpected sizes</li>
+                        <li><strong>Scale in edit mode vs object mode:</strong> There's a difference! We'll explore this when we get to mesh editing</li>
+                    </ul>
+                </div>
+
+                <h3>The Transform Trinity</h3>
+
+                <p>You now know the three fundamental transformations that form the basis of all 3D manipulation:</p>
+
+                <div class="mermaid">
+                    graph LR
+                    A[Transform Operations] --> B[Move - G]
+                    A --> C[Rotate - R]
+                    A --> D[Scale - S]
+                    B --> E[Position in Space]
+                    C --> F[Orientation/Angle]
+                    D --> G[Size/Proportions]
+                    style A fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
+                    style B fill:#4CAF50,stroke:#333,stroke-width:2px
+                    style C fill:#2196F3,stroke:#333,stroke-width:2px
+                    style D fill:#f44336,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <p>These three operations—Move (G), Rotate (R), and Scale (S)—are the foundation of object manipulation. Master these, and you can build anything!</p>
+
+                <blockquote>
+                    <p><strong>Professional Insight:</strong> The GRS trinity (Grab, Rotate, Scale) is so fundamental that experienced artists use these shortcuts dozens of times per minute. The sequence becomes automatic: select, transform, confirm—select, transform, confirm. Your hands will learn this rhythm naturally through practice. Don't rush it, but do practice deliberately!</p>
+                </blockquote>
+            </section>
+<!-- PART 3 END -->
+<!-- PART 4 START -->
+            <section id="axis-constraints">
+                <h2>🎯 Axis Constraints and Precision</h2>
+
+                <p>You've already used axis constraints with transformations (G-X, R-Z, S-Y, etc.), but let's explore more advanced constraint options that give you even finer control.</p>
+
+                <h3>Global vs. Local Axes</h3>
+
+                <p>By default, transformations use global axes—the fixed coordinate system of the 3D world. But objects can also have their own "local" axes that rotate with them.</p>
+
+                <div class="card">
+                    <h4>🌍 Global vs Local Orientation</h4>
+                    <p><strong>Global axes:</strong> The world coordinate system—always points the same direction</p>
+                    <ul>
+                        <li>X is always left/right in world space</li>
+                        <li>Y is always forward/back in world space</li>
+                        <li>Z is always up/down in world space</li>
+                    </ul>
+                    <p><strong>Local axes:</strong> The object's own coordinate system—rotates with the object</p>
+                    <ul>
+                        <li>When you rotate an object, its local axes rotate too</li>
+                        <li>Useful for moving "forward" relative to object's orientation</li>
+                        <li>Press axis key twice to use local axis: <code>G</code> <code>X</code> <code>X</code></li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Global vs Local</h4>
+                    <ol>
+                        <li>Select the cube and rotate it: <code>R</code> <code>Z</code> <code>45</code> <code>Enter</code></li>
+                        <li>Now press <code>G</code> <code>X</code> (single X)—moves along global X-axis</li>
+                        <li>Press <code>Esc</code> to cancel</li>
+                        <li>Now press <code>G</code> <code>X</code> <code>X</code> (double X)—moves along object's local X-axis!</li>
+                        <li>Notice how it moves along the object's orientation, not the world's</li>
+                        <li>This becomes very useful when working with rotated objects</li>
+                    </ol>
+                </div>
+
+                <h3>Transform Orientation Menu</h3>
+
+                <p>At the top of the 3D viewport, you'll see a dropdown menu showing "Global" by default. This controls which coordinate system your transformations use.</p>
+
+                <div class="card">
+                    <h4>🧭 Transform Orientation Options</h4>
+                    <ul>
+                        <li><strong>Global:</strong> World coordinate system (default)</li>
+                        <li><strong>Local:</strong> Object's own coordinate system</li>
+                        <li><strong>Normal:</strong> Based on selected face normals (useful in edit mode)</li>
+                        <li><strong>Gimbal:</strong> Based on rotation order (advanced animation)</li>
+                        <li><strong>View:</strong> Based on your current viewport angle</li>
+                        <li><strong>Cursor:</strong> Based on 3D cursor orientation</li>
+                    </ul>
+                    <p>You can also press <code>,</code> (comma) to quickly cycle through orientations!</p>
+                </div>
+
+                <h3>Planar Constraints (Excluding One Axis)</h3>
+
+                <p>Sometimes you want to move or scale on two axes but not the third. We briefly mentioned this with scale, but it works for all transforms.</p>
+
+                <div class="card">
+                    <h4>📐 Planar Movement</h4>
+                    <p><strong>Shift + Axis:</strong> Excludes that axis (moves on the other two)</p>
+                    <p><strong>Examples:</strong></p>
+                    <ul>
+                        <li><code>G</code> <code>Shift + Z</code> — Move on ground plane (X and Y, no Z)</li>
+                        <li><code>G</code> <code>Shift + X</code> — Move on YZ plane (no X)</li>
+                        <li><code>S</code> <code>Shift + Z</code> — Scale on XY plane (maintain height)</li>
+                    </ul>
+                    <p>Perfect for sliding objects along surfaces without changing height!</p>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Planar Movement</h4>
+                    <ol>
+                        <li>Select the cube</li>
+                        <li>Press <code>G</code> <code>Shift + Z</code></li>
+                        <li>Move your mouse—the cube slides along the ground plane!</li>
+                        <li>It can't move up or down, only horizontally</li>
+                        <li>This is perfect for positioning objects on a floor</li>
+                        <li>Try <code>S</code> <code>Shift + Z</code> to scale its footprint without changing height</li>
+                    </ol>
+                </div>
+
+                <h3>Proportional Editing</h3>
+
+                <p>Proportional editing makes transformations affect nearby geometry with a falloff—like transforming with a soft brush. This is more useful in edit mode (which we'll cover later), but it's good to know about.</p>
+
+                <div class="card">
+                    <h4>🎨 Proportional Editing</h4>
+                    <p><strong>Toggle:</strong> Press <code>O</code> to enable/disable</p>
+                    <p><strong>When active:</strong></p>
+                    <ul>
+                        <li>Transformations affect nearby objects/geometry</li>
+                        <li>Scroll wheel adjusts the radius of influence</li>
+                        <li>Creates smooth, organic deformations</li>
+                        <li>Icon appears in header (circle with smaller circle inside)</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>Constraint Wisdom:</strong> Learning when to use which constraint is part of developing 3D intuition. Need to slide something along a wall? Shift+Z. Want to rotate a wheel? R-Y. Need to stretch something taller? S-Z. With practice, choosing the right constraint becomes automatic—your hands just know which keys to press.</p>
+                </blockquote>
+            </section>
+
+            <section id="3d-cursor">
+                <h2>📍 The 3D Cursor: Your Reference Point</h2>
+
+                <p>You've probably noticed that red and white circle in your viewport—that's the 3D cursor. It's one of Blender's most unique and powerful features, acting as a reference point for many operations.</p>
+
+                <h3>What Is the 3D Cursor?</h3>
+
+                <p>The 3D cursor is a point in 3D space that serves multiple purposes:</p>
+
+                <ul>
+                    <li>Default location where new objects are created</li>
+                    <li>Pivot point for transformations (optional)</li>
+                    <li>Target for snap operations</li>
+                    <li>Reference point for measurements</li>
+                    <li>Origin point for certain tools</li>
+                </ul>
+
+                <p>Think of it as a movable bookmark or placeholder in 3D space—you can position it anywhere and use it as a reference.</p>
+
+                <div class="card">
+                    <h4>🖱️ Moving the 3D Cursor</h4>
+                    <p><strong>Shift + Right Click:</strong> Places cursor at mouse position</p>
+                    <p><strong>Shift + S:</strong> Opens snap menu with cursor placement options</p>
+                    <p><strong>Manual positioning:</strong> Select cursor in sidebar (N) → View → 3D Cursor, enter coordinates</p>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Position the Cursor</h4>
+                    <ol>
+                        <li>Press <code>Shift + Right Click</code> somewhere in empty space</li>
+                        <li>The 3D cursor jumps to that location!</li>
+                        <li>Try clicking in different spots—it follows your clicks</li>
+                        <li>Now press <code>Shift + A</code> to add a new object (Mesh → UV Sphere)</li>
+                        <li>The sphere appears at the cursor location!</li>
+                        <li>Move the cursor again and add another object</li>
+                    </ol>
+                </div>
+
+                <h3>The Snap Menu (Shift + S)</h3>
+
+                <p>The snap menu provides precise cursor and object positioning options. It's incredibly useful for alignment and placement.</p>
+
+                <div class="card">
+                    <h4>📌 Shift + S Snap Menu</h4>
+                    <p>Press <code>Shift + S</code> to open the snap pie menu:</p>
+                    <ul>
+                        <li><strong>Cursor to World Origin:</strong> Moves cursor to center (0,0,0)</li>
+                        <li><strong>Cursor to Selected:</strong> Moves cursor to selected object</li>
+                        <li><strong>Cursor to Active:</strong> Moves cursor to active object's origin</li>
+                        <li><strong>Selection to Cursor:</strong> Moves selected objects to cursor</li>
+                        <li><strong>Selection to Grid:</strong> Snaps objects to grid intersections</li>
+                        <li><strong>Selection to Active:</strong> Moves objects to active object location</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Snap Menu Magic</h4>
+                    <ol>
+                        <li>Select your cube</li>
+                        <li>Press <code>Shift + S</code> and select "Cursor to Selected"</li>
+                        <li>The cursor jumps to the cube's center!</li>
+                        <li>Now move the cube somewhere else with <code>G</code></li>
+                        <li>Press <code>Shift + S</code> and select "Selection to Cursor"</li>
+                        <li>The cube jumps back to where the cursor is!</li>
+                        <li>Press <code>Shift + S</code> and select "Cursor to World Origin"</li>
+                        <li>Cursor returns to center (0,0,0)</li>
+                    </ol>
+                </div>
+
+                <h3>Using Cursor as Pivot Point</h3>
+
+                <p>By default, objects rotate and scale around their own centers. But you can change the pivot point to the 3D cursor!</p>
+
+                <div class="card">
+                    <h4>🎯 Pivot Point Options</h4>
+                    <p>At the top of the viewport, find the pivot point dropdown (next to transform orientation):</p>
+                    <ul>
+                        <li><strong>Bounding Box Center:</strong> Center of selection (default)</li>
+                        <li><strong>3D Cursor:</strong> Rotate/scale around cursor position</li>
+                        <li><strong>Individual Origins:</strong> Each object transforms around its own center</li>
+                        <li><strong>Median Point:</strong> Average location of selected objects</li>
+                        <li><strong>Active Element:</strong> Pivot on active object</li>
+                    </ul>
+                    <p>You can also press <code>.</code> (period) to cycle through pivot options!</p>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Cursor as Pivot: Practical Example</h4>
+                    <ol>
+                        <li>Place the 3D cursor somewhere off to the side</li>
+                        <li>Select an object</li>
+                        <li>Change pivot point to "3D Cursor" (top of viewport)</li>
+                        <li>Press <code>R</code> <code>Z</code> and rotate</li>
+                        <li>The object orbits around the cursor location!</li>
+                        <li>This is perfect for creating circular arrays or rotating objects around specific points</li>
+                    </ol>
+                </div>
+
+                <h3>Resetting the Cursor</h3>
+
+                <p>Lost your cursor somewhere in space? Quick reset:</p>
+
+                <div class="card">
+                    <h4>🔄 Reset 3D Cursor</h4>
+                    <p><strong>Shift + S → Cursor to World Origin:</strong> Returns cursor to (0,0,0)</p>
+                    <p>Or in the sidebar: <code>N</code> → View → 3D Cursor → Reset button</p>
+                </div>
+
+                <blockquote>
+                    <p><strong>Professional Use:</strong> The 3D cursor might seem odd at first, but it's incredibly powerful once you understand it. Professionals use it constantly for precise placement, as a construction helper, and for creating complex arrays. Master the cursor, and you'll work much more efficiently!</p>
+                </blockquote>
+            </section>
+
+            <section id="duplication">
+                <h2>📋 Duplicating Objects</h2>
+
+                <p>Creating copies of objects is fundamental to building scenes. Blender offers several duplication methods, each with different purposes.</p>
+
+                <h3>Simple Duplication</h3>
+
+                <p>The most straightforward way to copy an object is with Duplicate.</p>
+
+                <div class="card">
+                    <h4>📄 Duplicate Objects</h4>
+                    <p><strong>Shift + D:</strong> Duplicate selected object(s)</p>
+                    <p><strong>Workflow:</strong></p>
+                    <ol>
+                        <li>Select object(s) to duplicate</li>
+                        <li>Press <code>Shift + D</code></li>
+                        <li>Object is duplicated and immediately enters move mode</li>
+                        <li>Position the duplicate</li>
+                        <li>Click to confirm or press <code>Esc</code> to cancel</li>
+                    </ol>
+                    <p>The duplicate is a completely independent copy—changes to one don't affect the other.</p>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Duplicate and Arrange</h4>
+                    <ol>
+                        <li>Select the cube</li>
+                        <li>Press <code>Shift + D</code></li>
+                        <li>Immediately press <code>X</code> to constrain to X-axis</li>
+                        <li>Move it 3 units: type <code>3</code> and press <code>Enter</code></li>
+                        <li>You now have two cubes side by side!</li>
+                        <li>With the new cube selected, press <code>Shift + D</code> again</li>
+                        <li>Press <code>X</code> <code>3</code> <code>Enter</code></li>
+                        <li>Create a row of 5 cubes this way</li>
+                    </ol>
+                </div>
+
+                <h3>Linked Duplication</h3>
+
+                <p>Sometimes you want copies that share the same mesh data—when you edit one, all linked duplicates update. This is called linked duplication.</p>
+
+                <div class="card">
+                    <h4>🔗 Linked Duplicate</h4>
+                    <p><strong>Alt + D:</strong> Create linked duplicate</p>
+                    <p><strong>Key differences from Shift + D:</strong></p>
+                    <ul>
+                        <li>Shares mesh data with original</li>
+                        <li>Edit one, all linked copies update</li>
+                        <li>Can still move, rotate, scale independently</li>
+                        <li>More memory efficient for identical objects</li>
+                        <li>Perfect for repeated elements like fence posts, tiles, windows</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 When to Use Linked Duplication</h4>
+                    <p><strong>Use Alt + D when:</strong></p>
+                    <ul>
+                        <li>Creating many identical objects (trees in forest, books on shelf)</li>
+                        <li>You want to edit all copies at once later</li>
+                        <li>Memory efficiency matters (thousands of objects)</li>
+                    </ul>
+                    <p><strong>Use Shift + D when:</strong></p>
+                    <ul>
+                        <li>Each copy will be unique</li>
+                        <li>You need complete independence</li>
+                        <li>Starting from a template but customizing each</li>
+                    </ul>
+                </div>
+
+                <h3>Array Modifier (Quick Arrays)</h3>
+
+                <p>While we'll cover modifiers in depth later, the Array modifier deserves mention here as a duplication tool.</p>
+
+                <div class="card">
+                    <h4>📊 Quick Array Pattern</h4>
+                    <p>To create a quick linear array:</p>
+                    <ol>
+                        <li>Select your object</li>
+                        <li>Go to Properties panel → Modifier Properties (wrench icon)</li>
+                        <li>Click "Add Modifier" → Array</li>
+                        <li>Adjust "Count" to set number of copies</li>
+                        <li>Adjust "Relative Offset" to space them out</li>
+                        <li>Arrays update in real-time as you change the original!</li>
+                    </ol>
+                </div>
+
+                <h3>Duplicate Along Path</h3>
+
+                <p>You can duplicate objects in a specific pattern or along a path using modifier combinations, but that's advanced. For now, the manual duplicate + constrain method works great:</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Create a Grid Pattern</h4>
+                    <ol>
+                        <li>Start with one cube</li>
+                        <li>Create a row: <code>Shift + D</code>, <code>X</code>, <code>3</code>, repeat 4 times</li>
+                        <li>Select all cubes in the row (Box select with <code>B</code>)</li>
+                        <li>Duplicate the entire row: <code>Shift + D</code></li>
+                        <li>Constrain to Y-axis: press <code>Y</code></li>
+                        <li>Move 3 units: type <code>3</code> and <code>Enter</code></li>
+                        <li>Repeat to create a 5×5 grid of cubes!</li>
+                    </ol>
+                </div>
+
+                <h3>The Duplicate Workflow Trick</h3>
+
+                <p>Here's a professional time-saver: duplicate and immediately constrain in one smooth motion.</p>
+
+                <div class="card">
+                    <h4>⚡ Speed Duplication</h4>
+                    <p>Press keys in rapid succession: <code>Shift + D</code> <code>X</code> <code>2</code> <code>Enter</code></p>
+                    <p>All in about one second! This becomes muscle memory:</p>
+                    <ul>
+                        <li><code>Shift + D</code> — Duplicate</li>
+                        <li><code>X</code> — Constrain to X-axis (or Y or Z)</li>
+                        <li><code>2</code> — Move 2 units (or any number)</li>
+                        <li><code>Enter</code> — Confirm</li>
+                    </ul>
+                    <p>Professionals can create complex arrays in seconds using this rhythm!</p>
+                </div>
+
+                <blockquote>
+                    <p><strong>Duplication Strategy:</strong> Start with one well-made object, then duplicate it multiple times. It's much more efficient than creating each object from scratch. This is how real production works—create one perfect tree, then duplicate it a hundred times for a forest. Work smart, not hard!</p>
+                </blockquote>
+            </section>
+<!-- PART 4 END -->
+<!-- PART 5 START -->
+            <section id="origin-transform">
+                <h2>⚙️ Origins and Transform Properties</h2>
+
+                <p>Every object in Blender has an origin point—the small orange dot you see at the object's center. Understanding origins is crucial for proper object manipulation and organization.</p>
+
+                <h3>What Is an Object Origin?</h3>
+
+                <p>The origin is the object's reference point for transformations. Think of it as the object's anchor point or handle—when you rotate an object, it rotates around its origin. When you move it, you're really moving its origin (and the geometry follows).</p>
+
+                <div class="card">
+                    <h4>📍 Origin Point Functions</h4>
+                    <ul>
+                        <li><strong>Rotation pivot:</strong> Objects rotate around their origin by default</li>
+                        <li><strong>Scale center:</strong> Objects scale from their origin</li>
+                        <li><strong>Position reference:</strong> The origin's location is the object's location</li>
+                        <li><strong>Snap target:</strong> Snapping operations use the origin</li>
+                        <li><strong>Parent connection:</strong> Child objects connect to parent's origin</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Why Origins Matter</h4>
+                    <p>Imagine trying to open a door, but the hinge is in the middle instead of the edge—it would swing all wrong! Origins are like hinges—they determine how objects transform. A poorly placed origin makes objects behave unexpectedly.</p>
+                </div>
+
+                <h3>Setting the Origin</h3>
+
+                <p>Blender provides tools to reposition an object's origin without moving the geometry.</p>
+
+                <div class="card">
+                    <h4>🎯 Origin Management</h4>
+                    <p><strong>Right-click on object → Set Origin:</strong> Opens origin menu</p>
+                    <p><strong>Common options:</strong></p>
+                    <ul>
+                        <li><strong>Geometry to Origin:</strong> Moves geometry so origin is at geometric center</li>
+                        <li><strong>Origin to Geometry:</strong> Moves origin to geometry's center (most common)</li>
+                        <li><strong>Origin to 3D Cursor:</strong> Moves origin to cursor location</li>
+                        <li><strong>Origin to Center of Mass:</strong> Moves origin to center of volume</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Repositioning Origins</h4>
+                    <ol>
+                        <li>Add a new cube: <code>Shift + A</code> → Mesh → Cube</li>
+                        <li>In Edit Mode (<code>Tab</code>), grab all vertices and move them off-center</li>
+                        <li>Exit Edit Mode (<code>Tab</code> again)</li>
+                        <li>Notice the origin is no longer at the geometry center</li>
+                        <li>Right-click the object → Set Origin → Origin to Geometry</li>
+                        <li>The origin moves to the center of the mesh!</li>
+                        <li>Now try rotating it—rotates around the centered origin</li>
+                    </ol>
+                </div>
+
+                <h3>Transform Properties Panel</h3>
+
+                <p>You can view and manually edit an object's exact transform values in the Properties panel.</p>
+
+                <div class="card">
+                    <h4>📊 Transform Properties</h4>
+                    <p>With an object selected, press <code>N</code> to open sidebar → Item tab shows:</p>
+                    <ul>
+                        <li><strong>Location:</strong> X, Y, Z coordinates of the origin</li>
+                        <li><strong>Rotation:</strong> Rotation angles on each axis (in degrees or radians)</li>
+                        <li><strong>Scale:</strong> Scale multipliers on each axis (1.0 = original size)</li>
+                        <li><strong>Dimensions:</strong> Actual size of object in Blender units</li>
+                    </ul>
+                    <p>You can type exact values into these fields for precision!</p>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Precise Positioning</h4>
+                    <ol>
+                        <li>Select an object</li>
+                        <li>Press <code>N</code> to open sidebar if not already open</li>
+                        <li>Click the Item tab (looks like a cube icon)</li>
+                        <li>Find Location X, Y, Z fields</li>
+                        <li>Click on X and type <code>5</code>, press <code>Enter</code></li>
+                        <li>The object jumps to X=5 exactly</li>
+                        <li>Try setting precise rotation: Rotation Z = <code>45</code></li>
+                        <li>Set scale values: Scale X = <code>2</code>, Y = <code>2</code>, Z = <code>0.5</code></li>
+                    </ol>
+                </div>
+
+                <h3>Applying Transformations</h3>
+
+                <p>When you scale, rotate, or move an object, Blender remembers these transforms. Sometimes you want to "bake" these transforms into the object's base state—this is called applying transforms.</p>
+
+                <div class="card">
+                    <h4>✅ Apply Transformations</h4>
+                    <p><strong>Ctrl + A:</strong> Apply menu</p>
+                    <p><strong>Options:</strong></p>
+                    <ul>
+                        <li><strong>Location:</strong> Makes current position the new "zero" (rare use)</li>
+                        <li><strong>Rotation:</strong> Resets rotation to 0° while keeping orientation</li>
+                        <li><strong>Scale:</strong> Resets scale to 1.0 while keeping size (very important!)</li>
+                        <li><strong>All Transforms:</strong> Applies location, rotation, and scale</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Why Apply Scale?</h4>
+                    <p>If you scale an object to 2×2×2 and don't apply the scale, many modifiers and tools behave unexpectedly. The object "thinks" it's still at scale 1.0 but appears bigger. This causes problems!</p>
+                    <p><strong>Best practice:</strong> After scaling objects, apply the scale with <code>Ctrl + A</code> → Scale. This resets scale values to 1.0 while maintaining the actual size. Most professionals apply scale habitually!</p>
+                </div>
+
+                <h3>Transform Locks</h3>
+
+                <p>Sometimes you want to prevent accidental transformation on certain axes.</p>
+
+                <div class="card">
+                    <h4>🔒 Locking Transforms</h4>
+                    <p>In the sidebar (<code>N</code>) → Item tab, you'll see small padlock icons next to Location, Rotation, and Scale.</p>
+                    <ul>
+                        <li>Click the lock icon to prevent transforms on that axis</li>
+                        <li>Useful for keeping objects at a fixed height (lock Z location)</li>
+                        <li>Or preventing accidental rotation (lock all rotation axes)</li>
+                    </ul>
+                </div>
+
+                <h3>Object Data vs Object Transform</h3>
+
+                <p>An important concept: objects have two layers of transformation:</p>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Object] --> B[Object Transform]
+                    A --> C[Object Data]
+                    B --> D[Location, Rotation, Scale<br/>Applied at object level]
+                    C --> E[Mesh Vertices<br/>The actual geometry]
+                    D --> F[Shown in Properties]
+                    E --> G[Edited in Edit Mode]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style B fill:#4CAF50,stroke:#333,stroke-width:2px
+                    style C fill:#2196F3,stroke:#333,stroke-width:2px
+                </div>
+
+                <ul>
+                    <li><strong>Object Transform:</strong> Location, rotation, scale applied to entire object</li>
+                    <li><strong>Object Data:</strong> The actual mesh geometry (vertices, edges, faces)</li>
+                </ul>
+
+                <p>You can move geometry in Edit Mode without changing object transforms, or move the object without changing the geometry's relationship to the origin. This separation provides incredible flexibility but can be confusing at first!</p>
+
+                <blockquote>
+                    <p><strong>Professional Habit:</strong> Always check and apply scale before complex operations. Many beginners encounter mysterious bugs that trace back to non-uniform or unapplied scale. Get in the habit: scale your object, then <code>Ctrl + A</code> → Scale. This simple step prevents countless headaches!</p>
+                </blockquote>
+            </section>
+
+            <section id="manipulation-project">
+                <h2>🎯 Project: Build Your First Scene</h2>
+
+                <p>Time to put everything together! In this project, you'll create a simple scene using all the manipulation skills you've learned. Don't worry about making it perfect—focus on practicing the techniques.</p>
+
+                <h3>Project: Create a Simple Table and Objects Scene</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>🎨 Project Goal</h4>
+                    <p>Build a simple scene containing:</p>
+                    <ul>
+                        <li>A table (made from cubes)</li>
+                        <li>A few objects on the table (various primitives)</li>
+                        <li>A ground plane</li>
+                        <li>Everything properly positioned and scaled</li>
+                    </ul>
+                    <p><strong>Estimated time:</strong> 20-30 minutes</p>
+                </div>
+
+                <h3>Step 1: Setup and Cleanup</h3>
+
+                <div class="card">
+                    <h4>🧹 Prepare Your Scene</h4>
+                    <ol>
+                        <li>Start with a fresh Blender file: <code>File</code> → <code>New</code> → <code>General</code></li>
+                        <li>Delete the default cube: Select it, press <code>X</code>, confirm delete</li>
+                        <li>Keep the camera and light for now</li>
+                        <li>Make sure you're in Object Mode (check top-left of viewport)</li>
+                    </ol>
+                </div>
+
+                <h3>Step 2: Create the Ground</h3>
+
+                <div class="card">
+                    <h4>🟫 Build a Ground Plane</h4>
+                    <ol>
+                        <li>Press <code>Shift + A</code> → Mesh → Plane</li>
+                        <li>Scale it up: <code>S</code> <code>10</code> <code>Enter</code> (makes it 10× larger)</li>
+                        <li>This is your ground/floor</li>
+                        <li>Optional: Give it a slight different color in the Outliner to distinguish it</li>
+                    </ol>
+                </div>
+
+                <h3>Step 3: Create the Table Top</h3>
+
+                <div class="card">
+                    <h4>🪵 Make the Table Surface</h4>
+                    <ol>
+                        <li>Add a cube: <code>Shift + A</code> → Mesh → Cube</li>
+                        <li>Move it up: <code>G</code> <code>Z</code> <code>2</code> <code>Enter</code></li>
+                        <li>Scale it flat for a tabletop:
+                            <ul>
+                                <li><code>S</code> <code>X</code> <code>2</code> <code>Enter</code> (wider)</li>
+                                <li><code>S</code> <code>Y</code> <code>1.5</code> <code>Enter</code> (deeper)</li>
+                                <li><code>S</code> <code>Z</code> <code>0.1</code> <code>Enter</code> (thinner, like a tabletop)</li>
+                            </ul>
+                        </li>
+                        <li>Apply the scale: <code>Ctrl + A</code> → Scale</li>
+                    </ol>
+                </div>
+
+                <h3>Step 4: Create Table Legs</h3>
+
+                <div class="card">
+                    <h4>🦵 Add Four Legs</h4>
+                    <ol>
+                        <li>Add another cube: <code>Shift + A</code> → Mesh → Cube</li>
+                        <li>Scale it to be a table leg:
+                            <ul>
+                                <li><code>S</code> <code>X</code> <code>0.15</code> <code>Enter</code></li>
+                                <li><code>S</code> <code>Y</code> <code>0.15</code> <code>Enter</code></li>
+                                <li><code>S</code> <code>Z</code> <code>1</code> <code>Enter</code> (keep Z scale at 1)</li>
+                            </ul>
+                        </li>
+                        <li>Move it to corner: <code>G</code> <code>X</code> <code>1.8</code> <code>Enter</code>, <code>G</code> <code>Y</code> <code>1.3</code> <code>Enter</code></li>
+                        <li>Move it down: <code>G</code> <code>Z</code> <code>-1</code> <code>Enter</code></li>
+                        <li>Now duplicate this leg three times for the other corners:
+                            <ul>
+                                <li><code>Shift + D</code> <code>X</code> <code>-3.6</code> <code>Enter</code> (opposite X)</li>
+                                <li>Select first leg again, <code>Shift + D</code> <code>Y</code> <code>-2.6</code> <code>Enter</code></li>
+                                <li>Select second leg, <code>Shift + D</code> <code>Y</code> <code>-2.6</code> <code>Enter</code></li>
+                            </ul>
+                        </li>
+                        <li>You now have a four-legged table!</li>
+                    </ol>
+                </div>
+
+                <h3>Step 5: Add Objects on Table</h3>
+
+                <div class="card">
+                    <h4>🎾 Place Various Objects</h4>
+                    <ol>
+                        <li><strong>Add a sphere:</strong>
+                            <ul>
+                                <li><code>Shift + A</code> → Mesh → UV Sphere</li>
+                                <li><code>G</code> <code>Z</code> <code>2.6</code> <code>Enter</code> (place on table)</li>
+                                <li><code>S</code> <code>0.4</code> <code>Enter</code> (make smaller)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add a cone:</strong>
+                            <ul>
+                                <li><code>Shift + A</code> → Mesh → Cone</li>
+                                <li><code>G</code> <code>X</code> <code>-1.5</code> <code>Enter</code>, <code>G</code> <code>Z</code> <code>2.6</code> <code>Enter</code></li>
+                                <li><code>S</code> <code>0.5</code> <code>Enter</code></li>
+                            </ul>
+                        </li>
+                        <li><strong>Add a torus:</strong>
+                            <ul>
+                                <li><code>Shift + A</code> → Mesh → Torus</li>
+                                <li><code>G</code> <code>X</code> <code>1.5</code> <code>Enter</code>, <code>G</code> <code>Z</code> <code>2.4</code> <code>Enter</code></li>
+                                <li><code>S</code> <code>0.6</code> <code>Enter</code></li>
+                                <li><code>R</code> <code>Y</code> <code>90</code> <code>Enter</code> (tilt it)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add a cylinder:</strong>
+                            <ul>
+                                <li><code>Shift + A</code> → Mesh → Cylinder</li>
+                                <li><code>G</code> <code>Y</code> <code>-1</code> <code>Enter</code>, <code>G</code> <code>Z</code> <code>2.6</code> <code>Enter</code></li>
+                                <li><code>S</code> <code>0.3</code> <code>Enter</code></li>
+                                <li><code>S</code> <code>Z</code> <code>1.5</code> <code>Enter</code> (make taller)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <h3>Step 6: Position the Camera</h3>
+
+                <div class="card">
+                    <h4>📷 Frame Your Scene</h4>
+                    <ol>
+                        <li>Navigate to a good viewing angle of your table scene</li>
+                        <li>Press <code>Ctrl + Alt + Numpad 0</code> to align camera to current view</li>
+                        <li>Press <code>Numpad 0</code> to enter camera view</li>
+                        <li>Adjust if needed using Camera to View (<code>N</code> → View → Camera to View)</li>
+                        <li>Frame the entire table and objects nicely</li>
+                    </ol>
+                </div>
+
+                <h3>Step 7: Refine and Perfect</h3>
+
+                <div class="card">
+                    <h4>✨ Polish Your Scene</h4>
+                    <ol>
+                        <li>Select all objects on table: <code>B</code> (box select) and drag over them</li>
+                        <li>Apply scale to all: <code>Ctrl + A</code> → Scale</li>
+                        <li>Check camera view again: <code>Numpad 0</code></li>
+                        <li>Adjust any objects that look odd or misaligned</li>
+                        <li>Try rotating some objects slightly for visual interest</li>
+                        <li>Use <code>G</code>, <code>R</code>, and <code>S</code> with axis constraints to perfect positions</li>
+                    </ol>
+                </div>
+
+                <h3>Bonus Challenges</h3>
+
+                <div class="card">
+                    <h4>🌟 If You Want to Go Further</h4>
+                    <ol>
+                        <li><strong>Add more objects:</strong> Create a stack of objects or arrange them in interesting ways</li>
+                        <li><strong>Create patterns:</strong> Duplicate objects in rows using <code>Shift + D</code> with axis constraints</li>
+                        <li><strong>Adjust the light:</strong> Move and rotate the light to create interesting shadows</li>
+                        <li><strong>Precision challenge:</strong> Use the properties panel (<code>N</code>) to position objects at exact coordinates</li>
+                        <li><strong>Rotation variety:</strong> Rotate objects at different angles (15°, 30°, 45°, etc.)</li>
+                        <li><strong>Build a chair:</strong> Use the same techniques to build a simple chair next to the table</li>
+                    </ol>
+                </div>
+
+                <h3>Project Success Checklist</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Project Completion</h4>
+                    <p>You've successfully completed this project when:</p>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li>✅ You have a ground plane</li>
+                        <li>✅ You have a table with a top and four legs</li>
+                        <li>✅ You have at least 3-4 different objects on the table</li>
+                        <li>✅ All objects are properly scaled and positioned</li>
+                        <li>✅ Scale is applied to all objects (<code>Ctrl + A</code> → Scale)</li>
+                        <li>✅ Camera view shows the entire scene nicely framed</li>
+                        <li>✅ You used G, R, and S with axis constraints confidently</li>
+                        <li>✅ You used numeric input for precise positioning</li>
+                        <li>✅ You duplicated objects efficiently</li>
+                        <li>✅ The scene looks intentional, not random</li>
+                    </ul>
+                </div>
+
+                <h3>Reflection Exercise</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>📝 Document Your Learning</h4>
+                    <p>After completing the project, answer these questions in your learning journal:</p>
+                    <ol>
+                        <li>Which transformation (Move, Rotate, Scale) felt most natural?</li>
+                        <li>Did you use numeric input or mouse movement more? Why?</li>
+                        <li>What was the hardest part of positioning the table legs?</li>
+                        <li>How many times did you press Ctrl+Z (undo)? What does that tell you?</li>
+                        <li>Did you remember to apply scale? Why is this important?</li>
+                        <li>What would you do differently if you built another scene?</li>
+                    </ol>
+                </div>
+
+                <blockquote>
+                    <p><strong>Celebrate This Milestone:</strong> You just created your first 3D scene from scratch using proper techniques! This is a genuine accomplishment. Sure, it's simple geometry, but you used the exact same tools and workflows that professionals use to build complex scenes. The only difference is practice and refinement—and you're building that right now!</p>
+                </blockquote>
+            </section>
+<!-- PART 5 END -->
+<!-- PART 6 START -->
+            <section id="summary">
+                <h2>📝 Lesson Summary</h2>
+
+                <p>Congratulations! You've mastered the fundamental tools of 3D object manipulation. Let's review everything you've accomplished in this comprehensive lesson.</p>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎓 Key Takeaways</h3>
+                    <ul style="color: white;">
+                        <li><strong>Selection is the first step</strong>—you must select objects before manipulating them</li>
+                        <li><strong>G-R-S are your transformation trinity</strong>—Move (Grab), Rotate, and Scale</li>
+                        <li><strong>Axis constraints (X, Y, Z) give precision</strong>—control exactly how objects transform</li>
+                        <li><strong>Numeric input provides exact values</strong>—type numbers for precise transformations</li>
+                        <li><strong>The 3D cursor is a powerful reference point</strong>—use it for placement and pivots</li>
+                        <li><strong>Duplication creates copies efficiently</strong>—Shift+D for independent, Alt+D for linked</li>
+                        <li><strong>Origins determine transformation behavior</strong>—properly positioned origins are crucial</li>
+                        <li><strong>Apply scale before complex operations</strong>—Ctrl+A → Scale prevents problems</li>
+                    </ul>
+                </div>
+
+                <h3>What You've Accomplished</h3>
+
+                <p>In this lesson, you:</p>
+                <ul>
+                    <li>Learned multiple selection methods (click, box select, circle select, outliner)</li>
+                    <li>Mastered the Move/Grab command (G) with axis constraints and numeric input</li>
+                    <li>Practiced rotating objects (R) around different axes with precise angles</li>
+                    <li>Controlled object scale (S) uniformly and on individual axes</li>
+                    <li>Understood and applied axis constraints for all transformations</li>
+                    <li>Discovered the 3D cursor's role as a reference point</li>
+                    <li>Learned the Snap menu (Shift+S) for precise positioning</li>
+                    <li>Practiced duplication with both independent and linked copies</li>
+                    <li>Understood object origins and how to manage them</li>
+                    <li>Explored transform properties and applying transformations</li>
+                    <li>Built a complete scene from scratch applying all these skills</li>
+                </ul>
+
+                <h3>Essential Manipulation Shortcuts Reference</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>⌨️ Your Manipulation Cheat Sheet</h4>
+                    
+                    <h5>Selection</h5>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px; width: 40%;"><strong>Action</strong></td>
+                            <td style="padding: 8px;"><strong>Shortcut</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Select Object</td>
+                            <td style="padding: 8px;"><code>Left Click</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Add to Selection</td>
+                            <td style="padding: 8px;"><code>Shift + Click</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Box Select</td>
+                            <td style="padding: 8px;"><code>B</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Circle Select</td>
+                            <td style="padding: 8px;"><code>C</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Select All</td>
+                            <td style="padding: 8px;"><code>A</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Deselect All</td>
+                            <td style="padding: 8px;"><code>Alt + A</code></td>
+                        </tr>
+                    </table>
+
+                    <h5>Transformations</h5>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px; width: 40%;"><strong>Action</strong></td>
+                            <td style="padding: 8px;"><strong>Shortcut</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Move (Grab)</td>
+                            <td style="padding: 8px;"><code>G</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Rotate</td>
+                            <td style="padding: 8px;"><code>R</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Scale</td>
+                            <td style="padding: 8px;"><code>S</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Constrain to X-axis</td>
+                            <td style="padding: 8px;"><code>X</code> (after G/R/S)</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Constrain to Y-axis</td>
+                            <td style="padding: 8px;"><code>Y</code> (after G/R/S)</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Constrain to Z-axis</td>
+                            <td style="padding: 8px;"><code>Z</code> (after G/R/S)</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Planar Constraint</td>
+                            <td style="padding: 8px;"><code>Shift + Axis</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Confirm Transform</td>
+                            <td style="padding: 8px;"><code>Left Click</code> or <code>Enter</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Cancel Transform</td>
+                            <td style="padding: 8px;"><code>Right Click</code> or <code>Esc</code></td>
+                        </tr>
+                    </table>
+
+                    <h5>Duplication & Cursor</h5>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px; width: 40%;"><strong>Action</strong></td>
+                            <td style="padding: 8px;"><strong>Shortcut</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Duplicate</td>
+                            <td style="padding: 8px;"><code>Shift + D</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Linked Duplicate</td>
+                            <td style="padding: 8px;"><code>Alt + D</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Delete Object</td>
+                            <td style="padding: 8px;"><code>X</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Place 3D Cursor</td>
+                            <td style="padding: 8px;"><code>Shift + Right Click</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Snap Menu</td>
+                            <td style="padding: 8px;"><code>Shift + S</code></td>
+                        </tr>
+                    </table>
+
+                    <h5>Advanced</h5>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px; width: 40%;"><strong>Action</strong></td>
+                            <td style="padding: 8px;"><strong>Shortcut</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Apply Scale</td>
+                            <td style="padding: 8px;"><code>Ctrl + A</code> → Scale</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Reset Scale</td>
+                            <td style="padding: 8px;"><code>Alt + S</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Reset Rotation</td>
+                            <td style="padding: 8px;"><code>Alt + R</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Reset Location</td>
+                            <td style="padding: 8px;"><code>Alt + G</code></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Open Sidebar</td>
+                            <td style="padding: 8px;"><code>N</code></td>
+                        </tr>
+                    </table>
+
+                    <p style="margin-top: 1rem;"><em>Keep this reference handy—these shortcuts form the core of 3D workflow!</em></p>
+                </div>
+
+                <h3>Common Questions at This Stage</h3>
+
+                <div class="card">
+                    <h4>❓ "My objects keep moving in weird directions—why?"</h4>
+                    <p>This usually happens because you're not using axis constraints. When you press G to move, the object follows your mouse in screen space, which can be diagonal or unexpected depending on your view angle. Solution: Always use axis constraints—G-X, G-Y, or G-Z—to move in specific world directions. This gives predictable, controlled movement.</p>
+                </div>
+
+                <div class="card">
+                    <h4>❓ "Should I always apply scale? What about rotation and location?"</h4>
+                    <p><strong>Scale:</strong> Almost always apply after scaling, especially before using modifiers. Unapplied scale causes many mysterious issues. <strong>Rotation:</strong> Usually don't apply unless you have a specific reason—keeping rotation values is often useful. <strong>Location:</strong> Rarely apply—location at origin makes positioning harder. When in doubt, apply scale but leave rotation and location alone.</p>
+                </div>
+
+                <div class="card">
+                    <h4>❓ "What's the difference between object transform and edit mode?"</h4>
+                    <p>In Object Mode, you transform the entire object as a unit. In Edit Mode (Tab key), you transform the individual vertices, edges, and faces that make up the object's geometry. Object Mode is for positioning objects in your scene. Edit Mode is for changing the shape of objects. We'll explore Edit Mode in depth in the next module!</p>
+                </div>
+
+                <div class="card">
+                    <h4>❓ "How do I make transformations permanent?"</h4>
+                    <p>All transformations are automatically permanent—when you confirm (click or Enter), the change is saved. If you want to "bake" scale/rotation values to 1.0/0° while keeping the appearance, that's what Ctrl+A (Apply) does. If you want to undo, press Ctrl+Z. Blender has multiple levels of undo!</p>
+                </div>
+
+                <div class="card">
+                    <h4>❓ "My duplicated objects move together—why?"</h4>
+                    <p>Check if you actually confirmed the duplicate operation. After pressing Shift+D, you must move the duplicate and then click or press Enter. If you press Esc or right-click, the duplicate is canceled and you're still working with the original. Also ensure you're not in Edit Mode, where duplication works differently.</p>
+                </div>
+
+                <h3>Transformation Best Practices</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Professional Habits</h4>
+                    <ul>
+                        <li><strong>Always use axis constraints</strong> unless you specifically want free movement</li>
+                        <li><strong>Type numbers for precision</strong>—don't eyeball important dimensions</li>
+                        <li><strong>Apply scale religiously</strong> before complex operations</li>
+                        <li><strong>Use the Snap menu (Shift+S)</strong> for alignment tasks</li>
+                        <li><strong>Check camera view frequently</strong> when building scenes</li>
+                        <li><strong>Name your objects</strong> in the Outliner as scenes get complex</li>
+                        <li><strong>Use duplication, not repetitive creation</strong>—work smart!</li>
+                        <li><strong>Save frequently</strong>—Ctrl+S becomes muscle memory</li>
+                        <li><strong>Organize with collections</strong> (we'll cover this later)</li>
+                    </ul>
+                </div>
+
+                <h3>The GRS Workflow Pattern</h3>
+
+                <p>Professional 3D artists develop a natural rhythm when working:</p>
+
+                <div class="mermaid">
+                    graph LR
+                    A[Select Object] --> B[Transform - G/R/S]
+                    B --> C[Constrain Axis]
+                    C --> D[Adjust/Type Value]
+                    D --> E[Confirm]
+                    E --> F[Next Object]
+                    F --> A
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style E fill:#4CAF50,stroke:#333,stroke-width:2px
+                </div>
+
+                <p>This cycle becomes automatic: select → transform → constrain → adjust → confirm. Your hands will learn this rhythm through repetition, and soon you'll be transforming objects without conscious thought about the keys.</p>
+
+                <h3>Looking Ahead: Next Lesson</h3>
+
+                <p>You now have the foundational skills for 3D manipulation! In the next lesson, we'll dive deeper into actual 3D modeling—entering Edit Mode and working with vertices, edges, and faces to create custom shapes.</p>
+
+                <p>Coming up in <strong>Lesson 5: Understanding Meshes and Geometry:</strong></p>
+                <ul>
+                    <li>What meshes are made of (vertices, edges, faces)</li>
+                    <li>Entering and working in Edit Mode</li>
+                    <li>Selection in Edit Mode (vertex, edge, face selection)</li>
+                    <li>Basic mesh editing operations</li>
+                    <li>Understanding mesh topology</li>
+                    <li>Your first custom 3D model!</li>
+                </ul>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Before the Next Lesson</h4>
+                    <p>Reinforce your manipulation skills by:</p>
+                    <ul>
+                        <li><strong>Rebuild the scene:</strong> Try creating the table scene again from memory</li>
+                        <li><strong>Speed challenge:</strong> Time how fast you can duplicate a cube into a 5×5 grid</li>
+                        <li><strong>Precision practice:</strong> Create objects at exact coordinates using numeric input</li>
+                        <li><strong>Experiment freely:</strong> Just add objects and move them around—build muscle memory!</li>
+                        <li><strong>Review shortcuts:</strong> Make flashcards for G, R, S and practice them</li>
+                        <li><strong>Apply scale habit:</strong> Every time you scale, immediately press Ctrl+A → Scale</li>
+                    </ul>
+                </div>
+
+                <h3>Celebrate Your Progress!</h3>
+
+                <p>Look how far you've come in just four lessons:</p>
+
+                <ul>
+                    <li>✅ You understand Blender's interface and can navigate it confidently</li>
+                    <li>✅ You can move through 3D space like a pro</li>
+                    <li>✅ You can select, move, rotate, and scale objects with precision</li>
+                    <li>✅ You've built an entire 3D scene from scratch</li>
+                </ul>
+
+                <p>These are professional-level foundational skills. Every complex 3D scene you've ever admired was built using these exact same basic operations. The only difference between beginners and professionals is practice, refinement, and accumulated knowledge—all of which you're building right now!</p>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 2rem;">
+                    <h3 style="color: white; margin-top: 0;">🎯 You're Now a 3D Manipulator!</h3>
+                    <p style="color: white; font-size: 1.1em; margin-bottom: 0;">You can select objects, move them precisely, rotate them to any angle, and scale them to any size. You can duplicate efficiently, position with precision, and organize scenes effectively.</p>
+                    <p style="color: white; font-size: 1.1em; margin-bottom: 0;"><strong>Next up: We're going to open up objects and reshape them from the inside—welcome to Edit Mode and mesh modeling!</strong></p>
+                </div>
+
+                <h3>Final Words of Encouragement</h3>
+
+                <blockquote>
+                    <p><strong>The Journey Continues:</strong> You've now completed the four foundational lessons that every Blender artist must master. Everything that follows builds on this solid base. The interface, navigation, and manipulation skills you've learned will be used in every single project for the rest of your 3D journey.</p>
+                    <p>Some operations might still require conscious thought—that's completely normal at this stage. But each time you use these tools, they become more automatic. Your brain is physically rewiring itself to think spatially in three dimensions and to control objects with increasing precision and confidence.</p>
+                    <p>Keep practicing, stay patient with yourself, and remember: every professional artist started exactly where you are. The difference is they kept going. And so will you.</p>
+                    <p style="text-align: right; font-style: italic;">— Onward to mesh modeling! 🚀</p>
+                </blockquote>
+
+            </section>
+
+        </article>
+
+        <nav class="lesson-nav" aria-label="Lesson Navigation">
+            <a href="lesson_03_navigation_and_viewport_control.html" class="prev-lesson">← Previous: Navigation and Viewport Control</a>
+            <a href="index.html" class="home-link">🏠 Course Home</a>
+            <a href="lesson_05_understanding_meshes_and_geometry.html" class="next-lesson">Next: Understanding Meshes and Geometry →</a>
+        </nav>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+    </footer>
+
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>

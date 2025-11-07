@@ -1,0 +1,355 @@
+<!-- PART 5 START -->
+            <section id="origin-transform">
+                <h2>⚙️ Origins and Transform Properties</h2>
+
+                <p>Every object in Blender has an origin point—the small orange dot you see at the object's center. Understanding origins is crucial for proper object manipulation and organization.</p>
+
+                <h3>What Is an Object Origin?</h3>
+
+                <p>The origin is the object's reference point for transformations. Think of it as the object's anchor point or handle—when you rotate an object, it rotates around its origin. When you move it, you're really moving its origin (and the geometry follows).</p>
+
+                <div class="card">
+                    <h4>📍 Origin Point Functions</h4>
+                    <ul>
+                        <li><strong>Rotation pivot:</strong> Objects rotate around their origin by default</li>
+                        <li><strong>Scale center:</strong> Objects scale from their origin</li>
+                        <li><strong>Position reference:</strong> The origin's location is the object's location</li>
+                        <li><strong>Snap target:</strong> Snapping operations use the origin</li>
+                        <li><strong>Parent connection:</strong> Child objects connect to parent's origin</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Why Origins Matter</h4>
+                    <p>Imagine trying to open a door, but the hinge is in the middle instead of the edge—it would swing all wrong! Origins are like hinges—they determine how objects transform. A poorly placed origin makes objects behave unexpectedly.</p>
+                </div>
+
+                <h3>Setting the Origin</h3>
+
+                <p>Blender provides tools to reposition an object's origin without moving the geometry.</p>
+
+                <div class="card">
+                    <h4>🎯 Origin Management</h4>
+                    <p><strong>Right-click on object → Set Origin:</strong> Opens origin menu</p>
+                    <p><strong>Common options:</strong></p>
+                    <ul>
+                        <li><strong>Geometry to Origin:</strong> Moves geometry so origin is at geometric center</li>
+                        <li><strong>Origin to Geometry:</strong> Moves origin to geometry's center (most common)</li>
+                        <li><strong>Origin to 3D Cursor:</strong> Moves origin to cursor location</li>
+                        <li><strong>Origin to Center of Mass:</strong> Moves origin to center of volume</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Repositioning Origins</h4>
+                    <ol>
+                        <li>Add a new cube: <code>Shift + A</code> → Mesh → Cube</li>
+                        <li>In Edit Mode (<code>Tab</code>), grab all vertices and move them off-center</li>
+                        <li>Exit Edit Mode (<code>Tab</code> again)</li>
+                        <li>Notice the origin is no longer at the geometry center</li>
+                        <li>Right-click the object → Set Origin → Origin to Geometry</li>
+                        <li>The origin moves to the center of the mesh!</li>
+                        <li>Now try rotating it—rotates around the centered origin</li>
+                    </ol>
+                </div>
+
+                <h3>Transform Properties Panel</h3>
+
+                <p>You can view and manually edit an object's exact transform values in the Properties panel.</p>
+
+                <div class="card">
+                    <h4>📊 Transform Properties</h4>
+                    <p>With an object selected, press <code>N</code> to open sidebar → Item tab shows:</p>
+                    <ul>
+                        <li><strong>Location:</strong> X, Y, Z coordinates of the origin</li>
+                        <li><strong>Rotation:</strong> Rotation angles on each axis (in degrees or radians)</li>
+                        <li><strong>Scale:</strong> Scale multipliers on each axis (1.0 = original size)</li>
+                        <li><strong>Dimensions:</strong> Actual size of object in Blender units</li>
+                    </ul>
+                    <p>You can type exact values into these fields for precision!</p>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Precise Positioning</h4>
+                    <ol>
+                        <li>Select an object</li>
+                        <li>Press <code>N</code> to open sidebar if not already open</li>
+                        <li>Click the Item tab (looks like a cube icon)</li>
+                        <li>Find Location X, Y, Z fields</li>
+                        <li>Click on X and type <code>5</code>, press <code>Enter</code></li>
+                        <li>The object jumps to X=5 exactly</li>
+                        <li>Try setting precise rotation: Rotation Z = <code>45</code></li>
+                        <li>Set scale values: Scale X = <code>2</code>, Y = <code>2</code>, Z = <code>0.5</code></li>
+                    </ol>
+                </div>
+
+                <h3>Applying Transformations</h3>
+
+                <p>When you scale, rotate, or move an object, Blender remembers these transforms. Sometimes you want to "bake" these transforms into the object's base state—this is called applying transforms.</p>
+
+                <div class="card">
+                    <h4>✅ Apply Transformations</h4>
+                    <p><strong>Ctrl + A:</strong> Apply menu</p>
+                    <p><strong>Options:</strong></p>
+                    <ul>
+                        <li><strong>Location:</strong> Makes current position the new "zero" (rare use)</li>
+                        <li><strong>Rotation:</strong> Resets rotation to 0° while keeping orientation</li>
+                        <li><strong>Scale:</strong> Resets scale to 1.0 while keeping size (very important!)</li>
+                        <li><strong>All Transforms:</strong> Applies location, rotation, and scale</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Why Apply Scale?</h4>
+                    <p>If you scale an object to 2×2×2 and don't apply the scale, many modifiers and tools behave unexpectedly. The object "thinks" it's still at scale 1.0 but appears bigger. This causes problems!</p>
+                    <p><strong>Best practice:</strong> After scaling objects, apply the scale with <code>Ctrl + A</code> → Scale. This resets scale values to 1.0 while maintaining the actual size. Most professionals apply scale habitually!</p>
+                </div>
+
+                <h3>Transform Locks</h3>
+
+                <p>Sometimes you want to prevent accidental transformation on certain axes.</p>
+
+                <div class="card">
+                    <h4>🔒 Locking Transforms</h4>
+                    <p>In the sidebar (<code>N</code>) → Item tab, you'll see small padlock icons next to Location, Rotation, and Scale.</p>
+                    <ul>
+                        <li>Click the lock icon to prevent transforms on that axis</li>
+                        <li>Useful for keeping objects at a fixed height (lock Z location)</li>
+                        <li>Or preventing accidental rotation (lock all rotation axes)</li>
+                    </ul>
+                </div>
+
+                <h3>Object Data vs Object Transform</h3>
+
+                <p>An important concept: objects have two layers of transformation:</p>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Object] --> B[Object Transform]
+                    A --> C[Object Data]
+                    B --> D[Location, Rotation, Scale<br/>Applied at object level]
+                    C --> E[Mesh Vertices<br/>The actual geometry]
+                    D --> F[Shown in Properties]
+                    E --> G[Edited in Edit Mode]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style B fill:#4CAF50,stroke:#333,stroke-width:2px
+                    style C fill:#2196F3,stroke:#333,stroke-width:2px
+                </div>
+
+                <ul>
+                    <li><strong>Object Transform:</strong> Location, rotation, scale applied to entire object</li>
+                    <li><strong>Object Data:</strong> The actual mesh geometry (vertices, edges, faces)</li>
+                </ul>
+
+                <p>You can move geometry in Edit Mode without changing object transforms, or move the object without changing the geometry's relationship to the origin. This separation provides incredible flexibility but can be confusing at first!</p>
+
+                <blockquote>
+                    <p><strong>Professional Habit:</strong> Always check and apply scale before complex operations. Many beginners encounter mysterious bugs that trace back to non-uniform or unapplied scale. Get in the habit: scale your object, then <code>Ctrl + A</code> → Scale. This simple step prevents countless headaches!</p>
+                </blockquote>
+            </section>
+
+            <section id="manipulation-project">
+                <h2>🎯 Project: Build Your First Scene</h2>
+
+                <p>Time to put everything together! In this project, you'll create a simple scene using all the manipulation skills you've learned. Don't worry about making it perfect—focus on practicing the techniques.</p>
+
+                <h3>Project: Create a Simple Table and Objects Scene</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>🎨 Project Goal</h4>
+                    <p>Build a simple scene containing:</p>
+                    <ul>
+                        <li>A table (made from cubes)</li>
+                        <li>A few objects on the table (various primitives)</li>
+                        <li>A ground plane</li>
+                        <li>Everything properly positioned and scaled</li>
+                    </ul>
+                    <p><strong>Estimated time:</strong> 20-30 minutes</p>
+                </div>
+
+                <h3>Step 1: Setup and Cleanup</h3>
+
+                <div class="card">
+                    <h4>🧹 Prepare Your Scene</h4>
+                    <ol>
+                        <li>Start with a fresh Blender file: <code>File</code> → <code>New</code> → <code>General</code></li>
+                        <li>Delete the default cube: Select it, press <code>X</code>, confirm delete</li>
+                        <li>Keep the camera and light for now</li>
+                        <li>Make sure you're in Object Mode (check top-left of viewport)</li>
+                    </ol>
+                </div>
+
+                <h3>Step 2: Create the Ground</h3>
+
+                <div class="card">
+                    <h4>🟫 Build a Ground Plane</h4>
+                    <ol>
+                        <li>Press <code>Shift + A</code> → Mesh → Plane</li>
+                        <li>Scale it up: <code>S</code> <code>10</code> <code>Enter</code> (makes it 10× larger)</li>
+                        <li>This is your ground/floor</li>
+                        <li>Optional: Give it a slight different color in the Outliner to distinguish it</li>
+                    </ol>
+                </div>
+
+                <h3>Step 3: Create the Table Top</h3>
+
+                <div class="card">
+                    <h4>🪵 Make the Table Surface</h4>
+                    <ol>
+                        <li>Add a cube: <code>Shift + A</code> → Mesh → Cube</li>
+                        <li>Move it up: <code>G</code> <code>Z</code> <code>2</code> <code>Enter</code></li>
+                        <li>Scale it flat for a tabletop:
+                            <ul>
+                                <li><code>S</code> <code>X</code> <code>2</code> <code>Enter</code> (wider)</li>
+                                <li><code>S</code> <code>Y</code> <code>1.5</code> <code>Enter</code> (deeper)</li>
+                                <li><code>S</code> <code>Z</code> <code>0.1</code> <code>Enter</code> (thinner, like a tabletop)</li>
+                            </ul>
+                        </li>
+                        <li>Apply the scale: <code>Ctrl + A</code> → Scale</li>
+                    </ol>
+                </div>
+
+                <h3>Step 4: Create Table Legs</h3>
+
+                <div class="card">
+                    <h4>🦵 Add Four Legs</h4>
+                    <ol>
+                        <li>Add another cube: <code>Shift + A</code> → Mesh → Cube</li>
+                        <li>Scale it to be a table leg:
+                            <ul>
+                                <li><code>S</code> <code>X</code> <code>0.15</code> <code>Enter</code></li>
+                                <li><code>S</code> <code>Y</code> <code>0.15</code> <code>Enter</code></li>
+                                <li><code>S</code> <code>Z</code> <code>1</code> <code>Enter</code> (keep Z scale at 1)</li>
+                            </ul>
+                        </li>
+                        <li>Move it to corner: <code>G</code> <code>X</code> <code>1.8</code> <code>Enter</code>, <code>G</code> <code>Y</code> <code>1.3</code> <code>Enter</code></li>
+                        <li>Move it down: <code>G</code> <code>Z</code> <code>-1</code> <code>Enter</code></li>
+                        <li>Now duplicate this leg three times for the other corners:
+                            <ul>
+                                <li><code>Shift + D</code> <code>X</code> <code>-3.6</code> <code>Enter</code> (opposite X)</li>
+                                <li>Select first leg again, <code>Shift + D</code> <code>Y</code> <code>-2.6</code> <code>Enter</code></li>
+                                <li>Select second leg, <code>Shift + D</code> <code>Y</code> <code>-2.6</code> <code>Enter</code></li>
+                            </ul>
+                        </li>
+                        <li>You now have a four-legged table!</li>
+                    </ol>
+                </div>
+
+                <h3>Step 5: Add Objects on Table</h3>
+
+                <div class="card">
+                    <h4>🎾 Place Various Objects</h4>
+                    <ol>
+                        <li><strong>Add a sphere:</strong>
+                            <ul>
+                                <li><code>Shift + A</code> → Mesh → UV Sphere</li>
+                                <li><code>G</code> <code>Z</code> <code>2.6</code> <code>Enter</code> (place on table)</li>
+                                <li><code>S</code> <code>0.4</code> <code>Enter</code> (make smaller)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add a cone:</strong>
+                            <ul>
+                                <li><code>Shift + A</code> → Mesh → Cone</li>
+                                <li><code>G</code> <code>X</code> <code>-1.5</code> <code>Enter</code>, <code>G</code> <code>Z</code> <code>2.6</code> <code>Enter</code></li>
+                                <li><code>S</code> <code>0.5</code> <code>Enter</code></li>
+                            </ul>
+                        </li>
+                        <li><strong>Add a torus:</strong>
+                            <ul>
+                                <li><code>Shift + A</code> → Mesh → Torus</li>
+                                <li><code>G</code> <code>X</code> <code>1.5</code> <code>Enter</code>, <code>G</code> <code>Z</code> <code>2.4</code> <code>Enter</code></li>
+                                <li><code>S</code> <code>0.6</code> <code>Enter</code></li>
+                                <li><code>R</code> <code>Y</code> <code>90</code> <code>Enter</code> (tilt it)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add a cylinder:</strong>
+                            <ul>
+                                <li><code>Shift + A</code> → Mesh → Cylinder</li>
+                                <li><code>G</code> <code>Y</code> <code>-1</code> <code>Enter</code>, <code>G</code> <code>Z</code> <code>2.6</code> <code>Enter</code></li>
+                                <li><code>S</code> <code>0.3</code> <code>Enter</code></li>
+                                <li><code>S</code> <code>Z</code> <code>1.5</code> <code>Enter</code> (make taller)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <h3>Step 6: Position the Camera</h3>
+
+                <div class="card">
+                    <h4>📷 Frame Your Scene</h4>
+                    <ol>
+                        <li>Navigate to a good viewing angle of your table scene</li>
+                        <li>Press <code>Ctrl + Alt + Numpad 0</code> to align camera to current view</li>
+                        <li>Press <code>Numpad 0</code> to enter camera view</li>
+                        <li>Adjust if needed using Camera to View (<code>N</code> → View → Camera to View)</li>
+                        <li>Frame the entire table and objects nicely</li>
+                    </ol>
+                </div>
+
+                <h3>Step 7: Refine and Perfect</h3>
+
+                <div class="card">
+                    <h4>✨ Polish Your Scene</h4>
+                    <ol>
+                        <li>Select all objects on table: <code>B</code> (box select) and drag over them</li>
+                        <li>Apply scale to all: <code>Ctrl + A</code> → Scale</li>
+                        <li>Check camera view again: <code>Numpad 0</code></li>
+                        <li>Adjust any objects that look odd or misaligned</li>
+                        <li>Try rotating some objects slightly for visual interest</li>
+                        <li>Use <code>G</code>, <code>R</code>, and <code>S</code> with axis constraints to perfect positions</li>
+                    </ol>
+                </div>
+
+                <h3>Bonus Challenges</h3>
+
+                <div class="card">
+                    <h4>🌟 If You Want to Go Further</h4>
+                    <ol>
+                        <li><strong>Add more objects:</strong> Create a stack of objects or arrange them in interesting ways</li>
+                        <li><strong>Create patterns:</strong> Duplicate objects in rows using <code>Shift + D</code> with axis constraints</li>
+                        <li><strong>Adjust the light:</strong> Move and rotate the light to create interesting shadows</li>
+                        <li><strong>Precision challenge:</strong> Use the properties panel (<code>N</code>) to position objects at exact coordinates</li>
+                        <li><strong>Rotation variety:</strong> Rotate objects at different angles (15°, 30°, 45°, etc.)</li>
+                        <li><strong>Build a chair:</strong> Use the same techniques to build a simple chair next to the table</li>
+                    </ol>
+                </div>
+
+                <h3>Project Success Checklist</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Project Completion</h4>
+                    <p>You've successfully completed this project when:</p>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li>✅ You have a ground plane</li>
+                        <li>✅ You have a table with a top and four legs</li>
+                        <li>✅ You have at least 3-4 different objects on the table</li>
+                        <li>✅ All objects are properly scaled and positioned</li>
+                        <li>✅ Scale is applied to all objects (<code>Ctrl + A</code> → Scale)</li>
+                        <li>✅ Camera view shows the entire scene nicely framed</li>
+                        <li>✅ You used G, R, and S with axis constraints confidently</li>
+                        <li>✅ You used numeric input for precise positioning</li>
+                        <li>✅ You duplicated objects efficiently</li>
+                        <li>✅ The scene looks intentional, not random</li>
+                    </ul>
+                </div>
+
+                <h3>Reflection Exercise</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>📝 Document Your Learning</h4>
+                    <p>After completing the project, answer these questions in your learning journal:</p>
+                    <ol>
+                        <li>Which transformation (Move, Rotate, Scale) felt most natural?</li>
+                        <li>Did you use numeric input or mouse movement more? Why?</li>
+                        <li>What was the hardest part of positioning the table legs?</li>
+                        <li>How many times did you press Ctrl+Z (undo)? What does that tell you?</li>
+                        <li>Did you remember to apply scale? Why is this important?</li>
+                        <li>What would you do differently if you built another scene?</li>
+                    </ol>
+                </div>
+
+                <blockquote>
+                    <p><strong>Celebrate This Milestone:</strong> You just created your first 3D scene from scratch using proper techniques! This is a genuine accomplishment. Sure, it's simple geometry, but you used the exact same tools and workflows that professionals use to build complex scenes. The only difference is practice and refinement—and you're building that right now!</p>
+                </blockquote>
+            </section>
+<!-- PART 5 END -->
