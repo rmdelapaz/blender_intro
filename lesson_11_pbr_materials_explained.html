@@ -1,0 +1,3141 @@
+<!-- ============================================
+     LESSON 11 - PART 01
+     File: lesson_11_pbr_materials_explained_part_01.html
+     ============================================ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master Physically Based Rendering (PBR) principles in Blender. Learn the science behind realistic materials, energy conservation, and advanced material techniques for photorealistic renders.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 11: PBR Materials Explained - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="brand">
+                    <h1>🎨 Blender Mastery Course</h1>
+                    <p class="tagline">Complete 3D Creation from Beginner to Professional</p>
+                </div>
+                <nav>
+                    <a href="index.html">🏠 Home</a>
+                    <a href="index.html#modules">📚 Modules</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &raquo; 
+            <a href="index.html#module-3">Module 3: Materials and Texturing</a> &raquo; 
+            <span>Lesson 11</span>
+        </nav>
+
+        <main>
+            <article class="lesson-content">
+                <div class="lesson-header">
+                    <h1>🔬 PBR Materials Explained</h1>
+                    <p class="lead">Dive deep into the science of Physically Based Rendering—understand the principles that make materials look believable under any lighting condition, and master advanced techniques for creating photorealistic surfaces.</p>
+                </div>
+
+                <p>In Lesson 10, you learned to create materials using the Principled BSDF shader. You followed recipes, adjusted parameters, and created a solid material library. But <em>why</em> do those parameter values work? What makes a material "physically based"? And how can understanding the underlying principles help you create even better materials?</p>
+
+                <p>This lesson takes you behind the curtain. We're going to explore the physics and mathematics that make PBR rendering work—not because you need to be a physicist, but because understanding these principles gives you superpowers. You'll know <em>why</em> metal should have Metallic = 1.0, <em>why</em> rough surfaces scatter light differently, and <em>why</em> your materials will look correct in any lighting setup.</p>
+
+                <blockquote>
+                    <p><strong>💡 The Architect vs. Builder Analogy:</strong> In Lesson 10, you were a builder following blueprints—you learned to construct materials that work. In this lesson, you become the architect who understands the engineering principles behind the design. Builders can make houses; architects can design solutions for any situation. Both are valuable, but understanding the "why" unlocks creative problem-solving!</p>
+                </blockquote>
+
+                <p>Don't worry—we're not diving into heavy math or quantum physics. Instead, we'll explore practical, visual explanations of how light interacts with materials. By the end, you'll think about materials the way professional technical artists do: as predictable, physics-based systems that always behave consistently.</p>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 2rem;">
+                    <h3>🎓 What You'll Learn</h3>
+                    <ul style="color: white;">
+                        <li><strong>PBR Fundamentals:</strong> What "physically based" actually means and why it matters</li>
+                        <li><strong>Energy Conservation:</strong> The law that governs all realistic materials</li>
+                        <li><strong>Fresnel Effect:</strong> Why reflections change at different angles</li>
+                        <li><strong>Microfacet Theory:</strong> Understanding roughness at microscopic level</li>
+                        <li><strong>Conductor vs. Insulator:</strong> The physics behind metals and non-metals</li>
+                        <li><strong>Albedo Values:</strong> Scientific color ranges for realistic materials</li>
+                        <li><strong>Advanced Parameters:</strong> Subsurface, anisotropy, clearcoat in depth</li>
+                        <li><strong>Material Validation:</strong> How to verify your materials are physically correct</li>
+                    </ul>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.3);">
+                        <p><strong>⏱️ Estimated Time:</strong> 75-90 minutes</p>
+                        <p><strong>🎯 Project:</strong> Validate and improve existing materials using PBR principles</p>
+                    </div>
+                </div>
+
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#what-is-pbr" class="toc-link">What Is Physically Based Rendering?</a></li>
+                            <li><a href="#energy-conservation" class="toc-link">Energy Conservation: The Golden Rule</a></li>
+                            <li><a href="#fresnel-effect" class="toc-link">The Fresnel Effect Explained</a></li>
+                            <li><a href="#microfacet-theory" class="toc-link">Microfacet Theory and Roughness</a></li>
+                            <li><a href="#metallic-workflow" class="toc-link">The Metallic Workflow: Conductors vs. Insulators</a></li>
+                            <li><a href="#albedo-values" class="toc-link">Albedo and Color Science</a></li>
+                            <li><a href="#advanced-pbr-parameters" class="toc-link">Advanced PBR Parameters</a></li>
+                            <li><a href="#project" class="toc-link">Project: Material Validation and Enhancement</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="what-is-pbr" class="content-section">
+                    <h2>🌟 What Is Physically Based Rendering?</h2>
+
+                    <p>The term "Physically Based Rendering" (PBR) gets thrown around a lot in 3D graphics, but what does it actually mean? Let's break it down from first principles.</p>
+
+                    <h3>The Core Concept</h3>
+
+                    <p>Physically Based Rendering is a rendering approach that simulates how light actually behaves in the real world, based on the laws of physics. Instead of artistic approximations or "whatever looks good," PBR materials follow measurable, scientifically accurate rules.</p>
+
+                    <div class="card">
+                        <h4>🔬 PBR in Simple Terms</h4>
+                        <p><strong>Traditional (non-PBR) approach:</strong></p>
+                        <ul>
+                            <li>"Let's add a specular highlight here because it looks nice"</li>
+                            <li>Artists manually paint highlights and adjust reflection strength</li>
+                            <li>Materials look different under different lighting</li>
+                            <li>No consistency between different 3D packages</li>
+                            <li>Requires constant tweaking for each scene</li>
+                        </ul>
+                        <p><strong>PBR approach:</strong></p>
+                        <ul>
+                            <li>"This surface has X roughness, so physics determines where highlights appear"</li>
+                            <li>Light behavior calculated automatically based on material properties</li>
+                            <li>Materials look correct under ANY lighting</li>
+                            <li>Consistent across all PBR renderers (Blender, Unity, Unreal, etc.)</li>
+                            <li>Set material properties once, works everywhere</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Recipe Analogy:</strong> Traditional materials are like cooking "to taste"—a pinch of this, adjust until it looks right. PBR is like baking with precise measurements—1 cup flour, 2 eggs, 350°F for 25 minutes. Following physics means predictable, repeatable results every time!</p>
+                    </blockquote>
+
+                    <h3>The Three Pillars of PBR</h3>
+
+                    <p>PBR rendering is built on three fundamental principles:</p>
+
+                    <div class="card">
+                        <h4>🏛️ The Three Pillars</h4>
+                        <ol>
+                            <li><strong>Energy Conservation:</strong>
+                                <ul>
+                                    <li>Light never creates more energy than it receives</li>
+                                    <li>Reflected + Absorbed + Transmitted = 100% of incoming light</li>
+                                    <li>A surface can't be brighter than its light source</li>
+                                </ul>
+                            </li>
+                            <li><strong>Physically Plausible Material Properties:</strong>
+                                <ul>
+                                    <li>Materials behave like real-world counterparts</li>
+                                    <li>Metals and non-metals follow different rules (Fresnel effect)</li>
+                                    <li>Surface roughness follows measurable patterns</li>
+                                </ul>
+                            </li>
+                            <li><strong>Accurate Light Behavior:</strong>
+                                <ul>
+                                    <li>Light follows physics: reflection, refraction, absorption</li>
+                                    <li>Indirect lighting (bounces) calculated correctly</li>
+                                    <li>Color bleeding, caustics, subsurface scattering all work naturally</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Why PBR Revolutionized 3D Graphics</h3>
+
+                    <p>Before PBR became the standard (around 2010-2014), creating realistic materials was an art form requiring years of experience. Artists needed to know tricks like:</p>
+
+                    <div class="card">
+                        <h4>🕰️ Pre-PBR Challenges</h4>
+                        <ul>
+                            <li><strong>Specular/Glossiness maps:</strong> Manually paint where reflections should appear</li>
+                            <li><strong>Different shaders for each material type:</strong> Separate shaders for metal, plastic, skin, etc.</li>
+                            <li><strong>Lighting-dependent tweaking:</strong> Materials needed adjustment for every lighting setup</li>
+                            <li><strong>No cross-platform consistency:</strong> Materials looked different in different engines</li>
+                            <li><strong>Artistic guesswork:</strong> "Does this look realistic?" was subjective</li>
+                        </ul>
+                    </div>
+
+                    <p>PBR solved these problems by grounding everything in physics:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ PBR Benefits</h4>
+                        <ul>
+                            <li><strong>Unified workflow:</strong> One shader (Principled BSDF) for all materials</li>
+                            <li><strong>Lighting independence:</strong> Materials look correct in any environment</li>
+                            <li><strong>Predictable results:</strong> Adjust roughness, see physics-accurate changes</li>
+                            <li><strong>Industry standard:</strong> Materials transfer between Blender, Unity, Unreal, etc.</li>
+                            <li><strong>Easier to learn:</strong> Follow rules instead of memorizing tricks</li>
+                            <li><strong>Photorealism achievable:</strong> Physics-based = reality-matching</li>
+                        </ul>
+                    </div>
+
+                    <h3>PBR Workflows: Metallic/Roughness vs. Specular/Glossiness</h3>
+
+                    <p>There are two main PBR workflows in the industry. Blender uses the Metallic/Roughness workflow by default:</p>
+
+                    <div class="card">
+                        <h4>⚖️ PBR Workflow Comparison</h4>
+                        <table>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Metallic/Roughness (Blender default)</th>
+                                <th>Specular/Glossiness</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Used By</strong></td>
+                                <td>Blender, Unreal Engine, Unity, Substance</td>
+                                <td>Older systems, some engines</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Metal Control</strong></td>
+                                <td>Metallic value (0 or 1)</td>
+                                <td>Controlled through specular color</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Surface Smoothness</strong></td>
+                                <td>Roughness (0 = smooth, 1 = rough)</td>
+                                <td>Glossiness (0 = rough, 1 = smooth—inverted!)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Advantages</strong></td>
+                                <td>Clearer separation, easier to understand</td>
+                                <td>More flexibility for exotic materials</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Disadvantages</strong></td>
+                                <td>Less flexible for non-standard materials</td>
+                                <td>Easier to create non-physical materials by mistake</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 Why Metallic/Roughness Won:</strong> The metallic/roughness workflow became the industry standard because it naturally prevents physically impossible materials. The binary metallic value (0 or 1) enforces the real-world distinction between conductors and insulators. It's harder to accidentally create "wrong" materials!</p>
+                    </blockquote>
+
+                    <h3>What Makes a Material "Physically Based"?</h3>
+
+                    <p>For a material to be truly physically based, it must satisfy these requirements:</p>
+
+                    <div class="card">
+                        <h4>✅ PBR Material Checklist</h4>
+                        <ul>
+                            <li><strong>Energy conserving:</strong> Never reflects more light than it receives</li>
+                            <li><strong>Fresnel accurate:</strong> Reflections increase at grazing angles</li>
+                            <li><strong>Microsurface modeling:</strong> Roughness based on microfacet distribution</li>
+                            <li><strong>Proper albedo ranges:</strong> Color values within physically plausible ranges</li>
+                            <li><strong>Correct metallic behavior:</strong> Metals = 1.0, non-metals = 0.0</li>
+                            <li><strong>IOR accuracy:</strong> Refraction follows real material indices</li>
+                            <li><strong>Consistent across lighting:</strong> Looks correct under any illumination</li>
+                        </ul>
+                    </div>
+
+                    <p>The Principled BSDF shader in Blender is designed to make creating physically accurate materials easy. It handles most of the complex physics automatically, but understanding what's happening under the hood helps you use it masterfully!</p>
+
+                    <h3>PBR in the Real World: Game Engines vs. Renderers</h3>
+
+                    <p>PBR materials work identically whether you're making a film in Blender or a game in Unity/Unreal. That's the power of physics-based approaches:</p>
+
+                    <div class="card">
+                        <h4>🎮 PBR Across Industries</h4>
+                        <ul>
+                            <li><strong>Film/VFX:</strong> Cycles, Arnold, V-Ray, RenderMan—full PBR path tracing</li>
+                            <li><strong>Games:</strong> Unity, Unreal Engine—real-time PBR approximations</li>
+                            <li><strong>Product Viz:</strong> KeyShot, Solidworks—PBR for CAD visualization</li>
+                            <li><strong>AR/VR:</strong> All platforms use PBR for consistent, believable materials</li>
+                        </ul>
+                        <p><strong>The universal language:</strong> A PBR material created in Substance can be used in Blender, then exported to Unity, and it will look correct in all three! The parameters (metallic, roughness, base color) mean the same thing everywhere.</p>
+                    </div>
+
+                    <h3>The Math Behind PBR (Conceptual Overview)</h3>
+
+                    <p>You don't need to memorize equations, but it helps to know what calculations are happening:</p>
+
+                    <div class="card">
+                        <h4>🧮 PBR Mathematical Foundation</h4>
+                        <p><strong>BRDF (Bidirectional Reflectance Distribution Function):</strong></p>
+                        <ul>
+                            <li>Mathematical function describing how light bounces off a surface</li>
+                            <li>Takes into account incoming light direction and viewing direction</li>
+                            <li>Outputs the amount and color of reflected light</li>
+                            <li>Principled BSDF implements multiple BRDFs for different surface types</li>
+                        </ul>
+                        <p><strong>Key equations PBR shaders solve:</strong></p>
+                        <ul>
+                            <li><strong>Fresnel equations:</strong> Calculate reflection strength at angles</li>
+                            <li><strong>Microfacet models:</strong> Simulate rough surfaces statistically</li>
+                            <li><strong>Energy conservation:</strong> Ensure diffuse + specular ≤ 100%</li>
+                            <li><strong>Cook-Torrance:</strong> Industry-standard specular reflection model</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Don't Worry About the Math:</strong> Blender's Principled BSDF does all these calculations for you! Understanding the concepts (Fresnel, microfacets, energy conservation) is what matters for creating great materials. The shader handles the equations automatically.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_11_pbr_materials_explained_part_02.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 11 - PART 02
+     File: lesson_11_pbr_materials_explained_part_02.html
+     ============================================ -->
+
+                <section id="energy-conservation" class="content-section">
+                    <h2>⚡ Energy Conservation: The Golden Rule</h2>
+
+                    <p>Energy conservation is the most fundamental principle in PBR. It's so important that if you understand this one concept, you'll already be ahead of 80% of beginners. Let's explore what it means and why it matters.</p>
+
+                    <h3>The Law of Energy Conservation</h3>
+
+                    <p>In physics, energy conservation states that energy cannot be created or destroyed—only converted from one form to another. In rendering, this translates to a simple rule:</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">🎯 The Golden Rule of PBR</h3>
+                        <p style="color: white; font-size: 1.1em; margin: 0;"><strong>A surface can never reflect more light energy than it receives.</strong></p>
+                    </div>
+
+                    <p>This seems obvious, but it has profound implications for how we create materials. Let's break down what happens when light hits a surface:</p>
+
+                    <div class="mermaid">
+                        graph TD
+                        A[Incoming Light Energy: 100%] --> B{Surface Interaction}
+                        B --> C[Reflected Light]
+                        B --> D[Absorbed Light - Becomes Heat]
+                        B --> E[Transmitted Light - Through Material]
+                        
+                        C --> F[Specular Reflection - Mirror-like]
+                        C --> G[Diffuse Reflection - Scattered]
+                        
+                        style A fill:#FFD700,stroke:#333,stroke-width:3px
+                        style B fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                        style C fill:#4CAF50,stroke:#333,stroke-width:2px
+                        style D fill:#FF5722,stroke:#333,stroke-width:2px
+                        style E fill:#2196F3,stroke:#333,stroke-width:2px
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Water Bucket Analogy:</strong> Imagine pouring 1 liter of water into a bucket with holes. Some water stays in the bucket (diffuse reflection), some splashes out immediately (specular reflection), some leaks through holes (transmission), and some soaks into the bucket material (absorption). The total water that comes out can never exceed 1 liter—you can't get 1.5 liters out if you only poured in 1 liter!</p>
+                    </blockquote>
+
+                    <h3>Energy Distribution in Materials</h3>
+
+                    <p>When light hits a material, the incoming energy must be distributed among different interactions. Here's how it works for different material types:</p>
+
+                    <div class="card">
+                        <h4>📊 Energy Budget Examples</h4>
+                        
+                        <p><strong>Rough Matte Surface (Roughness = 0.9):</strong></p>
+                        <ul>
+                            <li>Diffuse reflection: 70%</li>
+                            <li>Specular reflection: 5%</li>
+                            <li>Absorption: 25%</li>
+                            <li><strong>Total: 100%</strong> ✅</li>
+                        </ul>
+                        
+                        <p><strong>Glossy Plastic (Roughness = 0.2):</strong></p>
+                        <ul>
+                            <li>Diffuse reflection: 30%</li>
+                            <li>Specular reflection: 50%</li>
+                            <li>Absorption: 20%</li>
+                            <li><strong>Total: 100%</strong> ✅</li>
+                        </ul>
+                        
+                        <p><strong>Polished Metal (Metallic = 1.0, Roughness = 0.1):</strong></p>
+                        <ul>
+                            <li>Diffuse reflection: 0% (metals don't have diffuse!)</li>
+                            <li>Specular reflection: 95%</li>
+                            <li>Absorption: 5%</li>
+                            <li><strong>Total: 100%</strong> ✅</li>
+                        </ul>
+                        
+                        <p><strong>Clear Glass (Transmission = 1.0):</strong></p>
+                        <ul>
+                            <li>Specular reflection: 4-8% (Fresnel reflection)</li>
+                            <li>Transmission: 92-96%</li>
+                            <li>Absorption: 0% (for perfectly clear glass)</li>
+                            <li><strong>Total: 100%</strong> ✅</li>
+                        </ul>
+                    </div>
+
+                    <h3>How Principled BSDF Enforces Energy Conservation</h3>
+
+                    <p>The genius of the Principled BSDF shader is that it automatically maintains energy conservation. You can't accidentally create non-physical materials. Here's how:</p>
+
+                    <div class="card">
+                        <h4>🛡️ Automatic Energy Conservation</h4>
+                        <ul>
+                            <li><strong>Diffuse/Specular Balance:</strong> As specular reflection increases (lower roughness), diffuse automatically decreases. The shader calculates this balance.</li>
+                            <li><strong>Metallic Override:</strong> When Metallic = 1.0, diffuse reflection is set to zero automatically. Metals only have specular reflection.</li>
+                            <li><strong>Transmission Compensation:</strong> When Transmission increases, both diffuse and specular reflection decrease proportionally.</li>
+                            <li><strong>Fresnel Integration:</strong> Reflection strength automatically adjusts based on viewing angle, maintaining energy conservation at all angles.</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The Safety Net:</strong> This is why you can adjust Principled BSDF parameters freely and always get physically plausible results. The shader is constantly rebalancing the energy budget behind the scenes. It's mathematically impossible to break energy conservation with this shader!</p>
+                    </blockquote>
+
+                    <h3>Breaking Energy Conservation: What NOT to Do</h3>
+
+                    <p>While Principled BSDF protects you, it's still possible to create non-physical materials if you use legacy shaders or make certain mistakes. Here are the pitfalls:</p>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Energy Conservation Violations</h4>
+                        
+                        <p><strong>Problem 1: Adding Light That Doesn't Exist</strong></p>
+                        <ul>
+                            <li><strong>Wrong:</strong> Using Add shader to combine multiple reflection layers without proper balancing</li>
+                            <li><strong>Result:</strong> Surface reflects 150% of incoming light—physically impossible!</li>
+                            <li><strong>Right:</strong> Use Mix Shader with proper factor, or stick with Principled BSDF</li>
+                        </ul>
+                        
+                        <p><strong>Problem 2: Emission Without Energy Source</strong></p>
+                        <ul>
+                            <li><strong>Wrong:</strong> Adding emission just to make something brighter without considering it's generating light</li>
+                            <li><strong>Result:</strong> Objects mysteriously glow without energy source</li>
+                            <li><strong>Right:</strong> Use emission only for actual light sources (screens, LEDs, bulbs)</li>
+                        </ul>
+                        
+                        <p><strong>Problem 3: Combining Incompatible Shaders</strong></p>
+                        <ul>
+                            <li><strong>Wrong:</strong> Mixing Glossy + Diffuse at 100% each</li>
+                            <li><strong>Result:</strong> 200% energy output</li>
+                            <li><strong>Right:</strong> Mix with factors that add to 1.0, or use Principled BSDF which handles this</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Relationship Between Roughness and Energy</h3>
+
+                    <p>Roughness doesn't change the total amount of reflected energy—it changes how that energy is distributed:</p>
+
+                    <div class="card">
+                        <h4>🔬 Roughness and Energy Distribution</h4>
+                        <table>
+                            <tr>
+                                <th>Roughness</th>
+                                <th>Energy Distribution</th>
+                                <th>Visual Result</th>
+                            </tr>
+                            <tr>
+                                <td><strong>0.0 (Smooth)</strong></td>
+                                <td>All specular energy in one direction (mirror reflection)</td>
+                                <td>Sharp, bright highlight</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.3 (Glossy)</strong></td>
+                                <td>Specular energy spread over small cone of directions</td>
+                                <td>Soft, noticeable highlight</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.6 (Satin)</strong></td>
+                                <td>Specular energy spread over wide cone</td>
+                                <td>Very soft, diffuse-looking highlight</td>
+                            </tr>
+                            <tr>
+                                <td><strong>1.0 (Rough)</strong></td>
+                                <td>Specular energy spread in all directions (becomes diffuse-like)</td>
+                                <td>Almost no visible highlight</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <p>Key insight: Smooth surfaces concentrate the same amount of energy into a smaller area (bright spot). Rough surfaces spread that same energy over a larger area (dim, spread out). Total energy remains constant!</p>
+
+                    <div class="mermaid">
+                        graph LR
+                        A[Same Light Energy] --> B[Smooth Surface: Roughness 0.1]
+                        A --> C[Rough Surface: Roughness 0.8]
+                        B --> D[Concentrated Highlight - Bright]
+                        C --> E[Spread Highlight - Dim but Wider]
+                        
+                        style A fill:#FFD700,stroke:#333,stroke-width:3px
+                        style D fill:#FF9800,stroke:#333,stroke-width:2px
+                        style E fill:#FFC107,stroke:#333,stroke-width:2px
+                    </div>
+
+                    <h3>Albedo and Energy Conservation</h3>
+
+                    <p>The base color (albedo) of a material determines how much light is absorbed vs. reflected as diffuse:</p>
+
+                    <div class="card">
+                        <h4>🎨 Albedo Energy Implications</h4>
+                        <ul>
+                            <li><strong>White (RGB 1.0, 1.0, 1.0):</strong> Reflects ~100% of diffuse light, absorbs ~0%</li>
+                            <li><strong>Medium Gray (RGB 0.5, 0.5, 0.5):</strong> Reflects ~50%, absorbs ~50%</li>
+                            <li><strong>Black (RGB 0.0, 0.0, 0.0):</strong> Reflects 0%, absorbs 100%</li>
+                            <li><strong>Pure Red (RGB 1.0, 0.0, 0.0):</strong> Reflects 100% of red light, absorbs 100% of green/blue</li>
+                        </ul>
+                        <p><strong>Critical rule:</strong> Albedo can never be brighter than 1.0 (pure white) because that would mean reflecting more than 100% of light!</p>
+                    </div>
+
+                    <h3>Why Energy Conservation Matters for Artists</h3>
+
+                    <p>Understanding energy conservation has practical benefits for your work:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Practical Benefits</h4>
+                        <ol>
+                            <li><strong>Materials work in any lighting:</strong>
+                                <ul>
+                                    <li>Energy-conserving materials respond correctly to bright sun, dim interior, or neon lights</li>
+                                    <li>No need to adjust materials for different scenes</li>
+                                </ul>
+                            </li>
+                            <li><strong>Predictable render results:</strong>
+                                <ul>
+                                    <li>Know exactly how bright surfaces will be</li>
+                                    <li>No mysterious "too bright" or "too dark" surprises</li>
+                                </ul>
+                            </li>
+                            <li><strong>Faster iteration:</strong>
+                                <ul>
+                                    <li>Don't waste time fighting non-physical materials</li>
+                                    <li>Parameters work intuitively</li>
+                                </ul>
+                            </li>
+                            <li><strong>Professional quality:</strong>
+                                <ul>
+                                    <li>Energy-conserving materials look "right" even to untrained eyes</li>
+                                    <li>Matches expectations from photos and real life</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cross-platform consistency:</strong>
+                                <ul>
+                                    <li>Materials export correctly to game engines</li>
+                                    <li>Same material works in Eevee and Cycles</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Testing Energy Conservation</h3>
+
+                    <p>Want to verify if a material conserves energy? Here are some quick tests:</p>
+
+                    <div class="card">
+                        <h4>🧪 Energy Conservation Tests</h4>
+                        <ol>
+                            <li><strong>The White Room Test:</strong>
+                                <ul>
+                                    <li>Place material in pure white environment (HDRI)</li>
+                                    <li>With pure white lighting, material should never appear brighter than white</li>
+                                    <li>If material glows brighter than the environment, energy conservation is violated</li>
+                                </ul>
+                            </li>
+                            <li><strong>The Roughness Sweep:</strong>
+                                <ul>
+                                    <li>Animate roughness from 0.0 to 1.0</li>
+                                    <li>Overall brightness should stay relatively constant</li>
+                                    <li>Only the distribution of light should change</li>
+                                </ul>
+                            </li>
+                            <li><strong>The Metallic Check:</strong>
+                                <ul>
+                                    <li>Set material to white base color</li>
+                                    <li>Set Metallic to 1.0</li>
+                                    <li>Material should reflect environment without visible base color</li>
+                                    <li>No diffuse component should be visible</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Advanced: Multiple Scattering and Energy</h3>
+
+                    <p>In reality, light can bounce multiple times within a rough surface before exiting. This is called multiple scattering:</p>
+
+                    <div class="card">
+                        <h4>🔄 Multiple Scattering</h4>
+                        <p><strong>What happens:</strong></p>
+                        <ul>
+                            <li>Light enters material through microscopic valleys</li>
+                            <li>Bounces between microfacets multiple times</li>
+                            <li>Eventually exits in a different direction</li>
+                            <li>Each bounce absorbs some energy (based on albedo)</li>
+                        </ul>
+                        <p><strong>Why it matters:</strong></p>
+                        <ul>
+                            <li>Without multiple scattering, rough dark materials appear too dark</li>
+                            <li>Cycles renderer simulates this automatically</li>
+                            <li>Eevee approximates it (less accurate but faster)</li>
+                            <li>Energy is still conserved—just distributed more realistically</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Cave Analogy:</strong> Imagine light entering a cave. If the cave has rough, dark walls, light bounces multiple times, losing energy with each bounce, before finding its way back out. A simple model might assume light bounces once and exits—but multiple scattering accounts for all those extra bounces, giving more realistic results for rough materials.</p>
+                    </blockquote>
+
+                    <h3>Energy Conservation Workflow Tips</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Best Practices</h4>
+                        <ul>
+                            <li><strong>Trust Principled BSDF:</strong> It handles energy conservation automatically—don't second-guess it</li>
+                            <li><strong>Avoid mixing legacy shaders:</strong> Glossy + Diffuse combinations can break conservation if not done carefully</li>
+                            <li><strong>Use emission thoughtfully:</strong> Only for actual light-emitting objects</li>
+                            <li><strong>Keep albedo in physical ranges:</strong> 0.02 to 0.95 for most materials</li>
+                            <li><strong>Test materials in neutral lighting:</strong> White environment reveals energy issues clearly</li>
+                            <li><strong>When in doubt, measure real materials:</strong> Use reference photos and color pickers</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_11_pbr_materials_explained_part_03.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 11 - PART 03
+     File: lesson_11_pbr_materials_explained_part_03.html
+     ============================================ -->
+
+                <section id="fresnel-effect" class="content-section">
+                    <h2>💎 The Fresnel Effect Explained</h2>
+
+                    <p>The Fresnel effect (pronounced "freh-NELL") is one of the most important phenomena in realistic rendering, yet it's often misunderstood. Named after French physicist Augustin-Jean Fresnel, this effect explains why reflections change based on viewing angle—and why it's critical for believable materials.</p>
+
+                    <h3>What Is the Fresnel Effect?</h3>
+
+                    <p>The Fresnel effect describes how the amount of light reflected from a surface depends on the angle at which you view it. Here's the key insight:</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">🎯 The Fresnel Principle</h3>
+                        <p style="color: white; font-size: 1.1em;"><strong>All materials become more reflective at grazing angles (when viewed from the side).</strong></p>
+                        <p style="color: white; margin: 0;">Even matte, non-metallic surfaces show mirror-like reflections when viewed at shallow angles!</p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Lake Analogy:</strong> Stand at the edge of a lake and look straight down into the water—you can see fish and rocks below (low reflection, high transmission). Now look across the lake toward the horizon—the surface becomes a mirror, reflecting the sky perfectly (high reflection, low transmission). Same water, different angle, completely different appearance. That's Fresnel!</p>
+                    </blockquote>
+
+                    <h3>Fresnel in Everyday Life</h3>
+
+                    <p>You see the Fresnel effect constantly, even if you've never noticed it consciously:</p>
+
+                    <div class="card">
+                        <h4>👁️ Real-World Fresnel Examples</h4>
+                        <ul>
+                            <li><strong>Glass windows:</strong> Look straight through—almost no reflection. Look at an angle—strong mirror-like reflection</li>
+                            <li><strong>Car paint:</strong> Top of the hood (viewed perpendicular) shows color. Side of the car (viewed at angle) shows strong reflections</li>
+                            <li><strong>Water surfaces:</strong> Looking down into a pool vs. looking across a lake</li>
+                            <li><strong>Your phone screen:</strong> Straight on—see the display. At an angle—see reflections of lights</li>
+                            <li><strong>Polished wood floor:</strong> Under your feet—matte wood color. Distance across room—glossy reflections</li>
+                            <li><strong>Even skin:</strong> Your face straight on vs. the edge of your cheek in a mirror—edge is more reflective!</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Science Behind Fresnel</h3>
+
+                    <p>At the microscopic level, Fresnel reflections are governed by the electromagnetic properties of materials and the wave nature of light. But we can understand it visually:</p>
+
+                    <div class="card">
+                        <h4>🔬 Why Fresnel Happens</h4>
+                        <p><strong>Perpendicular viewing (head-on):</strong></p>
+                        <ul>
+                            <li>Light rays hit surface nearly vertically</li>
+                            <li>Light can easily penetrate the material</li>
+                            <li>Small percentage reflects back</li>
+                            <li>Most light enters the material (transmission or scattering)</li>
+                        </ul>
+                        <p><strong>Grazing angle viewing (from side):</strong></p>
+                        <ul>
+                            <li>Light rays hit surface at shallow angle</li>
+                            <li>Light has difficulty penetrating—like skipping a stone on water</li>
+                            <li>Large percentage reflects back</li>
+                            <li>Less light enters the material</li>
+                        </ul>
+                    </div>
+
+                    <div class="mermaid">
+                        graph TD
+                        A[Viewing Angle] --> B{Surface Type}
+                        B --> C[Perpendicular View]
+                        B --> D[Grazing Angle View]
+                        
+                        C --> E[Non-Metal: ~4% reflection]
+                        C --> F[Metal: ~60-95% reflection]
+                        
+                        D --> G[Non-Metal: ~100% reflection]
+                        D --> H[Metal: ~100% reflection]
+                        
+                        style A fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
+                        style E fill:#4CAF50,stroke:#333,stroke-width:2px
+                        style F fill:#FFD700,stroke:#333,stroke-width:2px
+                        style G fill:#4CAF50,stroke:#333,stroke-width:2px
+                        style H fill:#FFD700,stroke:#333,stroke-width:2px
+                    </div>
+
+                    <h3>Fresnel for Dielectrics vs. Conductors</h3>
+
+                    <p>The Fresnel effect behaves differently for non-metals (dielectrics) and metals (conductors):</p>
+
+                    <div class="card">
+                        <h4>⚖️ Dielectric vs. Conductor Fresnel</h4>
+                        <table>
+                            <tr>
+                                <th>Viewing Angle</th>
+                                <th>Dielectrics (Metallic = 0)</th>
+                                <th>Conductors (Metallic = 1)</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Perpendicular (0°)</strong></td>
+                                <td>~4-8% reflection (specular)<br>Base color visible (diffuse)</td>
+                                <td>60-95% reflection<br>Tinted by base color<br>NO diffuse component</td>
+                            </tr>
+                            <tr>
+                                <td><strong>45° angle</strong></td>
+                                <td>~10-20% reflection<br>Base color still dominant</td>
+                                <td>70-98% reflection<br>Base color tint visible</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Grazing (85-90°)</strong></td>
+                                <td>~100% reflection<br>Becomes mirror-like<br>Base color disappears</td>
+                                <td>~100% reflection<br>Mirror-like</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 Key Difference:</strong> Non-metals have dramatic Fresnel effect (4% → 100% reflection). Metals have subtle Fresnel effect (already 70%+ → 100%). This is why edge highlights look so different on plastic vs. metal!</p>
+                    </blockquote>
+
+                    <h3>The Fresnel Equations</h3>
+
+                    <p>For the curious, here's what Principled BSDF calculates behind the scenes:</p>
+
+                    <div class="card">
+                        <h4>🧮 Fresnel Mathematics (Simplified)</h4>
+                        <p><strong>The Schlick Approximation:</strong></p>
+                        <p>Most PBR shaders use Schlick's approximation of Fresnel equations:</p>
+                        <ul>
+                            <li><strong>F = F₀ + (1 - F₀) × (1 - cos θ)⁵</strong></li>
+                            <li><strong>F₀</strong> = Base reflectivity at perpendicular angle (depends on IOR)</li>
+                            <li><strong>θ</strong> = Angle between view direction and surface normal</li>
+                            <li><strong>(1 - cos θ)⁵</strong> = The Fresnel curve—how quickly reflectivity increases</li>
+                        </ul>
+                        <p><strong>What this means practically:</strong></p>
+                        <ul>
+                            <li>F₀ for non-metals: ~0.04 (4% reflection straight on)</li>
+                            <li>F₀ for metals: ~0.7-0.95 (70-95% depending on metal type)</li>
+                            <li>At 90° (grazing angle), F approaches 1.0 (100%) for all materials</li>
+                        </ul>
+                    </div>
+
+                    <p>Don't worry about memorizing the equation! The important takeaway: Fresnel is automatic in Principled BSDF. The shader handles all this math for you.</p>
+
+                    <h3>IOR and Fresnel Strength</h3>
+
+                    <p>The Index of Refraction (IOR) directly controls the strength of Fresnel reflections for dielectrics:</p>
+
+                    <div class="card">
+                        <h4>🔍 IOR and Reflection Strength</h4>
+                        <table>
+                            <tr>
+                                <th>Material</th>
+                                <th>IOR</th>
+                                <th>Perpendicular Reflection (F₀)</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Air</strong></td>
+                                <td>1.0</td>
+                                <td>0% (reference)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Water</strong></td>
+                                <td>1.33</td>
+                                <td>~2%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Plastic</strong></td>
+                                <td>1.45</td>
+                                <td>~3.5%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Glass</strong></td>
+                                <td>1.5</td>
+                                <td>~4%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Crystal</strong></td>
+                                <td>1.7</td>
+                                <td>~6.5%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Diamond</strong></td>
+                                <td>2.42</td>
+                                <td>~17%</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <p>Notice how higher IOR materials have stronger perpendicular reflections—but at grazing angles, all still approach 100%!</p>
+
+                    <h3>The Specular Parameter and Fresnel</h3>
+
+                    <p>In Principled BSDF, the Specular parameter controls Fresnel effect strength. Here's what it actually does:</p>
+
+                    <div class="card">
+                        <h4>✨ Specular Parameter Explained</h4>
+                        <ul>
+                            <li><strong>Default: 0.5</strong> → Corresponds to IOR ~1.5 (typical glass/plastic)</li>
+                            <li><strong>Range: 0.0 to 1.0</strong> → Scales the Fresnel effect strength</li>
+                            <li><strong>Specular = 0.0:</strong> No Fresnel (unrealistic, but useful for special effects)</li>
+                            <li><strong>Specular = 0.5:</strong> Standard dielectric Fresnel (most materials)</li>
+                            <li><strong>Specular = 1.0:</strong> Stronger Fresnel (high IOR materials like diamond)</li>
+                        </ul>
+                        <p><strong>Critical note:</strong> For 99% of materials, leave Specular at 0.5! It's rare to need adjustment.</p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Common Mistake:</strong> Beginners often adjust Specular thinking it controls "shininess." It doesn't—that's what Roughness does! Specular controls the Fresnel effect strength, which should match the material's real-world IOR. Adjusting it incorrectly makes materials look wrong at grazing angles.</p>
+                    </blockquote>
+
+                    <h3>Fresnel and Material Realism</h3>
+
+                    <p>The Fresnel effect is what makes materials look "right" to our eyes. Without it, materials appear flat and fake:</p>
+
+                    <div class="card">
+                        <h4>👁️ Fresnel Impact on Realism</h4>
+                        <p><strong>With correct Fresnel:</strong></p>
+                        <ul>
+                            <li>Edge highlights appear naturally on all materials</li>
+                            <li>Materials have visual "structure" and depth</li>
+                            <li>Viewing angle creates natural variation</li>
+                            <li>Matches real-world expectations from photos</li>
+                            <li>Materials integrate naturally with environment</li>
+                        </ul>
+                        <p><strong>Without Fresnel (or incorrect Fresnel):</strong></p>
+                        <ul>
+                            <li>Materials look "flat" and CG-like</li>
+                            <li>No natural edge highlights</li>
+                            <li>Appears the same from all viewing angles</li>
+                            <li>Uncanny valley effect—"something's off"</li>
+                            <li>Looks like video game graphics from 2000s</li>
+                        </ul>
+                    </div>
+
+                    <h3>Observing Fresnel in Practice</h3>
+
+                    <p>Let's do a quick exercise to train your eye to see Fresnel effects:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Fresnel Observation Exercise</h4>
+                        <ol>
+                            <li><strong>Find a glossy object near you</strong> (phone, mug, book cover, anything with slight shine)</li>
+                            <li><strong>Look at it straight on:</strong> Notice you can see the surface color/texture clearly</li>
+                            <li><strong>Tilt it slowly:</strong> Watch how reflections become stronger as you view at shallower angle</li>
+                            <li><strong>At extreme angle:</strong> Surface becomes almost mirror-like, color disappears</li>
+                            <li><strong>Repeat with different objects:</strong> Notice same pattern on matte surfaces (just less obvious)</li>
+                            <li><strong>Try with transparent materials:</strong> Glass, water—see how transparency decreases at angles</li>
+                        </ol>
+                        <p><strong>Insight gained:</strong> Once you see Fresnel in real life, you'll never miss it in 3D renders. Your eye is trained!</p>
+                    </div>
+
+                    <h3>Fresnel and Roughness Interaction</h3>
+
+                    <p>Fresnel and roughness work together to create realistic materials. Here's how they interact:</p>
+
+                    <div class="card">
+                        <h4>🔄 Fresnel × Roughness = Material Character</h4>
+                        <p><strong>Smooth Surface (Low Roughness):</strong></p>
+                        <ul>
+                            <li>Fresnel creates sharp, distinct edge highlights</li>
+                            <li>Clear transition from base color to reflection</li>
+                            <li>Edge highlight is bright and concentrated</li>
+                            <li>Classic "rim lighting" effect</li>
+                        </ul>
+                        <p><strong>Rough Surface (High Roughness):</strong></p>
+                        <ul>
+                            <li>Fresnel still occurs but spread out</li>
+                            <li>Edge highlight is soft and gradual</li>
+                            <li>Transition from base color to reflection is blurred</li>
+                            <li>Less dramatic but still present</li>
+                        </ul>
+                    </div>
+
+                    <div class="mermaid">
+                        graph TD
+                        A[Surface Properties] --> B[Roughness: 0.1 Smooth]
+                        A --> C[Roughness: 0.8 Rough]
+                        
+                        B --> D[Fresnel Effect:<br/>Sharp Edge Highlights<br/>Clear Reflections]
+                        C --> E[Fresnel Effect:<br/>Soft Edge Glow<br/>Blurred Reflections]
+                        
+                        D --> F[Result: Glossy Look]
+                        E --> G[Result: Matte Look]
+                        
+                        style A fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
+                        style F fill:#4CAF50,stroke:#333,stroke-width:2px
+                        style G fill:#4CAF50,stroke:#333,stroke-width:2px
+                    </div>
+
+                    <h3>Fresnel for Transparent Materials</h3>
+
+                    <p>Fresnel is especially important for glass and transparent materials. It determines the balance between what you see reflected vs. what you see through the material:</p>
+
+                    <div class="card">
+                        <h4>🔍 Fresnel in Glass</h4>
+                        <p><strong>Looking straight through glass (perpendicular):</strong></p>
+                        <ul>
+                            <li>~4% reflection (you see slight reflection of yourself)</li>
+                            <li>~96% transmission (you see through clearly)</li>
+                            <li>Transparency dominates</li>
+                        </ul>
+                        <p><strong>Looking at glass edge (grazing angle):</strong></p>
+                        <ul>
+                            <li>~100% reflection (perfect mirror)</li>
+                            <li>~0% transmission (can't see through at all)</li>
+                            <li>Reflection dominates completely</li>
+                        </ul>
+                        <p><strong>Why this matters:</strong> Realistic glass must transition from mostly transparent (straight on) to completely reflective (edges). Principled BSDF handles this automatically when you set Transmission = 1.0!</p>
+                    </div>
+
+                    <h3>Common Fresnel Mistakes</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Fresnel Pitfalls to Avoid</h4>
+                        
+                        <p><strong>Mistake 1: Disabling Fresnel completely</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Setting Specular to 0.0 disables Fresnel</li>
+                            <li><strong>Result:</strong> Materials look flat and fake at all angles</li>
+                            <li><strong>Fix:</strong> Keep Specular at default 0.5 for most materials</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 2: Confusing Specular with shininess</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Adjusting Specular trying to make material shinier/rougher</li>
+                            <li><strong>Result:</strong> Incorrect Fresnel strength breaks realism</li>
+                            <li><strong>Fix:</strong> Use Roughness for shininess, not Specular</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 3: Forgetting Fresnel exists on matte materials</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Assuming only shiny materials have edge highlights</li>
+                            <li><strong>Result:</strong> Missing subtle realism in rough materials</li>
+                            <li><strong>Fix:</strong> Remember: ALL materials have Fresnel, just less visible on rough surfaces</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 4: Not testing materials from multiple angles</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Only viewing material straight-on during creation</li>
+                            <li><strong>Result:</strong> Missing edge cases where Fresnel looks wrong</li>
+                            <li><strong>Fix:</strong> Always rotate around material, check grazing angles</li>
+                        </ul>
+                    </div>
+
+                    <h3>Fresnel Best Practices</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Professional Fresnel Workflow</h4>
+                        <ul>
+                            <li><strong>Trust the defaults:</strong> Principled BSDF's Specular 0.5 is correct for 99% of materials</li>
+                            <li><strong>Let Fresnel work automatically:</strong> Don't try to manually control edge highlights</li>
+                            <li><strong>Use proper IOR values:</strong> For transparent materials, correct IOR ensures correct Fresnel</li>
+                            <li><strong>Test from all angles:</strong> Rotate camera around material to verify Fresnel looks natural</li>
+                            <li><strong>Study reference photos:</strong> Notice how edge highlights appear on real materials</li>
+                            <li><strong>Metallic materials:</strong> Fresnel is less dramatic but still present—don't disable it</li>
+                            <li><strong>Rough materials:</strong> Fresnel is subtle but important for realism</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The Automatic Excellence:</strong> One of the best things about PBR is that Fresnel "just works" when you use Principled BSDF correctly. You don't need to think about it or manually control it. Set your material properties correctly, and Fresnel makes your materials look realistic automatically at every viewing angle!</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 03
+     Continue with lesson_11_pbr_materials_explained_part_04.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 11 - PART 04
+     File: lesson_11_pbr_materials_explained_part_04.html
+     ============================================ -->
+
+                <section id="microfacet-theory" class="content-section">
+                    <h2>🔬 Microfacet Theory and Roughness</h2>
+
+                    <p>When you adjust the Roughness slider in Principled BSDF, you're not just making surfaces "more rough"—you're controlling a sophisticated physical model of surface structure at the microscopic level. This is called microfacet theory, and understanding it will transform how you think about materials.</p>
+
+                    <h3>What Are Microfacets?</h3>
+
+                    <p>No surface is perfectly smooth at the microscopic level. Even polished metal, when magnified thousands of times, shows tiny bumps, valleys, and facets. Microfacet theory models this microscopic roughness:</p>
+
+                    <div class="card">
+                        <h4>🔍 The Microfacet Model</h4>
+                        <p><strong>Core concept:</strong></p>
+                        <ul>
+                            <li>Every surface is made of millions of tiny mirror-like facets</li>
+                            <li>Each facet is perfectly smooth and reflective</li>
+                            <li>Facets are oriented in different directions based on roughness</li>
+                            <li>The distribution of facet orientations determines overall appearance</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Mountain Range Analogy:</strong> Imagine viewing a mountain range from an airplane. From a distance, it looks like a rough, matte surface. But zoom in on any individual rock face—it's smooth and reflective. The "roughness" of the mountain range comes from countless smooth surfaces pointing in different directions. That's exactly how microfacet theory works!</p>
+                    </blockquote>
+
+                    <h3>Smooth vs. Rough at Microscopic Level</h3>
+
+                    <p>Let's visualize what different roughness values actually mean at the microscopic scale:</p>
+
+                    <div class="card">
+                        <h4>📊 Microfacet Distribution by Roughness</h4>
+                        <p><strong>Roughness = 0.0 (Perfect Mirror):</strong></p>
+                        <ul>
+                            <li>All microfacets aligned in same direction</li>
+                            <li>Light reflects in single coherent direction</li>
+                            <li>Result: Sharp, mirror-like reflection</li>
+                            <li>Example: Perfect mirror, chrome in vacuum</li>
+                        </ul>
+                        <p><strong>Roughness = 0.2 (Glossy):</strong></p>
+                        <ul>
+                            <li>Microfacets mostly aligned, slight variation</li>
+                            <li>Light reflects in narrow cone of directions</li>
+                            <li>Result: Soft but visible specular highlight</li>
+                            <li>Example: Glossy plastic, polished wood, new car paint</li>
+                        </ul>
+                        <p><strong>Roughness = 0.5 (Satin):</strong></p>
+                        <ul>
+                            <li>Microfacets have moderate orientation variation</li>
+                            <li>Light reflects in wide cone of directions</li>
+                            <li>Result: Very soft, spread-out highlight</li>
+                            <li>Example: Satin fabric, brushed metal, eggshell paint</li>
+                        </ul>
+                        <p><strong>Roughness = 1.0 (Completely Matte):</strong></p>
+                        <ul>
+                            <li>Microfacets randomly oriented in all directions</li>
+                            <li>Light scatters equally in all directions (diffuse)</li>
+                            <li>Result: No visible specular highlight</li>
+                            <li>Example: Unfinished clay, chalk, very rough stone</li>
+                        </ul>
+                    </div>
+
+                    <div class="mermaid">
+                        graph TD
+                        A[Incoming Light Ray] --> B{Surface Roughness}
+                        B --> C[Roughness = 0.1<br/>Aligned Microfacets]
+                        B --> D[Roughness = 0.5<br/>Varied Microfacets]
+                        B --> E[Roughness = 0.9<br/>Random Microfacets]
+                        
+                        C --> F[Sharp Reflection<br/>Single Direction]
+                        D --> G[Soft Reflection<br/>Cone of Directions]
+                        E --> H[Diffuse Scattering<br/>All Directions]
+                        
+                        style A fill:#FFD700,stroke:#333,stroke-width:3px
+                        style F fill:#4CAF50,stroke:#333,stroke-width:2px
+                        style G fill:#FF9800,stroke:#333,stroke-width:2px
+                        style H fill:#F44336,stroke:#333,stroke-width:2px
+                    </div>
+
+                    <h3>The Normal Distribution Function (NDF)</h3>
+
+                    <p>The mathematical heart of microfacet theory is the Normal Distribution Function, which describes how microfacets are oriented:</p>
+
+                    <div class="card">
+                        <h4>📐 Normal Distribution Function</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Describes the statistical distribution of microfacet orientations</li>
+                            <li>Takes roughness parameter as input</li>
+                            <li>Outputs probability of finding a microfacet at any given angle</li>
+                        </ul>
+                        <p><strong>Common NDF models:</strong></p>
+                        <ul>
+                            <li><strong>GGX (default in Blender):</strong> Long-tailed distribution, realistic highlights</li>
+                            <li><strong>Beckmann:</strong> Older model, sharper falloff</li>
+                            <li><strong>Phong:</strong> Very old, not physically accurate (legacy only)</li>
+                        </ul>
+                        <p><strong>Why GGX is best:</strong> It produces long "tails" in specular highlights that match real-world materials better. Most PBR systems use GGX now.</p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 Practical Takeaway:</strong> You don't need to understand the math! Just know that when you adjust Roughness, Blender is changing the statistical distribution of millions of microscopic mirror facets. The result: physically accurate light scattering that looks correct under any lighting!</p>
+                    </blockquote>
+
+                    <h3>Masking and Shadowing</h3>
+
+                    <p>Microfacet theory includes two important phenomena that happen with rough surfaces: masking and shadowing.</p>
+
+                    <div class="card">
+                        <h4>🌓 Masking and Shadowing Effects</h4>
+                        <p><strong>Shadowing:</strong></p>
+                        <ul>
+                            <li>Some microfacets are in shadow cast by neighboring facets</li>
+                            <li>Light can't reach these shadowed facets</li>
+                            <li>Reduces overall brightness of rough surfaces</li>
+                            <li>More pronounced with rough surfaces and grazing angles</li>
+                        </ul>
+                        <p><strong>Masking:</strong></p>
+                        <ul>
+                            <li>Some reflected light is blocked by neighboring microfacets</li>
+                            <li>Light reflects but can't escape the surface structure</li>
+                            <li>Also reduces brightness, especially at grazing angles</li>
+                            <li>Works together with shadowing</li>
+                        </ul>
+                        <p><strong>Physical accuracy:</strong> Principled BSDF accounts for both automatically! This is why rough materials at grazing angles appear darker than you might expect—physics!</p>
+                    </div>
+
+                    <h3>Why Rough Surfaces Aren't Just Blurred Reflections</h3>
+
+                    <p>A common misconception: roughness just "blurs" the reflection. Not quite! Let's understand what really happens:</p>
+
+                    <div class="card">
+                        <h4>🔍 Roughness vs. Blur</h4>
+                        <p><strong>Simple blur (incorrect model):</strong></p>
+                        <ul>
+                            <li>Take sharp reflection and apply gaussian blur</li>
+                            <li>Same brightness, just spread out</li>
+                            <li>Energy stays constant</li>
+                            <li>Doesn't account for masking/shadowing</li>
+                        </ul>
+                        <p><strong>Microfacet model (correct):</strong></p>
+                        <ul>
+                            <li>Millions of tiny reflections in different directions</li>
+                            <li>Energy distributed based on microfacet orientation</li>
+                            <li>Masking and shadowing reduce total brightness</li>
+                            <li>Fresnel effect applies to each microfacet individually</li>
+                            <li>Physically accurate light behavior</li>
+                        </ul>
+                    </div>
+
+                    <p>This difference is subtle but important. Microfacet-based roughness looks more realistic because it accounts for the physical structure of surfaces, not just image processing tricks.</p>
+
+                    <h3>Roughness and Energy Conservation</h3>
+
+                    <p>Remember energy conservation from earlier? Microfacet theory is how PBR maintains energy conservation across different roughness values:</p>
+
+                    <div class="card">
+                        <h4>⚡ Roughness Energy Distribution</h4>
+                        <p><strong>Key principle:</strong> Total reflected energy remains constant regardless of roughness—only the distribution changes!</p>
+                        <table>
+                            <tr>
+                                <th>Roughness</th>
+                                <th>Energy Distribution</th>
+                                <th>Perceptual Result</th>
+                            </tr>
+                            <tr>
+                                <td><strong>0.0 (Smooth)</strong></td>
+                                <td>100% energy in tiny area</td>
+                                <td>Extremely bright, small highlight</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.3 (Glossy)</strong></td>
+                                <td>100% energy spread over medium area</td>
+                                <td>Bright but softer highlight</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.7 (Satin)</strong></td>
+                                <td>100% energy spread over large area</td>
+                                <td>Dim, very soft highlight</td>
+                            </tr>
+                            <tr>
+                                <td><strong>1.0 (Matte)</strong></td>
+                                <td>100% energy spread over entire hemisphere</td>
+                                <td>No visible highlight, appears diffuse</td>
+                            </tr>
+                        </table>
+                        <p><strong>The tradeoff:</strong> Smooth surfaces = bright but small. Rough surfaces = dim but large. Same total energy!</p>
+                    </div>
+
+                    <h3>Anisotropic Roughness</h3>
+
+                    <p>So far we've discussed isotropic roughness (same in all directions). But some materials have directional roughness—anisotropy:</p>
+
+                    <div class="card">
+                        <h4>↔️ Anisotropic Materials</h4>
+                        <p><strong>What is anisotropy?</strong></p>
+                        <ul>
+                            <li>Microfacets aligned in one direction more than others</li>
+                            <li>Created by directional manufacturing processes</li>
+                            <li>Produces elongated, streaked highlights</li>
+                        </ul>
+                        <p><strong>Real-world examples:</strong></p>
+                        <ul>
+                            <li><strong>Brushed metal:</strong> Sanding/brushing creates directional micro-grooves</li>
+                            <li><strong>Hair/fur:</strong> Strands have directional structure</li>
+                            <li><strong>Vinyl records:</strong> Circular grooves create circular highlights</li>
+                            <li><strong>Satin fabric:</strong> Woven threads create directional sheen</li>
+                            <li><strong>CDs/DVDs:</strong> Microscopic tracks create rainbow patterns</li>
+                        </ul>
+                        <p><strong>In Principled BSDF:</strong></p>
+                        <ul>
+                            <li><strong>Anisotropic parameter:</strong> 0.0 = isotropic, 1.0 = fully directional</li>
+                            <li><strong>Anisotropic Rotation:</strong> Controls direction of the effect (0-1 = 0-360°)</li>
+                            <li>Creates elliptical instead of circular highlights</li>
+                        </ul>
+                    </div>
+
+                    <h3>Roughness in Practice: Common Values</h3>
+
+                    <p>Having theoretical knowledge is great, but what roughness values should you actually use? Here's a practical guide:</p>
+
+                    <div class="card">
+                        <h4>🎯 Practical Roughness Reference</h4>
+                        <table>
+                            <tr>
+                                <th>Roughness Range</th>
+                                <th>Material Examples</th>
+                                <th>Visual Characteristics</th>
+                            </tr>
+                            <tr>
+                                <td><strong>0.0 - 0.1</strong></td>
+                                <td>Mirrors, chrome, polished silver, water surface, new car clear coat</td>
+                                <td>Sharp reflections, bright tight highlights</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.1 - 0.2</strong></td>
+                                <td>Polished gold, glossy plastic, varnished wood, gloss paint</td>
+                                <td>Clear reflections with slight softness</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.2 - 0.4</strong></td>
+                                <td>Satin paint, polished stone, semi-gloss finish, smartphone screens</td>
+                                <td>Visible but soft highlights</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.4 - 0.6</strong></td>
+                                <td>Brushed metal, eggshell paint, worn wood, leather</td>
+                                <td>Very soft, spread highlights</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.6 - 0.8</strong></td>
+                                <td>Flat paint, unfinished wood, paper, fabric, rough plastic</td>
+                                <td>Barely visible highlights</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.8 - 1.0</strong></td>
+                                <td>Chalk, rough stone, clay, matte rubber, very rough concrete</td>
+                                <td>Completely diffuse, no highlights</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3>Roughness Maps: Varying Roughness Across Surface</h3>
+
+                    <p>In real life, roughness often varies across a surface. This is where roughness maps (textures) come in:</p>
+
+                    <div class="card">
+                        <h4>🗺️ Roughness Mapping</h4>
+                        <p><strong>Concept:</strong></p>
+                        <ul>
+                            <li>Grayscale image where brightness = roughness value</li>
+                            <li>Black (0.0) = smooth areas</li>
+                            <li>White (1.0) = rough areas</li>
+                            <li>Gray values = intermediate roughness</li>
+                        </ul>
+                        <p><strong>Real-world applications:</strong></p>
+                        <ul>
+                            <li><strong>Worn surfaces:</strong> Edges and high-traffic areas more polished (darker) than recessed areas</li>
+                            <li><strong>Dirty materials:</strong> Dirt/grime in crevices increases roughness</li>
+                            <li><strong>Weathered metal:</strong> Rust patches are rougher than bare metal</li>
+                            <li><strong>Painted wood:</strong> Paint cracks expose rougher wood underneath</li>
+                        </ul>
+                        <p><strong>Workflow:</strong> We'll cover roughness mapping in detail in Lessons 12-14 when we dive into texturing!</p>
+                    </div>
+
+                    <h3>Common Roughness Mistakes</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Roughness Pitfalls</h4>
+                        
+                        <p><strong>Mistake 1: Everything is too glossy (Roughness too low)</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Beginners often default to Roughness 0.1-0.2 for everything</li>
+                            <li><strong>Result:</strong> Scene looks like shiny plastic toy world</li>
+                            <li><strong>Fix:</strong> Most real materials are Roughness 0.3-0.7. Be generous with roughness!</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 2: Everything is perfectly uniform</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Using single roughness value across entire object</li>
+                            <li><strong>Result:</strong> Looks CG and fake—real materials have variation</li>
+                            <li><strong>Fix:</strong> Add slight roughness variation (we'll learn with textures)</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 3: Confusing Roughness with other parameters</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Adjusting Metallic or Specular thinking it controls shininess</li>
+                            <li><strong>Result:</strong> Wrong material type or incorrect Fresnel</li>
+                            <li><strong>Fix:</strong> Roughness controls shininess. Metallic controls metal vs. non-metal. Specular controls Fresnel strength.</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 4: Not testing under different lighting</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Material looks right in one HDRI but wrong in others</li>
+                            <li><strong>Result:</strong> Roughness might be incorrect if it only works in specific lighting</li>
+                            <li><strong>Fix:</strong> Test materials in multiple HDRIs (bright, dim, colored)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Advanced: Roughness and Render Performance</h3>
+
+                    <p>Interestingly, roughness affects render performance in path tracers like Cycles:</p>
+
+                    <div class="card">
+                        <h4>⚡ Roughness Performance Considerations</h4>
+                        <p><strong>Smooth surfaces (Low roughness):</strong></p>
+                        <ul>
+                            <li>Faster to render</li>
+                            <li>Light bounces in predictable directions</li>
+                            <li>Less noise in renders</li>
+                            <li>Fewer samples needed for clean result</li>
+                        </ul>
+                        <p><strong>Rough surfaces (High roughness):</strong></p>
+                        <ul>
+                            <li>Slower to render</li>
+                            <li>Light scatters in many directions (requires more ray samples)</li>
+                            <li>More noise in renders</li>
+                            <li>More samples needed for clean result</li>
+                        </ul>
+                        <p><strong>Optimization tip:</strong> If render times are long, check if you have unnecessarily rough materials. Sometimes Roughness 0.6 looks identical to 0.8 but renders faster!</p>
+                    </div>
+
+                    <h3>Roughness Best Practices</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Professional Roughness Workflow</h4>
+                        <ul>
+                            <li><strong>Start with reference:</strong> Look at photos of real materials to judge roughness accurately</li>
+                            <li><strong>Use middle range as baseline:</strong> Start at Roughness 0.4-0.5 and adjust from there</li>
+                            <li><strong>Avoid extremes:</strong> Very few real materials are 0.0 or 1.0—stay in 0.1-0.9 range</li>
+                            <li><strong>Add variation:</strong> Real materials have roughness variation (we'll learn with texture mapping)</li>
+                            <li><strong>Test multiple angles:</strong> Rotate around object to see how highlights behave</li>
+                            <li><strong>Test multiple lighting:</strong> Try bright and dim HDRIs to verify roughness looks correct</li>
+                            <li><strong>Match material category:</strong> Metals typically 0.1-0.5, plastics 0.2-0.6, fabrics 0.6-0.9</li>
+                            <li><strong>Observe edge highlights:</strong> Sharp = too smooth, invisible = too rough</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The Microfacet Mindset:</strong> When adjusting Roughness, imagine you're changing the alignment of millions of microscopic mirrors. Low roughness = all pointing the same way (organized army). High roughness = all pointing randomly (disorganized crowd). This mental model helps you predict exactly how materials will look!</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 04
+     Continue with lesson_11_pbr_materials_explained_part_05.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 11 - PART 05
+     File: lesson_11_pbr_materials_explained_part_05.html
+     ============================================ -->
+
+                <section id="metallic-workflow" class="content-section">
+                    <h2>⚙️ The Metallic Workflow: Conductors vs. Insulators</h2>
+
+                    <p>The Metallic parameter in Principled BSDF isn't just a creative choice—it represents a fundamental divide in how materials interact with light at the atomic level. Understanding the physics behind metals vs. non-metals is crucial for creating believable materials.</p>
+
+                    <h3>Conductors vs. Insulators: The Physics</h3>
+
+                    <p>At the atomic level, materials fall into two categories based on how their electrons behave:</p>
+
+                    <div class="card">
+                        <h4>⚛️ The Atomic Distinction</h4>
+                        <p><strong>Conductors (Metals):</strong></p>
+                        <ul>
+                            <li>Electrons move freely throughout the material</li>
+                            <li>Free electrons interact with incoming light waves</li>
+                            <li>Light energy absorbed and re-emitted almost immediately</li>
+                            <li>Result: Strong reflection, no light penetration</li>
+                            <li>Examples: Iron, gold, silver, copper, aluminum, chrome</li>
+                        </ul>
+                        <p><strong>Insulators/Dielectrics (Non-Metals):</strong></p>
+                        <ul>
+                            <li>Electrons bound tightly to atoms</li>
+                            <li>Light can penetrate into the material</li>
+                            <li>Some light reflected (specular), some scattered inside (diffuse)</li>
+                            <li>Result: Weak surface reflection, strong internal scattering</li>
+                            <li>Examples: Plastic, wood, glass, stone, ceramic, fabric, skin</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Bouncer Analogy:</strong> Metals are like nightclub bouncers—they stop light at the surface and bounce it back immediately. Non-metals are like porous sponges—light can enter, bounce around inside, and exit from different points. This fundamental difference creates completely different visual appearances!</p>
+                    </blockquote>
+
+                    <h3>Why Metallic Should Be 0.0 or 1.0</h3>
+
+                    <p>In the real world, materials are either conductors or insulators—there's no in-between. The Metallic parameter reflects this binary nature:</p>
+
+                    <div class="card">
+                        <h4>🎯 The Binary Rule</h4>
+                        <table>
+                            <tr>
+                                <th>Metallic Value</th>
+                                <th>Physical Meaning</th>
+                                <th>When to Use</th>
+                            </tr>
+                            <tr>
+                                <td><strong>0.0</strong></td>
+                                <td>Insulator/Dielectric</td>
+                                <td>Everything that's NOT metal (99% of materials)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>1.0</strong></td>
+                                <td>Conductor/Metal</td>
+                                <td>Pure metals only</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.5</strong></td>
+                                <td>❌ Physically impossible</td>
+                                <td>Never (unless deliberate stylized/sci-fi effect)</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <p>Setting Metallic to 0.5 creates a material that's "half metal, half not-metal"—something that doesn't exist in nature. It violates the physics of how light and electrons interact!</p>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ The 0.5 Metallic Trap</h4>
+                        <p><strong>Common beginner mistake:</strong> "I want my material halfway between shiny and matte, so I'll use Metallic 0.5"</p>
+                        <p><strong>Why it's wrong:</strong></p>
+                        <ul>
+                            <li>Creates physically impossible light behavior</li>
+                            <li>Fresnel effect becomes incorrect</li>
+                            <li>Material looks "off" but you can't identify why</li>
+                            <li>Doesn't render correctly in different lighting</li>
+                        </ul>
+                        <p><strong>The correct approach:</strong> Use Metallic 0.0 and adjust Roughness to control shininess!</p>
+                    </div>
+
+                    <h3>How Metals and Non-Metals Differ Visually</h3>
+
+                    <p>The conductor vs. insulator distinction creates profound visual differences:</p>
+
+                    <div class="card">
+                        <h4>👁️ Visual Characteristics Comparison</h4>
+                        <table>
+                            <tr>
+                                <th>Property</th>
+                                <th>Non-Metals (Metallic = 0)</th>
+                                <th>Metals (Metallic = 1)</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Base Color Role</strong></td>
+                                <td>Diffuse color (what you see in shadows)</td>
+                                <td>Reflection tint (colors the reflections)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Diffuse Reflection</strong></td>
+                                <td>Present and dominant</td>
+                                <td>None—metals have NO diffuse!</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Specular Reflection</strong></td>
+                                <td>~4-8% (white/colorless)</td>
+                                <td>60-95% (colored/tinted)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Fresnel Range</strong></td>
+                                <td>4% → 100% (dramatic change)</td>
+                                <td>70% → 100% (subtle change)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Color in Shadows</strong></td>
+                                <td>Base color visible</td>
+                                <td>Dark—only ambient reflections</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Reflection Color</strong></td>
+                                <td>White (mirrors environment exactly)</td>
+                                <td>Tinted by Base Color</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="mermaid">
+                        graph TD
+                        A[Incoming Light] --> B{Material Type}
+                        B --> C[Non-Metal: Metallic 0.0]
+                        B --> D[Metal: Metallic 1.0]
+                        
+                        C --> E[4% Specular - White]
+                        C --> F[96% Enters Material]
+                        F --> G[Diffuse Scattering - Colored]
+                        
+                        D --> H[70-95% Specular - Colored]
+                        D --> I[No Diffuse Component]
+                        I --> J[Only Reflections Visible]
+                        
+                        style A fill:#FFD700,stroke:#333,stroke-width:3px
+                        style C fill:#4CAF50,stroke:#333,stroke-width:2px
+                        style D fill:#FF9800,stroke:#333,stroke-width:2px
+                        style G fill:#2196F3,stroke:#333,stroke-width:2px
+                        style J fill:#9C27B0,stroke:#333,stroke-width:2px
+                    </div>
+
+                    <h3>Understanding Metal Colors</h3>
+
+                    <p>Metal colors work differently than non-metal colors. Here's why:</p>
+
+                    <div class="card">
+                        <h4>🎨 Metal Color Science</h4>
+                        <p><strong>Why metals look colored:</strong></p>
+                        <ul>
+                            <li>Metals absorb some wavelengths more than others</li>
+                            <li>Reflected light is tinted by what ISN'T absorbed</li>
+                            <li>This tint colors the reflection itself</li>
+                            <li>The "color" you see is actually colored reflection!</li>
+                        </ul>
+                        <p><strong>Common metal colors (Base Color values):</strong></p>
+                        <ul>
+                            <li><strong>Iron/Steel:</strong> RGB (0.56, 0.57, 0.58) - Slight blue-gray</li>
+                            <li><strong>Aluminum:</strong> RGB (0.91, 0.92, 0.92) - Bright silvery</li>
+                            <li><strong>Gold:</strong> RGB (1.0, 0.71, 0.29) - Yellow-orange</li>
+                            <li><strong>Copper:</strong> RGB (0.95, 0.64, 0.54) - Reddish-brown</li>
+                            <li><strong>Silver:</strong> RGB (0.97, 0.96, 0.91) - Slightly warm white</li>
+                            <li><strong>Chrome:</strong> RGB (0.55, 0.55, 0.55) - Neutral gray</li>
+                        </ul>
+                        <p><strong>Key insight:</strong> Most metals are near-grayscale with subtle tints. Only gold and copper have strong color!</p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Paint vs. Mirror Analogy:</strong> Non-metal color is like paint—the material itself has intrinsic color. Metal color is like tinted mirrors—the material colors what it reflects. A blue painted ball looks blue. A "blue" metal ball reflects the world with a blue tint.</p>
+                    </blockquote>
+
+                    <h3>Edge Tint (Advanced Metal Behavior)</h3>
+
+                    <p>In reality, metals have a subtle effect called "edge tint" where the reflection color shifts at grazing angles. Blender's Principled BSDF simulates this:</p>
+
+                    <div class="card">
+                        <h4>🌈 Edge Tint Phenomenon</h4>
+                        <p><strong>What happens:</strong></p>
+                        <ul>
+                            <li>At perpendicular viewing: Metal shows its characteristic color</li>
+                            <li>At grazing angles: Reflections become more white/neutral</li>
+                            <li>This is the opposite of the typical Fresnel effect!</li>
+                        </ul>
+                        <p><strong>Why it happens:</strong></p>
+                        <ul>
+                            <li>Complex quantum mechanics of electron behavior</li>
+                            <li>Different wavelengths reflect differently at angles</li>
+                            <li>Creates subtle color shift at edges</li>
+                        </ul>
+                        <p><strong>In practice:</strong> Principled BSDF handles this automatically when Metallic = 1.0. You don't need to do anything—just know it's contributing to realism!</p>
+                    </div>
+
+                    <h3>The Absence of Diffuse in Metals</h3>
+
+                    <p>This is crucial to understand: metals have ZERO diffuse reflection. All their "color" comes from tinted specular reflections:</p>
+
+                    <div class="card">
+                        <h4>🚫 No Diffuse for Metals</h4>
+                        <p><strong>What this means:</strong></p>
+                        <ul>
+                            <li>In completely dark environment (no lights), metal appears black</li>
+                            <li>Metal "color" only visible through reflections</li>
+                            <li>Rough metals still have no diffuse—just blurry colored reflections</li>
+                            <li>This is why metal in shadow looks nearly black</li>
+                        </ul>
+                        <p><strong>Common confusion:</strong></p>
+                        <ul>
+                            <li>❌ "My gold material is black in shadows, something's wrong!"</li>
+                            <li>✅ "That's correct! Metals only reflect. Add light or HDRI to see the gold color."</li>
+                        </ul>
+                    </div>
+
+                    <h3>Oxidized and Coated Metals</h3>
+
+                    <p>In the real world, many "metals" we see aren't pure metal—they have oxide layers or coatings:</p>
+
+                    <div class="card">
+                        <h4>🛡️ Surface Coatings and Oxidation</h4>
+                        <p><strong>Oxidized metals:</strong></p>
+                        <ul>
+                            <li>Rust on iron, patina on copper, tarnish on silver</li>
+                            <li>Oxide layer is NOT metallic</li>
+                            <li>Use Metallic = 0.0 for oxidized areas</li>
+                            <li>Mix metallic and non-metallic zones with texture maps</li>
+                        </ul>
+                        <p><strong>Painted metals:</strong></p>
+                        <ul>
+                            <li>Car bodies, appliances, tools with paint coating</li>
+                            <li>Paint is non-metallic, even though metal is underneath</li>
+                            <li>Use Metallic = 0.0 (you're seeing paint, not metal)</li>
+                            <li>Exception: Metallic car paint (special pigments) uses Metallic workflow differently</li>
+                        </ul>
+                        <p><strong>Anodized metals:</strong></p>
+                        <ul>
+                            <li>Aluminum with colored oxide layer</li>
+                            <li>Dielectric coating on metal base</li>
+                            <li>Use Metallic = 0.0 (coating is non-metallic)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Metallic Workflow in Practice</h3>
+
+                    <p>Here's how to approach the Metallic parameter for various materials:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Metallic Decision Tree</h4>
+                        <p><strong>Ask: "Am I looking at bare, pure metal?"</strong></p>
+                        <ul>
+                            <li><strong>YES →</strong> Metallic = 1.0
+                                <ul>
+                                    <li>Examples: Chrome trim, gold jewelry, polished steel, aluminum foil</li>
+                                </ul>
+                            </li>
+                            <li><strong>NO →</strong> Metallic = 0.0
+                                <ul>
+                                    <li>Painted surfaces (even if metal underneath)</li>
+                                    <li>Oxidized/rusted metal</li>
+                                    <li>Anodized aluminum</li>
+                                    <li>Plastic, wood, fabric, glass, stone—everything non-metallic</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Edge cases requiring texture mixing:</strong></p>
+                        <ul>
+                            <li>Worn paint exposing metal underneath → Mix Metallic 0.0 and 1.0 with mask</li>
+                            <li>Rust patches on metal → Mix Metallic 1.0 (clean) and 0.0 (rust) with mask</li>
+                            <li>Scratches through coating → Reveal metallic areas in scratches</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common Metallic Mistakes</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Metallic Pitfalls</h4>
+                        
+                        <p><strong>Mistake 1: Using Metallic = 0.5 for "semi-shiny" look</strong></p>
+                        <ul>
+                            <li><strong>Wrong thinking:</strong> "Metallic slider controls shininess"</li>
+                            <li><strong>Result:</strong> Physically impossible material</li>
+                            <li><strong>Fix:</strong> Use Metallic = 0.0 and adjust Roughness for shininess</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 2: Setting painted metal to Metallic = 1.0</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> "It's a metal car, so Metallic = 1.0, right?"</li>
+                            <li><strong>Result:</strong> Wrong look—you see paint, not bare metal</li>
+                            <li><strong>Fix:</strong> Use Metallic = 0.0 (paint is non-metallic)</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 3: Expecting metals to show color in shadow</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> "My gold is black in shadows!"</li>
+                            <li><strong>Not a bug:</strong> Metals have no diffuse—this is correct behavior</li>
+                            <li><strong>Solution:</strong> Add ambient lighting or HDRI for metal to reflect</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 4: Using wrong Base Color for metals</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Bright saturated colors for "cool looking" metal</li>
+                            <li><strong>Result:</strong> Unrealistic metal that doesn't exist in nature</li>
+                            <li><strong>Fix:</strong> Use measured RGB values for real metals (see chart above)</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 5: Forgetting about oxidation layers</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Setting rust/patina to Metallic = 1.0</li>
+                            <li><strong>Result:</strong> Oxidation looks wrong</li>
+                            <li><strong>Fix:</strong> Oxide/rust is non-metallic (Metallic = 0.0)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Advanced: Metallic Texture Maps</h3>
+
+                    <p>In complex materials, you'll use grayscale texture maps to control which parts are metallic:</p>
+
+                    <div class="card">
+                        <h4>🗺️ Metallic Maps</h4>
+                        <p><strong>How they work:</strong></p>
+                        <ul>
+                            <li>Black (0.0) = Non-metallic areas</li>
+                            <li>White (1.0) = Metallic areas</li>
+                            <li>No gray values—pure binary masking</li>
+                        </ul>
+                        <p><strong>Use cases:</strong></p>
+                        <ul>
+                            <li><strong>Worn paint:</strong> White where paint is scratched off (revealing metal)</li>
+                            <li><strong>Rust patterns:</strong> Black in rusted areas, white in clean metal</li>
+                            <li><strong>Dirt accumulation:</strong> Black where dirt covers metal surface</li>
+                            <li><strong>Dual-material objects:</strong> White for metal parts, black for plastic parts</li>
+                        </ul>
+                        <p><strong>Best practice:</strong> Even in metallic maps, avoid gray values. Use black or white to maintain physical accuracy!</p>
+                    </div>
+
+                    <h3>Testing Your Metallic Materials</h3>
+
+                    <p>Here's how to verify your metallic materials are correct:</p>
+
+                    <div class="card">
+                        <h4>🧪 Metallic Material Tests</h4>
+                        <ol>
+                            <li><strong>The Dark Environment Test:</strong>
+                                <ul>
+                                    <li>Place material in completely dark scene (no HDRI, no lights)</li>
+                                    <li>Metals should appear nearly black</li>
+                                    <li>Non-metals might show subtle diffuse color</li>
+                                </ul>
+                            </li>
+                            <li><strong>The Base Color Check:</strong>
+                                <ul>
+                                    <li>View material straight-on in neutral lighting</li>
+                                    <li>Non-metals: Base Color clearly visible</li>
+                                    <li>Metals: Base Color tints reflections, not visible as diffuse</li>
+                                </ul>
+                            </li>
+                            <li><strong>The Edge Highlight Test:</strong>
+                                <ul>
+                                    <li>Look at grazing angle highlights</li>
+                                    <li>Non-metals: Dramatic increase from ~4% to 100% reflection</li>
+                                    <li>Metals: Subtle increase from ~70% to 100% reflection</li>
+                                </ul>
+                            </li>
+                            <li><strong>The Reflection Tint Test:</strong>
+                                <ul>
+                                    <li>Check if reflections are colored</li>
+                                    <li>Non-metals: White/colorless reflections (mirrors environment exactly)</li>
+                                    <li>Metals: Tinted reflections (gold = yellow tint, copper = orange tint)</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Metallic Workflow Best Practices</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Professional Metallic Workflow</h4>
+                        <ul>
+                            <li><strong>Binary thinking:</strong> Always ask "metal or not-metal?" first</li>
+                            <li><strong>Use proper metal colors:</strong> Reference measured RGB values for real metals</li>
+                            <li><strong>Remember paint is non-metallic:</strong> Don't confuse substrate with surface</li>
+                            <li><strong>Provide adequate lighting:</strong> Metals need something to reflect</li>
+                            <li><strong>Consider oxidation:</strong> Weathered metals are often mixed metallic/non-metallic</li>
+                            <li><strong>Test in multiple environments:</strong> Good metals look correct in various HDRIs</li>
+                            <li><strong>Avoid artistic liberties:</strong> Stick to 0.0 or 1.0 unless deliberately creating sci-fi materials</li>
+                            <li><strong>Learn from references:</strong> Study photos of real metals to understand behavior</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The Fundamental Rule:</strong> Metallic isn't a "shininess" slider—it's a physics selector that completely changes how light interacts with the material at the atomic level. Get this right, and half your material work is done. Get it wrong, and nothing else will save the material!</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_11_pbr_materials_explained_part_06.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 11 - PART 06
+     File: lesson_11_pbr_materials_explained_part_06.html
+     ============================================ -->
+
+                <section id="albedo-values" class="content-section">
+                    <h2>🎨 Albedo and Color Science</h2>
+
+                    <p>Albedo (Base Color in Principled BSDF) isn't just about picking pretty colors—it's a scientifically measurable property that determines how much light a surface reflects. Understanding albedo ranges is essential for creating physically accurate, believable materials.</p>
+
+                    <h3>What Is Albedo?</h3>
+
+                    <p>Albedo is the proportion of incident light that a surface reflects. It's often expressed as a percentage or a value from 0.0 to 1.0:</p>
+
+                    <div class="card">
+                        <h4>📊 Albedo Definition</h4>
+                        <ul>
+                            <li><strong>Albedo 0.0 (0%):</strong> Surface absorbs all light, reflects nothing (pure black)</li>
+                            <li><strong>Albedo 0.5 (50%):</strong> Surface reflects half the light, absorbs half</li>
+                            <li><strong>Albedo 1.0 (100%):</strong> Surface reflects all light, absorbs nothing (pure white)</li>
+                        </ul>
+                        <p><strong>In Blender:</strong> The Base Color RGB values directly represent albedo. RGB (0.5, 0.5, 0.5) means 50% reflectance for all wavelengths (medium gray).</p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Paint Reflectance Analogy:</strong> Imagine painting a wall and measuring how much light bounces back with a light meter. A white wall reflects 80-90% (albedo 0.8-0.9). A black wall reflects 3-5% (albedo 0.03-0.05). Medium gray reflects about 50% (albedo 0.5). Albedo is this measurable property—not just "what color looks nice!"</p>
+                    </blockquote>
+
+                    <h3>Why Albedo Ranges Matter</h3>
+
+                    <p>In the real world, nothing is perfectly black (0.0) or perfectly white (1.0). Using accurate albedo ranges makes materials instantly more believable:</p>
+
+                    <div class="card">
+                        <h4>🌍 Real-World Albedo Ranges</h4>
+                        <table>
+                            <tr>
+                                <th>Albedo Range</th>
+                                <th>RGB Range</th>
+                                <th>Real Materials</th>
+                            </tr>
+                            <tr>
+                                <td><strong>0.02 - 0.05</strong></td>
+                                <td>5 - 13 sRGB</td>
+                                <td>Charcoal, coal, black velvet, asphalt (very dark)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.10 - 0.20</strong></td>
+                                <td>26 - 51 sRGB</td>
+                                <td>Dark wood, dark leather, black rubber, dark soil</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.20 - 0.40</strong></td>
+                                <td>51 - 102 sRGB</td>
+                                <td>Concrete, bark, brown leather, dark brick</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.40 - 0.60</strong></td>
+                                <td>102 - 153 sRGB</td>
+                                <td>Light wood, sand, clay, weathered concrete</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.60 - 0.80</strong></td>
+                                <td>153 - 204 sRGB</td>
+                                <td>Light-colored stone, plaster, paper, light fabric</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.80 - 0.95</strong></td>
+                                <td>204 - 242 sRGB</td>
+                                <td>Fresh snow, white paint, white ceramic, white paper</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <p><strong>Critical insight:</strong> Notice that even "black" materials reflect 2-5% of light, and even "white" materials only reflect 80-95%. Pure 0.0 and 1.0 essentially don't exist in nature!</p>
+
+                    <h3>The 30-80 Rule</h3>
+
+                    <p>Professional material artists follow a simple guideline for most materials:</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">🎯 The 30-80 Rule</h3>
+                        <p style="color: white; font-size: 1.1em;"><strong>Most common materials fall between albedo 0.30 and 0.80 (RGB 77-204 in sRGB)</strong></p>
+                        <p style="color: white; margin: 0;">If you're creating generic materials without reference, starting in this range ensures physical plausibility!</p>
+                    </div>
+
+                    <h3>Color and Albedo Are Different</h3>
+
+                    <p>A common confusion: thinking "color" and "albedo" are the same thing. They're related but distinct:</p>
+
+                    <div class="card">
+                        <h4>🎨 Color vs. Albedo</h4>
+                        <p><strong>Color (Hue):</strong></p>
+                        <ul>
+                            <li>Which wavelengths of light are reflected</li>
+                            <li>Red reflects red light, absorbs blue/green</li>
+                            <li>Determines the perceptual "color"</li>
+                        </ul>
+                        <p><strong>Albedo (Value/Brightness):</strong></p>
+                        <ul>
+                            <li>How much total light is reflected (all wavelengths combined)</li>
+                            <li>Determines how bright/dark the material appears</li>
+                            <li>Can have red color with low albedo (dark red) or high albedo (light red)</li>
+                        </ul>
+                        <p><strong>Example:</strong></p>
+                        <ul>
+                            <li><strong>Dark red leather:</strong> Red hue, albedo ~0.15 (dark)</li>
+                            <li><strong>Pink plastic:</strong> Red hue, albedo ~0.70 (bright)</li>
+                            <li>Same color family, very different albedo values!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Measuring Albedo from References</h3>
+
+                    <p>When working from reference photos, how do you determine correct albedo? Here's the process:</p>
+
+                    <div class="card">
+                        <h4>📸 Extracting Albedo from Photos</h4>
+                        <ol>
+                            <li><strong>Find reference with even lighting:</strong>
+                                <ul>
+                                    <li>Overcast day or studio lighting works best</li>
+                                    <li>Avoid harsh shadows or direct sunlight</li>
+                                    <li>Look for diffuse lighting conditions</li>
+                                </ul>
+                            </li>
+                            <li><strong>Sample the "average" area:</strong>
+                                <ul>
+                                    <li>Not highlights (specular reflection)</li>
+                                    <li>Not deep shadows (no light reaching surface)</li>
+                                    <li>The middle-tone diffuse areas</li>
+                                </ul>
+                            </li>
+                            <li><strong>Use color picker in image editor:</strong>
+                                <ul>
+                                    <li>Pick RGB values from that area</li>
+                                    <li>These values approximate the albedo</li>
+                                </ul>
+                            </li>
+                            <li><strong>Verify it's in plausible range:</strong>
+                                <ul>
+                                    <li>Dark materials: 0.02-0.30</li>
+                                    <li>Medium materials: 0.30-0.60</li>
+                                    <li>Light materials: 0.60-0.90</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Photo Reference Warning</h4>
+                        <p><strong>Photos aren't perfect albedo maps because:</strong></p>
+                        <ul>
+                            <li>Lighting affects perceived brightness</li>
+                            <li>Camera exposure changes values</li>
+                            <li>Post-processing alters colors</li>
+                            <li>Shadows and highlights contaminate samples</li>
+                        </ul>
+                        <p><strong>Solution:</strong> Use photos as starting point, then adjust to known physical ranges. Trust measurements over photos!</p>
+                    </div>
+
+                    <h3>Saturation and Albedo Relationship</h3>
+
+                    <p>Highly saturated colors typically have lower albedo than you might expect:</p>
+
+                    <div class="card">
+                        <h4>🌈 Saturation Impact on Albedo</h4>
+                        <p><strong>Why saturated colors are darker:</strong></p>
+                        <ul>
+                            <li>Pure red RGB (1.0, 0.0, 0.0) reflects ONLY red light (~33% of visible spectrum)</li>
+                            <li>Absorbs all blue and green light (~67% of visible spectrum)</li>
+                            <li>Effective albedo: Only ~0.30-0.35 despite maximum red channel!</li>
+                        </ul>
+                        <p><strong>Practical examples:</strong></p>
+                        <ul>
+                            <li><strong>Bright red toy:</strong> RGB (0.8, 0.05, 0.05) → Albedo ~0.30</li>
+                            <li><strong>Bright blue plastic:</strong> RGB (0.05, 0.3, 0.9) → Albedo ~0.40</li>
+                            <li><strong>Vibrant green:</strong> RGB (0.1, 0.7, 0.1) → Albedo ~0.30</li>
+                        </ul>
+                        <p><strong>Desaturation increases albedo:</strong></p>
+                        <ul>
+                            <li>Pastel pink RGB (0.9, 0.7, 0.7) → Albedo ~0.77</li>
+                            <li>Light blue RGB (0.7, 0.8, 0.9) → Albedo ~0.80</li>
+                            <li>Pale yellow RGB (0.9, 0.9, 0.7) → Albedo ~0.83</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Color Purity Trade-off:</strong> In the real world, the most saturated, vibrant colors are actually quite dark because they absorb so much of the spectrum. To get bright, light colors, you need to desaturate (let all wavelengths reflect more equally). This is why pastels are light and vivid colors are relatively dark!</p>
+                    </blockquote>
+
+                    <h3>Common Material Albedo Values</h3>
+
+                    <p>Here's a quick reference for typical albedo values of common materials:</p>
+
+                    <div class="card">
+                        <h4>📚 Material Albedo Reference Library</h4>
+                        <table>
+                            <tr>
+                                <th>Material</th>
+                                <th>Typical Albedo</th>
+                                <th>RGB Equivalent (sRGB)</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Fresh Snow</strong></td>
+                                <td>0.80 - 0.90</td>
+                                <td>204 - 230</td>
+                            </tr>
+                            <tr>
+                                <td><strong>White Paper</strong></td>
+                                <td>0.75 - 0.85</td>
+                                <td>191 - 217</td>
+                            </tr>
+                            <tr>
+                                <td><strong>White Paint</strong></td>
+                                <td>0.70 - 0.80</td>
+                                <td>179 - 204</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Limestone/Concrete</strong></td>
+                                <td>0.30 - 0.50</td>
+                                <td>77 - 128</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dry Sand</strong></td>
+                                <td>0.35 - 0.45</td>
+                                <td>89 - 115</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Soil</strong></td>
+                                <td>0.10 - 0.30</td>
+                                <td>26 - 77</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wood (Light)</strong></td>
+                                <td>0.40 - 0.60</td>
+                                <td>102 - 153</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wood (Dark)</strong></td>
+                                <td>0.10 - 0.25</td>
+                                <td>26 - 64</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Red Brick</strong></td>
+                                <td>0.20 - 0.30</td>
+                                <td>51 - 77</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Grass (Living)</strong></td>
+                                <td>0.15 - 0.25</td>
+                                <td>38 - 64</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Asphalt (New)</strong></td>
+                                <td>0.05 - 0.10</td>
+                                <td>13 - 26</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Asphalt (Worn)</strong></td>
+                                <td>0.10 - 0.18</td>
+                                <td>26 - 46</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Black Rubber</strong></td>
+                                <td>0.04 - 0.08</td>
+                                <td>10 - 20</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Charcoal</strong></td>
+                                <td>0.03 - 0.05</td>
+                                <td>8 - 13</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3>Albedo for Non-Dielectric Materials</h3>
+
+                    <p>Remember: albedo primarily applies to dielectric (non-metal) materials. Metals work differently:</p>
+
+                    <div class="card">
+                        <h4>⚙️ Metal "Albedo" (Base Color)</h4>
+                        <p><strong>For metals, Base Color determines reflection tint, not albedo:</strong></p>
+                        <ul>
+                            <li>Metals have no diffuse, so traditional albedo doesn't apply</li>
+                            <li>Base Color tints the specular reflection</li>
+                            <li>Most metals: Near grayscale (0.5-0.95 across RGB)</li>
+                            <li>Exception: Gold (1.0, 0.71, 0.29) and Copper (0.95, 0.64, 0.54) have strong color</li>
+                        </ul>
+                        <p><strong>Metal Base Color ranges:</strong></p>
+                        <ul>
+                            <li><strong>Iron/Steel:</strong> 0.56 - 0.58 (medium gray)</li>
+                            <li><strong>Aluminum:</strong> 0.91 - 0.92 (bright gray)</li>
+                            <li><strong>Silver:</strong> 0.95 - 0.97 (near-white)</li>
+                            <li>These aren't "albedo" in the diffuse sense—they're reflectance values!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Gamma and Linear Workflow</h3>
+
+                    <p>This is technical but important: the RGB values you see depend on color space (gamma):</p>
+
+                    <div class="card">
+                        <h4>🎚️ sRGB vs. Linear Color Space</h4>
+                        <p><strong>sRGB (what you see on screen):</strong></p>
+                        <ul>
+                            <li>Gamma-corrected color space for displays</li>
+                            <li>RGB 128 appears "middle gray" to human eye</li>
+                            <li>Perceptually uniform spacing</li>
+                        </ul>
+                        <p><strong>Linear (what Blender calculates with):</strong></p>
+                        <ul>
+                            <li>Physically accurate light calculations</li>
+                            <li>RGB 0.5 is actual 50% light energy (appears darker than expected)</li>
+                            <li>Mathematically linear</li>
+                        </ul>
+                        <p><strong>Why this matters:</strong></p>
+                        <ul>
+                            <li>Blender's color picker shows sRGB values for ease of use</li>
+                            <li>Internally converts to linear for calculations</li>
+                            <li>You can use sRGB values from this lesson directly in Blender</li>
+                            <li>Just know that "0.5" in Blender's color picker ≈ 0.22 actual light energy</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 Practical Takeaway:</strong> Don't worry too much about gamma. Blender handles conversions automatically. When this lesson gives RGB values, use them in Blender's color picker as-is. The shader does the math correctly behind the scenes!</p>
+                    </blockquote>
+
+                    <h3>Testing Albedo Accuracy</h3>
+
+                    <p>How do you verify your albedo values are correct? Here are some tests:</p>
+
+                    <div class="card">
+                        <h4>🧪 Albedo Verification Tests</h4>
+                        <ol>
+                            <li><strong>The White Room Test:</strong>
+                                <ul>
+                                    <li>Place material in pure white HDRI environment</li>
+                                    <li>Material should never appear brighter than the environment</li>
+                                    <li>If it does, albedo is too high (energy conservation violation)</li>
+                                </ul>
+                            </li>
+                            <li><strong>The Grayscale Comparison:</strong>
+                                <ul>
+                                    <li>Create grayscale version of your Base Color</li>
+                                    <li>Check if brightness matches expected material type</li>
+                                    <li>Too bright/dark? Adjust value while keeping hue</li>
+                                </ul>
+                            </li>
+                            <li><strong>The Reference Match:</strong>
+                                <ul>
+                                    <li>Place your material next to reference photo</li>
+                                    <li>In same lighting, brightness should match</li>
+                                    <li>If significantly different, albedo is wrong</li>
+                                </ul>
+                            </li>
+                            <li><strong>The Category Check:</strong>
+                                <ul>
+                                    <li>Compare to known albedo ranges for material type</li>
+                                    <li>Wood should be 0.15-0.60, concrete 0.25-0.50, etc.</li>
+                                    <li>Wildly outside range? Double-check your values</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Common Albedo Mistakes</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Albedo Pitfalls</h4>
+                        
+                        <p><strong>Mistake 1: Using pure black (0, 0, 0) or pure white (255, 255, 255)</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> These values don't exist in nature</li>
+                            <li><strong>Result:</strong> Materials look CG and unrealistic</li>
+                            <li><strong>Fix:</strong> Darkest: RGB 5-10, Lightest: RGB 240-245</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 2: All colors too saturated and dark</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Using fully saturated colors (R=255, G=0, B=0)</li>
+                            <li><strong>Result:</strong> Materials appear too dark and fake</li>
+                            <li><strong>Fix:</strong> Desaturate slightly for more realistic brightness</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 3: Ignoring material-specific ranges</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> "I want light wood, so I'll use RGB 250, 250, 220"</li>
+                            <li><strong>Result:</strong> Wood that's impossibly bright</li>
+                            <li><strong>Fix:</strong> Light wood should be RGB 140-180, not near-white</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 4: Not adjusting for saturation</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Bright saturated red (255, 0, 0) expecting it to look bright</li>
+                            <li><strong>Result:</strong> Material appears darker than expected</li>
+                            <li><strong>Understanding:</strong> Saturation reduces effective albedo—this is correct physics!</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 5: Copying values directly from photos without validation</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Photos have lighting baked in</li>
+                            <li><strong>Result:</strong> Albedo values include shadows/highlights</li>
+                            <li><strong>Fix:</strong> Use photos as reference but validate against known ranges</li>
+                        </ul>
+                    </div>
+
+                    <h3>Albedo Best Practices</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Professional Albedo Workflow</h4>
+                        <ul>
+                            <li><strong>Start with measured values:</strong> Use material reference charts when available</li>
+                            <li><strong>Stay within physical ranges:</strong> 0.02 (darkest) to 0.90 (lightest) for most materials</li>
+                            <li><strong>Follow the 30-80 rule:</strong> Most common materials fall in this range</li>
+                            <li><strong>Desaturate for brightness:</strong> Want light colors? Reduce saturation, not just increase value</li>
+                            <li><strong>Validate in neutral lighting:</strong> Test materials in white HDRI to check albedo accuracy</li>
+                            <li><strong>Reference real materials:</strong> Take photos with color checker for accurate values</li>
+                            <li><strong>Consider context:</strong> Material in bright sun looks different than in shadow—albedo stays constant</li>
+                            <li><strong>Document your values:</strong> Keep a library of accurate albedo values for reuse</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The Albedo Revelation:</strong> Once you start thinking about materials in terms of measurable albedo values rather than "whatever looks nice," your materials will instantly become more believable. You're no longer guessing—you're using physics. And physics always looks right!</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 06
+     Continue with lesson_11_pbr_materials_explained_part_07.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 11 - PART 07
+     File: lesson_11_pbr_materials_explained_part_07.html
+     ============================================ -->
+
+                <section id="advanced-pbr-parameters" class="content-section">
+                    <h2>🔧 Advanced PBR Parameters</h2>
+
+                    <p>Beyond the essential trio of Base Color, Metallic, and Roughness, Principled BSDF offers several advanced parameters for specialized materials. Let's explore when and how to use them for maximum realism.</p>
+
+                    <h3>Subsurface Scattering (SSS)</h3>
+
+                    <p>Subsurface scattering simulates light that penetrates the surface, bounces around inside the material, and exits from a different location:</p>
+
+                    <div class="card">
+                        <h4>🕯️ Subsurface Scattering Explained</h4>
+                        <p><strong>What it simulates:</strong></p>
+                        <ul>
+                            <li>Light enters material instead of reflecting immediately</li>
+                            <li>Scatters randomly inside material</li>
+                            <li>Some light absorbed, some exits nearby</li>
+                            <li>Creates soft, translucent appearance</li>
+                        </ul>
+                        <p><strong>Real-world materials with SSS:</strong></p>
+                        <ul>
+                            <li><strong>Skin:</strong> Blood vessels scatter red light under surface</li>
+                            <li><strong>Wax:</strong> Light penetrates and glows from within</li>
+                            <li><strong>Milk:</strong> Opaque but light scatters through it</li>
+                            <li><strong>Marble:</strong> Slightly translucent, depth appearance</li>
+                            <li><strong>Leaves:</strong> Backlit leaves show venation and glow</li>
+                            <li><strong>Jade:</strong> Semi-translucent stone with internal glow</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Flashlight Hand Analogy:</strong> Hold a flashlight against your hand in a dark room. Your hand glows red because light penetrates skin, scatters through tissue and blood, and exits creating that characteristic translucent glow. That's subsurface scattering—light's journey through semi-transparent materials!</p>
+                    </blockquote>
+
+                    <h3>SSS Parameters in Principled BSDF</h3>
+
+                    <div class="card">
+                        <h4>🎛️ Subsurface Controls</h4>
+                        <p><strong>Subsurface (0.0 - 1.0):</strong></p>
+                        <ul>
+                            <li>Strength of subsurface scattering effect</li>
+                            <li>0.0 = No SSS (normal surface)</li>
+                            <li>1.0 = Maximum SSS (fully translucent)</li>
+                            <li>Typical values: 0.1-0.5 for subtle effects</li>
+                        </ul>
+                        <p><strong>Subsurface Radius (RGB):</strong></p>
+                        <ul>
+                            <li>How far light travels inside material (per color channel)</li>
+                            <li>Measured in Blender units</li>
+                            <li>Red channel = Red light scatter distance</li>
+                            <li>Green channel = Green light scatter distance</li>
+                            <li>Blue channel = Blue light scatter distance</li>
+                            <li>Different values create color-specific depth effects</li>
+                        </ul>
+                        <p><strong>Subsurface Color:</strong></p>
+                        <ul>
+                            <li>Tint of the internal scattering</li>
+                            <li>Often similar to Base Color but can differ</li>
+                            <li>Skin: Slightly reddish (blood)</li>
+                            <li>Wax: Creamy yellow</li>
+                            <li>Marble: White with subtle color variations</li>
+                        </ul>
+                    </div>
+
+                    <h3>Practical SSS Examples</h3>
+
+                    <div class="card">
+                        <h4>📋 SSS Material Recipes</h4>
+                        <p><strong>Human Skin:</strong></p>
+                        <ul>
+                            <li>Subsurface: 0.15-0.3</li>
+                            <li>Subsurface Radius: RGB (1.0, 0.2, 0.1) - Red scatters more</li>
+                            <li>Subsurface Color: RGB (0.8, 0.5, 0.4) - Reddish</li>
+                            <li>Base Color: Skin tone</li>
+                            <li>Roughness: 0.4-0.5</li>
+                        </ul>
+                        <p><strong>Candle Wax:</strong></p>
+                        <ul>
+                            <li>Subsurface: 0.5-0.8</li>
+                            <li>Subsurface Radius: RGB (2.0, 2.0, 2.0) - Even scattering</li>
+                            <li>Subsurface Color: RGB (0.95, 0.9, 0.8) - Warm white</li>
+                            <li>Base Color: Creamy white/yellow</li>
+                            <li>Roughness: 0.3-0.4</li>
+                        </ul>
+                        <p><strong>Marble:</strong></p>
+                        <ul>
+                            <li>Subsurface: 0.1-0.3</li>
+                            <li>Subsurface Radius: RGB (0.5, 0.5, 0.5) - Subtle</li>
+                            <li>Subsurface Color: White or slightly tinted</li>
+                            <li>Base Color: White with veining texture</li>
+                            <li>Roughness: 0.2-0.4</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ SSS Performance Warning</h4>
+                        <p>Subsurface scattering is computationally expensive, especially in Cycles:</p>
+                        <ul>
+                            <li>Significantly increases render times</li>
+                            <li>More samples needed for clean results</li>
+                            <li>Use only when truly necessary for material believability</li>
+                            <li>Avoid on background objects where effect isn't visible</li>
+                        </ul>
+                    </div>
+
+                    <h3>Transmission (Advanced Transparency)</h3>
+
+                    <p>We've covered basic transmission, but let's dive deeper into advanced transparent material creation:</p>
+
+                    <div class="card">
+                        <h4>🔍 Advanced Transmission</h4>
+                        <p><strong>Transmission + Roughness interaction:</strong></p>
+                        <ul>
+                            <li><strong>Roughness 0.0:</strong> Clear glass (sharp refraction)</li>
+                            <li><strong>Roughness 0.3-0.6:</strong> Frosted glass (diffused transmission)</li>
+                            <li><strong>Roughness 0.8+:</strong> Milky/translucent (barely see through)</li>
+                        </ul>
+                        <p><strong>Combining transmission with other effects:</strong></p>
+                        <ul>
+                            <li><strong>+ Subsurface:</strong> Creates materials like jade (both transmit and scatter)</li>
+                            <li><strong>+ Base Color:</strong> Tinted glass (colored transparency)</li>
+                            <li><strong>+ Emission:</strong> Glowing transparent materials</li>
+                        </ul>
+                    </div>
+
+                    <h3>IOR (Index of Refraction) Deep Dive</h3>
+
+                    <p>IOR deserves special attention because it profoundly affects realism of transparent materials:</p>
+
+                    <div class="card">
+                        <h4>🌊 IOR Physical Accuracy</h4>
+                        <p><strong>What IOR controls:</strong></p>
+                        <ul>
+                            <li>How much light bends when entering/exiting material</li>
+                            <li>Strength of Fresnel reflections</li>
+                            <li>Caustics patterns (focused light through transparent objects)</li>
+                        </ul>
+                        <p><strong>Accurate IOR values are critical for:</strong></p>
+                        <ul>
+                            <li>Realistic glass appearance</li>
+                            <li>Proper reflection/transmission balance</li>
+                            <li>Correct light bending effects</li>
+                            <li>Believable caustics</li>
+                        </ul>
+                        <p><strong>Extended IOR reference:</strong></p>
+                        <ul>
+                            <li><strong>Vacuum/Air:</strong> 1.0 (reference point)</li>
+                            <li><strong>Ice:</strong> 1.31</li>
+                            <li><strong>Water (20°C):</strong> 1.333</li>
+                            <li><strong>Alcohol:</strong> 1.36</li>
+                            <li><strong>Plexiglass:</strong> 1.49</li>
+                            <li><strong>Crown Glass:</strong> 1.52</li>
+                            <li><strong>Crystal:</strong> 1.54</li>
+                            <li><strong>Flint Glass:</strong> 1.6-1.7</li>
+                            <li><strong>Sapphire:</strong> 1.77</li>
+                            <li><strong>Cubic Zirconia:</strong> 2.15</li>
+                            <li><strong>Diamond:</strong> 2.42</li>
+                        </ul>
+                    </div>
+
+                    <h3>Sheen: Fabric and Velvet</h3>
+
+                    <p>Sheen simulates the characteristic edge glow seen on fabric materials:</p>
+
+                    <div class="card">
+                        <h4>✨ Sheen for Textiles</h4>
+                        <p><strong>What sheen simulates:</strong></p>
+                        <ul>
+                            <li>Soft, diffuse reflection at grazing angles</li>
+                            <li>Created by microfibers catching light</li>
+                            <li>Distinct from specular highlights (more diffuse)</li>
+                            <li>Gives fabric materials their characteristic look</li>
+                        </ul>
+                        <p><strong>Sheen parameters:</strong></p>
+                        <ul>
+                            <li><strong>Sheen (0.0-1.0):</strong> Strength of effect</li>
+                            <li><strong>Sheen Tint (0.0-1.0):</strong> 
+                                <ul>
+                                    <li>0.0 = White sheen</li>
+                                    <li>1.0 = Sheen matches Base Color</li>
+                                    <li>0.5 = Blend between</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Typical values:</strong></p>
+                        <ul>
+                            <li><strong>Cotton fabric:</strong> Sheen 0.3-0.5, Tint 0.5</li>
+                            <li><strong>Velvet:</strong> Sheen 0.8-1.0, Tint 0.8</li>
+                            <li><strong>Satin:</strong> Sheen 0.4-0.6, Tint 0.3 (more white sheen)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Clearcoat: Layered Materials</h3>
+
+                    <p>Clearcoat simulates a transparent glossy layer on top of another material:</p>
+
+                    <div class="card">
+                        <h4>🚗 Clearcoat Deep Dive</h4>
+                        <p><strong>Physical model:</strong></p>
+                        <ul>
+                            <li>Base layer (controlled by main parameters)</li>
+                            <li>Transparent glossy coat on top</li>
+                            <li>Two independent roughness values</li>
+                            <li>Realistic multi-layer appearance</li>
+                        </ul>
+                        <p><strong>Clearcoat parameters:</strong></p>
+                        <ul>
+                            <li><strong>Clearcoat (0.0-1.0):</strong> Strength/presence of coat layer</li>
+                            <li><strong>Clearcoat Roughness (0.0-1.0):</strong> How glossy the coat is</li>
+                            <li><strong>Clearcoat Normal:</strong> Optional separate normal map for coat texture</li>
+                        </ul>
+                        <p><strong>Advanced applications:</strong></p>
+                        <ul>
+                            <li><strong>Car paint:</strong> Colored base (rough) + glossy clearcoat</li>
+                            <li><strong>Lacquered wood:</strong> Wood grain (rougher) + glossy finish</li>
+                            <li><strong>Coated metal:</strong> Brushed metal + protective clear layer</li>
+                            <li><strong>Nail polish:</strong> Colored base + high-gloss top coat</li>
+                            <li><strong>Carbon fiber:</strong> Woven pattern + glossy resin coat</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Clearcoat Pro Tip</h4>
+                        <p>The power of clearcoat comes from <strong>two independent roughness values</strong>:</p>
+                        <ul>
+                            <li>Base layer: Roughness 0.6 (satin finish)</li>
+                            <li>Clearcoat: Clearcoat Roughness 0.1 (glossy)</li>
+                            <li>Result: Visible base texture with glossy highlights—just like real car paint!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Anisotropic: Directional Highlights</h3>
+
+                    <p>Anisotropic roughness creates elongated, directional highlights:</p>
+
+                    <div class="card">
+                        <h4>↔️ Anisotropy In Depth</h4>
+                        <p><strong>What creates anisotropy in real materials:</strong></p>
+                        <ul>
+                            <li>Directional surface structure (micro-grooves)</li>
+                            <li>Manufacturing processes (brushing, extrusion, machining)</li>
+                            <li>Aligned fibers or crystals</li>
+                        </ul>
+                        <p><strong>Anisotropic parameters:</strong></p>
+                        <ul>
+                            <li><strong>Anisotropic (0.0-1.0):</strong> 
+                                <ul>
+                                    <li>0.0 = Isotropic (normal circular highlights)</li>
+                                    <li>1.0 = Fully anisotropic (elongated highlights)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Anisotropic Rotation (0.0-1.0):</strong>
+                                <ul>
+                                    <li>Direction of the effect (0-360° mapped to 0.0-1.0)</li>
+                                    <li>Controls orientation of stretched highlights</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Common anisotropic materials:</strong></p>
+                        <ul>
+                            <li><strong>Brushed metal:</strong> Anisotropic 0.7-0.9</li>
+                            <li><strong>Hair/fur:</strong> Anisotropic 0.8-1.0</li>
+                            <li><strong>Vinyl records:</strong> Circular grooves (animated rotation)</li>
+                            <li><strong>CDs/DVDs:</strong> Radial pattern</li>
+                            <li><strong>Satin fabric:</strong> Anisotropic 0.4-0.6</li>
+                        </ul>
+                    </div>
+
+                    <h3>Normal, Bump, and Displacement</h3>
+
+                    <p>These parameters add surface detail without changing geometry:</p>
+
+                    <div class="card">
+                        <h4>🗺️ Surface Detail Methods</h4>
+                        <p><strong>Normal Map:</strong></p>
+                        <ul>
+                            <li>RGB texture encoding surface normal directions</li>
+                            <li>Very detailed, no performance cost</li>
+                            <li>Doesn't change actual geometry</li>
+                            <li>Best for: Fine detail (scratches, pores, fabric weave)</li>
+                        </ul>
+                        <p><strong>Bump Map:</strong></p>
+                        <ul>
+                            <li>Grayscale height information</li>
+                            <li>Converted to normal map by shader</li>
+                            <li>Simpler to create than normal maps</li>
+                            <li>Best for: Simple height variations</li>
+                        </ul>
+                        <p><strong>Displacement:</strong></p>
+                        <ul>
+                            <li>Actually moves geometry based on texture</li>
+                            <li>Creates real depth and silhouette changes</li>
+                            <li>Requires subdivision for detail</li>
+                            <li>Performance cost (more geometry)</li>
+                            <li>Best for: Large height changes that affect silhouette</li>
+                        </ul>
+                        <p><strong>Usage guideline:</strong></p>
+                        <ul>
+                            <li>Fine detail: Normal maps</li>
+                            <li>Medium detail: Bump maps</li>
+                            <li>Dramatic height: Displacement</li>
+                            <li>Often combine: Displacement for large features + Normal for fine detail</li>
+                        </ul>
+                    </div>
+
+                    <h3>Emission: Beyond Simple Glow</h3>
+
+                    <p>Emission can be used creatively beyond simple glowing surfaces:</p>
+
+                    <div class="card">
+                        <h4>💡 Advanced Emission Techniques</h4>
+                        <p><strong>Emission as light source:</strong></p>
+                        <ul>
+                            <li>High strength (10-50+): Acts as actual scene light</li>
+                            <li>Illuminates nearby objects</li>
+                            <li>Creates realistic light-emitting materials</li>
+                        </ul>
+                        <p><strong>Emission for effects:</strong></p>
+                        <ul>
+                            <li><strong>Screens/monitors:</strong> Strength 3-5, realistic display glow</li>
+                            <li><strong>Neon signs:</strong> Strength 10-20, bright colored glow</li>
+                            <li><strong>Lava/molten metal:</strong> Strength 5-15, heated material glow</li>
+                            <li><strong>Bioluminescence:</strong> Strength 1-3, organic glow</li>
+                            <li><strong>Energy fields:</strong> Animated strength, sci-fi effects</li>
+                        </ul>
+                        <p><strong>Combining emission with texture:</strong></p>
+                        <ul>
+                            <li>Texture controls where emission appears</li>
+                            <li>Creates patterns: LED panels, circuit boards, glowing runes</li>
+                            <li>Animate texture for flickering, pulsing effects</li>
+                        </ul>
+                    </div>
+
+                    <h3>Alpha/Transparency</h3>
+
+                    <p>Alpha controls visibility—different from transmission:</p>
+
+                    <div class="card">
+                        <h4>👻 Alpha Channel Usage</h4>
+                        <p><strong>Alpha vs. Transmission:</strong></p>
+                        <ul>
+                            <li><strong>Alpha:</strong> Makes surface invisible (cutout, no light interaction)</li>
+                            <li><strong>Transmission:</strong> Makes surface transparent (light passes through)</li>
+                        </ul>
+                        <p><strong>Alpha use cases:</strong></p>
+                        <ul>
+                            <li><strong>Cutout textures:</strong> Leaves, chain-link fence, lace</li>
+                            <li><strong>Particle systems:</strong> Fading particles (smoke, dust)</li>
+                            <li><strong>Decals:</strong> Stickers, labels with transparent backgrounds</li>
+                            <li><strong>Hair/fur cards:</strong> Texture-based hair strands</li>
+                        </ul>
+                        <p><strong>Alpha workflow:</strong></p>
+                        <ul>
+                            <li>Usually driven by Image Texture Alpha channel</li>
+                            <li>Black = invisible, White = visible</li>
+                            <li>Requires "Blend Mode" set to "Alpha Clip" or "Alpha Blend" in material settings</li>
+                        </ul>
+                    </div>
+
+                    <h3>When to Use Advanced Parameters</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Advanced Parameter Decision Guide</h4>
+                        <p><strong>Use Subsurface when:</strong></p>
+                        <ul>
+                            <li>Material is semi-translucent (skin, wax, marble, jade)</li>
+                            <li>Backlit glow is important to visual</li>
+                            <li>Material needs soft, organic appearance</li>
+                        </ul>
+                        <p><strong>Use Sheen when:</strong></p>
+                        <ul>
+                            <li>Creating fabric, especially velvet or satin</li>
+                            <li>Need soft edge glow distinct from specular</li>
+                            <li>Material has fibrous structure</li>
+                        </ul>
+                        <p><strong>Use Clearcoat when:</strong></p>
+                        <ul>
+                            <li>Material has two distinct layers (paint + clear coat)</li>
+                            <li>Need rough base with glossy top layer</li>
+                            <li>Creating car paint, lacquered surfaces, coated materials</li>
+                        </ul>
+                        <p><strong>Use Anisotropic when:</strong></p>
+                        <ul>
+                            <li>Material has directional manufacturing marks</li>
+                            <li>Creating brushed metal, hair, records</li>
+                            <li>Highlights should be elongated, not circular</li>
+                        </ul>
+                        <p><strong>Use Transmission when:</strong></p>
+                        <ul>
+                            <li>Material is glass, water, or transparent plastic</li>
+                            <li>Light physically passes through object</li>
+                            <li>Refraction effects are important</li>
+                        </ul>
+                    </div>
+
+                    <h3>Combining Advanced Parameters</h3>
+
+                    <p>The real power comes from combining parameters creatively:</p>
+
+                    <div class="card">
+                        <h4>🎨 Advanced Material Combinations</h4>
+                        <p><strong>Frosted glass bottle with liquid:</strong></p>
+                        <ul>
+                            <li>Glass: Transmission 1.0, Roughness 0.4 (frosted)</li>
+                            <li>Liquid inside: Transmission 0.8, Subsurface 0.2, IOR 1.33</li>
+                            <li>Creates realistic product visualization</li>
+                        </ul>
+                        <p><strong>Velvet with embroidered pattern:</strong></p>
+                        <ul>
+                            <li>Base: Sheen 0.9, Base Color from texture</li>
+                            <li>+ Bump map for fabric weave</li>
+                            <li>+ Roughness variation for worn areas</li>
+                        </ul>
+                        <p><strong>Holographic sticker:</strong></p>
+                        <ul>
+                            <li>Anisotropic 0.8 with animated rotation</li>
+                            <li>+ ColorRamp driven by Fresnel for color shift</li>
+                            <li>+ Alpha for sticker cutout shape</li>
+                        </ul>
+                        <p><strong>Glowing alien skin:</strong></p>
+                        <ul>
+                            <li>Subsurface 0.4 for translucency</li>
+                            <li>+ Emission from texture (veins, patterns)</li>
+                            <li>+ Sheen for organic look</li>
+                            <li>+ Roughness variation</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 07
+     Continue with lesson_11_pbr_materials_explained_part_08.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 11 - PART 08
+     File: lesson_11_pbr_materials_explained_part_08.html
+     ============================================ -->
+
+                <section id="project" class="content-section">
+                    <h2>🎯 Project: Material Validation and Enhancement</h2>
+
+                    <p>Now that you understand the science behind PBR, it's time to put that knowledge into practice. In this project, you'll audit your existing material library from Lesson 10, validate each material against PBR principles, and enhance them with your newfound understanding.</p>
+
+                    <blockquote>
+                        <p><strong>💡 The Quality Control Analogy:</strong> You've built a material library, but now you have the quality inspector's expertise. Like a master craftsman checking each tool for accuracy, you'll examine each material through the lens of physics—energy conservation, proper albedo, correct Fresnel behavior. By the end, you'll have confidence that every material is not just "looks good," but "physically correct!"</p>
+                    </blockquote>
+
+                    <h3>Project Overview</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 2rem;">
+                        <h3>📋 Project Objectives</h3>
+                        <ul style="color: white;">
+                            <li><strong>Validate existing materials</strong> against PBR principles</li>
+                            <li><strong>Identify and fix</strong> common physical inaccuracies</li>
+                            <li><strong>Enhance materials</strong> with advanced parameters where appropriate</li>
+                            <li><strong>Create test scenes</strong> to verify materials under various conditions</li>
+                            <li><strong>Document improvements</strong> with before/after comparisons</li>
+                            <li><strong>Build confidence</strong> in creating physically accurate materials</li>
+                        </ul>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.3);">
+                            <p><strong>⏱️ Estimated Time:</strong> 60-75 minutes</p>
+                            <p><strong>💾 Deliverable:</strong> Validated and enhanced material library with test scene</p>
+                        </div>
+                    </div>
+
+                    <h3>Step 1: Set Up Validation Environment</h3>
+
+                    <div class="card">
+                        <h4>📝 Create Testing Scene</h4>
+                        <ol>
+                            <li><strong>Open your Material Library file</strong> from Lesson 10</li>
+                            <li><strong>Save a copy:</strong> File → Save As → "Material_Library_PBR_Validated.blend"</li>
+                            <li><strong>Create testing setup:</strong>
+                                <ul>
+                                    <li>Add 3 spheres in a row (better than cubes for seeing all angles)</li>
+                                    <li>Add HDRI lighting: Switch to World Properties</li>
+                                    <li>Add multiple HDRIs to test (we'll cycle through them)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Set up comparison cameras:</strong>
+                                <ul>
+                                    <li>Straight-on view (perpendicular)</li>
+                                    <li>45-degree angle</li>
+                                    <li>Grazing angle view</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 2: Create PBR Validation Checklist</h3>
+
+                    <p>For each material in your library, you'll check these critical aspects:</p>
+
+                    <div class="card">
+                        <h4>✅ PBR Validation Checklist</h4>
+                        <p><strong>Energy Conservation:</strong></p>
+                        <ul>
+                            <li>☐ Material doesn't appear brighter than light source</li>
+                            <li>☐ In white HDRI, material never exceeds white brightness</li>
+                            <li>☐ No suspicious glowing or over-bright areas</li>
+                        </ul>
+                        <p><strong>Metallic Value:</strong></p>
+                        <ul>
+                            <li>☐ Set to exactly 0.0 or 1.0 (no in-between values)</li>
+                            <li>☐ Metals show colored reflections, non-metals show white reflections</li>
+                            <li>☐ Metals have no visible diffuse in shadows</li>
+                        </ul>
+                        <p><strong>Roughness Accuracy:</strong></p>
+                        <ul>
+                            <li>☐ Value matches real-world material reference range</li>
+                            <li>☐ Not too extreme (avoid 0.0 and 1.0 unless intentional)</li>
+                            <li>☐ Highlights behave correctly at all viewing angles</li>
+                        </ul>
+                        <p><strong>Albedo/Base Color:</strong></p>
+                        <ul>
+                            <li>☐ Within physical range (0.02-0.95 for most materials)</li>
+                            <li>☐ Not pure black (0, 0, 0) or pure white (255, 255, 255)</li>
+                            <li>☐ Saturation appropriate for material brightness</li>
+                            <li>☐ Matches known albedo values for material type</li>
+                        </ul>
+                        <p><strong>Fresnel Behavior:</strong></p>
+                        <ul>
+                            <li>☐ Specular parameter at default 0.5 (unless special material)</li>
+                            <li>☐ Edge highlights appear correctly at grazing angles</li>
+                            <li>☐ Non-metals show dramatic Fresnel increase</li>
+                            <li>☐ Metals show subtle Fresnel increase</li>
+                        </ul>
+                        <p><strong>Lighting Independence:</strong></p>
+                        <ul>
+                            <li>☐ Material looks correct in bright HDRI</li>
+                            <li>☐ Material looks correct in dim HDRI</li>
+                            <li>☐ Material looks correct in colored lighting</li>
+                            <li>☐ No need to adjust parameters for different scenes</li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 3: Audit Each Material</h3>
+
+                    <p>Now, systematically check each of your 10 materials from Lesson 10. Let's walk through the process with examples:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Material 1: Chrome Metal - Audit Example</h4>
+                        <p><strong>Original values from Lesson 10:</strong></p>
+                        <ul>
+                            <li>Base Color: RGB (0.85, 0.85, 0.85)</li>
+                            <li>Metallic: 1.0 ✓</li>
+                            <li>Roughness: 0.05 ✓</li>
+                        </ul>
+                        <p><strong>PBR Validation:</strong></p>
+                        <ul>
+                            <li>☑ Metallic is binary (1.0) - Correct!</li>
+                            <li>☑ Metal base color in realistic range - Correct!</li>
+                            <li>☑ Very low roughness appropriate for chrome - Correct!</li>
+                            <li>☑ Shows no diffuse, only reflections - Correct!</li>
+                        </ul>
+                        <p><strong>Enhancement opportunity:</strong></p>
+                        <ul>
+                            <li>Consider slightly more accurate chrome: RGB (0.55, 0.55, 0.55) for neutral chrome</li>
+                            <li>Or keep brighter for "polished chrome" look</li>
+                            <li>Both are physically valid!</li>
+                        </ul>
+                        <p><strong>Result: Material PASSES ✅</strong></p>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Material 2: Glossy Red Plastic - Issues Found</h4>
+                        <p><strong>Original values from Lesson 10:</strong></p>
+                        <ul>
+                            <li>Base Color: RGB (0.8, 0.05, 0.05)</li>
+                            <li>Metallic: 0.0 ✓</li>
+                            <li>Roughness: 0.2 ✓</li>
+                        </ul>
+                        <p><strong>PBR Validation:</strong></p>
+                        <ul>
+                            <li>☑ Metallic correctly set to 0.0 for plastic</li>
+                            <li>☑ Roughness appropriate for glossy plastic</li>
+                            <li>⚠️ Base Color might be too saturated - Check albedo!</li>
+                        </ul>
+                        <p><strong>Albedo analysis:</strong></p>
+                        <ul>
+                            <li>RGB (0.8, 0.05, 0.05) is very saturated red</li>
+                            <li>Effective albedo: ~0.30 (only red light reflected)</li>
+                            <li>This is actually physically correct for bright red plastic!</li>
+                            <li>Saturated colors ARE darker—this is right!</li>
+                        </ul>
+                        <p><strong>Enhancement: Add slight desaturation for slightly brighter look (optional):</strong></p>
+                        <ul>
+                            <li>RGB (0.8, 0.1, 0.1) - Slightly less pure, slightly brighter</li>
+                            <li>Albedo: ~0.33</li>
+                        </ul>
+                        <p><strong>Result: Material PASSES with optional enhancement ✅</strong></p>
+                    </div>
+
+                    <h3>Step 4: Common Issues and Fixes</h3>
+
+                    <p>Based on typical mistakes, here are likely issues you'll find and how to fix them:</p>
+
+                    <div class="card">
+                        <h4>🔧 Common Validation Failures and Fixes</h4>
+                        <p><strong>Issue: Base Color is pure black or pure white</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> RGB (0, 0, 0) or RGB (255, 255, 255)</li>
+                            <li><strong>Fix:</strong> Adjust to physical ranges
+                                <ul>
+                                    <li>Pure black → RGB (5, 5, 5) or RGB (10, 10, 10)</li>
+                                    <li>Pure white → RGB (240, 240, 240) or RGB (245, 245, 245)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Issue: Metallic set to intermediate value (e.g., 0.5)</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Creates physically impossible material</li>
+                            <li><strong>Fix:</strong> Decide: Metal or not-metal?
+                                <ul>
+                                    <li>If should be shiny → Metallic 0.0, adjust Roughness</li>
+                                    <li>If actual metal → Metallic 1.0</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Issue: Specular adjusted from default 0.5</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Incorrect Fresnel behavior</li>
+                            <li><strong>Fix:</strong> Reset Specular to 0.5 (correct for 99% of materials)</li>
+                            <li>Exception: High-IOR materials like diamond can use 0.6-0.8</li>
+                        </ul>
+                        <p><strong>Issue: All roughness values too low (everything too shiny)</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Beginner tendency toward glossy materials</li>
+                            <li><strong>Fix:</strong> Increase roughness to realistic ranges
+                                <ul>
+                                    <li>Most plastics: 0.2-0.4</li>
+                                    <li>Most metals: 0.3-0.5</li>
+                                    <li>Most organic materials: 0.6-0.9</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 5: Add Advanced Parameters Where Appropriate</h3>
+
+                    <p>Now enhance materials that would benefit from advanced PBR parameters:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Enhancement Opportunities</h4>
+                        <p><strong>Add Clearcoat to car paint material:</strong></p>
+                        <ol>
+                            <li>Select your car paint material</li>
+                            <li>Set Clearcoat: 1.0</li>
+                            <li>Set Clearcoat Roughness: 0.1</li>
+                            <li>Leave base Roughness at 0.4</li>
+                            <li>Result: Realistic two-layer automotive finish!</li>
+                        </ol>
+                        <p><strong>Add Anisotropic to brushed metal:</strong></p>
+                        <ol>
+                            <li>Select your brushed aluminum material</li>
+                            <li>Set Anisotropic: 0.7</li>
+                            <li>Set Anisotropic Rotation: 0.0 (horizontal brushing)</li>
+                            <li>Result: Directional highlights matching brush direction!</li>
+                        </ol>
+                        <p><strong>Create enhanced glass with slight tint:</strong></p>
+                        <ol>
+                            <li>Duplicate clear glass material</li>
+                            <li>Rename to "Glass_Tinted_Green"</li>
+                            <li>Base Color: RGB (0.9, 1.0, 0.9) - Slight green tint</li>
+                            <li>Keep Transmission 1.0, Roughness 0.0</li>
+                            <li>Result: Subtle bottle-green glass!</li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 6: Create Test Renders</h3>
+
+                    <p>Validate your materials under different conditions:</p>
+
+                    <div class="card">
+                        <h4>🎬 Testing Protocol</h4>
+                        <ol>
+                            <li><strong>Test 1: Bright Outdoor HDRI</strong>
+                                <ul>
+                                    <li>Use forest.exr or outdoor HDRI</li>
+                                    <li>All materials should look correct and natural</li>
+                                    <li>Metals should show environment reflections clearly</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test 2: Dim Studio HDRI</strong>
+                                <ul>
+                                    <li>Use studio.exr with reduced strength (0.3)</li>
+                                    <li>Materials should still be recognizable</li>
+                                    <li>No materials should mysteriously glow</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test 3: Colored Lighting (Sunset HDRI)</strong>
+                                <ul>
+                                    <li>Use warm, orange-tinted HDRI</li>
+                                    <li>Materials should take on ambient color correctly</li>
+                                    <li>No unexpected color shifts</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test 4: Multiple Viewing Angles</strong>
+                                <ul>
+                                    <li>Render from perpendicular view</li>
+                                    <li>Render from 45-degree angle</li>
+                                    <li>Render from grazing angle</li>
+                                    <li>Fresnel effect should be visible and correct</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 7: Document Your Improvements</h3>
+
+                    <div class="card">
+                        <h4>📊 Create Before/After Documentation</h4>
+                        <ol>
+                            <li><strong>For each material you modified:</strong>
+                                <ul>
+                                    <li>Note original parameter values</li>
+                                    <li>Note validated/corrected parameter values</li>
+                                    <li>Explain WHY the change was necessary</li>
+                                    <li>Which PBR principle was violated or improved</li>
+                                </ul>
+                            </li>
+                            <li><strong>Create a simple text file:</strong> "PBR_Validation_Report.txt"
+                                <ul>
+                                    <li>List each material</li>
+                                    <li>Pass/Fail validation</li>
+                                    <li>Changes made</li>
+                                    <li>Lessons learned</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 8: Create 3 New PBR-Perfect Materials</h3>
+
+                    <p>Apply your knowledge by creating three brand-new materials from scratch using PBR principles:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ New Material Challenges</h4>
+                        <p><strong>Challenge 1: Realistic Skin Material</strong></p>
+                        <ul>
+                            <li>Base Color: RGB (0.8, 0.6, 0.5) - Skin tone</li>
+                            <li>Metallic: 0.0 (skin is not metal!)</li>
+                            <li>Roughness: 0.4-0.5</li>
+                            <li>Subsurface: 0.2</li>
+                            <li>Subsurface Radius: RGB (1.0, 0.2, 0.1) - Red scatters more</li>
+                            <li>Subsurface Color: RGB (0.8, 0.5, 0.4) - Slightly reddish</li>
+                        </ul>
+                        <p><strong>Challenge 2: Wet Asphalt</strong></p>
+                        <ul>
+                            <li>Base Color: RGB (0.08, 0.08, 0.08) - Very dark gray</li>
+                            <li>Metallic: 0.0</li>
+                            <li>Roughness: 0.15 (wet = glossy)</li>
+                            <li>Note: Dry asphalt would be Roughness 0.9</li>
+                        </ul>
+                        <p><strong>Challenge 3: Copper with Verdigris Patina</strong></p>
+                        <ul>
+                            <li>For clean copper areas:
+                                <ul>
+                                    <li>Base Color: RGB (0.95, 0.64, 0.54)</li>
+                                    <li>Metallic: 1.0</li>
+                                    <li>Roughness: 0.3</li>
+                                </ul>
+                            </li>
+                            <li>For patina areas:
+                                <ul>
+                                    <li>Base Color: RGB (0.3, 0.5, 0.4) - Green-blue</li>
+                                    <li>Metallic: 0.0 (oxidation is not metallic!)</li>
+                                    <li>Roughness: 0.7</li>
+                                </ul>
+                            </li>
+                            <li>Mix with ColorRamp + noise texture</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bonus Challenge: Create a Material Test Sphere</h3>
+
+                    <div class="card">
+                        <h4>🌟 Professional Material Preview</h4>
+                        <p><strong>Create an industry-standard material preview ball:</strong></p>
+                        <ol>
+                            <li><strong>Setup:</strong>
+                                <ul>
+                                    <li>UV Sphere with high subdivision (smooth)</li>
+                                    <li>Studio HDRI lighting</li>
+                                    <li>Neutral gray background</li>
+                                    <li>Camera at 45-degree angle</li>
+                                </ul>
+                            </li>
+                            <li><strong>Render each material on the sphere</strong></li>
+                            <li><strong>Create contact sheet</strong> of all materials</li>
+                            <li><strong>This becomes your material catalog!</strong></li>
+                        </ol>
+                        <p>Professional studios use standardized sphere renders to preview materials consistently. Now you have your own!</p>
+                    </div>
+
+                    <h3>Project Success Criteria</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Project Completion Checklist</h4>
+                        <ul>
+                            <li>☐ All 10 original materials validated against PBR principles</li>
+                            <li>☐ Any violations identified and corrected</li>
+                            <li>☐ Albedo values within physical ranges (0.02-0.95)</li>
+                            <li>☐ Metallic values are binary (0.0 or 1.0)</li>
+                            <li>☐ Roughness values match real-world references</li>
+                            <li>☐ Advanced parameters added where appropriate</li>
+                            <li>☐ Materials tested in multiple HDRI environments</li>
+                            <li>☐ Materials tested from multiple viewing angles</li>
+                            <li>☐ Fresnel behavior verified as correct</li>
+                            <li>☐ Three new PBR-perfect materials created</li>
+                            <li>☐ Documentation created explaining changes</li>
+                            <li>☐ File saved as validated material library</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="summary" class="content-section">
+                    <h2>🎓 Lesson Summary</h2>
+
+                    <p>Congratulations! You've journeyed from material user to material scientist. You now understand not just <em>how</em> to create materials, but <em>why</em> they work—the physics, the mathematics, and the principles that make renders believable.</p>
+
+                    <div class="card">
+                        <h4>🌟 Key Principles Mastered</h4>
+                        <ul>
+                            <li><strong>PBR Foundation:</strong> Materials based on physics, not artistic guesswork</li>
+                            <li><strong>Energy Conservation:</strong> Light never creates more energy than it receives</li>
+                            <li><strong>Fresnel Effect:</strong> All materials become reflective at grazing angles</li>
+                            <li><strong>Microfacet Theory:</strong> Roughness models microscopic surface structure</li>
+                            <li><strong>Metallic Binary:</strong> Materials are conductors (1.0) or insulators (0.0)</li>
+                            <li><strong>Albedo Ranges:</strong> Physical constraints on material brightness (0.02-0.95)</li>
+                            <li><strong>Advanced Parameters:</strong> When and how to use SSS, clearcoat, anisotropy, etc.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>🎯 What You Can Now Do</h4>
+                        <ul>
+                            <li><strong>Validate materials scientifically</strong> instead of relying on "looks good"</li>
+                            <li><strong>Predict material behavior</strong> in any lighting condition</li>
+                            <li><strong>Identify physically incorrect materials</strong> immediately</li>
+                            <li><strong>Create materials that work everywhere</strong>—Blender, Unity, Unreal, everywhere</li>
+                            <li><strong>Communicate with technical artists</strong> using industry terminology</li>
+                            <li><strong>Achieve photorealism</strong> by following physical laws</li>
+                            <li><strong>Debug material issues</strong> by understanding underlying principles</li>
+                        </ul>
+                    </div>
+
+                    <h3>The PBR Mindset</h3>
+
+                    <p>The biggest transformation isn't in your technical skills—it's in how you think about materials:</p>
+
+                    <blockquote>
+                        <p><strong>Before PBR understanding:</strong> "I'll try different values until it looks right"</p>
+                        <p><strong>After PBR understanding:</strong> "This is plastic, so Metallic = 0.0. Glossy plastic has Roughness ~0.25. Bright red has albedo ~0.30 due to saturation. Done—it will look correct."</p>
+                    </blockquote>
+
+                    <p>You're no longer guessing—you're applying physics. And physics is always right!</p>
+
+                    <h3>What's Next: Your Material Journey Continues</h3>
+
+                    <div class="card">
+                        <h4>🗺️ The Path Forward</h4>
+                        <p><strong>Lesson 12: UV Unwrapping Basics</strong></p>
+                        <ul>
+                            <li>Control where textures appear on models</li>
+                            <li>Unwrap complex objects correctly</li>
+                            <li>Minimize distortion and optimize seams</li>
+                        </ul>
+                        <p><strong>Lesson 13: Texture Painting</strong></p>
+                        <ul>
+                            <li>Paint directly on 3D models</li>
+                            <li>Create custom albedo, roughness, and normal maps</li>
+                            <li>Hand-painted details and weathering</li>
+                        </ul>
+                        <p><strong>Lesson 14: Procedural Textures</strong></p>
+                        <ul>
+                            <li>Generate textures mathematically with nodes</li>
+                            <li>Noise, Voronoi, and pattern creation</li>
+                            <li>Resolution-independent, infinitely flexible materials</li>
+                        </ul>
+                    </div>
+
+                    <h3>Resources for Continued Learning</h3>
+
+                    <div class="card">
+                        <h4>📚 Recommended Deep Dives</h4>
+                        <ul>
+                            <li><strong>Material databases:</strong> Study measured albedo and roughness values for real materials</li>
+                            <li><strong>Reference photography:</strong> Build library of material close-ups with color checkers</li>
+                            <li><strong>Substance documentation:</strong> Excellent PBR theory and workflows</li>
+                            <li><strong>Disney PBR paper:</strong> The 2012 paper that revolutionized PBR workflows</li>
+                            <li><strong>Physically Based Rendering book:</strong> Pharr, Jakob, and Humphreys (advanced)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Final Thoughts</h3>
+
+                    <p>Understanding PBR transforms you from a button-pusher to a material engineer. You now speak the language of light, energy, and physics. This knowledge is permanent and transferable—it works in any 3D software, any render engine, any project.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">🎊 The PBR Advantage</h3>
+                        <p style="color: white;">Here's what sets you apart now:</p>
+                        <ul style="color: white;">
+                            <li><strong>Your materials work in any lighting</strong> without adjustment</li>
+                            <li><strong>Your materials look professional</strong> because they follow physics</li>
+                            <li><strong>Your materials export correctly</strong> to game engines and other software</li>
+                            <li><strong>Your workflow is efficient</strong> because you know exactly what to adjust</li>
+                            <li><strong>Your confidence is high</strong> because you understand the "why" behind the "how"</li>
+                        </ul>
+                        <p style="color: white; margin-bottom: 0;"><strong>You're not just making materials—you're simulating reality. And reality, when properly simulated, is always believable!</strong></p>
+                    </div>
+
+                </section>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-top: 3rem;">
+                    <h2 style="color: white; margin-top: 0;">🎉 Congratulations on Completing Lesson 11!</h2>
+                    <p style="color: white;">You've leveled up from material creator to material scientist. The physics of light and matter are now your tools, and physical accuracy is your standard. Every material you create from this point forward will benefit from this deep understanding.</p>
+                    <p style="color: white;"><strong>Remember:</strong> PBR isn't about memorizing values—it's about understanding principles. When in doubt, think physics. When confused, check energy conservation. When unsure, observe reality.</p>
+                    <p style="color: white; margin-bottom: 0;">Ready to add the final layer of realism with texture mapping? Lesson 12 awaits, where we'll learn to unwrap 3D models and apply these materials with precise control. See you there! 🚀</p>
+                </div>
+
+                <nav class="lesson-nav" aria-label="Lesson Navigation">
+                    <a href="lesson_10_introduction_to_shader_editor.html" class="prev-lesson">← Previous: Lesson 10 - Introduction to Shader Editor</a>
+                    <a href="index.html" class="home-link">🏠 Course Home</a>
+                    <a href="lesson_12_uv_unwrapping_basics.html" class="next-lesson">Next: Lesson 12 - UV Unwrapping Basics →</a>
+                </nav>
+            </article>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>
+
+<!-- ============================================
+     END OF PART 08
+     This is the final part of Lesson 11
+     ============================================ -->

@@ -1,0 +1,3327 @@
+<!-- ============================================
+     LESSON 12 - PART 01
+     File: lesson_12_uv_unwrapping_basics_part_01.html
+     ============================================ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master UV unwrapping in Blender - learn to map 2D textures onto 3D models with minimal distortion. Understand UV coordinates, seam placement, and unwrapping strategies for any object.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 12: UV Unwrapping Basics - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="brand">
+                    <h1>🎨 Blender Mastery Course</h1>
+                    <p class="tagline">Complete 3D Creation from Beginner to Professional</p>
+                </div>
+                <nav>
+                    <a href="index.html">🏠 Home</a>
+                    <a href="index.html#modules">📚 Modules</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &raquo; 
+            <a href="index.html#module-3">Module 3: Materials and Texturing</a> &raquo; 
+            <span>Lesson 12</span>
+        </nav>
+
+        <main>
+            <article class="lesson-content">
+                <div class="lesson-header">
+                    <h1>🗺️ UV Unwrapping Basics</h1>
+                    <p class="lead">Learn the art and science of UV unwrapping—the crucial bridge between your 3D models and 2D textures. Master the techniques for mapping image textures onto any surface with minimal distortion and maximum control.</p>
+                </div>
+
+                <p>You've learned to create beautiful 3D models and physically accurate materials. But how do you add detailed textures—wood grain, fabric patterns, painted graphics, rust, dirt—to your surfaces? That's where UV unwrapping comes in. It's the essential skill that connects your 3D geometry with 2D texture images.</p>
+
+                <p>Think of UV unwrapping as the pattern-making process in garment design. Just as a tailor creates a flat paper pattern that will be sewn into a 3D garment, you create a flat UV layout that maps 2D images onto 3D surfaces. The quality of your unwrap determines how well textures fit, whether they stretch or distort, and how easy they are to paint or apply.</p>
+
+                <blockquote>
+                    <p><strong>💡 The Gift Wrapping Analogy:</strong> Imagine trying to wrap a cube vs. a sphere with wrapping paper. The cube is easy—six flat pieces, no stretching needed. The sphere is challenging—you need to cut, fold, and stretch the paper to make it fit smoothly. UV unwrapping is about finding the best way to "unfold" any 3D shape into flat pieces that minimize stretching and distortion!</p>
+                </blockquote>
+
+                <p>This lesson demystifies UV unwrapping. You'll understand what UV coordinates are, why they matter, and how to create clean, efficient unwraps for any object. By the end, you'll be able to apply photorealistic textures to your models with professional precision.</p>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 2rem;">
+                    <h3>🎓 What You'll Learn</h3>
+                    <ul style="color: white;">
+                        <li><strong>UV Coordinate System:</strong> What U and V mean and how they map textures</li>
+                        <li><strong>UV Editor Interface:</strong> Navigate and work efficiently in the UV Editor</li>
+                        <li><strong>Seam Placement:</strong> Where to cut models for optimal unwrapping</li>
+                        <li><strong>Unwrapping Methods:</strong> Automatic, smart UV project, cube projection, and more</li>
+                        <li><strong>Minimizing Distortion:</strong> Techniques for clean, even texture mapping</li>
+                        <li><strong>UV Layout and Packing:</strong> Organize UVs efficiently in texture space</li>
+                        <li><strong>Testing Unwraps:</strong> Verify quality with checkerboard and test textures</li>
+                        <li><strong>Common Object Types:</strong> Best practices for cubes, cylinders, spheres, organic shapes</li>
+                    </ul>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.3);">
+                        <p><strong>⏱️ Estimated Time:</strong> 75-90 minutes</p>
+                        <p><strong>🎯 Project:</strong> Unwrap a complete character or prop model</p>
+                    </div>
+                </div>
+
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#what-are-uvs" class="toc-link">What Are UV Coordinates?</a></li>
+                            <li><a href="#uv-editor-interface" class="toc-link">The UV Editor Interface</a></li>
+                            <li><a href="#seams-and-unwrapping" class="toc-link">Seams and Unwrapping Concepts</a></li>
+                            <li><a href="#unwrapping-methods" class="toc-link">Unwrapping Methods and When to Use Them</a></li>
+                            <li><a href="#minimizing-distortion" class="toc-link">Minimizing Distortion and Stretching</a></li>
+                            <li><a href="#uv-layout-packing" class="toc-link">UV Layout and Packing Strategies</a></li>
+                            <li><a href="#practical-unwrapping" class="toc-link">Practical Unwrapping: Common Objects</a></li>
+                            <li><a href="#project" class="toc-link">Project: Unwrap a Complete Model</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="what-are-uvs" class="content-section">
+                    <h2>🧭 What Are UV Coordinates?</h2>
+
+                    <p>Before diving into unwrapping techniques, let's understand what UV coordinates actually are and why we need them.</p>
+
+                    <h3>The Problem: Mapping 2D to 3D</h3>
+
+                    <p>You have a 3D model in 3D space (X, Y, Z coordinates). You have a 2D texture image (just width and height). How do you tell Blender which part of the image goes where on the model? That's what UV coordinates solve!</p>
+
+                    <div class="card">
+                        <h4>📊 Coordinate Systems Explained</h4>
+                        <p><strong>3D Model Space (X, Y, Z):</strong></p>
+                        <ul>
+                            <li>X = Left/Right</li>
+                            <li>Y = Forward/Backward</li>
+                            <li>Z = Up/Down</li>
+                            <li>Your model exists here in 3D world</li>
+                        </ul>
+                        <p><strong>2D Texture Space (U, V):</strong></p>
+                        <ul>
+                            <li>U = Horizontal (like X, but for 2D images)</li>
+                            <li>V = Vertical (like Y, but for 2D images)</li>
+                            <li>Range: 0.0 to 1.0 (covers entire image)</li>
+                            <li>Your texture image exists here in 2D space</li>
+                        </ul>
+                        <p><strong>Why U and V instead of X and Y?</strong> To avoid confusion with 3D coordinates! U and V are specifically for 2D texture space.</p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Grid Map Analogy:</strong> Imagine you have a paper map (texture image) and a 3D globe (your model). UV coordinates are like saying "this corner of Africa on the map goes to these coordinates on the globe." Every point on the 3D surface has corresponding U,V coordinates that tell it where to sample color from the 2D texture!</p>
+                    </blockquote>
+
+                    <h3>UV Space: The 0 to 1 Square</h3>
+
+                    <p>UV space is elegantly simple: it's always a square from 0.0 to 1.0 in both directions:</p>
+
+                    <div class="card">
+                        <h4>🔲 UV Space Layout</h4>
+                        <ul>
+                            <li><strong>Bottom-left corner:</strong> U=0.0, V=0.0</li>
+                            <li><strong>Bottom-right corner:</strong> U=1.0, V=0.0</li>
+                            <li><strong>Top-left corner:</strong> U=0.0, V=1.0</li>
+                            <li><strong>Top-right corner:</strong> U=1.0, V=1.0</li>
+                            <li><strong>Center:</strong> U=0.5, V=0.5</li>
+                        </ul>
+                        <p><strong>Key insight:</strong> UV coordinates are normalized (0-1 range) regardless of actual texture resolution. Whether your texture is 512×512 or 4096×4096, UV space is always 0-1!</p>
+                    </div>
+
+                    <h3>How UV Mapping Works</h3>
+
+                    <p>Every vertex (point) on your 3D mesh stores UV coordinates in addition to its 3D position:</p>
+
+                    <div class="card">
+                        <h4>🎯 UV Mapping Process</h4>
+                        <ol>
+                            <li><strong>Each vertex has 3D coordinates:</strong> Position in world (X, Y, Z)</li>
+                            <li><strong>Each vertex also has UV coordinates:</strong> Position in texture space (U, V)</li>
+                            <li><strong>When rendering:</strong> Blender looks up UV coordinates for each surface point</li>
+                            <li><strong>Samples texture at that UV location:</strong> Gets color from texture image</li>
+                            <li><strong>Applies color to 3D surface:</strong> Your textured model appears!</li>
+                        </ol>
+                    </div>
+
+                    <div class="mermaid">
+                        graph LR
+                        A[3D Vertex<br/>X,Y,Z] --> B[Has UV Coords<br/>U,V]
+                        B --> C[Look up color<br/>in texture at U,V]
+                        C --> D[Apply color<br/>to 3D surface]
+                        D --> E[Textured Model!]
+                        
+                        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                        style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    </div>
+
+                    <h3>UV Islands</h3>
+
+                    <p>When you unwrap a model, it typically breaks into separate pieces called "UV islands":</p>
+
+                    <div class="card">
+                        <h4>🏝️ UV Islands Explained</h4>
+                        <p><strong>What is a UV island?</strong></p>
+                        <ul>
+                            <li>A continuous, connected piece of your unwrapped mesh</li>
+                            <li>No breaks or seams within the island</li>
+                            <li>Like a single piece of flattened fabric</li>
+                        </ul>
+                        <p><strong>Why multiple islands?</strong></p>
+                        <ul>
+                            <li>Complex 3D shapes can't unwrap as one flat piece without distortion</li>
+                            <li>Need to "cut" the mesh to flatten it</li>
+                            <li>Each cut creates new islands</li>
+                            <li>Trade-off: More islands = less distortion, but more seams to hide</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Unwrapping Challenge</h3>
+
+                    <p>Here's the fundamental challenge of UV unwrapping:</p>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ The Distortion Problem</h4>
+                        <p>You're trying to flatten a 3D surface into 2D space. This is mathematically impossible without some distortion—just like trying to flatten an orange peel perfectly flat!</p>
+                        <p><strong>Types of distortion:</strong></p>
+                        <ul>
+                            <li><strong>Stretching:</strong> Some areas get elongated</li>
+                            <li><strong>Compression:</strong> Some areas get squished</li>
+                            <li><strong>Shearing:</strong> Some areas get skewed</li>
+                        </ul>
+                        <p><strong>UV unwrapping skill = minimizing distortion through smart seam placement!</strong></p>
+                    </div>
+
+                    <h3>Good vs. Bad Unwraps</h3>
+
+                    <p>Let's look at what makes a UV unwrap good or bad:</p>
+
+                    <div class="card">
+                        <h4>✅ Characteristics of Good Unwraps</h4>
+                        <ul>
+                            <li><strong>Minimal distortion:</strong> Square textures look square on the model</li>
+                            <li><strong>Even texel density:</strong> Texture resolution consistent across model</li>
+                            <li><strong>Efficient packing:</strong> UVs use available texture space well</li>
+                            <li><strong>Smart seam placement:</strong> Seams hidden in natural breaks or obscured areas</li>
+                            <li><strong>Logical layout:</strong> Similar geometry pieces grouped together</li>
+                            <li><strong>Ease of painting:</strong> Artist can paint textures intuitively</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>❌ Signs of Bad Unwraps</h4>
+                        <ul>
+                            <li><strong>Extreme stretching:</strong> Checker pattern warped beyond recognition</li>
+                            <li><strong>Overlapping UVs:</strong> Multiple faces using same texture space</li>
+                            <li><strong>Wasted space:</strong> Large empty areas in UV layout</li>
+                            <li><strong>Tiny islands:</strong> Some pieces too small to texture effectively</li>
+                            <li><strong>Visible seams:</strong> Cuts in obvious, high-visibility areas</li>
+                            <li><strong>Inconsistent scale:</strong> Head gets 50% of texture, body gets 5%</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_12_uv_unwrapping_basics_part_02.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 12 - PART 02
+     File: lesson_12_uv_unwrapping_basics_part_02.html
+     ============================================ -->
+
+                <section id="uv-editor-interface" class="content-section">
+                    <h2>🖥️ The UV Editor Interface</h2>
+
+                    <p>The UV Editor is where all UV unwrapping magic happens. Let's get comfortable with this essential workspace before diving into unwrapping techniques.</p>
+
+                    <h3>Opening the UV Editor</h3>
+
+                    <p>There are several ways to access the UV Editor:</p>
+
+                    <div class="card">
+                        <h4>📝 Accessing UV Editor</h4>
+                        <p><strong>Method 1: UV Editing Workspace (Recommended)</strong></p>
+                        <ol>
+                            <li>Click the "UV Editing" tab at the top of Blender</li>
+                            <li>Screen splits automatically: 3D Viewport (right) + UV Editor (left)</li>
+                            <li>Perfect layout for UV work!</li>
+                        </ol>
+                        <p><strong>Method 2: Change Any Editor to UV Editor</strong></p>
+                        <ol>
+                            <li>Click editor type icon (overlapping squares) in any editor corner</li>
+                            <li>Select "UV Editor" from dropdown</li>
+                            <li>That editor becomes UV Editor</li>
+                        </ol>
+                        <p><strong>Method 3: Split Screen Manually</strong></p>
+                        <ol>
+                            <li>Drag from corner of viewport to split screen</li>
+                            <li>Change new editor to UV Editor</li>
+                            <li>Arrange as needed</li>
+                        </ol>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Workspace Tip:</strong> The UV Editing workspace is pre-configured perfectly for unwrapping work. UV Editor on left, 3D Viewport on right—you can see your model and its UV layout simultaneously. Select something in 3D, see it selected in UV Editor instantly. This immediate feedback is crucial!</p>
+                    </blockquote>
+
+                    <h3>UV Editor Anatomy</h3>
+
+                    <p>Let's understand what you're looking at in the UV Editor:</p>
+
+                    <div class="card">
+                        <h4>🎨 UV Editor Components</h4>
+                        <p><strong>Main Canvas (the grid):</strong></p>
+                        <ul>
+                            <li>Represents UV space (0-1 range in both directions)</li>
+                            <li>Your unwrapped UVs appear here</li>
+                            <li>Background can show texture image for reference</li>
+                        </ul>
+                        <p><strong>Header (Top Bar):</strong></p>
+                        <ul>
+                            <li><strong>View controls:</strong> Zoom, pan, frame options</li>
+                            <li><strong>Select mode:</strong> Vertex, Edge, Face selection</li>
+                            <li><strong>UV menu:</strong> Unwrap, pack, align tools</li>
+                            <li><strong>Image selector:</strong> Choose which texture to display</li>
+                        </ul>
+                        <p><strong>Sidebar (N key to toggle):</strong></p>
+                        <ul>
+                            <li><strong>Tool tab:</strong> Active tool settings</li>
+                            <li><strong>View tab:</strong> Display options, overlays</li>
+                            <li><strong>Image tab:</strong> Texture properties</li>
+                        </ul>
+                    </div>
+
+                    <h3>Navigation in UV Editor</h3>
+
+                    <p>UV Editor navigation is similar to 3D Viewport but 2D-specific:</p>
+
+                    <div class="card">
+                        <h4>🎮 UV Editor Navigation</h4>
+                        <table>
+                            <tr>
+                                <th>Action</th>
+                                <th>Shortcut</th>
+                                <th>Mouse Alternative</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Pan View</strong></td>
+                                <td><code>Shift + Middle Mouse</code></td>
+                                <td>Click and drag in empty space</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Zoom</strong></td>
+                                <td><code>Scroll Wheel</code></td>
+                                <td><code>Ctrl + Middle Mouse + Drag</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Frame All</strong></td>
+                                <td><code>Home</code></td>
+                                <td>View → Frame All</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Frame Selected</strong></td>
+                                <td><code>Numpad .</code></td>
+                                <td>View → Frame Selected</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Zoom to Fit</strong></td>
+                                <td><code>Shift + B</code> (box zoom)</td>
+                                <td>Drag box around area</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3>Selection Modes in UV Editor</h3>
+
+                    <p>Just like in 3D Viewport, UV Editor has vertex, edge, and face selection modes:</p>
+
+                    <div class="card">
+                        <h4>🎯 UV Selection Modes</h4>
+                        <p><strong>Vertex Select Mode (<code>1</code> key):</strong></p>
+                        <ul>
+                            <li>Select individual UV points</li>
+                            <li>Precise control for adjustments</li>
+                            <li>Good for: Fine-tuning, aligning specific points</li>
+                        </ul>
+                        <p><strong>Edge Select Mode (<code>2</code> key):</strong></p>
+                        <ul>
+                            <li>Select UV edges</li>
+                            <li>Useful for seam marking and edge alignment</li>
+                            <li>Good for: Straightening edges, marking seams</li>
+                        </ul>
+                        <p><strong>Face Select Mode (<code>3</code> key):</strong></p>
+                        <ul>
+                            <li>Select entire UV faces/islands</li>
+                            <li>Fastest for moving whole sections</li>
+                            <li>Good for: Island manipulation, packing, layout</li>
+                        </ul>
+                        <p><strong>Sync Selection (button in header):</strong></p>
+                        <ul>
+                            <li>When ON: UV Editor selection syncs with 3D Viewport</li>
+                            <li>When OFF: Can select different things in each editor</li>
+                            <li>Usually keep ON for intuitive workflow</li>
+                        </ul>
+                    </div>
+
+                    <h3>UV Selection Tools</h3>
+
+                    <p>Several selection tools make UV editing more efficient:</p>
+
+                    <div class="card">
+                        <h4>🔧 Essential UV Selection Tools</h4>
+                        <p><strong>Box Select (<code>B</code> key):</strong></p>
+                        <ul>
+                            <li>Drag box to select multiple UVs</li>
+                            <li>Left-click to confirm, right-click to cancel</li>
+                            <li>Fast for selecting regions</li>
+                        </ul>
+                        <p><strong>Circle Select (<code>C</code> key):</strong></p>
+                        <ul>
+                            <li>Paint selection with circular brush</li>
+                            <li>Scroll wheel to adjust brush size</li>
+                            <li>Left-click to add, Middle-click to remove</li>
+                            <li>Esc or right-click to exit</li>
+                        </ul>
+                        <p><strong>Lasso Select (<code>Ctrl + Right-click + Drag</code>):</strong></p>
+                        <ul>
+                            <li>Draw freeform selection shape</li>
+                            <li>Good for irregular selections</li>
+                        </ul>
+                        <p><strong>Select Linked (<code>L</code> key with mouse over):</strong></p>
+                        <ul>
+                            <li>Hover over UV, press L</li>
+                            <li>Selects entire connected island</li>
+                            <li>Incredibly useful for manipulating islands</li>
+                        </ul>
+                        <p><strong>Select All (<code>A</code> key):</strong></p>
+                        <ul>
+                            <li>Toggles between select all / deselect all</li>
+                        </ul>
+                    </div>
+
+                    <h3>Displaying Textures in UV Editor</h3>
+
+                    <p>You can display texture images in the UV Editor background to see how UVs align:</p>
+
+                    <div class="card">
+                        <h4>🖼️ Working with Texture Display</h4>
+                        <p><strong>Loading a texture:</strong></p>
+                        <ol>
+                            <li>In UV Editor header, find image selector dropdown</li>
+                            <li>Click "New" to create test image or "Open" to load existing</li>
+                            <li>Image appears as background in UV Editor</li>
+                            <li>Your UVs overlay the image</li>
+                        </ol>
+                        <p><strong>Useful test textures:</strong></p>
+                        <ul>
+                            <li><strong>UV Grid/Checker:</strong> Shows stretching and distortion clearly</li>
+                            <li><strong>Color ID map:</strong> Different colors for different islands</li>
+                            <li><strong>Actual texture:</strong> Preview how final texture looks</li>
+                        </ul>
+                        <p><strong>Creating UV Grid texture:</strong></p>
+                        <ol>
+                            <li>Image → New</li>
+                            <li>Name: "UV_Test"</li>
+                            <li>Check "UV Grid" option</li>
+                            <li>Click OK</li>
+                            <li>Perfect for testing distortion!</li>
+                        </ol>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The Checker Test:</strong> Professional UV artists always test unwraps with a checker/grid texture. If squares look square on your model (not stretched into rectangles), your unwrap has minimal distortion. If checker pattern is warped, you have stretching that needs fixing. This simple test reveals all distortion issues instantly!</p>
+                    </blockquote>
+
+                    <h3>UV Editor Display Options</h3>
+
+                    <p>Several display options help you work more effectively:</p>
+
+                    <div class="card">
+                        <h4>👁️ Display Settings</h4>
+                        <p><strong>UV Overlay (top-right dropdown in UV Editor):</strong></p>
+                        <ul>
+                            <li><strong>Display As:</strong> Choose between Outline, Dash, or Black</li>
+                            <li><strong>Stretch:</strong> Shows distortion as colored overlay
+                                <ul>
+                                    <li>Blue = compressed areas</li>
+                                    <li>Green = good, minimal distortion</li>
+                                    <li>Red/Yellow = stretched areas (problem zones)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Useful overlay toggles:</strong></p>
+                        <ul>
+                            <li><strong>Modified Edges:</strong> Shows edges that have been modified (orange)</li>
+                            <li><strong>Image Opacity:</strong> Fade texture background to see UVs better</li>
+                            <li><strong>Grid:</strong> Show reference grid over UV space</li>
+                        </ul>
+                    </div>
+
+                    <h3>Basic UV Manipulation Tools</h3>
+
+                    <p>Once UVs are unwrapped, you'll often need to adjust them. Here are the fundamental tools:</p>
+
+                    <div class="card">
+                        <h4>🔧 UV Transformation Tools</h4>
+                        <p><strong>Move/Grab (<code>G</code> key):</strong></p>
+                        <ul>
+                            <li>Select UVs, press G, move mouse</li>
+                            <li><code>G</code> then <code>X</code> or <code>Y</code> to constrain axis</li>
+                            <li>Type numbers for precise movement</li>
+                        </ul>
+                        <p><strong>Rotate (<code>R</code> key):</strong></p>
+                        <ul>
+                            <li>Select UVs, press R, move mouse to rotate</li>
+                            <li>Type angle in degrees (e.g., "90" for 90°)</li>
+                        </ul>
+                        <p><strong>Scale (<code>S</code> key):</strong></p>
+                        <ul>
+                            <li>Select UVs, press S, move mouse to scale</li>
+                            <li><code>S</code> then <code>X</code> or <code>Y</code> to scale on one axis</li>
+                            <li>Type scale factor (e.g., "2" for double size)</li>
+                        </ul>
+                        <p><strong>Pin UVs (<code>P</code> key):</strong></p>
+                        <ul>
+                            <li>Selected UVs won't move during unwrap operations</li>
+                            <li>Useful for locking corners or specific points</li>
+                            <li><code>Alt+P</code> to unpin</li>
+                        </ul>
+                    </div>
+
+                    <h3>UV Tools and Operations</h3>
+
+                    <p>The UV menu in the header contains essential operations:</p>
+
+                    <div class="card">
+                        <h4>📋 Essential UV Menu Operations</h4>
+                        <p><strong>Unwrap (<code>U</code> key):</strong></p>
+                        <ul>
+                            <li>Main unwrap operation (we'll cover in detail later)</li>
+                            <li>Uses marked seams to flatten model</li>
+                        </ul>
+                        <p><strong>Pack Islands:</strong></p>
+                        <ul>
+                            <li>Automatically arranges UV islands efficiently</li>
+                            <li>Maximizes texture space usage</li>
+                            <li>Rotates islands to fit better</li>
+                        </ul>
+                        <p><strong>Average Islands Scale:</strong></p>
+                        <ul>
+                            <li>Makes all islands have consistent texel density</li>
+                            <li>Ensures uniform texture resolution across model</li>
+                            <li>Use after unwrapping, before packing</li>
+                        </ul>
+                        <p><strong>Align:</strong></p>
+                        <ul>
+                            <li>Align selected UVs to axes</li>
+                            <li>Straighten edges</li>
+                            <li>Align islands to grid</li>
+                        </ul>
+                        <p><strong>Stitch (<code>V</code> key):</strong></p>
+                        <ul>
+                            <li>Merge selected UV vertices together</li>
+                            <li>Useful for fixing seams or connecting islands</li>
+                        </ul>
+                    </div>
+
+                    <h3>Quick Setup for UV Work</h3>
+
+                    <p>Here's the optimal setup for UV unwrapping workflow:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Recommended UV Workspace Setup</h4>
+                        <ol>
+                            <li><strong>Switch to UV Editing workspace</strong> (tab at top)</li>
+                            <li><strong>In 3D Viewport (right side):</strong>
+                                <ul>
+                                    <li>Set to Edit Mode (<code>Tab</code>)</li>
+                                    <li>Turn on "X-Ray" mode (<code>Alt+Z</code>) to see through model</li>
+                                    <li>Enable face selection mode (<code>3</code>)</li>
+                                </ul>
+                            </li>
+                            <li><strong>In UV Editor (left side):</strong>
+                                <ul>
+                                    <li>Load a UV Grid test texture (Image → New → UV Grid)</li>
+                                    <li>Turn on Stretch overlay to see distortion</li>
+                                    <li>Enable Sync Selection</li>
+                                </ul>
+                            </li>
+                            <li><strong>Select your model</strong> in 3D Viewport</li>
+                            <li><strong>You're ready to unwrap!</strong></li>
+                        </ol>
+                    </div>
+
+                    <h3>Common UV Editor Issues</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Troubleshooting UV Editor</h4>
+                        
+                        <p><strong>Problem: UV Editor is blank/empty</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> No mesh selected or mesh has no UVs yet</li>
+                            <li><strong>Fix:</strong> Select object in 3D view, enter Edit Mode, unwrap it</li>
+                        </ul>
+                        
+                        <p><strong>Problem: Can't see texture image in UV Editor</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> No image loaded in material or UV Editor</li>
+                            <li><strong>Fix:</strong> Load image via image selector dropdown in UV Editor header</li>
+                        </ul>
+                        
+                        <p><strong>Problem: Selection in UV Editor doesn't match 3D Viewport</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Sync Selection is OFF</li>
+                            <li><strong>Fix:</strong> Enable "Sync Selection" button in UV Editor header</li>
+                        </ul>
+                        
+                        <p><strong>Problem: UVs outside the 0-1 square</strong></p>
+                        <ul>
+                            <li><strong>Not always a problem:</strong> UVs can exist outside 0-1 (texture tiles or repeats)</li>
+                            <li><strong>To move back:</strong> Select all (<code>A</code>), scale (<code>S</code>) and move (<code>G</code>) to fit</li>
+                        </ul>
+                        
+                        <p><strong>Problem: Can't select UVs</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> In Object Mode instead of Edit Mode</li>
+                            <li><strong>Fix:</strong> Press <code>Tab</code> to enter Edit Mode</li>
+                        </ul>
+                    </div>
+
+                    <h3>Pro Tips for UV Editor Efficiency</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ UV Editor Best Practices</h4>
+                        <ul>
+                            <li><strong>Always use UV Grid for testing:</strong> Shows distortion instantly</li>
+                            <li><strong>Keep Sync Selection ON:</strong> Intuitive workflow between 3D and UV</li>
+                            <li><strong>Use L (Select Linked) constantly:</strong> Fastest way to select islands</li>
+                            <li><strong>Learn keyboard shortcuts:</strong> G/R/S for move/rotate/scale essential</li>
+                            <li><strong>Frame Selected often:</strong> <code>Numpad .</code> keeps you focused</li>
+                            <li><strong>Use stretch overlay:</strong> Visual feedback on distortion quality</li>
+                            <li><strong>Work in Face Select mode:</strong> Usually fastest for island manipulation</li>
+                            <li><strong>Save incrementally:</strong> UV work takes time, save progress often!</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_12_uv_unwrapping_basics_part_03.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 12 - PART 03
+     File: lesson_12_uv_unwrapping_basics_part_03.html
+     ============================================ -->
+
+                <section id="seams-and-unwrapping" class="content-section">
+                    <h2>✂️ Seams and Unwrapping Concepts</h2>
+
+                    <p>Understanding seams is the key to successful UV unwrapping. Seams are where you "cut" your 3D model to flatten it into 2D. Smart seam placement is what separates good unwraps from bad ones.</p>
+
+                    <h3>What Are Seams?</h3>
+
+                    <p>Think of seams as cut lines that allow your 3D model to be flattened:</p>
+
+                    <div class="card">
+                        <h4>✂️ Seam Fundamentals</h4>
+                        <p><strong>What is a seam?</strong></p>
+                        <ul>
+                            <li>An edge marked as a "cut" in your mesh</li>
+                            <li>When unwrapping, Blender splits the mesh at seams</li>
+                            <li>Creates boundaries between UV islands</li>
+                            <li>Shown as red edges in 3D Viewport (when in Edit Mode)</li>
+                        </ul>
+                        <p><strong>Why do we need seams?</strong></p>
+                        <ul>
+                            <li>Most 3D shapes can't flatten perfectly without cuts</li>
+                            <li>Seams allow complex geometry to unwrap with minimal distortion</li>
+                            <li>Trade-off: More seams = less distortion, but more visible cuts</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Cardboard Box Analogy:</strong> Imagine unfolding a cardboard box. You need to cut along specific edges to lay it flat. Those cuts are seams! The box naturally has edges where panels meet—those are logical seam locations. Similarly, 3D models have natural seam locations where cuts will be least visible.</p>
+                    </blockquote>
+
+                    <h3>Marking Seams</h3>
+
+                    <p>Here's how to mark and unmark seams in Blender:</p>
+
+                    <div class="card">
+                        <h4>📝 Seam Operations</h4>
+                        <p><strong>To mark seams:</strong></p>
+                        <ol>
+                            <li>Enter Edit Mode (<code>Tab</code>)</li>
+                            <li>Switch to Edge Select Mode (<code>2</code> key)</li>
+                            <li>Select edge(s) you want to mark as seams</li>
+                            <li>Right-click → Mark Seam</li>
+                            <li>Or press <code>Ctrl+E</code> → Mark Seam</li>
+                            <li>Edges turn red (seam color)</li>
+                        </ol>
+                        <p><strong>To clear seams:</strong></p>
+                        <ol>
+                            <li>Select seam edge(s)</li>
+                            <li>Right-click → Clear Seam</li>
+                            <li>Or <code>Ctrl+E</code> → Clear Seam</li>
+                            <li>Edges return to normal color</li>
+                        </ol>
+                        <p><strong>To select all seams:</strong></p>
+                        <ol>
+                            <li>In Edit Mode, deselect all (<code>Alt+A</code>)</li>
+                            <li>Select → Select All by Trait → Seams</li>
+                            <li>All seam edges become selected</li>
+                        </ol>
+                    </div>
+
+                    <h3>Strategic Seam Placement</h3>
+
+                    <p>Where you place seams dramatically affects unwrap quality. Here are the golden rules:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Seam Placement Strategy</h4>
+                        <p><strong>Preferred seam locations:</strong></p>
+                        <ul>
+                            <li><strong>Hidden areas:</strong> Undersides, inside surfaces, backs of objects</li>
+                            <li><strong>Natural breaks:</strong> Where materials change (skin to clothing, different parts)</li>
+                            <li><strong>Geometric edges:</strong> Sharp edges, corners, hard surface transitions</li>
+                            <li><strong>Occlusion areas:</strong> Places shadowed or not visible in typical views</li>
+                            <li><strong>Symmetry lines:</strong> Center line of symmetric models (if using mirrored UVs)</li>
+                        </ul>
+                        <p><strong>Avoid seams in:</strong></p>
+                        <ul>
+                            <li>Middle of smooth, visible surfaces (creates visible texture discontinuity)</li>
+                            <li>Faces/prominent features (seams on faces are very noticeable)</li>
+                            <li>Areas that will be painted with continuous patterns</li>
+                            <li>Hero areas (the parts that get the most screen time/attention)</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ The Seam Visibility Trade-off</h4>
+                        <p><strong>The fundamental dilemma:</strong></p>
+                        <ul>
+                            <li><strong>Too few seams:</strong> Excessive stretching and distortion</li>
+                            <li><strong>Too many seams:</strong> Lots of visible discontinuities</li>
+                        </ul>
+                        <p><strong>The solution:</strong> Strategic placement—just enough seams to minimize distortion, placed in locations where discontinuities won't be noticed!</p>
+                    </div>
+
+                    <h3>Seam Patterns for Common Shapes</h3>
+
+                    <p>Let's look at standard seam patterns for basic primitives:</p>
+
+                    <div class="card">
+                        <h4>📦 Cube Seam Pattern</h4>
+                        <p><strong>Strategy:</strong> Create a cross pattern (like unfolding a cardboard box)</p>
+                        <ul>
+                            <li>Mark 7 edges total</li>
+                            <li>Creates 6 separate squares (one per face) OR</li>
+                            <li>Creates cross/T-shape layout (connected faces)</li>
+                            <li>Zero distortion—cubes unwrap perfectly!</li>
+                        </ul>
+                        <p><strong>Seam placement:</strong></p>
+                        <ul>
+                            <li>Option 1: Edge loop around middle + vertical cuts = cross pattern</li>
+                            <li>Option 2: Cut all but 5 edges to keep faces connected in useful layout</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>🔵 Cylinder Seam Pattern</h4>
+                        <p><strong>Strategy:</strong> Single vertical seam</p>
+                        <ul>
+                            <li>Mark one vertical edge from top to bottom</li>
+                            <li>Optionally: Add seams at top and bottom edges (caps)</li>
+                            <li>Unwraps into rectangle (for barrel) + two circles (for caps)</li>
+                        </ul>
+                        <p><strong>Seam placement:</strong></p>
+                        <ul>
+                            <li>Put vertical seam on back or underside (least visible)</li>
+                            <li>For labels/text, place seam opposite the front</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>⚪ Sphere Seam Pattern</h4>
+                        <p><strong>Strategy:</strong> Longitude and latitude cuts (like an orange)</p>
+                        <ul>
+                            <li>Mark vertical seam from pole to pole (one longitude line)</li>
+                            <li>Optionally: Add horizontal seam at equator</li>
+                            <li>Creates strips that minimize distortion</li>
+                        </ul>
+                        <p><strong>Challenge:</strong> Spheres always have some distortion—it's mathematically impossible to flatten perfectly!</p>
+                        <p><strong>Advanced:</strong> For characters, use multiple vertical strips (orange peel pattern) for better results</p>
+                    </div>
+
+                    <h3>The Unwrap Algorithm</h3>
+
+                    <p>Understanding what happens when you press "Unwrap" helps you plan better seams:</p>
+
+                    <div class="card">
+                        <h4>🔄 How Unwrap Works</h4>
+                        <ol>
+                            <li><strong>Identify islands:</strong> Finds continuous mesh sections between seams</li>
+                            <li><strong>Flatten each island:</strong> Uses mathematical algorithm to lay island flat</li>
+                            <li><strong>Minimize distortion:</strong> Tries to keep angles and relative sizes correct</li>
+                            <li><strong>Arrange in UV space:</strong> Places islands in 0-1 UV square</li>
+                        </ol>
+                        <p><strong>Unwrap methods:</strong></p>
+                        <ul>
+                            <li><strong>Angle Based (default):</strong> Preserves angles, good for most uses</li>
+                            <li><strong>Conformal:</strong> Preserves local shapes, better for organic models</li>
+                        </ul>
+                    </div>
+
+                    <div class="mermaid">
+                        graph TD
+                        A[3D Model with Marked Seams] --> B[Cut at Seams]
+                        B --> C[Separate UV Islands]
+                        C --> D[Flatten Each Island]
+                        D --> E[Minimize Distortion]
+                        E --> F[Arrange in UV Space]
+                        F --> G[Unwrapped UVs!]
+                        
+                        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                        style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    </div>
+
+                    <h3>Testing Your Seam Layout</h3>
+
+                    <p>Before unwrapping, you can preview how seams will affect the result:</p>
+
+                    <div class="card">
+                        <h4>🧪 Seam Testing Workflow</h4>
+                        <ol>
+                            <li><strong>Mark initial seams</strong> based on strategy</li>
+                            <li><strong>Unwrap (<code>U</code> → Unwrap)</strong></li>
+                            <li><strong>Check UV Editor:</strong> How many islands? Are they reasonable?</li>
+                            <li><strong>Apply UV Grid texture</strong> to model</li>
+                            <li><strong>Look for distortion:</strong>
+                                <ul>
+                                    <li>Squares should look square</li>
+                                    <li>Grid lines should be parallel and perpendicular</li>
+                                    <li>No excessive stretching</li>
+                                </ul>
+                            </li>
+                            <li><strong>If distortion is bad:</strong>
+                                <ul>
+                                    <li>Add seams in stretched areas</li>
+                                    <li>Unwrap again</li>
+                                    <li>Repeat until satisfied</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Smart UV Project vs. Manual Seams</h3>
+
+                    <p>Blender offers automatic seam creation, but manual seaming gives better control:</p>
+
+                    <div class="card">
+                        <h4>⚖️ Manual Seams vs. Smart UV Project</h4>
+                        <p><strong>Manual seam marking + Unwrap:</strong></p>
+                        <ul>
+                            <li><strong>Pros:</strong> Full control, optimal seam placement, fewer islands</li>
+                            <li><strong>Cons:</strong> Time-consuming, requires planning</li>
+                            <li><strong>Best for:</strong> Hero assets, characters, products, anything important</li>
+                        </ul>
+                        <p><strong>Smart UV Project (automatic):</strong></p>
+                        <ul>
+                            <li><strong>Pros:</strong> Fast, automatic, no seam marking needed</li>
+                            <li><strong>Cons:</strong> Many islands, seams everywhere, less control</li>
+                            <li><strong>Best for:</strong> Background objects, quick tests, hard-surface with many faces</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common Seam Mistakes</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Seam Placement Pitfalls</h4>
+                        
+                        <p><strong>Mistake 1: No seams at all</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Blender doesn't know where to cut</li>
+                            <li><strong>Result:</strong> Awful distortion or failed unwrap</li>
+                            <li><strong>Fix:</strong> Mark seams before unwrapping!</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 2: Too few seams (trying to minimize cuts)</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Forcing complex geometry to unwrap as one island</li>
+                            <li><strong>Result:</strong> Extreme stretching and distortion</li>
+                            <li><strong>Fix:</strong> Add strategic seams in high-distortion areas</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 3: Seams through visible areas</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Seam running across character's face, front of product, etc.</li>
+                            <li><strong>Result:</strong> Visible texture discontinuity</li>
+                            <li><strong>Fix:</strong> Move seams to edges, backs, undersides, natural breaks</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 4: Random, unplanned seam placement</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Just clicking edges without strategy</li>
+                            <li><strong>Result:</strong> Chaotic UV layout, hard to texture</li>
+                            <li><strong>Fix:</strong> Plan seam layout before marking—think about how it will unwrap</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 5: Not testing unwrap iteratively</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Marking all seams at once, unwrapping once</li>
+                            <li><strong>Result:</strong> Issues discovered too late</li>
+                            <li><strong>Fix:</strong> Unwrap frequently during seam marking to test results</li>
+                        </ul>
+                    </div>
+
+                    <h3>Advanced Seam Techniques</h3>
+
+                    <p>As you get more experienced, these techniques become valuable:</p>
+
+                    <div class="card">
+                        <h4>🎯 Advanced Seaming Strategies</h4>
+                        <p><strong>Seam from selection:</strong></p>
+                        <ul>
+                            <li>Select edge loop with <code>Alt+Click</code></li>
+                            <li>Instantly mark entire loop as seam</li>
+                            <li>Fast for cylindrical objects</li>
+                        </ul>
+                        <p><strong>Sharp edges as seams:</strong></p>
+                        <ul>
+                            <li>Use sharp edges (from Edge Split modifier or marked sharp) as seam guides</li>
+                            <li>Natural locations for seams on hard-surface models</li>
+                        </ul>
+                        <p><strong>Symmetrical seam placement:</strong></p>
+                        <ul>
+                            <li>For symmetrical models, place seams symmetrically</li>
+                            <li>Allows mirroring UVs for efficient texture use</li>
+                            <li>One side of character can use same texture space as other side</li>
+                        </ul>
+                        <p><strong>Seam "loops" strategy:</strong></p>
+                        <ul>
+                            <li>Create closed loops of seams to define UV islands</li>
+                            <li>Each loop = one island boundary</li>
+                            <li>Think: "I want this part to be one island, so I'll loop seams around it"</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Iterative Seaming Process</h3>
+
+                    <p>Professional UV artists don't get seams perfect on first try. Here's the real workflow:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Professional Seaming Workflow</h4>
+                        <ol>
+                            <li><strong>Plan strategically:</strong>
+                                <ul>
+                                    <li>Look at model, identify natural seam locations</li>
+                                    <li>Think about how it will unwrap</li>
+                                    <li>Consider what areas need most texture detail</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mark initial seams:</strong>
+                                <ul>
+                                    <li>Start with obvious locations (edges, backs, undersides)</li>
+                                    <li>Create logical island divisions</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test unwrap:</strong>
+                                <ul>
+                                    <li><code>A</code> to select all, <code>U</code> → Unwrap</li>
+                                    <li>Check result in UV Editor</li>
+                                </ul>
+                            </li>
+                            <li><strong>Evaluate distortion:</strong>
+                                <ul>
+                                    <li>Apply UV Grid texture</li>
+                                    <li>Enable Stretch overlay in UV Editor</li>
+                                    <li>Identify problem areas (red/yellow stretching)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Refine seams:</strong>
+                                <ul>
+                                    <li>Add seams in distorted areas</li>
+                                    <li>Remove unnecessary seams from good areas</li>
+                                    <li>Adjust seam placement for better visibility</li>
+                                </ul>
+                            </li>
+                            <li><strong>Unwrap again and test:</strong>
+                                <ul>
+                                    <li>Repeat until distortion is minimal</li>
+                                    <li>And seams are in acceptable locations</li>
+                                </ul>
+                            </li>
+                            <li><strong>Finalize:</strong>
+                                <ul>
+                                    <li>Accept that some distortion is inevitable</li>
+                                    <li>Compromise between perfection and practicality</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The 80/20 Rule for Seaming:</strong> You can achieve 80% of optimal unwrap quality with 20% of the effort by focusing on: (1) Hiding seams in logical locations, (2) Adding seams where you see obvious stretching, (3) Testing frequently with UV Grid texture. Don't obsess over perfection—get it "good enough" and move on!</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 03
+     Continue with lesson_12_uv_unwrapping_basics_part_04.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 12 - PART 04
+     File: lesson_12_uv_unwrapping_basics_part_04.html
+     ============================================ -->
+
+                <section id="unwrapping-methods" class="content-section">
+                    <h2>🎯 Unwrapping Methods and Commands</h2>
+
+                    <p>Now that you understand seams, let's explore the actual unwrapping commands. Blender offers several unwrapping methods, each designed for different situations and model types.</p>
+
+                    <h3>The Main Unwrap Command</h3>
+
+                    <p>This is the command you'll use most often—it's the workhorse of UV unwrapping:</p>
+
+                    <div class="card">
+                        <h4>📦 Standard Unwrap</h4>
+                        <p><strong>How to use it:</strong></p>
+                        <ol>
+                            <li>Enter Edit Mode (<code>Tab</code>)</li>
+                            <li>Select faces you want to unwrap (or <code>A</code> for all)</li>
+                            <li>Press <code>U</code> to open UV Mapping menu</li>
+                            <li>Select "Unwrap"</li>
+                            <li>Results appear in UV Editor</li>
+                        </ol>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Uses your marked seams to cut the mesh</li>
+                            <li>Flattens each island with minimal distortion</li>
+                            <li>Automatically arranges islands in UV space</li>
+                            <li>Preserves relative proportions</li>
+                        </ul>
+                        <p><strong>Method options (in operator panel):</strong></p>
+                        <ul>
+                            <li><strong>Angle Based:</strong> Default, good general-purpose unwrapping</li>
+                            <li><strong>Conformal:</strong> Better for organic shapes, preserves angles better</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Think of Unwrap Like This:</strong> Imagine you're carefully unfolding a origami figure. You cut along the seams (where you marked them), then gently flatten each section trying to minimize creasing or stretching. The Unwrap command does this mathematically, finding the flattest representation possible!</p>
+                    </blockquote>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ When to Use Standard Unwrap</h4>
+                        <ul>
+                            <li><strong>Best for:</strong> Models with properly marked seams</li>
+                            <li><strong>Ideal situations:</strong> Organic models, characters, creatures, props</li>
+                            <li><strong>Requirement:</strong> You've marked seams strategically</li>
+                            <li><strong>Advantage:</strong> Maximum control over island layout</li>
+                            <li><strong>Result:</strong> Clean, predictable UV islands</li>
+                        </ul>
+                    </div>
+
+                    <h3>Smart UV Project</h3>
+
+                    <p>This is the automatic unwrapping method—perfect when you need quick results:</p>
+
+                    <div class="card">
+                        <h4>🤖 Smart UV Project</h4>
+                        <p><strong>How to use it:</strong></p>
+                        <ol>
+                            <li>Enter Edit Mode</li>
+                            <li>Select faces to unwrap (<code>A</code> for all)</li>
+                            <li>Press <code>U</code> → Smart UV Project</li>
+                            <li>Adjust settings in operator panel (optional)</li>
+                            <li>Confirm</li>
+                        </ol>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Automatically calculates optimal projection angles</li>
+                            <li>Creates seams automatically (ignores your manual seams)</li>
+                            <li>Projects mesh from multiple directions</li>
+                            <li>Creates many small islands</li>
+                        </ul>
+                        <p><strong>Key settings:</strong></p>
+                        <ul>
+                            <li><strong>Angle Limit:</strong> Controls how much faces can deviate (lower = more islands)</li>
+                            <li><strong>Island Margin:</strong> Spacing between islands (prevents texture bleeding)</li>
+                            <li><strong>Area Weight:</strong> Prioritizes larger faces (keeps them less distorted)</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Smart UV Project Trade-offs</h4>
+                        <p><strong>Advantages:</strong></p>
+                        <ul>
+                            <li>Super fast—no seam marking required</li>
+                            <li>Great for complex hard-surface models</li>
+                            <li>Minimal distortion on each island</li>
+                            <li>Perfect for quick tests or background objects</li>
+                        </ul>
+                        <p><strong>Disadvantages:</strong></p>
+                        <ul>
+                            <li>Creates MANY small islands (harder to texture paint)</li>
+                            <li>Seams everywhere (visible texture breaks)</li>
+                            <li>Less efficient texture space usage</li>
+                            <li>Not ideal for hand-painted textures</li>
+                        </ul>
+                    </div>
+
+                    <h3>Project from View</h3>
+
+                    <p>This projects the UV coordinates based on your current viewport view:</p>
+
+                    <div class="card">
+                        <h4>📷 Project from View</h4>
+                        <p><strong>How to use it:</strong></p>
+                        <ol>
+                            <li>Position your 3D Viewport to desired angle</li>
+                            <li>Select faces in Edit Mode</li>
+                            <li>Press <code>U</code> → Project from View</li>
+                            <li>UVs are projected exactly as you see them</li>
+                        </ol>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Creates flat projection from camera angle</li>
+                            <li>Like taking a photo and using it as UV map</li>
+                            <li>No consideration of 3D shape—purely 2D projection</li>
+                        </ul>
+                        <p><strong>Best uses:</strong></p>
+                        <ul>
+                            <li>Applying decals (logos, labels, signs)</li>
+                            <li>Projecting photographs onto surfaces</li>
+                            <li>Quick placeholder UVs</li>
+                            <li>Flat surfaces viewed from one angle</li>
+                        </ul>
+                        <p><strong>Limitation:</strong> Faces not visible from view angle get distorted or stacked UVs</p>
+                    </div>
+
+                    <h3>Cube Projection</h3>
+
+                    <p>Projects UVs as if wrapping a cube around your object:</p>
+
+                    <div class="card">
+                        <h4>📦 Cube Projection</h4>
+                        <p><strong>How it works:</strong></p>
+                        <ul>
+                            <li>Projects from 6 directions (like sides of a cube)</li>
+                            <li>Each face gets assigned to closest projection direction</li>
+                            <li>Automatic seams at projection boundaries</li>
+                        </ul>
+                        <p><strong>Best for:</strong></p>
+                        <ul>
+                            <li>Box-like objects (buildings, furniture, containers)</li>
+                            <li>Hard-surface models with clear sides</li>
+                            <li>Architectural elements</li>
+                        </ul>
+                        <p><strong>Settings:</strong></p>
+                        <ul>
+                            <li><strong>Cube Size:</strong> Scale of projection box</li>
+                            <li><strong>Correct Aspect:</strong> Maintain proportions</li>
+                            <li><strong>Clip to Bounds/Scale to Bounds:</strong> Fit UVs in 0-1 space</li>
+                        </ul>
+                    </div>
+
+                    <h3>Cylinder and Sphere Projections</h3>
+
+                    <p>Specialized projections for round objects:</p>
+
+                    <div class="card">
+                        <h4>🔵 Cylinder Projection</h4>
+                        <p><strong>How it works:</strong></p>
+                        <ul>
+                            <li>Wraps UVs around a cylindrical shape</li>
+                            <li>Like wrapping a label around a can</li>
+                            <li>Vertical axis maps to one UV direction</li>
+                            <li>Horizontal wrapping maps to other UV direction</li>
+                        </ul>
+                        <p><strong>Perfect for:</strong></p>
+                        <ul>
+                            <li>Cylindrical objects (cans, bottles, columns, pipes)</li>
+                            <li>Arms and legs (character modeling)</li>
+                            <li>Tree trunks</li>
+                        </ul>
+                        <p><strong>Tip:</strong> Align object to viewport axis before projecting for best results</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>⚪ Sphere Projection</h4>
+                        <p><strong>How it works:</strong></p>
+                        <ul>
+                            <li>Projects UVs as if wrapping around a sphere</li>
+                            <li>Like a globe map projection (latitude/longitude)</li>
+                            <li>Creates characteristic "pole pinching" at top/bottom</li>
+                        </ul>
+                        <p><strong>Perfect for:</strong></p>
+                        <ul>
+                            <li>Spherical objects (planets, balls, heads)</li>
+                            <li>Dome structures</li>
+                            <li>Round organic forms</li>
+                        </ul>
+                        <p><strong>Known issue:</strong> Always has distortion at poles—mathematically unavoidable!</p>
+                    </div>
+
+                    <h3>Unwrap Method Comparison</h3>
+
+                    <p>Here's a quick reference for choosing the right unwrap method:</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Best For</th>
+                                <th>Requires Seams?</th>
+                                <th>Distortion</th>
+                                <th>Speed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Unwrap</strong></td>
+                                <td>Organic models, characters, hero assets</td>
+                                <td>Yes</td>
+                                <td>Low (with good seams)</td>
+                                <td>Fast</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Smart UV Project</strong></td>
+                                <td>Hard surface, background objects, quick tests</td>
+                                <td>No</td>
+                                <td>Very low per island</td>
+                                <td>Very fast</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Project from View</strong></td>
+                                <td>Decals, labels, flat surfaces</td>
+                                <td>No</td>
+                                <td>High on non-facing surfaces</td>
+                                <td>Instant</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cube Projection</strong></td>
+                                <td>Box-like objects, architecture</td>
+                                <td>No</td>
+                                <td>Low for cubic shapes</td>
+                                <td>Fast</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cylinder Projection</strong></td>
+                                <td>Cylindrical objects, limbs</td>
+                                <td>No</td>
+                                <td>Low for cylinders</td>
+                                <td>Fast</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sphere Projection</strong></td>
+                                <td>Spherical objects, planets</td>
+                                <td>No</td>
+                                <td>Pole pinching inevitable</td>
+                                <td>Fast</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="mermaid">
+                        graph TD
+                        A[Need to Unwrap?] --> B{What type of object?}
+                        B -->|Organic/Character| C[Mark seams strategically]
+                        B -->|Hard Surface/Mechanical| D{Priority?}
+                        B -->|Simple Primitive| E[Use matching projection]
+                        
+                        C --> F[Use Unwrap]
+                        
+                        D -->|Quality| G[Mark seams + Unwrap]
+                        D -->|Speed| H[Smart UV Project]
+                        
+                        E --> I[Cube/Cylinder/Sphere Projection]
+                        
+                        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                        style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                        style H fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                        style I fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    </div>
+
+                    <h3>Unwrap Settings and Options</h3>
+
+                    <p>After executing an unwrap command, you can adjust settings in the operator panel:</p>
+
+                    <div class="card">
+                        <h4>⚙️ Common Unwrap Options</h4>
+                        <p><strong>Method (Unwrap command):</strong></p>
+                        <ul>
+                            <li><strong>Angle Based:</strong> Default algorithm, balanced results</li>
+                            <li><strong>Conformal:</strong> Preserves angles better, good for organic shapes</li>
+                        </ul>
+                        <p><strong>Fill Holes:</strong></p>
+                        <ul>
+                            <li>Automatically fills in missing faces during unwrap</li>
+                            <li>Useful for models with holes or open edges</li>
+                        </ul>
+                        <p><strong>Correct Aspect:</strong></p>
+                        <ul>
+                            <li>Maintains proportions relative to 3D model</li>
+                            <li>Prevents UVs from being squished or stretched</li>
+                            <li>Usually keep this ON</li>
+                        </ul>
+                        <p><strong>Use Subdivision Surface:</strong></p>
+                        <ul>
+                            <li>Unwraps as if Subdivision Surface modifier is applied</li>
+                            <li>Smoother UVs for subdivided models</li>
+                        </ul>
+                        <p><strong>Margin:</strong></p>
+                        <ul>
+                            <li>Space between UV islands (measured in UV units)</li>
+                            <li>Prevents texture bleeding between islands</li>
+                            <li>Typical value: 0.001 to 0.01</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 Pro Tip:</strong> Always check the operator panel immediately after unwrapping! You can tweak settings like margin, method, and aspect correction without having to unwrap again. The settings stick until you perform another operation.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="uv-editor-interface" class="content-section">
+                    <h2>🖥️ Working in the UV Editor</h2>
+
+                    <p>The UV Editor is where you'll spend most of your time during the UV unwrapping process. Let's master this crucial workspace!</p>
+
+                    <h3>Opening the UV Editor</h3>
+
+                    <p>There are several ways to access the UV Editor:</p>
+
+                    <div class="card">
+                        <h4>📂 Accessing UV Editor</h4>
+                        <p><strong>Method 1: Switch workspace</strong></p>
+                        <ul>
+                            <li>Click "UV Editing" tab at top of Blender window</li>
+                            <li>Gives split view: 3D Viewport (left) + UV Editor (right)</li>
+                            <li>Most convenient for unwrapping workflow</li>
+                        </ul>
+                        <p><strong>Method 2: Change editor type</strong></p>
+                        <ul>
+                            <li>Click editor type icon (top-left corner of any editor)</li>
+                            <li>Select "UV Editor" from menu</li>
+                            <li>Converts current editor to UV Editor</li>
+                        </ul>
+                        <p><strong>Method 3: Split view manually</strong></p>
+                        <ul>
+                            <li>Drag corner of editor to split</li>
+                            <li>Change one side to UV Editor</li>
+                            <li>Customize layout as needed</li>
+                        </ul>
+                    </div>
+
+                    <h3>UV Editor Interface Overview</h3>
+
+                    <p>Let's understand what you're looking at in the UV Editor:</p>
+
+                    <div class="card">
+                        <h4>🗺️ UV Editor Components</h4>
+                        <p><strong>Main elements:</strong></p>
+                        <ul>
+                            <li><strong>UV Grid:</strong> The square workspace (0-1 UV space)</li>
+                            <li><strong>UV Islands:</strong> Your unwrapped mesh shown as 2D shapes</li>
+                            <li><strong>Background Image:</strong> Optional texture or UV test grid</li>
+                            <li><strong>Toolbar (left):</strong> Selection and transformation tools</li>
+                            <li><strong>Sidebar (N key):</strong> Properties and UV statistics</li>
+                            <li><strong>Header (top):</strong> View options, sync settings, display modes</li>
+                        </ul>
+                        <p><strong>The UV grid explained:</strong></p>
+                        <ul>
+                            <li><strong>0-1 square:</strong> Standard UV space (entire texture fits here)</li>
+                            <li><strong>Outside 0-1:</strong> UVs can go outside, texture will tile/repeat</li>
+                            <li><strong>Grid lines:</strong> Help with alignment and positioning</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Understanding UV Space</h4>
+                        <p>The UV Editor shows a normalized 0-1 square. Here's what that means:</p>
+                        <ul>
+                            <li><strong>Bottom-left corner = (0, 0)</strong></li>
+                            <li><strong>Top-right corner = (1, 1)</strong></li>
+                            <li><strong>Any point in square = coordinate from 0 to 1 in each direction</strong></li>
+                            <li><strong>Your texture image maps to this exact square</strong></li>
+                            <li><strong>UVs filling the square = texture fully utilized</strong></li>
+                        </ul>
+                        <p><strong>Why 0-1?</strong> It's resolution-independent! Same UVs work with 512px, 2048px, or 4K textures.</p>
+                    </div>
+
+                    <h3>UV Editor Selection Tools</h3>
+
+                    <p>Selection works similarly to 3D Viewport, but with some UV-specific features:</p>
+
+                    <div class="card">
+                        <h4>🎯 UV Selection Modes</h4>
+                        <p><strong>Selection modes (same keys as 3D):</strong></p>
+                        <ul>
+                            <li><code>1</code> - Vertex select mode</li>
+                            <li><code>2</code> - Edge select mode</li>
+                            <li><code>3</code> - Face select mode</li>
+                        </ul>
+                        <p><strong>Selection tools:</strong></p>
+                        <ul>
+                            <li><strong>Box Select:</strong> <code>B</code> - Drag rectangle to select</li>
+                            <li><strong>Circle Select:</strong> <code>C</code> - Paint selection with circle brush</li>
+                            <li><strong>Lasso Select:</strong> <code>Ctrl+Shift</code> - Freehand selection</li>
+                            <li><strong>Select All:</strong> <code>A</code> - Select everything</li>
+                            <li><strong>Deselect All:</strong> <code>Alt+A</code> - Deselect everything</li>
+                            <li><strong>Invert Selection:</strong> <code>Ctrl+I</code> - Flip selection</li>
+                        </ul>
+                        <p><strong>Advanced selection:</strong></p>
+                        <ul>
+                            <li><strong>Select Linked:</strong> <code>L</code> (mouse over) - Select entire UV island</li>
+                            <li><strong>Select Linked (all):</strong> <code>Ctrl+L</code> - Select all UVs connected to current selection</li>
+                            <li><strong>Select More/Less:</strong> <code>Ctrl+Plus/Minus</code> - Grow/shrink selection</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ UV Editor Selection Sync</h4>
+                        <p><strong>Important concept: Selection syncing</strong></p>
+                        <p>When you select something in 3D Viewport, the corresponding UVs select in UV Editor (and vice versa). This is controlled by the <strong>UV Sync Selection</strong> button in UV Editor header.</p>
+                        <p><strong>UV Sync Selection ON:</strong></p>
+                        <ul>
+                            <li>3D and UV selections are locked together</li>
+                            <li>Select in one view, it selects in both</li>
+                            <li>Great for finding which UVs belong to which faces</li>
+                        </ul>
+                        <p><strong>UV Sync Selection OFF:</strong></p>
+                        <ul>
+                            <li>3D and UV selections are independent</li>
+                            <li>Can select different things in each view</li>
+                            <li>Better for UV-specific operations (selecting by UV layout)</li>
+                        </ul>
+                        <p><strong>Toggle:</strong> Click magnet icon in UV Editor header, or use keyboard shortcut</p>
+                    </div>
+
+                    <h3>Transforming UVs</h3>
+
+                    <p>Move, rotate, and scale UVs just like 3D objects:</p>
+
+                    <div class="card">
+                        <h4>🔄 UV Transformation</h4>
+                        <p><strong>Basic transforms (same as 3D):</strong></p>
+                        <ul>
+                            <li><strong>Move:</strong> <code>G</code> - Grab and move selected UVs</li>
+                            <li><strong>Rotate:</strong> <code>R</code> - Rotate around median point</li>
+                            <li><strong>Scale:</strong> <code>S</code> - Scale up or down</li>
+                        </ul>
+                        <p><strong>Constrained movement:</strong></p>
+                        <ul>
+                            <li><code>G</code> then <code>X</code> - Move only horizontally (U direction)</li>
+                            <li><code>G</code> then <code>Y</code> - Move only vertically (V direction)</li>
+                            <li><code>S</code> then <code>X</code> or <code>Y</code> - Scale in one direction only</li>
+                        </ul>
+                        <p><strong>Numeric input:</strong></p>
+                        <ul>
+                            <li>After <code>G/R/S</code>, type number for precise control</li>
+                            <li>Example: <code>S</code>, <code>2</code>, <code>Enter</code> - Scale 2x</li>
+                            <li>Example: <code>G</code>, <code>X</code>, <code>0.5</code>, <code>Enter</code> - Move 0.5 units in U</li>
+                        </ul>
+                        <p><strong>Pivot point:</strong></p>
+                        <ul>
+                            <li>Set pivot point in header (same as 3D: Median, Individual Origins, etc.)</li>
+                            <li>Affects rotation and scale center point</li>
+                        </ul>
+                    </div>
+
+                    <h3>UV Editor Display Options</h3>
+
+                    <p>Customize what you see to make UV work easier:</p>
+
+                    <div class="card">
+                        <h4>👁️ Display Settings</h4>
+                        <p><strong>View menu options:</strong></p>
+                        <ul>
+                            <li><strong>Frame All:</strong> <code>Home</code> - Fit all UVs in view</li>
+                            <li><strong>Frame Selected:</strong> <code>Numpad Period</code> - Zoom to selected UVs</li>
+                            <li><strong>Zoom:</strong> Scroll wheel or <code>Ctrl+Middle Mouse</code></li>
+                            <li><strong>Pan:</strong> <code>Middle Mouse</code> drag</li>
+                        </ul>
+                        <p><strong>Overlays (in header):</strong></p>
+                        <ul>
+                            <li><strong>Show Stretch:</strong> Display distortion as color overlay
+                                <ul>
+                                    <li>Blue = No distortion</li>
+                                    <li>Green = Minimal distortion</li>
+                                    <li>Yellow/Orange = Some distortion</li>
+                                    <li>Red = Heavy distortion</li>
+                                </ul>
+                            </li>
+                            <li><strong>Show Modified Edges:</strong> Highlight seams and sharp edges</li>
+                            <li><strong>Show Face Orientation:</strong> Check for flipped faces (blue vs red)</li>
+                        </ul>
+                        <p><strong>Background image:</strong></p>
+                        <ul>
+                            <li>Shows texture behind UVs</li>
+                            <li>Helps with precise placement</li>
+                            <li>Toggle in Sidebar (N) → Image panel</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Stretch Overlay is Your Best Friend:</strong> Enable stretch display (usually Ctrl+T or in overlays menu) to instantly see problem areas. Blue = good, red = bad. This single visual tool will save you hours of guesswork when optimizing UVs!</p>
+                    </blockquote>
+
+                    <h3>Selecting UV Islands</h3>
+
+                    <p>UV islands are individual pieces of your unwrapped mesh. Learning to select them efficiently is crucial:</p>
+
+                    <div class="card">
+                        <h4>🏝️ Island Selection Techniques</h4>
+                        <p><strong>Select entire island:</strong></p>
+                        <ul>
+                            <li>Hover mouse over any part of island</li>
+                            <li>Press <code>L</code> - Selects all connected UVs</li>
+                            <li>Fastest way to grab an island</li>
+                        </ul>
+                        <p><strong>Select multiple islands:</strong></p>
+                        <ul>
+                            <li><code>L</code> over first island</li>
+                            <li><code>Shift+L</code> over additional islands</li>
+                            <li>Adds to selection</li>
+                        </ul>
+                        <p><strong>Box select islands:</strong></p>
+                        <ul>
+                            <li><code>B</code> for box select</li>
+                            <li>Draw box around islands</li>
+                            <li>Selects all UVs within box</li>
+                        </ul>
+                        <p><strong>Select overlapping islands:</strong></p>
+                        <ul>
+                            <li>Select → Select Overlap</li>
+                            <li>Finds islands stacked on top of each other</li>
+                            <li>Useful for fixing UV layout issues</li>
+                        </ul>
+                    </div>
+
+                    <h3>UV Editor Sidebar Tools</h3>
+
+                    <p>Press <code>N</code> to toggle the sidebar with additional UV information and tools:</p>
+
+                    <div class="card">
+                        <h4>📊 Sidebar Panels</h4>
+                        <p><strong>Transform panel:</strong></p>
+                        <ul>
+                            <li>Shows exact location, rotation, scale of selected UVs</li>
+                            <li>Type values for precise positioning</li>
+                            <li>Useful for aligning UVs to specific coordinates</li>
+                        </ul>
+                        <p><strong>Image panel:</strong></p>
+                        <ul>
+                            <li>Select which texture to display</li>
+                            <li>Pin image (keep showing even when selecting different objects)</li>
+                            <li>Adjust UV/Image display settings</li>
+                        </ul>
+                        <p><strong>UDIM Grid:</strong></p>
+                        <ul>
+                            <li>For advanced workflows using multiple texture tiles</li>
+                            <li>Shows grid of 1x1 squares (UDIM tiles)</li>
+                            <li>Each tile can hold different texture</li>
+                        </ul>
+                        <p><strong>View panel:</strong></p>
+                        <ul>
+                            <li>Repeat image (tiling) settings</li>
+                            <li>Grid display options</li>
+                            <li>View customization</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 04
+     Continue with lesson_12_uv_unwrapping_basics_part_05.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 12 - PART 05
+     File: lesson_12_uv_unwrapping_basics_part_05.html
+     ============================================ -->
+
+                <section id="manipulating-uv-islands" class="content-section">
+                    <h2>🎨 Manipulating UV Islands</h2>
+
+                    <p>Once you've unwrapped your model, you'll need to arrange, orient, and optimize the UV islands. This is where artistic judgment meets technical skill!</p>
+
+                    <h3>Packing UV Islands</h3>
+
+                    <p>UV packing is the process of arranging islands efficiently within the 0-1 UV space to maximize texture resolution:</p>
+
+                    <div class="card">
+                        <h4>📦 UV Packing Basics</h4>
+                        <p><strong>What is packing?</strong></p>
+                        <ul>
+                            <li>Arranging UV islands to fill UV space efficiently</li>
+                            <li>Minimizes wasted texture space</li>
+                            <li>Maximizes resolution for every surface</li>
+                            <li>Like playing Tetris with your UVs!</li>
+                        </ul>
+                        <p><strong>Manual packing method:</strong></p>
+                        <ol>
+                            <li>Select islands you want to pack</li>
+                            <li>Use <code>G</code>, <code>R</code>, <code>S</code> to move, rotate, scale</li>
+                            <li>Arrange to minimize gaps</li>
+                            <li>Leave small margin between islands (prevent texture bleeding)</li>
+                        </ol>
+                        <p><strong>Automatic packing:</strong></p>
+                        <ol>
+                            <li>Select all UVs (<code>A</code> in UV Editor)</li>
+                            <li>Go to UV menu → Pack Islands</li>
+                            <li>Or right-click → Pack Islands</li>
+                            <li>Blender automatically arranges for best fit</li>
+                        </ol>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Pack Islands Settings</h4>
+                        <p><strong>Key options (in operator panel after packing):</strong></p>
+                        <ul>
+                            <li><strong>Margin:</strong> Space between islands (default: 0.001)
+                                <ul>
+                                    <li>Too small = texture bleeding (colors leak between islands)</li>
+                                    <li>Too large = wasted space</li>
+                                    <li>Recommended: 0.001 to 0.005</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotate:</strong> Allow islands to rotate for better fit
+                                <ul>
+                                    <li>Can enable for maximum efficiency</li>
+                                    <li>Disable if you need specific orientations</li>
+                                </ul>
+                            </li>
+                            <li><strong>Shape Method:</strong>
+                                <ul>
+                                    <li><strong>AABB:</strong> Axis-aligned bounding box (fast, less precise)</li>
+                                    <li><strong>Convex Hull:</strong> Wraps tighter (slower, more efficient)</li>
+                                    <li><strong>Concave:</strong> Best fit (slowest, most efficient)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Texture Budget Concept:</strong> Think of UV space like a budget. Every pixel of your texture is valuable! If islands only use 50% of UV space, you're wasting 50% of your texture resolution. Good packing means getting the most detail possible from every pixel!</p>
+                    </blockquote>
+
+                    <h3>Scaling Islands Proportionally</h3>
+
+                    <p>One of the most important UV concepts: different islands should have appropriate relative sizes:</p>
+
+                    <div class="card">
+                        <h4>📏 Proportional Island Scaling</h4>
+                        <p><strong>Why it matters:</strong></p>
+                        <ul>
+                            <li>Islands should be sized relative to their 3D surface area</li>
+                            <li>Larger 3D surfaces → larger UV islands (more texture pixels)</li>
+                            <li>Smaller 3D surfaces → smaller UV islands (fewer pixels)</li>
+                            <li>Maintains consistent texture density across entire model</li>
+                        </ul>
+                        <p><strong>The problem with non-proportional scaling:</strong></p>
+                        <ul>
+                            <li>Small detail gets huge UV space = excessive resolution (wasted)</li>
+                            <li>Large surface gets tiny UV space = blurry texture (bad quality)</li>
+                            <li>Inconsistent texture sharpness across model</li>
+                        </ul>
+                        <p><strong>How to maintain proportions:</strong></p>
+                        <ul>
+                            <li>Blender's Unwrap usually creates proportional islands automatically</li>
+                            <li>Use Average Island Scale to normalize (UV menu → Average Island Scale)</li>
+                            <li>Visually compare island sizes to 3D surface areas</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ When to Break Proportionality</h4>
+                        <p>Sometimes you WANT disproportionate scaling:</p>
+                        <ul>
+                            <li><strong>Hero surfaces:</strong> Face, hands, logos get extra resolution</li>
+                            <li><strong>Detail areas:</strong> Parts that will be seen close-up</li>
+                            <li><strong>Hidden surfaces:</strong> Undersides, backs get less resolution</li>
+                        </ul>
+                        <p><strong>The rule:</strong> Start proportional, then strategically adjust for importance!</p>
+                    </div>
+
+                    <h3>Rotating Islands</h3>
+
+                    <p>Proper island orientation makes texturing easier and can improve packing:</p>
+
+                    <div class="card">
+                        <h4>🔄 Island Rotation Strategies</h4>
+                        <p><strong>Why rotate islands?</strong></p>
+                        <ul>
+                            <li>Align to texture features (wood grain, fabric weave)</li>
+                            <li>Improve packing efficiency (fit more in UV space)</li>
+                            <li>Orient for easier hand painting</li>
+                            <li>Standardize orientation across similar parts</li>
+                        </ul>
+                        <p><strong>How to rotate:</strong></p>
+                        <ul>
+                            <li>Select island (<code>L</code> over it)</li>
+                            <li>Press <code>R</code> to rotate</li>
+                            <li>Type angle (90, 180, etc.) for precise rotation</li>
+                            <li>Or rotate freely by moving mouse</li>
+                        </ul>
+                        <p><strong>Common rotation angles:</strong></p>
+                        <ul>
+                            <li><strong>90° increments:</strong> For architectural alignment</li>
+                            <li><strong>Arbitrary angles:</strong> For optimal packing</li>
+                            <li><strong>Aligned to grid:</strong> For tiled textures</li>
+                        </ul>
+                    </div>
+
+                    <h3>Straightening UV Islands</h3>
+
+                    <p>Sometimes unwrapped islands are slightly skewed or irregular. Straightening creates cleaner UVs:</p>
+
+                    <div class="card">
+                        <h4>📐 Straightening Techniques</h4>
+                        <p><strong>Align edges:</strong></p>
+                        <ol>
+                            <li>Switch to edge select mode (<code>2</code>)</li>
+                            <li>Select edge loop you want to straighten</li>
+                            <li><code>S</code> (scale), then <code>X</code> or <code>Y</code>, then <code>0</code></li>
+                            <li>Flattens selected edges to perfectly straight line</li>
+                        </ol>
+                        <p><strong>Follow Active Quads (grid-like unwrapping):</strong></p>
+                        <ol>
+                            <li>Select faces you want to straighten</li>
+                            <li>Make sure one quad is active (last selected)</li>
+                            <li>Press <code>U</code> → Follow Active Quads</li>
+                            <li>Creates perfectly rectangular UV layout based on active face</li>
+                            <li>Great for architectural surfaces, floors, walls</li>
+                        </ol>
+                        <p><strong>Use case:</strong> Straightening is especially useful for surfaces that should have perfectly aligned textures (tiles, bricks, panels)</p>
+                    </div>
+
+                    <h3>Pinning UVs</h3>
+
+                    <p>Pinning locks UV vertices in place during unwrapping operations:</p>
+
+                    <div class="card">
+                        <h4>📌 UV Pinning</h4>
+                        <p><strong>What is pinning?</strong></p>
+                        <ul>
+                            <li>Marks specific UV vertices as "locked"</li>
+                            <li>Pinned vertices won't move during unwrap operations</li>
+                            <li>Rest of island adjusts around pinned points</li>
+                            <li>Shown as red vertices in UV Editor</li>
+                        </ul>
+                        <p><strong>How to pin:</strong></p>
+                        <ol>
+                            <li>Select UV vertices you want to pin</li>
+                            <li>Press <code>P</code> → Pin</li>
+                            <li>Or UV menu → Pin</li>
+                            <li>To unpin: <code>Alt+P</code> or UV menu → Unpin</li>
+                        </ol>
+                        <p><strong>Use cases:</strong></p>
+                        <ul>
+                            <li><strong>Partial re-unwrap:</strong> Pin good areas, re-unwrap problematic areas</li>
+                            <li><strong>Manual UV shaping:</strong> Pin corners to specific locations, unwrap fills in between</li>
+                            <li><strong>Align to texture features:</strong> Pin specific points to match texture elements</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Advanced Pinning Workflow</h4>
+                        <p><strong>The "pin and refine" technique:</strong></p>
+                        <ol>
+                            <li>Do initial unwrap (creates base layout)</li>
+                            <li>Manually position corners or edges where you want them</li>
+                            <li>Pin those vertices (<code>P</code>)</li>
+                            <li>Select entire island and unwrap again</li>
+                            <li>Pinned vertices stay in place, rest adjusts with less distortion</li>
+                            <li>Iterate: move pins, unwrap, check result</li>
+                        </ol>
+                        <p>This gives you control over general layout while letting Blender optimize distortion!</p>
+                    </div>
+
+                    <h3>Welding and Stitching UVs</h3>
+
+                    <p>Sometimes you need to merge UV vertices or reconnect islands:</p>
+
+                    <div class="card">
+                        <h4>🔗 Welding UV Vertices</h4>
+                        <p><strong>What is welding?</strong></p>
+                        <ul>
+                            <li>Merges selected UV vertices to same location</li>
+                            <li>Like "Merge Vertices" but for UVs only</li>
+                            <li>Doesn't affect 3D geometry</li>
+                        </ul>
+                        <p><strong>How to weld:</strong></p>
+                        <ol>
+                            <li>Select UV vertices to weld (must be from same mesh)</li>
+                            <li>Press <code>W</code> → Weld</li>
+                            <li>Or right-click → Weld</li>
+                            <li>Vertices merge to average position</li>
+                        </ol>
+                        <p><strong>Stitch operation:</strong></p>
+                        <ol>
+                            <li>Select UV edges you want to join (from two islands)</li>
+                            <li>Press <code>V</code> → Stitch</li>
+                            <li>Bridges gap between islands, joining them</li>
+                            <li>Useful for fixing seam placement mistakes</li>
+                        </ol>
+                    </div>
+
+                    <h3>Copying and Pasting UVs</h3>
+
+                    <p>Transfer UV coordinates between different parts of your mesh:</p>
+
+                    <div class="card">
+                        <h4>📋 UV Copy/Paste</h4>
+                        <p><strong>Why copy UVs?</strong></p>
+                        <ul>
+                            <li>Reuse unwrapping work on similar geometry</li>
+                            <li>Create symmetrical UVs quickly</li>
+                            <li>Transfer good UVs to problematic areas</li>
+                        </ul>
+                        <p><strong>Copy/paste workflow:</strong></p>
+                        <ol>
+                            <li>Select faces with UVs you want to copy (in 3D Viewport)</li>
+                            <li>In UV Editor: UV menu → Copy UVs</li>
+                            <li>Select target faces (faces that will receive copied UVs)</li>
+                            <li>UV menu → Paste UVs</li>
+                            <li>UVs are transferred to new selection</li>
+                        </ol>
+                        <p><strong>Important:</strong> Target faces must have same topology (face count, edge flow) as source!</p>
+                    </div>
+
+                    <h3>Mirror UVs</h3>
+
+                    <p>Create perfectly symmetrical UV layouts for symmetrical models:</p>
+
+                    <div class="card">
+                        <h4>🪞 UV Mirroring</h4>
+                        <p><strong>The concept:</strong></p>
+                        <ul>
+                            <li>Left and right sides of model share same UV space</li>
+                            <li>One side's UVs are flipped copy of other side</li>
+                            <li>Saves 50% of texture space!</li>
+                            <li>Perfect for characters, vehicles, symmetrical objects</li>
+                        </ul>
+                        <p><strong>Setting up mirrored UVs:</strong></p>
+                        <ol>
+                            <li>Unwrap one half of model (with seam down middle)</li>
+                            <li>Select UVs for other half</li>
+                            <li>UV menu → Mirror → Mirror X (or Y)</li>
+                            <li>Or: Copy UVs from first half, paste to second half, then mirror</li>
+                        </ol>
+                        <p><strong>Trade-offs:</strong></p>
+                        <ul>
+                            <li><strong>Pro:</strong> Double the texture resolution per unique surface</li>
+                            <li><strong>Pro:</strong> Easier to maintain symmetry in texture painting</li>
+                            <li><strong>Con:</strong> Can't have asymmetrical details (scars, dirt on one side)</li>
+                            <li><strong>Con:</strong> Obvious mirror repetition if not handled carefully</li>
+                        </ul>
+                    </div>
+
+                    <div class="mermaid">
+                        graph LR
+                        A[Symmetrical Model] --> B[Unwrap Left Half]
+                        B --> C[Mirror UVs to Right]
+                        C --> D[Both Halves Share UV Space]
+                        D --> E[50% Texture Space Saved!]
+                        
+                        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                        style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    </mermaid>
+
+                </section>
+
+                <section id="optimizing-uvs" class="content-section">
+                    <h2>⚡ Optimizing UV Layouts</h2>
+
+                    <p>Creating a good UV layout isn't just about unwrapping—it's about optimizing for the best possible texture quality and workflow efficiency.</p>
+
+                    <h3>Texture Density</h3>
+
+                    <p>Texture density is the relationship between 3D surface area and UV space. Consistent density = consistent quality!</p>
+
+                    <div class="card">
+                        <h4>📊 Understanding Texture Density</h4>
+                        <p><strong>What is texture density?</strong></p>
+                        <ul>
+                            <li>How many texture pixels cover a given 3D surface area</li>
+                            <li>Measured in "pixels per unit" or "texels per unit"</li>
+                            <li>Higher density = sharper textures (more pixels per surface)</li>
+                            <li>Lower density = blurrier textures (fewer pixels per surface)</li>
+                        </ul>
+                        <p><strong>Why consistency matters:</strong></p>
+                        <ul>
+                            <li>Inconsistent density = some parts sharp, others blurry</li>
+                            <li>Looks unprofessional and breaks immersion</li>
+                            <li>Consistent density = uniform quality across model</li>
+                        </ul>
+                        <p><strong>Checking texture density:</strong></p>
+                        <ul>
+                            <li>Use UV Grid texture in 3D Viewport</li>
+                            <li>Checker squares should be roughly same size everywhere</li>
+                            <li>Large squares = low density (will be blurry)</li>
+                            <li>Small squares = high density (will be sharp)</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Achieving Consistent Texture Density</h4>
+                        <p><strong>Method 1: Average Island Scale</strong></p>
+                        <ol>
+                            <li>Select all UVs in UV Editor (<code>A</code>)</li>
+                            <li>UV menu → Average Island Scale</li>
+                            <li>Blender automatically scales islands proportionally</li>
+                            <li>All islands now have consistent density</li>
+                        </ol>
+                        <p><strong>Method 2: Manual visual matching</strong></p>
+                        <ol>
+                            <li>Apply UV Grid texture to model</li>
+                            <li>Look at checker pattern in 3D Viewport</li>
+                            <li>Scale islands in UV Editor until checkers match</li>
+                            <li>Use one "reference" area as standard</li>
+                        </ol>
+                    </div>
+
+                    <h3>UV Space Utilization</h3>
+
+                    <p>Getting the most out of your 0-1 UV square is crucial for maximum quality:</p>
+
+                    <div class="card">
+                        <h4>📦 Maximizing UV Space</h4>
+                        <p><strong>Key principle:</strong> Fill as much of the 0-1 square as possible!</p>
+                        <p><strong>Why it matters:</strong></p>
+                        <ul>
+                            <li>Unused UV space = wasted texture resolution</li>
+                            <li>If islands only fill 50% of space, you're only using 50% of texture</li>
+                            <li>Better packing = more pixels available = higher quality</li>
+                        </ul>
+                        <p><strong>Optimization techniques:</strong></p>
+                        <ul>
+                            <li><strong>Pack Islands:</strong> Use automatic packing with low margin</li>
+                            <li><strong>Scale up:</strong> After packing, scale all islands up to fill space</li>
+                            <li><strong>Rotate:</strong> Enable rotation in Pack Islands for tighter fit</li>
+                            <li><strong>Remove margins:</strong> Get rid of unnecessary padding</li>
+                            <li><strong>Stack identical islands:</strong> If you have mirrored or repeated geometry</li>
+                        </ul>
+                        <p><strong>The balance:</strong> Maximum coverage vs. practical margin (to prevent texture bleeding)</p>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ The Margin Trade-off</h4>
+                        <p><strong>Too little margin (< 0.001):</strong></p>
+                        <ul>
+                            <li>Texture bleeding—colors from one island leak to neighbors</li>
+                            <li>Visible seams and artifacts</li>
+                            <li>Mipmap issues (blurriness causes color mixing)</li>
+                        </ul>
+                        <p><strong>Too much margin (> 0.01):</strong></p>
+                        <ul>
+                            <li>Wasted texture space</li>
+                            <li>Lower effective resolution</li>
+                            <li>Inefficient use of texture budget</li>
+                        </ul>
+                        <p><strong>Sweet spot: 0.001 to 0.005</strong></p>
+                        <p>Larger textures (4K, 8K) can use smaller margins. Smaller textures (1K, 512px) need larger margins.</p>
+                    </div>
+
+                    <h3>Handling Overlapping UVs</h3>
+
+                    <p>Overlapping UVs can be intentional (good) or accidental (bad):</p>
+
+                    <div class="card">
+                        <h4>🔄 Overlapping UV Strategies</h4>
+                        <p><strong>Intentional overlapping (good uses):</strong></p>
+                        <ul>
+                            <li><strong>Symmetrical models:</strong> Mirror left/right to share UV space</li>
+                            <li><strong>Repeated elements:</strong> Multiple identical parts use same UVs</li>
+                            <li><strong>Texture reuse:</strong> Different objects sharing same texture regions</li>
+                            <li><strong>Result:</strong> More efficient texture use, higher resolution per unique surface</li>
+                        </ul>
+                        <p><strong>Accidental overlapping (problems):</strong></p>
+                        <ul>
+                            <li>Islands stacked on top of each other by mistake</li>
+                            <li>Causes texture painting issues (paint appears in multiple places)</li>
+                            <li>Baking problems (lighting bakes to multiple surfaces incorrectly)</li>
+                        </ul>
+                        <p><strong>Finding overlaps:</strong></p>
+                        <ul>
+                            <li>UV Editor: Select → Select Overlap</li>
+                            <li>Highlights all overlapping UV islands</li>
+                            <li>Fix by moving islands apart</li>
+                        </ul>
+                    </div>
+
+                    <h3>UV Channels (Advanced)</h3>
+
+                    <p>Blender supports multiple UV maps per object—each is a separate UV channel:</p>
+
+                    <div class="card">
+                        <h4>📺 Multiple UV Channels</h4>
+                        <p><strong>What are UV channels?</strong></p>
+                        <ul>
+                            <li>Same mesh can have multiple, completely different UV layouts</li>
+                            <li>Each UV map is independent</li>
+                            <li>Useful for different purposes per channel</li>
+                        </ul>
+                        <p><strong>Common multi-channel setups:</strong></p>
+                        <ul>
+                            <li><strong>UV Map 1:</strong> Main textures (color, roughness, normal)</li>
+                            <li><strong>UV Map 2:</strong> Lightmap (for baked lighting)</li>
+                            <li><strong>UV Map 3:</strong> Special effects (decals, wear patterns)</li>
+                        </ul>
+                        <p><strong>Managing UV maps:</strong></p>
+                        <ul>
+                            <li>Object Data Properties → UV Maps panel</li>
+                            <li>Add new UV map with + button</li>
+                            <li>Set active map (used for editing)</li>
+                            <li>Set render map (used by materials)</li>
+                        </ul>
+                        <p><strong>When to use multiple channels:</strong></p>
+                        <ul>
+                            <li>Game engines requiring separate lightmap UVs</li>
+                            <li>Different UV layouts for different texture purposes</li>
+                            <li>Combining tiled textures with unique textures</li>
+                        </ul>
+                    </div>
+
+                    <h3>UV Distortion Analysis</h3>
+
+                    <p>Understanding and minimizing distortion is key to high-quality UVs:</p>
+
+                    <div class="card">
+                        <h4>🔍 Analyzing UV Distortion</h4>
+                        <p><strong>Types of distortion:</strong></p>
+                        <ul>
+                            <li><strong>Stretching:</strong> UVs pulled apart (texture stretched on 3D surface)</li>
+                            <li><strong>Compression:</strong> UVs squeezed together (texture compressed)</li>
+                            <li><strong>Angular distortion:</strong> Angles don't match (squares become diamonds)</li>
+                            <li><strong>Area distortion:</strong> Relative sizes don't match 3D proportions</li>
+                        </ul>
+                        <p><strong>Visualizing distortion:</strong></p>
+                        <ul>
+                            <li><strong>Stretch overlay:</strong> In UV Editor, enable "Display Stretch"
+                                <ul>
+                                    <li>Blue/Green = Good (minimal distortion)</li>
+                                    <li>Yellow/Orange = Acceptable (some distortion)</li>
+                                    <li>Red = Bad (heavy distortion)</li>
+                                </ul>
+                            </li>
+                            <li><strong>UV Grid texture:</strong> Apply to model in 3D Viewport
+                                <ul>
+                                    <li>Checkers should be square and uniform</li>
+                                    <li>Stretched rectangles = stretching distortion</li>
+                                    <li>Size variation = inconsistent texture density</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Fixing distortion:</strong></p>
+                        <ul>
+                            <li>Add seams in highly distorted areas</li>
+                            <li>Unwrap again (more islands = less distortion per island)</li>
+                            <li>Use Minimize Stretch operator (UV menu)</li>
+                            <li>Relax UVs (UV menu → Relax)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Relaxing UVs</h3>
+
+                    <p>The Relax operator smooths out UV distortion iteratively:</p>
+
+                    <div class="card">
+                        <h4>🧘 UV Relaxation</h4>
+                        <p><strong>What does Relax do?</strong></p>
+                        <ul>
+                            <li>Iteratively moves UV vertices to minimize distortion</li>
+                            <li>Like "smoothing" the UV layout</li>
+                            <li>Reduces stretching and compression</li>
+                            <li>Makes UV spacing more even</li>
+                        </ul>
+                        <p><strong>How to use Relax:</strong></p>
+                        <ol>
+                            <li>Select UVs you want to relax (or select all for entire island)</li>
+                            <li>UV menu → Relax</li>
+                            <li>Or press <code>Alt+R</code> (may vary by keymap)</li>
+                            <li>Adjust iterations in operator panel (more = smoother)</li>
+                        </ol>
+                        <p><strong>Best practices:</strong></p>
+                        <ul>
+                            <li><strong>Pin border vertices first:</strong> Preserves island shape</li>
+                            <li><strong>Use lower iterations:</strong> Start with 5-10, increase if needed</li>
+                            <li><strong>Relax after manual adjustments:</strong> Smooths out manual positioning</li>
+                        </ul>
+                        <p><strong>Caveat:</strong> Relaxation can change island shape—use pinning to control!</p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The Professional UV Workflow:</strong> (1) Mark strategic seams, (2) Unwrap, (3) Check stretch overlay for red areas, (4) Add seams in red zones and unwrap again, (5) Use Relax to smooth remaining distortion, (6) Pack islands efficiently, (7) Scale to consistent texture density, (8) Final check with UV Grid. This iterative approach produces professional-quality UVs!</p>
+                    </blockquote>
+
+                    <h3>UV Layout Best Practices Summary</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>💎 Professional UV Layout Checklist</h3>
+                        <p style="color: white;"><strong>Before considering UVs "done," verify:</strong></p>
+                        <ul style="color: white;">
+                            <li>✅ <strong>Seams in logical locations</strong> (hidden, natural breaks, edges)</li>
+                            <li>✅ <strong>Minimal distortion</strong> (mostly blue/green in stretch overlay)</li>
+                            <li>✅ <strong>Consistent texture density</strong> (uniform checker sizes)</li>
+                            <li>✅ <strong>Efficient UV space usage</strong> (islands fill most of 0-1 square)</li>
+                            <li>✅ <strong>Proper margins</strong> (0.001-0.005 between islands)</li>
+                            <li>✅ <strong>No accidental overlaps</strong> (unless intentional mirroring)</li>
+                            <li>✅ <strong>Islands properly oriented</strong> (aligned for painting or packing)</li>
+                            <li>✅ <strong>Appropriate island count</strong> (not too many, not too few)</li>
+                            <li>✅ <strong>Strategic use of mirroring</strong> (if applicable)</li>
+                            <li>✅ <strong>Clean, straightened edges</strong> (where needed for tiling textures)</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_12_uv_unwrapping_basics_part_06.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 12 - PART 06
+     File: lesson_12_uv_unwrapping_basics_part_06.html
+     ============================================ -->
+
+                <section id="hands-on-project" class="content-section">
+                    <h2>🎯 Hands-On Project: UV Unwrapping a Simple Mug</h2>
+
+                    <p>Time to put everything together! In this project, you'll create and unwrap a coffee mug from scratch. This exercise combines modeling basics with proper UV unwrapping workflow, giving you a complete end-to-end experience.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎯 Project Goals</h3>
+                        <p style="color: white;"><strong>What you'll learn:</strong></p>
+                        <ul style="color: white;">
+                            <li>Complete UV unwrapping workflow from start to finish</li>
+                            <li>Strategic seam placement on a real object</li>
+                            <li>Using cylinder projection for appropriate geometry</li>
+                            <li>Packing and optimizing UV islands</li>
+                            <li>Testing UVs with checker texture</li>
+                            <li>Professional UV layout practices</li>
+                        </ul>
+                        <p style="color: white;"><strong>Estimated time:</strong> 20-30 minutes</p>
+                    </div>
+
+                    <h3>Step 1: Model the Mug Base</h3>
+
+                    <p>Let's start by creating the basic mug shape:</p>
+
+                    <div class="card">
+                        <h4>🏗️ Creating the Mug</h4>
+                        <ol>
+                            <li><strong>Start fresh:</strong>
+                                <ul>
+                                    <li>Delete default cube (<code>X</code> → Delete)</li>
+                                    <li><code>Shift+A</code> → Mesh → Cylinder</li>
+                                </ul>
+                            </li>
+                            <li><strong>Scale to mug proportions:</strong>
+                                <ul>
+                                    <li><code>S</code> → <code>Z</code> → <code>1.5</code> → <code>Enter</code> (taller)</li>
+                                    <li><code>S</code> → <code>Shift+Z</code> → <code>0.7</code> → <code>Enter</code> (narrower)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Make it hollow (like a real mug):</strong>
+                                <ul>
+                                    <li>Enter Edit Mode (<code>Tab</code>)</li>
+                                    <li>Switch to Face Select (<code>3</code>)</li>
+                                    <li>Select top face</li>
+                                    <li>Press <code>I</code> (inset) → Move mouse inward → Click to confirm</li>
+                                    <li>With inner face still selected: <code>E</code> (extrude) → <code>Z</code> → <code>-1.2</code> → <code>Enter</code></li>
+                                </ul>
+                            </li>
+                            <li><strong>Add thickness to rim:</strong>
+                                <ul>
+                                    <li>Select top edge loop (Alt+Click the top ring)</li>
+                                    <li>Add Solidify modifier (Modifier Properties → Add Modifier → Solidify)</li>
+                                    <li>Thickness: 0.05</li>
+                                    <li>Apply modifier (<code>Ctrl+A</code> in modifier panel)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Smooth shading:</strong>
+                                <ul>
+                                    <li>Right-click in 3D Viewport → Shade Smooth</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Checkpoint 1</h4>
+                        <p>You should now have a smooth, hollow cylinder that looks like a basic mug body. The top should be open with a rim, and the bottom should be closed.</p>
+                    </div>
+
+                    <h3>Step 2: Add a Handle</h3>
+
+                    <p>Let's give our mug a proper handle:</p>
+
+                    <div class="card">
+                        <h4>🔧 Creating the Handle</h4>
+                        <ol>
+                            <li><strong>Add a curve for the handle:</strong>
+                                <ul>
+                                    <li><code>Shift+A</code> → Curve → Bezier Curve</li>
+                                    <li>Rotate: <code>R</code> → <code>Y</code> → <code>90</code> → <code>Enter</code></li>
+                                    <li>Position next to mug (right side)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Shape the handle curve:</strong>
+                                <ul>
+                                    <li>Enter Edit Mode (<code>Tab</code>)</li>
+                                    <li>Select and move control points to create handle arc</li>
+                                    <li>Make it loop from upper mug to mid-lower area</li>
+                                    <li>Adjust bezier handles for smooth curve</li>
+                                </ul>
+                            </li>
+                            <li><strong>Give the curve thickness:</strong>
+                                <ul>
+                                    <li>Select curve object</li>
+                                    <li>Curve Properties → Geometry</li>
+                                    <li>Bevel → Depth: 0.05</li>
+                                    <li>Resolution: 4 (preview circles)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Convert to mesh:</strong>
+                                <ul>
+                                    <li>Object Mode</li>
+                                    <li>Select curve</li>
+                                    <li>Right-click → Convert To → Mesh</li>
+                                </ul>
+                            </li>
+                            <li><strong>Join to mug:</strong>
+                                <ul>
+                                    <li>Select handle, then <code>Shift+Click</code> mug (mug should be active)</li>
+                                    <li><code>Ctrl+J</code> to join</li>
+                                    <li>Now one unified object</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Simplification Note:</strong> If you find the curve method challenging, you can create a simple torus (Add → Mesh → Torus), scale it flat (<code>S</code> → <code>Z</code> → <code>0.3</code>), delete half of it, and position as handle. Either approach works!</p>
+                    </blockquote>
+
+                    <h3>Step 3: Plan Your Seam Strategy</h3>
+
+                    <p>Before unwrapping, let's think strategically about seam placement:</p>
+
+                    <div class="card">
+                        <h4>📋 Seam Planning for the Mug</h4>
+                        <p><strong>Analyze the model:</strong></p>
+                        <ul>
+                            <li><strong>Mug body:</strong> Cylindrical shape → needs one vertical seam</li>
+                            <li><strong>Mug bottom:</strong> Circular face → separate island</li>
+                            <li><strong>Inside surface:</strong> Also cylindrical → needs vertical seam</li>
+                            <li><strong>Handle:</strong> Curved tube → needs seam along inner curve (least visible)</li>
+                        </ul>
+                        <p><strong>Our seam strategy:</strong></p>
+                        <ol>
+                            <li><strong>Vertical seam on back of mug</strong> (single edge from top to bottom)</li>
+                            <li><strong>Seam around bottom edge</strong> (separates bottom circle from body)</li>
+                            <li><strong>Seam around top inner rim</strong> (separates inside from outside)</li>
+                            <li><strong>Seam along handle's inner curve</strong> (hidden from front view)</li>
+                        </ol>
+                        <p><strong>Result:</strong> Four distinct islands—outside body, inside body, bottom, and handle</p>
+                    </div>
+
+                    <h3>Step 4: Mark Seams</h3>
+
+                    <p>Time to implement our seam strategy:</p>
+
+                    <div class="card">
+                        <h4>✂️ Marking Mug Seams</h4>
+                        <ol>
+                            <li><strong>Mark vertical seam on back:</strong>
+                                <ul>
+                                    <li>Edit Mode, Edge Select (<code>2</code>)</li>
+                                    <li>Rotate view to see mug back</li>
+                                    <li>Select one vertical edge on back side</li>
+                                    <li>Right-click → Mark Seam (edge turns red)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mark bottom edge seam:</strong>
+                                <ul>
+                                    <li><code>Alt+Click</code> bottom edge loop</li>
+                                    <li>Right-click → Mark Seam</li>
+                                    <li>Entire bottom ring should be red</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mark inner rim seam:</strong>
+                                <ul>
+                                    <li><code>Alt+Click</code> top inner edge loop (where inside meets rim)</li>
+                                    <li>Right-click → Mark Seam</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mark handle seam:</strong>
+                                <ul>
+                                    <li>Select edge loop running along inner curve of handle</li>
+                                    <li>Right-click → Mark Seam</li>
+                                    <li>This separates handle into one island</li>
+                                </ul>
+                            </li>
+                            <li><strong>Optional: Mark handle connection seams:</strong>
+                                <ul>
+                                    <li>Mark edges where handle meets mug body</li>
+                                    <li>Creates cleaner separation between handle and body islands</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Checkpoint 2</h4>
+                        <p>Your mug should now have red seam edges visible in Edit Mode. Verify you have:</p>
+                        <ul>
+                            <li>One vertical red line on back of mug</li>
+                            <li>Red ring around bottom</li>
+                            <li>Red ring around inner top rim</li>
+                            <li>Red line along inner handle curve</li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 5: Switch to UV Editing Workspace</h3>
+
+                    <div class="card">
+                        <h4>🖥️ Setting Up UV Workspace</h4>
+                        <ol>
+                            <li>Click <strong>"UV Editing"</strong> tab at top of Blender window</li>
+                            <li>You'll see split view:
+                                <ul>
+                                    <li>Left: UV Editor (empty for now)</li>
+                                    <li>Right: 3D Viewport</li>
+                                </ul>
+                            </li>
+                            <li>Make sure your mug is still selected</li>
+                            <li>Verify you're in Edit Mode</li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 6: Unwrap the Mug</h3>
+
+                    <p>Now for the main event—unwrapping!</p>
+
+                    <div class="card">
+                        <h4>🎯 Unwrapping Process</h4>
+                        <ol>
+                            <li><strong>Select all faces:</strong>
+                                <ul>
+                                    <li>In 3D Viewport (right side): <code>A</code> to select all</li>
+                                    <li>All faces should be highlighted</li>
+                                </ul>
+                            </li>
+                            <li><strong>Execute unwrap:</strong>
+                                <ul>
+                                    <li>Press <code>U</code> to open UV Mapping menu</li>
+                                    <li>Select <strong>"Unwrap"</strong></li>
+                                    <li>Islands appear in UV Editor (left side)!</li>
+                                </ul>
+                            </li>
+                            <li><strong>Check the result:</strong>
+                                <ul>
+                                    <li>UV Editor should show 4-5 separate islands</li>
+                                    <li>Outer mug body (rectangle)</li>
+                                    <li>Inner mug body (rectangle)</li>
+                                    <li>Bottom circle</li>
+                                    <li>Handle (curved strip)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Adjust unwrap settings (optional):</strong>
+                                <ul>
+                                    <li>Check lower-left operator panel</li>
+                                    <li>Method: Angle Based (default is fine)</li>
+                                    <li>Margin: 0.001 (increase if islands touch)</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 7: Organize UV Islands</h3>
+
+                    <p>Let's arrange our UV islands for optimal texture use:</p>
+
+                    <div class="card">
+                        <h4>📦 Packing and Arranging</h4>
+                        <ol>
+                            <li><strong>Initial automatic pack:</strong>
+                                <ul>
+                                    <li>In UV Editor: <code>A</code> to select all UVs</li>
+                                    <li>UV menu → Pack Islands</li>
+                                    <li>Or right-click → Pack Islands</li>
+                                    <li>Islands automatically arrange in 0-1 space</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotate islands for better packing:</strong>
+                                <ul>
+                                    <li>Select outer body island (<code>L</code> over it)</li>
+                                    <li><code>R</code> → <code>90</code> → <code>Enter</code> (if it improves fit)</li>
+                                    <li>Pack again to re-arrange</li>
+                                </ul>
+                            </li>
+                            <li><strong>Manual adjustments:</strong>
+                                <ul>
+                                    <li>Select individual islands with <code>L</code></li>
+                                    <li>Use <code>G</code> to reposition for better layout</li>
+                                    <li>Scale larger islands up (<code>S</code>) to use more space</li>
+                                </ul>
+                            </li>
+                            <li><strong>Final pack with rotation:</strong>
+                                <ul>
+                                    <li>Select all (<code>A</code>)</li>
+                                    <li>UV menu → Pack Islands</li>
+                                    <li>Enable "Rotate" in operator panel</li>
+                                    <li>Margin: 0.005</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 8: Check Texture Density</h3>
+
+                    <p>Ensure consistent texture quality across the mug:</p>
+
+                    <div class="card">
+                        <h4>📊 Texture Density Check</h4>
+                        <ol>
+                            <li><strong>Normalize island scale:</strong>
+                                <ul>
+                                    <li>In UV Editor: <code>A</code> to select all</li>
+                                    <li>UV menu → Average Island Scale</li>
+                                    <li>Islands resize to proportional sizes</li>
+                                </ul>
+                            </li>
+                            <li><strong>Pack again after averaging:</strong>
+                                <ul>
+                                    <li>UV menu → Pack Islands</li>
+                                    <li>Re-arranges with new sizes</li>
+                                </ul>
+                            </li>
+                            <li><strong>Scale up to fill space:</strong>
+                                <ul>
+                                    <li>Select all (<code>A</code>)</li>
+                                    <li><code>S</code> → Scale up until islands nearly fill 0-1 square</li>
+                                    <li>Leave small margin at edges</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 9: Apply and Test UV Grid Texture</h3>
+
+                    <p>Visualize your UVs with a checker texture:</p>
+
+                    <div class="card">
+                        <h4>🎨 Adding UV Test Texture</h4>
+                        <ol>
+                            <li><strong>Create UV Grid texture:</strong>
+                                <ul>
+                                    <li>In UV Editor: Image menu → New Image</li>
+                                    <li>Name: "UV_Grid"</li>
+                                    <li>Generated Type: UV Grid</li>
+                                    <li>Click OK</li>
+                                </ul>
+                            </li>
+                            <li><strong>View texture on model:</strong>
+                                <ul>
+                                    <li>In 3D Viewport (right side): Change shading mode to "Material Preview" or "Rendered"</li>
+                                    <li>Top-right shading mode balls, third from left</li>
+                                    <li>Mug should now display checker pattern</li>
+                                </ul>
+                            </li>
+                            <li><strong>Alternative method (material-based):</strong>
+                                <ul>
+                                    <li>Switch to Shading workspace</li>
+                                    <li>Add new material to mug</li>
+                                    <li>Add Image Texture node</li>
+                                    <li>Open UV_Grid image</li>
+                                    <li>Connect to Base Color</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 10: Analyze and Optimize</h3>
+
+                    <p>Final quality check and optimization:</p>
+
+                    <div class="card">
+                        <h4>🔍 Quality Assessment</h4>
+                        <p><strong>Check for distortion:</strong></p>
+                        <ol>
+                            <li><strong>Visual inspection in 3D:</strong>
+                                <ul>
+                                    <li>Rotate around mug in 3D Viewport</li>
+                                    <li>Checker squares should be uniform size</li>
+                                    <li>Squares should be square (not stretched)</li>
+                                    <li>Pattern should flow continuously (except at seams)</li>
+                                </ul>
+                            </li>
+                            <li><strong>UV Editor stretch overlay:</strong>
+                                <ul>
+                                    <li>In UV Editor header: Enable "Display Stretch"</li>
+                                    <li>Choose "Area" or "Angle" from dropdown</li>
+                                    <li>Blue/Green = Good</li>
+                                    <li>Yellow/Red = Needs attention</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fix any red areas:</strong>
+                                <ul>
+                                    <li>If you see red stretching, add more seams</li>
+                                    <li>Or use Relax: Select problematic area → UV menu → Relax</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Final Checkpoint</h4>
+                        <p><strong>Your completed mug UVs should have:</strong></p>
+                        <ul>
+                            <li>✅ 4-5 distinct UV islands visible in UV Editor</li>
+                            <li>✅ Islands efficiently packed in 0-1 UV space</li>
+                            <li>✅ Uniform checker pattern in 3D view (consistent texture density)</li>
+                            <li>✅ Minimal stretching (mostly blue/green in stretch overlay)</li>
+                            <li>✅ Seams hidden on back and inner surfaces</li>
+                            <li>✅ Islands using 70-85% of available UV space</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bonus Challenges</h3>
+
+                    <p>Want to take it further? Try these additional exercises:</p>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>🌟 Advanced Exercises</h4>
+                        <p><strong>Challenge 1: Mirror the handle</strong></p>
+                        <ul>
+                            <li>Add a second handle on opposite side</li>
+                            <li>Make both handles share same UV space (overlap their UVs)</li>
+                            <li>Result: Both handles use one island = more efficient</li>
+                        </ul>
+                        <p><strong>Challenge 2: Add a logo area</strong></p>
+                        <ul>
+                            <li>Create a small rectangle on front of mug (inset face)</li>
+                            <li>Mark seams around it</li>
+                            <li>Unwrap to create separate island for logo placement</li>
+                            <li>Position and orient this island for easy texture painting</li>
+                        </ul>
+                        <p><strong>Challenge 3: Optimize for texture painting</strong></p>
+                        <ul>
+                            <li>Straighten the outer body island using Follow Active Quads</li>
+                            <li>Make it perfectly rectangular for easier brush strokes</li>
+                            <li>Scale it to use maximum available UV space</li>
+                        </ul>
+                        <p><strong>Challenge 4: Multi-material setup</strong></p>
+                        <ul>
+                            <li>Assign different material to handle vs. body</li>
+                            <li>Create two UV maps (one for body, one for handle)</li>
+                            <li>Practice working with multiple UV channels</li>
+                        </ul>
+                    </div>
+
+                    <h3>Troubleshooting Common Issues</h3>
+
+                    <div class="card">
+                        <h4>🔧 Problem Solving</h4>
+                        <p><strong>Problem: UV islands are overlapping/stacked</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Insufficient seams or unwrap issue</li>
+                            <li><strong>Fix:</strong> Select → Select Overlap, then move islands apart manually</li>
+                        </ul>
+                        <p><strong>Problem: Checker texture is stretched on handle</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Handle curved in 3D but UVs are straight</li>
+                            <li><strong>Fix:</strong> Add more seams along handle, or use Relax operation</li>
+                        </ul>
+                        <p><strong>Problem: Bottom circle doesn't unwrap correctly</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Might need Project from View instead of Unwrap</li>
+                            <li><strong>Fix:</strong> Select bottom faces, view from bottom, <code>U</code> → Project from View</li>
+                        </ul>
+                        <p><strong>Problem: Can't see UV Grid on model</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Shading mode or material not set up</li>
+                            <li><strong>Fix:</strong> Change to Material Preview mode, or set up material with image texture</li>
+                        </ul>
+                        <p><strong>Problem: Islands are tiny in UV Editor</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Unwrap created small islands</li>
+                            <li><strong>Fix:</strong> Select all (<code>A</code>), then <code>S</code> to scale up, or use Pack Islands</li>
+                        </ul>
+                    </div>
+
+                    <h3>What You've Learned</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎓 Skills Acquired</h3>
+                        <p style="color: white;"><strong>In this project, you've mastered:</strong></p>
+                        <ul style="color: white;">
+                            <li>✅ Complete UV unwrapping workflow from start to finish</li>
+                            <li>✅ Strategic seam placement based on object geometry</li>
+                            <li>✅ Using the UV Editing workspace effectively</li>
+                            <li>✅ Unwrapping cylindrical and curved geometry</li>
+                            <li>✅ Packing UV islands for efficient space usage</li>
+                            <li>✅ Ensuring consistent texture density with Average Island Scale</li>
+                            <li>✅ Testing UVs with checker texture</li>
+                            <li>✅ Analyzing and fixing UV distortion</li>
+                            <li>✅ Professional UV layout practices</li>
+                        </ul>
+                        <p style="color: white;"><strong>You now have the skills to unwrap most simple to intermediate 3D models!</strong></p>
+                    </div>
+
+                </section>
+
+                <section id="common-mistakes" class="content-section">
+                    <h2>⚠️ Common UV Unwrapping Mistakes</h2>
+
+                    <p>Learning what NOT to do is just as important as learning what to do. Here are the most common mistakes beginners make (and how to avoid them):</p>
+
+                    <h3>Mistake 1: No Seams or Poor Seam Placement</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>❌ The Problem</h4>
+                        <p>Not marking seams at all, or placing seams randomly without strategy.</p>
+                        <p><strong>What happens:</strong></p>
+                        <ul>
+                            <li>Unwrap produces heavily distorted results</li>
+                            <li>One giant island with massive stretching</li>
+                            <li>Or random cuts that break visible surfaces</li>
+                        </ul>
+                        <p><strong>The fix:</strong></p>
+                        <ul>
+                            <li>Always plan seam locations before unwrapping</li>
+                            <li>Think: "Where would this cut naturally occur?"</li>
+                            <li>Hide seams on backs, undersides, edges, natural breaks</li>
+                            <li>Test-unwrap frequently during seam marking</li>
+                        </ul>
+                    </div>
+
+                    <h3>Mistake 2: Ignoring Texture Density</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>❌ The Problem</h4>
+                        <p>Not using Average Island Scale, resulting in inconsistent texture quality.</p>
+                        <p><strong>What happens:</strong></p>
+                        <ul>
+                            <li>Small details get huge UV space (wasted resolution)</li>
+                            <li>Large surfaces get tiny UV space (blurry textures)</li>
+                            <li>Model looks unprofessional with quality variance</li>
+                        </ul>
+                        <p><strong>The fix:</strong></p>
+                        <ul>
+                            <li>Always use UV menu → Average Island Scale after unwrapping</li>
+                            <li>Check with UV Grid texture—squares should be uniform size</li>
+                            <li>Only break proportionality intentionally for hero features</li>
+                        </ul>
+                    </div>
+
+                    <h3>Mistake 3: Leaving Islands Scattered</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>❌ The Problem</h4>
+                        <p>Not packing islands, leaving huge gaps in UV space.</p>
+                        <p><strong>What happens:</strong></p>
+                        <ul>
+                            <li>Massive waste of texture resolution</li>
+                            <li>Islands only use 30-40% of available space</li>
+                            <li>Textures appear lower resolution than they could be</li>
+                        </ul>
+                        <p><strong>The fix:</strong></p>
+                        <ul>
+                            <li>Always pack islands: UV menu → Pack Islands</li>
+                            <li>Scale islands up to fill 75-85% of UV space</li>
+                            <li>Leave appropriate margin (0.001-0.005) but no more</li>
+                        </ul>
+                    </div>
+
+                    <h3>Mistake 4: Not Testing with Checker Texture</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>❌ The Problem</h4>
+                        <p>Unwrapping blindly without visual verification of distortion.</p>
+                        <p><strong>What happens:</strong></p>
+                        <ul>
+                            <li>Don't discover stretching until texturing stage</li>
+                            <li>Have to redo UVs after investing time in textures</li>
+                            <li>Poor quality textures that look warped</li>
+                        </ul>
+                        <p><strong>The fix:</strong></p>
+                        <ul>
+                            <li>ALWAYS apply UV Grid texture immediately after unwrapping</li>
+                            <li>Rotate model and inspect all surfaces</li>
+                            <li>Look for stretched rectangles, warped squares, size variance</li>
+                            <li>Fix issues before moving to next step</li>
+                        </ul>
+                    </div>
+
+                    <h3>Mistake 5: Overlapping UVs Unintentionally</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>❌ The Problem</h4>
+                        <p>UV islands stacked on top of each other accidentally.</p>
+                        <p><strong>What happens:</strong></p>
+                        <ul>
+                            <li>Painting one area affects multiple surfaces</li>
+                            <li>Baking lighting creates incorrect results</li>
+                            <li>Confusion during texture creation</li>
+                        </ul>
+                        <p><strong>The fix:</strong></p>
+                        <ul>
+                            <li>In UV Editor: Select → Select Overlap to find overlaps</li>
+                            <li>Move overlapping islands apart</li>
+                            <li>Only overlap intentionally (mirroring, repeated elements)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Mistake 6: Too Many or Too Few Seams</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>❌ The Problem</h4>
+                        <p>Either creating a seam at every edge, or trying to unwrap with almost no seams.</p>
+                        <p><strong>What happens with too many seams:</strong></p>
+                        <ul>
+                            <li>Hundreds of tiny islands</li>
+                            <li>Impossible to texture paint efficiently</li>
+                            <li>Visible discontinuities everywhere</li>
+                        </ul>
+                        <p><strong>What happens with too few seams:</strong></p>
+                        <ul>
+                            <li>Extreme stretching and distortion</li>
+                            <li>Unusable UVs</li>
+                            <li>Textures look warped and wrong</li>
+                        </ul>
+                        <p><strong>The fix:</strong></p>
+                        <ul>
+                            <li>Find the balance: enough seams to minimize distortion, few enough to keep islands manageable</li>
+                            <li>Start conservative (fewer seams)</li>
+                            <li>Add more seams only in problematic areas</li>
+                            <li>Check stretch overlay—add seams where you see red</li>
+                        </ul>
+                    </div>
+
+                    <h3>Mistake 7: Forgetting to Check All Angles</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>❌ The Problem</h4>
+                        <p>Only checking UVs from one viewpoint.</p>
+                        <p><strong>What happens:</strong></p>
+                        <ul>
+                            <li>Front looks perfect, but back is a disaster</li>
+                            <li>Bottom or hidden surfaces have terrible UVs</li>
+                            <li>Discover issues only after starting texturing</li>
+                        </ul>
+                        <p><strong>The fix:</strong></p>
+                        <ul>
+                            <li>Rotate around entire model during UV check</li>
+                            <li>Inspect top, bottom, all sides</li>
+                            <li>Check hidden areas (undersides, interiors)</li>
+                            <li>Every surface matters!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Mistake 8: Not Straightening When Needed</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>❌ The Problem</h4>
+                        <p>Leaving UV islands slightly skewed or wavy when they should be rectangular.</p>
+                        <p><strong>What happens:</strong></p>
+                        <ul>
+                            <li>Tiled textures don't align properly</li>
+                            <li>Harder to paint cleanly</li>
+                            <li>Looks unprofessional in UV layout</li>
+                        </ul>
+                        <p><strong>The fix:</strong></p>
+                        <ul>
+                            <li>For architectural surfaces: Use Follow Active Quads</li>
+                            <li>For edge alignment: Scale edges to 0 in one axis (<code>S</code> → <code>X</code> → <code>0</code>)</li>
+                            <li>Use Straighten in UV menu for auto-alignment</li>
+                        </ul>
+                    </div>
+
+                    <h3>Mistake 9: Scaling UVs Outside 0-1 Space</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>❌ The Problem</h4>
+                        <p>UVs extending beyond the 0-1 square (unless intentional tiling).</p>
+                        <p><strong>What happens:</strong></p>
+                        <ul>
+                            <li>Texture repeats/tiles (if repeat is enabled)</li>
+                            <li>Or texture clamps at edge (stretches edge pixels)</li>
+                            <li>Parts of model don't receive proper texture</li>
+                        </ul>
+                        <p><strong>The fix:</strong></p>
+                        <ul>
+                            <li>Keep all UVs within 0-1 square for unique textures</li>
+                            <li>Use Pack Islands to automatically constrain</li>
+                            <li>Only go outside intentionally for tiling materials</li>
+                        </ul>
+                    </div>
+
+                    <h3>Mistake 10: Not Saving UV Work</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>❌ The Problem</h4>
+                        <p>Forgetting that UVs are part of mesh data that needs to be saved.</p>
+                        <p><strong>What happens:</strong></p>
+                        <ul>
+                            <li>Spend hour carefully unwrapping model</li>
+                            <li>Blender crashes or you close without saving</li>
+                            <li>All UV work lost forever</li>
+                        </ul>
+                        <p><strong>The fix:</strong></p>
+                        <ul>
+                            <li>Save regularly! <code>Ctrl+S</code> frequently</li>
+                            <li>Enable auto-save in Preferences</li>
+                            <li>UVs are saved with .blend file (not separate)</li>
+                            <li>Consider versioned saves for complex UV work</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Golden Rule of UV Unwrapping:</strong> Check early, check often. The earlier you catch a UV problem, the easier it is to fix. Test with checker textures frequently, enable stretch overlay, rotate around your model. Prevention is easier than correction!</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 06
+     Continue with lesson_12_uv_unwrapping_basics_part_07.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 12 - PART 07
+     File: lesson_12_uv_unwrapping_basics_part_07.html
+     ============================================ -->
+
+                <section id="summary" class="content-section">
+                    <h2>📚 Lesson Summary</h2>
+
+                    <p>Congratulations! You've completed a comprehensive introduction to UV unwrapping in Blender. Let's recap the essential concepts and skills you've mastered.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎯 Key Takeaways</h3>
+                        <p style="color: white;"><strong>Essential UV Unwrapping Concepts:</strong></p>
+                        <ul style="color: white;">
+                            <li><strong>UV mapping</strong> creates a 2D representation of 3D surfaces</li>
+                            <li><strong>Seams</strong> are strategic cuts that allow 3D geometry to flatten</li>
+                            <li><strong>UV islands</strong> are the flattened pieces of your mesh</li>
+                            <li><strong>Texture density</strong> determines quality consistency across your model</li>
+                            <li><strong>UV space (0-1 square)</strong> is where all your texture coordinates live</li>
+                            <li><strong>Distortion</strong> is the enemy—minimize it with good seam placement</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Complete UV Workflow</h3>
+
+                    <p>Here's the professional workflow you learned, condensed into a step-by-step reference:</p>
+
+                    <div class="card">
+                        <h4>✅ Professional UV Unwrapping Workflow</h4>
+                        <ol>
+                            <li><strong>Analyze the model</strong>
+                                <ul>
+                                    <li>Identify natural seam locations</li>
+                                    <li>Consider where cuts will be least visible</li>
+                                    <li>Think about how surfaces will flatten</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mark seams strategically</strong>
+                                <ul>
+                                    <li>Place seams on edges, backs, undersides</li>
+                                    <li>Create closed loops around logical sections</li>
+                                    <li>Balance distortion vs. seam visibility</li>
+                                </ul>
+                            </li>
+                            <li><strong>Unwrap</strong>
+                                <ul>
+                                    <li>Select all faces → <code>U</code> → Unwrap</li>
+                                    <li>Check result in UV Editor</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test for distortion</strong>
+                                <ul>
+                                    <li>Apply UV Grid texture</li>
+                                    <li>Enable stretch overlay</li>
+                                    <li>Identify problem areas (red zones)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Refine seams</strong>
+                                <ul>
+                                    <li>Add seams where distortion is high</li>
+                                    <li>Unwrap again and check improvement</li>
+                                    <li>Iterate until acceptable quality</li>
+                                </ul>
+                            </li>
+                            <li><strong>Normalize texture density</strong>
+                                <ul>
+                                    <li>UV menu → Average Island Scale</li>
+                                    <li>Verify uniform checker pattern</li>
+                                </ul>
+                            </li>
+                            <li><strong>Pack islands efficiently</strong>
+                                <ul>
+                                    <li>UV menu → Pack Islands</li>
+                                    <li>Adjust margin (0.001-0.005)</li>
+                                    <li>Enable rotation for better fit</li>
+                                </ul>
+                            </li>
+                            <li><strong>Optimize layout</strong>
+                                <ul>
+                                    <li>Scale islands to fill 75-85% of UV space</li>
+                                    <li>Straighten islands if needed (Follow Active Quads)</li>
+                                    <li>Manually adjust for special cases</li>
+                                </ul>
+                            </li>
+                            <li><strong>Final quality check</strong>
+                                <ul>
+                                    <li>Rotate around model viewing from all angles</li>
+                                    <li>Verify no overlaps (unless intentional)</li>
+                                    <li>Check that all surfaces look good</li>
+                                    <li>Save your work!</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="mermaid">
+                        graph TD
+                        A[Start: 3D Model] --> B[Analyze & Plan Seams]
+                        B --> C[Mark Seams]
+                        C --> D[Unwrap]
+                        D --> E{Check Distortion}
+                        E -->|Bad| F[Add More Seams]
+                        F --> D
+                        E -->|Good| G[Average Island Scale]
+                        G --> H[Pack Islands]
+                        H --> I[Optimize Layout]
+                        I --> J[Final Check]
+                        J --> K[Done!]
+                        
+                        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                        style K fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                        style E fill:#ffc107,stroke:#333,stroke-width:2px
+                    </div>
+
+                    <h3>Essential Keyboard Shortcuts</h3>
+
+                    <p>Quick reference for the most important UV unwrapping shortcuts:</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Shortcut</th>
+                                <th>Action</th>
+                                <th>Context</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Tab</code></td>
+                                <td>Toggle Edit Mode</td>
+                                <td>3D Viewport</td>
+                            </tr>
+                            <tr>
+                                <td><code>1/2/3</code></td>
+                                <td>Vertex/Edge/Face select mode</td>
+                                <td>Edit Mode</td>
+                            </tr>
+                            <tr>
+                                <td><code>Alt+Click</code></td>
+                                <td>Select edge loop</td>
+                                <td>Edge select mode</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ctrl+E</code></td>
+                                <td>Edge menu (Mark/Clear Seam)</td>
+                                <td>Edge selected</td>
+                            </tr>
+                            <tr>
+                                <td><code>U</code></td>
+                                <td>UV Mapping menu</td>
+                                <td>Edit Mode, faces selected</td>
+                            </tr>
+                            <tr>
+                                <td><code>A</code></td>
+                                <td>Select all</td>
+                                <td>UV Editor or 3D Viewport</td>
+                            </tr>
+                            <tr>
+                                <td><code>L</code></td>
+                                <td>Select linked (hover over island)</td>
+                                <td>UV Editor</td>
+                            </tr>
+                            <tr>
+                                <td><code>G</code></td>
+                                <td>Move/Grab</td>
+                                <td>UV Editor</td>
+                            </tr>
+                            <tr>
+                                <td><code>R</code></td>
+                                <td>Rotate</td>
+                                <td>UV Editor</td>
+                            </tr>
+                            <tr>
+                                <td><code>S</code></td>
+                                <td>Scale</td>
+                                <td>UV Editor</td>
+                            </tr>
+                            <tr>
+                                <td><code>P</code></td>
+                                <td>Pin selected UVs</td>
+                                <td>UV Editor</td>
+                            </tr>
+                            <tr>
+                                <td><code>Alt+P</code></td>
+                                <td>Unpin UVs</td>
+                                <td>UV Editor</td>
+                            </tr>
+                            <tr>
+                                <td><code>Home</code></td>
+                                <td>Frame all</td>
+                                <td>UV Editor</td>
+                            </tr>
+                            <tr>
+                                <td><code>N</code></td>
+                                <td>Toggle sidebar</td>
+                                <td>UV Editor</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Core Principles to Remember</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ The UV Unwrapping Golden Rules</h4>
+                        <p><strong>1. Seams are strategic, not random</strong></p>
+                        <ul>
+                            <li>Plan before marking</li>
+                            <li>Hide on edges, backs, undersides</li>
+                            <li>Think about how it will unwrap</li>
+                        </ul>
+                        <p><strong>2. Test early and often</strong></p>
+                        <ul>
+                            <li>Apply UV Grid immediately</li>
+                            <li>Enable stretch overlay</li>
+                            <li>Check from all angles</li>
+                        </ul>
+                        <p><strong>3. Consistency is key</strong></p>
+                        <ul>
+                            <li>Use Average Island Scale</li>
+                            <li>Maintain uniform texture density</li>
+                            <li>Check with checker pattern</li>
+                        </ul>
+                        <p><strong>4. Maximize texture space</strong></p>
+                        <ul>
+                            <li>Pack islands efficiently</li>
+                            <li>Fill 75-85% of UV space</li>
+                            <li>Balance margin vs. coverage</li>
+                        </ul>
+                        <p><strong>5. Minimize distortion</strong></p>
+                        <ul>
+                            <li>Add seams where you see stretching</li>
+                            <li>Use Relax for smoothing</li>
+                            <li>Aim for mostly blue/green in stretch overlay</li>
+                        </ul>
+                        <p><strong>6. Iterate and refine</strong></p>
+                        <ul>
+                            <li>Unwrap is rarely perfect first try</li>
+                            <li>Add seams incrementally</li>
+                            <li>Test, adjust, test again</li>
+                        </ul>
+                    </div>
+
+                    <h3>Understanding the Trade-offs</h3>
+
+                    <p>UV unwrapping is all about balancing competing priorities:</p>
+
+                    <div class="card">
+                        <h4>⚖️ The UV Balancing Act</h4>
+                        <p><strong>Fewer seams vs. Less distortion:</strong></p>
+                        <ul>
+                            <li>Fewer seams = fewer visible breaks, but more stretching</li>
+                            <li>More seams = less distortion, but more discontinuities</li>
+                            <li>Find the sweet spot for each model</li>
+                        </ul>
+                        <p><strong>Texture space vs. Margin:</strong></p>
+                        <ul>
+                            <li>Tight packing = maximum resolution, risk of bleeding</li>
+                            <li>Wide margins = safety buffer, wasted space</li>
+                            <li>Use 0.001-0.005 as practical compromise</li>
+                        </ul>
+                        <p><strong>Proportional scaling vs. Hero surfaces:</strong></p>
+                        <ul>
+                            <li>Proportional = consistent quality everywhere</li>
+                            <li>Strategic scaling = more detail where it matters</li>
+                            <li>Start proportional, adjust for importance</li>
+                        </ul>
+                        <p><strong>Manual control vs. Automatic tools:</strong></p>
+                        <ul>
+                            <li>Manual = time-consuming but optimal</li>
+                            <li>Automatic = fast but less control</li>
+                            <li>Use Smart UV Project for quick tests, manual for finals</li>
+                        </ul>
+                    </div>
+
+                    <h3>When UV Unwrapping Matters Most</h3>
+
+                    <div class="card">
+                        <h4>🎯 Prioritizing UV Quality</h4>
+                        <p><strong>Critical UV quality needed for:</strong></p>
+                        <ul>
+                            <li>Hero assets (main characters, products, focal points)</li>
+                            <li>Close-up shots</li>
+                            <li>Hand-painted textures</li>
+                            <li>Photorealistic rendering</li>
+                            <li>Objects with unique textures (not tiling materials)</li>
+                        </ul>
+                        <p><strong>Can use quick/automatic unwrapping for:</strong></p>
+                        <ul>
+                            <li>Background objects</li>
+                            <li>Objects far from camera</li>
+                            <li>Models using only tiling materials</li>
+                            <li>Temporary/placeholder assets</li>
+                            <li>Conceptual/blockout work</li>
+                        </ul>
+                    </div>
+
+                    <h3>Your UV Unwrapping Toolkit</h3>
+
+                    <p>Quick reference of the tools you learned:</p>
+
+                    <div class="card">
+                        <h4>🧰 UV Tools Reference</h4>
+                        <p><strong>Unwrapping methods:</strong></p>
+                        <ul>
+                            <li><strong>Unwrap:</strong> Main method, uses seams, best for most models</li>
+                            <li><strong>Smart UV Project:</strong> Automatic, no seams needed</li>
+                            <li><strong>Project from View:</strong> Camera-based projection, for decals</li>
+                            <li><strong>Cube/Cylinder/Sphere:</strong> Primitive projections</li>
+                            <li><strong>Follow Active Quads:</strong> Creates grid-like layout</li>
+                        </ul>
+                        <p><strong>Organization tools:</strong></p>
+                        <ul>
+                            <li><strong>Pack Islands:</strong> Automatic efficient arrangement</li>
+                            <li><strong>Average Island Scale:</strong> Normalize texture density</li>
+                            <li><strong>Align/Straighten:</strong> Clean up island edges</li>
+                            <li><strong>Mirror:</strong> Create symmetrical UVs</li>
+                        </ul>
+                        <p><strong>Editing tools:</strong></p>
+                        <ul>
+                            <li><strong>Pin/Unpin:</strong> Lock UV vertices</li>
+                            <li><strong>Weld:</strong> Merge UV vertices</li>
+                            <li><strong>Stitch:</strong> Join UV islands</li>
+                            <li><strong>Relax:</strong> Smooth out distortion</li>
+                        </ul>
+                        <p><strong>Analysis tools:</strong></p>
+                        <ul>
+                            <li><strong>Display Stretch:</strong> Visualize distortion</li>
+                            <li><strong>UV Grid texture:</strong> Test pattern for quality check</li>
+                            <li><strong>Select Overlap:</strong> Find stacked islands</li>
+                        </ul>
+                    </div>
+
+                    <h3>Next Steps in Your UV Journey</h3>
+
+                    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                        <h4>🚀 Advancing Your UV Skills</h4>
+                        <p><strong>Practice projects to try:</strong></p>
+                        <ol>
+                            <li><strong>Simple objects:</strong> Unwrap a book, a box, a bottle, a phone</li>
+                            <li><strong>Organic shapes:</strong> Unwrap a rock, an apple, a simple creature</li>
+                            <li><strong>Character parts:</strong> Unwrap a hand, a head, a full humanoid</li>
+                            <li><strong>Hard surface:</strong> Unwrap a sword, a robot, mechanical parts</li>
+                            <li><strong>Architectural:</strong> Unwrap a room, a building facade</li>
+                        </ol>
+                        <p><strong>Advanced topics to explore:</strong></p>
+                        <ul>
+                            <li>UDIM workflows (multiple texture tiles)</li>
+                            <li>UV layout for game engines (lightmap UVs)</li>
+                            <li>Advanced UV manipulation with Python scripting</li>
+                            <li>Multi-resolution UV strategies</li>
+                            <li>UV animation and morphing</li>
+                        </ul>
+                        <p><strong>Skills that build on UV unwrapping:</strong></p>
+                        <ul>
+                            <li>Texture painting (Lesson 13)</li>
+                            <li>PBR material creation</li>
+                            <li>Baking (normals, ambient occlusion)</li>
+                            <li>Substance Painter workflows</li>
+                            <li>Photogrammetry processing</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common Scenarios and Solutions</h3>
+
+                    <div class="card">
+                        <h4>💡 UV Problem-Solving Guide</h4>
+                        <p><strong>Scenario: Character face needs maximum detail</strong></p>
+                        <ul>
+                            <li><strong>Solution:</strong> Give face island 2-3x more UV space than proportional size</li>
+                            <li>Scale other less important islands down</li>
+                            <li>Place face island in prominent UV location</li>
+                        </ul>
+                        <p><strong>Scenario: Symmetrical character model</strong></p>
+                        <ul>
+                            <li><strong>Solution:</strong> Mirror UVs so left/right share same space</li>
+                            <li>Mark seam down centerline</li>
+                            <li>Unwrap one half, mirror to other half</li>
+                            <li>Saves 50% texture space!</li>
+                        </ul>
+                        <p><strong>Scenario: Repeating architectural elements</strong></p>
+                        <ul>
+                            <li><strong>Solution:</strong> Stack UVs for identical elements</li>
+                            <li>All windows share same UV island</li>
+                            <li>All doors share same UV island</li>
+                            <li>Much more efficient than unique UVs</li>
+                        </ul>
+                        <p><strong>Scenario: Tiling brick wall texture</strong></p>
+                        <ul>
+                            <li><strong>Solution:</strong> Use Follow Active Quads</li>
+                            <li>Scale UVs larger than 0-1 (e.g., 5x5)</li>
+                            <li>Texture tiles/repeats across surface</li>
+                            <li>No need for unique texture</li>
+                        </ul>
+                        <p><strong>Scenario: Model with severe stretching</strong></p>
+                        <ul>
+                            <li><strong>Solution:</strong> Add more seams in red zones</li>
+                            <li>Break large islands into smaller islands</li>
+                            <li>Accept more seams for better quality</li>
+                            <li>Use Relax to smooth remaining distortion</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎓 Remember:</strong> UV unwrapping is a skill that improves with practice. Every model teaches you something new about geometry, topology, and texture mapping. Don't expect perfection on your first try—even professionals iterate multiple times to achieve optimal results!</p>
+                    </blockquote>
+
+                    <h3>Final Thoughts</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🌟 You're Now a UV Unwrapper!</h3>
+                        <p style="color: white;">UV unwrapping might have seemed mysterious and complicated at first, but you now understand:</p>
+                        <ul style="color: white;">
+                            <li>✅ Why UV mapping exists and how it works</li>
+                            <li>✅ How to strategically plan and mark seams</li>
+                            <li>✅ Multiple unwrapping methods for different situations</li>
+                            <li>✅ How to use the UV Editor effectively</li>
+                            <li>✅ Techniques for manipulating and optimizing UV islands</li>
+                            <li>✅ How to test, analyze, and refine UV layouts</li>
+                            <li>✅ Common mistakes and how to avoid them</li>
+                            <li>✅ Professional workflows and best practices</li>
+                        </ul>
+                        <p style="color: white;"><strong>Most importantly:</strong> You completed a full hands-on project and created professional-quality UVs yourself!</p>
+                    </div>
+
+                </section>
+
+                <section id="whats-next" class="content-section">
+                    <h2>🎯 What's Next?</h2>
+
+                    <p>With UV unwrapping mastered, you're ready to bring your models to life with textures and materials!</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>📚 Coming Up: Lesson 13 - Texture Painting Basics</h4>
+                        <p>In the next lesson, you'll learn:</p>
+                        <ul>
+                            <li>How to paint directly on 3D models using the UVs you created</li>
+                            <li>Texture painting workspace and tools</li>
+                            <li>Brush types and settings</li>
+                            <li>Creating hand-painted textures</li>
+                            <li>Blending colors and creating realistic details</li>
+                            <li>Painting with layers and masks</li>
+                            <li>Exporting textures for use in materials</li>
+                        </ul>
+                        <p><strong>Your UV unwrapping skills will be essential!</strong> Good UVs make texture painting easy and enjoyable. Poor UVs make it frustrating. You now have the foundation for success!</p>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚡ Quick Practice Suggestions</h4>
+                        <p>Before moving to the next lesson, reinforce your skills:</p>
+                        <ol>
+                            <li><strong>Unwrap 3 simple objects</strong> (pen, cup, book) using today's workflow</li>
+                            <li><strong>Challenge yourself:</strong> Unwrap something organic (apple, rock, simple character)</li>
+                            <li><strong>Experiment with mirroring:</strong> Create a symmetrical object and mirror its UVs</li>
+                            <li><strong>Practice seam placement:</strong> Unwrap the same object with different seam strategies</li>
+                            <li><strong>Compare methods:</strong> Try Smart UV Project vs. manual seaming on same model</li>
+                        </ol>
+                        <p>Spend 30-60 minutes practicing, and UV unwrapping will become second nature!</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>🎓 Additional Resources</h4>
+                        <p><strong>Want to dive deeper?</strong></p>
+                        <ul>
+                            <li><strong>Blender Manual:</strong> UV Editing section has detailed technical documentation</li>
+                            <li><strong>Community forums:</strong> BlenderArtists, r/blender for specific problems</li>
+                            <li><strong>Video tutorials:</strong> Search for "Blender UV unwrapping" for visual learning</li>
+                            <li><strong>Practice models:</strong> Download free models to practice unwrapping</li>
+                        </ul>
+                        <p><strong>Remember:</strong> The best way to learn UV unwrapping is by doing. Every model you unwrap teaches you something new!</p>
+                    </div>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎉 Congratulations!</h3>
+                        <p style="color: white;">You've completed <strong>Lesson 12: UV Unwrapping Basics</strong>!</p>
+                        <p style="color: white;">You've gained a critical skill that bridges modeling and texturing. UV unwrapping is one of those fundamental skills that every 3D artist must master, and you're now equipped with professional workflows and best practices.</p>
+                        <p style="color: white;"><strong>Take a moment to appreciate what you've learned</strong>—UV unwrapping is often considered one of the more challenging aspects of 3D art, yet you've conquered it with hands-on practice and real-world examples!</p>
+                        <p style="color: white;">Ready to put those UVs to work? Let's move on to texture painting! 🎨</p>
+                    </div>
+
+                </section>
+
+                <!-- Navigation -->
+                <nav class="lesson-nav" aria-label="Lesson Navigation">
+                    <a href="lesson_11_intro_to_materials.html" class="prev-lesson">← Previous: Introduction to Materials</a>
+                    <a href="index.html" class="home-link">🏠 Course Home</a>
+                    <a href="lesson_13_texture_painting_basics.html" class="next-lesson">Next: Texture Painting Basics →</a>
+                </nav>
+
+            </article>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>
+
+<!-- ============================================
+     END OF PART 07
+     This is the final part of lesson_12_uv_unwrapping_basics.html
+     ============================================ -->
