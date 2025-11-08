@@ -1,5 +1,39 @@
 # Blender Course - Continuation Guide
 
+## 🚨🚨🚨 CRITICAL PAUSE RULE 🚨🚨🚨
+
+### MANDATORY CONFIRMATION WORKFLOW
+
+**AFTER CREATING EACH AND EVERY PART FILE, YOU MUST:**
+
+1. ✋ **STOP IMMEDIATELY** - Do not create the next file
+2. 📢 **ANNOUNCE** what you just created: "✅ Part [X] created: [filename]"
+3. ❓ **ASK EXPLICITLY**: "Should I continue with Part [X+1]?"
+4. ⏸️ **WAIT** for user's response before doing ANYTHING else
+5. ✅ Only proceed after receiving confirmation
+
+### 🚫 WHAT NOT TO DO:
+
+- ❌ Do NOT create multiple parts in a row without confirmation
+- ❌ Do NOT assume the user wants you to continue
+- ❌ Do NOT say "creating next part..." and just do it
+- ❌ Do NOT batch-create files
+
+### ✅ WHAT TO DO:
+
+```
+Example correct workflow:
+1. Create part_01.html
+2. Say: "✅ Part 1 created: lesson_07_modeling_your_first_object_part_01.html"
+3. Ask: "Should I continue with Part 2?"
+4. [WAIT FOR USER RESPONSE]
+5. Only after "yes/continue/go ahead" → create part_02.html
+```
+
+**THIS RULE OVERRIDES ALL OTHER INSTRUCTIONS. FOLLOW IT EVERY TIME.**
+
+---
+
 ## Project Overview
 This is a comprehensive Blender course for absolute beginners. The course teaches 3D character posing, scene creation, and rendering through hands-on lessons with a friendly, instructor-style approach.
 
@@ -8,10 +42,8 @@ This is a comprehensive Blender course for absolute beginners. The course teache
 - **Template Reference:** `\\wsl$\Ubuntu\home\practicalace\projects\course_template`
 - **Lesson Plan:** `course_lesson_plan.json` (in blender_course directory)
 
-
-
 ### 📍 NEXT ACTION
-**Start Lesson 01** 
+**Continue Lesson 07 - Part 6** 
 
 ## File Creation Guidelines
 
@@ -22,7 +54,24 @@ This is a comprehensive Blender course for absolute beginners. The course teache
 - Format: `lesson_##_descriptive_name.html`
 - Examples: `lesson_01_welcome_to_poser.html`, `lesson_06_natural_poses.html`
 
-**2. Writing Style:**
+**2. File Part Markers:**
+Each part file MUST include comments at the start and end:
+
+```html
+<!-- ============================================
+     LESSON ## - PART ##
+     File: lesson_##_descriptive_name_part_##.html
+     ============================================ -->
+
+[CONTENT HERE]
+
+<!-- ============================================
+     END OF PART ##
+     Continue with lesson_##_descriptive_name_part_##.html
+     ============================================ -->
+```
+
+**3. Writing Style:**
 - Write as an AMAZING INSTRUCTOR teaching beginners
 - Friendly, accessible, encouraging tone
 - Use plenty of real-world examples, analogies, and metaphors
@@ -30,7 +79,7 @@ This is a comprehensive Blender course for absolute beginners. The course teache
 - Keep lessons focused and practical (aim for 8,000-12,000 words)
 - For very long topics, create streamlined versions focusing on essentials
 
-**3. Complete HTML Structure:**
+**4. Complete HTML Structure:**
 Every lesson MUST include:
 ```html
 <!DOCTYPE html>
@@ -39,8 +88,8 @@ Every lesson MUST include:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="[Lesson description]">
-    <meta name="author" content="Poser 12 Course">
-    <title>[Lesson Title] - Poser 12 Mastery Course</title>
+    <meta name="author" content="Blender Course">
+    <title>[Lesson Title] - Blender Mastery Course</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="icon" type="image/png" href="/favicon.png">
     <script type="module">
@@ -62,7 +111,7 @@ Every lesson MUST include:
 </html>
 ```
 
-**4. Sticky Table of Contents (REQUIRED):**
+**5. Sticky Table of Contents (REQUIRED):**
 ```html
 <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
     <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
@@ -76,13 +125,13 @@ Every lesson MUST include:
 </details>
 ```
 
-**5. Visual Elements:**
+**6. Visual Elements:**
 - 📊 Mermaid diagrams for workflows and hierarchies
 - 😊 Emojis for section markers and engagement
 - 🎨 Color-coded cards for tips, warnings, success messages
 - 📸 Placeholder divs for future images (if needed)
 
-**6. Standard Navigation Footer:**
+**7. Standard Navigation Footer:**
 ```html
 <nav class="lesson-nav" aria-label="Lesson Navigation">
     <a href="lesson_##_previous.html" class="prev-lesson">← Previous: [Title]</a>
@@ -91,7 +140,7 @@ Every lesson MUST include:
 </nav>
 ```
 
-**7. Required Scripts:**
+**8. Required Scripts:**
 ```html
 <script src="js/clipboard.js"></script>
 <script src="js/course-enhancements.js"></script>
@@ -202,12 +251,11 @@ Every lesson follows this pattern:
 
 ### Proven Analogies:
 - Blender = "digital sculpting studio"
-- Figure hierarchy = "family tree" or "mobile"
-- Morphs = "volume knobs on a mixing board"
-- Props = "set dressing for a movie"
+- Meshes = "digital clay" or "wire sculpture"
+- Modifiers = "magic filters that change your object"
+- Materials = "paint and texture"
 - Lighting = "painting with light"
-- Scene building = "set designer for a movie"
-- Ground plane = "stage floor" or "foundation"
+- Rendering = "taking a photograph of your 3D scene"
 
 ### Common Patterns:
 - Start sections with relatable questions
@@ -233,6 +281,7 @@ Before considering a lesson complete:
 - ✅ Required scripts at bottom
 - ✅ Project/exercise included
 - ✅ Summary with key takeaways
+- ✅ Part markers (comments) at start and end of each file
 
 ## File Creation Process
 
@@ -242,7 +291,13 @@ Before considering a lesson complete:
    - Each part should be a complete section
    - Aim for 8-15 parts per lesson depending on complexity
 
-2. **After each lesson:**
+2. **After EACH part file:**
+   - ✋ STOP and confirm the part was created
+   - 📢 Announce: "✅ Part [X] created"
+   - ❓ Ask: "Should I continue with Part [X+1]?"
+   - ⏸️ WAIT for user confirmation
+
+3. **After all parts of a lesson:**
    - Verify all parts were created successfully
    - User will join parts and inform you of final filename
    - PAUSE and ask: "Should I continue to the next lesson?"
@@ -250,24 +305,44 @@ Before considering a lesson complete:
 
 ## Tools to Use
 
-**Recommended:**
-- `Filesystem:write_file` - Create new HTML files
-- `Filesystem:read_file` - Read existing files
-- `Filesystem:list_directory` - Check directory contents
+### 🚨 CRITICAL: File Creation Tool Requirements
 
-**Avoid:**
-- `create_file` tool (use Filesystem:write_file instead)
-- `str_replace` tool (use Filesystem:edit_file if needed)
+**ALWAYS USE `Filesystem:write_file` for creating files!**
 
+The `Filesystem:write_file` tool writes to the proper Windows-accessible WSL directory.
+The `create_file` and `bash_tool` tools write to container-only locations that the user CANNOT access.
 
+**Correct Tool Usage:**
+- ✅ `Filesystem:write_file` - Create new HTML files (REQUIRED)
+- ✅ `Filesystem:read_file` - Read existing files
+- ✅ `Filesystem:list_directory` - Check directory contents
+- ✅ `Filesystem:edit_file` - Edit existing files
+
+**NEVER Use These for File Creation:**
+- ❌ `create_file` - Writes to container filesystem (user cannot access)
+- ❌ `bash_tool` with `cat >` or similar - Writes to container filesystem (user cannot access)
+- ❌ `str_replace` - Use `Filesystem:edit_file` instead
+
+### Why This Matters:
+
+The working directory `\\wsl$\Ubuntu\home\practicalace\projects\blender_course` is a WSL (Windows Subsystem for Linux) mount point that is accessible from Windows.
+
+**What happens with different tools:**
+- `Filesystem:write_file` → Writes to WSL mount (✅ User can see files in Windows)
+- `create_file` / `bash_tool` → Writes to container filesystem (❌ User CANNOT see files)
+
+**If files aren't visible to the user:**
+1. Check what tool was used
+2. Verify the file path starts with `\\wsl$\Ubuntu\home\practicalace\projects\blender_course`
+3. Re-create the file using `Filesystem:write_file`
 
 ## Important Reminders
 
 1. **File paths:** Use `\\wsl$\Ubuntu\home\practicalace\projects\blender_course\`
 2. **Always create lessons in multiple parts** for easier management
-3. **Pause after each lesson** for user confirmation
-4. **Keep instructor tone consistent** - friendly, encouraging, practical
-5. **Progressive learning** - each lesson builds on previous ones
-6. **Every lesson needs a hands-on project or exercise**
-7. **Focus on practical skills** students can immediately apply
-
+3. **🚨 PAUSE AFTER EACH PART FILE 🚨** for user confirmation
+4. **Add part markers** (HTML comments) to each file
+5. **Keep instructor tone consistent** - friendly, encouraging, practical
+6. **Progressive learning** - each lesson builds on previous ones
+7. **Every lesson needs a hands-on project or exercise**
+8. **Focus on practical skills** students can immediately apply

@@ -1,0 +1,2861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master Edit Mode in Blender. Learn to select, manipulate, and modify mesh geometry to create custom 3D shapes from scratch.">
+    <meta name="author" content="Blender Course">
+    <title>Edit Mode Essentials - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <nav class="main-nav" aria-label="Main Navigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">🎨 Blender Mastery Course</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <div class="nav-links">
+                <a href="index.html">Course Home</a>
+                <a href="index.html#modules">Modules</a>
+                <a href="index.html#about">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> &gt; 
+        <a href="index.html#module-2">Module 2</a> &gt; 
+        <span>Lesson 6</span>
+    </div>
+
+    <main class="container">
+        <article>
+            <header class="lesson-header">
+                <h1>✏️ Edit Mode Essentials</h1>
+                <p class="lead">You've learned about mesh structure—now it's time to shape it! Edit Mode is where the real magic happens, where you transform simple primitives into complex custom models. This is your gateway to true 3D modeling, where you'll work directly with vertices, edges, and faces to create anything you can imagine. Welcome to the heart of 3D creation!</p>
+            </header>
+
+            <div class="card">
+                <h3>📚 What You'll Learn</h3>
+                <ul>
+                    <li>Entering and exiting Edit Mode confidently</li>
+                    <li>The three selection modes and when to use each</li>
+                    <li>Advanced selection techniques for efficient workflow</li>
+                    <li>Essential mesh editing operations: Extrude, Inset, Bevel, Loop Cut</li>
+                    <li>Working with individual components vs. whole objects</li>
+                    <li>Keyboard shortcuts that accelerate modeling</li>
+                    <li>Building your first custom model from a primitive</li>
+                    <li>Best practices for clean modeling workflow</li>
+                </ul>
+                <p><strong>⏱️ Estimated Time:</strong> 75-90 minutes</p>
+                <p><strong>🎯 Project:</strong> Model a simple house from a cube</p>
+            </div>
+
+            <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                    <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                </summary>
+                <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                    <ol>
+                        <li><a href="#enter-edit-mode" class="toc-link">Entering Edit Mode</a></li>
+                        <li><a href="#selection-modes" class="toc-link">The Three Selection Modes</a></li>
+                        <li><a href="#advanced-selection" class="toc-link">Advanced Selection Techniques</a></li>
+                        <li><a href="#extrude-operations" class="toc-link">Essential Editing Operations</a></li>
+                        <li><a href="#duplicate-array" class="toc-link">Duplicate and Array</a></li>
+                        <li><a href="#knife-tool" class="toc-link">Knife Tool</a></li>
+                        <li><a href="#subdivide" class="toc-link">Subdivide</a></li>
+                        <li><a href="#bevel" class="toc-link">Bevel</a></li>
+                        <li><a href="#lesson-summary" class="toc-link">Lesson Summary</a></li>
+                    </ol>
+                </nav>
+            </details>
+<!-- PART 1 END -->
+
+<!-- PART 2 START -->
+            <section id="enter-edit-mode">
+                <h2>🚪 Entering Edit Mode</h2>
+                
+                <p>Edit Mode is fundamentally different from Object Mode. In Object Mode, you manipulate entire objects as units. In Edit Mode, you dive inside objects to modify their individual components—vertices, edges, and faces.</p>
+
+                <h3>Object Mode vs Edit Mode</h3>
+
+                <p>Think of it this way: Object Mode is like moving furniture around a room—you move whole pieces. Edit Mode is like being a carpenter—you're shaping the wood, adding details, changing the structure itself.</p>
+
+                <div class="card">
+                    <h4>🔄 The Two Modes Compared</h4>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 2px solid #ddd; background: #f5f5f5;">
+                            <td style="padding: 8px;"><strong>Object Mode</strong></td>
+                            <td style="padding: 8px;"><strong>Edit Mode</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Move/rotate/scale entire objects</td>
+                            <td style="padding: 8px;">Move/rotate/scale individual components</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Select different objects</td>
+                            <td style="padding: 8px;">Select vertices, edges, or faces</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Add new objects to scene</td>
+                            <td style="padding: 8px;">Add new geometry to object</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px;">Apply modifiers and properties</td>
+                            <td style="padding: 8px;">Change object's shape directly</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px;">Scene assembly and layout</td>
+                            <td style="padding: 8px;">Model creation and refinement</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h3>Entering and Exiting Edit Mode</h3>
+
+                <div class="card">
+                    <h4>⌨️ Toggle Between Modes</h4>
+                    <p><strong>Tab Key:</strong> The universal mode toggle</p>
+                    <ul>
+                        <li>In Object Mode, press <code>Tab</code> → Enter Edit Mode</li>
+                        <li>In Edit Mode, press <code>Tab</code> → Return to Object Mode</li>
+                        <li>This works with any selected mesh object</li>
+                    </ul>
+                    <p><strong>Mode Dropdown:</strong> Top-left of viewport</p>
+                    <ul>
+                        <li>Click the dropdown showing current mode</li>
+                        <li>Select "Edit Mode" from the menu</li>
+                        <li>Slower but shows all available modes</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Enter Edit Mode</h4>
+                    <ol>
+                        <li>Start with a fresh Blender scene (default cube)</li>
+                        <li>Make sure the cube is selected (orange outline)</li>
+                        <li>Press <code>Tab</code> to enter Edit Mode</li>
+                        <li>Notice several changes:
+                            <ul>
+                                <li>The mode indicator (top-left) now says "Edit Mode"</li>
+                                <li>You see dots at the cube's corners (vertices)</li>
+                                <li>The cube appears slightly different (edit overlay)</li>
+                                <li>New options appear in the header</li>
+                            </ul>
+                        </li>
+                        <li>Press <code>Tab</code> again to return to Object Mode</li>
+                        <li>Practice toggling a few times—get comfortable with the switch</li>
+                    </ol>
+                </div>
+
+                <h3>Visual Differences in Edit Mode</h3>
+
+                <p>When you enter Edit Mode, the interface changes to show you're working at the component level:</p>
+
+                <ul>
+                    <li><strong>Orange dots:</strong> Vertices become visible as orange points</li>
+                    <li><strong>Black edges:</strong> All edges show as black lines in solid view</li>
+                    <li><strong>Mode-specific tools:</strong> The toolbar changes to show edit-specific tools</li>
+                    <li><strong>Header options:</strong> Different menus appear (Mesh menu, etc.)</li>
+                    <li><strong>Selection modes:</strong> Three icons appear showing vertex/edge/face selection</li>
+                </ul>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Edit Mode Limitations</h4>
+                    <p>Important things to know about Edit Mode:</p>
+                    <ul>
+                        <li><strong>One object at a time:</strong> You edit only the active object (though multi-object edit exists in advanced use)</li>
+                        <li><strong>Can't add new objects:</strong> Shift+A adds geometry to current object, not new objects</li>
+                        <li><strong>Transformations are relative:</strong> Moving vertices changes shape, not object location</li>
+                        <li><strong>Can't use object-level tools:</strong> Modifiers, constraints work in Object Mode</li>
+                    </ul>
+                </div>
+
+                <h3>When to Use Each Mode</h3>
+
+                <div class="card">
+                    <h4>🎯 Mode Selection Guide</h4>
+                    <p><strong>Use Object Mode when you want to:</strong></p>
+                    <ul>
+                        <li>Arrange objects in your scene</li>
+                        <li>Add new objects</li>
+                        <li>Apply modifiers or effects</li>
+                        <li>Set up animations (basic)</li>
+                        <li>Duplicate entire objects</li>
+                        <li>Work with multiple objects</li>
+                    </ul>
+                    <p><strong>Use Edit Mode when you want to:</strong></p>
+                    <ul>
+                        <li>Change an object's shape</li>
+                        <li>Add detail to geometry</li>
+                        <li>Create custom models</li>
+                        <li>Fix mesh problems</li>
+                        <li>Prepare for UV unwrapping</li>
+                        <li>Model anything from scratch</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>The Mode-Switching Dance:</strong> Professional modelers constantly switch between modes. Edit Mode to shape geometry, Object Mode to check overall placement, back to Edit Mode for refinements. This becomes automatic—your fingers will press Tab without conscious thought. Embrace the mode switching—it's the natural rhythm of 3D modeling!</p>
+                </blockquote>
+            </section>
+
+            <section id="selection-modes">
+                <h2>🎯 The Three Selection Modes</h2>
+
+                <p>In Edit Mode, you can select and work with three different types of mesh components. Understanding when to use each selection mode is fundamental to efficient modeling.</p>
+
+                <h3>The Selection Mode Trio</h3>
+
+                <p>At the top of the viewport in Edit Mode, you'll see three icons representing the selection modes. You can also access them with number keys.</p>
+
+                <div class="card">
+                    <h4>🔺 Vertex Select Mode</h4>
+                    <p><strong>Icon:</strong> Single dot • | <strong>Shortcut:</strong> <code>1</code></p>
+                    <p><strong>What you select:</strong> Individual vertices (points)</p>
+                    <p><strong>When to use:</strong></p>
+                    <ul>
+                        <li>Precise positioning of points</li>
+                        <li>Fine-tuning shapes and curves</li>
+                        <li>Merging vertices</li>
+                        <li>Creating sharp corners</li>
+                        <li>Detailed sculpting-like adjustments</li>
+                    </ul>
+                    <p><strong>Visual:</strong> Vertices appear as orange dots when selected, gray when not</p>
+                </div>
+
+                <div class="card">
+                    <h4>📏 Edge Select Mode</h4>
+                    <p><strong>Icon:</strong> Single line — | <strong>Shortcut:</strong> <code>2</code></p>
+                    <p><strong>What you select:</strong> Edges (lines between vertices)</p>
+                    <p><strong>When to use:</strong></p>
+                    <ul>
+                        <li>Creating edge loops</li>
+                        <li>Beveling edges for smooth corners</li>
+                        <li>Selecting perimeters or outlines</li>
+                        <li>Hard surface modeling</li>
+                        <li>Marking seams for UV unwrapping</li>
+                    </ul>
+                    <p><strong>Visual:</strong> Selected edges turn orange/bright, unselected stay dark</p>
+                </div>
+
+                <div class="card">
+                    <h4>🔷 Face Select Mode</h4>
+                    <p><strong>Icon:</strong> Triangle ▲ | <strong>Shortcut:</strong> <code>3</code></p>
+                    <p><strong>What you select:</strong> Faces (surfaces)</p>
+                    <p><strong>When to use:</strong></p>
+                    <ul>
+                        <li>Extruding to build volume</li>
+                        <li>Insetting to create borders</li>
+                        <li>Deleting large areas</li>
+                        <li>Applying materials to sections</li>
+                        <li>Working with surface regions</li>
+                    </ul>
+                    <p><strong>Visual:</strong> Selected faces appear bright/filled, with dots at corners</p>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Edit Mode Selection] --> B[Vertex Mode - 1]
+                    A --> C[Edge Mode - 2]
+                    A --> D[Face Mode - 3]
+                    B --> E[Point Precision]
+                    C --> F[Line/Loop Control]
+                    D --> G[Surface Operations]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style B fill:#f44336,stroke:#333,stroke-width:2px,color:#fff
+                    style C fill:#4CAF50,stroke:#333,stroke-width:2px
+                    style D fill:#2196F3,stroke:#333,stroke-width:2px
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Try It Now: Explore Selection Modes</h4>
+                    <ol>
+                        <li>Enter Edit Mode on the default cube (<code>Tab</code>)</li>
+                        <li>Press <code>1</code> for Vertex mode:
+                            <ul>
+                                <li>See 8 dots at cube corners</li>
+                                <li>Click on one vertex—it turns orange</li>
+                                <li>Shift+Click another—both selected</li>
+                            </ul>
+                        </li>
+                        <li>Press <code>2</code> for Edge mode:
+                            <ul>
+                                <li>Click on one edge—the line highlights</li>
+                                <li>Notice you're selecting lines now, not points</li>
+                            </ul>
+                        </li>
+                        <li>Press <code>3</code> for Face mode:
+                            <ul>
+                                <li>Click on one face—entire surface highlights</li>
+                                <li>Much faster for selecting large areas</li>
+                            </ul>
+                        </li>
+                        <li>Practice switching between modes with 1, 2, 3 keys</li>
+                    </ol>
+                </div>
+
+                <h3>Selection Mode Intelligence</h3>
+
+                <p>Here's something clever: the selection modes are interconnected. When you select in one mode, you're implicitly selecting related components in other modes.</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Smart Selection Relationships</h4>
+                    <ul>
+                        <li><strong>Select a face:</strong> Implicitly selects its vertices and edges too</li>
+                        <li><strong>Select an edge:</strong> Implicitly selects its two vertices</li>
+                        <li><strong>Select a vertex:</strong> Only that point is selected</li>
+                    </ul>
+                    <p>This means you can switch modes after selecting and the related components stay selected! Select faces, switch to edge mode, and those face edges are selected.</p>
+                </div>
+
+                <h3>Multi-Mode Selection</h3>
+
+                <p>You can select in multiple modes simultaneously by holding Shift while clicking the mode icons (or using Shift + number keys). This is advanced but useful:</p>
+
+                <ul>
+                    <li><strong>Vertex + Edge:</strong> Select both points and lines simultaneously</li>
+                    <li><strong>Edge + Face:</strong> Select lines and surfaces together</li>
+                    <li><strong>All three:</strong> Ultimate flexibility but can be confusing</li>
+                </ul>
+
+                <p>For now, stick with single mode selection until you're comfortable. Multi-mode is for specific advanced workflows.</p>
+
+                <h3>Choosing the Right Mode</h3>
+
+                <p>Here's a quick decision guide:</p>
+
+                <div class="card">
+                    <h4>🎯 Mode Selection Strategy</h4>
+                    <ul>
+                        <li><strong>Need precise point control?</strong> → Vertex mode</li>
+                        <li><strong>Working with loops or hard edges?</strong> → Edge mode</li>
+                        <li><strong>Extruding or working with surfaces?</strong> → Face mode</li>
+                        <li><strong>Fine detail work?</strong> → Vertex mode</li>
+                        <li><strong>Adding edge loops or beveling?</strong> → Edge mode</li>
+                        <li><strong>Deleting large sections?</strong> → Face mode</li>
+                    </ul>
+                    <p>Most modeling involves switching between all three modes constantly!</p>
+                </div>
+
+                <blockquote>
+                    <p><strong>Professional Workflow:</strong> Experienced modelers rapidly switch between selection modes as they work. You might select faces to extrude, switch to edge mode to bevel the new edges, then vertex mode to tweak positions. The 1-2-3 keys become automatic. Don't overthink it—just use whichever mode makes your current task easiest!</p>
+                </blockquote>
+            </section>
+<!-- PART 2 END -->
+
+<!-- PART 03: Proportional Editing and Loop Tools -->
+
+<section id="proportional-editing">
+    <h2>🎯 Proportional Editing: The Sculptor's Touch</h2>
+    
+    <p>Imagine you're working with clay. When you push on one spot, the surrounding clay naturally moves with it, creating smooth, organic deformations. That's exactly what <strong>Proportional Editing</strong> does in Blender – it allows you to influence surrounding geometry when you transform selected elements, creating natural, flowing shapes instead of harsh, isolated changes.</p>
+
+    <p>This is one of those features that, once you start using it, you'll wonder how you ever modeled without it. It's absolutely essential for organic modeling, character work, and any time you need smooth, natural-looking deformations.</p>
+
+    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <h3>💡 When to Use Proportional Editing</h3>
+        <ul style="color: white;">
+            <li><strong>Organic shapes:</strong> Smoothing terrain, sculpting character features</li>
+            <li><strong>Smooth transitions:</strong> Creating natural bulges or dents</li>
+            <li><strong>Landscape modeling:</strong> Raising hills or creating valleys</li>
+            <li><strong>Character refinement:</strong> Adjusting muscle groups or facial features</li>
+            <li><strong>Avoiding hard edges:</strong> When you need gradual, natural falloff</li>
+        </ul>
+    </div>
+
+    <h3>Activating Proportional Editing</h3>
+    
+    <p>There are several ways to enable Proportional Editing:</p>
+
+    <div class="card">
+        <h4>🎛️ Activation Methods</h4>
+        <ul>
+            <li><strong>Keyboard shortcut:</strong> Press <kbd>O</kbd> to toggle on/off (you'll see a circle icon in the header)</li>
+            <li><strong>Header icon:</strong> Click the proportional editing icon in the 3D Viewport header (looks like a circle with gradient)</li>
+            <li><strong>Connected only:</strong> Press <kbd>Alt+O</kbd> for proportional editing that only affects connected geometry</li>
+        </ul>
+        <p><strong>Visual indicator:</strong> When active, you'll see a circle around your cursor when transforming – this shows the influence area!</p>
+    </div>
+
+    <h3>Falloff Types: Controlling the Influence</h3>
+
+    <p>The <strong>falloff</strong> determines how the influence decreases from the selected element to the outer edge. Think of it like different types of brushes in painting – some have soft edges, some are sharp, some are completely smooth.</p>
+
+    <div class="mermaid">
+        graph LR
+        A[Falloff Types] --> B[Smooth - Gradual curve]
+        A --> C[Sharp - Quick dropoff]
+        A --> D[Linear - Even gradient]
+        A --> E[Constant - No falloff]
+        A --> F[Sphere - 3D falloff]
+        A --> G[Random - Chaotic effect]
+        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+        style B fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+        style C fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Falloff Type</th>
+                <th>Description</th>
+                <th>Best For</th>
+                <th>Shortcut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Smooth</strong></td>
+                <td>Gradual, natural curve (default)</td>
+                <td>Organic shapes, character work</td>
+                <td><kbd>Shift+O</kbd> → Select</td>
+            </tr>
+            <tr>
+                <td><strong>Sphere</strong></td>
+                <td>3D spherical falloff</td>
+                <td>Bulges, bumps, uniform influence</td>
+                <td><kbd>Shift+O</kbd> → Select</td>
+            </tr>
+            <tr>
+                <td><strong>Sharp</strong></td>
+                <td>Quick dropoff, maintains more area</td>
+                <td>Mountains, spikes, focused edits</td>
+                <td><kbd>Shift+O</kbd> → Select</td>
+            </tr>
+            <tr>
+                <td><strong>Linear</strong></td>
+                <td>Even, straight gradient</td>
+                <td>Mechanical tapers, ramps</td>
+                <td><kbd>Shift+O</kbd> → Select</td>
+            </tr>
+            <tr>
+                <td><strong>Constant</strong></td>
+                <td>Same strength throughout (no falloff)</td>
+                <td>Uniform movement of area</td>
+                <td><kbd>Shift+O</kbd> → Select</td>
+            </tr>
+            <tr>
+                <td><strong>Random</strong></td>
+                <td>Chaotic, unpredictable influence</td>
+                <td>Rough terrain, noise effects</td>
+                <td><kbd>Shift+O</kbd> → Select</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>💡 Pro Tip: Adjusting Influence Size</h4>
+        <p>While transforming with proportional editing active:</p>
+        <ul>
+            <li><strong>Mouse wheel up/down:</strong> Increase or decrease the influence radius</li>
+            <li><strong>Page Up/Page Down:</strong> Alternative method to adjust radius</li>
+            <li><strong>Watch the circle:</strong> The circle shows you exactly what will be affected</li>
+        </ul>
+        <p><em>This is real-time adjustment – scroll during your move to fine-tune the effect!</em></p>
+    </div>
+
+    <h3>Proportional Editing Workflow</h3>
+
+    <div class="card">
+        <h4>📋 Step-by-Step Process</h4>
+        <ol>
+            <li><strong>Select</strong> the vertex, edge, or face you want to move</li>
+            <li><strong>Enable proportional editing</strong> by pressing <kbd>O</kbd></li>
+            <li><strong>Start your transform</strong> (G to move, R to rotate, S to scale)</li>
+            <li><strong>Adjust the influence radius</strong> using the mouse wheel</li>
+            <li><strong>Change falloff type</strong> if needed by pressing <kbd>Shift+O</kbd></li>
+            <li><strong>Complete the transform</strong> by clicking or pressing Enter</li>
+        </ol>
+    </div>
+
+    <blockquote>
+        <p><strong>Real-World Example:</strong> Imagine you're modeling a character's cheek. You select a single vertex where the cheekbone should protrude, enable proportional editing with smooth falloff, and pull it outward. Instead of just one vertex poking out unnaturally, the entire surrounding area moves smoothly with it, creating a natural, rounded cheekbone. That's the power of proportional editing!</p>
+    </blockquote>
+
+    <h3>Connected vs. Projected</h3>
+
+    <p>Blender offers two modes of proportional editing, and understanding the difference is crucial:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Mode</th>
+                <th>Behavior</th>
+                <th>Best For</th>
+                <th>Shortcut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Projected</strong></td>
+                <td>Affects all vertices within radius, even disconnected ones</td>
+                <td>Terrain, overlapping geometry, general modeling</td>
+                <td><kbd>O</kbd></td>
+            </tr>
+            <tr>
+                <td><strong>Connected</strong></td>
+                <td>Only affects vertices connected by edges</td>
+                <td>Isolated shapes, when you don't want to affect nearby disconnected geometry</td>
+                <td><kbd>Alt+O</kbd></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+        <h4>⚠️ Watch Out: Hidden Geometry</h4>
+        <p>Proportional editing affects geometry even if it's behind other faces in your view! If you're getting unexpected results, try:</p>
+        <ul>
+            <li>Switching to <strong>Connected mode</strong> (<kbd>Alt+O</kbd>)</li>
+            <li>Using <strong>X-ray mode</strong> to see what's being influenced</li>
+            <li>Hiding parts of your mesh you don't want to affect (<kbd>H</kbd>)</li>
+        </ul>
+    </div>
+
+    <h3>Practice Exercise: Creating a Hill</h3>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>🎯 Try It Now: Proportional Editing Practice</h4>
+        <ol>
+            <li>Add a plane (<kbd>Shift+A</kbd> → Mesh → Plane)</li>
+            <li>Subdivide it multiple times (Right-click → Subdivide, repeat 4-5 times)</li>
+            <li>Enter Edit Mode (<kbd>Tab</kbd>)</li>
+            <li>Select a vertex near the center (<kbd>Alt+A</kbd> to deselect all first)</li>
+            <li>Enable proportional editing (<kbd>O</kbd>)</li>
+            <li>Choose <strong>Smooth</strong> falloff (<kbd>Shift+O</kbd>)</li>
+            <li>Press <kbd>G Z</kbd> to move up on Z-axis</li>
+            <li>Use <strong>mouse wheel</strong> to adjust influence size</li>
+            <li>Click to confirm – you've created a hill!</li>
+        </ol>
+        <p><strong>Experiment:</strong> Try different falloff types to see how they affect the hill shape!</p>
+    </div>
+</section>
+
+<section id="loop-tools">
+    <h2>🔄 Loop Tools: The Precision Circle Makers</h2>
+
+    <p>Loop tools are like having a master geometric wizard at your fingertips. They take your edge loops and faces and perform magical transformations – creating perfect circles, smooth bridges, and elegant curves. These are absolutely essential for hard-surface modeling, mechanical parts, and any time you need geometrically precise shapes.</p>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>📦 What Are Loop Tools?</h4>
+        <p>Loop Tools is an add-on that ships with Blender but needs to be activated. It provides a collection of utilities specifically designed for working with edge loops and creating curved, circular, and interpolated geometry.</p>
+        <p><strong>Think of it as:</strong> A Swiss Army knife for loop-based modeling operations.</p>
+    </div>
+
+    <h3>Enabling Loop Tools Add-on</h3>
+
+    <div class="card">
+        <h4>🔌 Activation Steps</h4>
+        <ol>
+            <li>Go to <strong>Edit → Preferences</strong> (<kbd>F4</kbd> then type "preferences")</li>
+            <li>Click the <strong>Add-ons</strong> tab on the left</li>
+            <li>Search for <strong>"Loop Tools"</strong> in the search box</li>
+            <li>Check the checkbox next to <strong>"Mesh: Loop Tools"</strong></li>
+            <li>Close preferences – the add-on is now active!</li>
+        </ol>
+        <p><em>Once enabled, you'll find Loop Tools in the right-click menu when edges are selected, and in the Sidebar (<kbd>N</kbd> key) under the "Edit" tab.</em></p>
+    </div>
+
+    <h3>Essential Loop Tools Operations</h3>
+
+    <div class="mermaid">
+        graph TD
+        A[Loop Tools] --> B[Circle - Perfect rounds]
+        A --> C[Curve - Smooth bends]
+        A --> D[Flatten - Align to plane]
+        A --> E[Bridge - Connect loops]
+        A --> F[Space - Even distribution]
+        A --> G[Relax - Smooth geometry]
+        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+        style B fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+        style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <h3>Circle: Creating Perfect Rounds</h3>
+
+    <p>The <strong>Circle</strong> tool transforms a selected edge loop into a perfect circle or ellipse. This is invaluable when you need precise circular geometry – think wheels, pipes, holes, or any mechanical component.</p>
+
+    <div class="card">
+        <h4>🎯 How to Use Circle</h4>
+        <ol>
+            <li>Select an edge loop (<kbd>Alt+Click</kbd> on an edge)</li>
+            <li>Right-click and choose <strong>Loop Tools → Circle</strong></li>
+            <li>Or press <kbd>N</kbd> for sidebar → Edit tab → Loop Tools → Circle</li>
+            <li>The loop instantly transforms into a perfect circle!</li>
+        </ol>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Circle Options</th>
+                <th>What It Does</th>
+                <th>When to Use</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Regular</strong></td>
+                <td>Creates a circle with vertices evenly spaced</td>
+                <td>Default for most circular shapes</td>
+            </tr>
+            <tr>
+                <td><strong>Fit</strong></td>
+                <td>Fits circle to the original selection bounds</td>
+                <td>When you want to maintain the general shape</td>
+            </tr>
+            <tr>
+                <td><strong>Influence</strong></td>
+                <td>Partial transformation (0-100%)</td>
+                <td>For subtle rounding, not full circles</td>
+            </tr>
+            <tr>
+                <td><strong>Lock X/Y/Z</strong></td>
+                <td>Prevents movement on specific axis</td>
+                <td>When you want to flatten in specific plane</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <blockquote>
+        <p><strong>Pro Modeling Tip:</strong> When modeling machinery or hard-surface objects, you'll often start with rough shapes and use Circle to perfect the round components. For example, model a rough wheel hub, select the outer edge loop, apply Circle, and boom – instant precision!</p>
+    </blockquote>
+
+    <h3>Curve: Smooth Flowing Lines</h3>
+
+    <p>The <strong>Curve</strong> tool creates a smooth, flowing curve between two selected vertices, based on the surrounding geometry. It's like asking Blender, "make this look naturally curvy."</p>
+
+    <div class="card">
+        <h4>📐 Curve Usage</h4>
+        <ol>
+            <li>Select a series of connected edges or vertices</li>
+            <li>Right-click → <strong>Loop Tools → Curve</strong></li>
+            <li>The middle vertices adjust to create a smooth curve</li>
+            <li>End vertices stay locked in place as curve handles</li>
+        </ol>
+    </div>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>✅ When to Use Curve</h4>
+        <ul>
+            <li><strong>Smooth transitions:</strong> Between two points on a surface</li>
+            <li><strong>Organic shapes:</strong> Creating natural flowing lines</li>
+            <li><strong>Edge flow cleanup:</strong> Fixing awkward edge paths</li>
+            <li><strong>Profile edges:</strong> Creating smooth silhouettes</li>
+        </ul>
+    </div>
+
+    <h3>Flatten: Aligning to a Plane</h3>
+
+    <p><strong>Flatten</strong> takes selected vertices and projects them onto a plane. Think of it like pressing geometry against an invisible flat surface – incredibly useful for creating flat faces or aligning vertices perfectly.</p>
+
+    <div class="card">
+        <h4>🎚️ Flatten Options</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mode</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Best Fit</strong></td>
+                    <td>Finds the best-fitting plane for your selection</td>
+                </tr>
+                <tr>
+                    <td><strong>View</strong></td>
+                    <td>Flattens based on your current viewport angle</td>
+                </tr>
+                <tr>
+                    <td><strong>X/Y/Z Axis</strong></td>
+                    <td>Flattens along a specific world axis</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Bridge: Connecting Edge Loops</h3>
+
+    <p>The <strong>Bridge</strong> tool connects two separate edge loops with new geometry, creating a smooth connection between them. It's like building a tunnel between two openings.</p>
+
+    <div class="card">
+        <h4>🌉 Bridge Workflow</h4>
+        <ol>
+            <li>Select two separate edge loops (both must have same number of edges for best results)</li>
+            <li>Right-click → <strong>Loop Tools → Bridge</strong></li>
+            <li>Blender creates connecting faces between the loops</li>
+        </ol>
+        <p><strong>Common uses:</strong> Connecting body parts, creating pipe connections, joining separate mesh sections, making handles or attachments.</p>
+    </div>
+
+    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+        <h4>⚠️ Bridge Requirements</h4>
+        <p>For Bridge to work properly:</p>
+        <ul>
+            <li>Both edge loops should have the <strong>same number of edges</strong> (or proportional numbers)</li>
+            <li>The loops should be <strong>separate</strong> (not connected)</li>
+            <li>Both loops must be <strong>boundary edges</strong> (edges with only one face)</li>
+        </ul>
+        <p><em>If Bridge isn't working, check these conditions first!</em></p>
+    </div>
+
+    <h3>Space: Even Distribution</h3>
+
+    <p><strong>Space</strong> redistributes selected vertices evenly along their existing path. It's like taking a string of beads and spacing them perfectly equal distances apart.</p>
+
+    <div class="card">
+        <h4>📏 Space Usage</h4>
+        <ul>
+            <li>Select a series of connected vertices or an edge loop</li>
+            <li>Apply <strong>Loop Tools → Space</strong></li>
+            <li>Vertices redistribute evenly while maintaining the overall curve</li>
+        </ul>
+        <p><strong>Perfect for:</strong> Cleaning up uneven topology, preparing geometry for subdivision, creating uniform edge loops.</p>
+    </div>
+
+    <h3>Relax: Smoothing Geometry</h3>
+
+    <p><strong>Relax</strong> averages vertex positions to create smoother, more even geometry. It's like gently massaging your mesh to relax tension and create better flow.</p>
+
+    <div class="card">
+        <h4>😌 Relax Features</h4>
+        <ul>
+            <li><strong>Iterations:</strong> How many times to apply smoothing (more = smoother)</li>
+            <li><strong>Non-destructive:</strong> Maintains your mesh's overall shape</li>
+            <li><strong>Improves topology:</strong> Evens out irregular vertex distribution</li>
+        </ul>
+    </div>
+
+    <h3>Loop Tools Practice Project</h3>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>🛠️ Build a Pipe Connection</h4>
+        <p>This exercise uses multiple Loop Tools to create a curved pipe:</p>
+        <ol>
+            <li><strong>Add a cylinder</strong> (<kbd>Shift+A</kbd> → Mesh → Cylinder)</li>
+            <li><strong>Delete the top cap</strong> (Select top face, <kbd>X</kbd> → Faces)</li>
+            <li><strong>Select the top edge loop</strong> (<kbd>Alt+Click</kbd>)</li>
+            <li><strong>Extrude up</strong> (<kbd>E</kbd>, then <kbd>Z</kbd>, move up)</li>
+            <li><strong>Scale slightly larger</strong> (<kbd>S</kbd>, scale out a bit)</li>
+            <li><strong>Apply Circle</strong> to ensure it's perfectly round (Right-click → Loop Tools → Circle)</li>
+            <li><strong>Extrude again</strong> and bend it (<kbd>E</kbd>, move to the side)</li>
+            <li><strong>Select the middle edge loop</strong> of your bend</li>
+            <li><strong>Apply Relax</strong> to smooth the curve (Loop Tools → Relax, set iterations to 3-5)</li>
+            <li><strong>Select all edge loops</strong> along the pipe</li>
+            <li><strong>Apply Space</strong> to even out the spacing (Loop Tools → Space)</li>
+        </ol>
+        <p><strong>Result:</strong> A smooth, perfectly circular pipe with even topology!</p>
+    </div>
+
+    <blockquote>
+        <p><strong>Industry Insight:</strong> Professional hard-surface modelers rely heavily on Loop Tools for mechanical modeling. Cars, robots, architecture, product design – anywhere you need precise curves and perfect circles, Loop Tools is your friend. Master these tools, and you'll model hard-surface objects like a pro!</p>
+    </blockquote>
+</section>
+
+<section id="advanced-selection">
+    <h2>🎯 Advanced Selection Techniques</h2>
+
+    <p>Now that you understand basic selection, let's level up your skills with advanced techniques that will make you lightning-fast and laser-precise. These methods separate beginners from professionals – not because they're hard to learn, but because they save enormous amounts of time and frustration.</p>
+
+    <h3>Selection by Similarity (Select Similar)</h3>
+
+    <p>Imagine you need to select all triangular faces in a complex mesh, or every edge with a specific angle. Doing this manually would take forever! That's where <strong>Select Similar</strong> comes in – it finds and selects all geometry that matches certain criteria.</p>
+
+    <div class="card">
+        <h4>🔍 How to Use Select Similar</h4>
+        <ol>
+            <li>Select one or more elements that have the property you're looking for</li>
+            <li>Press <kbd>Shift+G</kbd> (Think: "Shift-Gather similar")</li>
+            <li>Choose from the menu what similarity to look for</li>
+            <li>All matching geometry gets selected instantly!</li>
+        </ol>
+    </div>
+
+    <h3>Similar Selection Criteria</h3>
+
+    <p>Depending on whether you have vertices, edges, or faces selected, you'll see different options:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Element Type</th>
+                <th>Similarity Options</th>
+                <th>What It Finds</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="3"><strong>Vertices</strong></td>
+                <td>Amount of connecting edges</td>
+                <td>Vertices with same number of edges</td>
+            </tr>
+            <tr>
+                <td>Vertex groups</td>
+                <td>Vertices in the same groups</td>
+            </tr>
+            <tr>
+                <td>Amount of connecting faces</td>
+                <td>Vertices with same face count</td>
+            </tr>
+            <tr>
+                <td rowspan="5"><strong>Edges</strong></td>
+                <td>Length</td>
+                <td>Edges of similar length</td>
+            </tr>
+            <tr>
+                <td>Direction</td>
+                <td>Edges pointing same direction</td>
+            </tr>
+            <tr>
+                <td>Amount of faces</td>
+                <td>Edges with same face count (useful for finding boundary edges)</td>
+            </tr>
+            <tr>
+                <td>Face angles</td>
+                <td>Edges at similar angles to adjacent faces</td>
+            </tr>
+            <tr>
+                <td>Crease</td>
+                <td>Edges with similar crease values</td>
+            </tr>
+            <tr>
+                <td rowspan="6"><strong>Faces</strong></td>
+                <td>Material</td>
+                <td>Faces with same material</td>
+            </tr>
+            <tr>
+                <td>Area</td>
+                <td>Faces of similar size</td>
+            </tr>
+            <tr>
+                <td>Sides</td>
+                <td>Faces with same vertex count (find all triangles, quads, n-gons)</td>
+            </tr>
+            <tr>
+                <td>Perimeter</td>
+                <td>Faces with similar edge length total</td>
+            </tr>
+            <tr>
+                <td>Normal</td>
+                <td>Faces pointing in same direction</td>
+            </tr>
+            <tr>
+                <td>Co-planar</td>
+                <td>Faces on the same plane</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>💡 Pro Tip: Finding Problem Geometry</h4>
+        <p>Select Similar is incredibly useful for quality control:</p>
+        <ul>
+            <li><strong>Find all triangles:</strong> Select one triangle, <kbd>Shift+G</kbd> → Sides</li>
+            <li><strong>Find boundary edges:</strong> Select one boundary edge, <kbd>Shift+G</kbd> → Amount of Faces → 1</li>
+            <li><strong>Find loose vertices:</strong> Select one lone vertex, <kbd>Shift+G</kbd> → Amount of connecting edges → 0</li>
+            <li><strong>Find n-gons:</strong> Select one n-gon (5+ sides), <kbd>Shift+G</kbd> → Sides</li>
+        </ul>
+    </div>
+
+    <h3>Select All by Trait</h3>
+
+    <p>While Select Similar finds elements matching your current selection, <strong>Select All by Trait</strong> (<kbd>Shift+Ctrl+Alt+M</kbd> or found in Select menu) selects problematic or specific geometry types directly without needing an example selected first.</p>
+
+    <div class="card">
+        <h4>🔧 Common Select All by Trait Options</h4>
+        <ul>
+            <li><strong>Non-Manifold:</strong> Finds problematic geometry (essential for 3D printing)</li>
+            <li><strong>Loose:</strong> Vertices or edges not connected to faces</li>
+            <li><strong>Interior Faces:</strong> Faces completely inside the mesh</li>
+            <li><strong>Faces by Sides:</strong> Select all triangles, quads, or n-gons directly</li>
+        </ul>
+    </div>
+
+    <blockquote>
+        <p><strong>3D Printing Gold:</strong> Before 3D printing any model, run "Select All by Trait → Non-Manifold" to find geometry errors that will cause printing failures. A manifold mesh (no non-manifold geometry) is watertight and printable!</p>
+    </blockquote>
+
+    <h3>Checker Deselect: The Pattern Master</h3>
+
+    <p><strong>Checker Deselect</strong> is like creating a checkerboard pattern in your selection. It deselects every other element, which is incredibly useful for creating even, alternating patterns.</p>
+
+    <div class="card">
+        <h4>♟️ Using Checker Deselect</h4>
+        <ol>
+            <li>Select a group of elements (faces, edges, or vertices)</li>
+            <li>Go to <strong>Select → Checker Deselect</strong></li>
+            <li>Every other element gets deselected in a pattern</li>
+            <li>You can adjust the pattern in the bottom-left operator panel</li>
+        </ol>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Checker Deselect Uses</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Creating patterns</strong></td>
+                <td>Alternating panels on a spaceship hull</td>
+            </tr>
+            <tr>
+                <td><strong>Reducing geometry</strong></td>
+                <td>Delete every other edge loop for lower poly version</td>
+            </tr>
+            <tr>
+                <td><strong>Texture variation</strong></td>
+                <td>Apply different materials in checkerboard pattern</td>
+            </tr>
+            <tr>
+                <td><strong>Testing deformations</strong></td>
+                <td>See how alternating faces behave under subdivision</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>🎛️ Checker Deselect Options</h4>
+        <p>After running Checker Deselect, check the bottom-left corner for options:</p>
+        <ul>
+            <li><strong>Deselected:</strong> How many to deselect (e.g., 1 means every other)</li>
+            <li><strong>Selected:</strong> How many to keep selected (e.g., 2 means keep 2, skip 1, keep 2, skip 1...)</li>
+            <li><strong>Offset:</strong> Shift the pattern forward or backward</li>
+        </ul>
+        <p>Experiment with these to create various patterns!</p>
+    </div>
+</section>
+<!-- PART 04: Selection Tools and Mesh Operations -->
+
+<section id="selection-tools">
+    <h2>🎨 Advanced Selection Tools and Methods</h2>
+
+    <p>Let's continue expanding your selection toolkit with some incredibly powerful methods that will make complex selections feel effortless. These are the techniques that separate casual users from efficient professionals.</p>
+
+    <h3>Box Select and Circle Select</h3>
+
+    <p>Sometimes clicking individual elements is too slow. That's when you need <strong>area selection tools</strong> – tools that let you select multiple elements at once by drawing shapes.</p>
+
+    <div class="mermaid">
+        graph LR
+        A[Area Selection Tools] --> B[Box Select - Rectangular]
+        A --> C[Circle Select - Circular brush]
+        A --> D[Lasso Select - Freeform]
+        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+        style B fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+        style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+        style D fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <h3>Box Select: The Rectangular Selector</h3>
+
+    <div class="card">
+        <h4>📦 Box Select (<kbd>B</kbd>)</h4>
+        <ol>
+            <li>Press <kbd>B</kbd> to activate Box Select mode</li>
+            <li>Your cursor becomes a crosshair</li>
+            <li><strong>Click and drag</strong> to draw a rectangular selection box</li>
+            <li>All elements inside the box get selected</li>
+            <li>Release to confirm</li>
+        </ol>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Box Select Modifiers</th>
+                <th>Action</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><kbd>B</kbd> then drag</td>
+                <td>Regular box select</td>
+                <td>Selects everything in box</td>
+            </tr>
+            <tr>
+                <td><kbd>Middle Mouse</kbd> while dragging</td>
+                <td>Toggle deselect mode</td>
+                <td>Deselects instead of selects</td>
+            </tr>
+            <tr>
+                <td><kbd>Shift</kbd> + Box Select</td>
+                <td>Add to selection</td>
+                <td>Adds to existing selection</td>
+            </tr>
+            <tr>
+                <td><kbd>Ctrl</kbd> + Box Select</td>
+                <td>Remove from selection</td>
+                <td>Subtracts from selection</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>💡 Pro Tip: Multiple Box Selections</h4>
+        <p>You don't have to do everything in one box! Make a box selection, then hold <kbd>Shift</kbd> and press <kbd>B</kbd> again to add more selections. Build your selection piece by piece like assembling a puzzle.</p>
+    </div>
+
+    <h3>Circle Select: The Brush Tool</h3>
+
+    <p><strong>Circle Select</strong> is like having a paintbrush for selections. You move a circular cursor around and click (or click-drag) to select elements. It's incredibly intuitive and fast for organic, flowing selections.</p>
+
+    <div class="card">
+        <h4>⭕ Circle Select (<kbd>C</kbd>)</h4>
+        <ol>
+            <li>Press <kbd>C</kbd> to activate Circle Select mode</li>
+            <li>A circle cursor appears</li>
+            <li><strong>Left-click</strong> or <strong>click-drag</strong> to select elements under the circle</li>
+            <li><strong>Middle-click</strong> or hold <kbd>Shift</kbd> to deselect instead</li>
+            <li><strong>Mouse wheel</strong> to change circle size</li>
+            <li>Press <kbd>Esc</kbd> or <kbd>Right-click</kbd> to exit mode</li>
+        </ol>
+    </div>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>✅ When Circle Select Shines</h4>
+        <ul>
+            <li><strong>Organic selections:</strong> Selecting areas that don't fit in rectangles</li>
+            <li><strong>Painting selections:</strong> Building selections gradually by "painting" over areas</li>
+            <li><strong>Character work:</strong> Selecting facial features, muscle groups</li>
+            <li><strong>Terrain:</strong> Selecting irregular landscape areas</li>
+            <li><strong>Quick cleanup:</strong> Rapidly selecting scattered elements</li>
+        </ul>
+    </div>
+
+    <blockquote>
+        <p><strong>Speed Tip:</strong> Circle Select is one of the fastest selection methods once you get used to it. Many pros use <kbd>C</kbd> as their default selection tool, only switching to others for specific needs. Try it for a week and it'll become second nature!</p>
+    </blockquote>
+
+    <h3>Lasso Select: Freeform Selection</h3>
+
+    <p><strong>Lasso Select</strong> lets you draw a freeform shape with your mouse, and everything inside gets selected. It's perfect for irregular shapes that don't fit in boxes or circles.</p>
+
+    <div class="card">
+        <h4>🎯 Lasso Select</h4>
+        <p><strong>Two activation methods:</strong></p>
+        <ul>
+            <li><strong>Regular Lasso:</strong> <kbd>Ctrl+Right-Click</kbd> and drag to draw</li>
+            <li><strong>From menu:</strong> Select menu → Lasso Select</li>
+        </ul>
+        <p><strong>How it works:</strong></p>
+        <ol>
+            <li>Hold <kbd>Ctrl+Right-Click</kbd> (or activate from menu)</li>
+            <li>Draw a shape around what you want to select</li>
+            <li>Complete the loop (return to start point)</li>
+            <li>Everything inside gets selected</li>
+        </ol>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Selection Tool</th>
+                <th>Best For</th>
+                <th>Speed</th>
+                <th>Precision</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Click Select</strong></td>
+                <td>Individual elements, precise work</td>
+                <td>Slow</td>
+                <td>Highest</td>
+            </tr>
+            <tr>
+                <td><strong>Box Select (B)</strong></td>
+                <td>Rectangular areas, grid-like selections</td>
+                <td>Fast</td>
+                <td>Good</td>
+            </tr>
+            <tr>
+                <td><strong>Circle Select (C)</strong></td>
+                <td>Organic areas, painting selections</td>
+                <td>Very Fast</td>
+                <td>Good</td>
+            </tr>
+            <tr>
+                <td><strong>Lasso Select</strong></td>
+                <td>Irregular shapes, complex outlines</td>
+                <td>Medium</td>
+                <td>Very Good</td>
+            </tr>
+            <tr>
+                <td><strong>Select Similar</strong></td>
+                <td>Scattered elements with common traits</td>
+                <td>Instant</td>
+                <td>Perfect</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Selection Practice Challenge</h3>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>🎮 Selection Speed Challenge</h4>
+        <p>Test and improve your selection skills with this exercise:</p>
+        <ol>
+            <li><strong>Add a UV Sphere</strong> (<kbd>Shift+A</kbd> → Mesh → UV Sphere)</li>
+            <li>Enter <strong>Edit Mode</strong> (<kbd>Tab</kbd>)</li>
+            <li>Switch to <strong>Face Select</strong> mode (<kbd>3</kbd>)</li>
+            <li>Now try selecting different patterns as fast as you can:</li>
+        </ol>
+        <ul>
+            <li><strong>Challenge 1:</strong> Select all faces on the top hemisphere (use Box Select)</li>
+            <li><strong>Challenge 2:</strong> Deselect just the tip (use Circle Select)</li>
+            <li><strong>Challenge 3:</strong> Select an equator band around the middle (use Alt+Click for loop, then expand)</li>
+            <li><strong>Challenge 4:</strong> Select every other face in a checkerboard pattern (Select All, then Checker Deselect)</li>
+            <li><strong>Challenge 5:</strong> Select just one side (use Lasso Select)</li>
+        </ul>
+        <p><strong>Goal:</strong> Complete all 5 challenges in under 2 minutes. Practice until you can!</p>
+    </div>
+</section>
+
+<section id="inset-outset">
+    <h2>🎨 Inset and Outset: Creating Details</h2>
+
+    <p>Imagine you have a face and you want to create a border around it, or make a smaller face inside it. That's exactly what <strong>Inset</strong> does – it creates a new face inside the selected faces, connected by new edges. It's like creating a picture frame effect, and it's absolutely essential for adding detail to your models.</p>
+
+    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <h3>💡 Why Inset Is Essential</h3>
+        <p style="color: white;">Inset is one of those operations you'll use constantly because it:</p>
+        <ul style="color: white;">
+            <li><strong>Adds topology:</strong> Creates edge loops exactly where you need them</li>
+            <li><strong>Creates details:</strong> Panel lines, borders, windows, decorative elements</li>
+            <li><strong>Maintains quads:</strong> Keeps your geometry clean (mostly)</li>
+            <li><strong>Works on multiple faces:</strong> Can inset many faces simultaneously</li>
+            <li><strong>Prepares for extrusion:</strong> Perfect setup for adding 3D details</li>
+        </ul>
+    </div>
+
+    <h3>Basic Inset Operation</h3>
+
+    <div class="card">
+        <h4>📐 How to Inset Faces</h4>
+        <ol>
+            <li>Enter <strong>Edit Mode</strong> (<kbd>Tab</kbd>)</li>
+            <li>Switch to <strong>Face Select</strong> mode (<kbd>3</kbd>)</li>
+            <li>Select one or more faces</li>
+            <li>Press <kbd>I</kbd> (for Inset)</li>
+            <li>Move your mouse inward – new faces appear!</li>
+            <li>Click to confirm (or type exact value)</li>
+        </ol>
+    </div>
+
+    <div class="mermaid">
+        graph LR
+        A[Original Face] --> B[Press I]
+        B --> C[Move Mouse Inward]
+        C --> D[New Inner Face Created]
+        D --> E[Border Edges Added]
+        style A fill:#f0f0f0,stroke:#333,stroke-width:2px
+        style D fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+        style E fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <h3>Inset Options and Modifiers</h3>
+
+    <p>While insetting, you have several powerful options accessible via keyboard modifiers:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Modifier</th>
+                <th>Effect</th>
+                <th>Use Case</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><kbd>I</kbd> then move mouse</td>
+                <td>Regular inset</td>
+                <td>Default inset operation</td>
+            </tr>
+            <tr>
+                <td><kbd>O</kbd> (during inset)</td>
+                <td>Toggle outset mode</td>
+                <td>Inset outward instead of inward</td>
+            </tr>
+            <tr>
+                <td><kbd>B</kbd> (during inset)</td>
+                <td>Toggle boundary mode</td>
+                <td>Maintain or modify outer boundary</td>
+            </tr>
+            <tr>
+                <td><kbd>I</kbd> (during inset)</td>
+                <td>Toggle individual faces</td>
+                <td>Inset each face separately vs. as group</td>
+            </tr>
+            <tr>
+                <td><kbd>Ctrl</kbd> (during inset)</td>
+                <td>Depth mode</td>
+                <td>Extrude inward while insetting</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>🎛️ Individual vs. Group Inset</h4>
+        <p>This is a critical distinction:</p>
+        <ul>
+            <li><strong>Group Inset (default):</strong> All selected faces inset together as one unit, creating a single border</li>
+            <li><strong>Individual Inset:</strong> Press <kbd>I</kbd> again while insetting – each face gets its own separate inset</li>
+        </ul>
+        <p><strong>Quick test:</strong> Select two adjacent faces, press <kbd>I</kbd> and move. Then press <kbd>I</kbd> again while still insetting. See the difference? Each face now has its own border!</p>
+    </div>
+
+    <h3>Common Inset Patterns</h3>
+
+    <blockquote>
+        <p><strong>The "Double Inset" Technique:</strong> A professional modeling trick – select faces, inset once for a border, then inset again to create a second inner border. This creates beautiful panel detail with depth. Then extrude the innermost faces for 3D pop! This is used everywhere in hard-surface modeling.</p>
+    </blockquote>
+
+    <h3>Outset: The Reverse Inset</h3>
+
+    <p>While Inset creates faces inside your selection, <strong>Outset</strong> does the opposite – it creates faces outside your selection, expanding it outward. Press <kbd>O</kbd> during an inset operation to toggle between inset and outset modes.</p>
+
+    <div class="card">
+        <h4>🔄 Outset Uses</h4>
+        <ul>
+            <li><strong>Expanding plates:</strong> Making armor pieces larger</li>
+            <li><strong>Creating flanges:</strong> Edges that extend outward</li>
+            <li><strong>Border extensions:</strong> Adding material around edges</li>
+            <li><strong>Foundation building:</strong> Creating base geometry to build upon</li>
+        </ul>
+    </div>
+
+    <h3>Inset with Depth</h3>
+
+    <p>Hold <kbd>Ctrl</kbd> while insetting to add depth – it insets AND moves the new faces inward along the face normal. It's like creating a recessed panel in one operation!</p>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>✨ Pro Workflow: Creating Panel Lines</h4>
+        <p>Professional hard-surface technique for panel details:</p>
+        <ol>
+            <li>Select face where you want panel detail</li>
+            <li>Press <kbd>I</kbd>, move mouse for first border (thin)</li>
+            <li>Click to confirm</li>
+            <li>Press <kbd>I</kbd> again, move mouse for second border (wider)</li>
+            <li>Hold <kbd>Ctrl</kbd> and move mouse to add depth</li>
+            <li>Click to confirm</li>
+            <li>Result: Professional recessed panel with clean beveled edges!</li>
+        </ol>
+    </div>
+
+    <h3>Inset Practice Project</h3>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>🛠️ Build a Sci-Fi Panel</h4>
+        <p>Create a detailed sci-fi surface panel using inset:</p>
+        <ol>
+            <li><strong>Start with a cube</strong> (<kbd>Shift+A</kbd> → Mesh → Cube)</li>
+            <li><strong>Enter Edit Mode</strong> (<kbd>Tab</kbd>)</li>
+            <li><strong>Select the top face</strong> (Face select mode, click the top)</li>
+            <li><strong>Subdivide</strong> it 2-3 times (Right-click → Subdivide)</li>
+            <li><strong>Select random faces</strong> to be your "panels"</li>
+            <li><strong>First inset</strong> (<kbd>I</kbd>, move in slightly) for outer border</li>
+            <li><strong>Second inset</strong> (<kbd>I</kbd>, move in more) for inner border</li>
+            <li><strong>Inset with depth</strong> (select inner faces, <kbd>I</kbd> then hold <kbd>Ctrl</kbd>)</li>
+            <li><strong>Extrude some outward</strong> (<kbd>E</kbd>) for raised panels</li>
+            <li><strong>Result:</strong> Detailed sci-fi surface with multiple panel depths!</li>
+        </ol>
+        <p><strong>Bonus:</strong> Add more detail with additional insets on individual panels!</p>
+    </div>
+</section>
+
+<section id="mesh-cleanup">
+    <h2>🧹 Mesh Cleanup and Optimization</h2>
+
+    <p>Creating geometry is fun, but maintaining clean topology is what separates hobbyist models from professional work. Clean meshes deform better, subdivide better, render faster, and are easier to work with. Let's learn the essential cleanup operations.</p>
+
+    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+        <h4>⚠️ Why Mesh Cleanup Matters</h4>
+        <p>Poor topology causes:</p>
+        <ul>
+            <li><strong>Rendering artifacts:</strong> Strange shading, visible triangles</li>
+            <li><strong>Deformation problems:</strong> Character animation breaking</li>
+            <li><strong>Subdivision issues:</strong> Weird bumps and pinching</li>
+            <li><strong>3D printing failures:</strong> Non-manifold geometry won't print</li>
+            <li><strong>File size bloat:</strong> Unnecessary geometry slows everything down</li>
+        </ul>
+    </div>
+
+    <h3>Remove Doubles (Merge by Distance)</h3>
+
+    <p><strong>Remove Doubles</strong> (now called "Merge by Distance" in modern Blender) finds vertices that are very close together and merges them into one. This fixes one of the most common modeling problems: duplicate vertices that look like one but are actually separate.</p>
+
+    <div class="card">
+        <h4>🔗 Merge by Distance</h4>
+        <p><strong>How to use:</strong></p>
+        <ol>
+            <li>Select all vertices (<kbd>A</kbd> in Edit Mode)</li>
+            <li>Press <kbd>M</kbd> for Merge menu</li>
+            <li>Choose <strong>"By Distance"</strong></li>
+            <li>Check the bottom-left corner to see how many vertices were merged</li>
+        </ol>
+        <p><strong>Or:</strong> Mesh menu → Clean Up → Merge by Distance</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Setting</th>
+                <th>What It Does</th>
+                <th>Typical Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Merge Distance</strong></td>
+                <td>Maximum distance for merging vertices</td>
+                <td>0.0001 - 0.001 (default: 0.0001)</td>
+            </tr>
+            <tr>
+                <td><strong>Unselected</strong></td>
+                <td>Include unselected vertices in search</td>
+                <td>Usually disabled</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <blockquote>
+        <p><strong>Pro Habit:</strong> Get in the habit of running Merge by Distance after any operation that might create duplicate vertices – especially after scaling to zero, snapping operations, or importing models. Check the counter – if it says "Removed 0 vertices," your mesh was already clean!</p>
+    </blockquote>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>💡 Finding Hidden Doubles</h4>
+        <p>Sometimes you have edges or faces that look weird but you can't see why. Try this:</p>
+        <ol>
+            <li>Select all (<kbd>A</kbd>)</li>
+            <li>Merge by Distance (<kbd>M</kbd> → By Distance)</li>
+            <li>If vertices merge, you had doubles!</li>
+            <li>The count at bottom-left shows how many were removed</li>
+        </ol>
+    </div>
+
+    <h3>Dissolve vs. Delete</h3>
+
+    <p>Understanding the difference between <strong>Delete</strong> and <strong>Dissolve</strong> is crucial for clean modeling. Both remove geometry, but they work very differently.</p>
+
+    <div class="mermaid">
+        graph TD
+        A[Removing Geometry] --> B[Delete - Leaves holes]
+        A --> C[Dissolve - Reconnects remaining]
+        B --> D[Use for: Removing unwanted sections]
+        C --> E[Use for: Simplifying topology]
+        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+        style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Operation</th>
+                <th>What It Does</th>
+                <th>Shortcut</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Delete</strong></td>
+                <td>Removes geometry and creates holes</td>
+                <td><kbd>X</kbd> → Delete</td>
+                <td>Holes in mesh where deleted geometry was</td>
+            </tr>
+            <tr>
+                <td><strong>Dissolve Vertices</strong></td>
+                <td>Removes vertices, merges connected edges</td>
+                <td><kbd>X</kbd> → Dissolve Vertices</td>
+                <td>Clean topology, no holes</td>
+            </tr>
+            <tr>
+                <td><strong>Dissolve Edges</strong></td>
+                <td>Removes edges, merges adjacent faces</td>
+                <td><kbd>X</kbd> → Dissolve Edges</td>
+                <td>Larger faces, clean topology</td>
+            </tr>
+            <tr>
+                <td><strong>Dissolve Faces</strong></td>
+                <td>Removes faces, keeps vertices/edges</td>
+                <td><kbd>X</kbd> → Dissolve Faces</td>
+                <td>Wire frame of original faces</td>
+            </tr>
+            <tr>
+                <td><strong>Limited Dissolve</strong></td>
+                <td>Smart dissolve of unnecessary edges</td>
+                <td><kbd>X</kbd> → Limited Dissolve</td>
+                <td>Simplified, optimized mesh</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card">
+        <h4>🎯 When to Use Each</h4>
+        <ul>
+            <li><strong>Delete:</strong> Removing entire sections (faces you don't want)</li>
+            <li><strong>Dissolve Vertices:</strong> Removing unnecessary vertices while keeping faces</li>
+            <li><strong>Dissolve Edges:</strong> Simplifying edge loops, removing edge flow</li>
+            <li><strong>Limited Dissolve:</strong> Automated cleanup of flat, unnecessary edges</li>
+        </ul>
+    </div>
+
+    <h3>Limited Dissolve: The Smart Cleanup</h3>
+
+    <p><strong>Limited Dissolve</strong> is like having an intelligent assistant that removes unnecessary edges while keeping your mesh's shape intact. It analyzes face angles and only dissolves edges where faces are nearly coplanar (flat).</p>
+
+    <div class="card">
+        <h4>🤖 Limited Dissolve Workflow</h4>
+        <ol>
+            <li>Select the geometry you want to optimize (or select all with <kbd>A</kbd>)</li>
+            <li>Press <kbd>X</kbd> → <strong>Limited Dissolve</strong></li>
+            <li>Adjust <strong>Max Angle</strong> in bottom-left operator panel</li>
+            <li>Lower angle = more conservative, higher = more aggressive</li>
+        </ol>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Max Angle Setting</th>
+                <th>Effect</th>
+                <th>Best For</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>1-5 degrees</strong></td>
+                <td>Very conservative, only obvious flat areas</td>
+                <td>Hard-surface models, flat panels</td>
+            </tr>
+            <tr>
+                <td><strong>5-15 degrees</strong></td>
+                <td>Moderate cleanup, gentle curves preserved</td>
+                <td>General optimization (default: 5°)</td>
+            </tr>
+            <tr>
+                <td><strong>15-30 degrees</strong></td>
+                <td>Aggressive, simplifies more curves</td>
+                <td>Low-poly versions, game models</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <blockquote>
+        <p><strong>Import Cleanup Trick:</strong> When you import models from other software (especially CAD), they often have way too many tiny flat faces. Select all, run Limited Dissolve at 5 degrees, and watch thousands of unnecessary edges vanish while the shape stays perfect!</p>
+    </blockquote>
+
+    <h3>Fill and Grid Fill</h3>
+
+    <p>Sometimes you need to fill holes in your mesh. Blender offers several intelligent fill options:</p>
+
+    <div class="card">
+        <h4>🔌 Fill Operations</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Fill Type</th>
+                    <th>How to Use</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Fill (F)</strong></td>
+                    <td>Select vertices/edges, press <kbd>F</kbd></td>
+                    <td>Simple face connecting selected elements</td>
+                </tr>
+                <tr>
+                    <td><strong>Grid Fill</strong></td>
+                    <td>Select edge loop, Face → Grid Fill</td>
+                    <td>Organized grid of faces</td>
+                </tr>
+                <tr>
+                    <td><strong>Triangle Fill</strong></td>
+                    <td>Select edge loop, <kbd>Alt+F</kbd></td>
+                    <td>Triangulated fill (Beauty Fill)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>✅ Grid Fill for Clean Topology</h4>
+        <p>Grid Fill is amazing for filling rectangular holes with perfect quad topology:</p>
+        <ol>
+            <li>Select a rectangular hole (the edge loop around it)</li>
+            <li>Face menu → <strong>Grid Fill</strong></li>
+            <li>Adjust <strong>Span</strong> and <strong>Offset</strong> in operator panel</li>
+            <li>Result: Perfect grid of quad faces!</li>
+        </ol>
+        <p><strong>Requirement:</strong> The hole must have an even number of edges (4, 8, 12, etc.)</p>
+    </div>
+
+    <h3>Recalculate Normals</h3>
+
+    <p><strong>Normals</strong> are invisible arrows pointing outward from each face, telling Blender which side is the "outside." When normals are flipped, faces render as black or transparent. Recalculating fixes this instantly.</p>
+
+    <div class="card">
+        <h4>🔄 Fix Flipped Normals</h4>
+        <ol>
+            <li>Select all geometry (<kbd>A</kbd>)</li>
+            <li>Press <kbd>Shift+N</kbd> (Recalculate Normals)</li>
+            <li>Or: Mesh menu → Normals → Recalculate Outside</li>
+            <li>All faces now point outward correctly!</li>
+        </ol>
+    </div>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>💡 Seeing Normals</h4>
+        <p>To visualize normals in Edit Mode:</p>
+        <ol>
+            <li>Open <strong>Overlay</strong> dropdown (top-right of viewport)</li>
+            <li>Enable <strong>Face Orientation</strong></li>
+            <li>Blue faces = correct (outside), Red faces = flipped (inside)</li>
+        </ol>
+        <p>Or show normal lines: Overlays → Normals → check Face/Vertex</p>
+    </div>
+
+    <h3>Mesh Cleanup Practice</h3>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>🧹 Cleanup Challenge</h4>
+        <p>Practice mesh cleanup with this exercise:</p>
+        <ol>
+            <li><strong>Add a UV Sphere</strong> (Shift+A → Mesh → UV Sphere)</li>
+            <li><strong>Enter Edit Mode</strong> (Tab)</li>
+            <li><strong>Delete half</strong> (Box select half, X → Faces)</li>
+            <li><strong>Scale some vertices to 0</strong> (select a few, S → 0) - creates doubles!</li>
+            <li><strong>Flip some normals</strong> (select faces, Mesh → Normals → Flip)</li>
+            <li><strong>Now clean it up:</strong></li>
+            <ul>
+                <li>Merge by Distance (M → By Distance) - removes doubles</li>
+                <li>Recalculate Normals (Shift+N) - fixes flipped faces</li>
+                <li>Fill the hole (select edge loop, F) - closes missing geometry</li>
+                <li>Limited Dissolve (X → Limited Dissolve) - optimizes if needed</li>
+            </ul>
+        </ol>
+        <p><strong>Result:</strong> A clean, properly optimized half-sphere!</p>
+    </div>
+</section>
+<!-- PART 05: Extrude and Transform Operations -->
+
+<section id="extrude-operations">
+    <h2>🚀 Extrude: The Model Builder's Best Friend</h2>
+
+    <p>If there's one operation that defines 3D modeling, it's <strong>Extrude</strong>. Extrude takes selected geometry and extends it outward, creating new faces, edges, and vertices connected to the original. Think of it like pulling taffy – you're stretching your mesh in a direction, creating new geometry as you go. This is how most 3D models are built: start with a simple shape, then extrude, extrude, extrude until you have something complex and beautiful.</p>
+
+    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <h3>💡 Why Extrude Is Fundamental</h3>
+        <p style="color: white;">Extrude is the backbone of polygon modeling because it:</p>
+        <ul style="color: white;">
+            <li><strong>Creates connected geometry:</strong> New faces stay attached to the original mesh</li>
+            <li><strong>Maintains topology:</strong> Keeps your mesh as one continuous piece</li>
+            <li><strong>Builds complexity:</strong> Transform simple shapes into complex models</li>
+            <li><strong>Works on everything:</strong> Extrude vertices, edges, or faces</li>
+            <li><strong>Incredibly versatile:</strong> Can be combined with other tools for endless possibilities</li>
+        </ul>
+    </div>
+
+    <h3>Basic Extrude Operation</h3>
+
+    <div class="card">
+        <h4>🎯 How to Extrude</h4>
+        <ol>
+            <li>Enter <strong>Edit Mode</strong> (<kbd>Tab</kbd>)</li>
+            <li>Select geometry (vertices, edges, or faces)</li>
+            <li>Press <kbd>E</kbd> for Extrude</li>
+            <li>Move your mouse – new geometry extends from selection</li>
+            <li>Click to confirm (or press <kbd>Enter</kbd>)</li>
+        </ol>
+        <p><strong>Quick tip:</strong> After pressing <kbd>E</kbd>, you can type a number for exact distance!</p>
+    </div>
+
+    <div class="mermaid">
+        graph LR
+        A[Original Face] --> B[Press E]
+        B --> C[Move Mouse]
+        C --> D[New Extruded Face]
+        D --> E[Connecting Side Faces]
+        style A fill:#f0f0f0,stroke:#333,stroke-width:2px
+        style D fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+        style E fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <h3>Extrude Modes: Understanding the Differences</h3>
+
+    <p>Blender offers several extrude modes depending on what you have selected and what you want to achieve. Understanding these different modes is crucial for efficient modeling.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>What's Selected</th>
+                <th>Press E</th>
+                <th>What Happens</th>
+                <th>Best For</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Faces</strong></td>
+                <td>Extrude Faces</td>
+                <td>Creates new face(s) connected by side walls</td>
+                <td>Building volumes, adding details</td>
+            </tr>
+            <tr>
+                <td><strong>Edges</strong></td>
+                <td>Extrude Edges</td>
+                <td>Creates new edge(s) with connecting face(s)</td>
+                <td>Creating edge loops, extending surfaces</td>
+            </tr>
+            <tr>
+                <td><strong>Vertices</strong></td>
+                <td>Extrude Vertices</td>
+                <td>Creates new vertex/vertices with connecting edges</td>
+                <td>Creating edge paths, branching geometry</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Constrained Extrude: Staying on Track</h3>
+
+    <p>One of the most powerful features of extrude is the ability to constrain it to specific axes or directions. This keeps your extrusions precise and predictable.</p>
+
+    <div class="card">
+        <h4>🎚️ Extrude Along Axes</h4>
+        <p>After pressing <kbd>E</kbd>, immediately press an axis key:</p>
+        <ul>
+            <li><kbd>E</kbd> then <kbd>X</kbd> – Extrude along X-axis (red)</li>
+            <li><kbd>E</kbd> then <kbd>Y</kbd> – Extrude along Y-axis (green)</li>
+            <li><kbd>E</kbd> then <kbd>Z</kbd> – Extrude along Z-axis (blue)</li>
+        </ul>
+        <p><strong>Example:</strong> <kbd>E</kbd>, <kbd>Z</kbd>, <kbd>2</kbd>, <kbd>Enter</kbd> = Extrude exactly 2 units up on Z-axis!</p>
+    </div>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>💡 Pro Tip: Extrude Along Normals</h4>
+        <p>Press <kbd>Alt+E</kbd> to access the Extrude menu, which includes:</p>
+        <ul>
+            <li><strong>Extrude Along Normals:</strong> Each face extrudes perpendicular to itself (even on curved surfaces!)</li>
+            <li><strong>Extrude Individual:</strong> Each selected face extrudes separately</li>
+            <li><strong>Extrude to Cursor:</strong> Extrudes directly toward 3D cursor position</li>
+        </ul>
+        <p><em>Extrude Along Normals is incredibly useful for organic shapes!</em></p>
+    </div>
+
+    <h3>Extrude Individual vs. Group</h3>
+
+    <p>This is a critical distinction that trips up beginners but becomes second nature with practice:</p>
+
+    <div class="mermaid">
+        graph TD
+        A[Multiple Faces Selected] --> B[Regular Extrude E]
+        A --> C[Extrude Individual Alt+E]
+        B --> D[All faces move together as one unit]
+        C --> E[Each face extrudes independently]
+        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+        style D fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+        style E fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Mode</th>
+                <th>How to Access</th>
+                <th>Result</th>
+                <th>Use Case</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Group Extrude</strong></td>
+                <td><kbd>E</kbd></td>
+                <td>All selected faces extrude together as one piece</td>
+                <td>Building connected volumes, continuous surfaces</td>
+            </tr>
+            <tr>
+                <td><strong>Individual Faces</strong></td>
+                <td><kbd>Alt+E</kbd> → Extrude Individual</td>
+                <td>Each face extrudes separately, creating individual columns</td>
+                <td>Creating spikes, pillars, repeated details</td>
+            </tr>
+            <tr>
+                <td><strong>Along Normals</strong></td>
+                <td><kbd>Alt+E</kbd> → Along Normals</td>
+                <td>Each face extrudes perpendicular to itself</td>
+                <td>Organic shapes, curved surfaces, consistent thickness</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <blockquote>
+        <p><strong>Real-World Example:</strong> Imagine you're modeling a city skyline. Select all the building base faces. Use <strong>Extrude Individual</strong> and move up – boom, instant buildings of varying heights! Each building is its own column, but you created them all in one operation. That's the power of individual extrude!</p>
+    </blockquote>
+
+    <h3>Extrude and Scale: Creating Tapers</h3>
+
+    <p>A common modeling technique is to extrude and immediately scale, creating tapered or pyramidal shapes. This is done all the time in character modeling, architecture, and mechanical design.</p>
+
+    <div class="card">
+        <h4>📐 The Extrude-Scale Workflow</h4>
+        <ol>
+            <li>Select face(s) and press <kbd>E</kbd> to extrude</li>
+            <li>Move outward to create extension</li>
+            <li>Confirm with click</li>
+            <li>Immediately press <kbd>S</kbd> to scale</li>
+            <li>Scale smaller (or larger) to create taper</li>
+            <li>Repeat for multiple tapered sections</li>
+        </ol>
+        <p><strong>Pro technique:</strong> <kbd>E</kbd>, move, <kbd>S</kbd>, <kbd>Shift+Z</kbd> (scale on X and Y only, not Z) for perfect cylindrical taper!</p>
+    </div>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>✅ Common Extrude-Scale Patterns</h4>
+        <ul>
+            <li><strong>Towers:</strong> Extrude up, scale in, extrude up, scale in = tapered tower</li>
+            <li><strong>Limbs:</strong> Extrude, scale down gradually = arm/leg that gets thinner</li>
+            <li><strong>Tree trunks:</strong> Extrude up, scale slightly in = realistic trunk taper</li>
+            <li><strong>Bottles:</strong> Extrude up, scale, extrude, scale out = bottle neck shape</li>
+            <li><strong>Horns/spikes:</strong> Extrude, scale down aggressively = sharp spike</li>
+        </ul>
+    </div>
+
+    <h3>Extrude and Rotate: Creating Curves</h3>
+
+    <p>Combining extrude with rotation lets you create curved, bent, or twisted geometry. This is essential for organic modeling and creating flowing shapes.</p>
+
+    <div class="card">
+        <h4>🌀 Extrude-Rotate Technique</h4>
+        <ol>
+            <li>Extrude (<kbd>E</kbd>) and move</li>
+            <li>Press <kbd>R</kbd> to rotate the new geometry</li>
+            <li>Choose rotation axis (<kbd>X</kbd>, <kbd>Y</kbd>, or <kbd>Z</kbd>)</li>
+            <li>Rotate to desired angle</li>
+            <li>Repeat to create curved paths</li>
+        </ol>
+        <p><strong>Creates:</strong> Bent pipes, curved horns, spiral staircases, twisted tentacles, flowing ribbons</p>
+    </div>
+
+    <h3>Canceling Bad Extrudes</h3>
+
+    <p>Made a mistake during extrude? Don't panic! Here's how to fix it:</p>
+
+    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+        <h4>⚠️ Fixing Extrude Mistakes</h4>
+        <p><strong>If you haven't confirmed yet:</strong></p>
+        <ul>
+            <li>Press <kbd>Esc</kbd> or <kbd>Right-click</kbd> – cancels the operation completely</li>
+        </ul>
+        <p><strong>If you already confirmed:</strong></p>
+        <ul>
+            <li><kbd>Ctrl+Z</kbd> – Undo the extrude</li>
+            <li>Or press <kbd>Alt+M</kbd> → Merge → At Center – merges the new vertices back (if you didn't move far)</li>
+        </ul>
+        <p><strong>If you pressed E but didn't move:</strong> You've created duplicate geometry on top of the original! Press <kbd>Alt+M</kbd> → Merge → By Distance to clean it up.</p>
+    </div>
+
+    <h3>Extrude Practice Project</h3>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>🏗️ Build a Simple Tower</h4>
+        <p>Practice different extrude techniques by building a tower:</p>
+        <ol>
+            <li><strong>Start with a cube</strong> (<kbd>Shift+A</kbd> → Mesh → Cube)</li>
+            <li><strong>Delete the top face</strong> (<kbd>Tab</kbd> to Edit Mode, select top, <kbd>X</kbd> → Faces)</li>
+            <li><strong>Select the top edge loop</strong> (<kbd>Alt+Click</kbd> on edge)</li>
+            <li><strong>Extrude up</strong> (<kbd>E</kbd>, <kbd>Z</kbd>, <kbd>2</kbd>, <kbd>Enter</kbd>)</li>
+            <li><strong>Scale inward</strong> (<kbd>S</kbd>, <kbd>Shift+Z</kbd>, <kbd>0.8</kbd>, <kbd>Enter</kbd>)</li>
+            <li><strong>Repeat 3-4 times:</strong> Extrude up, scale in slightly each time</li>
+            <li><strong>Final extrude:</strong> <kbd>E</kbd>, <kbd>Z</kbd>, <kbd>1</kbd>, then <kbd>S</kbd>, <kbd>0.3</kbd> for pointed top</li>
+            <li><strong>Cap it:</strong> Press <kbd>F</kbd> to fill the top with a face</li>
+        </ol>
+        <p><strong>Result:</strong> A tapered tower with realistic proportions!</p>
+        <p><strong>Bonus:</strong> Add windows using Inset (<kbd>I</kbd>) and Extrude inward!</p>
+    </div>
+</section>
+
+<section id="duplicate-array">
+    <h2>📋 Duplicate and Array: Multiplying Your Work</h2>
+
+    <p>Why model something ten times when you can model it once and multiply it? <strong>Duplicate</strong> and <strong>Array</strong> are two powerful operations that let you create multiple copies of geometry quickly and efficiently. These are essential for creating repeated elements like windows, teeth, fence posts, building details, or any repeating pattern.</p>
+
+    <h3>Duplicate: Quick Copies</h3>
+
+    <p><strong>Duplicate</strong> creates an independent copy of selected geometry that you can immediately move, rotate, or scale. It's like copy-paste, but specifically for 3D geometry within Edit Mode.</p>
+
+    <div class="card">
+        <h4>📋 How to Duplicate</h4>
+        <ol>
+            <li>Select geometry in Edit Mode</li>
+            <li>Press <kbd>Shift+D</kbd> (Duplicate)</li>
+            <li>Move the duplicate to desired location</li>
+            <li>Click to confirm</li>
+        </ol>
+        <p><strong>Constrain it:</strong> After <kbd>Shift+D</kbd>, press <kbd>X</kbd>, <kbd>Y</kbd>, or <kbd>Z</kbd> to move along an axis!</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Operation</th>
+                <th>Shortcut</th>
+                <th>What It Does</th>
+                <th>When to Use</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Duplicate</strong></td>
+                <td><kbd>Shift+D</kbd></td>
+                <td>Creates independent copy in Edit Mode</td>
+                <td>Manual placement of copies, irregular spacing</td>
+            </tr>
+            <tr>
+                <td><strong>Duplicate Linked</strong></td>
+                <td><kbd>Alt+D</kbd></td>
+                <td>Creates linked copy (changes affect all)</td>
+                <td>When you want copies to share the same mesh data</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>💡 Duplicate vs. Extrude</h4>
+        <p>Beginners often confuse these:</p>
+        <ul>
+            <li><strong>Extrude (<kbd>E</kbd>):</strong> Creates new geometry <em>connected</em> to original – makes one continuous mesh</li>
+            <li><strong>Duplicate (<kbd>Shift+D</kbd>):</strong> Creates new geometry <em>separate</em> from original – makes independent pieces</li>
+        </ul>
+        <p><strong>Rule of thumb:</strong> If it should be one piece, use Extrude. If it should be separate pieces, use Duplicate.</p>
+    </div>
+
+    <h3>Array Modifier: Parametric Repetition</h3>
+
+    <p>While Duplicate creates copies manually, the <strong>Array Modifier</strong> creates parametric copies that update automatically. This is incredibly powerful for creating evenly-spaced repeating elements.</p>
+
+    <div class="card">
+        <h4>🔢 Array Modifier Workflow</h4>
+        <p><strong>Note:</strong> Array is a <em>modifier</em>, so you apply it in Object Mode, not Edit Mode!</p>
+        <ol>
+            <li>Select your object in <strong>Object Mode</strong></li>
+            <li>Go to <strong>Modifiers panel</strong> (wrench icon on right sidebar)</li>
+            <li>Click <strong>Add Modifier</strong> → <strong>Array</strong></li>
+            <li>Adjust <strong>Count</strong> for number of copies</li>
+            <li>Adjust <strong>Offset</strong> for spacing</li>
+        </ol>
+    </div>
+
+    <div class="mermaid">
+        graph TD
+        A[Original Object] --> B[Add Array Modifier]
+        B --> C[Set Count Number of copies]
+        C --> D[Adjust Offset Spacing]
+        D --> E[Multiple Copies Appear]
+        E --> F[Apply Modifier to make permanent]
+        style A fill:#f0f0f0,stroke:#333,stroke-width:2px
+        style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <h3>Array Modifier Options</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Setting</th>
+                <th>What It Does</th>
+                <th>Example Use</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Count</strong></td>
+                <td>Number of copies (including original)</td>
+                <td>10 = original + 9 copies</td>
+            </tr>
+            <tr>
+                <td><strong>Relative Offset</strong></td>
+                <td>Spacing based on object size (X, Y, Z)</td>
+                <td>X=1 means space one object-width apart</td>
+            </tr>
+            <tr>
+                <td><strong>Constant Offset</strong></td>
+                <td>Fixed distance in Blender units</td>
+                <td>Exact spacing regardless of object size</td>
+            </tr>
+            <tr>
+                <td><strong>Object Offset</strong></td>
+                <td>Use another object's position for offset</td>
+                <td>Create curved or circular arrays</td>
+            </tr>
+            <tr>
+                <td><strong>Merge</strong></td>
+                <td>Fuses copies if vertices overlap</td>
+                <td>Create seamless continuous geometry</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>✨ Array Modifier Power Moves</h4>
+        <p><strong>Circular arrays:</strong></p>
+        <ol>
+            <li>Add an <strong>Empty</strong> object at center (<kbd>Shift+A</kbd> → Empty)</li>
+            <li>Enable <strong>Object Offset</strong> in Array Modifier</li>
+            <li>Select the Empty as offset object</li>
+            <li>Rotate the Empty – your array follows the curve!</li>
+        </ol>
+        <p><strong>Creates:</strong> Circular patterns, radial symmetry, gears, flowers, decorative elements</p>
+    </div>
+
+    <h3>Duplicate Special: Advanced Copying</h3>
+
+    <p>The Duplicate menu (<kbd>Shift+D</kbd> then check bottom-left) has options that give you more control over how copies are created:</p>
+
+    <div class="card">
+        <h4>🎛️ Duplicate Options</h4>
+        <ul>
+            <li><strong>Mode:</strong> Translation (move), Rotation, Scale</li>
+            <li><strong>Number of copies:</strong> Create multiple at once</li>
+            <li><strong>Relative/Absolute:</strong> How offset values are interpreted</li>
+        </ul>
+        <p>Access these in the <strong>Adjust Last Operation</strong> panel (bottom-left after duplicating)</p>
+    </div>
+
+    <h3>Practical Duplicate Techniques</h3>
+
+    <blockquote>
+        <p><strong>The "Duplicate Chain" Technique:</strong> A fast way to create evenly-spaced elements – Duplicate (<kbd>Shift+D</kbd>), move to position, confirm. Then immediately press <kbd>Shift+R</kbd> to repeat the last operation! Keep pressing <kbd>Shift+R</kbd> and Blender keeps duplicating at the same distance. Super fast for fence posts, columns, steps, etc.</p>
+    </blockquote>
+
+    <div class="card">
+        <h4>🔄 Shift+R: Repeat Last Operation</h4>
+        <p>This is one of Blender's most powerful shortcuts:</p>
+        <ul>
+            <li>Works with <em>any</em> operation – not just duplicate!</li>
+            <li>Extrude, duplicate, scale, rotate – all can be repeated</li>
+            <li>Saves enormous amounts of time on repetitive tasks</li>
+        </ul>
+        <p><strong>Example workflow:</strong></p>
+        <ol>
+            <li>Extrude a face up 2 units</li>
+            <li>Press <kbd>Shift+R</kbd> – extrudes another 2 units</li>
+            <li>Keep pressing <kbd>Shift+R</kbd> – creates steps/ladder automatically!</li>
+        </ol>
+    </div>
+
+    <h3>Duplicate and Array Practice</h3>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>🏛️ Create a Colonnade</h4>
+        <p>Practice duplicate and array by building a row of columns:</p>
+        
+        <p><strong>Method 1: Manual Duplicate</strong></p>
+        <ol>
+            <li>Add a cylinder (<kbd>Shift+A</kbd> → Mesh → Cylinder, scale to column proportions)</li>
+            <li>Enter Edit Mode (<kbd>Tab</kbd>)</li>
+            <li>Select all (<kbd>A</kbd>)</li>
+            <li>Duplicate (<kbd>Shift+D</kbd>, <kbd>Y</kbd>, <kbd>4</kbd>, <kbd>Enter</kbd>) – moves 4 units along Y</li>
+            <li>Repeat with <kbd>Shift+R</kbd> 8-10 times for multiple columns</li>
+        </ol>
+        
+        <p><strong>Method 2: Array Modifier</strong></p>
+        <ol>
+            <li>Add a cylinder, exit Edit Mode to Object Mode</li>
+            <li>Add <strong>Array Modifier</strong> (Modifiers panel → Add Modifier → Array)</li>
+            <li>Set <strong>Count</strong> to 10</li>
+            <li>In <strong>Relative Offset</strong>, set Y to 2 (spacing between columns)</li>
+            <li>Adjust count or offset in real-time – see changes immediately!</li>
+            <li>When satisfied, click <strong>Apply</strong> to make permanent</li>
+        </ol>
+        
+        <p><strong>Compare:</strong> Array is faster and more flexible for even spacing. Duplicate gives more manual control!</p>
+    </div>
+</section>
+
+<section id="spin-screw">
+    <h2>🌀 Spin and Screw: Rotational Modeling</h2>
+
+    <p>Some of the most elegant and efficient modeling techniques involve <em>rotation</em>. Why model a vase by hand when you can draw half its profile and spin it 360 degrees? <strong>Spin</strong> and <strong>Screw</strong> are powerful operations that create geometry by rotating selections around an axis. These are essential for creating symmetric, circular, or threaded objects.</p>
+
+    <h3>Spin: Creating Radial Geometry</h3>
+
+    <p><strong>Spin</strong> takes your selected geometry and rotates it around the 3D cursor, creating copies at regular intervals. Think of it like a pottery wheel – you define the profile, and Spin creates the full circular form.</p>
+
+    <div class="card">
+        <h4>🎡 How to Use Spin</h4>
+        <ol>
+            <li>Create a profile edge (the cross-section of what you want)</li>
+            <li>Position <strong>3D Cursor</strong> at the center of rotation (<kbd>Shift+Right-Click</kbd>)</li>
+            <li>Select the profile geometry</li>
+            <li>Go to <strong>Mesh menu → Spin</strong> (or search with <kbd>F3</kbd>)</li>
+            <li>Adjust settings in operator panel (bottom-left)</li>
+        </ol>
+    </div>
+
+    <div class="mermaid">
+        graph LR
+        A[Profile Edge] --> B[Position 3D Cursor]
+        B --> C[Select Profile]
+        C --> D[Mesh → Spin]
+        D --> E[Adjust Angle & Steps]
+        E --> F[Circular Geometry Created]
+        style A fill:#f0f0f0,stroke:#333,stroke-width:2px
+        style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <h3>Spin Settings</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Setting</th>
+                <th>What It Does</th>
+                <th>Typical Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Steps</strong></td>
+                <td>Number of segments created</td>
+                <td>16-32 for smooth circles, 4-8 for angular shapes</td>
+            </tr>
+            <tr>
+                <td><strong>Angle</strong></td>
+                <td>Degrees to rotate (360° = full circle)</td>
+                <td>360° for complete objects, 180° for half-circles</td>
+            </tr>
+            <tr>
+                <td><strong>Axis</strong></td>
+                <td>Which axis to spin around (X, Y, or Z)</td>
+                <td>Depends on your object orientation</td>
+            </tr>
+            <tr>
+                <td><strong>Center</strong></td>
+                <td>Point to rotate around</td>
+                <td>Usually 3D cursor position</td>
+            </tr>
+            <tr>
+                <td><strong>Duplicate</strong></td>
+                <td>Keep original profile or not</td>
+                <td>Usually disabled for complete objects</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>💡 Spin Pro Tips</h4>
+        <ul>
+            <li><strong>Profile preparation:</strong> Model only HALF the profile (one side), let Spin create the revolution</li>
+            <li><strong>Cursor placement:</strong> <kbd>Shift+S</kbd> → Cursor to World Origin for centered spins</li>
+            <li><strong>Partial spins:</strong> Use angle less than 360° for arches, partial bowls, C-shapes</li>
+            <li><strong>More steps = smoother:</strong> 32 steps for smooth vases, 8 steps for gears</li>
+        </ul>
+    </div>
+
+    <h3>Spin Workflow: Creating a Vase</h3>
+
+    <div class="card">
+        <h4>🏺 Vase Creation Workflow</h4>
+        <ol>
+            <li><strong>Start simple:</strong> Delete default cube, add a single vertex (<kbd>Shift+A</kbd> → Mesh → Single Vert)</li>
+            <li><strong>Draw profile:</strong> Extrude (<kbd>E</kbd>) upward several times, creating the vase outline in side view</li>
+            <li><strong>Position cursor:</strong> <kbd>Shift+S</kbd> → Cursor to World Origin (ensures centered spin)</li>
+            <li><strong>Select profile:</strong> Select all the vertices of your profile (<kbd>A</kbd>)</li>
+            <li><strong>Spin it:</strong> Mesh → Spin, use 360° angle, 32 steps</li>
+            <li><strong>Clean up:</strong> Merge by Distance (<kbd>M</kbd> → By Distance) to fuse the seam</li>
+            <li><strong>Add caps:</strong> Select top/bottom edge loops, press <kbd>F</kbd> to fill</li>
+        </ol>
+    </div>
+
+    <blockquote>
+        <p><strong>Industry Secret:</strong> Professional modelers use Spin constantly for symmetric objects. Goblets, bowls, columns, wheels, bottles, lamp shades – anything circular in cross-section. Model the profile once, spin it, done. This is exponentially faster than trying to model these shapes by hand!</p>
+    </blockquote>
+
+    <h3>Screw Modifier: Threaded and Spiral Forms</h3>
+
+    <p>The <strong>Screw Modifier</strong> is like Spin but with a twist (literally!) – it creates spiral or threaded geometry by rotating AND moving along an axis simultaneously. Perfect for screws, springs, spiral staircases, DNA helixes, or any helical shape.</p>
+
+    <div class="card">
+        <h4>🔩 Screw Modifier Setup</h4>
+        <ol>
+            <li>Create a profile in Edit Mode (like a circle for screw threads)</li>
+            <li>Exit to <strong>Object Mode</strong></li>
+            <li>Add <strong>Screw Modifier</strong> (Modifiers panel → Add Modifier → Screw)</li>
+            <li>Adjust <strong>Axis</strong> (which way to spiral)</li>
+            <li>Adjust <strong>Screw</strong> value (how much vertical movement per rotation)</li>
+            <li>Adjust <strong>Iterations</strong> (how many full rotations)</li>
+        </ol>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Screw Setting</th>
+                <th>Effect</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Axis</strong></td>
+                <td>Direction of spiral (X, Y, or Z)</td>
+                <td>Z for vertical springs</td>
+            </tr>
+            <tr>
+                <td><strong>Screw</strong></td>
+                <td>Distance traveled per rotation</td>
+                <td>2.0 = 2 units up per full turn</td>
+            </tr>
+            <tr>
+                <td><strong>Iterations</strong></td>
+                <td>Number of complete rotations</td>
+                <td>10 = ten full spirals</td>
+            </tr>
+            <tr>
+                <td><strong>Steps Render</strong></td>
+                <td>Smoothness (segments per rotation)</td>
+                <td>16 for smooth, 4 for angular</td>
+            </tr>
+            <tr>
+                <td><strong>Merge</strong></td>
+                <td>Fuse start and end vertices</td>
+                <td>Enable for seamless loops</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>✨ Cool Screw Modifier Uses</h4>
+        <ul>
+            <li><strong>螺丝 (Screws):</strong> Triangle profile + screw modifier = perfect threads</li>
+            <li><strong>Springs:</strong> Circle profile, high iteration count</li>
+            <li><strong>Spiral staircases:</strong> Step profile, moderate screw value</li>
+            <li><strong>Drill bits:</strong> Sharp triangle profile, tight spiral</li>
+            <li><strong>Seashells:</strong> Irregular profile, increasing screw value</li>
+            <li><strong>DNA helix:</strong> Two profiles, opposite screw directions</li>
+        </ul>
+    </div>
+
+    <h3>Spin vs. Screw: When to Use Which</h3>
+
+    <div class="mermaid">
+        graph TD
+        A[Need Circular Geometry?] --> B{Does it spiral/twist?}
+        B -->|No - flat circular| C[Use SPIN]
+        B -->|Yes - helical/threaded| D[Use SCREW Modifier]
+        C --> E[Vases, bowls, wheels, columns]
+        D --> F[Screws, springs, spirals, DNA]
+        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+        style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+        style D fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <h3>Rotational Modeling Practice</h3>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>🍷 Create a Wine Glass</h4>
+        <p>Practice Spin by modeling a wine glass from a profile:</p>
+        <ol>
+            <li><strong>Setup:</strong> Delete cube, ensure 3D cursor at origin (<kbd>Shift+S</kbd> → Cursor to World Origin)</li>
+            <li><strong>Start profile:</strong> Add single vert (<kbd>Shift+A</kbd> → Mesh → Single Vert → Vertex)</li>
+            <li><strong>Draw glass profile</strong> (side view recommended):</li>
+            <ul>
+                <li>Extrude right (<kbd>E</kbd>, <kbd>X</kbd>) for base center</li>
+                <li>Extrude up (<kbd>E</kbd>, <kbd>Z</kbd>) for stem</li>
+                <li>Extrude right and up for bowl bottom</li>
+                <li>Extrude up and slightly in for bowl sides</li>
+                <li>Extrude straight up for bowl top rim</li>
+            </ul>
+            <li><strong>Select all profile verts</strong> (<kbd>A</kbd>)</li>
+            <li><strong>Spin:</strong> Mesh → Spin, 360° angle, 32 steps, Z-axis</li>
+            <li><strong>Clean up:</strong> <kbd>M</kbd> → By Distance to merge the seam</li>
+            <li><strong>Recalculate normals:</strong> <kbd>Shift+N</kbd></li>
+            <li><strong>Shade smooth:</strong> Right-click → Shade Smooth</li>
+        </ol>
+        <p><strong>Result:</strong> A beautiful wine glass created from a simple 2D profile!</p>
+    </div>
+</section>
+<!-- PART 06: Knife Tool, Subdivide, and Bevel -->
+
+<section id="knife-tool">
+    <h2>🔪 Knife Tool: Precision Cutting</h2>
+
+    <p>The <strong>Knife Tool</strong> is exactly what it sounds like – a virtual knife that lets you cut new edges into your mesh wherever you need them. Think of it like taking a blade and slicing through your geometry to add new topology exactly where you want it. This is incredibly powerful for adding detail, creating new edge loops, or preparing geometry for further modifications.</p>
+
+    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <h3>💡 Why Use the Knife Tool?</h3>
+        <ul style="color: white;">
+            <li><strong>Precision topology:</strong> Add edges exactly where you need them, not on a grid</li>
+            <li><strong>Custom edge paths:</strong> Create diagonal or curved edge flows</li>
+            <li><strong>Detail work:</strong> Cut in windows, panels, decorative elements</li>
+            <li><strong>Fixing topology:</strong> Add support edges to problem areas</li>
+            <li><strong>Non-destructive:</strong> Doesn't change existing geometry until you cut</li>
+        </ul>
+    </div>
+
+    <h3>Basic Knife Tool Usage</h3>
+
+    <div class="card">
+        <h4>🔪 How to Use Knife Tool</h4>
+        <ol>
+            <li>Enter <strong>Edit Mode</strong> (<kbd>Tab</kbd>)</li>
+            <li>Press <kbd>K</kbd> to activate Knife Tool</li>
+            <li><strong>Click</strong> to place cut points on your mesh</li>
+            <li>Move mouse and click again to continue the cut</li>
+            <li>Press <kbd>Enter</kbd> or <kbd>Space</kbd> to confirm cut</li>
+            <li>Press <kbd>Esc</kbd> to cancel</li>
+        </ol>
+    </div>
+
+    <div class="mermaid">
+        graph LR
+        A[Press K] --> B[Click to place points]
+        B --> C[Continue clicking path]
+        C --> D[Enter to confirm]
+        D --> E[New edges created]
+        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+        style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <h3>Knife Tool Modes and Options</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Key During Knife</th>
+                <th>Effect</th>
+                <th>Use Case</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><kbd>C</kbd></td>
+                <td>Constrain to angle (45° increments)</td>
+                <td>Straight horizontal/vertical/diagonal cuts</td>
+            </tr>
+            <tr>
+                <td><kbd>Z</kbd></td>
+                <td>Cut through (all visible faces)</td>
+                <td>Slice through multiple layers at once</td>
+            </tr>
+            <tr>
+                <td><kbd>E</kbd></td>
+                <td>Create new cut starting from edge</td>
+                <td>Extend from existing edges precisely</td>
+            </tr>
+            <tr>
+                <td><kbd>Middle Mouse</kbd></td>
+                <td>Snap to midpoint</td>
+                <td>Find exact centers of edges automatically</td>
+            </tr>
+            <tr>
+                <td><kbd>Ctrl</kbd></td>
+                <td>Snap to perpendicular</td>
+                <td>Create perfect 90° cuts</td>
+            </tr>
+            <tr>
+                <td><kbd>Shift</kbd></td>
+                <td>Ignore snapping</td>
+                <td>Freehand cutting without constraints</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>💡 Knife Tool Pro Tips</h4>
+        <ul>
+            <li><strong>Double-click</strong> to automatically close a cut loop</li>
+            <li><strong>Right-click</strong> cancels the current cut line (but stays in knife mode)</li>
+            <li><strong>Enter twice</strong> confirms and exits knife tool in one go</li>
+            <li><strong>Start on edge:</strong> Press <kbd>E</kbd> while hovering over edge for precise start point</li>
+            <li><strong>Midpoint snap:</strong> Hold <kbd>Middle Mouse</kbd> to automatically find edge centers</li>
+        </ul>
+    </div>
+
+    <h3>Knife Project: Advanced Cutting</h3>
+
+    <p><strong>Knife Project</strong> is a special mode that uses one object to cut into another, like using a cookie cutter. The shape of one mesh becomes the cutting pattern for another.</p>
+
+    <div class="card">
+        <h4>🍪 Knife Project Workflow</h4>
+        <ol>
+            <li>Create a "cutter" object (the shape you want to cut)</li>
+            <li>Position it over your target mesh (in Object Mode)</li>
+            <li>Select the target mesh, then <kbd>Shift</kbd>-select the cutter</li>
+            <li>Enter Edit Mode (<kbd>Tab</kbd>)</li>
+            <li>Mesh menu → <strong>Knife Project</strong></li>
+            <li>The cutter's shape is now cut into the target mesh!</li>
+        </ol>
+        <p><strong>Perfect for:</strong> Windows, logos, decorative patterns, text cutouts, panel details</p>
+    </div>
+
+    <blockquote>
+        <p><strong>Real-World Example:</strong> Imagine modeling a spaceship hull and you need to add circular windows. Create a circle object, position it on the hull, use Knife Project to cut the circle shape into the hull geometry, then delete or inset the cut faces. Perfect circular windows every time, no manual cutting required!</p>
+    </blockquote>
+
+    <h3>Bisect Tool: Precise Plane Cuts</h3>
+
+    <p>The <strong>Bisect</strong> tool cuts your mesh along a perfectly straight plane. Think of it like slicing through your mesh with an infinite cutting board.</p>
+
+    <div class="card">
+        <h4>✂️ Bisect Tool Usage</h4>
+        <ol>
+            <li>Select geometry to bisect (or select all)</li>
+            <li>Mesh menu → <strong>Bisect</strong></li>
+            <li>Click and drag to define the cutting plane</li>
+            <li>Adjust plane angle in operator panel if needed</li>
+        </ol>
+        <p><strong>Options:</strong></p>
+        <ul>
+            <li><strong>Clear Inner/Outer:</strong> Delete geometry on one side of cut</li>
+            <li><strong>Fill:</strong> Add face to close the cut</li>
+        </ul>
+    </div>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>✅ When to Use Each Cutting Tool</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tool</th>
+                    <th>Best For</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Knife (K)</strong></td>
+                    <td>Freeform cutting, custom edge paths, detail work</td>
+                </tr>
+                <tr>
+                    <td><strong>Knife Project</strong></td>
+                    <td>Using one shape to cut another, logos, patterns</td>
+                </tr>
+                <tr>
+                    <td><strong>Bisect</strong></td>
+                    <td>Perfectly straight plane cuts, creating symmetry, slicing models in half</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Knife Tool Practice</h3>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>🏠 Cut Windows in a Wall</h4>
+        <p>Practice the Knife Tool by adding windows to a simple wall:</p>
+        <ol>
+            <li><strong>Create a wall:</strong> Add cube, scale it flat (<kbd>S</kbd>, <kbd>Z</kbd>, <kbd>0.1</kbd>)</li>
+            <li><strong>Enter Edit Mode</strong> (<kbd>Tab</kbd>)</li>
+            <li><strong>Activate Knife</strong> (<kbd>K</kbd>)</li>
+            <li><strong>Cut first window:</strong> Click four corners to create a rectangle</li>
+            <li><strong>Close the cut:</strong> Click back on first point (or double-click last point)</li>
+            <li><strong>Confirm:</strong> Press <kbd>Enter</kbd></li>
+            <li><strong>Repeat</strong> for more windows (press <kbd>K</kbd> again)</li>
+            <li><strong>Add detail:</strong> Select window faces, Inset (<kbd>I</kbd>), Extrude inward (<kbd>E</kbd>)</li>
+        </ol>
+        <p><strong>Bonus:</strong> Use <kbd>C</kbd> while cutting to constrain to 45° angles for perfect rectangles!</p>
+    </div>
+</section>
+
+<section id="subdivide">
+    <h2>➗ Subdivide: Adding Geometry</h2>
+
+    <p><strong>Subdivide</strong> is one of the most fundamental operations in polygon modeling. It takes your selected geometry and splits it into smaller pieces, adding new vertices, edges, and faces. Think of it like taking a big square and dividing it into four smaller squares. Simple concept, but incredibly powerful for adding detail and topology control.</p>
+
+    <div class="card">
+        <h4>➗ How to Subdivide</h4>
+        <ol>
+            <li>Select geometry (vertices, edges, or faces)</li>
+            <li>Right-click → <strong>Subdivide</strong></li>
+            <li>Or: Edge menu → <strong>Subdivide</strong></li>
+            <li>Check bottom-left operator panel for options</li>
+        </ol>
+    </div>
+
+    <div class="mermaid">
+        graph TD
+        A[1 Face] --> B[Subdivide Once]
+        B --> C[4 Faces]
+        C --> D[Subdivide Again]
+        D --> E[16 Faces]
+        E --> F[Subdivide More]
+        F --> G[Exponential Growth]
+        style A fill:#f0f0f0,stroke:#333,stroke-width:2px
+        style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+        style E fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <h3>Subdivide Options</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Option</th>
+                <th>What It Does</th>
+                <th>When to Use</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Number of Cuts</strong></td>
+                <td>How many times to subdivide (1-10)</td>
+                <td>1-2 for subtle, 3-4 for detail, 5+ for very dense geometry</td>
+            </tr>
+            <tr>
+                <td><strong>Smoothness</strong></td>
+                <td>0 = flat, 1 = rounded interpolation</td>
+                <td>0 for hard-surface, 0.5-1.0 for organic rounding</td>
+            </tr>
+            <tr>
+                <td><strong>Fractal</strong></td>
+                <td>Adds random variation to vertices</td>
+                <td>Creating rough terrain, rocky surfaces</td>
+            </tr>
+            <tr>
+                <td><strong>Along Normals</strong></td>
+                <td>Pushes new vertices along face normals</td>
+                <td>Maintaining surface curvature</td>
+            </tr>
+            <tr>
+                <td><strong>Quad Corner Type</strong></td>
+                <td>How corners of quads are handled</td>
+                <td>Advanced topology control</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+        <h4>⚠️ Subdivide Warning: Geometry Explosion</h4>
+        <p>Subdivide multiplies your geometry count exponentially:</p>
+        <ul>
+            <li><strong>1 subdivision:</strong> 1 face → 4 faces</li>
+            <li><strong>2 subdivisions:</strong> 1 face → 16 faces</li>
+            <li><strong>3 subdivisions:</strong> 1 face → 64 faces</li>
+            <li><strong>4 subdivisions:</strong> 1 face → 256 faces</li>
+            <li><strong>5 subdivisions:</strong> 1 face → 1,024 faces!</li>
+        </ul>
+        <p><strong>Be cautious:</strong> Too many subdivisions can make your mesh unmanageable and slow down Blender!</p>
+    </div>
+
+    <h3>Subdivide vs. Subdivision Surface</h3>
+
+    <p>This confuses many beginners, so let's clarify:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Operation</th>
+                <th>What It Is</th>
+                <th>When to Use</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Subdivide (Right-click)</strong></td>
+                <td>Direct operation that actually adds geometry permanently</td>
+                <td>When you need more vertices/edges to work with, adding detail</td>
+            </tr>
+            <tr>
+                <td><strong>Subdivision Surface Modifier</strong></td>
+                <td>Non-destructive modifier that smooths and subdivides for rendering only</td>
+                <td>Final smoothing for organic models, can adjust level anytime</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <blockquote>
+        <p><strong>Pro Workflow:</strong> Professional modelers typically keep geometry as simple as possible during modeling (low subdivision), then add a Subdivision Surface Modifier at the end for smooth rendering. This keeps the model fast and easy to edit while still looking smooth in the final render!</p>
+    </blockquote>
+
+    <h3>Subdivide Smooth: Automatic Rounding</h3>
+
+    <p>The <strong>Smoothness</strong> parameter in Subdivide is incredibly useful. At 0, it creates flat subdivisions. At 1.0, it creates curved, rounded subdivisions by moving the new vertices toward a smooth interpolation.</p>
+
+    <div class="card">
+        <h4>🎚️ Smoothness Settings</h4>
+        <ul>
+            <li><strong>0.0:</strong> Flat subdivision, maintains sharp edges (default)</li>
+            <li><strong>0.5:</strong> Moderate smoothing, gentle curves</li>
+            <li><strong>1.0:</strong> Maximum smoothing, very round</li>
+        </ul>
+        <p><strong>Access:</strong> After subdividing, check the Adjust Last Operation panel (bottom-left) and adjust the Smoothness slider</p>
+    </div>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>💡 Strategic Subdivision</h4>
+        <p>Don't just subdivide everything! Strategic subdivision is key:</p>
+        <ul>
+            <li><strong>High-detail areas:</strong> Faces, hands, intricate parts – subdivide more</li>
+            <li><strong>Low-detail areas:</strong> Flat surfaces, hidden parts – keep simple</li>
+            <li><strong>Edge loops for deformation:</strong> Add edge loops where object bends</li>
+            <li><strong>Support edges:</strong> Subdivide near important edges to maintain sharpness</li>
+        </ul>
+    </div>
+
+    <h3>Unsubdivide: Reducing Geometry</h3>
+
+    <p>Made a mistake and subdivided too much? <strong>Un-Subdivide</strong> can help reduce geometry count, though it's not perfect – it attempts to remove every other edge loop.</p>
+
+    <div class="card">
+        <h4>🔄 Un-Subdivide</h4>
+        <ol>
+            <li>Select over-subdivided geometry</li>
+            <li>Mesh menu → <strong>Clean Up</strong> → <strong>Un-Subdivide</strong></li>
+            <li>Reduces geometry by trying to reverse subdivision</li>
+        </ol>
+        <p><strong>Note:</strong> Not always perfect – works best on evenly subdivided geometry</p>
+    </div>
+
+    <h3>Subdivide Practice</h3>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>🏔️ Create Terrain with Subdivide</h4>
+        <p>Use subdivide to create rough terrain:</p>
+        <ol>
+            <li><strong>Start with a plane</strong> (<kbd>Shift+A</kbd> → Mesh → Plane)</li>
+            <li><strong>Enter Edit Mode</strong> (<kbd>Tab</kbd>)</li>
+            <li><strong>Select all</strong> (<kbd>A</kbd>)</li>
+            <li><strong>Subdivide 5 times:</strong> Right-click → Subdivide, set Number of Cuts to 5 in operator panel</li>
+            <li><strong>Add randomness:</strong> In same operator panel, set <strong>Fractal</strong> to 5.0</li>
+            <li><strong>Enable Proportional Editing</strong> (<kbd>O</kbd>)</li>
+            <li><strong>Create hills:</strong> Select random vertices, <kbd>G</kbd>, <kbd>Z</kbd>, move up, adjust influence with mouse wheel</li>
+            <li><strong>Result:</strong> Rough, natural-looking terrain!</li>
+        </ol>
+        <p><strong>Bonus:</strong> Add Subdivision Surface Modifier for smoother terrain!</p>
+    </div>
+</section>
+
+<section id="bevel">
+    <h2>✨ Bevel: Realistic Edge Treatment</h2>
+
+    <p>In the real world, nothing has perfectly sharp edges. Even the sharpest knife blade, when magnified, shows a tiny rounded edge. <strong>Bevel</strong> mimics this reality by replacing sharp edges with smooth, angled, or rounded faces. This is one of the most important operations for making your models look realistic and professional, especially for hard-surface modeling.</p>
+
+    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <h3>💡 Why Bevel Is Essential</h3>
+        <ul style="color: white;">
+            <li><strong>Realism:</strong> Sharp 90° edges don't exist in real life – bevel adds believability</li>
+            <li><strong>Catches light beautifully:</strong> Beveled edges reflect light properly</li>
+            <li><strong>Professional look:</strong> Instantly makes models look more polished</li>
+            <li><strong>Better shading:</strong> Eliminates harsh lighting artifacts on edges</li>
+            <li><strong>Structural believability:</strong> Objects look like they could actually exist</li>
+        </ul>
+    </div>
+
+    <h3>Basic Bevel Operation</h3>
+
+    <div class="card">
+        <h4>✨ How to Bevel</h4>
+        <ol>
+            <li>Select edges (or vertices/faces)</li>
+            <li>Press <kbd>Ctrl+B</kbd> (for edges) or <kbd>Ctrl+Shift+B</kbd> (for vertices)</li>
+            <li>Move mouse to adjust bevel width</li>
+            <li>Scroll <strong>mouse wheel</strong> to add more segments (smoothness)</li>
+            <li>Click or press <kbd>Enter</kbd> to confirm</li>
+        </ol>
+    </div>
+
+    <div class="mermaid">
+        graph LR
+        A[Sharp Edge] --> B[Press Ctrl+B]
+        B --> C[Move Mouse for Width]
+        C --> D[Scroll Wheel for Segments]
+        D --> E[Smooth Beveled Edge]
+        style A fill:#f0f0f0,stroke:#333,stroke-width:2px
+        style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <h3>Bevel Controls While Operating</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Key During Bevel</th>
+                <th>Effect</th>
+                <th>Use Case</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><kbd>Mouse Wheel</kbd></td>
+                <td>Add/remove segments (1-30+)</td>
+                <td>More segments = smoother bevel</td>
+            </tr>
+            <tr>
+                <td><kbd>P</kbd></td>
+                <td>Toggle profile shape</td>
+                <td>Switch between different bevel curves</td>
+            </tr>
+            <tr>
+                <td><kbd>M</kbd></td>
+                <td>Toggle miter type</td>
+                <td>Changes how corners are handled</td>
+            </tr>
+            <tr>
+                <td><kbd>A</kbd></td>
+                <td>Toggle affect (vertices/edges)</td>
+                <td>Control what gets beveled</td>
+            </tr>
+            <tr>
+                <td><kbd>C</kbd></td>
+                <td>Toggle clamp overlap</td>
+                <td>Prevent bevels from intersecting</td>
+            </tr>
+            <tr>
+                <td>Type number</td>
+                <td>Exact bevel width</td>
+                <td>Precise measurements (e.g., type "0.1")</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>💡 Bevel Segments Explained</h4>
+        <p>Segments control smoothness:</p>
+        <ul>
+            <li><strong>1 segment:</strong> Single chamfer (45° angle) – hard-surface look</li>
+            <li><strong>2-3 segments:</strong> Gentle curve – good for most hard surfaces</li>
+            <li><strong>4-6 segments:</strong> Smooth rounded edge – realistic for metal, plastic</li>
+            <li><strong>8+ segments:</strong> Very smooth, almost perfect cylinder – for hero details</li>
+        </ul>
+        <p>Scroll mouse wheel while beveling to adjust in real-time!</p>
+    </div>
+
+    <h3>Edge Bevel vs. Vertex Bevel</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Bevel Type</th>
+                <th>Shortcut</th>
+                <th>What It Does</th>
+                <th>Best For</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Edge Bevel</strong></td>
+                <td><kbd>Ctrl+B</kbd></td>
+                <td>Bevels selected edges, creating angled or rounded surfaces</td>
+                <td>General beveling, most common use</td>
+            </tr>
+            <tr>
+                <td><strong>Vertex Bevel</strong></td>
+                <td><kbd>Ctrl+Shift+B</kbd></td>
+                <td>Bevels selected vertices, cutting off corners</td>
+                <td>Rounded corners, bolt heads, soft vertices</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <blockquote>
+        <p><strong>Design Principle:</strong> In industrial design and product modeling, there's a rule: "Everything has at least a 0.5mm bevel." Even tiny bevels make enormous differences in realism. Look at any manufactured object – even "sharp" edges have microscopic bevels that catch light. Model accordingly!</p>
+    </blockquote>
+
+    <h3>Bevel Profiles: Custom Shapes</h3>
+
+    <p>Bevel doesn't have to be a simple curve! You can customize the <strong>profile</strong> (the shape of the bevel cross-section) for different effects.</p>
+
+    <div class="card">
+        <h4>📐 Profile Types</h4>
+        <ul>
+            <li><strong>Superellipse (default):</strong> Nice smooth curve, most common</li>
+            <li><strong>Custom:</strong> Draw your own curve in the profile widget</li>
+            <li><strong>Steps:</strong> Create stepped/terraced bevels</li>
+        </ul>
+        <p><strong>Access:</strong> After beveling, press <kbd>P</kbd> to cycle through profiles, or adjust in operator panel</p>
+    </div>
+
+    <h3>Bevel Modifier: Non-Destructive Beveling</h3>
+
+    <p>For even more flexibility, use the <strong>Bevel Modifier</strong> instead of manual beveling. This lets you adjust bevel settings anytime without committing to changes.</p>
+
+    <div class="card">
+        <h4>🎚️ Bevel Modifier Advantages</h4>
+        <ul>
+            <li><strong>Non-destructive:</strong> Change width and segments anytime</li>
+            <li><strong>Angle control:</strong> Only bevel edges above certain angle (smart beveling!)</li>
+            <li><strong>Weighted edges:</strong> Control individual edge bevel amounts</li>
+            <li><strong>Consistent results:</strong> Uniform bevels across entire model</li>
+        </ul>
+        <p><strong>Setup:</strong> Add Modifier → Bevel, adjust Amount and Segments</p>
+    </div>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>✅ Bevel Best Practices</h4>
+        <ul>
+            <li><strong>Start subtle:</strong> Small bevels (0.01-0.05) often look more realistic than large ones</li>
+            <li><strong>Vary bevel sizes:</strong> Not everything needs the same bevel – vary for interest</li>
+            <li><strong>Consider scale:</strong> Larger objects can have larger bevels</li>
+            <li><strong>2-3 segments usually enough:</strong> Don't over-segment unless it's a hero detail</li>
+            <li><strong>Bevel after modeling:</strong> Add bevels toward the end, not during rough modeling</li>
+            <li><strong>Use Bevel Modifier for flexibility:</strong> Especially during iterative design</li>
+        </ul>
+    </div>
+
+    <h3>Common Bevel Problems and Solutions</h3>
+
+    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+        <h4>⚠️ Bevel Troubleshooting</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Problem</th>
+                    <th>Cause</th>
+                    <th>Solution</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Weird triangles/artifacts</td>
+                    <td>Complex topology, tight spaces</td>
+                    <td>Enable Clamp Overlap (<kbd>C</kbd> while beveling)</td>
+                </tr>
+                <tr>
+                    <td>Bevel too wide/overlapping</td>
+                    <td>Bevel width too large for geometry</td>
+                    <td>Reduce width, or enable Clamp Overlap</td>
+                </tr>
+                <tr>
+                    <td>Inconsistent results</td>
+                    <td>Non-manifold geometry, bad topology</td>
+                    <td>Clean mesh first (Merge by Distance, recalculate normals)</td>
+                </tr>
+                <tr>
+                    <td>Corners look wrong</td>
+                    <td>Miter type doesn't fit geometry</td>
+                    <td>Press <kbd>M</kbd> to cycle through miter types</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Bevel Practice Project</h3>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>📦 Create a Realistic Box</h4>
+        <p>Practice beveling to make a believable hard-surface object:</p>
+        <ol>
+            <li><strong>Start with a cube</strong> (<kbd>Shift+A</kbd> → Mesh → Cube)</li>
+            <li><strong>Enter Edit Mode</strong> (<kbd>Tab</kbd>)</li>
+            <li><strong>Select all edges</strong> (<kbd>Alt+A</kbd> to deselect all, then <kbd>Alt+Click</kbd> on edges, or just press <kbd>A</kbd>)</li>
+            <li><strong>Bevel:</strong> <kbd>Ctrl+B</kbd></li>
+            <li><strong>Set width:</strong> Move mouse slightly (or type 0.05)</li>
+            <li><strong>Add segments:</strong> Scroll mouse wheel to 3 segments</li>
+            <li><strong>Confirm:</strong> Click or press <kbd>Enter</kbd></li>
+            <li><strong>Shade smooth:</strong> Exit Edit Mode, right-click → Shade Smooth</li>
+            <li><strong>Compare:</strong> Look at the difference! The beveled cube looks real, the unbeveled looks CG</li>
+        </ol>
+        <p><strong>Observation:</strong> Notice how the bevels catch light naturally and make the object look physically plausible!</p>
+    </div>
+
+    <h3>Advanced Bevel: Weighted Edges</h3>
+
+    <div class="card">
+        <h4>🎚️ Bevel Weight (Advanced)</h4>
+        <p>Control individual edge bevel amounts using Bevel Weight:</p>
+        <ol>
+            <li>Select specific edges you want to bevel more/less</li>
+            <li>In <strong>Edge menu → Edge Data → Mean Bevel Weight</strong></li>
+            <li>Set weight (0 = no bevel, 1 = full bevel)</li>
+            <li>Add <strong>Bevel Modifier</strong>, enable <strong>Limit Method: Weight</strong></li>
+            <li>Only weighted edges will bevel!</li>
+        </ol>
+        <p><strong>Use case:</strong> Precise control over which edges get beveled in complex models</p>
+    </div>
+</section>
+
+<section id="lesson-summary">
+    <h2>🎯 Edit Mode Essentials: Mastery Achieved</h2>
+
+    <p>Congratulations! You've now covered the essential Edit Mode operations that form the foundation of all polygon modeling in Blender. These tools – from selection and transformation to extrusion and beveling – are the building blocks you'll use in every single model you create.</p>
+
+    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <h3>🎓 What You've Mastered</h3>
+        <ul style="color: white;">
+            <li><strong>Selection mastery:</strong> Box, Circle, Lasso, Select Similar, Checker Deselect</li>
+            <li><strong>Proportional Editing:</strong> Organic deformations with multiple falloff types</li>
+            <li><strong>Loop Tools:</strong> Circle, Curve, Flatten, Bridge, Space, Relax</li>
+            <li><strong>Inset/Outset:</strong> Creating panel details and borders</li>
+            <li><strong>Mesh Cleanup:</strong> Merge by Distance, Dissolve, Limited Dissolve, Fill, Recalculate Normals</li>
+            <li><strong>Extrude:</strong> The fundamental building operation, individual vs. group</li>
+            <li><strong>Duplicate & Array:</strong> Multiplying geometry efficiently</li>
+            <li><strong>Spin & Screw:</strong> Rotational modeling for symmetric and helical forms</li>
+            <li><strong>Knife Tool:</strong> Precision cutting and custom topology</li>
+            <li><strong>Subdivide:</strong> Adding geometry strategically</li>
+            <li><strong>Bevel:</strong> Professional edge treatment for realistic models</li>
+        </ul>
+    </div>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>✅ Key Takeaways</h4>
+        <ul>
+            <li><strong>Master the fundamentals:</strong> These tools work together – extrude, then bevel; subdivide, then knife cut</li>
+            <li><strong>Clean topology matters:</strong> Use cleanup tools regularly for professional results</li>
+            <li><strong>Work smart, not hard:</strong> Use Array and Duplicate for repeated elements</li>
+            <li><strong>Proportional Editing is powerful:</strong> Essential for organic modeling</li>
+            <li><strong>Bevels add realism:</strong> Even tiny bevels make huge visual differences</li>
+            <li><strong>Practice, practice, practice:</strong> Speed comes with repetition</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h4>🚀 What's Next</h4>
+        <p>With Edit Mode essentials under your belt, you're ready to:</p>
+        <ul>
+            <li><strong>Create complex models:</strong> Combine these tools to build anything</li>
+            <li><strong>Learn modifiers:</strong> Non-destructive modeling with Subdivision Surface, Mirror, Array, and more</li>
+            <li><strong>Study topology:</strong> Understanding edge flow for animation and subdivision</li>
+            <li><strong>Practice modeling projects:</strong> Build real-world objects to solidify skills</li>
+            <li><strong>Explore specialized techniques:</strong> Hard-surface modeling, organic sculpting, architectural modeling</li>
+        </ul>
+    </div>
+
+    <blockquote>
+        <p><strong>Final Wisdom:</strong> Every professional 3D artist uses these exact same tools you've just learned. The difference between beginners and pros isn't access to secret tools – it's speed, efficiency, and knowing which tool to use when. Keep practicing, and you'll develop the intuition that makes modeling feel effortless!</p>
+    </blockquote>
+
+    <div class="card" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white;">
+        <h3>🎉 Congratulations!</h3>
+        <p style="color: white; font-size: 1.1em;">You've completed Edit Mode Essentials – one of the most important foundations in your Blender journey. You now have the skills to create, modify, and refine 3D geometry like a pro. Keep these tools sharp through practice, and watch your modeling abilities soar!</p>
+    </div>
+</section>
+
+<!-- Lesson Navigation -->
+<nav class="lesson-nav" aria-label="Lesson Navigation">
+    <a href="lesson_05_understanding_meshes_and_geometry.html" class="prev-lesson">← Previous: Understanding Meshes and Geometry</a>
+    <a href="index.html" class="home-link">🏠 Course Home</a>
+    <a href="lesson_07_modeling_your_first_object.html" class="next-lesson">Next: Modeling Your First Object →</a>
+</nav>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+        <p>Master Blender from beginner to professional.</p>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="js/clipboard.js"></script>
+<script src="js/course-enhancements.js"></script>
+
+</body>
+</html>
