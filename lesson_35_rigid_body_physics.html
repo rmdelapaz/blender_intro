@@ -1,0 +1,3264 @@
+<!-- ============================================
+     LESSON 35 - PART 01
+     File: lesson_35_rigid_body_physics_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master rigid body physics in Blender. Learn to create realistic collisions, destruction effects, and dynamic simulations with solid objects like falling blocks, dominos, and more.">
+    <meta name="author" content="Blender Course">
+    <title>Rigid Body Physics - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>🎨 Blender Mastery Course</h1>
+        <nav>
+            <a href="index.html">🏠 Home</a>
+            <a href="index.html#modules">📚 Modules</a>
+            <a href="index.html#resources">🔗 Resources</a>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &gt; 
+                <a href="index.html#module8">Module 8: Particles and Simulations</a> &gt; 
+                <span>Lesson 35: Rigid Body Physics</span>
+            </div>
+
+            <h2>🎲 Lesson 35: Rigid Body Physics</h2>
+            
+            <p class="lead">Ever wanted to create a tower of blocks that topples dramatically? A chain of dominos that cascade perfectly? Or maybe an epic destruction scene where objects crash and collide realistically? Welcome to rigid body physics—where solid objects behave according to real-world physics laws! Unlike cloth simulation where objects are soft and flexible, rigid body physics is all about hard surfaces that maintain their shape: cubes, spheres, furniture, buildings, and anything else that doesn't bend or deform. In this lesson, you'll learn how to make objects fall, bounce, collide, and interact in ways that would take days to animate manually.</p>
+
+            <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; margin: 2rem 0;">
+                <h3 style="color: white; margin-top: 0;">🎯 What You'll Learn</h3>
+                <ul style="color: white;">
+                    <li><strong>Rigid Body Fundamentals:</strong> Understand the difference between active and passive objects</li>
+                    <li><strong>Basic Physics Setup:</strong> Create your first rigid body simulation</li>
+                    <li><strong>Mass and Shape Properties:</strong> Control how objects behave physically</li>
+                    <li><strong>Collision Settings:</strong> Fine-tune how objects interact with each other</li>
+                    <li><strong>Constraints and Joints:</strong> Connect objects with hinges, motors, and more</li>
+                    <li><strong>World Settings:</strong> Adjust gravity, speed, and simulation parameters</li>
+                    <li><strong>Common Effects:</strong> Create domino chains, towers, destruction, and more</li>
+                    <li><strong>Optimization and Baking:</strong> Make simulations run smoothly</li>
+                </ul>
+                <p style="color: white; margin-bottom: 0;"><strong>⏱️ Estimated Time:</strong> 90-120 minutes</p>
+                <p style="color: white; margin-bottom: 0;"><strong>🎯 Project:</strong> Create a dynamic tower collapse simulation</p>
+            </div>
+
+            <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                    <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                </summary>
+                <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                    <ol>
+                        <li><a href="#understanding-rigid-body" class="toc-link">Understanding Rigid Body Physics</a></li>
+                        <li><a href="#first-simulation" class="toc-link">Your First Rigid Body Simulation</a></li>
+                        <li><a href="#active-vs-passive" class="toc-link">Active vs. Passive Objects</a></li>
+                        <li><a href="#physical-properties" class="toc-link">Physical Properties</a></li>
+                        <li><a href="#collision-shapes" class="toc-link">Collision Shapes</a></li>
+                        <li><a href="#constraints" class="toc-link">Constraints and Joints</a></li>
+                        <li><a href="#world-settings" class="toc-link">Rigid Body World Settings</a></li>
+                        <li><a href="#practical-examples" class="toc-link">Practical Examples</a></li>
+                        <li><a href="#optimization" class="toc-link">Optimization and Performance</a></li>
+                        <li><a href="#project" class="toc-link">Project: Tower Collapse</a></li>
+                        <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                    </ol>
+                </nav>
+            </details>
+
+            <section id="understanding-rigid-body">
+                <h3>🔬 Understanding Rigid Body Physics</h3>
+                
+                <p>Before we jump into creating simulations, let's understand what makes rigid body physics different from other physics systems in Blender. The key is in the name: <em>rigid</em>. These objects don't bend, stretch, or deform—they maintain their shape no matter what happens to them.</p>
+
+                <h4>What Are Rigid Bodies?</h4>
+                
+                <p>Think about everyday objects around you: a coffee mug, a book, a chair, wooden blocks, or a bowling ball. When these objects fall, collide, or roll, they keep their shape. They don't squish like cloth or flow like liquid. This is rigid body behavior!</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Real-World Examples</h4>
+                    <ul>
+                        <li><strong>Building Blocks:</strong> Stack them high and watch them tumble</li>
+                        <li><strong>Bowling:</strong> Ball rolls down lane, hits pins, pins scatter</li>
+                        <li><strong>Dominos:</strong> One falls, knocks the next, chain reaction</li>
+                        <li><strong>Pool/Billiards:</strong> Balls collide and bounce off each other</li>
+                        <li><strong>Jenga Tower:</strong> Remove blocks, tower becomes unstable, crashes</li>
+                        <li><strong>Destruction Scenes:</strong> Buildings crumbling, walls breaking</li>
+                    </ul>
+                </div>
+
+                <h4>How Rigid Body Physics Works</h4>
+                
+                <p>Blender's rigid body system calculates physics frame by frame, considering several factors:</p>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Rigid Body Object] --> B[Mass & Weight]
+                    A --> C[Collision Shape]
+                    A --> D[Velocity & Forces]
+                    B --> E[Physics Calculation]
+                    C --> E
+                    D --> E
+                    E --> F[New Position]
+                    E --> G[New Rotation]
+                    E --> H[New Velocity]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style E fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style H fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <p>Each frame, Blender:</p>
+                <ol>
+                    <li><strong>Checks for collisions</strong> between objects</li>
+                    <li><strong>Calculates forces</strong> (gravity, impacts, constraints)</li>
+                    <li><strong>Updates positions</strong> based on velocity and acceleration</li>
+                    <li><strong>Updates rotations</strong> based on angular momentum</li>
+                    <li><strong>Applies friction and damping</strong> to slow things down</li>
+                </ol>
+
+                <blockquote>
+                    <p><strong>🎮 Think of It Like a Video Game Physics Engine:</strong> Rigid body physics is exactly what powers realistic physics in video games. When you knock over crates in a game or watch debris fly in an explosion, that's rigid body simulation at work. Blender uses similar principles!</p>
+                </blockquote>
+
+                <h4>Rigid Body vs. Other Physics Systems</h4>
+
+                <div class="card">
+                    <h4>📊 Physics Systems Comparison</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">System</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Objects</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Behavior</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Use Cases</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Rigid Body</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Solid, hard objects</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Keep shape, bounce, collide</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Falling objects, destruction, collisions</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Cloth</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Flexible fabrics</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Bend, fold, drape</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Clothing, flags, curtains</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Soft Body</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Squishy objects</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Deform, jiggle, compress</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Jello, pillows, soft materials</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Fluid</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Liquids and gases</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Flow, splash, pour</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Water, smoke, fire</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Key Concepts You Need to Know</h4>
+
+                <p>Before we start creating simulations, here are the fundamental concepts:</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>🔑 Essential Rigid Body Concepts</h4>
+                    
+                    <p><strong>1. Active vs. Passive</strong></p>
+                    <ul>
+                        <li><strong>Active:</strong> Objects affected by physics (they fall, bounce, react)</li>
+                        <li><strong>Passive:</strong> Objects that affect others but don't move (floors, walls)</li>
+                        <li>Think: Active = dynamic, Passive = static</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Mass</strong></p>
+                    <ul>
+                        <li>How heavy an object is</li>
+                        <li>Heavier objects hit harder but are harder to move</li>
+                        <li>Measured in kilograms</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Collision Shape</strong></p>
+                    <ul>
+                        <li>Simplified shape used for collision detection</li>
+                        <li>Box, Sphere, Mesh, Convex Hull, etc.</li>
+                        <li>Simpler shapes = faster simulation</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Friction and Bounciness</strong></p>
+                    <ul>
+                        <li><strong>Friction:</strong> How much surfaces "stick" when sliding</li>
+                        <li><strong>Bounciness:</strong> How much energy is retained after impact</li>
+                        <li>Combine to create realistic material behavior</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Constraints</strong></p>
+                    <ul>
+                        <li>Connections between objects</li>
+                        <li>Hinges, motors, springs, fixed joints</li>
+                        <li>Create complex mechanical behavior</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Important Limitation</h4>
+                    <p><strong>Rigid bodies don't deform.</strong> If you need objects that break apart, bend, or shatter, you'll need to:</p>
+                    <ul>
+                        <li>Pre-fracture the object (break it into pieces beforehand)</li>
+                        <li>Use addons like Cell Fracture for destruction</li>
+                        <li>Combine with other simulation types</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">The object maintains its shape—it just moves, rotates, and collides as a solid unit.</p>
+                </div>
+
+                <h4>When to Use Rigid Body Physics</h4>
+
+                <div class="mermaid">
+                    graph LR
+                    A[Use Rigid Body For] --> B[Falling Objects]
+                    A --> C[Collisions]
+                    A --> D[Stacking & Balance]
+                    A --> E[Chain Reactions]
+                    A --> F[Destruction Pre-Fractured]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style B fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style D fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <p><strong>Perfect for:</strong></p>
+                <ul>
+                    <li>Dice rolling, marbles falling, blocks tumbling</li>
+                    <li>Domino chain reactions</li>
+                    <li>Objects falling onto or off surfaces</li>
+                    <li>Bouncing balls, rolling wheels</li>
+                    <li>Furniture tipping over</li>
+                    <li>Pre-fractured destruction scenes</li>
+                    <li>Newton's cradle and pendulums</li>
+                    <li>Rube Goldberg machines</li>
+                </ul>
+
+                <p><strong>Not ideal for:</strong></p>
+                <ul>
+                    <li>Fabric, hair, or flexible materials (use Cloth)</li>
+                    <li>Liquids or gases (use Fluid simulation)</li>
+                    <li>Squishy, deformable objects (use Soft Body)</li>
+                    <li>Character animation (use rigging and keyframes)</li>
+                </ul>
+
+                <blockquote>
+                    <p><strong>💭 Creative Possibilities:</strong> Rigid body physics is incredibly versatile. From simple falling blocks to complex mechanical contraptions, from abstract art installations to realistic destruction scenes—once you understand the basics, your creativity is the only limit!</p>
+                </blockquote>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_35_rigid_body_physics_part_02.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 35 - PART 02
+     File: lesson_35_rigid_body_physics_part_02.html
+     ============================================ -->
+
+            <section id="first-simulation">
+                <h3>🚀 Your First Rigid Body Simulation</h3>
+                
+                <p>Let's dive right in with the classic rigid body example—dropping a cube onto a floor. This simple setup will teach you the fundamental workflow that applies to all rigid body simulations.</p>
+
+                <h4>Setting Up the Scene</h4>
+                
+                <p>We need two things: an object that falls (active) and a surface to catch it (passive). Think of it like a ball and a floor—the ball falls, the floor stays put.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Quick Start: Falling Cube</h4>
+                    
+                    <p><strong>Step 1: Prepare Your Scene</strong></p>
+                    <ol>
+                        <li>Start with a new Blender file (or File → New → General)</li>
+                        <li>You should have the default cube in the center</li>
+                        <li>Move it up: Select cube, press G, then Z, then 5, then Enter</li>
+                        <li>This positions the cube 5 units above the origin</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Create a Ground Plane</strong></p>
+                    <ol>
+                        <li>Add a plane: Shift + A → Mesh → Plane</li>
+                        <li>The plane should be at the origin (Z = 0)</li>
+                        <li>Scale it larger: Press S, then 5, then Enter</li>
+                        <li>This creates a large floor to catch the cube</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Make the Cube Active (Falling)</strong></p>
+                    <ol>
+                        <li>Select the cube</li>
+                        <li>Look for Physics Properties tab (bouncing ball icon on the right)</li>
+                        <li>Click the <strong>"Rigid Body"</strong> button at the top</li>
+                        <li>Make sure Type is set to <strong>"Active"</strong> (should be default)</li>
+                        <li>That's it! The cube is now affected by physics</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Make the Plane Passive (Floor)</strong></p>
+                    <ol>
+                        <li>Select the plane</li>
+                        <li>Go to Physics Properties</li>
+                        <li>Click the <strong>"Rigid Body"</strong> button</li>
+                        <li>Change Type to <strong>"Passive"</strong> in the dropdown</li>
+                        <li>The plane is now a solid surface but won't move</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Run the Simulation!</strong></p>
+                    <ol>
+                        <li>Make sure you're at frame 1 (Shift + Left Arrow if needed)</li>
+                        <li>Press <strong>Spacebar</strong> to play the animation</li>
+                        <li>Watch your cube fall and bounce on the ground!</li>
+                        <li>Press Spacebar again to stop</li>
+                    </ol>
+                </div>
+
+                <div class="mermaid">
+                    graph LR
+                    A[Active Cube] --> B[Falls Under Gravity]
+                    B --> C[Hits Passive Plane]
+                    C --> D[Bounces]
+                    D --> E[Settles on Surface]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style C fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                    style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <p>Congratulations! You just created your first rigid body simulation. That cube fell, bounced, and came to rest—all calculated by Blender's physics engine based on real-world physics!</p>
+
+                <blockquote>
+                    <p><strong>🎯 What Just Happened:</strong> Blender calculated gravity pulling the cube down, detected when it hit the plane, calculated the impact force, applied a bounce based on the object's bounciness (elasticity), and gradually slowed it down with friction and damping. All this happens automatically!</p>
+                </blockquote>
+
+                <h4>Understanding What You See</h4>
+                
+                <p>As you played the simulation, you witnessed several physics principles in action:</p>
+
+                <div class="card">
+                    <h4>📚 Physics in Action</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Phase</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">What's Happening</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Physics Principle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Initial Fall</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Cube accelerates downward</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Gravity (9.8 m/s²)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Impact</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Cube hits plane, velocity reverses</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Collision detection & response</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Bounce</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Cube bounces back up (lower height)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Elasticity (energy loss)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Settling</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Multiple smaller bounces</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Damping & energy dissipation</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Rest</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Cube stops moving</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Friction & sleep threshold</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Exploring the Simulation</h4>
+                
+                <p>Now that you have a working simulation, let's explore what you can do with it:</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>🧪 Experiment with Your Simulation</h4>
+                    
+                    <p><strong>Try This: Scrubbing Through Time</strong></p>
+                    <ul>
+                        <li>After running the sim once, click and drag in the timeline</li>
+                        <li>You can move backward and forward through the animation</li>
+                        <li>The physics results are cached (stored in memory)</li>
+                        <li>Notice how smooth the movement is</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Try This: Change Starting Height</strong></p>
+                    <ol>
+                        <li>Go back to frame 1 (Shift + Left Arrow)</li>
+                        <li>Select the cube</li>
+                        <li>Move it higher: G, Z, 10, Enter</li>
+                        <li>Play the simulation again</li>
+                        <li>Notice: The cube falls faster and bounces higher!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Try This: Add More Cubes</strong></p>
+                    <ol>
+                        <li>Go to frame 1</li>
+                        <li>Select your cube</li>
+                        <li>Duplicate it: Shift + D, then X (move along X), then 2, Enter</li>
+                        <li>The duplicate automatically has rigid body physics!</li>
+                        <li>Play the simulation—both cubes fall independently</li>
+                        <li>Duplicate more! Create 5-10 cubes at different positions</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Try This: Make Cubes Collide</strong></p>
+                    <ol>
+                        <li>Position some cubes so they'll hit each other during the fall</li>
+                        <li>Play the simulation</li>
+                        <li>Watch them bounce off each other!</li>
+                        <li>Each collision is calculated in real-time</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ First-Time Simulation Notes</h4>
+                    <ul>
+                        <li><strong>Slow first playback is normal:</strong> Blender calculates physics in real-time on first play</li>
+                        <li><strong>Second playback is faster:</strong> Results are cached in memory</li>
+                        <li><strong>Changes reset the cache:</strong> Moving objects or changing settings requires recalculation</li>
+                        <li><strong>Can't edit during playback:</strong> Stop the animation to make changes</li>
+                    </ul>
+                </div>
+
+                <h4>The Physics Properties Panel</h4>
+                
+                <p>When you added rigid body physics, several settings appeared. Let's understand what they mean:</p>
+
+                <div class="card">
+                    <h4>⚙️ Basic Rigid Body Settings</h4>
+                    
+                    <p><strong>Type (Active vs. Passive):</strong></p>
+                    <ul>
+                        <li><strong>Active:</strong> Object affected by physics—falls, collides, bounces</li>
+                        <li><strong>Passive:</strong> Acts as obstacle but doesn't move—floors, walls, ramps</li>
+                        <li>You can change this anytime!</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Animated (Checkbox):</strong></p>
+                    <ul>
+                        <li>Only visible for Passive objects</li>
+                        <li>Allows passive objects to move with keyframe animation</li>
+                        <li>Example: Animated platform that active objects can stand on</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Dynamic (Checkbox):</strong></p>
+                    <ul>
+                        <li>Only for Active objects</li>
+                        <li>When unchecked, object won't be affected by forces but can still collide</li>
+                        <li>Rarely used, keep it checked normally</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mass (kg):</strong></p>
+                    <ul>
+                        <li>How heavy the object is (in kilograms)</li>
+                        <li>Default: 1.0 kg</li>
+                        <li>Heavier objects hit harder but are harder to move</li>
+                    </ul>
+                </div>
+
+                <h4>Quick Experiment: Mass Differences</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Seeing Mass in Action</h4>
+                    <ol>
+                        <li>Create two cubes at the same height, side by side</li>
+                        <li>Give both rigid body physics (Active)</li>
+                        <li>Select one cube, set Mass to 0.1 (light)</li>
+                        <li>Select other cube, set Mass to 10.0 (heavy)</li>
+                        <li>Play the simulation</li>
+                        <li><strong>Observation:</strong> Both fall at the same speed (gravity affects equally)</li>
+                        <li>But when they hit the ground, heavy cube settles faster (more momentum)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Try This Next:</strong></p>
+                    <ol>
+                        <li>Stack the light cube on top of the heavy cube</li>
+                        <li>Let them fall together</li>
+                        <li>See how they interact on impact!</li>
+                    </ol>
+                </div>
+
+                <blockquote>
+                    <p><strong>💡 Real Physics Fact:</strong> In a vacuum, a feather and a bowling ball fall at the same speed! That's because gravity accelerates all objects equally regardless of mass. Mass matters for collisions, momentum, and how easily objects are moved by forces—but not for falling speed in gravity alone.</p>
+                </blockquote>
+
+                <h4>Common First-Time Issues</h4>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Troubleshooting Your First Simulation</h4>
+                    
+                    <p><strong>Problem: Nothing happens when I press play</strong></p>
+                    <ul>
+                        <li><strong>Check:</strong> Did you add Rigid Body physics to objects?</li>
+                        <li><strong>Check:</strong> Is at least one object set to Active?</li>
+                        <li><strong>Check:</strong> Is the timeline actually playing? (look for moving blue line)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Object falls through the floor</strong></p>
+                    <ul>
+                        <li><strong>Check:</strong> Is the floor set to Passive rigid body?</li>
+                        <li><strong>Check:</strong> Is the floor actually below the falling object?</li>
+                        <li><strong>Solution:</strong> Make sure floor has rigid body physics enabled</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Objects move in slow motion</strong></p>
+                    <ul>
+                        <li><strong>This is normal!</strong> First playback calculates physics in real-time</li>
+                        <li>Second playback will be smooth (cached results)</li>
+                        <li>Or: You might have low frame rate scene settings</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Objects explode or behave erratically</strong></p>
+                    <ul>
+                        <li><strong>Check:</strong> Objects aren't intersecting at frame 1</li>
+                        <li><strong>Check:</strong> Object scales are applied (Ctrl + A → Apply Scale)</li>
+                        <li><strong>Solution:</strong> Start with objects separated in space</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Pro Tip: The Ground Doesn't Have to Be a Plane</h4>
+                    <p>Any object can be passive! You can use:</p>
+                    <ul>
+                        <li>A bowl (objects roll inside it)</li>
+                        <li>A ramp (objects slide down)</li>
+                        <li>Complex terrain</li>
+                        <li>Architectural geometry</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">The passive object just needs to have Rigid Body physics with Type set to Passive. The shape determines how active objects interact with it!</p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_35_rigid_body_physics_part_03.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 35 - PART 03
+     File: lesson_35_rigid_body_physics_part_03.html
+     ============================================ -->
+
+            <section id="active-vs-passive">
+                <h3>⚡ Active vs. Passive Objects</h3>
+                
+                <p>Understanding the difference between Active and Passive rigid bodies is fundamental to creating successful simulations. This distinction determines which objects move and which stay put—it's like the difference between actors and the stage in a play.</p>
+
+                <h4>Active Objects: The Dynamic Performers</h4>
+                
+                <p>Active objects are the stars of your simulation. They respond to gravity, collide with things, bounce, roll, and generally behave according to physics laws.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Active Object Characteristics</h4>
+                    <ul>
+                        <li><strong>Affected by gravity:</strong> They fall down unless supported</li>
+                        <li><strong>Affected by forces:</strong> Wind, explosions, impacts move them</li>
+                        <li><strong>Collide with everything:</strong> Both active and passive objects</li>
+                        <li><strong>Can be pushed:</strong> Other active objects can move them</li>
+                        <li><strong>Have momentum:</strong> Moving objects keep moving until forces stop them</li>
+                        <li><strong>Require calculation:</strong> Physics engine constantly updates their state</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Common Active Objects:</strong></p>
+                    <ul>
+                        <li>Falling debris, tumbling blocks</li>
+                        <li>Balls, dice, marbles</li>
+                        <li>Dominos (before they're knocked over)</li>
+                        <li>Projectiles (cannonballs, thrown objects)</li>
+                        <li>Any object you want to see move dynamically</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Active Object] --> B[Gravity Applies]
+                    A --> C[Forces Apply]
+                    A --> D[Collisions Affect It]
+                    B --> E[Position Updates]
+                    C --> E
+                    D --> E
+                    E --> F[New Location & Rotation]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style E fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h4>Passive Objects: The Immovable Stage</h4>
+                
+                <p>Passive objects create the environment for your simulation. They're solid obstacles that active objects interact with, but they themselves don't move or respond to physics (unless you animate them manually).</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Passive Object Characteristics</h4>
+                    <ul>
+                        <li><strong>Not affected by gravity:</strong> They stay exactly where you place them</li>
+                        <li><strong>Immune to forces:</strong> Impacts, explosions, wind don't move them</li>
+                        <li><strong>Collide with active objects:</strong> Active objects bounce off them</li>
+                        <li><strong>Infinitely strong:</strong> Can't be pushed or knocked over</li>
+                        <li><strong>Can be animated:</strong> You can keyframe their movement</li>
+                        <li><strong>Computationally cheap:</strong> Don't require continuous physics calculation</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Common Passive Objects:</strong></p>
+                    <ul>
+                        <li>Floors, walls, ceilings</li>
+                        <li>Ramps, platforms, terrain</li>
+                        <li>Bowls, containers, barriers</li>
+                        <li>Large immovable structures (buildings, columns)</li>
+                        <li>Animated moving platforms</li>
+                    </ul>
+                </div>
+
+                <h4>Comparing Active and Passive</h4>
+
+                <div class="card">
+                    <h4>📊 Active vs. Passive Comparison</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Aspect</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Active</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Passive</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Gravity</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">✅ Falls down</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">❌ Stays put</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Forces</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">✅ Affected</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">❌ Immune</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Collisions</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">✅ Bounces off things</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">✅ Things bounce off it</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Can Move</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">✅ Via physics</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">⚠️ Only via animation</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Can Be Pushed</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">✅ Yes</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">❌ Immovable</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Performance Cost</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">High (continuous calculation)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Low (static)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Best For</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Moving objects, props</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Environment, obstacles</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Practical Example: Building a Scene</h4>
+                
+                <p>Let's think about a bowling alley to understand when to use each type:</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>🎳 Bowling Alley Example</h4>
+                    
+                    <p><strong>Active Objects (things that move):</strong></p>
+                    <ul>
+                        <li><strong>Bowling ball:</strong> Rolls down the lane</li>
+                        <li><strong>Bowling pins:</strong> Get knocked over and scatter</li>
+                        <li>These need to respond to forces and collide with each other</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Passive Objects (the environment):</strong></p>
+                    <ul>
+                        <li><strong>Lane surface:</strong> Ball rolls on it, doesn't move</li>
+                        <li><strong>Gutters:</strong> Ball bounces off them, they stay put</li>
+                        <li><strong>Back wall:</strong> Pins bounce off it, it doesn't move</li>
+                        <li><strong>Pin deck:</strong> Surface pins sit on before being hit</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Why This Matters:</strong></p>
+                    <ul>
+                        <li>Making everything Active would be computationally expensive</li>
+                        <li>The lane doesn't need physics—it never moves!</li>
+                        <li>Passive objects provide a stable environment</li>
+                        <li>Performance is better with fewer active objects</li>
+                    </ul>
+                </div>
+
+                <h4>Switching Between Active and Passive</h4>
+                
+                <p>Sometimes you need to change an object from one type to another. This is completely fine and often useful!</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ How to Switch Types</h4>
+                    <ol>
+                        <li>Select the object</li>
+                        <li>Go to Physics Properties</li>
+                        <li>Find the "Type" dropdown (under Rigid Body section)</li>
+                        <li>Select Active or Passive</li>
+                        <li>Simulation updates immediately</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>When to Switch:</strong></p>
+                    <ul>
+                        <li><strong>Dominos:</strong> Start as Active, but could be Passive until first one is hit</li>
+                        <li><strong>Props:</strong> Passive for stability, Active when you want them to fall</li>
+                        <li><strong>Optimization:</strong> Make settled objects Passive to improve performance</li>
+                        <li><strong>Debugging:</strong> Temporarily make Active objects Passive to isolate issues</li>
+                    </ul>
+                </div>
+
+                <h4>Animated Passive Objects</h4>
+                
+                <p>Here's where things get interesting! Passive objects can move if you animate them with keyframes. This creates moving platforms, animated obstacles, and more.</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Animated Passive Objects</h4>
+                    
+                    <p><strong>Enable Animation:</strong></p>
+                    <ol>
+                        <li>Select your passive object</li>
+                        <li>In Physics Properties, enable <strong>"Animated"</strong> checkbox</li>
+                        <li>Now you can keyframe its position/rotation</li>
+                        <li>Active objects will react to its movement!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Cool Uses:</strong></p>
+                    <ul>
+                        <li><strong>Moving platform:</strong> Elevator that carries active objects</li>
+                        <li><strong>Swinging pendulum:</strong> Passive object that knocks active objects</li>
+                        <li><strong>Rotating obstacles:</strong> Windmill blades that hit things</li>
+                        <li><strong>Opening doors:</strong> Door pushes active objects as it opens</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Important Note:</strong></p>
+                    <ul>
+                        <li>Animated passive objects push active objects</li>
+                        <li>But active objects can't push the passive object back</li>
+                        <li>It's one-way interaction: animated object wins!</li>
+                    </ul>
+                </div>
+
+                <h4>Example: Creating a Moving Platform</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Quick Tutorial: Animated Platform</h4>
+                    <ol>
+                        <li><strong>Create the platform:</strong>
+                            <ul>
+                                <li>Add a cube: Shift + A → Mesh → Cube</li>
+                                <li>Scale it flat: S, Z, 0.2, Enter</li>
+                                <li>Scale it wide: S, 2, Enter</li>
+                            </ul>
+                        </li>
+                        <li><strong>Make it passive animated:</strong>
+                            <ul>
+                                <li>Add Rigid Body physics</li>
+                                <li>Set Type to Passive</li>
+                                <li>Enable "Animated" checkbox</li>
+                            </ul>
+                        </li>
+                        <li><strong>Animate the platform:</strong>
+                            <ul>
+                                <li>At frame 1: Position at origin</li>
+                                <li>Press I → Location (creates keyframe)</li>
+                                <li>Go to frame 100</li>
+                                <li>Move platform: G, Z, 5, Enter</li>
+                                <li>Press I → Location again</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add active objects:</strong>
+                            <ul>
+                                <li>Place small cubes on the platform</li>
+                                <li>Give them Active rigid body physics</li>
+                            </ul>
+                        </li>
+                        <li><strong>Play simulation:</strong>
+                            <ul>
+                                <li>Platform rises, carrying the cubes!</li>
+                                <li>Cubes stay on top due to collision</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <blockquote>
+                    <p><strong>🎮 Real-World Application:</strong> Video games use this exact concept! Moving platforms, elevators, rotating obstacles—they're all animated passive rigid bodies that active objects (like the player character) interact with. You're learning professional game development techniques!</p>
+                </blockquote>
+
+                <h4>Active-to-Passive Performance Trick</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Pro Optimization Technique</h4>
+                    <p>For large simulations with hundreds of objects:</p>
+                    <ol>
+                        <li><strong>Start:</strong> All objects Active</li>
+                        <li><strong>After they settle:</strong> Identify objects that stopped moving</li>
+                        <li><strong>Convert them:</strong> Change settled objects to Passive</li>
+                        <li><strong>Result:</strong> Physics engine has fewer objects to calculate</li>
+                        <li><strong>Performance:</strong> Simulation runs much faster!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>When to Use:</strong></p>
+                    <ul>
+                        <li>Building collapse with many pieces</li>
+                        <li>Avalanche or landslide simulations</li>
+                        <li>Cascading domino effects</li>
+                        <li>Any scene with 100+ active objects</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><em>Note: This is usually done after baking the simulation for part of the frames, then continuing with fewer active objects.</em></p>
+                </div>
+
+                <h4>Common Mistakes with Active/Passive</h4>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Avoid These Errors</h4>
+                    
+                    <p><strong>Mistake 1: Making everything Active</strong></p>
+                    <ul>
+                        <li><strong>Problem:</strong> Floor falls down, walls move, chaos!</li>
+                        <li><strong>Solution:</strong> Environment should be Passive</li>
+                        <li>Only objects you want to see move should be Active</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mistake 2: Making moving objects Passive</strong></p>
+                    <ul>
+                        <li><strong>Problem:</strong> Object doesn't fall or react to physics</li>
+                        <li><strong>Solution:</strong> Objects that should move need to be Active</li>
+                        <li>Passive objects only move via animation</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mistake 3: Forgetting "Animated" checkbox</strong></p>
+                    <ul>
+                        <li><strong>Problem:</strong> Keyframed passive object doesn't affect active objects</li>
+                        <li><strong>Solution:</strong> Enable "Animated" on passive objects you keyframe</li>
+                        <li>Without this, animation is ignored by physics</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mistake 4: Too many Active objects</strong></p>
+                    <ul>
+                        <li><strong>Problem:</strong> Simulation becomes very slow</li>
+                        <li><strong>Solution:</strong> Use Passive for any object that doesn't need to move</li>
+                        <li>Each Active object increases calculation time</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A{Does Object Need to Move?} --> B{Via Physics or Animation?}
+                    A -->|No| C[Make PASSIVE]
+                    B -->|Physics| D[Make ACTIVE]
+                    B -->|Animation| E[Make PASSIVE + Animated]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style D fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style E fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                    style C fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 03
+     Continue with lesson_35_rigid_body_physics_part_04.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 35 - PART 04
+     File: lesson_35_rigid_body_physics_part_04.html
+     ============================================ -->
+
+            <section id="physical-properties">
+                <h3>⚙️ Physical Properties</h3>
+                
+                <p>Now that you understand Active and Passive objects, let's dive into the properties that control how they behave. These settings determine whether your object acts like a feather or a boulder, bounces like rubber or settles like lead.</p>
+
+                <h4>Mass: The Foundation of Physics</h4>
+                
+                <p>Mass is how much "stuff" your object is made of, measured in kilograms. It's one of the most important properties because it affects how objects interact with each other.</p>
+
+                <div class="card">
+                    <h4>⚖️ Understanding Mass</h4>
+                    
+                    <p><strong>What Mass Affects:</strong></p>
+                    <ul>
+                        <li><strong>Collision impact:</strong> Heavier objects hit harder</li>
+                        <li><strong>Resistance to movement:</strong> Heavy objects are harder to push</li>
+                        <li><strong>Momentum:</strong> Heavy moving objects keep moving longer</li>
+                        <li><strong>Stability:</strong> Heavy objects are harder to knock over</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>What Mass DOESN'T Affect:</strong></p>
+                    <ul>
+                        <li><strong>Fall speed:</strong> All objects fall at same rate in gravity (like real physics!)</li>
+                        <li><strong>Visual appearance:</strong> Mass is invisible, purely physical</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Real-World Mass References:</strong></p>
+                    <ul>
+                        <li><strong>0.1 kg:</strong> Apple, baseball</li>
+                        <li><strong>1.0 kg:</strong> Textbook, small laptop (default value)</li>
+                        <li><strong>5.0 kg:</strong> Bowling ball, small monitor</li>
+                        <li><strong>10.0 kg:</strong> Microwave, bag of concrete</li>
+                        <li><strong>100.0 kg:</strong> Average adult human, large furniture</li>
+                        <li><strong>1000.0 kg:</strong> Small car</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>🧪 Mass Experiment: Heavy vs. Light</h4>
+                    <ol>
+                        <li>Create three cubes in a row</li>
+                        <li>Left cube: Mass 0.1 (light)</li>
+                        <li>Middle cube: Mass 1.0 (default)</li>
+                        <li>Right cube: Mass 10.0 (heavy)</li>
+                        <li>Add a large sphere above them (Mass 5.0)</li>
+                        <li>Make sphere Active, let it fall onto the cubes</li>
+                        <li><strong>Observe:</strong> Light cube flies away, heavy cube barely moves!</li>
+                    </ol>
+                </div>
+
+                <h4>Friction: The Sliding Controller</h4>
+                
+                <p>Friction determines how much surfaces resist sliding against each other. Think about ice (low friction) versus rubber (high friction).</p>
+
+                <div class="card">
+                    <h4>🛝 Friction Settings</h4>
+                    
+                    <p><strong>Friction Value Range:</strong> 0.0 (no friction) to 1.0+ (high friction)</p>
+                    <p><strong>Default:</strong> 0.5</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Friction Values by Material:</strong></p>
+                    <ul>
+                        <li><strong>0.0-0.1:</strong> Ice, oil, perfectly slippery</li>
+                        <li><strong>0.2-0.3:</strong> Wet surfaces, polished metal</li>
+                        <li><strong>0.5:</strong> General default, normal surfaces</li>
+                        <li><strong>0.7-0.8:</strong> Wood on wood, concrete</li>
+                        <li><strong>0.9-1.0:</strong> Rubber, sandpaper, very grippy</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>What Friction Controls:</strong></p>
+                    <ul>
+                        <li>How easily objects slide down slopes</li>
+                        <li>How quickly rolling objects stop</li>
+                        <li>Whether stacked objects stay together or slide apart</li>
+                        <li>How much grip surfaces have</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Friction Interaction</h4>
+                    <p>When two objects collide, Blender averages their friction values:</p>
+                    <ul>
+                        <li>Object A (friction 0.2) hits Object B (friction 0.8)</li>
+                        <li>Effective friction = approximately 0.5</li>
+                        <li>Both objects' friction matters!</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Pro Tip:</strong> For a very slippery object, give it low friction AND give the surface it's on low friction. Double low = super slippery!</p>
+                </div>
+
+                <h4>Bounciness (Elasticity): The Bounce Factor</h4>
+                
+                <p>Bounciness determines how much kinetic energy is retained after a collision. It's technically called "elasticity" or "restitution" in physics.</p>
+
+                <div class="card">
+                    <h4>⚾ Bounciness Settings</h4>
+                    
+                    <p><strong>Bounciness Value Range:</strong> 0.0 (no bounce) to 1.0+ (super bounce)</p>
+                    <p><strong>Default:</strong> 0.0</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Bounciness by Material:</strong></p>
+                    <ul>
+                        <li><strong>0.0:</strong> Clay, putty, beanbag—absorbs all energy, no bounce</li>
+                        <li><strong>0.1-0.3:</strong> Wood, plastic—small bounce</li>
+                        <li><strong>0.4-0.6:</strong> Basketball, tennis ball—noticeable bounce</li>
+                        <li><strong>0.7-0.9:</strong> Super ball, rubber ball—high bounce</li>
+                        <li><strong>1.0:</strong> Perfect elasticity (theoretical, ball returns to same height)</li>
+                        <li><strong>1.0+:</strong> Gains energy (unrealistic but fun for effects!)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>What Bounciness Controls:</strong></p>
+                    <ul>
+                        <li>How high objects bounce after impact</li>
+                        <li>Whether objects settle quickly or keep bouncing</li>
+                        <li>Energy transfer in collisions</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>🧪 Bounciness Experiment</h4>
+                    <ol>
+                        <li>Create a ground plane (Passive, default settings)</li>
+                        <li>Create three spheres at same height</li>
+                        <li>Sphere 1: Bounciness 0.0 (no bounce)</li>
+                        <li>Sphere 2: Bounciness 0.5 (medium bounce)</li>
+                        <li>Sphere 3: Bounciness 0.9 (super bounce)</li>
+                        <li>All Active, let them fall</li>
+                        <li><strong>Watch:</strong> First one thuds, second bounces moderately, third bounces high multiple times!</li>
+                    </ol>
+                </div>
+
+                <blockquote>
+                    <p><strong>🎯 Real Physics Note:</strong> In the real world, no material has perfect elasticity (1.0). Even super balls lose some energy as heat and sound with each bounce. That's why even bouncy balls eventually stop bouncing. Values above 1.0 are physically impossible but great for stylized effects!</p>
+                </blockquote>
+
+                <h4>Damping: The Slow-Down Force</h4>
+                
+                <p>Damping simulates air resistance and internal friction. It gradually slows objects down over time.</p>
+
+                <div class="card">
+                    <h4>💨 Damping Settings</h4>
+                    
+                    <p><strong>Two Types of Damping:</strong></p>
+                    <ul>
+                        <li><strong>Translation Damping:</strong> Slows down movement (sliding, falling)</li>
+                        <li><strong>Rotation Damping:</strong> Slows down spinning</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Value Range:</strong> 0.0 (no damping) to 1.0 (extreme damping)</p>
+                    <p><strong>Default:</strong> 0.04 for both types</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>When to Adjust:</strong></p>
+                    <ul>
+                        <li><strong>Lower (0.0-0.02):</strong> Objects in space/vacuum, frictionless environments</li>
+                        <li><strong>Default (0.04):</strong> Normal air resistance, good for most scenes</li>
+                        <li><strong>Higher (0.1-0.5):</strong> Underwater effects, thick atmosphere, slow motion</li>
+                        <li><strong>Very High (0.5-1.0):</strong> Moving through syrup, exaggerated slow effects</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>What Damping Does:</strong></p>
+                    <ul>
+                        <li>Helps simulations stabilize and settle</li>
+                        <li>Prevents endless bouncing or spinning</li>
+                        <li>Simulates air/water resistance</li>
+                        <li>Makes animations look more natural</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Damping vs. Friction</h4>
+                    <p>These are easy to confuse but serve different purposes:</p>
+                    <ul>
+                        <li><strong>Friction:</strong> Acts at contact surfaces (sliding, rolling contact)</li>
+                        <li><strong>Damping:</strong> Acts on the object itself, always (air resistance, internal losses)</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Example:</strong> A ball rolling in space has no friction (no air) but could still have damping (internal losses in the ball material itself).</p>
+                </div>
+
+                <h4>Dynamic Settings</h4>
+
+                <div class="card">
+                    <h4>🎚️ Additional Dynamic Properties</h4>
+                    
+                    <p><strong>Dynamic (Checkbox):</strong></p>
+                    <ul>
+                        <li>Usually enabled by default for Active objects</li>
+                        <li>When disabled: Object can collide but won't be affected by forces</li>
+                        <li><strong>Use case:</strong> Animated active objects (keyframed but still collide)</li>
+                        <li>Rarely disabled—keep it on in most cases</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Enable Deactivation (Checkbox):</strong></p>
+                    <ul>
+                        <li>Default: Enabled</li>
+                        <li>Allows objects to "sleep" when they stop moving</li>
+                        <li>Sleeping objects don't calculate until something hits them</li>
+                        <li><strong>Performance benefit:</strong> Settled objects don't use CPU</li>
+                        <li>Keep enabled unless you have specific reasons not to</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Start Deactivated (Checkbox):</strong></p>
+                    <ul>
+                        <li>Object starts "asleep" and only wakes when hit</li>
+                        <li><strong>Use case:</strong> Objects that don't move until something disturbs them</li>
+                        <li>Example: Bowling pins that sit still until ball hits them</li>
+                    </ul>
+                </div>
+
+                <h4>Combining Properties for Realistic Materials</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>🎨 Material Presets</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9em;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Material</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Mass</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Friction</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Bounciness</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Damping</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Rubber Ball</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.5</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.8</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.8</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.04</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Bowling Ball</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">7.0</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.3</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.1</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.02</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Ice Cube</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.1</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.05</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.2</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.04</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Metal Box</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">10.0</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.4</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.2</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.04</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Wooden Block</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">1.5</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.6</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.2</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.04</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Concrete Block</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">20.0</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.8</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.05</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.05</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Plastic Toy</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.2</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.5</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.4</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.04</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Physical Properties] --> B[Mass]
+                    A --> C[Friction]
+                    A --> D[Bounciness]
+                    A --> E[Damping]
+                    B --> F[Impact Force]
+                    C --> F
+                    D --> F
+                    E --> F
+                    F --> G[Realistic Behavior]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                    style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Tuning Tip:</strong> Start with real-world material values as a baseline, then adjust to taste. Sometimes you need to exaggerate properties for dramatic effect—a bowling ball in animation might be heavier and bouncier than reality for better visual impact!</p>
+                </blockquote>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Pro Workflow: Property Testing</h4>
+                    <ol>
+                        <li><strong>Start with defaults:</strong> Mass 1.0, Friction 0.5, Bounciness 0.0</li>
+                        <li><strong>Run basic test:</strong> See how it behaves</li>
+                        <li><strong>Adjust one at a time:</strong> Change mass, test. Change friction, test.</li>
+                        <li><strong>Compare to reference:</strong> Think "should this be heavier/lighter than X?"</li>
+                        <li><strong>Fine-tune:</strong> Small adjustments make big differences</li>
+                    </ol>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 04
+     Continue with lesson_35_rigid_body_physics_part_05.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 35 - PART 05
+     File: lesson_35_rigid_body_physics_part_05.html
+     ============================================ -->
+
+            <section id="collision-shapes">
+                <h3>🔷 Collision Shapes</h3>
+                
+                <p>Here's a crucial concept that dramatically affects both simulation accuracy and performance: collision shapes. Your beautiful high-poly mesh might look complex, but for physics calculations, Blender can use a simplified shape. This is like having a stunt double for dangerous scenes—the simple shape does the physics work while your detailed mesh looks pretty!</p>
+
+                <h4>Why Collision Shapes Matter</h4>
+                
+                <p>Calculating precise collisions between complex meshes is computationally expensive. A sphere with 10,000 faces colliding with another complex object? That's millions of calculations per frame! Collision shapes are simplified versions that make physics fast while maintaining believable behavior.</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 The Performance vs. Accuracy Trade-off</h4>
+                    <ul>
+                        <li><strong>Simple shapes (Box, Sphere):</strong> Super fast but approximate</li>
+                        <li><strong>Complex shapes (Mesh, Convex Hull):</strong> Accurate but slow</li>
+                        <li><strong>The art:</strong> Finding the right balance for your scene</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Think of it like this:</strong> A basketball doesn't need to know about every tiny bump on its surface to bounce correctly. A sphere collision shape works perfectly and calculates instantly!</p>
+                </div>
+
+                <h4>Available Collision Shapes</h4>
+
+                <div class="card">
+                    <h4>🔷 Collision Shape Types</h4>
+                    
+                    <p><strong>1. Box (Default for cubes)</strong></p>
+                    <ul>
+                        <li><strong>Best for:</strong> Cubes, rectangular objects, buildings, crates</li>
+                        <li><strong>Performance:</strong> Excellent (very fast)</li>
+                        <li><strong>Accuracy:</strong> Perfect for box-like objects</li>
+                        <li><strong>Rotation:</strong> Oriented to object's bounding box</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Sphere</strong></p>
+                    <ul>
+                        <li><strong>Best for:</strong> Balls, planets, rounded objects</li>
+                        <li><strong>Performance:</strong> Excellent (very fast)</li>
+                        <li><strong>Accuracy:</strong> Perfect for spherical objects</li>
+                        <li><strong>Note:</strong> Sized to fit entire object (might be oversized)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Capsule</strong></p>
+                    <ul>
+                        <li><strong>Best for:</strong> Characters, cylinders with rounded ends, pills</li>
+                        <li><strong>Performance:</strong> Excellent (very fast)</li>
+                        <li><strong>Accuracy:</strong> Good for elongated rounded objects</li>
+                        <li><strong>Use case:</strong> Perfect for character collision proxies</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Cylinder</strong></p>
+                    <ul>
+                        <li><strong>Best for:</strong> Cans, barrels, columns</li>
+                        <li><strong>Performance:</strong> Excellent (very fast)</li>
+                        <li><strong>Accuracy:</strong> Good for cylindrical objects</li>
+                        <li><strong>Note:</strong> Flat ends, not rounded</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Cone</strong></p>
+                    <ul>
+                        <li><strong>Best for:</strong> Traffic cones, pyramids, pointed objects</li>
+                        <li><strong>Performance:</strong> Excellent (very fast)</li>
+                        <li><strong>Accuracy:</strong> Good for cone-shaped objects</li>
+                        <li><strong>Limitation:</strong> Less commonly used</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>6. Convex Hull</strong></p>
+                    <ul>
+                        <li><strong>Best for:</strong> Irregular but convex objects (no indentations)</li>
+                        <li><strong>Performance:</strong> Good (moderate speed)</li>
+                        <li><strong>Accuracy:</strong> Very good—wraps tight around object</li>
+                        <li><strong>How it works:</strong> Imagines shrink-wrapping your object</li>
+                        <li><strong>Limitation:</strong> Can't handle concave shapes (bowls, caves, "C" shapes)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>7. Mesh</strong></p>
+                    <ul>
+                        <li><strong>Best for:</strong> Complex shapes, terrain, architectural details</li>
+                        <li><strong>Performance:</strong> Poor (slow with high poly)</li>
+                        <li><strong>Accuracy:</strong> Perfect—uses actual mesh geometry</li>
+                        <li><strong>ONLY for Passive objects!</strong> Active objects can't use Mesh shape</li>
+                        <li><strong>Use case:</strong> Detailed ground, complex environment pieces</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Critical Limitation: Mesh Shape</h4>
+                    <p><strong>Mesh collision shape ONLY works on Passive objects!</strong></p>
+                    <ul>
+                        <li>Active objects cannot use Mesh shape (will default to Convex Hull)</li>
+                        <li>If you need complex Active collision, use multiple simple shapes or Convex Hull</li>
+                        <li>Passive terrain, floors, walls? Mesh is perfect!</li>
+                    </ul>
+                </div>
+
+                <h4>Choosing the Right Collision Shape</h4>
+
+                <div class="mermaid">
+                    graph TD
+                    A{Object Type?} --> B[Simple Geometric]
+                    A --> C[Complex/Irregular]
+                    B --> D{Which Shape?}
+                    D --> E[Box/Cube]
+                    D --> F[Sphere/Ball]
+                    D --> G[Cylinder/Can]
+                    C --> H{Active or Passive?}
+                    H --> I[Active: Convex Hull]
+                    H --> J[Passive: Mesh]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style I fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                    style J fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Collision Shape Decision Guide</h4>
+                    
+                    <p><strong>Use Box when:</strong></p>
+                    <ul>
+                        <li>Object is cube-like, rectangular, or has flat sides</li>
+                        <li>Building blocks, crates, books, furniture</li>
+                        <li>Speed is priority and shape is close to box</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Use Sphere when:</strong></p>
+                    <ul>
+                        <li>Object is round from all angles</li>
+                        <li>Balls, marbles, planets, bubbles</li>
+                        <li>Rolling is important behavior</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Use Capsule when:</strong></p>
+                    <ul>
+                        <li>Object is tall and rounded</li>
+                        <li>Character stand-ins, bottles, pills</li>
+                        <li>Need smooth rounded collision</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Use Cylinder when:</strong></p>
+                    <ul>
+                        <li>Object is cylindrical with flat ends</li>
+                        <li>Cans, barrels, columns, wheels (when standing)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Use Convex Hull when:</strong></p>
+                    <ul>
+                        <li>Object has irregular shape but no holes/indentations</li>
+                        <li>Rocks, potatoes, simple organic shapes</li>
+                        <li>Need better accuracy than primitives</li>
+                        <li>Object is Active (can't use Mesh)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Use Mesh when:</strong></p>
+                    <ul>
+                        <li>Object is Passive and has complex details that matter</li>
+                        <li>Terrain, detailed floors, architectural elements</li>
+                        <li>Has concave features (bowls, caves, indentations)</li>
+                        <li>Accuracy is more important than speed</li>
+                    </ul>
+                </div>
+
+                <h4>Changing Collision Shapes</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ How to Change Collision Shape</h4>
+                    <ol>
+                        <li>Select your rigid body object</li>
+                        <li>Go to Physics Properties</li>
+                        <li>Find "Collisions" section</li>
+                        <li>Click the "Shape" dropdown</li>
+                        <li>Select new shape</li>
+                        <li>Simulation updates immediately</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Visual Feedback:</strong></p>
+                    <ul>
+                        <li>In viewport, you can see collision shape as wireframe overlay</li>
+                        <li>Enable in Viewport Overlays → Physics → Rigid Body</li>
+                        <li>Helps visualize what the physics engine "sees"</li>
+                    </ul>
+                </div>
+
+                <h4>Collision Margin</h4>
+
+                <p>This is a subtle but important setting that adds an invisible padding around collision shapes.</p>
+
+                <div class="card">
+                    <h4>📏 Collision Margin Setting</h4>
+                    
+                    <p><strong>What it does:</strong></p>
+                    <ul>
+                        <li>Adds invisible buffer zone around collision shape</li>
+                        <li>Default: 0.04 units</li>
+                        <li>Helps prevent objects from getting "stuck" in each other</li>
+                        <li>Like a personal space bubble</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>When to adjust:</strong></p>
+                    <ul>
+                        <li><strong>Increase (0.1-0.2):</strong> Objects penetrating each other slightly</li>
+                        <li><strong>Decrease (0.01-0.02):</strong> Need very tight stacking, gaps too visible</li>
+                        <li><strong>Keep default:</strong> Works well in most cases</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Note:</strong> Larger margin = more stable but less accurate. Smaller = more accurate but can cause penetration.</p>
+                </div>
+
+                <h4>Practical Examples: Choosing Shapes</h4>
+
+                <div class="card">
+                    <h4>🎯 Real-World Shape Choices</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9em;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Object</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Best Shape</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Why</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Basketball</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Sphere</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Perfect sphere, needs to roll smoothly</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Wooden Crate</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Box</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Rectangular, fast collision</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Soda Can</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Cylinder</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Cylindrical shape matches perfectly</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Rock</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Convex Hull</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Irregular but no holes, Active object</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Bowl (Passive)</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Mesh</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Concave interior matters for objects inside</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Character</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Capsule</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Tall, rounded, smooth collision</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Terrain (Passive)</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Mesh</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Complex surface detail matters</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Domino</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Box</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Thin rectangle, box works perfectly</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Performance Impact</h4>
+
+                <div class="card">
+                    <h4>⚡ Collision Shape Speed Comparison</h4>
+                    <p><strong>Ranked from fastest to slowest:</strong></p>
+                    <ol>
+                        <li><strong>Sphere:</strong> ⚡⚡⚡⚡⚡ Fastest (single point and radius)</li>
+                        <li><strong>Box:</strong> ⚡⚡⚡⚡⚡ Fastest (6 planes)</li>
+                        <li><strong>Capsule:</strong> ⚡⚡⚡⚡ Very fast (2 spheres + cylinder)</li>
+                        <li><strong>Cylinder:</strong> ⚡⚡⚡⚡ Very fast</li>
+                        <li><strong>Cone:</strong> ⚡⚡⚡ Fast</li>
+                        <li><strong>Convex Hull:</strong> ⚡⚡ Moderate (depends on vertex count)</li>
+                        <li><strong>Mesh:</strong> ⚡ Slow (depends heavily on polygon count)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Performance Tips:</strong></p>
+                    <ul>
+                        <li>Use simplest shape that gives acceptable results</li>
+                        <li>Reserve Convex Hull for when primitives don't work</li>
+                        <li>Use Mesh only for Passive objects where accuracy is critical</li>
+                        <li>100 spheres simulate faster than 10 high-poly mesh collisions</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>💡 Pro Secret:</strong> Many professional destruction scenes use Box collision shapes even for irregularly shaped debris! As long as objects tumble and bounce believably, viewers don't notice that collision shapes are simpler than visual meshes. Speed matters more than perfect accuracy!</p>
+                </blockquote>
+
+                <h4>Advanced: Compound Shapes</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Creating Complex Collision with Simple Shapes</h4>
+                    <p>For very complex objects, you can use multiple simple collision objects:</p>
+                    <ol>
+                        <li><strong>Visual mesh:</strong> Your detailed, pretty object</li>
+                        <li><strong>Collision proxies:</strong> Multiple simple shapes (invisible) that approximate the form</li>
+                        <li><strong>Parent collision to visual:</strong> They move together</li>
+                        <li><strong>Hide collision objects:</strong> Only visual mesh renders</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example: Chair</strong></p>
+                    <ul>
+                        <li>Visual: High-poly detailed chair model</li>
+                        <li>Collision: 5 boxes (seat, back, four legs)</li>
+                        <li>Result: Fast, accurate collision without mesh shape</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Common Collision Shape Mistakes</h4>
+                    <ul>
+                        <li><strong>Using Mesh for Active objects:</strong> Blender will override to Convex Hull</li>
+                        <li><strong>Over-complicating:</strong> Mesh shape for everything = slow simulation</li>
+                        <li><strong>Wrong shape orientation:</strong> Cylinder lying on side needs Convex Hull, not Cylinder</li>
+                        <li><strong>Forgetting margin:</strong> Objects stuck? Check collision margin</li>
+                        <li><strong>Not visualizing:</strong> Enable collision shape overlay to see what physics "sees"</li>
+                    </ul>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_35_rigid_body_physics_part_06.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 35 - PART 06
+     File: lesson_35_rigid_body_physics_part_06.html
+     ============================================ -->
+
+            <section id="constraints">
+                <h3>🔗 Constraints and Joints</h3>
+                
+                <p>Now we're getting into the really cool stuff! Constraints allow you to connect rigid body objects together in specific ways. Think hinges on a door, wheels on a car, a pendulum swinging, or a chain of connected links. Constraints create mechanical relationships between objects that follow real physics.</p>
+
+                <h4>What Are Rigid Body Constraints?</h4>
+                
+                <p>Constraints are invisible connections between rigid body objects that limit or control how they move relative to each other. They're like the joints in your skeleton—your elbow can bend but not twist sideways.</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Understanding Constraints</h4>
+                    <ul>
+                        <li><strong>Think of them as:</strong> Invisible connectors between objects</li>
+                        <li><strong>They define:</strong> How objects can move relative to each other</li>
+                        <li><strong>Common uses:</strong> Doors, wheels, chains, ragdolls, machines</li>
+                        <li><strong>Physics-based:</strong> Connections respond to forces naturally</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Real-World Examples:</strong></p>
+                    <ul>
+                        <li><strong>Hinge:</strong> Door on a wall, laptop lid</li>
+                        <li><strong>Ball-and-socket:</strong> Shoulder joint, trailer hitch</li>
+                        <li><strong>Slider:</strong> Drawer sliding in/out, piston in engine</li>
+                        <li><strong>Spring:</strong> Car suspension, pogo stick</li>
+                    </ul>
+                </div>
+
+                <h4>Types of Rigid Body Constraints</h4>
+
+                <div class="card">
+                    <h4>🔧 Constraint Types</h4>
+                    
+                    <p><strong>1. Fixed (Glue)</strong></p>
+                    <ul>
+                        <li><strong>Function:</strong> Objects move as one unit, completely locked together</li>
+                        <li><strong>Think:</strong> Welded joint, super glue</li>
+                        <li><strong>Use cases:</strong> Permanently attach objects, compound objects</li>
+                        <li><strong>Example:</strong> Gluing a handle to a sword</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Point (Ball-and-Socket)</strong></p>
+                    <ul>
+                        <li><strong>Function:</strong> Objects share a single pivot point, can rotate freely around it</li>
+                        <li><strong>Think:</strong> Shoulder joint, chain link</li>
+                        <li><strong>Degrees of freedom:</strong> 3 rotational axes</li>
+                        <li><strong>Use cases:</strong> Pendulums, chains, rope connections</li>
+                        <li><strong>Example:</strong> Wrecking ball on a cable</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Hinge</strong></p>
+                    <ul>
+                        <li><strong>Function:</strong> Objects rotate around single axis only</li>
+                        <li><strong>Think:</strong> Door hinge, elbow joint</li>
+                        <li><strong>Degrees of freedom:</strong> 1 rotational axis</li>
+                        <li><strong>Use cases:</strong> Doors, flaps, rotating wheels</li>
+                        <li><strong>Example:</strong> Door swinging open</li>
+                        <li><strong>Extra:</strong> Can add limits (door only opens 90°), motors (powered rotation)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Slider (Piston)</strong></p>
+                    <ul>
+                        <li><strong>Function:</strong> Objects slide along single axis only</li>
+                        <li><strong>Think:</strong> Drawer, piston</li>
+                        <li><strong>Degrees of freedom:</strong> 1 translational axis</li>
+                        <li><strong>Use cases:</strong> Drawers, sliding doors, pistons</li>
+                        <li><strong>Example:</strong> Drawer sliding in and out</li>
+                        <li><strong>Extra:</strong> Can set limits (drawer only opens 30cm)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Piston (Slider + Spring)</strong></p>
+                    <ul>
+                        <li><strong>Function:</strong> Slider with spring force</li>
+                        <li><strong>Think:</strong> Car shock absorber</li>
+                        <li><strong>Use cases:</strong> Suspension, springy connections</li>
+                        <li><strong>Example:</strong> Car bouncing on suspension</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>6. Generic (Fully Customizable)</strong></p>
+                    <ul>
+                        <li><strong>Function:</strong> Customize every degree of freedom independently</li>
+                        <li><strong>Think:</strong> Swiss army knife of constraints</li>
+                        <li><strong>Use cases:</strong> Complex joints, custom limitations</li>
+                        <li><strong>Complexity:</strong> Most powerful but most complex to set up</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>7. Generic Spring</strong></p>
+                    <ul>
+                        <li><strong>Function:</strong> Generic constraint with springs on all axes</li>
+                        <li><strong>Think:</strong> Flexible, bouncy connections</li>
+                        <li><strong>Use cases:</strong> Soft connections, ragdoll physics</li>
+                        <li><strong>Example:</strong> Floppy antenna on a car</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>8. Motor</strong></p>
+                    <ul>
+                        <li><strong>Function:</strong> Powered rotation at constant speed</li>
+                        <li><strong>Think:</strong> Electric motor, fan blade</li>
+                        <li><strong>Use cases:</strong> Spinning wheels, rotating fans, conveyor belts</li>
+                        <li><strong>Example:</strong> Fan blades spinning continuously</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Rigid Body Constraints] --> B[Fixed: Lock Together]
+                    A --> C[Point: Swivel Freely]
+                    A --> D[Hinge: Rotate One Axis]
+                    A --> E[Slider: Slide One Axis]
+                    A --> F[Motor: Powered Rotation]
+                    A --> G[Spring: Bouncy Connection]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style D fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h4>Creating Your First Constraint: Swinging Pendulum</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Tutorial: Simple Pendulum</h4>
+                    
+                    <p><strong>Step 1: Create the Objects</strong></p>
+                    <ol>
+                        <li>Add a small cube: Shift + A → Mesh → Cube, scale to 0.3</li>
+                        <li>Position it at origin</li>
+                        <li>Add an UV Sphere: Shift + A → Mesh → UV Sphere</li>
+                        <li>Move sphere down: G, Z, -3, Enter (hangs below cube)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Set Up Physics</strong></p>
+                    <ol>
+                        <li>Select cube → Add Rigid Body → Set to <strong>Passive</strong></li>
+                        <li>Select sphere → Add Rigid Body → Set to <strong>Active</strong></li>
+                        <li>Cube acts as anchor point (doesn't move)</li>
+                        <li>Sphere will swing (affected by gravity)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Add the Constraint</strong></p>
+                    <ol>
+                        <li>Shift + A → Force Field → <strong>Rigid Body Constraint</strong></li>
+                        <li>An empty appears (looks like a small octahedron)</li>
+                        <li>Position it at the cube's location (Shift + S → Cursor to Selected, then Shift + S → Selection to Cursor)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Configure the Constraint</strong></p>
+                    <ol>
+                        <li>With constraint selected, go to Physics Properties</li>
+                        <li>Set Type to <strong>Point</strong></li>
+                        <li>In <strong>Object 1</strong>, select the cube (click eyedropper, click cube)</li>
+                        <li>In <strong>Object 2</strong>, select the sphere</li>
+                        <li>Objects are now connected!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Test the Pendulum</strong></p>
+                    <ol>
+                        <li>Go to frame 1</li>
+                        <li>Select sphere, move it to the side: G, X, 2, Enter</li>
+                        <li>Press Spacebar to play</li>
+                        <li>Watch the sphere swing back and forth like a pendulum!</li>
+                    </ol>
+                </div>
+
+                <p>Congratulations! You just created a physics-based pendulum. The sphere swings naturally under gravity while staying connected to the anchor point.</p>
+
+                <h4>Creating a Hinged Door</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Tutorial: Swinging Door</h4>
+                    
+                    <p><strong>Step 1: Create Door and Frame</strong></p>
+                    <ol>
+                        <li>Add a cube for door: Scale flat (S, X, 0.1), scale tall (S, Z, 2)</li>
+                        <li>Add a cube for door frame: Position to side of door</li>
+                        <li>Door should be next to frame, aligned at one edge</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Physics Setup</strong></p>
+                    <ol>
+                        <li>Frame: Rigid Body → <strong>Passive</strong></li>
+                        <li>Door: Rigid Body → <strong>Active</strong></li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Add Hinge Constraint</strong></p>
+                    <ol>
+                        <li>Add Rigid Body Constraint empty</li>
+                        <li>Position it at the edge where door meets frame (hinge location)</li>
+                        <li>Set Type to <strong>Hinge</strong></li>
+                        <li>Object 1: Frame, Object 2: Door</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Set Hinge Axis</strong></p>
+                    <ol>
+                        <li>In constraint settings, find "Axis" setting</li>
+                        <li>Set to Z axis (door rotates around vertical axis)</li>
+                        <li>You can enable limits: 0° to 90° (door only opens one way)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Test</strong></p>
+                    <ol>
+                        <li>Add a sphere to push the door open</li>
+                        <li>Position sphere to fly toward door</li>
+                        <li>Sphere hits door, door swings open on hinge!</li>
+                    </ol>
+                </div>
+
+                <h4>Constraint Settings Deep Dive</h4>
+
+                <div class="card">
+                    <h4>⚙️ Common Constraint Settings</h4>
+                    
+                    <p><strong>Object 1 & Object 2:</strong></p>
+                    <ul>
+                        <li>The two rigid bodies connected by this constraint</li>
+                        <li>Use eyedropper to select objects</li>
+                        <li>Order usually doesn't matter (except for some limits)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Breaking Threshold:</strong></p>
+                    <ul>
+                        <li>Force required to break the constraint</li>
+                        <li>0.0 = unbreakable (default)</li>
+                        <li>Higher value = stronger connection</li>
+                        <li><strong>Use case:</strong> Breakable chains, destructible connections</li>
+                        <li><strong>Example:</strong> Set to 50.0 for a chain link that breaks under stress</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Disable Collisions:</strong></p>
+                    <ul>
+                        <li>Prevents connected objects from colliding with each other</li>
+                        <li>Usually enabled (checked) to prevent jittering</li>
+                        <li>Connected objects pass through each other</li>
+                        <li>Important for hinges and sliders to work smoothly</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Override Iterations:</strong></p>
+                    <ul>
+                        <li>How many times solver calculates this constraint per frame</li>
+                        <li>Higher = more stable but slower</li>
+                        <li>Increase if constraint is unstable or "breaking" when it shouldn't</li>
+                    </ul>
+                </div>
+
+                <h4>Hinge-Specific Settings</h4>
+
+                <div class="card">
+                    <h4>🚪 Hinge Constraint Options</h4>
+                    
+                    <p><strong>Limits:</strong></p>
+                    <ul>
+                        <li>Enable to restrict rotation range</li>
+                        <li>Lower Limit: Minimum rotation angle</li>
+                        <li>Upper Limit: Maximum rotation angle</li>
+                        <li><strong>Example:</strong> Door opens 0° to 90° only</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Motor:</strong></p>
+                    <ul>
+                        <li>Enable to add powered rotation</li>
+                        <li><strong>Target Velocity:</strong> Speed of rotation (radians/second)</li>
+                        <li><strong>Max Impulse:</strong> Motor strength (torque)</li>
+                        <li><strong>Use case:</strong> Spinning wheel, powered door</li>
+                        <li><strong>Example:</strong> Fan blade spinning at constant speed</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Spring:</strong></p>
+                    <ul>
+                        <li>Adds springy resistance to rotation</li>
+                        <li>Tries to return to rest position</li>
+                        <li><strong>Stiffness:</strong> How strong the spring force is</li>
+                        <li><strong>Damping:</strong> How quickly spring settles</li>
+                        <li><strong>Use case:</strong> Self-closing door, car suspension</li>
+                    </ul>
+                </div>
+
+                <h4>Creating a Chain</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Quick Tutorial: Simple Chain</h4>
+                    <ol>
+                        <li><strong>Create links:</strong> Make 5 torus objects in a vertical line</li>
+                        <li><strong>Physics:</strong> All Active rigid bodies (Box or Convex Hull collision)</li>
+                        <li><strong>Connect them:</strong> 
+                            <ul>
+                                <li>Point constraint between Link 1 and Link 2</li>
+                                <li>Point constraint between Link 2 and Link 3</li>
+                                <li>Continue for all links</li>
+                            </ul>
+                        </li>
+                        <li><strong>Anchor:</strong> Make top link Passive (or connect to passive ceiling)</li>
+                        <li><strong>Test:</strong> Chain hangs and swings naturally!</li>
+                        <li><strong>Bonus:</strong> Add breakable constraints (Breaking Threshold: 10.0)</li>
+                    </ol>
+                </div>
+
+                <blockquote>
+                    <p><strong>🎮 Game Development Connection:</strong> Ragdoll physics in games uses exactly these constraint types! A character's skeleton is made of rigid body bones connected with Point and Hinge constraints. When the character "dies," physics takes over and creates realistic falling animations automatically.</p>
+                </blockquote>
+
+                <h4>Motor Constraint: Spinning Fan</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Creating a Powered Motor</h4>
+                    <ol>
+                        <li>Create fan blades (4 flat cubes arranged in cross pattern)</li>
+                        <li>Create axle (small cylinder at center)</li>
+                        <li>Axle: Passive, Blades: Active</li>
+                        <li>Add Hinge constraint connecting axle to blades</li>
+                        <li>Enable Motor in constraint settings</li>
+                        <li>Set Target Velocity to 10.0 (fast spin)</li>
+                        <li>Set Max Impulse to 100.0 (strong motor)</li>
+                        <li>Play simulation: Fan spins continuously!</li>
+                    </ol>
+                </div>
+
+                <h4>Common Constraint Issues</h4>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Troubleshooting Constraints</h4>
+                    
+                    <p><strong>Problem: Objects fly apart or behave erratically</strong></p>
+                    <ul>
+                        <li>Enable "Disable Collisions" between connected objects</li>
+                        <li>Increase Override Iterations to 20-50</li>
+                        <li>Check that constraint empty is positioned correctly</li>
+                        <li>Make sure both objects have rigid body physics</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Constraint doesn't seem to work</strong></p>
+                    <ul>
+                        <li>Check Object 1 and Object 2 are assigned</li>
+                        <li>Verify constraint type is correct</li>
+                        <li>Make sure objects aren't already constrained elsewhere</li>
+                        <li>Position constraint empty at connection point</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Hinge rotates wrong direction</strong></p>
+                    <ul>
+                        <li>Change Axis setting (X, Y, or Z)</li>
+                        <li>Rotate the constraint empty to align properly</li>
+                        <li>Swap Object 1 and Object 2</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Chain links pass through each other</strong></p>
+                    <ul>
+                        <li>This is normal with "Disable Collisions" enabled</li>
+                        <li>Links should overlap slightly for stability</li>
+                        <li>If you need collision, disable that setting (but may jitter)</li>
+                    </ul>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 06
+     Continue with lesson_35_rigid_body_physics_part_07.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 35 - PART 07
+     File: lesson_35_rigid_body_physics_part_07.html
+     ============================================ -->
+
+            <section id="world-settings">
+                <h3>🌍 Rigid Body World Settings</h3>
+                
+                <p>While individual object properties control how specific objects behave, the Rigid Body World settings control the overall simulation environment. This is where you adjust global physics parameters like gravity, simulation speed, and solver accuracy.</p>
+
+                <h4>Accessing Rigid Body World Settings</h4>
+                
+                <p>Unlike object-specific settings, world settings apply to your entire scene's rigid body simulation.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Finding World Settings</h4>
+                    <ol>
+                        <li>Go to <strong>Scene Properties</strong> tab (looks like a stack of spheres/objects icon)</li>
+                        <li>Scroll down to find <strong>"Rigid Body World"</strong> section</li>
+                        <li>If you don't see it, add rigid body physics to at least one object first</li>
+                        <li>These settings affect all rigid bodies in the scene</li>
+                    </ol>
+                </div>
+
+                <h4>Key World Settings</h4>
+
+                <div class="card">
+                    <h4>🌐 Rigid Body World Properties</h4>
+                    
+                    <p><strong>Collection:</strong></p>
+                    <ul>
+                        <li>Defines which collection contains rigid body objects</li>
+                        <li>Default: Usually auto-created "RigidBodyWorld" collection</li>
+                        <li>Only objects in this collection participate in simulation</li>
+                        <li><strong>Use case:</strong> Separate collections for different physics simulations</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Speed:</strong></p>
+                    <ul>
+                        <li>Controls simulation playback speed</li>
+                        <li>Default: 1.0 (real-time)</li>
+                        <li><strong>Less than 1.0 (0.5):</strong> Slow motion effect</li>
+                        <li><strong>Greater than 1.0 (2.0):</strong> Fast forward effect</li>
+                        <li><strong>Important:</strong> Doesn't affect baked simulation, only real-time playback</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Split Impulse:</strong></p>
+                    <ul>
+                        <li>Advanced physics solver option</li>
+                        <li>Default: Enabled</li>
+                        <li>Helps prevent objects from penetrating each other at high speeds</li>
+                        <li><strong>Keep enabled</strong> unless you have specific reasons not to</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Time Scale:</strong></p>
+                    <ul>
+                        <li>Scales simulation time relative to scene time</li>
+                        <li>Default: 1.0</li>
+                        <li>Similar to Speed but affects baked simulations too</li>
+                        <li>Usually left at default</li>
+                    </ul>
+                </div>
+
+                <h4>Gravity Settings</h4>
+                
+                <p>One of the most important world settings is gravity—the invisible force pulling everything downward.</p>
+
+                <div class="card">
+                    <h4>⬇️ Gravity Configuration</h4>
+                    
+                    <p><strong>Gravity Vector (X, Y, Z):</strong></p>
+                    <ul>
+                        <li>Default: (0, 0, -9.81) meters per second squared</li>
+                        <li>-9.81 is Earth's gravity on Z axis (downward)</li>
+                        <li>Adjust to simulate different environments</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Common Gravity Values:</strong></p>
+                    <ul>
+                        <li><strong>Earth:</strong> (0, 0, -9.81) - default, normal gravity</li>
+                        <li><strong>Moon:</strong> (0, 0, -1.62) - weak gravity, floaty feeling</li>
+                        <li><strong>Mars:</strong> (0, 0, -3.71) - between Moon and Earth</li>
+                        <li><strong>Jupiter:</strong> (0, 0, -24.79) - super heavy, objects fall fast</li>
+                        <li><strong>Zero Gravity:</strong> (0, 0, 0) - space/floating objects</li>
+                        <li><strong>Reversed:</strong> (0, 0, 9.81) - everything falls upward!</li>
+                        <li><strong>Sideways:</strong> (-9.81, 0, 0) - gravity pulls to the side</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Creative Uses:</strong></p>
+                    <ul>
+                        <li><strong>Slow motion:</strong> Reduce gravity to -2.0 for dreamy floating</li>
+                        <li><strong>Heavy impact:</strong> Increase to -20.0 for dramatic falls</li>
+                        <li><strong>Sideways world:</strong> Change axis for unusual perspectives</li>
+                        <li><strong>Weightless:</strong> Zero gravity for space scenes</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Gravity Direction Explained</h4>
+                    <p>The gravity vector has three components:</p>
+                    <ul>
+                        <li><strong>X:</strong> Left/Right gravity force</li>
+                        <li><strong>Y:</strong> Forward/Backward gravity force</li>
+                        <li><strong>Z:</strong> Up/Down gravity force (most common)</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Example:</strong> Setting gravity to (-5, 0, -5) creates diagonal gravity—objects fall down AND to the left simultaneously!</p>
+                </div>
+
+                <h4>Solver Settings</h4>
+                
+                <p>These control how accurately Blender calculates physics. Higher accuracy = slower but more stable.</p>
+
+                <div class="card">
+                    <h4>🧮 Physics Solver Options</h4>
+                    
+                    <p><strong>Steps Per Second:</strong></p>
+                    <ul>
+                        <li>How many physics calculations per second</li>
+                        <li>Default: 60 (matches typical frame rate)</li>
+                        <li><strong>Lower (30-40):</strong> Faster calculation, less accurate</li>
+                        <li><strong>Higher (120-240):</strong> Slower but more stable/accurate</li>
+                        <li><strong>When to increase:</strong> Fast-moving objects, complex collisions</li>
+                        <li><strong>When to decrease:</strong> Simple scenes, need faster preview</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Solver Iterations:</strong></p>
+                    <ul>
+                        <li>How many times solver refines calculations per step</li>
+                        <li>Default: 10</li>
+                        <li><strong>Lower (5):</strong> Faster but objects may penetrate each other</li>
+                        <li><strong>Higher (20-50):</strong> More stable stacking, accurate collisions</li>
+                        <li><strong>Use case:</strong> Increase for tall towers, complex stacking</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Performance vs. Accuracy</h4>
+                    <p><strong>The Trade-off:</strong></p>
+                    <ul>
+                        <li>Higher Steps Per Second = More accurate but slower</li>
+                        <li>Higher Solver Iterations = More stable but slower</li>
+                        <li><strong>For testing:</strong> Use lower values (30 steps, 5 iterations)</li>
+                        <li><strong>For final:</strong> Use higher values (60-120 steps, 10-20 iterations)</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Rule of thumb:</strong> Start low for speed, increase only if you see problems!</p>
+                </div>
+
+                <h4>Cache Settings</h4>
+
+                <div class="card">
+                    <h4>💾 Rigid Body Cache</h4>
+                    
+                    <p><strong>Simulation Start/End:</strong></p>
+                    <ul>
+                        <li>Which frames to simulate</li>
+                        <li>Default: 1 to 250</li>
+                        <li>Set to your animation's actual range</li>
+                        <li><strong>Tip:</strong> Simulate only frames you need to save time</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Cache Step:</strong></p>
+                    <ul>
+                        <li>How often to save simulation state</li>
+                        <li>Default: 1 (every frame)</li>
+                        <li>Higher values save less data but less smooth playback</li>
+                        <li><strong>Keep at 1</strong> for smooth results</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Bake Button:</strong></p>
+                    <ul>
+                        <li>Pre-calculates entire simulation</li>
+                        <li>Saves to disk for instant playback</li>
+                        <li>Required before rendering</li>
+                        <li>We'll cover baking in detail later!</li>
+                    </ul>
+                </div>
+
+                <h4>Experimenting with World Settings</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>🧪 World Settings Experiments</h4>
+                    
+                    <p><strong>Experiment 1: Moon Gravity</strong></p>
+                    <ol>
+                        <li>Set gravity to (0, 0, -1.62)</li>
+                        <li>Create falling cubes</li>
+                        <li>Notice: They fall slowly, bounce higher, float more</li>
+                        <li>Perfect for space/moon scenes!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Experiment 2: Zero Gravity Chaos</strong></p>
+                    <ol>
+                        <li>Set gravity to (0, 0, 0)</li>
+                        <li>Create several objects with initial velocity</li>
+                        <li>Give them slight pushes (animate position on frame 1-2)</li>
+                        <li>Watch them float and drift forever!</li>
+                        <li>Add damping to slow them down over time</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Experiment 3: Slow Motion</strong></p>
+                    <ol>
+                        <li>Keep normal gravity (-9.81)</li>
+                        <li>Set Time Scale to 0.3</li>
+                        <li>Everything moves in dramatic slow motion</li>
+                        <li>Great for action sequences!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Experiment 4: Sideways World</strong></p>
+                    <ol>
+                        <li>Set gravity to (-9.81, 0, 0)</li>
+                        <li>Create a "floor" on the X axis</li>
+                        <li>Objects fall to the side!</li>
+                        <li>Rotate camera for mind-bending effect</li>
+                    </ol>
+                </div>
+
+                <blockquote>
+                    <p><strong>🎬 Film Technique:</strong> Many action movies use altered gravity in CGI simulations. Reduce gravity slightly (to -7.0 or -8.0) to make debris float more dramatically. Increase gravity (to -12.0) to make impacts more violent. These subtle changes create more visually interesting results than real physics!</p>
+                </blockquote>
+
+                <h4>Scene-Specific Configurations</h4>
+
+                <div class="card">
+                    <h4>🎯 Recommended Settings by Scene Type</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9em;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Scene Type</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Gravity</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Steps/Sec</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Iterations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Simple Falling</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">-9.81</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">60</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">10</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Tall Tower/Stacking</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">-9.81</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">120</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">20-30</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Fast Projectiles</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">-9.81</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">120-240</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">10-15</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Domino Chain</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">-9.81</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">60-120</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">15-20</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Space/Zero-G</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">60</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">10</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Destruction (many objects)</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">-9.81</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">60-120</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">10-15</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Rigid Body World] --> B[Gravity Settings]
+                    A --> C[Solver Settings]
+                    A --> D[Cache Settings]
+                    B --> E[Affects All Objects]
+                    C --> E
+                    D --> F[Simulation Speed & Accuracy]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h4>When to Adjust World Settings</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 World Settings Decision Guide</h4>
+                    
+                    <p><strong>Adjust Gravity When:</strong></p>
+                    <ul>
+                        <li>Creating non-Earth environments (space, moon, other planets)</li>
+                        <li>Want stylized slow-motion or fast-action effects</li>
+                        <li>Need directional gravity for artistic reasons</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Increase Steps Per Second When:</strong></p>
+                    <ul>
+                        <li>Objects moving very fast</li>
+                        <li>Objects passing through each other</li>
+                        <li>Simulation looks jittery or unstable</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Increase Solver Iterations When:</strong></p>
+                    <ul>
+                        <li>Stacking tall towers (they collapse immediately)</li>
+                        <li>Objects sink into each other</li>
+                        <li>Constraints are wobbly or breaking</li>
+                        <li>Need very accurate collision detection</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Keep Defaults When:</strong></p>
+                    <ul>
+                        <li>Simple scenes with basic falling/rolling</li>
+                        <li>Testing and don't need perfect accuracy</li>
+                        <li>Want fastest possible calculation time</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Common World Setting Mistakes</h4>
+                    <ul>
+                        <li><strong>Too high Steps Per Second:</strong> Simulation becomes very slow for minimal quality gain</li>
+                        <li><strong>Too low Solver Iterations:</strong> Objects pass through each other</li>
+                        <li><strong>Wrong gravity axis:</strong> Objects fall sideways when you meant down</li>
+                        <li><strong>Forgetting to bake:</strong> Changes won't show in renders without baking</li>
+                    </ul>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 07
+     Continue with lesson_35_rigid_body_physics_part_08.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 35 - PART 08
+     File: lesson_35_rigid_body_physics_part_08.html
+     ============================================ -->
+
+            <section id="practical-examples">
+                <h3>🎨 Practical Examples</h3>
+                
+                <p>Now let's put everything together with some fun, practical examples! These tutorials will help you master rigid body physics by creating real-world scenarios you can use in your projects.</p>
+
+                <h4>Example 1: Domino Chain Reaction</h4>
+                
+                <p>The classic physics demonstration—a chain of dominos toppling one after another. This teaches precise placement and demonstrates force transfer between objects.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Creating a Domino Chain</h4>
+                    
+                    <p><strong>Step 1: Create First Domino</strong></p>
+                    <ol>
+                        <li>Add cube: Shift + A → Mesh → Cube</li>
+                        <li>Scale thin: S, Y, 0.1, Enter</li>
+                        <li>Scale tall: S, Z, 2, Enter</li>
+                        <li>This creates a domino shape</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Position and Duplicate</strong></p>
+                    <ol>
+                        <li>Position first domino upright</li>
+                        <li>Select it, Shift + D to duplicate</li>
+                        <li>Move along X: X, 0.4, Enter (small gap)</li>
+                        <li>Repeat to create 10-15 dominos in a line</li>
+                        <li><strong>Tip:</strong> Use Array Modifier for perfect spacing!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Physics Setup</strong></p>
+                    <ol>
+                        <li>Select all dominos (A)</li>
+                        <li>Add Rigid Body → Active</li>
+                        <li>Settings for all:
+                            <ul>
+                                <li>Mass: 0.5 (light enough to topple)</li>
+                                <li>Friction: 0.5</li>
+                                <li>Shape: Box (perfect for rectangular)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Add Ground</strong></p>
+                    <ol>
+                        <li>Add plane, scale large</li>
+                        <li>Rigid Body → Passive</li>
+                        <li>Friction: 0.6 (stable surface)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Start the Chain</strong></p>
+                    <ol>
+                        <li>Add small sphere at one end</li>
+                        <li>Position it to roll into first domino</li>
+                        <li>Give sphere Active physics</li>
+                        <li>Or: Manually tip first domino (rotate slightly at frame 1)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 6: Fine-Tune</strong></p>
+                    <ol>
+                        <li>Test the simulation</li>
+                        <li>Adjust spacing if dominos miss each other</li>
+                        <li>Increase Solver Iterations to 15-20 for stability</li>
+                        <li>Watch the satisfying cascade!</li>
+                    </ol>
+                </div>
+
+                <blockquote>
+                    <p><strong>🎯 Pro Tip:</strong> For curved domino paths, use a Curve modifier and Array modifier together! Create a curve path, array the dominos along it, and they'll follow the curve perfectly.</p>
+                </blockquote>
+
+                <h4>Example 2: Bowling Alley</h4>
+                
+                <p>Create a simple bowling scene with a ball rolling down a lane to hit pins. Great for understanding mass, collision, and momentum transfer.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Bowling Simulation</h4>
+                    
+                    <p><strong>Step 1: Create the Lane</strong></p>
+                    <ol>
+                        <li>Add plane, scale long: S, Y, 5, Enter</li>
+                        <li>Rigid Body → Passive</li>
+                        <li>Friction: 0.1 (slippery bowling lane)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Create Bowling Pins</strong></p>
+                    <ol>
+                        <li>Add cone (Shift + A → Mesh → Cone)</li>
+                        <li>Scale and shape to look like pin</li>
+                        <li>Position at end of lane</li>
+                        <li>Duplicate in triangle formation (1-2-3-4 pattern)</li>
+                        <li>Total: 10 pins in bowling triangle</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Pin Physics</strong></p>
+                    <ol>
+                        <li>Select all pins</li>
+                        <li>Rigid Body → Active</li>
+                        <li>Settings:
+                            <ul>
+                                <li>Mass: 1.5 (bowling pin weight)</li>
+                                <li>Shape: Convex Hull or Cylinder</li>
+                                <li>Friction: 0.4</li>
+                                <li>Start Deactivated: Enable (pins don't move until hit)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Create Bowling Ball</strong></p>
+                    <ol>
+                        <li>Add UV Sphere</li>
+                        <li>Scale to bowling ball size (radius 0.11 meters in reality)</li>
+                        <li>Position at start of lane</li>
+                        <li>Rigid Body → Active</li>
+                        <li>Settings:
+                            <ul>
+                                <li>Mass: 7.0 (standard bowling ball: 7kg)</li>
+                                <li>Shape: Sphere (perfect fit!)</li>
+                                <li>Friction: 0.3</li>
+                                <li>Bounciness: 0.1 (barely bounces)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Give Ball Initial Velocity</strong></p>
+                    <ol>
+                        <li>Two methods:
+                            <ul>
+                                <li><strong>Method A:</strong> At frame 1, ball at start. At frame 2, move ball forward. Creates initial push.</li>
+                                <li><strong>Method B:</strong> Position ball on slight ramp, gravity provides velocity</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 6: Test and Refine</strong></p>
+                    <ol>
+                        <li>Play simulation</li>
+                        <li>Adjust ball speed by changing how far you move it</li>
+                        <li>Watch for realistic pin scatter!</li>
+                        <li>Increase Steps Per Second to 120 for accuracy</li>
+                    </ol>
+                </div>
+
+                <h4>Example 3: Jenga Tower</h4>
+                
+                <p>Stack blocks in a tower and watch physics determine how it falls when you remove pieces.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Building a Jenga Tower</h4>
+                    
+                    <p><strong>Step 1: Create a Block</strong></p>
+                    <ol>
+                        <li>Add cube</li>
+                        <li>Scale to Jenga proportions: S, Z, 0.3, S, X, 1.5, Enter</li>
+                        <li>This creates rectangular block</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Build First Layer</strong></p>
+                    <ol>
+                        <li>Duplicate 3 times, arrange side-by-side (touching)</li>
+                        <li>This is one layer: 3 blocks horizontal</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Build Tower</strong></p>
+                    <ol>
+                        <li>Duplicate entire layer upward</li>
+                        <li>Rotate new layer 90° (perpendicular to below)</li>
+                        <li>Repeat for 10-15 layers</li>
+                        <li>Alternating directions: horizontal, vertical, horizontal...</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Physics Setup</strong></p>
+                    <ol>
+                        <li>Ground plane: Passive, high friction (0.8)</li>
+                        <li>All blocks: Active
+                            <ul>
+                                <li>Mass: 1.0</li>
+                                <li>Friction: 0.6 (wood on wood)</li>
+                                <li>Shape: Box</li>
+                                <li>Damping: 0.1 (settles quickly)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Remove a Block</strong></p>
+                    <ol>
+                        <li>Method 1: Delete a middle block before frame 1</li>
+                        <li>Method 2: Animate a block sliding out (keyframe it moving)</li>
+                        <li>Method 3: Add "pusher" object that knocks block out</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 6: Critical Settings</strong></p>
+                    <ol>
+                        <li>Increase Solver Iterations to 30+ (critical for stacking!)</li>
+                        <li>Increase Steps Per Second to 120</li>
+                        <li>These prevent tower collapsing immediately</li>
+                        <li>Tower should stand stable until block removed</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Tower Stacking Tips</h4>
+                    <ul>
+                        <li><strong>If tower collapses immediately:</strong> Increase Solver Iterations drastically (40-50)</li>
+                        <li><strong>If blocks sink into each other:</strong> Increase Steps Per Second to 240</li>
+                        <li><strong>For perfect stability:</strong> Make bottom layer Passive (locked in place)</li>
+                        <li><strong>Patient building:</strong> Start simulation, let tower settle for 50 frames before removing blocks</li>
+                    </ul>
+                </div>
+
+                <h4>Example 4: Newton's Cradle</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Physics Demonstration Device</h4>
+                    
+                    <p><strong>Setup:</strong></p>
+                    <ol>
+                        <li>Create 5 spheres in a perfect line (touching)</li>
+                        <li>All spheres: Active, Mass 1.0, Bounciness 0.9, Shape: Sphere</li>
+                        <li>Create 5 small cubes above spheres (supports)</li>
+                        <li>Cubes: Passive (don't move)</li>
+                        <li>Add Point constraints:
+                            <ul>
+                                <li>Sphere 1 to Cube 1</li>
+                                <li>Sphere 2 to Cube 2</li>
+                                <li>Continue for all 5</li>
+                            </ul>
+                        </li>
+                        <li>Pull first sphere to the side (G, X, 2)</li>
+                        <li>Play: Classic Newton's Cradle motion!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Fine-tuning:</strong></p>
+                    <ul>
+                        <li>Increase Solver Iterations to 20</li>
+                        <li>Set Bounciness exactly same for all spheres</li>
+                        <li>Disable Collisions on Point constraints</li>
+                        <li>Perfect alignment is critical!</li>
+                    </ul>
+                </div>
+
+                <h4>Example 5: Dice Roll</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Random Dice Simulation</h4>
+                    
+                    <p><strong>Quick Setup:</strong></p>
+                    <ol>
+                        <li>Add cube (your die)</li>
+                        <li>Position high above ground</li>
+                        <li>Rotate randomly: R, Z, 45, R, Y, 30 (any angles)</li>
+                        <li>Active physics:
+                            <ul>
+                                <li>Mass: 0.01 (dice are very light)</li>
+                                <li>Shape: Box</li>
+                                <li>Bounciness: 0.3</li>
+                                <li>Friction: 0.4</li>
+                            </ul>
+                        </li>
+                        <li>Ground: Passive, Friction 0.5</li>
+                        <li>Let it drop and tumble!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>For Multiple Dice:</strong></p>
+                    <ul>
+                        <li>Duplicate several dice</li>
+                        <li>Vary starting positions and rotations</li>
+                        <li>They'll collide and tumble realistically</li>
+                        <li>Each run gives different results (like real dice!)</li>
+                    </ul>
+                </div>
+
+                <h4>Quick Reference: Common Scenarios</h4>
+
+                <div class="card">
+                    <h4>📋 Setup Quick Guide</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.85em;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Scenario</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Key Settings</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Critical Factor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Dominos</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Mass 0.5, Box shape, 15-20 iterations</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Precise spacing</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Bowling</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Ball: Mass 7.0, Pins: 1.5, Start Deactivated</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Ball velocity</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Stacking</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">High friction (0.8), 30+ iterations, 120 steps/sec</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Solver iterations</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Rolling Ball</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Sphere shape, low friction (0.2), slight slope</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Surface friction</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Destruction</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Varied masses, convex hull, moderate settings</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Initial impact force</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Dice/Random</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Very light mass (0.01), varied rotation, medium bounce</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Initial randomness</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Rigid Body Scene] --> B[Choose Scenario]
+                    B --> C[Dominos/Chain]
+                    B --> D[Bowling/Impact]
+                    B --> E[Stacking/Tower]
+                    B --> F[Constraints/Joints]
+                    C --> G[Focus: Spacing & Timing]
+                    D --> G
+                    E --> H[Focus: Stability & Iterations]
+                    F --> I[Focus: Joint Setup]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style H fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                    style I fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Learning Through Play:</strong> The best way to master rigid body physics is experimentation! Try these examples, then modify them. What happens if you make the bowling ball super light? What if you give dominos different masses? Every "failure" teaches you something about physics behavior!</p>
+                </blockquote>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 08
+     Continue with lesson_35_rigid_body_physics_part_09.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 35 - PART 09
+     File: lesson_35_rigid_body_physics_part_09.html
+     ============================================ -->
+
+            <section id="optimization">
+                <h3>⚡ Optimization and Performance</h3>
+                
+                <p>Rigid body simulations can be computationally expensive, especially with many objects. Let's learn how to keep your simulations running smoothly without sacrificing quality.</p>
+
+                <h4>Understanding Performance Bottlenecks</h4>
+                
+                <p>Different factors affect simulation speed in different ways. Knowing what slows things down helps you optimize effectively.</p>
+
+                <div class="card">
+                    <h4>🐌 What Slows Down Simulations</h4>
+                    
+                    <p><strong>Number of Active Objects:</strong></p>
+                    <ul>
+                        <li>Most significant factor</li>
+                        <li>10 objects = fast, 100 objects = slow, 1000 objects = very slow</li>
+                        <li>Each active object requires continuous calculation</li>
+                        <li><strong>Impact:</strong> Exponential (more objects = much slower)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Collision Shape Complexity:</strong></p>
+                    <ul>
+                        <li>Mesh shape = slowest</li>
+                        <li>Convex Hull = moderate</li>
+                        <li>Primitives (Box, Sphere) = fastest</li>
+                        <li><strong>Impact:</strong> Can double or triple calculation time</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Solver Settings:</strong></p>
+                    <ul>
+                        <li>Steps Per Second: Higher = slower</li>
+                        <li>Solver Iterations: Higher = slower</li>
+                        <li><strong>Impact:</strong> Linear (double the steps = double the time)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Number of Constraints:</strong></p>
+                    <ul>
+                        <li>Each constraint adds calculation</li>
+                        <li>Complex constraint types slower than simple</li>
+                        <li><strong>Impact:</strong> Moderate per constraint</li>
+                    </ul>
+                </div>
+
+                <h4>Optimization Strategies</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Speed-Up Techniques</h4>
+                    
+                    <p><strong>1. Use Simple Collision Shapes</strong></p>
+                    <ul>
+                        <li>Default to Box, Sphere, or Cylinder whenever possible</li>
+                        <li>Only use Convex Hull when primitives don't work</li>
+                        <li>Reserve Mesh shape for Passive objects only</li>
+                        <li><strong>Speed gain:</strong> 2-5x faster</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Reduce Active Object Count</strong></p>
+                    <ul>
+                        <li>Convert settled objects to Passive after they stop moving</li>
+                        <li>Use Start Deactivated for objects that don't move initially</li>
+                        <li>Delete or hide objects that leave the scene</li>
+                        <li><strong>Speed gain:</strong> Proportional to objects removed</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Lower Settings for Testing</strong></p>
+                    <ul>
+                        <li>Testing: 30 Steps/Sec, 5 Iterations</li>
+                        <li>Final: 60-120 Steps/Sec, 10-20 Iterations</li>
+                        <li>Only increase if you see problems</li>
+                        <li><strong>Speed gain:</strong> 2-4x faster for testing</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Use Collision Collections</strong></p>
+                    <ul>
+                        <li>Group objects that need to collide</li>
+                        <li>Objects far apart don't need to check each other</li>
+                        <li>Reduces unnecessary collision checks</li>
+                        <li><strong>Speed gain:</strong> Varies, significant in large scenes</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Simplify Collision Geometry</strong></p>
+                    <ul>
+                        <li>Create low-poly proxy objects for collision</li>
+                        <li>Hide collision proxies, show detailed visual mesh</li>
+                        <li>Physics uses simple, render shows complex</li>
+                        <li><strong>Speed gain:</strong> 3-10x for complex objects</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>6. Bake Early and Often</strong></p>
+                    <ul>
+                        <li>Baked simulation plays instantly</li>
+                        <li>Don't recalculate while tweaking other aspects</li>
+                        <li>Bake test ranges (frames 1-50) before full simulation</li>
+                        <li><strong>Speed gain:</strong> Infinite (instant playback)</li>
+                    </ul>
+                </div>
+
+                <h4>Baking Your Simulation</h4>
+                
+                <p>Baking pre-calculates your entire simulation and saves it to disk. This is essential for final rendering and smooth playback.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ How to Bake Rigid Body Physics</h4>
+                    
+                    <p><strong>Step 1: Prepare Scene</strong></p>
+                    <ol>
+                        <li>Finalize all physics settings</li>
+                        <li>Ensure simulation works as desired</li>
+                        <li>Set timeline to correct frame range</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Configure Bake Settings</strong></p>
+                    <ol>
+                        <li>Go to Scene Properties → Rigid Body World</li>
+                        <li>Set Simulation Start to your first frame</li>
+                        <li>Set Simulation End to your last frame</li>
+                        <li>Keep Cache Step at 1 (every frame)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Bake</strong></p>
+                    <ol>
+                        <li>Click <strong>"Bake"</strong> button in Cache section</li>
+                        <li>Blender calculates entire simulation</li>
+                        <li>Progress shown in header</li>
+                        <li>Wait for completion (can take minutes to hours)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Verify and Use</strong></p>
+                    <ol>
+                        <li>Scrub timeline—movement is instant and smooth</li>
+                        <li>Button changes to "Free Bake"</li>
+                        <li>Simulation is locked—changes require re-bake</li>
+                        <li>Cache files saved in folder next to .blend file</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Baking Best Practices</h4>
+                    <ul>
+                        <li><strong>Test bake first:</strong> Bake frames 1-50 to verify settings</li>
+                        <li><strong>Save before baking:</strong> In case of crash or issue</li>
+                        <li><strong>Bake overnight:</strong> Large simulations take time</li>
+                        <li><strong>Keep unbaked version:</strong> Save separate file before baking</li>
+                        <li><strong>Note cache location:</strong> Include in project backups</li>
+                    </ul>
+                </div>
+
+                <h4>Performance Comparison</h4>
+
+                <div class="card">
+                    <h4>📊 Optimization Impact</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Optimization</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Effort</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Speed Gain</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Quality Loss</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Simple Collision Shapes</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Low</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">High (2-5x)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Usually none</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Lower Solver Settings</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">None</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Medium (2x)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Some (less stable)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Deactivate Settled Objects</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Medium</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">High (varies)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">None</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Collision Proxies</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">High</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Very High (5-10x)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">None</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Baking</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">None</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Infinite (instant)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">None</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ When NOT to Optimize</h4>
+                    <p>Sometimes optimization isn't worth it:</p>
+                    <ul>
+                        <li><strong>Simple scenes:</strong> 10-20 objects run fine without optimization</li>
+                        <li><strong>One-time renders:</strong> If baking once, optimization might take longer than just waiting</li>
+                        <li><strong>When accuracy matters:</strong> Don't sacrifice correctness for speed in final output</li>
+                        <li><strong>Testing phase:</strong> Optimize after you know settings work</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Professional Workflow:</strong> Studios use a three-tier approach: Low-quality for real-time preview (fast iteration), medium-quality for test bakes (verify it works), high-quality for final render (overnight bake). This balances speed during work with quality in results.</p>
+                </blockquote>
+
+            </section>
+
+            <section id="project">
+                <h3>🎯 Project: Tower Collapse</h3>
+                
+                <p>Time to put everything together! Create a dramatic tower of blocks that collapses when hit by a wrecking ball. This project combines stacking, collision, mass differences, and proper setup.</p>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem;">
+                    <h4 style="color: white; margin-top: 0;">🎨 What You'll Create</h4>
+                    <p style="color: white;">A dynamic destruction scene featuring:</p>
+                    <ul style="color: white;">
+                        <li>A tower of stacked blocks (10-15 blocks high)</li>
+                        <li>A heavy wrecking ball on a cable</li>
+                        <li>Ball swings and demolishes the tower</li>
+                        <li>Realistic physics-based destruction</li>
+                        <li>Proper collision, mass, and constraint usage</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0;"><strong>⏱️ Estimated Time:</strong> 30-45 minutes</p>
+                </div>
+
+                <h4>Project Steps</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Step 1: Build the Tower</h4>
+                    <ol>
+                        <li><strong>Create ground:</strong> Plane, scale large, Passive, Friction 0.7</li>
+                        <li><strong>Create block:</strong> Cube, scale to brick proportions (S, Z, 0.5, S, Y, 1.5)</li>
+                        <li><strong>Stack blocks:</strong>
+                            <ul>
+                                <li>Duplicate vertically (Shift + D, Z)</li>
+                                <li>Create 3-4 blocks per layer</li>
+                                <li>Build 5-6 layers (15-20 blocks total)</li>
+                                <li>Slight offset or rotation for instability</li>
+                            </ul>
+                        </li>
+                        <li><strong>Block physics:</strong>
+                            <ul>
+                                <li>All Active</li>
+                                <li>Mass: 2.0 (concrete blocks)</li>
+                                <li>Shape: Box</li>
+                                <li>Friction: 0.6</li>
+                                <li>Bounciness: 0.1</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Step 2: Create Wrecking Ball</h4>
+                    <ol>
+                        <li><strong>Add sphere:</strong> UV Sphere, scale to wrecking ball size (2-3 units)</li>
+                        <li><strong>Position:</strong> High and to the side of tower</li>
+                        <li><strong>Physics:</strong>
+                            <ul>
+                                <li>Active</li>
+                                <li>Mass: 50.0 (very heavy!)</li>
+                                <li>Shape: Sphere</li>
+                                <li>Bounciness: 0.2</li>
+                                <li>Friction: 0.3</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Step 3: Add Cable Support</h4>
+                    <ol>
+                        <li><strong>Create anchor:</strong> Small cube high above ball, Passive</li>
+                        <li><strong>Add constraint:</strong>
+                            <ul>
+                                <li>Rigid Body Constraint (Shift + A → Force Field)</li>
+                                <li>Type: Point</li>
+                                <li>Position at anchor location</li>
+                                <li>Object 1: Anchor cube</li>
+                                <li>Object 2: Wrecking ball</li>
+                            </ul>
+                        </li>
+                        <li><strong>Optional:</strong> Create visual cable with cylinder (not part of physics)</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Step 4: Set Up the Swing</h4>
+                    <ol>
+                        <li><strong>Pull ball back:</strong> At frame 1, move ball away from tower (G, X, -5)</li>
+                        <li><strong>Alternative:</strong> At frame 1, give ball slight push toward tower</li>
+                        <li><strong>Let physics do the rest:</strong> Constraint + gravity = natural swing</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Step 5: Critical World Settings</h4>
+                    <ol>
+                        <li>Scene Properties → Rigid Body World</li>
+                        <li><strong>Steps Per Second:</strong> 120 (tower needs stability)</li>
+                        <li><strong>Solver Iterations:</strong> 30 (prevent tower collapse before impact)</li>
+                        <li>These settings are crucial for this project!</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Step 6: Test and Refine</h4>
+                    <ol>
+                        <li><strong>First test:</strong> Let tower sit for 50 frames
+                            <ul>
+                                <li>Should remain stable (not collapse)</li>
+                                <li>If collapses: Increase iterations to 40-50</li>
+                            </ul>
+                        </li>
+                        <li><strong>Second test:</strong> Let ball swing and hit
+                            <ul>
+                                <li>Impact should scatter blocks dramatically</li>
+                                <li>Heavy ball vs light blocks = big destruction!</li>
+                            </ul>
+                        </li>
+                        <li><strong>Adjust:</strong>
+                            <ul>
+                                <li>Ball too weak? Increase mass or pull back farther</li>
+                                <li>Ball too strong? Decrease mass to 30.0</li>
+                                <li>Tower unstable? Increase solver iterations</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Step 7: Final Polish</h4>
+                    <ol>
+                        <li><strong>Camera:</strong> Position to capture full action</li>
+                        <li><strong>Lighting:</strong> Add lights for drama</li>
+                        <li><strong>Materials:</strong> Give blocks and ball materials (optional)</li>
+                        <li><strong>Bake:</strong> Pre-calculate simulation for smooth playback</li>
+                        <li><strong>Render:</strong> Create final animation!</li>
+                    </ol>
+                </div>
+
+                <h4>Success Checklist</h4>
+
+                <div class="card">
+                    <h4>✅ Project Completion Criteria</h4>
+                    <ul>
+                        <li>☐ Tower stands stable for at least 50 frames</li>
+                        <li>☐ Wrecking ball swings naturally on cable</li>
+                        <li>☐ Ball impacts tower with significant force</li>
+                        <li>☐ Blocks scatter realistically</li>
+                        <li>☐ No blocks passing through each other</li>
+                        <li>☐ Simulation is smooth (no jittering or explosions)</li>
+                        <li>☐ Simulation is baked for rendering</li>
+                        <li>☐ Dramatic and satisfying destruction!</li>
+                    </ul>
+                </div>
+
+                <h4>Bonus Challenges</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Take It Further</h4>
+                    
+                    <p><strong>Challenge 1: Multiple Towers</strong></p>
+                    <ul>
+                        <li>Build 2-3 towers in a row</li>
+                        <li>One ball knock down multiple structures</li>
+                        <li>Chain reaction as debris hits other towers</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Challenge 2: Breakable Constraints</strong></p>
+                    <ul>
+                        <li>Set Breaking Threshold on ball constraint</li>
+                        <li>Ball breaks free after impact</li>
+                        <li>Continues causing destruction</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Challenge 3: Slow Motion</strong></p>
+                    <ul>
+                        <li>Reduce Time Scale to 0.3</li>
+                        <li>Dramatic slow-mo destruction effect</li>
+                        <li>Render at high frame rate</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Challenge 4: Different Materials</strong></p>
+                    <ul>
+                        <li>Mix block masses (heavy base, light top)</li>
+                        <li>Varied bounciness for different effects</li>
+                        <li>Observe how different properties change result</li>
+                    </ul>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 09
+     Continue with lesson_35_rigid_body_physics_part_10.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 35 - PART 10
+     File: lesson_35_rigid_body_physics_part_10.html
+     ============================================ -->
+
+            <section id="summary">
+                <h3>📚 Lesson Summary</h3>
+                
+                <p>Congratulations! You've completed your journey through rigid body physics in Blender. You now have the power to create realistic physical simulations—from simple falling objects to complex mechanical systems. Let's recap what you've mastered.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>🎯 Key Concepts Mastered</h4>
+                    
+                    <p><strong>Fundamental Understanding:</strong></p>
+                    <ul>
+                        <li>What rigid body physics is and when to use it</li>
+                        <li>How Blender calculates physics frame by frame</li>
+                        <li>The difference between rigid, soft, cloth, and fluid simulations</li>
+                        <li>Real-world physics principles applied in 3D</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Active vs. Passive Objects:</strong></p>
+                    <ul>
+                        <li>Active objects respond to physics forces</li>
+                        <li>Passive objects provide environment and obstacles</li>
+                        <li>When to use each type</li>
+                        <li>Animated passive objects for moving platforms</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Physical Properties:</strong></p>
+                    <ul>
+                        <li>Mass: How heavy objects are and how they impact</li>
+                        <li>Friction: How surfaces resist sliding</li>
+                        <li>Bounciness: How much energy is retained in collisions</li>
+                        <li>Damping: How quickly objects slow down</li>
+                        <li>Creating realistic material behavior through property combinations</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Collision Shapes:</strong></p>
+                    <ul>
+                        <li>Seven collision shape types and when to use each</li>
+                        <li>Performance vs. accuracy trade-offs</li>
+                        <li>Choosing optimal shapes for speed and realism</li>
+                        <li>Collision margin and its effects</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Constraints:</strong></p>
+                    <ul>
+                        <li>Eight constraint types for connecting objects</li>
+                        <li>Creating hinges, joints, springs, and motors</li>
+                        <li>Building mechanical systems and chains</li>
+                        <li>Constraint settings and troubleshooting</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>World Settings:</strong></p>
+                    <ul>
+                        <li>Controlling gravity direction and strength</li>
+                        <li>Solver settings for accuracy vs. speed</li>
+                        <li>Simulating different environments (Earth, Moon, space)</li>
+                        <li>Cache and baking for final renders</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Practical Skills:</strong></p>
+                    <ul>
+                        <li>Creating common scenarios (dominos, bowling, towers)</li>
+                        <li>Optimization techniques for better performance</li>
+                        <li>Baking simulations properly</li>
+                        <li>Troubleshooting common problems</li>
+                    </ul>
+                </div>
+
+                <h4>Essential Takeaways</h4>
+
+                <div class="card">
+                    <h4>💡 Remember These Key Points</h4>
+                    <ol>
+                        <li><strong>Active = moves, Passive = stays put:</strong> This distinction is fundamental to every rigid body scene</li>
+                        <li><strong>Simple shapes are fast:</strong> Use Box and Sphere whenever possible; complexity kills performance</li>
+                        <li><strong>Solver settings matter:</strong> Increase iterations for stability, increase steps for accuracy</li>
+                        <li><strong>Mass differences create drama:</strong> Heavy ball hitting light blocks = satisfying destruction</li>
+                        <li><strong>Constraints enable mechanics:</strong> Hinges, joints, and motors create complex behavior from simple connections</li>
+                        <li><strong>Always bake before rendering:</strong> Simulations must be pre-calculated for consistent results</li>
+                        <li><strong>Test with low settings:</strong> Optimize after you know it works</li>
+                        <li><strong>Physics is creative:</strong> Unrealistic settings can create interesting stylized effects</li>
+                    </ol>
+                </div>
+
+                <h4>Quick Reference Tables</h4>
+
+                <div class="card">
+                    <h4>📋 Rigid Body Quick Reference</h4>
+                    
+                    <p><strong>Common Material Properties:</strong></p>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.85em;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.5rem; border: 1px solid #ddd;">Material</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd;">Mass</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd;">Friction</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd;">Bounce</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Rubber Ball</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.5</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.8</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.8</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Wood Block</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">1.5</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.6</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.2</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Metal Box</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">10.0</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.4</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.2</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Concrete</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">20.0</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.8</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">0.05</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Collision Shape Performance:</strong></p>
+                    <ul>
+                        <li>⚡⚡⚡⚡⚡ Fastest: Box, Sphere</li>
+                        <li>⚡⚡⚡⚡ Very Fast: Capsule, Cylinder</li>
+                        <li>⚡⚡ Moderate: Convex Hull</li>
+                        <li>⚡ Slow: Mesh (Passive only)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Solver Settings by Scene:</strong></p>
+                    <ul>
+                        <li><strong>Simple falling:</strong> 60 steps/sec, 10 iterations</li>
+                        <li><strong>Stacking/towers:</strong> 120 steps/sec, 30 iterations</li>
+                        <li><strong>Fast projectiles:</strong> 240 steps/sec, 15 iterations</li>
+                        <li><strong>Testing:</strong> 30 steps/sec, 5 iterations</li>
+                    </ul>
+                </div>
+
+                <h4>Common Problems and Solutions</h4>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Quick Troubleshooting Guide</h4>
+                    
+                    <p><strong>Objects pass through each other:</strong></p>
+                    <ul>
+                        <li>→ Increase Steps Per Second (try 120)</li>
+                        <li>→ Check collision physics is enabled</li>
+                        <li>→ Increase collision margin</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Tower collapses immediately:</strong></p>
+                    <ul>
+                        <li>→ Increase Solver Iterations (try 30-50)</li>
+                        <li>→ Increase friction on all objects (0.8)</li>
+                        <li>→ Let settle for 50 frames before action</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Simulation is jittery/unstable:</strong></p>
+                    <ul>
+                        <li>→ Increase damping values (0.1-0.2)</li>
+                        <li>→ Increase Solver Iterations</li>
+                        <li>→ Check objects aren't intersecting at start</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Very slow performance:</strong></p>
+                    <ul>
+                        <li>→ Use simpler collision shapes (Box instead of Mesh)</li>
+                        <li>→ Reduce number of Active objects</li>
+                        <li>→ Lower solver settings for testing</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Constraints don't work:</strong></p>
+                    <ul>
+                        <li>→ Check Object 1 and Object 2 are assigned</li>
+                        <li>→ Enable "Disable Collisions" between connected objects</li>
+                        <li>→ Position constraint empty at connection point</li>
+                    </ul>
+                </div>
+
+                <h4>Where to Go From Here</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>🚀 Next Steps in Your Journey</h4>
+                    
+                    <p><strong>Practice Projects:</strong></p>
+                    <ul>
+                        <li>Create a Rube Goldberg machine (complex chain reactions)</li>
+                        <li>Build a marble run with ramps and obstacles</li>
+                        <li>Simulate a building demolition (with Cell Fracture addon)</li>
+                        <li>Create a pinball machine with flippers and bumpers</li>
+                        <li>Make a bridge collapse simulation</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Advanced Topics to Explore:</strong></p>
+                    <ul>
+                        <li>Combining rigid body with other physics (cloth, fluid)</li>
+                        <li>Using Python to procedurally create physics setups</li>
+                        <li>Cell Fracture addon for destruction effects</li>
+                        <li>Rigid body in character ragdoll physics</li>
+                        <li>Vehicle simulations with constraints</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Related Lessons:</strong></p>
+                    <ul>
+                        <li><strong>Lesson 32: Particle Systems</strong> - Combine particles with rigid bodies</li>
+                        <li><strong>Lesson 33: Hair and Fur</strong> - Mix soft and rigid physics</li>
+                        <li><strong>Lesson 34: Cloth Simulation</strong> - Combine cloth with rigid obstacles</li>
+                        <li><strong>Lesson 40: Geometry Nodes</strong> - Procedural rigid body setups</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; margin: 2rem 0;">
+                    <h3 style="color: white; margin-top: 0;">🎉 Congratulations!</h3>
+                    <p style="color: white; font-size: 1.1rem;">You've mastered rigid body physics—one of Blender's most powerful and fun simulation systems! From simple falling cubes to complex mechanical contraptions, you now have the skills to bring realistic physics into your 3D projects. Whether you're creating action sequences, product demonstrations, or abstract animations, rigid body physics adds that extra layer of believability and dynamism.</p>
+                    <p style="color: white; margin-bottom: 0;">Remember: physics simulation is as much an art as it is science. Real-world accuracy is great, but don't be afraid to bend the rules for dramatic effect. Sometimes the best results come from impossible physics! Keep experimenting, stay curious, and have fun watching things fall, bounce, and crash. You've completed Module 8—onward to even more exciting Blender adventures!</p>
+                </div>
+
+            </section>
+
+        </article>
+
+        <nav class="lesson-nav" aria-label="Lesson Navigation">
+            <a href="lesson_34_cloth_simulation.html" class="prev-lesson">← Previous: Cloth Simulation</a>
+            <a href="index.html" class="home-link">🏠 Course Home</a>
+            <a href="lesson_36_character_modeling_workflow.html" class="next-lesson">Next: Character Modeling Workflow →</a>
+        </nav>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+    </footer>
+
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>
+
+<!-- ============================================
+     END OF PART 10
+     This completes Lesson 35: Rigid Body Physics
+     ============================================ -->
