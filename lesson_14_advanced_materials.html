@@ -1,0 +1,3292 @@
+<!-- ============================================
+     LESSON 14 - PART 01
+     File: lesson_14_advanced_materials_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master advanced materials and shading in Blender - learn shader nodes, PBR workflow, procedural textures, and create realistic materials for glass, metal, wood, and more.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 14: Advanced Materials and Shading - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="main-nav" aria-label="Main Navigation">
+            <a href="index.html" class="nav-logo">🎨 Blender Course</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#lessons">Lessons</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#lessons">Lessons</a> &gt; 
+            <span>Lesson 14: Advanced Materials and Shading</span>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <article class="lesson-content">
+                <header class="lesson-header">
+                    <h1>💎 Lesson 14: Advanced Materials and Shading</h1>
+                    <p class="lesson-intro">Welcome to the world of advanced materials and shading! This is where the magic happens—where you transform simple 3D geometry into convincing glass, realistic metal, organic wood, translucent skin, and countless other materials. You'll learn the powerful node-based shader system that gives you unlimited creative control over how your models look. By mastering materials and shading, you'll be able to create photorealistic renders or stylized masterpieces with equal skill.</p>
+                </header>
+
+                <!-- Learning Objectives -->
+                <div class="card">
+                    <h2>🎯 What You'll Learn</h2>
+                    <ul>
+                        <li>Understanding the Shader Editor and node-based workflow</li>
+                        <li>Mastering the Principled BSDF shader and its inputs</li>
+                        <li>PBR (Physically Based Rendering) workflow fundamentals</li>
+                        <li>Creating procedural textures without image files</li>
+                        <li>Mixing shaders and textures for complex materials</li>
+                        <li>Working with normal maps and displacement</li>
+                        <li>Creating realistic glass, metal, wood, and plastic materials</li>
+                        <li>Understanding subsurface scattering for organic materials</li>
+                        <li>Emission and glowing effects</li>
+                        <li>Material optimization and best practices</li>
+                        <li>Complete hands-on projects for various material types</li>
+                    </ul>
+                    <p><strong>⏱️ Estimated Time:</strong> 60-75 minutes</p>
+                    <p><strong>🎯 Projects:</strong> Create 5+ realistic materials from scratch</p>
+                </div>
+
+                <!-- Table of Contents -->
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#understanding-materials" class="toc-link">Understanding Materials and Shading</a></li>
+                            <li><a href="#shader-editor" class="toc-link">The Shader Editor Workspace</a></li>
+                            <li><a href="#principled-bsdf" class="toc-link">Mastering Principled BSDF</a></li>
+                            <li><a href="#pbr-workflow" class="toc-link">PBR Workflow Fundamentals</a></li>
+                            <li><a href="#procedural-textures" class="toc-link">Procedural Textures</a></li>
+                            <li><a href="#texture-mapping" class="toc-link">Texture Mapping and Coordinates</a></li>
+                            <li><a href="#mixing-shaders" class="toc-link">Mixing Shaders and Materials</a></li>
+                            <li><a href="#realistic-materials" class="toc-link">Creating Realistic Materials</a></li>
+                            <li><a href="#advanced-techniques" class="toc-link">Advanced Shading Techniques</a></li>
+                            <li><a href="#hands-on-projects" class="toc-link">Hands-On Material Projects</a></li>
+                            <li><a href="#optimization" class="toc-link">Material Optimization</a></li>
+                            <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="understanding-materials" class="content-section">
+                    <h2>🎨 Understanding Materials and Shading</h2>
+
+                    <p>Materials define how surfaces interact with light. They're the difference between a dull gray sphere and a shiny chrome ball, between a plastic toy and a precious gemstone. Let's understand what materials are and how they work in Blender.</p>
+
+                    <h3>What Are Materials?</h3>
+
+                    <div class="card">
+                        <h4>💎 Material Fundamentals</h4>
+                        <p><strong>In the real world:</strong></p>
+                        <ul>
+                            <li>Materials are the physical substances objects are made from</li>
+                            <li>Wood, metal, glass, plastic, fabric—each has unique properties</li>
+                            <li>These properties determine how they look when lit</li>
+                            <li>Reflectivity, transparency, roughness, color—all material properties</li>
+                        </ul>
+                        <p><strong>In Blender:</strong></p>
+                        <ul>
+                            <li>Materials are mathematical descriptions of surface properties</li>
+                            <li>They tell the renderer how light behaves when it hits the surface</li>
+                            <li>Defined using shader nodes in a node-based system</li>
+                            <li>Can simulate any real-world or imaginary material</li>
+                        </ul>
+                        <p><strong>What materials control:</strong></p>
+                        <ul>
+                            <li><strong>Color:</strong> Base appearance of the surface</li>
+                            <li><strong>Reflectivity:</strong> How much light bounces off</li>
+                            <li><strong>Roughness:</strong> Shiny (smooth) vs. matte (rough)</li>
+                            <li><strong>Transparency:</strong> See-through or opaque</li>
+                            <li><strong>Metallicness:</strong> Metallic vs. non-metallic behavior</li>
+                            <li><strong>Emission:</strong> Self-illumination/glowing</li>
+                            <li><strong>Subsurface:</strong> Light penetrating surface (skin, wax, marble)</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Light Interaction Analogy:</strong> Think of materials as instructions for how light should behave when it hits a surface. Imagine light as water hitting different surfaces—metal reflects it like a mirror, cloth absorbs most of it, glass lets it pass through while bending it. Materials are the rules that describe these behaviors mathematically.</p>
+                    </blockquote>
+
+                    <h3>Shaders vs. Materials vs. Textures</h3>
+
+                    <p>These terms are often confused. Let's clarify the relationship:</p>
+
+                    <div class="card">
+                        <h4>🔍 Terminology Clarification</h4>
+                        <p><strong>Shader:</strong></p>
+                        <ul>
+                            <li>A program/algorithm that calculates how light interacts with a surface</li>
+                            <li>The "brain" that does the math</li>
+                            <li>Examples: Principled BSDF, Diffuse BSDF, Glass BSDF</li>
+                            <li>In Blender, shaders are represented as nodes</li>
+                        </ul>
+                        <p><strong>Material:</strong></p>
+                        <ul>
+                            <li>The complete definition of a surface's appearance</li>
+                            <li>Combination of shaders, textures, and settings</li>
+                            <li>What you assign to objects</li>
+                            <li>Can contain multiple shaders and textures working together</li>
+                        </ul>
+                        <p><strong>Texture:</strong></p>
+                        <ul>
+                            <li>Data that adds detail or variation</li>
+                            <li>Can be images (photos, painted textures) or procedural (math-generated)</li>
+                            <li>Plugged into material parameters to add complexity</li>
+                            <li>Examples: color maps, bump maps, roughness maps</li>
+                        </ul>
+                        <p><strong>The relationship:</strong></p>
+                        <ul>
+                            <li><strong>Textures</strong> provide input data</li>
+                            <li><strong>Shaders</strong> process that data and define behavior</li>
+                            <li><strong>Materials</strong> combine everything into the final result</li>
+                        </ul>
+                    </div>
+
+                    <div class="mermaid">
+graph LR
+    A[Textures] --> B[Material]
+    C[Shaders] --> B
+    D[Settings] --> B
+    B --> E[Final Appearance]
+    
+    style B fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+    style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+</div>
+
+                    <h3>Render Engines and Materials</h3>
+
+                    <div class="card">
+                        <h4>🎬 Render Engine Considerations</h4>
+                        <p><strong>Blender's render engines:</strong></p>
+                        <ul>
+                            <li><strong>Eevee:</strong> Real-time rasterization engine
+                                <ul>
+                                    <li>Fast, interactive preview</li>
+                                    <li>Good for games, animations, quick iterations</li>
+                                    <li>Some limitations on realism</li>
+                                    <li>Approximates light behavior</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cycles:</strong> Ray-tracing render engine
+                                <ul>
+                                    <li>Physically accurate lighting</li>
+                                    <li>Photorealistic results</li>
+                                    <li>Slower but more realistic</li>
+                                    <li>Simulates actual light physics</li>
+                                </ul>
+                            </li>
+                            <li><strong>Workbench:</strong> Simple viewport display
+                                <ul>
+                                    <li>Minimal lighting, fast display</li>
+                                    <li>For modeling, not final renders</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Material compatibility:</strong></p>
+                        <ul>
+                            <li>Principled BSDF works in both Eevee and Cycles</li>
+                            <li>Some shader nodes are Cycles-only</li>
+                            <li>This lesson focuses on Principled BSDF (universal)</li>
+                            <li>We'll note when features are engine-specific</li>
+                        </ul>
+                    </div>
+
+                    <h3>PBR: The Modern Standard</h3>
+
+                    <div class="card">
+                        <h4>🌟 Physically Based Rendering (PBR)</h4>
+                        <p><strong>What is PBR?</strong></p>
+                        <ul>
+                            <li>Modern approach to materials based on real-world physics</li>
+                            <li>Uses physically accurate parameters</li>
+                            <li>Materials look correct under any lighting</li>
+                            <li>Industry standard for games, films, visualization</li>
+                        </ul>
+                        <p><strong>PBR principles:</strong></p>
+                        <ul>
+                            <li><strong>Energy conservation:</strong> Surface can't reflect more light than it receives</li>
+                            <li><strong>Metallicness workflow:</strong> Clear distinction between metals and non-metals</li>
+                            <li><strong>Roughness control:</strong> Microsurface smoothness determines reflections</li>
+                            <li><strong>Measured values:</strong> Based on real-world material properties</li>
+                        </ul>
+                        <p><strong>Why PBR matters:</strong></p>
+                        <ul>
+                            <li>Predictable, consistent results</li>
+                            <li>Works in different lighting conditions</li>
+                            <li>Easier to create realistic materials</li>
+                            <li>Portable between software and engines</li>
+                        </ul>
+                        <p><strong>In Blender:</strong></p>
+                        <ul>
+                            <li>Principled BSDF shader is Blender's PBR solution</li>
+                            <li>All-in-one shader following PBR principles</li>
+                            <li>We'll master this shader in this lesson!</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Material Creation Workflow</h3>
+
+                    <div class="card">
+                        <h4>🎯 Standard Material Workflow</h4>
+                        <p><strong>Typical process for creating materials:</strong></p>
+                        <ol>
+                            <li><strong>Create/Select object:</strong> You need something to apply material to</li>
+                            <li><strong>Add material:</strong> Create new material slot</li>
+                            <li><strong>Open Shader Editor:</strong> Access node-based material system</li>
+                            <li><strong>Configure Principled BSDF:</strong> Adjust parameters for desired look</li>
+                            <li><strong>Add textures (if needed):</strong> Plug in color maps, roughness, etc.</li>
+                            <li><strong>Test with lighting:</strong> See how material responds to light</li>
+                            <li><strong>Refine and iterate:</strong> Adjust until you achieve the desired result</li>
+                            <li><strong>Save/reuse:</strong> Materials can be saved and applied to other objects</li>
+                        </ol>
+                    </div>
+
+                    <h3>Why Learn Advanced Materials?</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>🚀 The Power of Material Mastery</h4>
+                        <p><strong>What advanced material knowledge enables:</strong></p>
+                        <ul>
+                            <li><strong>Photorealism:</strong> Create materials indistinguishable from photographs</li>
+                            <li><strong>Artistic control:</strong> Achieve any visual style you imagine</li>
+                            <li><strong>Efficiency:</strong> Procedural materials = no texture files needed</li>
+                            <li><strong>Flexibility:</strong> Easy adjustments without repainting textures</li>
+                            <li><strong>Professional quality:</strong> Industry-standard workflows and results</li>
+                            <li><strong>Universal skills:</strong> Principles transfer to other 3D software</li>
+                        </ul>
+                        <p><strong>Career applications:</strong></p>
+                        <ul>
+                            <li>Game development (prop and environment materials)</li>
+                            <li>Product visualization (realistic material representation)</li>
+                            <li>Architectural rendering (accurate material simulation)</li>
+                            <li>VFX and film (matching real-world materials)</li>
+                            <li>Motion graphics (stylized and abstract materials)</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="shader-editor" class="content-section">
+                    <h2>🖥️ The Shader Editor Workspace</h2>
+
+                    <p>The Shader Editor is your command center for creating materials. It's a node-based visual programming interface where you connect nodes to build complex material behaviors. Let's master this essential workspace!</p>
+
+                    <h3>Opening the Shader Editor</h3>
+
+                    <div class="card">
+                        <h4>🎨 Accessing the Shader Editor</h4>
+                        <p><strong>Method 1: Use the Shading workspace (recommended)</strong></p>
+                        <ul>
+                            <li>Click <strong>"Shading"</strong> tab at top of Blender window</li>
+                            <li>Workspace pre-configured for material work</li>
+                            <li>Shows: 3D Viewport, Shader Editor, Image Editor, Properties</li>
+                            <li>Everything you need in one layout</li>
+                        </ul>
+                        <p><strong>Method 2: Change editor type</strong></p>
+                        <ul>
+                            <li>Click editor type icon (top-left corner of any editor)</li>
+                            <li>Select "Shader Editor" from menu</li>
+                            <li>Converts current editor to Shader Editor</li>
+                        </ul>
+                        <p><strong>Recommended setup:</strong></p>
+                        <ul>
+                            <li>Use Shading workspace as starting point</li>
+                            <li>Adjust viewport shading to Material Preview or Rendered</li>
+                            <li>See material changes update in real-time</li>
+                        </ul>
+                    </div>
+
+                    <h3>Shader Editor Interface Overview</h3>
+
+                    <div class="card">
+                        <h4>🗺️ Editor Components</h4>
+                        <p><strong>Main areas:</strong></p>
+                        <ul>
+                            <li><strong>Node workspace:</strong> Large grid area where nodes are placed
+                                <ul>
+                                    <li>Pan: <code>Middle Mouse</code> drag</li>
+                                    <li>Zoom: Scroll wheel</li>
+                                    <li>Frame all: <code>Home</code> key</li>
+                                </ul>
+                            </li>
+                            <li><strong>Header (top):</strong> Tools and options
+                                <ul>
+                                    <li>Shader type dropdown (Object, World, Line Style)</li>
+                                    <li>Add menu (for adding nodes)</li>
+                                    <li>View options</li>
+                                    <li>Snap settings</li>
+                                </ul>
+                            </li>
+                            <li><strong>Toolbar (left, press T):</strong> Selection and annotation tools</li>
+                            <li><strong>Sidebar (right, press N):</strong> Node properties and item info</li>
+                        </ul>
+                        <p><strong>Default material setup:</strong></p>
+                        <ul>
+                            <li>When you create a new material, you'll see two nodes:
+                                <ul>
+                                    <li><strong>Principled BSDF:</strong> The main shader (left)</li>
+                                    <li><strong>Material Output:</strong> Final connection point (right)</li>
+                                </ul>
+                            </li>
+                            <li>Green line connects them (shader socket connection)</li>
+                            <li>This is your starting point for every material!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Understanding Nodes</h3>
+
+                    <div class="card">
+                        <h4>🔲 Node Basics</h4>
+                        <p><strong>What is a node?</strong></p>
+                        <ul>
+                            <li>A box that performs a specific function</li>
+                            <li>Has inputs (left side) and outputs (right side)</li>
+                            <li>Connect nodes to create complex behavior</li>
+                            <li>Visual programming—no coding required!</li>
+                        </ul>
+                        <p><strong>Node anatomy:</strong></p>
+                        <ul>
+                            <li><strong>Node header:</strong> Shows node name and type</li>
+                            <li><strong>Input sockets (left):</strong> Where data comes in
+                                <ul>
+                                    <li>Circles for different data types</li>
+                                    <li>Green = Shader</li>
+                                    <li>Yellow = Color</li>
+                                    <li>Gray = Value/Number</li>
+                                    <li>Blue = Vector</li>
+                                </ul>
+                            </li>
+                            <li><strong>Output sockets (right):</strong> Where data goes out</li>
+                            <li><strong>Parameters:</strong> Settings and values within the node</li>
+                        </ul>
+                        <p><strong>Working with nodes:</strong></p>
+                        <ul>
+                            <li><strong>Add node:</strong> <code>Shift+A</code> or Add menu</li>
+                            <li><strong>Delete node:</strong> Select and press <code>X</code></li>
+                            <li><strong>Move node:</strong> Click and drag (or <code>G</code> key)</li>
+                            <li><strong>Duplicate node:</strong> <code>Shift+D</code></li>
+                            <li><strong>Connect nodes:</strong> Click output socket, drag to input socket</li>
+                            <li><strong>Disconnect:</strong> Drag connection away from socket</li>
+                        </ul>
+                    </div>
+
+                    <h3>Node Connections and Data Flow</h3>
+
+                    <div class="card">
+                        <h4>🔗 Connecting Nodes</h4>
+                        <p><strong>How connections work:</strong></p>
+                        <ul>
+                            <li>Data flows from left (outputs) to right (inputs)</li>
+                            <li>Think of it like a pipeline—information flows through</li>
+                            <li>Color of connection shows data type</li>
+                            <li>Can connect multiple nodes in sequence</li>
+                        </ul>
+                        <p><strong>Socket color meanings:</strong></p>
+                        <ul>
+                            <li><strong>Green:</strong> Shader data (material properties)</li>
+                            <li><strong>Yellow:</strong> Color/RGB data</li>
+                            <li><strong>Gray:</strong> Single value/number (roughness, metallic, etc.)</li>
+                            <li><strong>Blue:</strong> Vector data (coordinates, normals, directions)</li>
+                        </ul>
+                        <p><strong>Connection tips:</strong></p>
+                        <ul>
+                            <li>Can only connect compatible socket types (mostly)</li>
+                            <li>Yellow (color) can plug into gray (value) and vice versa</li>
+                            <li>Blender auto-converts when possible</li>
+                            <li>One output can connect to multiple inputs</li>
+                            <li>One input can only have one connection (new replaces old)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Adding Nodes</h3>
+
+                    <div class="card">
+                        <h4>➕ Node Adding Methods</h4>
+                        <p><strong>Add menu (<code>Shift+A</code>):</strong></p>
+                        <ul>
+                            <li>Shows organized categories of all available nodes</li>
+                            <li>Navigate through menus to find what you need</li>
+                            <li>Most comprehensive method</li>
+                        </ul>
+                        <p><strong>Search Add menu:</strong></p>
+                        <ul>
+                            <li>After <code>Shift+A</code>, start typing node name</li>
+                            <li>Filters list to matching nodes</li>
+                            <li>Fastest when you know what you want</li>
+                            <li>Example: Type "color ramp" to quickly find ColorRamp node</li>
+                        </ul>
+                        <p><strong>Node categories (in Add menu):</strong></p>
+                        <ul>
+                            <li><strong>Input:</strong> Textures, coordinates, attributes</li>
+                            <li><strong>Output:</strong> Material Output, AOV Output</li>
+                            <li><strong>Shader:</strong> Principled BSDF, Diffuse, Glass, etc.</li>
+                            <li><strong>Texture:</strong> Procedural textures (Noise, Voronoi, etc.)</li>
+                            <li><strong>Color:</strong> Color manipulation (RGB Curves, ColorRamp, Mix)</li>
+                            <li><strong>Vector:</strong> Coordinate transformation and manipulation</li>
+                            <li><strong>Converter:</strong> Data type conversion and math operations</li>
+                        </ul>
+                    </div>
+
+                    <h3>Organizing Your Node Tree</h3>
+
+                    <div class="card">
+                        <h4>🎨 Keeping Nodes Organized</h4>
+                        <p><strong>Why organization matters:</strong></p>
+                        <ul>
+                            <li>Complex materials can have dozens of nodes</li>
+                            <li>Messy layouts are hard to understand and edit</li>
+                            <li>Clean organization = easier troubleshooting</li>
+                            <li>Professional habit to develop early</li>
+                        </ul>
+                        <p><strong>Organization techniques:</strong></p>
+                        <ul>
+                            <li><strong>Left-to-right flow:</strong> Inputs on left, output on right</li>
+                            <li><strong>Align nodes:</strong> Keep nodes in neat rows
+                                <ul>
+                                    <li>Select multiple nodes: <code>Shift+Click</code></li>
+                                    <li>Move together: <code>G</code> key</li>
+                                </ul>
+                            </li>
+                            <li><strong>Use frames:</strong> Group related nodes
+                                <ul>
+                                    <li>Select nodes, press <code>Ctrl+J</code></li>
+                                    <li>Creates frame around selection</li>
+                                    <li>Label frames for organization</li>
+                                </ul>
+                            </li>
+                            <li><strong>Reroute nodes:</strong> Clean up messy connections
+                                <ul>
+                                    <li>Add → Layout → Reroute</li>
+                                    <li>Acts like a wire junction</li>
+                                    <li>Helps avoid crossing cables</li>
+                                </ul>
+                            </li>
+                            <li><strong>Collapse unused nodes:</strong> Click arrow on node header</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Assembly Line Analogy:</strong> Think of your node tree like a factory assembly line. Raw materials (textures, coordinates) enter on the left, go through processing stations (shader nodes), and emerge as the finished product (material) on the right. Keep your assembly line organized, and it's easy to see how everything works!</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_14_advanced_materials_part_02.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 14 - PART 02
+     File: lesson_14_advanced_materials_part_02.html
+     ============================================ -->
+
+                <section id="principled-bsdf" class="content-section">
+                    <h2>💎 Mastering Principled BSDF</h2>
+
+                    <p>The Principled BSDF shader is the heart of modern material creation in Blender. It's an all-in-one shader that can create virtually any material type—from plastic to metal, glass to skin. Let's master every parameter and learn how to use them effectively.</p>
+
+                    <h3>What is Principled BSDF?</h3>
+
+                    <div class="card">
+                        <h4>🌟 The Universal Shader</h4>
+                        <p><strong>Principled BSDF overview:</strong></p>
+                        <ul>
+                            <li><strong>BSDF:</strong> Bidirectional Scattering Distribution Function (how light scatters)</li>
+                            <li><strong>Principled:</strong> Based on physically accurate principles</li>
+                            <li>All-in-one shader combining multiple material types</li>
+                            <li>Industry-standard PBR shader</li>
+                            <li>Can create 90% of materials you'll ever need</li>
+                        </ul>
+                        <p><strong>Why it's powerful:</strong></p>
+                        <ul>
+                            <li>One shader instead of many specialized shaders</li>
+                            <li>Consistent, predictable behavior</li>
+                            <li>Works in both Eevee and Cycles</li>
+                            <li>Energy-conserving (physically accurate)</li>
+                            <li>Easy to learn, hard to master (lots of depth!)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Core Parameters: Base Color</h3>
+
+                    <div class="card">
+                        <h4>🎨 Base Color Input</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>The fundamental color of the surface</li>
+                            <li>Also called "Albedo" or "Diffuse Color"</li>
+                            <li>The color you see when light hits the surface</li>
+                            <li>Can be solid color or texture</li>
+                        </ul>
+                        <p><strong>How to use it:</strong></p>
+                        <ul>
+                            <li>Click color swatch to open color picker</li>
+                            <li>Or plug in Image Texture node for painted/photo textures</li>
+                            <li>Or plug in Procedural Texture for generated patterns</li>
+                        </ul>
+                        <p><strong>Best practices:</strong></p>
+                        <ul>
+                            <li><strong>For metals:</strong> Use desaturated colors or grayscale
+                                <ul>
+                                    <li>Gold: Yellowish gray, not bright yellow</li>
+                                    <li>Copper: Orange-tinted gray, not pure orange</li>
+                                    <li>Steel: Medium gray values</li>
+                                </ul>
+                            </li>
+                            <li><strong>For non-metals:</strong> More color variety allowed
+                                <ul>
+                                    <li>But still avoid over-saturation</li>
+                                    <li>Real materials are rarely 100% saturated</li>
+                                </ul>
+                            </li>
+                            <li><strong>Avoid pure black (0,0,0) or pure white (1,1,1)</strong></li>
+                        </ul>
+                    </div>
+
+                    <h3>Metallic Parameter</h3>
+
+                    <div class="card">
+                        <h4>🏆 Metallic Input</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Defines whether surface behaves as metal or non-metal</li>
+                            <li>Binary choice in most cases (0.0 = non-metal, 1.0 = metal)</li>
+                            <li>Fundamentally changes how light interacts with surface</li>
+                            <li>Metals have colored reflections; non-metals don't</li>
+                        </ul>
+                        <p><strong>Values and effects:</strong></p>
+                        <ul>
+                            <li><strong>0.0 (Non-metallic):</strong>
+                                <ul>
+                                    <li>Plastic, wood, stone, fabric, skin</li>
+                                    <li>Colorless/white reflections</li>
+                                    <li>Base color shows through</li>
+                                </ul>
+                            </li>
+                            <li><strong>1.0 (Metallic):</strong>
+                                <ul>
+                                    <li>Gold, silver, copper, iron, chrome</li>
+                                    <li>Colored reflections matching base color</li>
+                                    <li>No diffuse component (all reflection)</li>
+                                </ul>
+                            </li>
+                            <li><strong>In-between values (0.1-0.9):</strong>
+                                <ul>
+                                    <li>Rarely used in PBR workflow</li>
+                                    <li>Can create artistic/stylized effects</li>
+                                    <li>Or represent oxidized/dirty metals</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Quick guide:</strong></p>
+                        <ul>
+                            <li>If real material conducts electricity → Metallic = 1.0</li>
+                            <li>Everything else → Metallic = 0.0</li>
+                            <li>When in doubt, set to 0.0 (most materials aren't metal)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Roughness Parameter</h3>
+
+                    <div class="card">
+                        <h4>✨ Roughness Input</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Controls microsurface smoothness</li>
+                            <li>Determines how sharp or blurry reflections are</li>
+                            <li>0.0 = perfectly smooth/mirror-like</li>
+                            <li>1.0 = completely rough/matte</li>
+                            <li>Most impactful parameter for realism!</li>
+                        </ul>
+                        <p><strong>Understanding roughness:</strong></p>
+                        <ul>
+                            <li>Imagine zooming into surface at microscopic level</li>
+                            <li>Smooth surfaces (low roughness): Tiny bumps are minimal
+                                <ul>
+                                    <li>Light reflects in consistent direction</li>
+                                    <li>Sharp, clear reflections</li>
+                                </ul>
+                            </li>
+                            <li>Rough surfaces (high roughness): Tiny bumps are pronounced
+                                <ul>
+                                    <li>Light scatters in random directions</li>
+                                    <li>Blurry, diffuse reflections</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Typical roughness values:</strong></p>
+                        <ul>
+                            <li><strong>0.0 - 0.1:</strong> Mirrors, polished chrome, water
+                                <ul>
+                                    <li>Perfect or near-perfect reflections</li>
+                                </ul>
+                            </li>
+                            <li><strong>0.1 - 0.3:</strong> Glossy plastic, polished wood, wet surfaces
+                                <ul>
+                                    <li>Clear but slightly soft reflections</li>
+                                </ul>
+                            </li>
+                            <li><strong>0.3 - 0.5:</strong> Satin finishes, worn metal, concrete
+                                <ul>
+                                    <li>Visible reflections with blur</li>
+                                </ul>
+                            </li>
+                            <li><strong>0.5 - 0.7:</strong> Rough plastic, unfinished wood, stone
+                                <ul>
+                                    <li>Matte with subtle sheen</li>
+                                </ul>
+                            </li>
+                            <li><strong>0.7 - 1.0:</strong> Fabric, clay, chalk, very rough surfaces
+                                <ul>
+                                    <li>Completely matte, no visible reflections</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Pro tip:</strong> Variation is key! Plug in a texture with subtle variation for most realistic results—real surfaces are never uniformly rough.</p>
+                    </div>
+
+                    <h3>IOR (Index of Refraction)</h3>
+
+                    <div class="card">
+                        <h4>🔮 IOR Parameter</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Controls how much light bends when passing through transparent materials</li>
+                            <li>Also affects reflection intensity at glancing angles (Fresnel effect)</li>
+                            <li>Higher IOR = stronger reflections and more bending</li>
+                            <li>Default: 1.45 (similar to plastic/glass)</li>
+                        </ul>
+                        <p><strong>Real-world IOR values:</strong></p>
+                        <ul>
+                            <li><strong>1.0:</strong> Vacuum, air (no refraction)</li>
+                            <li><strong>1.33:</strong> Water</li>
+                            <li><strong>1.45:</strong> Plastic, acrylic (Blender default)</li>
+                            <li><strong>1.5:</strong> Standard glass</li>
+                            <li><strong>1.55:</strong> Window glass</li>
+                            <li><strong>2.4:</strong> Diamond</li>
+                            <li><strong>Higher values:</strong> More dramatic light bending and reflections</li>
+                        </ul>
+                        <p><strong>When to adjust IOR:</strong></p>
+                        <ul>
+                            <li>Mostly important for transparent/translucent materials</li>
+                            <li>For opaque materials, affects edge reflections (Fresnel)</li>
+                            <li>Can often leave at default 1.45 for general use</li>
+                            <li>Adjust when creating specific materials (water, diamond, etc.)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Transmission (Transparency)</h3>
+
+                    <div class="card">
+                        <h4>🪟 Transmission Parameter</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Controls how much light passes through the surface</li>
+                            <li>0.0 = fully opaque (light blocked)</li>
+                            <li>1.0 = fully transparent (light passes through)</li>
+                            <li>Creates glass, water, and other see-through materials</li>
+                        </ul>
+                        <p><strong>How to use transmission:</strong></p>
+                        <ul>
+                            <li><strong>For glass:</strong> Transmission = 1.0, Roughness = 0.0</li>
+                            <li><strong>For frosted glass:</strong> Transmission = 1.0, Roughness = 0.1-0.3</li>
+                            <li><strong>For tinted glass:</strong> Transmission = 1.0, add color to Base Color</li>
+                        </ul>
+                        <p><strong>Transmission tips:</strong></p>
+                        <ul>
+                            <li>Works best in Cycles (Eevee has limitations)</li>
+                            <li>Enable "Screen Space Refraction" in Eevee for transparency</li>
+                            <li>Combine with IOR for realistic glass refraction</li>
+                            <li>Higher roughness = more blurred transparency</li>
+                        </ul>
+                    </div>
+
+                    <h3>Emission</h3>
+
+                    <div class="card">
+                        <h4>💡 Emission Parameters</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Makes surfaces emit light (self-illumination)</li>
+                            <li>Creates glowing objects</li>
+                            <li>Can be colored by Base Color or separate Emission Color</li>
+                            <li>Emission Strength controls brightness</li>
+                        </ul>
+                        <p><strong>Emission settings:</strong></p>
+                        <ul>
+                            <li><strong>Emission Strength = 0:</strong> No glow (default)</li>
+                            <li><strong>Emission Strength = 1-5:</strong> Subtle glow</li>
+                            <li><strong>Emission Strength = 10-50:</strong> Strong light source</li>
+                            <li><strong>Emission Strength = 100+:</strong> Very bright (sun, light bulb)</li>
+                        </ul>
+                        <p><strong>Use cases:</strong></p>
+                        <ul>
+                            <li>LED lights and displays</li>
+                            <li>Neon signs</li>
+                            <li>Glowing magical effects</li>
+                            <li>Light bulbs and lamps</li>
+                            <li>Emissive sci-fi elements</li>
+                            <li>Can even use as scene lighting!</li>
+                        </ul>
+                        <p><strong>Tips:</strong></p>
+                        <ul>
+                            <li>Can plug texture into Emission Color for patterns</li>
+                            <li>Animated emission strength = flickering light effect</li>
+                            <li>In Cycles, emission actually lights the scene</li>
+                            <li>In Eevee, use "Bloom" effect for glow appearance</li>
+                        </ul>
+                    </div>
+
+                    <h3>Subsurface Scattering</h3>
+
+                    <div class="card">
+                        <h4>🧴 Subsurface Parameters</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Simulates light penetrating surface and scattering inside</li>
+                            <li>Essential for organic materials (skin, wax, marble, jade)</li>
+                            <li>Creates soft, translucent appearance</li>
+                            <li>More realistic than pure surface shading</li>
+                        </ul>
+                        <p><strong>Key subsurface parameters:</strong></p>
+                        <ul>
+                            <li><strong>Subsurface Weight:</strong> How much SSS to apply (0.0 - 1.0)</li>
+                            <li><strong>Subsurface Radius:</strong> How far light travels inside (RGB values)
+                                <ul>
+                                    <li>Red typically travels farthest</li>
+                                    <li>Controls color of subsurface scattering</li>
+                                </ul>
+                            </li>
+                            <li><strong>Subsurface Scale:</strong> Overall distance multiplier</li>
+                        </ul>
+                        <p><strong>When to use subsurface:</strong></p>
+                        <ul>
+                            <li><strong>Skin:</strong> Essential for realistic skin
+                                <ul>
+                                    <li>Weight: 0.1-0.3</li>
+                                    <li>Radius: (1.0, 0.5, 0.3) for reddish skin tone</li>
+                                </ul>
+                            </li>
+                            <li><strong>Wax:</strong> Candles, translucent materials
+                                <ul>
+                                    <li>Weight: 0.5-1.0</li>
+                                    <li>Radius: Uniform values like (1.0, 1.0, 1.0)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Marble:</strong> Stone with light penetration
+                                <ul>
+                                    <li>Weight: 0.1-0.2</li>
+                                    <li>Subtle effect for realism</li>
+                                </ul>
+                            </li>
+                            <li><strong>Leaves, fruit:</strong> Natural translucency</li>
+                        </ul>
+                    </div>
+
+                    <h3>Alpha (Opacity)</h3>
+
+                    <div class="card">
+                        <h4>👻 Alpha Parameter</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Controls surface opacity (different from Transmission!)</li>
+                            <li>0.0 = invisible/transparent</li>
+                            <li>1.0 = fully opaque (default)</li>
+                            <li>Used for transparency masks, not glass</li>
+                        </ul>
+                        <p><strong>Alpha vs. Transmission:</strong></p>
+                        <ul>
+                            <li><strong>Alpha:</strong> Makes object disappear (no refraction)
+                                <ul>
+                                    <li>Use for: Cutouts, fading effects, alpha textures</li>
+                                    <li>Example: Leaf texture with transparent background</li>
+                                </ul>
+                            </li>
+                            <li><strong>Transmission:</strong> Light passes through and refracts
+                                <ul>
+                                    <li>Use for: Glass, water, translucent materials</li>
+                                    <li>Example: Glass bottle</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Using alpha textures:</strong></p>
+                        <ol>
+                            <li>Plug image texture (with alpha channel) into Alpha input</li>
+                            <li>Material Properties → Settings → Blend Mode: Alpha Clip or Alpha Blend</li>
+                            <li>Adjust Alpha Threshold if using Alpha Clip</li>
+                        </ol>
+                    </div>
+
+                    <h3>Normal (Bump/Normal Maps)</h3>
+
+                    <div class="card">
+                        <h4>⛰️ Normal Input</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Fakes surface detail without changing geometry</li>
+                            <li>Affects how light reflects off surface</li>
+                            <li>Makes flat surfaces appear to have bumps, scratches, texture</li>
+                            <li>Crucial for adding detail without heavy geometry</li>
+                        </ul>
+                        <p><strong>Types of detail maps:</strong></p>
+                        <ul>
+                            <li><strong>Normal Map:</strong> RGB image encoding surface angles
+                                <ul>
+                                    <li>Purple/blue-ish color typically</li>
+                                    <li>Most detailed, most common</li>
+                                    <li>Requires Normal Map node</li>
+                                </ul>
+                            </li>
+                            <li><strong>Bump Map:</strong> Grayscale height map
+                                <ul>
+                                    <li>Black = low, white = high</li>
+                                    <li>Requires Bump node</li>
+                                    <li>Simpler, but less precise</li>
+                                </ul>
+                            </li>
+                            <li><strong>Displacement Map:</strong> Actually moves geometry
+                                <ul>
+                                    <li>True 3D detail (not fake)</li>
+                                    <li>More expensive, more realistic</li>
+                                    <li>Requires subdivided geometry</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Using normal maps:</strong></p>
+                        <ol>
+                            <li>Add Image Texture node with normal map image</li>
+                            <li>Set Color Space to "Non-Color"</li>
+                            <li>Add Normal Map node (<code>Shift+A</code> → Vector → Normal Map)</li>
+                            <li>Connect Image Texture Color → Normal Map Color</li>
+                            <li>Connect Normal Map Normal → Principled BSDF Normal</li>
+                        </ol>
+                    </div>
+
+                    <h3>Other Principled BSDF Inputs</h3>
+
+                    <div class="card">
+                        <h4>🔧 Additional Parameters</h4>
+                        <p><strong>Specular:</strong></p>
+                        <ul>
+                            <li>Controls reflection intensity for non-metals</li>
+                            <li>Default: 0.5 (works for most materials)</li>
+                            <li>Range: 0.0 (no reflection) to 1.0 (strong reflection)</li>
+                            <li>Rarely needs adjustment in PBR workflow</li>
+                        </ul>
+                        <p><strong>Specular Tint:</strong></p>
+                        <ul>
+                            <li>Tints reflections with base color (for non-metals)</li>
+                            <li>0.0 = colorless reflections (physically accurate)</li>
+                            <li>1.0 = colored reflections</li>
+                            <li>Usually keep at 0.0 for realism</li>
+                        </ul>
+                        <p><strong>Anisotropic:</strong></p>
+                        <ul>
+                            <li>Stretches reflections in one direction</li>
+                            <li>Useful for brushed metal, hair, fabric</li>
+                            <li>0.0 = round highlights (default)</li>
+                            <li>1.0 = elongated highlights</li>
+                        </ul>
+                        <p><strong>Anisotropic Rotation:</strong></p>
+                        <ul>
+                            <li>Rotates anisotropic highlight direction</li>
+                            <li>0.0 - 1.0 (full 360° rotation)</li>
+                        </ul>
+                        <p><strong>Sheen:</strong></p>
+                        <ul>
+                            <li>Adds soft glow at grazing angles</li>
+                            <li>Perfect for fabric, velvet, carpet</li>
+                            <li>0.0 = no sheen, 1.0 = maximum sheen</li>
+                        </ul>
+                        <p><strong>Sheen Tint:</strong></p>
+                        <ul>
+                            <li>Colors the sheen effect</li>
+                            <li>0.0 = white sheen, 1.0 = base color sheen</li>
+                        </ul>
+                        <p><strong>Clearcoat:</strong></p>
+                        <ul>
+                            <li>Adds second reflective layer</li>
+                            <li>Simulates clear coating over base paint (car paint!)</li>
+                            <li>0.0 = no clearcoat, 1.0 = full clearcoat layer</li>
+                        </ul>
+                        <p><strong>Clearcoat Roughness:</strong></p>
+                        <ul>
+                            <li>Roughness of clearcoat layer (usually very smooth)</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The 80/20 Rule for Principled BSDF:</strong> You can create 80% of materials using just these five inputs: Base Color, Metallic, Roughness, Normal, and occasionally Emission. Master these first before diving into the advanced parameters. Start simple, add complexity only when needed!</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_14_advanced_materials_part_03.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 14 - PART 03
+     File: lesson_14_advanced_materials_part_03.html
+     ============================================ -->
+
+                <section id="pbr-workflow" class="content-section">
+                    <h2>🎨 PBR Workflow Fundamentals</h2>
+
+                    <p>Understanding the PBR (Physically Based Rendering) workflow is essential for creating realistic materials that behave correctly under any lighting condition. Let's dive deep into PBR principles and how to apply them in Blender.</p>
+
+                    <h3>The PBR Philosophy</h3>
+
+                    <div class="card">
+                        <h4>🌟 What Makes PBR Special</h4>
+                        <p><strong>Core principles of PBR:</strong></p>
+                        <ul>
+                            <li><strong>Energy conservation:</strong> Surfaces can't reflect more light than they receive
+                                <ul>
+                                    <li>Total reflected + absorbed light ≤ incoming light</li>
+                                    <li>Prevents unrealistic over-bright materials</li>
+                                    <li>Principled BSDF enforces this automatically</li>
+                                </ul>
+                            </li>
+                            <li><strong>Physically accurate parameters:</strong> Values based on real-world measurements
+                                <ul>
+                                    <li>IOR values from physics tables</li>
+                                    <li>Metallic is binary (metal or not)</li>
+                                    <li>Measured roughness values</li>
+                                </ul>
+                            </li>
+                            <li><strong>Consistent results:</strong> Materials look correct in any lighting
+                                <ul>
+                                    <li>No "baking in" lighting assumptions</li>
+                                    <li>Portable between scenes and projects</li>
+                                    <li>Works in games, films, archviz equally well</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>The Metallic Workflow</h3>
+
+                    <div class="card">
+                        <h4>⚡ Metal vs. Non-Metal</h4>
+                        <p><strong>Understanding the fundamental distinction:</strong></p>
+                        <p><strong>Metals (Metallic = 1.0):</strong></p>
+                        <ul>
+                            <li><strong>No diffuse reflection:</strong> All reflection is specular (mirror-like)</li>
+                            <li><strong>Colored reflections:</strong> Reflections match base color
+                                <ul>
+                                    <li>Gold reflects yellow light</li>
+                                    <li>Copper reflects orange light</li>
+                                    <li>This is why metals have their characteristic colors!</li>
+                                </ul>
+                            </li>
+                            <li><strong>High reflectivity:</strong> Metals are always reflective (unless very rough)</li>
+                            <li><strong>Base color represents reflection color:</strong> Not "surface color" like non-metals</li>
+                        </ul>
+                        <p><strong>Non-metals (Metallic = 0.0):</strong></p>
+                        <ul>
+                            <li><strong>Diffuse + specular reflection:</strong> Both scattered and mirror reflections</li>
+                            <li><strong>Colorless reflections:</strong> Reflections are white/environment color
+                                <ul>
+                                    <li>Wood, plastic, stone reflect white light</li>
+                                    <li>Base color shows as surface color, not reflection color</li>
+                                </ul>
+                            </li>
+                            <li><strong>Variable reflectivity:</strong> Can be very matte to somewhat shiny</li>
+                            <li><strong>Base color is surface color:</strong> The color you see in diffuse light</li>
+                        </ul>
+                        <p><strong>The rule of thumb:</strong></p>
+                        <ul>
+                            <li>If it conducts electricity → Metallic = 1.0</li>
+                            <li>Everything else → Metallic = 0.0</li>
+                            <li>No in-between (except for artistic effects or oxidized metals)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Roughness and Microsurface</h3>
+
+                    <div class="card">
+                        <h4>🔬 The Microsurface Theory</h4>
+                        <p><strong>What roughness really means:</strong></p>
+                        <ul>
+                            <li>All surfaces have microscopic bumps and valleys</li>
+                            <li>At macro scale, surface looks smooth</li>
+                            <li>At micro scale, it's a chaotic landscape</li>
+                            <li>Roughness describes this micro-geometry statistically</li>
+                        </ul>
+                        <p><strong>How roughness affects light:</strong></p>
+                        <ul>
+                            <li><strong>Smooth surface (low roughness):</strong>
+                                <ul>
+                                    <li>Microfacets mostly aligned</li>
+                                    <li>Light reflects in consistent direction</li>
+                                    <li>Sharp, clear reflections</li>
+                                    <li>Small bright highlight</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rough surface (high roughness):</strong>
+                                <ul>
+                                    <li>Microfacets randomly oriented</li>
+                                    <li>Light scatters in all directions</li>
+                                    <li>Blurry, diffuse reflections</li>
+                                    <li>Large, soft highlight</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Roughness variation is crucial:</strong></p>
+                        <ul>
+                            <li>Real materials never have uniform roughness</li>
+                            <li>Wear patterns: Edges smoother, recesses rougher</li>
+                            <li>Use texture maps for variation</li>
+                            <li>Even subtle variation adds huge realism boost</li>
+                        </ul>
+                    </div>
+
+                    <h3>PBR Texture Maps</h3>
+
+                    <div class="card">
+                        <h4>🗺️ Standard PBR Map Types</h4>
+                        <p><strong>The complete PBR texture set:</strong></p>
+                        <ul>
+                            <li><strong>Base Color (Albedo/Diffuse):</strong>
+                                <ul>
+                                    <li>RGB texture</li>
+                                    <li>Pure color information, no lighting</li>
+                                    <li>Plugs into: Base Color input</li>
+                                    <li><strong>Critical rule:</strong> Should contain NO shadows or highlights!</li>
+                                </ul>
+                            </li>
+                            <li><strong>Roughness:</strong>
+                                <ul>
+                                    <li>Grayscale texture</li>
+                                    <li>Black = smooth, white = rough</li>
+                                    <li>Plugs into: Roughness input</li>
+                                    <li>Often inverted from "Glossiness" maps (white = smooth)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Metallic:</strong>
+                                <ul>
+                                    <li>Grayscale texture (usually binary: black or white)</li>
+                                    <li>Black = non-metal, white = metal</li>
+                                    <li>Plugs into: Metallic input</li>
+                                    <li>Often solid white/black, or masks metal parts</li>
+                                </ul>
+                            </li>
+                            <li><strong>Normal Map:</strong>
+                                <ul>
+                                    <li>RGB texture (purple/blue-ish)</li>
+                                    <li>Encodes surface angle information</li>
+                                    <li>Requires Normal Map node</li>
+                                    <li>Plugs into: Normal input via Normal Map node</li>
+                                </ul>
+                            </li>
+                            <li><strong>Height/Displacement:</strong>
+                                <ul>
+                                    <li>Grayscale texture</li>
+                                    <li>Black = low, white = high</li>
+                                    <li>Can be used for bump or actual displacement</li>
+                                    <li>Optional, often combined with normal</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ambient Occlusion (AO):</strong>
+                                <ul>
+                                    <li>Grayscale texture</li>
+                                    <li>Darkens crevices and contact areas</li>
+                                    <li>Often multiplied with base color</li>
+                                    <li>Adds depth and grounding</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Setting Up PBR Materials</h3>
+
+                    <div class="card">
+                        <h4>🔧 Complete PBR Material Setup</h4>
+                        <p><strong>Step-by-step workflow:</strong></p>
+                        <ol>
+                            <li><strong>Prepare texture files:</strong>
+                                <ul>
+                                    <li>Gather all PBR maps (Color, Roughness, Metallic, Normal, etc.)</li>
+                                    <li>Ensure consistent naming (Material_BaseColor, Material_Roughness, etc.)</li>
+                                    <li>Check resolution matches (all same size)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add Image Texture nodes:</strong>
+                                <ul>
+                                    <li><code>Shift+A</code> → Texture → Image Texture</li>
+                                    <li>Add one for each map type</li>
+                                    <li>Load corresponding texture file</li>
+                                </ul>
+                            </li>
+                            <li><strong>Set color space correctly:</strong>
+                                <ul>
+                                    <li><strong>Base Color:</strong> sRGB (color space)</li>
+                                    <li><strong>Roughness, Metallic, AO, Height:</strong> Non-Color (linear)</li>
+                                    <li><strong>Normal Map:</strong> Non-Color</li>
+                                    <li>This is CRITICAL for correct results!</li>
+                                </ul>
+                            </li>
+                            <li><strong>Connect to Principled BSDF:</strong>
+                                <ul>
+                                    <li>Base Color texture → Base Color input</li>
+                                    <li>Roughness texture → Roughness input</li>
+                                    <li>Metallic texture → Metallic input</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add Normal Map node (if using normal map):</strong>
+                                <ul>
+                                    <li><code>Shift+A</code> → Vector → Normal Map</li>
+                                    <li>Image Texture (normal) → Normal Map Color</li>
+                                    <li>Normal Map Normal → Principled BSDF Normal</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mix AO with Base Color (optional but recommended):</strong>
+                                <ul>
+                                    <li>Add Math node → Multiply</li>
+                                    <li>Base Color → Value 1</li>
+                                    <li>AO → Value 2</li>
+                                    <li>Result → Principled BSDF Base Color</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="mermaid">
+graph LR
+    A[Base Color Texture<br/>sRGB] --> B[Principled BSDF]
+    C[Roughness Texture<br/>Non-Color] --> B
+    D[Metallic Texture<br/>Non-Color] --> B
+    E[Normal Texture<br/>Non-Color] --> F[Normal Map Node]
+    F --> B
+    B --> G[Material Output]
+    
+    style B fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+    style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+</div>
+
+                    <h3>PBR Value Ranges</h3>
+
+                    <div class="card">
+                        <h4>📊 Physically Accurate Value Guidelines</h4>
+                        <p><strong>Base Color values (in sRGB, 0-255 range):</strong></p>
+                        <ul>
+                            <li><strong>Very dark (coal, charcoal):</strong> 30-50 (avoid going darker)</li>
+                            <li><strong>Dark materials (dark wood, asphalt):</strong> 50-80</li>
+                            <li><strong>Mid-range (brick, leather, cloth):</strong> 80-180</li>
+                            <li><strong>Light materials (concrete, light wood):</strong> 180-220</li>
+                            <li><strong>Very light (snow, fresh paint):</strong> 220-245 (avoid going lighter)</li>
+                            <li><strong>Never use pure black (0) or pure white (255)</strong></li>
+                        </ul>
+                        <p><strong>Metallic values:</strong></p>
+                        <ul>
+                            <li><strong>Non-metals:</strong> 0.0</li>
+                            <li><strong>Metals:</strong> 1.0</li>
+                            <li><strong>Exceptions:</strong> 0.5-0.8 for dirty/oxidized metals (artistic choice)</li>
+                        </ul>
+                        <p><strong>Roughness values (covered earlier, but worth repeating):</strong></p>
+                        <ul>
+                            <li><strong>Polished metal/mirror:</strong> 0.0-0.1</li>
+                            <li><strong>Glossy paint/plastic:</strong> 0.2-0.4</li>
+                            <li><strong>Satin/semi-gloss:</strong> 0.4-0.6</li>
+                            <li><strong>Matte/rough:</strong> 0.6-0.8</li>
+                            <li><strong>Very rough (fabric, clay):</strong> 0.8-1.0</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common PBR Mistakes</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ PBR Pitfalls to Avoid</h4>
+                        <p><strong>Mistake 1: Baked lighting in Base Color</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Base Color texture contains shadows or highlights</li>
+                            <li><strong>Result:</strong> Double lighting (baked + real-time)</li>
+                            <li><strong>Fix:</strong> Use pure albedo textures with no lighting information</li>
+                        </ul>
+                        <p><strong>Mistake 2: Wrong color space</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Using sRGB for roughness/normal/metallic maps</li>
+                            <li><strong>Result:</strong> Incorrect material behavior, wrong colors</li>
+                            <li><strong>Fix:</strong> Set Non-Color for all data maps (not color maps)</li>
+                        </ul>
+                        <p><strong>Mistake 3: Overly saturated base colors</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Using 100% saturated colors</li>
+                            <li><strong>Result:</strong> Unrealistic, "video game-y" look</li>
+                            <li><strong>Fix:</strong> Reduce saturation to 60-80% for most materials</li>
+                        </ul>
+                        <p><strong>Mistake 4: Uniform roughness</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Single roughness value across entire surface</li>
+                            <li><strong>Result:</strong> Artificial, CG appearance</li>
+                            <li><strong>Fix:</strong> Use roughness texture with variation</li>
+                        </ul>
+                        <p><strong>Mistake 5: Mixing metallic workflow with specular workflow</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Trying to use old-school specular maps</li>
+                            <li><strong>Result:</strong> Confusion and incorrect materials</li>
+                            <li><strong>Fix:</strong> Stick to metallic workflow for PBR</li>
+                        </ul>
+                    </div>
+
+                    <h3>Testing Your PBR Materials</h3>
+
+                    <div class="card">
+                        <h4>✅ Material Quality Checklist</h4>
+                        <p><strong>How to verify PBR correctness:</strong></p>
+                        <ul>
+                            <li><strong>Check in multiple lighting conditions:</strong>
+                                <ul>
+                                    <li>Direct sunlight</li>
+                                    <li>Indoor lighting</li>
+                                    <li>Overcast/diffuse</li>
+                                    <li>Should look correct in all scenarios</li>
+                                </ul>
+                            </li>
+                            <li><strong>Verify reflections look natural:</strong>
+                                <ul>
+                                    <li>Not too bright or too dim</li>
+                                    <li>Appropriate sharpness for material type</li>
+                                    <li>Colors make sense (colored for metals, white for non-metals)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Check at grazing angles:</strong>
+                                <ul>
+                                    <li>All materials should show increased reflection at edges (Fresnel)</li>
+                                    <li>If edges look wrong, IOR might be incorrect</li>
+                                </ul>
+                            </li>
+                            <li><strong>Compare to reference photos:</strong>
+                                <ul>
+                                    <li>Find real-world photos of similar material</li>
+                                    <li>Match the behavior and appearance</li>
+                                    <li>Adjust until they align</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="procedural-textures" class="content-section">
+                    <h2>🎨 Procedural Textures</h2>
+
+                    <p>Procedural textures are mathematically generated patterns that require no image files. They're infinitely scalable, highly customizable, and perfect for creating materials without external resources. Let's master Blender's powerful procedural toolkit!</p>
+
+                    <h3>What Are Procedural Textures?</h3>
+
+                    <div class="card">
+                        <h4>🔢 Math-Generated Textures</h4>
+                        <p><strong>The concept:</strong></p>
+                        <ul>
+                            <li>Textures created by mathematical algorithms, not images</li>
+                            <li>Generated on-the-fly during rendering</li>
+                            <li>No image files needed (saves disk space!)</li>
+                            <li>Infinitely scalable without loss of quality</li>
+                        </ul>
+                        <p><strong>Advantages of procedural textures:</strong></p>
+                        <ul>
+                            <li><strong>No UV unwrapping required:</strong> Can work on any geometry</li>
+                            <li><strong>Infinite resolution:</strong> Zoom in forever, always sharp</li>
+                            <li><strong>Small file size:</strong> Just nodes, no image data</li>
+                            <li><strong>Easy to adjust:</strong> Tweak parameters instead of repainting</li>
+                            <li><strong>Fully customizable:</strong> Endless variations possible</li>
+                            <li><strong>Seamless tiling:</strong> Most procedurals tile perfectly</li>
+                        </ul>
+                        <p><strong>Disadvantages:</strong></p>
+                        <ul>
+                            <li>Can be complex to set up for specific looks</li>
+                            <li>Hard to achieve "handmade" artistic detail</li>
+                            <li>May require more render time (math calculations)</li>
+                            <li>Not ideal for unique, painted textures</li>
+                        </ul>
+                        <p><strong>Best uses:</strong></p>
+                        <ul>
+                            <li>Generic materials (wood, stone, metal)</li>
+                            <li>Tiling patterns and backgrounds</li>
+                            <li>Variation and randomness (dirt, wear, scratches)</li>
+                            <li>Quick material creation and iteration</li>
+                        </ul>
+                    </div>
+
+                    <h3>Essential Procedural Texture Nodes</h3>
+
+                    <div class="card">
+                        <h4>🎨 The Procedural Toolkit</h4>
+                        <p><strong>Noise Texture:</strong></p>
+                        <ul>
+                            <li>Random, cloud-like patterns</li>
+                            <li>Most versatile procedural texture</li>
+                            <li>Great for: Organic variation, dirt, scratches, roughness maps</li>
+                            <li><strong>Key settings:</strong>
+                                <ul>
+                                    <li><strong>Scale:</strong> Size of noise pattern</li>
+                                    <li><strong>Detail:</strong> Fractal iteration (more = finer detail)</li>
+                                    <li><strong>Roughness:</strong> Smoothness vs. contrast</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Voronoi Texture:</strong></p>
+                        <ul>
+                            <li>Cellular patterns (like cracked earth or cells)</li>
+                            <li>Creates organic-looking divisions</li>
+                            <li>Great for: Stone tiles, reptile skin, cellular structures</li>
+                            <li><strong>Key settings:</strong>
+                                <ul>
+                                    <li><strong>Feature:</strong> F1 (closest cell), F2 (second closest), Distance, etc.</li>
+                                    <li><strong>Scale:</strong> Cell size</li>
+                                    <li><strong>Randomness:</strong> Regularity vs. chaos</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Wave Texture:</strong></p>
+                        <ul>
+                            <li>Linear wave patterns</li>
+                            <li>Great for: Rings, stripes, concentric patterns</li>
+                            <li><strong>Modes:</strong> Bands, Rings, Saw, Sine</li>
+                            <li><strong>Uses:</strong> Wood grain, water ripples, abstract patterns</li>
+                        </ul>
+                        <p><strong>Musgrave Texture:</strong></p>
+                        <ul>
+                            <li>Advanced fractal noise</li>
+                            <li>More control than basic Noise</li>
+                            <li>Great for: Terrain, rock surfaces, organic detail</li>
+                            <li>Multiple modes: Multifractal, Ridged, Hybrid, etc.</li>
+                        </ul>
+                        <p><strong>Magic Texture:</strong></p>
+                        <ul>
+                            <li>Psychedelic, abstract patterns</li>
+                            <li>Great for: Stylized materials, artistic effects</li>
+                            <li>Less "natural" but interesting for creative work</li>
+                        </ul>
+                        <p><strong>Checker Texture:</strong></p>
+                        <ul>
+                            <li>Simple checkerboard pattern</li>
+                            <li>Great for: Tiles, testing UVs, geometric designs</li>
+                            <li>Very controllable, crisp results</li>
+                        </ul>
+                        <p><strong>Brick Texture:</strong></p>
+                        <ul>
+                            <li>Instant brick/tile pattern</li>
+                            <li>Great for: Walls, floors, masonry</li>
+                            <li>Has mortar and brick color outputs</li>
+                            <li>Adjustable brick size, offset, mortar width</li>
+                        </ul>
+                        <p><strong>Gradient Texture:</strong></p>
+                        <ul>
+                            <li>Smooth color gradients</li>
+                            <li>Great for: Masks, falloffs, simple variations</li>
+                            <li>Types: Linear, Quadratic, Radial, Spherical</li>
+                        </ul>
+                    </div>
+
+                    <h3>Noise Texture Deep Dive</h3>
+
+                    <div class="card">
+                        <h4>☁️ Mastering Noise</h4>
+                        <p><strong>Why Noise is the most important procedural:</strong></p>
+                        <ul>
+                            <li>Foundation for countless materials</li>
+                            <li>Adds organic randomness to everything</li>
+                            <li>Combined with ColorRamp, creates infinite possibilities</li>
+                        </ul>
+                        <p><strong>Noise Texture parameters explained:</strong></p>
+                        <ul>
+                            <li><strong>Scale:</strong> Overall size of pattern
+                                <ul>
+                                    <li>Small scale (10-50) = fine, detailed noise</li>
+                                    <li>Large scale (1-5) = broad, sweeping variation</li>
+                                    <li>Adjust based on object size and desired effect</li>
+                                </ul>
+                            </li>
+                            <li><strong>Detail:</strong> Fractal complexity (0-15)
+                                <ul>
+                                    <li>0 = Simple, smooth blobs</li>
+                                    <li>5-8 = Good balance (typical use)</li>
+                                    <li>15 = Maximum detail, slower render</li>
+                                </ul>
+                            </li>
+                            <li><strong>Roughness:</strong> Smoothness of transitions (0-1)
+                                <ul>
+                                    <li>0 = Very smooth, cloudy</li>
+                                    <li>0.5 = Balanced (default)</li>
+                                    <li>1 = Harsh, contrasty</li>
+                                </ul>
+                            </li>
+                            <li><strong>Distortion:</strong> Warping effect (0+)
+                                <ul>
+                                    <li>0 = No distortion</li>
+                                    <li>1-5 = Organic warping</li>
+                                    <li>Higher = More chaos</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Noise outputs:</strong></p>
+                        <ul>
+                            <li><strong>Fac:</strong> Grayscale value (0-1)</li>
+                            <li><strong>Color:</strong> RGB version (for color variation)</li>
+                        </ul>
+                    </div>
+
+                    <h3>ColorRamp: The Procedural Powerhouse</h3>
+
+                    <div class="card">
+                        <h4>🌈 ColorRamp Node Magic</h4>
+                        <p><strong>What ColorRamp does:</strong></p>
+                        <ul>
+                            <li>Remaps input values to custom color/value ranges</li>
+                            <li>Transforms procedural noise into useful patterns</li>
+                            <li>Essential for controlling procedural textures</li>
+                            <li>Like "Levels" or "Curves" in Photoshop, but for 3D</li>
+                        </ul>
+                        <p><strong>How to use ColorRamp:</strong></p>
+                        <ol>
+                            <li>Add ColorRamp node: <code>Shift+A</code> → Converter → ColorRamp</li>
+                            <li>Connect procedural texture Fac → ColorRamp Fac</li>
+                            <li>Adjust color stops (the markers on the gradient)</li>
+                            <li>Move stops to remap values</li>
+                            <li>Add stops by clicking on bar</li>
+                            <li>Delete stops by dragging off the bar</li>
+                        </ol>
+                        <p><strong>ColorRamp techniques:</strong></p>
+                        <ul>
+                            <li><strong>Thresholding:</strong> Push stops close together
+                                <ul>
+                                    <li>Creates hard edge between colors</li>
+                                    <li>Turns noise into distinct regions</li>
+                                </ul>
+                            </li>
+                            <li><strong>Contrast increase:</strong> Move black/white stops inward
+                                <ul>
+                                    <li>Brightens lights, darkens darks</li>
+                                    <li>Increases visual impact</li>
+                                </ul>
+                            </li>
+                            <li><strong>Inversion:</strong> Swap black and white stop positions
+                                <ul>
+                                    <li>Reverses the pattern</li>
+                                </ul>
+                            </li>
+                            <li><strong>Color variation:</strong> Use actual colors instead of B&W
+                                <ul>
+                                    <li>Creates color zones</li>
+                                    <li>Great for stylized materials</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Interpolation modes:</strong></p>
+                        <ul>
+                            <li><strong>Linear:</strong> Smooth transitions (default)</li>
+                            <li><strong>Constant:</strong> Hard steps, no blending</li>
+                            <li><strong>B-Spline:</strong> Extra smooth curves</li>
+                            <li><strong>Cardinal:</strong> Custom ease in/out</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Noise + ColorRamp Formula:</strong> 80% of procedural materials follow this pattern: (1) Noise Texture generates randomness, (2) ColorRamp shapes that randomness into useful values, (3) Result plugs into Base Color, Roughness, or other inputs. Master this combination and you'll unlock endless material possibilities!</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 03
+     Continue with lesson_14_advanced_materials_part_04.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 14 - PART 04
+     File: lesson_14_advanced_materials_part_04.html
+     ============================================ -->
+
+                <section id="texture-mapping" class="content-section">
+                    <h2>🗺️ Texture Mapping and Coordinates</h2>
+
+                    <p>Texture coordinates determine how textures (both image and procedural) map onto your 3D surfaces. Understanding texture mapping is essential for controlling how materials appear on your models.</p>
+
+                    <h3>Understanding Texture Coordinates</h3>
+
+                    <div class="card">
+                        <h4>📍 What Are Texture Coordinates?</h4>
+                        <p><strong>The concept:</strong></p>
+                        <ul>
+                            <li>Every point on a 3D surface needs a corresponding point in texture space</li>
+                            <li>Texture coordinates (UV coordinates) define this mapping</li>
+                            <li>Tell Blender "this 3D point maps to this 2D texture location"</li>
+                            <li>Different coordinate systems for different needs</li>
+                        </ul>
+                        <p><strong>Why coordinates matter:</strong></p>
+                        <ul>
+                            <li>Control texture scale (size on surface)</li>
+                            <li>Control texture rotation and orientation</li>
+                            <li>Determine how textures repeat or stretch</li>
+                            <li>Enable effects like triplanar mapping, spherical projection</li>
+                        </ul>
+                    </div>
+
+                    <h3>Texture Coordinate Node</h3>
+
+                    <div class="card">
+                        <h4>🎯 The Texture Coordinate Node</h4>
+                        <p><strong>How to use it:</strong></p>
+                        <ul>
+                            <li>Add: <code>Shift+A</code> → Input → Texture Coordinate</li>
+                            <li>Provides various coordinate systems as outputs</li>
+                            <li>Connect to Vector input of texture nodes</li>
+                            <li>Controls how texture maps to surface</li>
+                        </ul>
+                        <p><strong>Available coordinate systems:</strong></p>
+                        <ul>
+                            <li><strong>Generated:</strong>
+                                <ul>
+                                    <li>Automatically generated based on object bounds</li>
+                                    <li>0-1 range covering entire object</li>
+                                    <li>Good for procedural textures</li>
+                                    <li>Stretches on non-uniform objects</li>
+                                </ul>
+                            </li>
+                            <li><strong>UV:</strong>
+                                <ul>
+                                    <li>Uses UV unwrap coordinates</li>
+                                    <li>Requires proper UV unwrapping</li>
+                                    <li>Best for image textures</li>
+                                    <li>Most common for painted textures</li>
+                                </ul>
+                            </li>
+                            <li><strong>Object:</strong>
+                                <ul>
+                                    <li>Based on object's local coordinate system</li>
+                                    <li>Origin point = (0,0,0)</li>
+                                    <li>Good for aligning textures to object space</li>
+                                    <li>Moves with object</li>
+                                </ul>
+                            </li>
+                            <li><strong>Camera:</strong>
+                                <ul>
+                                    <li>Based on camera view</li>
+                                    <li>Useful for projection mapping effects</li>
+                                    <li>Changes when camera moves</li>
+                                </ul>
+                            </li>
+                            <li><strong>Window:</strong>
+                                <ul>
+                                    <li>Based on render window/viewport</li>
+                                    <li>Useful for screen-space effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Reflection:</strong>
+                                <ul>
+                                    <li>Reflection vector coordinates</li>
+                                    <li>Useful for environment mapping</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Mapping Node</h3>
+
+                    <div class="card">
+                        <h4>🔧 The Mapping Node</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Transforms texture coordinates</li>
+                            <li>Allows scaling, rotation, and translation of textures</li>
+                            <li>Essential for controlling procedural texture appearance</li>
+                            <li>Insert between Texture Coordinate and Texture nodes</li>
+                        </ul>
+                        <p><strong>How to use it:</strong></p>
+                        <ol>
+                            <li>Add: <code>Shift+A</code> → Vector → Mapping</li>
+                            <li>Connect: Texture Coordinate output → Mapping Vector</li>
+                            <li>Connect: Mapping Vector → Texture Vector input</li>
+                            <li>Adjust Location, Rotation, Scale parameters</li>
+                        </ol>
+                        <p><strong>Mapping parameters:</strong></p>
+                        <ul>
+                            <li><strong>Location (X, Y, Z):</strong>
+                                <ul>
+                                    <li>Shifts texture position</li>
+                                    <li>Positive values move texture in that direction</li>
+                                    <li>Animatable for moving texture effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotation (X, Y, Z):</strong>
+                                <ul>
+                                    <li>Rotates texture around axes</li>
+                                    <li>Values in radians or degrees (toggle in header)</li>
+                                    <li>Useful for aligning procedural patterns</li>
+                                </ul>
+                            </li>
+                            <li><strong>Scale (X, Y, Z):</strong>
+                                <ul>
+                                    <li>Controls texture size/tiling</li>
+                                    <li>Higher values = smaller texture (more repetitions)</li>
+                                    <li>Lower values = larger texture (fewer repetitions)</li>
+                                    <li>Independent control per axis</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Type dropdown:</strong></p>
+                        <ul>
+                            <li><strong>Point:</strong> Standard texture mapping (default)</li>
+                            <li><strong>Texture:</strong> Includes texture-specific transformations</li>
+                            <li><strong>Vector:</strong> Directional vector transformation</li>
+                            <li><strong>Normal:</strong> For normal map transformations</li>
+                        </ul>
+                    </div>
+
+                    <div class="mermaid">
+graph LR
+    A[Texture Coordinate] --> B[Mapping Node]
+    B --> C[Noise Texture]
+    C --> D[Principled BSDF]
+    
+    style B fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+    style D fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+</div>
+
+                    <h3>Common Texture Mapping Setups</h3>
+
+                    <div class="card">
+                        <h4>🎨 Standard Mapping Workflows</h4>
+                        <p><strong>For image textures (painted/photo):</strong></p>
+                        <ul>
+                            <li>Texture Coordinate (UV) → Image Texture Vector</li>
+                            <li>No Mapping node needed (UVs already positioned)</li>
+                            <li>Relies on proper UV unwrapping</li>
+                        </ul>
+                        <p><strong>For procedural textures:</strong></p>
+                        <ul>
+                            <li>Texture Coordinate (Generated or Object) → Mapping → Procedural Texture</li>
+                            <li>Use Mapping to control scale and orientation</li>
+                            <li>Experiment with different coordinate types</li>
+                        </ul>
+                        <p><strong>For world-space textures:</strong></p>
+                        <ul>
+                            <li>Texture Coordinate (Object) → Mapping → Texture</li>
+                            <li>Texture stays fixed in world space</li>
+                            <li>Good for ground textures, environment effects</li>
+                        </ul>
+                    </div>
+
+                    <h3>Triplanar Mapping</h3>
+
+                    <div class="card">
+                        <h4>📦 Triplanar Projection</h4>
+                        <p><strong>What is triplanar mapping?</strong></p>
+                        <ul>
+                            <li>Projects texture from three perpendicular directions (X, Y, Z)</li>
+                            <li>Blends projections based on surface normal</li>
+                            <li>Eliminates stretching on complex geometry</li>
+                            <li>No UV unwrapping required!</li>
+                        </ul>
+                        <p><strong>When to use triplanar:</strong></p>
+                        <ul>
+                            <li>Organic shapes with complex topology</li>
+                            <li>Terrain and landscapes</li>
+                            <li>When UV unwrapping is impractical</li>
+                            <li>Quick texturing without UVs</li>
+                        </ul>
+                        <p><strong>How to set up (basic method):</strong></p>
+                        <ol>
+                            <li>Create three Image Texture nodes (X, Y, Z projections)</li>
+                            <li>Use Separate XYZ node to split normal vector</li>
+                            <li>Use Math nodes to create blend weights</li>
+                            <li>Mix textures based on surface orientation</li>
+                            <li>Complex but eliminates distortion!</li>
+                        </ol>
+                        <p><strong>Note:</strong> Triplanar is advanced; start with standard mapping first!</p>
+                    </div>
+
+                    <h3>Box Mapping</h3>
+
+                    <div class="card">
+                        <h4>📦 Box Projection Technique</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Similar to triplanar but projects from 6 directions (cube faces)</li>
+                            <li>Built into some procedural textures (like Noise)</li>
+                            <li>Reduces stretching on cubic/box-like objects</li>
+                        </ul>
+                        <p><strong>How to use:</strong></p>
+                        <ul>
+                            <li>Some procedural textures have "Box" option</li>
+                            <li>Automatically applies box projection</li>
+                            <li>Easier than manual triplanar setup</li>
+                            <li>Check texture node for Projection dropdown</li>
+                        </ul>
+                    </div>
+
+                    <h3>Vector Math for Advanced Mapping</h3>
+
+                    <div class="card">
+                        <h4>🧮 Vector Manipulation</h4>
+                        <p><strong>Vector Math node:</strong></p>
+                        <ul>
+                            <li>Add: <code>Shift+A</code> → Converter → Vector Math</li>
+                            <li>Performs mathematical operations on vectors</li>
+                            <li>Useful for custom coordinate transformations</li>
+                        </ul>
+                        <p><strong>Common vector operations:</strong></p>
+                        <ul>
+                            <li><strong>Add:</strong> Combine two vector inputs</li>
+                            <li><strong>Multiply:</strong> Scale vectors</li>
+                            <li><strong>Normalize:</strong> Make vector length = 1</li>
+                            <li><strong>Dot Product:</strong> Calculate angle between vectors</li>
+                        </ul>
+                        <p><strong>Creative uses:</strong></p>
+                        <ul>
+                            <li>Combine multiple coordinate systems</li>
+                            <li>Create custom projection types</li>
+                            <li>Animated coordinate transformations</li>
+                            <li>Advanced procedural effects</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="mixing-shaders" class="content-section">
+                    <h2>🎭 Mixing Shaders and Materials</h2>
+
+                    <p>The real power of Blender's node system comes from combining multiple shaders and materials. Let's learn how to mix materials to create complex, realistic surfaces.</p>
+
+                    <h3>Mix Shader Node</h3>
+
+                    <div class="card">
+                        <h4>🔀 The Mix Shader</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Blends two shaders together</li>
+                            <li>Factor controls the mix (0.0 = first shader, 1.0 = second shader)</li>
+                            <li>Can use textures to control mixing</li>
+                            <li>Foundation of complex materials</li>
+                        </ul>
+                        <p><strong>How to use it:</strong></p>
+                        <ol>
+                            <li>Add: <code>Shift+A</code> → Shader → Mix Shader</li>
+                            <li>Connect first shader to Shader input 1</li>
+                            <li>Connect second shader to Shader input 2</li>
+                            <li>Adjust Fac (Factor) slider to blend (0.0 - 1.0)</li>
+                            <li>Or connect texture/mask to Fac for complex mixing</li>
+                            <li>Connect Mix Shader output to Material Output</li>
+                        </ol>
+                        <p><strong>Factor input options:</strong></p>
+                        <ul>
+                            <li><strong>Constant value:</strong> Manual slider (simple 50/50 mix, etc.)</li>
+                            <li><strong>Noise texture:</strong> Random variation between shaders</li>
+                            <li><strong>Image texture:</strong> Mask defining where each shader appears</li>
+                            <li><strong>ColorRamp:</strong> Shaped procedural masks</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common Shader Mixing Scenarios</h3>
+
+                    <div class="card">
+                        <h4>🎨 Practical Mixing Examples</h4>
+                        <p><strong>Scenario 1: Rust on metal</strong></p>
+                        <ul>
+                            <li><strong>Shader 1:</strong> Clean metal (Metallic = 1.0, low roughness)</li>
+                            <li><strong>Shader 2:</strong> Rust (Metallic = 0.0, orange color, high roughness)</li>
+                            <li><strong>Mix Factor:</strong> Noise texture through ColorRamp (creates rust patches)</li>
+                            <li><strong>Result:</strong> Metal with realistic rust variation</li>
+                        </ul>
+                        <p><strong>Scenario 2: Dirty floor</strong></p>
+                        <ul>
+                            <li><strong>Shader 1:</strong> Clean tile (low roughness, light color)</li>
+                            <li><strong>Shader 2:</strong> Dirt (high roughness, dark color)</li>
+                            <li><strong>Mix Factor:</strong> Noise texture (dirt accumulates randomly)</li>
+                            <li><strong>Result:</strong> Realistic dirty floor</li>
+                        </ul>
+                        <p><strong>Scenario 3: Worn paint</strong></p>
+                        <ul>
+                            <li><strong>Shader 1:</strong> Fresh paint (smooth, saturated)</li>
+                            <li><strong>Shader 2:</strong> Bare surface underneath (rougher, different color)</li>
+                            <li><strong>Mix Factor:</strong> Noise + edge detection (wear on edges)</li>
+                            <li><strong>Result:</strong> Paint wearing away naturally</li>
+                        </ul>
+                        <p><strong>Scenario 4: Wet/dry surfaces</strong></p>
+                        <ul>
+                            <li><strong>Shader 1:</strong> Dry material (higher roughness)</li>
+                            <li><strong>Shader 2:</strong> Wet material (lower roughness, darker)</li>
+                            <li><strong>Mix Factor:</strong> Gradient or noise (wet in recesses)</li>
+                            <li><strong>Result:</strong> Partially wet surface</li>
+                        </ul>
+                    </div>
+
+                    <h3>Layering Multiple Shaders</h3>
+
+                    <div class="card">
+                        <h4>🎂 Multiple Mix Shader Layers</h4>
+                        <p><strong>Chaining Mix Shaders:</strong></p>
+                        <ul>
+                            <li>Can stack multiple Mix Shader nodes</li>
+                            <li>Each adds another layer of complexity</li>
+                            <li>Think of it like layering in Photoshop</li>
+                        </ul>
+                        <p><strong>Example: Complex metal surface</strong></p>
+                        <ol>
+                            <li><strong>Base layer:</strong> Clean polished metal</li>
+                            <li><strong>Mix 1:</strong> Add fingerprints (subtle roughness variation)</li>
+                            <li><strong>Mix 2:</strong> Add scratches (linear marks)</li>
+                            <li><strong>Mix 3:</strong> Add rust patches (color and roughness change)</li>
+                            <li><strong>Mix 4:</strong> Add dust (slight desaturation)</li>
+                        </ol>
+                        <p><strong>Organization tip:</strong> Use Frames to group related shader chains</p>
+                    </div>
+
+                    <h3>Add Shader Node</h3>
+
+                    <div class="card">
+                        <h4>➕ The Add Shader</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Adds two shaders together (instead of mixing)</li>
+                            <li>Both shaders contribute to final result</li>
+                            <li>Useful for emissive + surface shading</li>
+                            <li>Can create unrealistic results if not careful (breaks energy conservation)</li>
+                        </ul>
+                        <p><strong>When to use Add Shader:</strong></p>
+                        <ul>
+                            <li><strong>Adding emission to surface:</strong>
+                                <ul>
+                                    <li>Principled BSDF (surface properties)</li>
+                                    <li>+ Emission Shader (glow)</li>
+                                    <li>Result: Glowing object with surface detail</li>
+                                </ul>
+                            </li>
+                            <li><strong>Combining transparency with emission:</strong>
+                                <ul>
+                                    <li>Glass shader</li>
+                                    <li>+ Emission shader</li>
+                                    <li>Result: Glowing glass</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Caution:</strong> Add Shader can break PBR energy conservation—use sparingly!</p>
+                    </div>
+
+                    <h3>Using Masks for Precise Control</h3>
+
+                    <div class="card">
+                        <h4>🎭 Mask-Based Mixing</h4>
+                        <p><strong>What are masks?</strong></p>
+                        <ul>
+                            <li>Grayscale images/textures controlling where each shader appears</li>
+                            <li>Black = first shader, White = second shader, Gray = blend</li>
+                            <li>Plugged into Mix Shader Factor input</li>
+                        </ul>
+                        <p><strong>Creating masks:</strong></p>
+                        <ul>
+                            <li><strong>Painted masks:</strong> Hand-painted in texture painting mode</li>
+                            <li><strong>Procedural masks:</strong> Noise, Voronoi, etc. through ColorRamp</li>
+                            <li><strong>Vertex colors:</strong> Paint directly on mesh vertices</li>
+                            <li><strong>Geometry-based:</strong> Use Geometry node outputs (Pointiness, etc.)</li>
+                        </ul>
+                        <p><strong>Mask workflow:</strong></p>
+                        <ol>
+                            <li>Create or import mask texture</li>
+                            <li>Add Image Texture or Procedural node</li>
+                            <li>Optionally adjust with ColorRamp</li>
+                            <li>Connect to Mix Shader Fac input</li>
+                            <li>Fine-tune mask to control mixing precisely</li>
+                        </ol>
+                    </div>
+
+                    <h3>Geometry Node for Smart Mixing</h3>
+
+                    <div class="card">
+                        <h4>📐 Geometry-Based Mixing</h4>
+                        <p><strong>The Geometry node:</strong></p>
+                        <ul>
+                            <li>Add: <code>Shift+A</code> → Input → Geometry</li>
+                            <li>Provides geometric information about surface</li>
+                            <li>Useful for procedural wear, dirt, and effects</li>
+                        </ul>
+                        <p><strong>Useful Geometry outputs:</strong></p>
+                        <ul>
+                            <li><strong>Pointiness:</strong>
+                                <ul>
+                                    <li>Detects convex (positive) vs. concave (negative) areas</li>
+                                    <li>Great for edge wear, dust in crevices</li>
+                                    <li>Use with ColorRamp to isolate edges or recesses</li>
+                                </ul>
+                            </li>
+                            <li><strong>Random Per Island:</strong>
+                                <ul>
+                                    <li>Random value per UV island</li>
+                                    <li>Useful for color variation</li>
+                                </ul>
+                            </li>
+                            <li><strong>Position:</strong>
+                                <ul>
+                                    <li>World-space position</li>
+                                    <li>Can use for gradients (height-based effects)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Normal:</strong>
+                                <ul>
+                                    <li>Surface normal direction</li>
+                                    <li>Useful for facing-based effects</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Example: Edge wear using Pointiness</strong></p>
+                        <ol>
+                            <li>Geometry node → Pointiness output</li>
+                            <li>ColorRamp to isolate positive values (edges)</li>
+                            <li>Connect to Mix Shader Fac</li>
+                            <li>Shader 1: Base material, Shader 2: Worn/lighter material</li>
+                            <li>Result: Natural wear on edges!</li>
+                        </ol>
+                    </div>
+
+                    <h3>Advanced Mixing: Fresnel Effect</h3>
+
+                    <div class="card">
+                        <h4>💎 Fresnel Mixing</h4>
+                        <p><strong>What is Fresnel?</strong></p>
+                        <ul>
+                            <li>Surfaces become more reflective at grazing angles</li>
+                            <li>Named after physicist Augustin-Jean Fresnel</li>
+                            <li>Natural phenomenon (look at water or glass at an angle)</li>
+                            <li>Principled BSDF includes this automatically, but can enhance manually</li>
+                        </ul>
+                        <p><strong>Fresnel node:</strong></p>
+                        <ul>
+                            <li>Add: <code>Shift+A</code> → Input → Fresnel</li>
+                            <li>Outputs value based on viewing angle</li>
+                            <li>0.0 when looking straight on, 1.0 at glancing angles</li>
+                            <li>IOR parameter controls strength</li>
+                        </ul>
+                        <p><strong>Using Fresnel for mixing:</strong></p>
+                        <ul>
+                            <li>Connect Fresnel Fac → Mix Shader Fac</li>
+                            <li>Shader 1: Diffuse/matte appearance (straight-on view)</li>
+                            <li>Shader 2: Reflective/glossy appearance (glancing angle)</li>
+                            <li>Result: Natural angle-dependent reflection</li>
+                        </ul>
+                        <p><strong>Creative uses:</strong></p>
+                        <ul>
+                            <li>Fabric with sheen at edges</li>
+                            <li>Car paint with angle-dependent color</li>
+                            <li>Stylized toon shader with rim lighting</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The Shader Mixing Philosophy:</strong> Start simple with a single shader. Add complexity only where needed. Each Mix Shader should serve a clear purpose (rust, dirt, wear, etc.). Too much mixing creates slow, hard-to-edit materials. The goal is realistic complexity with manageable node trees!</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 04
+     Continue with lesson_14_advanced_materials_part_05.html
+     ============================================ -->
+ <!-- ============================================
+     LESSON 14 - PART 05
+     File: lesson_14_advanced_materials_part_05.html
+     ============================================ -->
+
+                <section id="realistic-materials" class="content-section">
+                    <h2>🌟 Creating Realistic Materials</h2>
+
+                    <p>Now let's put everything together and create specific realistic materials. We'll build complete material setups for common material types, learning the exact parameters and techniques for each.</p>
+
+                    <h3>Glass Material</h3>
+
+                    <div class="card">
+                        <h4>🪟 Creating Realistic Glass</h4>
+                        <p><strong>Basic glass setup:</strong></p>
+                        <ol>
+                            <li>Start with Principled BSDF (default material)</li>
+                            <li><strong>Transmission:</strong> 1.0 (fully transparent)</li>
+                            <li><strong>Roughness:</strong> 0.0 (perfectly smooth)</li>
+                            <li><strong>IOR:</strong> 1.45-1.55 (glass range)
+                                <ul>
+                                    <li>1.45 = Acrylic/plastic</li>
+                                    <li>1.5 = Standard glass</li>
+                                    <li>1.55 = Dense glass</li>
+                                </ul>
+                            </li>
+                            <li><strong>Base Color:</strong> White (or slight tint for colored glass)</li>
+                        </ol>
+                        <p><strong>Glass variations:</strong></p>
+                        <ul>
+                            <li><strong>Frosted glass:</strong>
+                                <ul>
+                                    <li>Roughness: 0.1-0.4</li>
+                                    <li>Higher roughness = more diffusion</li>
+                                </ul>
+                            </li>
+                            <li><strong>Tinted glass:</strong>
+                                <ul>
+                                    <li>Base Color: Colored (green, blue, amber)</li>
+                                    <li>Keep slightly desaturated</li>
+                                </ul>
+                            </li>
+                            <li><strong>Dirty glass:</strong>
+                                <ul>
+                                    <li>Add slight roughness variation (noise texture)</li>
+                                    <li>Mix in subtle dirt layer on surface</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Render settings for glass (Eevee):</strong></p>
+                        <ul>
+                            <li>Material Settings → Screen Space Refraction: ON</li>
+                            <li>Render Properties → Screen Space Reflections: ON</li>
+                            <li>Note: Cycles handles glass automatically (more accurate)</li>
+                        </ul>
+                        <p><strong>Pro tip:</strong> Slightly increase Specular to 0.6-0.7 for extra "glass-iness"</p>
+                    </div>
+
+                    <h3>Metal Materials</h3>
+
+                    <div class="card">
+                        <h4>🏆 Creating Various Metals</h4>
+                        <p><strong>Gold material:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> RGB (1.0, 0.766, 0.336) or hex #FFC355</li>
+                            <li><strong>Metallic:</strong> 1.0</li>
+                            <li><strong>Roughness:</strong> 0.1-0.3 (polished gold)</li>
+                            <li><strong>Roughness:</strong> 0.4-0.6 (brushed gold)</li>
+                        </ul>
+                        <p><strong>Silver/Chrome material:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> Light gray RGB (0.95, 0.95, 0.95)</li>
+                            <li><strong>Metallic:</strong> 1.0</li>
+                            <li><strong>Roughness:</strong> 0.0-0.15 (mirror chrome)</li>
+                            <li><strong>Roughness:</strong> 0.2-0.4 (brushed steel)</li>
+                        </ul>
+                        <p><strong>Copper material:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> RGB (0.955, 0.637, 0.538) or hex #F4A289</li>
+                            <li><strong>Metallic:</strong> 1.0</li>
+                            <li><strong>Roughness:</strong> 0.15-0.35</li>
+                        </ul>
+                        <p><strong>Iron/Steel material:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> Medium gray RGB (0.56, 0.57, 0.58)</li>
+                            <li><strong>Metallic:</strong> 1.0</li>
+                            <li><strong>Roughness:</strong> 0.3-0.5 (raw steel)</li>
+                            <li><strong>Add variation:</strong> Noise texture in roughness for realism</li>
+                        </ul>
+                        <p><strong>Aluminum material:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> Light gray RGB (0.91, 0.92, 0.92)</li>
+                            <li><strong>Metallic:</strong> 1.0</li>
+                            <li><strong>Roughness:</strong> 0.25-0.45</li>
+                            <li><strong>Anisotropic:</strong> 0.3-0.5 (for brushed aluminum)</li>
+                        </ul>
+                        <p><strong>Adding realism to metals:</strong></p>
+                        <ul>
+                            <li>Plug Noise texture into Roughness (subtle variation)</li>
+                            <li>Add fingerprints with very low-opacity noise</li>
+                            <li>Mix in rust/oxidation using Mix Shader</li>
+                            <li>Add scratches with procedural lines</li>
+                        </ul>
+                    </div>
+
+                    <h3>Wood Material</h3>
+
+                    <div class="card">
+                        <h4>🌲 Procedural Wood</h4>
+                        <p><strong>Basic procedural wood setup:</strong></p>
+                        <ol>
+                            <li><strong>Create wood grain pattern:</strong>
+                                <ul>
+                                    <li>Add Wave Texture (Rings mode)</li>
+                                    <li>Or Noise Texture with high distortion</li>
+                                    <li>Connect through ColorRamp</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add to Mapping node:</strong>
+                                <ul>
+                                    <li>Texture Coordinate (Object) → Mapping</li>
+                                    <li>Rotate around one axis to align grain</li>
+                                    <li>Adjust scale for grain density</li>
+                                </ul>
+                            </li>
+                            <li><strong>Create wood colors:</strong>
+                                <ul>
+                                    <li>ColorRamp with 2-4 color stops</li>
+                                    <li>Dark brown (grain lines)</li>
+                                    <li>Medium brown (base wood)</li>
+                                    <li>Light tan (highlights)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Connect to Principled BSDF:</strong>
+                                <ul>
+                                    <li>ColorRamp Color → Base Color</li>
+                                    <li><strong>Metallic:</strong> 0.0</li>
+                                    <li><strong>Roughness:</strong> 0.4-0.6 (raw wood) or 0.1-0.3 (polished)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add bump for texture:</strong>
+                                <ul>
+                                    <li>Same noise pattern → Bump node → Normal input</li>
+                                    <li>Strength: 0.1-0.3</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <p><strong>Wood color schemes:</strong></p>
+                        <ul>
+                            <li><strong>Oak:</strong> Medium brown (#8B6F47) to tan (#D4A574)</li>
+                            <li><strong>Walnut:</strong> Dark brown (#3D2817) to medium brown (#6B4423)</li>
+                            <li><strong>Pine:</strong> Light tan (#E8C896) to yellow-brown (#C19A6B)</li>
+                            <li><strong>Cherry:</strong> Reddish-brown (#8B4513) to light red-tan (#D2691E)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Plastic Material</h3>
+
+                    <div class="card">
+                        <h4>🎨 Creating Plastic</h4>
+                        <p><strong>Glossy plastic setup:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> Any color (plastic can be any hue)</li>
+                            <li><strong>Metallic:</strong> 0.0</li>
+                            <li><strong>Roughness:</strong> 0.2-0.4 (smooth, glossy plastic)</li>
+                            <li><strong>Specular:</strong> 0.5 (default works well)</li>
+                        </ul>
+                        <p><strong>Matte plastic setup:</strong></p>
+                        <ul>
+                            <li><strong>Roughness:</strong> 0.6-0.8 (higher = more matte)</li>
+                            <li>Everything else same as glossy</li>
+                        </ul>
+                        <p><strong>Transparent plastic (like bottles):</strong></p>
+                        <ul>
+                            <li><strong>Transmission:</strong> 0.9-1.0</li>
+                            <li><strong>Roughness:</strong> 0.05-0.15</li>
+                            <li><strong>IOR:</strong> 1.45 (plastic IOR)</li>
+                            <li><strong>Base Color:</strong> Slight tint if colored plastic</li>
+                        </ul>
+                        <p><strong>Adding realism:</strong></p>
+                        <ul>
+                            <li>Slight roughness variation with noise</li>
+                            <li>Fingerprints and smudges (low-opacity noise in roughness)</li>
+                            <li>Scratches (linear patterns)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Stone/Rock Material</h3>
+
+                    <div class="card">
+                        <h4>🪨 Procedural Stone</h4>
+                        <p><strong>Basic stone setup:</strong></p>
+                        <ol>
+                            <li><strong>Base color variation:</strong>
+                                <ul>
+                                    <li>Noise Texture (scale 5-15)</li>
+                                    <li>Through ColorRamp</li>
+                                    <li>Gray to slightly warm gray</li>
+                                    <li>2-3 color stops for subtle variation</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add surface detail:</strong>
+                                <ul>
+                                    <li>Voronoi or Musgrave texture</li>
+                                    <li>Connect to Bump node</li>
+                                    <li>Strength: 0.3-0.8</li>
+                                    <li>Creates rocky surface irregularities</li>
+                                </ul>
+                            </li>
+                            <li><strong>Principled BSDF settings:</strong>
+                                <ul>
+                                    <li><strong>Metallic:</strong> 0.0</li>
+                                    <li><strong>Roughness:</strong> 0.7-0.9 (stone is quite rough)</li>
+                                    <li><strong>Subsurface (optional):</strong> 0.05-0.15 for marble/translucent stone</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <p><strong>Stone type variations:</strong></p>
+                        <ul>
+                            <li><strong>Granite:</strong> High detail noise, salt-and-pepper colors</li>
+                            <li><strong>Marble:</strong> Wave texture for veins, subsurface scattering</li>
+                            <li><strong>Sandstone:</strong> Warm colors, moderate roughness, layered appearance</li>
+                            <li><strong>Concrete:</strong> Uniform gray, high roughness, subtle noise variation</li>
+                        </ul>
+                    </div>
+
+                    <h3>Fabric Material</h3>
+
+                    <div class="card">
+                        <h4>🧵 Creating Fabric/Cloth</h4>
+                        <p><strong>Basic fabric setup:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> Any fabric color</li>
+                            <li><strong>Metallic:</strong> 0.0</li>
+                            <li><strong>Roughness:</strong> 0.8-1.0 (very matte)</li>
+                            <li><strong>Sheen:</strong> 0.3-0.7 (fabric characteristic glow)</li>
+                            <li><strong>Sheen Tint:</strong> 0.5-0.8 (colored sheen)</li>
+                        </ul>
+                        <p><strong>Velvet/Carpet:</strong></p>
+                        <ul>
+                            <li>Increase Sheen to 0.8-1.0</li>
+                            <li>Roughness: 1.0</li>
+                            <li>Strong sheen effect at grazing angles</li>
+                        </ul>
+                        <p><strong>Silk/Satin:</strong></p>
+                        <ul>
+                            <li><strong>Roughness:</strong> 0.2-0.4 (much smoother)</li>
+                            <li><strong>Anisotropic:</strong> 0.5-0.8 (thread direction)</li>
+                            <li>Less sheen than velvet</li>
+                        </ul>
+                        <p><strong>Adding fabric detail:</strong></p>
+                        <ul>
+                            <li>Bump map for weave pattern</li>
+                            <li>Noise for color variation</li>
+                            <li>Normal map for detailed cloth texture</li>
+                        </ul>
+                    </div>
+
+                    <h3>Water Material</h3>
+
+                    <div class="card">
+                        <h4>💧 Creating Water</h4>
+                        <p><strong>Basic water setup:</strong></p>
+                        <ul>
+                            <li><strong>Transmission:</strong> 1.0 (fully transparent)</li>
+                            <li><strong>Roughness:</strong> 0.0-0.05 (very smooth)</li>
+                            <li><strong>IOR:</strong> 1.33 (water's IOR)</li>
+                            <li><strong>Base Color:</strong> Slight blue tint (#E0F5FF or similar)</li>
+                        </ul>
+                        <p><strong>Adding water movement/ripples:</strong></p>
+                        <ol>
+                            <li>Wave Texture or Noise Texture</li>
+                            <li>Through Bump or Normal Map node</li>
+                            <li>Low strength (0.05-0.2)</li>
+                            <li>Creates surface ripples</li>
+                            <li>Animate texture coordinates for moving water</li>
+                        </ol>
+                        <p><strong>Murky/dirty water:</strong></p>
+                        <ul>
+                            <li>Reduce Transmission (0.5-0.8)</li>
+                            <li>Increase roughness slightly</li>
+                            <li>Darker, greener tint in Base Color</li>
+                        </ul>
+                    </div>
+
+                    <h3>Skin Material (Basic)</h3>
+
+                    <div class="card">
+                        <h4>👤 Basic Skin Material</h4>
+                        <p><strong>Simple skin setup:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> Skin tone (peachy-pink to brown)
+                                <ul>
+                                    <li>Light skin: RGB (0.95, 0.78, 0.71) approx</li>
+                                    <li>Medium skin: RGB (0.77, 0.58, 0.45) approx</li>
+                                    <li>Dark skin: RGB (0.42, 0.27, 0.19) approx</li>
+                                </ul>
+                            </li>
+                            <li><strong>Metallic:</strong> 0.0</li>
+                            <li><strong>Roughness:</strong> 0.3-0.5</li>
+                            <li><strong>Subsurface Weight:</strong> 0.1-0.2 (ESSENTIAL for skin!)</li>
+                            <li><strong>Subsurface Radius:</strong> RGB (1.0, 0.5, 0.3)
+                                <ul>
+                                    <li>Red penetrates deeper</li>
+                                    <li>Creates natural skin translucency</li>
+                                </ul>
+                            </li>
+                            <li><strong>Subsurface Scale:</strong> 0.05-0.1</li>
+                        </ul>
+                        <p><strong>Note:</strong> Professional skin is complex! This is simplified for learning. Advanced skin requires multiple texture maps and complex subsurface setups.</p>
+                    </div>
+
+                    <h3>Emission/Glowing Materials</h3>
+
+                    <div class="card">
+                        <h4>💡 Creating Glowing Materials</h4>
+                        <p><strong>Basic emission setup:</strong></p>
+                        <ul>
+                            <li><strong>Emission Strength:</strong> 1.0+ (adjust to taste)
+                                <ul>
+                                    <li>1-5 = Subtle glow</li>
+                                    <li>10-50 = Strong light source</li>
+                                    <li>100+ = Very bright (sun-like)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Emission Color:</strong> Glow color (can differ from Base Color)</li>
+                        </ul>
+                        <p><strong>Combining emission with surface:</strong></p>
+                        <ol>
+                            <li>Set up Principled BSDF with surface properties</li>
+                            <li>Increase Emission Strength (built into Principled)</li>
+                            <li>Object glows AND has surface detail</li>
+                        </ol>
+                        <p><strong>For Eevee glow effect:</strong></p>
+                        <ul>
+                            <li>Render Properties → Bloom: ON</li>
+                            <li>Adjust Bloom Threshold and Intensity</li>
+                            <li>Creates visible glow halo around emissive objects</li>
+                        </ul>
+                        <p><strong>Patterned emission:</strong></p>
+                        <ul>
+                            <li>Plug texture into Emission Color or Emission Strength</li>
+                            <li>Creates glowing patterns (neon signs, sci-fi panels, etc.)</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="advanced-techniques" class="content-section">
+                    <h2>🎓 Advanced Shading Techniques</h2>
+
+                    <p>Let's explore some advanced techniques that will take your materials to the next level. These methods add subtle realism and complexity that separate good materials from great ones.</p>
+
+                    <h3>Edge Wear and Weathering</h3>
+
+                    <div class="card">
+                        <h4>🛠️ Realistic Wear Patterns</h4>
+                        <p><strong>Using Pointiness for edge wear:</strong></p>
+                        <ol>
+                            <li>Add Geometry node: <code>Shift+A</code> → Input → Geometry</li>
+                            <li>Add ColorRamp node</li>
+                            <li>Connect: Geometry Pointiness → ColorRamp Fac</li>
+                            <li>Adjust ColorRamp:
+                                <ul>
+                                    <li>Black stop at 0.0</li>
+                                    <li>White stop at 0.6-0.8 (isolates edges)</li>
+                                </ul>
+                            </li>
+                            <li>Connect ColorRamp to Mix Shader Fac</li>
+                            <li>Shader 1: Base material</li>
+                            <li>Shader 2: Worn material (lighter, smoother)</li>
+                        </ol>
+                        <p><strong>The result:</strong> Edges naturally brighter/shinier from use (like real objects!)</p>
+                    </div>
+
+                    <h3>Dirt and Grime Accumulation</h3>
+
+                    <div class="card">
+                        <h4>🧹 Adding Dirt Realistically</h4>
+                        <p><strong>Procedural dirt workflow:</strong></p>
+                        <ol>
+                            <li><strong>Create dirt mask:</strong>
+                                <ul>
+                                    <li>Noise Texture (large scale, 2-5)</li>
+                                    <li>Through ColorRamp (adjust to isolate dark areas)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Combine with geometry:</strong>
+                                <ul>
+                                    <li>Use Geometry Pointiness (negative values = recesses)</li>
+                                    <li>Invert and multiply with noise</li>
+                                    <li>Dirt accumulates in crevices</li>
+                                </ul>
+                            </li>
+                            <li><strong>Create dirt shader:</strong>
+                                <ul>
+                                    <li>Dark brown/gray color</li>
+                                    <li>Higher roughness than base</li>
+                                    <li>Slightly desaturated</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mix with base material:</strong>
+                                <ul>
+                                    <li>Mix Shader with combined mask</li>
+                                    <li>Adjust strength to taste</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Layered Materials</h3>
+
+                    <div class="card">
+                        <h4>🎂 Building Complex Layered Materials</h4>
+                        <p><strong>The layering concept:</strong></p>
+                        <ul>
+                            <li>Start with base material (foundation)</li>
+                            <li>Add layer 1: Primary variation (rust, paint chips, etc.)</li>
+                            <li>Add layer 2: Secondary details (scratches, fingerprints)</li>
+                            <li>Add layer 3: Environmental effects (dust, dirt)</li>
+                            <li>Each layer = one Mix Shader</li>
+                        </ul>
+                        <p><strong>Example: Worn painted metal</strong></p>
+                        <ol>
+                            <li><strong>Base:</strong> Bare metal shader (steel)</li>
+                            <li><strong>Layer 1:</strong> Mix in paint (covering most surface)</li>
+                            <li><strong>Layer 2:</strong> Mix in chipped areas (exposing metal at edges)</li>
+                            <li><strong>Layer 3:</strong> Mix in rust (on exposed metal)</li>
+                            <li><strong>Layer 4:</strong> Mix in dust/dirt (overall aging)</li>
+                        </ol>
+                        <p><strong>Organization tip:</strong> Use Frame nodes to group each layer</p>
+                    </div>
+
+                    <h3>Clearcoat Effect</h3>
+
+                    <div class="card">
+                        <h4>🚗 Car Paint and Clearcoat</h4>
+                        <p><strong>What clearcoat simulates:</strong></p>
+                        <ul>
+                            <li>Second reflective layer on top of base paint</li>
+                            <li>Common in car paint, lacquered wood, coated surfaces</li>
+                            <li>Creates depth and multi-layer reflection</li>
+                        </ul>
+                        <p><strong>Using Clearcoat parameter:</strong></p>
+                        <ul>
+                            <li>In Principled BSDF: Clearcoat slider (0.0 - 1.0)</li>
+                            <li><strong>Clearcoat:</strong> 0.5-1.0 for car paint</li>
+                            <li><strong>Clearcoat Roughness:</strong> 0.0-0.1 (very smooth layer)</li>
+                            <li><strong>Base Color:</strong> Car paint color</li>
+                            <li><strong>Metallic:</strong> 0.0 or 1.0 depending on paint type</li>
+                            <li><strong>Roughness:</strong> 0.3-0.5 (base paint layer)</li>
+                        </ul>
+                        <p><strong>Result:</strong> Dual-layer reflection like real car paint!</p>
+                    </div>
+
+                    <h3>Anisotropic Reflections</h3>
+
+                    <div class="card">
+                        <h4>↔️ Directional Highlights</h4>
+                        <p><strong>What anisotropic does:</strong></p>
+                        <ul>
+                            <li>Stretches highlights in one direction</li>
+                            <li>Simulates brushed metal, hair, fabric threads</li>
+                            <li>Creates distinctive elongated reflections</li>
+                        </ul>
+                        <p><strong>Using Anisotropic:</strong></p>
+                        <ul>
+                            <li><strong>Anisotropic:</strong> 0.3-0.8 (amount of stretching)</li>
+                            <li><strong>Anisotropic Rotation:</strong> 0.0-1.0 (rotation angle)
+                                <ul>
+                                    <li>0.0 = horizontal stretch</li>
+                                    <li>0.25 = vertical stretch</li>
+                                    <li>Can plug in texture for varying rotation!</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Best uses:</strong></p>
+                        <ul>
+                            <li>Brushed aluminum (Anisotropic: 0.5, one direction)</li>
+                            <li>Hair and fur (varying rotation)</li>
+                            <li>Satin fabric (moderate anisotropy)</li>
+                            <li>CDs/DVDs (circular anisotropic pattern)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Displacement and Height</h3>
+
+                    <div class="card">
+                        <h4>⛰️ True 3D Surface Detail</h4>
+                        <p><strong>Displacement vs. Bump/Normal:</strong></p>
+                        <ul>
+                            <li><strong>Bump/Normal:</strong> Fake detail (lighting trick, no geometry change)</li>
+                            <li><strong>Displacement:</strong> Actually moves vertices (true 3D detail)</li>
+                            <li>Displacement is more realistic but requires subdivided mesh</li>
+                        </ul>
+                        <p><strong>Setting up displacement:</strong></p>
+                        <ol>
+                            <li>Subdivide mesh (Subdivision Surface modifier or manual)</li>
+                            <li>Add displacement texture (grayscale)</li>
+                            <li>Set Color Space to Non-Color</li>
+                            <li>Connect to Material Output Displacement socket</li>
+                            <li>Material Settings → Displacement: Displacement Only or Displacement and Bump</li>
+                            <li>Adjust strength (usually 0.1-1.0)</li>
+                        </ol>
+                        <p><strong>When to use displacement:</strong></p>
+                        <ul>
+                            <li>Extreme close-ups where silhouette matters</li>
+                            <li>Terrain and landscapes</li>
+                            <li>Highly detailed surfaces (rock, bark, rough materials)</li>
+                        </ul>
+                        <p><strong>Performance note:</strong> Displacement is expensive! Use bump/normal when possible.</p>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_14_advanced_materials_part_06.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 14 - PART 06
+     File: lesson_14_advanced_materials_part_06.html
+     ============================================ -->
+
+                <section id="material-optimization" class="content-section">
+                    <h2>⚡ Material Optimization and Performance</h2>
+
+                    <p>As your materials become more complex, performance becomes important. Let's learn how to keep your materials both beautiful and efficient, ensuring smooth viewport performance and reasonable render times.</p>
+
+                    <h3>Understanding Material Performance</h3>
+
+                    <div class="card">
+                        <h4>🎯 What Slows Down Materials</h4>
+                        <p><strong>Performance bottlenecks:</strong></p>
+                        <ul>
+                            <li><strong>Excessive node complexity:</strong> Too many nodes in a chain</li>
+                            <li><strong>High-resolution textures:</strong> 4K+ textures everywhere</li>
+                            <li><strong>Multiple Mix Shaders:</strong> Each mix adds calculation time</li>
+                            <li><strong>Transmission/Glass:</strong> Ray tracing is expensive</li>
+                            <li><strong>Subsurface Scattering:</strong> Requires multiple light bounces</li>
+                            <li><strong>Displacement:</strong> Most expensive (requires geometry subdivision)</li>
+                        </ul>
+                        <p><strong>Performance hierarchy (fastest to slowest):</strong></p>
+                        <ol>
+                            <li>Simple Principled BSDF with solid colors</li>
+                            <li>Principled BSDF with textures</li>
+                            <li>Principled BSDF with procedural textures</li>
+                            <li>Materials with Mix Shaders (2-3 layers)</li>
+                            <li>Complex layered materials (4+ Mix Shaders)</li>
+                            <li>Materials with Subsurface Scattering</li>
+                            <li>Transparent/Transmission materials</li>
+                            <li>Materials with Displacement</li>
+                        </ol>
+                    </div>
+
+                    <h3>Optimization Strategies</h3>
+
+                    <div class="card">
+                        <h4>🔧 Making Materials Faster</h4>
+                        
+                        <p><strong>Strategy 1: Simplify node trees</strong></p>
+                        <ul>
+                            <li><strong>Combine textures:</strong> Instead of separate noise textures, use one and split channels</li>
+                            <li><strong>Remove unnecessary nodes:</strong> Delete Math/ColorRamp nodes that barely change output</li>
+                            <li><strong>Bake complex procedurals:</strong> Convert procedural to image texture (see below)</li>
+                            <li><strong>Use Mix Color instead of Mix Shader when possible:</strong> Mixing colors is faster than mixing shaders</li>
+                        </ul>
+
+                        <p><strong>Strategy 2: Texture resolution management</strong></p>
+                        <ul>
+                            <li><strong>Background objects:</strong> 512px - 1K textures (won't be seen in detail)</li>
+                            <li><strong>Mid-ground objects:</strong> 1K - 2K textures</li>
+                            <li><strong>Hero objects (close-ups):</strong> 2K - 4K textures</li>
+                            <li><strong>Massive surfaces (far away):</strong> Can use lower resolution with tiling</li>
+                        </ul>
+
+                        <p><strong>Strategy 3: Smart shader choices</strong></p>
+                        <ul>
+                            <li><strong>Use bump instead of displacement</strong> when possible (fake it!)</li>
+                            <li><strong>Limit Mix Shader layers</strong> to 3-4 maximum for most objects</li>
+                            <li><strong>Use shader variants:</strong> Simplified version for viewport, detailed for final render</li>
+                            <li><strong>Avoid unnecessary subsurface:</strong> Only use when translucency is visible</li>
+                        </ul>
+
+                        <p><strong>Strategy 4: Viewport vs. Render settings</strong></p>
+                        <ul>
+                            <li><strong>Viewport Display (in material properties):</strong>
+                                <ul>
+                                    <li>Blend Mode: Opaque (fastest) vs. Alpha Blend (slower)</li>
+                                    <li>Backface Culling: ON (skips back faces)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Simplify complex materials in viewport:</strong>
+                                <ul>
+                                    <li>Reduce texture preview resolution</li>
+                                    <li>Temporarily disable some Mix Shaders</li>
+                                    <li>Use Material Preview mode instead of Rendered</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Baking Procedural Materials</h3>
+
+                    <div class="card">
+                        <h4>🍞 Converting Procedurals to Textures</h4>
+                        <p><strong>Why bake?</strong></p>
+                        <ul>
+                            <li>Procedural textures recalculate every frame (slow)</li>
+                            <li>Image textures are pre-calculated (much faster)</li>
+                            <li>Baking = saving procedural result as image</li>
+                        </ul>
+
+                        <p><strong>Basic baking workflow:</strong></p>
+                        <ol>
+                            <li><strong>Create UV unwrap:</strong> Object needs UV coordinates to bake to
+                                <ul>
+                                    <li>Select object → Tab (Edit Mode)</li>
+                                    <li>U → Smart UV Project (or other unwrap method)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add Image Texture node:</strong>
+                                <ul>
+                                    <li>In Shader Editor: Shift+A → Texture → Image Texture</li>
+                                    <li>Click "New" → Name it (e.g., "Wood_Baked")</li>
+                                    <li>Set resolution (1K, 2K, 4K)</li>
+                                    <li><strong>Important:</strong> Don't connect this node yet, just select it</li>
+                                </ul>
+                            </li>
+                            <li><strong>Set up bake settings:</strong>
+                                <ul>
+                                    <li>Render Properties → Bake section</li>
+                                    <li><strong>Bake Type:</strong> "Diffuse" (for color) or "Combined" (for full material)</li>
+                                    <li><strong>Influence:</strong> If using Diffuse, uncheck "Direct" and "Indirect", check only "Color"</li>
+                                </ul>
+                            </li>
+                            <li><strong>Bake!</strong>
+                                <ul>
+                                    <li>Make sure Image Texture node is selected (active)</li>
+                                    <li>Click "Bake" button</li>
+                                    <li>Wait for progress bar</li>
+                                </ul>
+                            </li>
+                            <li><strong>Save the baked image:</strong>
+                                <ul>
+                                    <li>Image Editor → Image → Save As</li>
+                                    <li>Save as PNG or EXR</li>
+                                </ul>
+                            </li>
+                            <li><strong>Replace procedural with baked texture:</strong>
+                                <ul>
+                                    <li>Delete or disconnect procedural nodes</li>
+                                    <li>Connect Image Texture → Principled Base Color</li>
+                                    <li>Much faster now!</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>What to bake vs. keep procedural:</strong></p>
+                        <ul>
+                            <li><strong>Bake:</strong> Base color patterns, complex color gradients, wood grain, stone patterns</li>
+                            <li><strong>Keep procedural:</strong> Bump/normal maps (they're already efficient), simple roughness variation</li>
+                        </ul>
+                    </div>
+
+                    <h3>Material Organization and Management</h3>
+
+                    <div class="card">
+                        <h4>📁 Keeping Materials Organized</h4>
+                        
+                        <p><strong>Naming conventions:</strong></p>
+                        <ul>
+                            <li><strong>Descriptive names:</strong> "Wood_Oak_Polished" not "Material.001"</li>
+                            <li><strong>Prefixes for categories:</strong>
+                                <ul>
+                                    <li>MTL_Metal_Chrome</li>
+                                    <li>MTL_Wood_Walnut</li>
+                                    <li>MTL_Plastic_Red_Glossy</li>
+                                </ul>
+                            </li>
+                            <li><strong>Version numbers:</strong> "Glass_Frosted_v02" for iterations</li>
+                        </ul>
+
+                        <p><strong>Using Node Groups (advanced organization):</strong></p>
+                        <ol>
+                            <li><strong>Select nodes you want to group:</strong> Click and drag selection box</li>
+                            <li><strong>Create group:</strong> Ctrl+G (or Cmd+G on Mac)</li>
+                            <li><strong>Name the group:</strong> Double-click "NodeGroup" name to rename</li>
+                            <li><strong>Edit group:</strong> Tab to enter group, Tab again to exit</li>
+                            <li><strong>Reuse group:</strong> Shift+A → Group → [Your Group Name]</li>
+                        </ol>
+
+                        <p><strong>Benefits of Node Groups:</strong></p>
+                        <ul>
+                            <li>Clean up complex node trees (hide details)</li>
+                            <li>Reuse common setups (dirt layer, edge wear, etc.)</li>
+                            <li>Create your own "custom nodes"</li>
+                            <li>Easier to read and understand material at glance</li>
+                        </ul>
+
+                        <p><strong>Using Frame nodes for organization:</strong></p>
+                        <ul>
+                            <li><strong>Add Frame:</strong> Shift+A → Layout → Frame</li>
+                            <li><strong>Parent nodes to frame:</strong> Select nodes → Ctrl+P with frame selected</li>
+                            <li><strong>Label frames:</strong> "Base Material", "Edge Wear", "Dirt Layer", etc.</li>
+                            <li><strong>Color-code frames:</strong> Different colors for different purposes</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Common Material Performance Mistakes</h4>
+                        <ul>
+                            <li><strong>Using 4K textures on small background objects</strong> → Overkill, wastes memory</li>
+                            <li><strong>10+ Mix Shaders in one material</strong> → Exponentially slower, simplify!</li>
+                            <li><strong>Displacement on every object</strong> → Reserve for hero objects only</li>
+                            <li><strong>Not baking procedurals for animation</strong> → Recalculates every frame!</li>
+                            <li><strong>Subsurface on opaque materials</strong> → No visual benefit, pure performance cost</li>
+                            <li><strong>Forgetting to set Color Space</strong> → Non-Color data as sRGB = wasted processing</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="troubleshooting" class="content-section">
+                    <h2>🔍 Troubleshooting Common Material Issues</h2>
+
+                    <p>Even experienced artists encounter material problems. Let's solve the most common issues you'll face and learn how to diagnose problems quickly.</p>
+
+                    <h3>Material Not Showing in Viewport</h3>
+
+                    <div class="card">
+                        <h4>👻 "My Material Disappeared!"</h4>
+                        
+                        <p><strong>Check these in order:</strong></p>
+                        
+                        <p><strong>1. Viewport Shading Mode</strong></p>
+                        <ul>
+                            <li>Top right of 3D Viewport: four sphere icons</li>
+                            <li>Must be in "Material Preview" (3rd sphere) or "Rendered" (4th sphere)</li>
+                            <li>Solid mode (2nd sphere) shows flat colors only</li>
+                        </ul>
+
+                        <p><strong>2. Material Actually Assigned</strong></p>
+                        <ul>
+                            <li>Select object → Material Properties</li>
+                            <li>Check if material is in the slots list</li>
+                            <li>If slot exists, ensure "Assign" button was clicked in Edit Mode</li>
+                        </ul>
+
+                        <p><strong>3. Viewport Display Settings</strong></p>
+                        <ul>
+                            <li>Material Properties → Viewport Display section</li>
+                            <li>Check "Color" isn't overriding material</li>
+                            <li>Ensure Blend Mode is appropriate</li>
+                        </ul>
+
+                        <p><strong>4. Scene Lighting</strong></p>
+                        <ul>
+                            <li>Material Preview needs lights to show material</li>
+                            <li>Add a light: Shift+A → Light → Area Light</li>
+                            <li>Or check World lighting (background)</li>
+                        </ul>
+
+                        <p><strong>5. Material Output Connected</strong></p>
+                        <ul>
+                            <li>In Shader Editor, check material connects to "Material Output" node</li>
+                            <li>Green "Surface" socket must be connected</li>
+                        </ul>
+                    </div>
+
+                    <h3>Material Looks Different in Render</h3>
+
+                    <div class="card">
+                        <h4>🎭 Viewport vs. Render Discrepancy</h4>
+                        
+                        <p><strong>Why this happens:</strong></p>
+                        <ul>
+                            <li>Viewport uses simplified preview (faster)</li>
+                            <li>Final render uses full calculations (accurate)</li>
+                            <li>Different render engines (Eevee viewport vs. Cycles render)</li>
+                        </ul>
+
+                        <p><strong>Common causes and fixes:</strong></p>
+                        
+                        <p><strong>Issue: Glass/transparency not working in Eevee</strong></p>
+                        <ul>
+                            <li><strong>Fix:</strong> Material Properties → Settings → Blend Mode: "Alpha Blend" or "Alpha Clip"</li>
+                            <li>Also enable: Screen Space Reflections in Render Properties</li>
+                            <li>For refraction: Screen Space Refraction checkbox (in material settings)</li>
+                        </ul>
+
+                        <p><strong>Issue: Material too dark in render</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Insufficient lighting or too low light intensity</li>
+                            <li><strong>Fix:</strong> Increase light strength, add more lights, or check World lighting</li>
+                        </ul>
+
+                        <p><strong>Issue: Procedural textures look different</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Object scale and texture scale mismatch</li>
+                            <li><strong>Fix:</strong> Apply object scale (Ctrl+A → Scale), adjust texture coordinates</li>
+                        </ul>
+
+                        <p><strong>Issue: Displacement not showing</strong></p>
+                        <ul>
+                            <li><strong>Cycles:</strong> Works automatically</li>
+                            <li><strong>Eevee:</strong> Doesn't support true displacement (use bump instead)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Texture Issues</h3>
+
+                    <div class="card">
+                        <h4>🖼️ Texture Not Displaying Correctly</h4>
+                        
+                        <p><strong>Problem: Texture is stretched or distorted</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Bad UV unwrap or missing UVs</li>
+                            <li><strong>Fix:</strong>
+                                <ul>
+                                    <li>Select object → Tab (Edit Mode) → U → Smart UV Project</li>
+                                    <li>Or manually unwrap properly</li>
+                                    <li>Check UVs in UV Editor to verify layout</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Problem: Texture appears washed out or wrong colors</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Wrong Color Space setting</li>
+                            <li><strong>Fix:</strong>
+                                <ul>
+                                    <li>Color/diffuse textures: Color Space = "sRGB"</li>
+                                    <li>Roughness/metallic/normal maps: Color Space = "Non-Color"</li>
+                                    <li>Click on Image Texture node → check Colorspace dropdown</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Problem: Texture not loading (pink/purple material)</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Missing texture file or broken path</li>
+                            <li><strong>Fix:</strong>
+                                <ul>
+                                    <li>Click folder icon in Image Texture node</li>
+                                    <li>Navigate to correct texture file</li>
+                                    <li>Or: File → External Data → Find Missing Files</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Problem: Procedural texture not moving with object</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Using World or Camera coordinates instead of Object</li>
+                            <li><strong>Fix:</strong> Texture Coordinate node → use "Object" or "UV" output</li>
+                        </ul>
+                    </div>
+
+                    <h3>Weird Visual Artifacts</h3>
+
+                    <div class="card">
+                        <h4>👾 Strange Visual Glitches</h4>
+                        
+                        <p><strong>Problem: Black splotches or fireflies in render</strong></p>
+                        <ul>
+                            <li><strong>Cause (Cycles):</strong> Noise from path tracing, insufficient samples</li>
+                            <li><strong>Fix:</strong>
+                                <ul>
+                                    <li>Increase Render Samples (512, 1024, 2048+)</li>
+                                    <li>Enable Denoising in Render Properties</li>
+                                    <li>Check for extremely bright light sources (reduce strength)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Problem: Mesh visible through transparent material</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Backface showing through or wrong blend mode</li>
+                            <li><strong>Fix:</strong>
+                                <ul>
+                                    <li>Material Properties → Settings → Backface Culling: ON</li>
+                                    <li>Or check mesh has correct normals (no flipped faces)</li>
+                                    <li>Edit Mode → Alt+N → Recalculate Normals</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Problem: Material looks faceted/blocky instead of smooth</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Flat shading instead of smooth shading</li>
+                            <li><strong>Fix:</strong>
+                                <ul>
+                                    <li>Object Mode → Right-click object → Shade Smooth</li>
+                                    <li>Add Edge Split or Smooth modifier if needed</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Problem: Z-fighting (flickering surfaces)</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Two surfaces occupying same space</li>
+                            <li><strong>Fix:</strong>
+                                <ul>
+                                    <li>Separate surfaces slightly (move apart)</li>
+                                    <li>Or use Transparency/Alpha on one layer</li>
+                                    <li>Check for duplicate/overlapping geometry</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Pro Troubleshooting Workflow</h4>
+                        <p><strong>When material doesn't work as expected:</strong></p>
+                        <ol>
+                            <li><strong>Isolate the problem:</strong> Is it viewport only? Render only? Specific angle?</li>
+                            <li><strong>Test with simple material:</strong> Replace with basic Principled BSDF + color
+                                <ul>
+                                    <li>If simple works → problem is in complex setup</li>
+                                    <li>If simple fails → problem is object/scene/settings</li>
+                                </ul>
+                            </li>
+                            <li><strong>Build complexity gradually:</strong> Add nodes one by one to find culprit</li>
+                            <li><strong>Check render engine compatibility:</strong> Some features Eevee-only or Cycles-only</li>
+                            <li><strong>View from different angles:</strong> Some issues only visible at certain angles</li>
+                            <li><strong>Test on default cube:</strong> If it works on cube, problem is your mesh</li>
+                        </ol>
+                    </div>
+
+                </section>
+
+                <section id="project-advanced-materials" class="content-section">
+                    <h2>🎨 Project: Create a Material Library</h2>
+
+                    <p>Time to put everything together! You'll create a comprehensive material library with various realistic materials, properly organized and optimized. This library will be a resource you can use in all future projects.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎯 Project Goal</h3>
+                        <p style="color: white;">Create a collection of 10-12 professional, reusable materials covering different material types. Each material should be properly named, organized, and demonstrate the techniques you've learned.</p>
+                        <p style="color: white;"><strong>Materials to create:</strong></p>
+                        <ul style="color: white;">
+                            <li>✨ Polished metal (chrome or gold)</li>
+                            <li>🪨 Rough stone or concrete</li>
+                            <li>🪟 Clear glass</li>
+                            <li>🌲 Wood (procedural or textured)</li>
+                            <li>🎨 Plastic (glossy and matte variants)</li>
+                            <li>🧱 Worn/weathered material (rusted metal, aged paint, etc.)</li>
+                            <li>🧵 Fabric (velvet, silk, or cotton)</li>
+                            <li>💧 Water or liquid</li>
+                            <li>💡 Emissive/glowing material</li>
+                            <li>🎭 One creative material of your choice!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 1: Set Up Your Scene</h3>
+
+                    <div class="card">
+                        <h4>🎬 Scene Preparation</h4>
+                        <ol>
+                            <li><strong>Create a new file:</strong> Start fresh (File → New → General)</li>
+                            <li><strong>Delete default cube:</strong> X → Delete (we'll add our own)</li>
+                            <li><strong>Add display objects:</strong>
+                                <ul>
+                                    <li>Shift+A → Mesh → UV Sphere (good for showing reflections)</li>
+                                    <li>Shift+A → Mesh → Cylinder (shows anisotropic effects well)</li>
+                                    <li>Shift+A → Mesh → Suzanne (complex shape for testing)</li>
+                                    <li>Arrange them in a row with space between</li>
+                                </ul>
+                            </li>
+                            <li><strong>Set up lighting:</strong>
+                                <ul>
+                                    <li>Delete default light</li>
+                                    <li>Shift+A → Light → Area Light</li>
+                                    <li>Position above and to side of objects</li>
+                                    <li>Increase Power to 100-200W</li>
+                                    <li><strong>Or</strong> use HDRI: World Properties → Color → Environment Texture → Load HDRI</li>
+                                </ul>
+                            </li>
+                            <li><strong>Set up camera:</strong>
+                                <ul>
+                                    <li>Numpad 0 (camera view)</li>
+                                    <li>N → View → Camera to View (checkbox)</li>
+                                    <li>Adjust view to see all objects nicely</li>
+                                    <li>N → View → Camera to View (uncheck to lock)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Choose render engine:</strong>
+                                <ul>
+                                    <li>Render Properties → Render Engine: Cycles (most accurate)</li>
+                                    <li>Or Eevee (faster previews)</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 2: Create Your Materials</h3>
+
+                    <div class="card">
+                        <h4>🎨 Material Creation Workflow</h4>
+                        <p><strong>For each material:</strong></p>
+                        <ol>
+                            <li><strong>Create the material:</strong>
+                                <ul>
+                                    <li>Select an object (assign one material per object)</li>
+                                    <li>Material Properties → New</li>
+                                    <li><strong>Immediately rename:</strong> "MTL_[Type]_[Variant]" (e.g., "MTL_Metal_Chrome")</li>
+                                </ul>
+                            </li>
+                            <li><strong>Build the shader:</strong>
+                                <ul>
+                                    <li>Open Shader Editor</li>
+                                    <li>Use techniques from this lesson</li>
+                                    <li>Reference the "Creating Realistic Materials" section earlier</li>
+                                    <li>Don't overcomplicate—quality over complexity!</li>
+                                </ul>
+                            </li>
+                            <li><strong>Organize nodes:</strong>
+                                <ul>
+                                    <li>Use Frame nodes to label sections</li>
+                                    <li>Keep node tree clean (align nodes, use reroutes if needed)</li>
+                                    <li>Add comment if needed (Shift+A → Layout → Frame → Label)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test and refine:</strong>
+                                <ul>
+                                    <li>Switch between Material Preview and Rendered view</li>
+                                    <li>Adjust parameters until it looks right</li>
+                                    <li>Compare to reference images if available</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 3: Weathered Material Challenge</h3>
+
+                    <div class="card">
+                        <h4>🛠️ Advanced: Create a Layered Worn Material</h4>
+                        <p>For your worn/weathered material, demonstrate advanced techniques:</p>
+                        <ol>
+                            <li><strong>Start with base material:</strong> Metal, paint, or plastic</li>
+                            <li><strong>Add edge wear:</strong>
+                                <ul>
+                                    <li>Use Geometry node Pointiness</li>
+                                    <li>Mix in brighter, smoother shader at edges</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add dirt layer:</strong>
+                                <ul>
+                                    <li>Procedural noise for dirt mask</li>
+                                    <li>Accumulates in recesses (inverted pointiness)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add scratches (optional):</strong>
+                                <ul>
+                                    <li>Linear noise pattern</li>
+                                    <li>Connected to Bump for surface scratches</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add rust/oxidation (for metal):</strong>
+                                <ul>
+                                    <li>Rough, orange-brown material</li>
+                                    <li>Mixed in at edges and worn areas</li>
+                                </ul>
+                            </li>
+                            <li><strong>Organize:</strong> Use Frame nodes for each layer</li>
+                        </ol>
+                        <p><strong>Reminder:</strong> Don't go beyond 3-4 Mix Shaders—keep it performant!</p>
+                    </div>
+
+                    <h3>Step 4: Organize and Save</h3>
+
+                    <div class="card">
+                        <h4>📚 Library Organization</h4>
+                        <ol>
+                            <li><strong>Final naming check:</strong>
+                                <ul>
+                                    <li>All materials have descriptive names</li>
+                                    <li>Use consistent naming convention</li>
+                                    <li>Example: MTL_Metal_Gold, MTL_Metal_Chrome, MTL_Wood_Oak</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add Fake User to all materials:</strong>
+                                <ul>
+                                    <li>In Material Properties, click shield icon next to material name</li>
+                                    <li>This prevents Blender from deleting unused materials on file close</li>
+                                    <li><strong>Important:</strong> Do this for EVERY material in your library!</li>
+                                </ul>
+                            </li>
+                            <li><strong>Clean up scene:</strong>
+                                <ul>
+                                    <li>Arrange objects nicely</li>
+                                    <li>Frame camera view to show all materials</li>
+                                    <li>Adjust lighting for best presentation</li>
+                                </ul>
+                            </li>
+                            <li><strong>Save your file:</strong>
+                                <ul>
+                                    <li>File → Save As</li>
+                                    <li>Name: "Material_Library.blend" (or similar)</li>
+                                    <li>Save in a known location</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test render:</strong>
+                                <ul>
+                                    <li>F12 to render</li>
+                                    <li>Check all materials render correctly</li>
+                                    <li>Image → Save As → save render as reference</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Project Success Checklist</h4>
+                        <p><strong>Your material library is complete when:</strong></p>
+                        <ul>
+                            <li>✅ 10-12 materials created covering different types</li>
+                            <li>✅ All materials properly named with consistent convention</li>
+                            <li>✅ Fake User enabled on all materials</li>
+                            <li>✅ At least one layered/weathered material demonstrating advanced techniques</li>
+                            <li>✅ Node trees organized with frames and clean layout</li>
+                            <li>✅ Materials look realistic and render correctly</li>
+                            <li>✅ File saved and test render completed</li>
+                            <li>✅ Scene well-lit to showcase materials effectively</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bonus Challenges</h3>
+
+                    <div class="card">
+                        <h4>🌟 Take It Further (Optional)</h4>
+                        <p><strong>If you want extra practice:</strong></p>
+                        <ul>
+                            <li><strong>Create material variations:</strong>
+                                <ul>
+                                    <li>Polished vs. brushed metal</li>
+                                    <li>Glossy vs. matte plastic</li>
+                                    <li>Clean vs. dirty glass</li>
+                                </ul>
+                            </li>
+                            <li><strong>Experiment with complex materials:</strong>
+                                <ul>
+                                    <li>Car paint with clearcoat</li>
+                                    <li>Subsurface materials (wax, jade, skin)</li>
+                                    <li>Anisotropic materials (brushed aluminum, CDs)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Create material showcase scene:</strong>
+                                <ul>
+                                    <li>Multiple camera angles</li>
+                                    <li>Professional lighting setup</li>
+                                    <li>Labels for each material</li>
+                                </ul>
+                            </li>
+                            <li><strong>Bake procedural materials:</strong>
+                                <ul>
+                                    <li>Practice the baking workflow</li>
+                                    <li>Compare procedural vs. baked performance</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="summary" class="content-section">
+                    <h2>🎓 Lesson Summary</h2>
+
+                    <div class="card">
+                        <h3>What You've Learned</h3>
+                        <p>Congratulations! You've completed an extensive deep dive into advanced materials. This lesson covered sophisticated techniques that separate beginner work from professional results.</p>
+                        
+                        <p><strong>Key concepts mastered:</strong></p>
+                        <ul>
+                            <li><strong>Realistic material creation:</strong> Glass, metals, wood, plastic, stone, fabric, water, skin, and more</li>
+                            <li><strong>Advanced shading techniques:</strong> Edge wear, dirt accumulation, layered materials, clearcoat, anisotropic reflections</li>
+                            <li><strong>Displacement:</strong> True 3D surface detail vs. bump/normal faking</li>
+                            <li><strong>Material optimization:</strong> Performance strategies, baking procedurals, efficient workflows</li>
+                            <li><strong>Organization:</strong> Naming conventions, node groups, frame nodes, material management</li>
+                            <li><strong>Troubleshooting:</strong> Solving common material problems systematically</li>
+                        </ul>
+
+                        <p><strong>Skills you can now do:</strong></p>
+                        <ul>
+                            <li>✨ Create photorealistic materials for any surface type</li>
+                            <li>🎨 Layer multiple materials realistically (wear, dirt, rust)</li>
+                            <li>⚡ Optimize materials for performance without sacrificing quality</li>
+                            <li>🔧 Troubleshoot and fix material issues quickly</li>
+                            <li>📚 Organize complex material libraries professionally</li>
+                            <li>🎯 Choose the right technique for each situation</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>The Material Mindset</h3>
+                        <blockquote>
+                            <p><strong>"Materials tell the story of an object."</strong></p>
+                            <p>Every scratch, every bit of wear, every shine and reflection tells us about an object's history and purpose. A perfectly clean chrome sphere feels sterile and fake. But add subtle fingerprints, dust in the crevices, and worn edges—suddenly it feels like something that exists in the real world.</p>
+                        </blockquote>
+                        <p>As you create materials, always ask: "What is this object's story?" A brand-new smartphone has different wear patterns than a 20-year-old doorknob. A luxury sports car's paint differs from a rusty farm truck. The materials should reflect the object's context and history.</p>
+                    </div>
+
+                    <div class="card" style="background-color: #e3f2fd; border-left: 4px solid #2196F3;">
+                        <h4>💡 Pro Tips for Continued Learning</h4>
+                        <ul>
+                            <li><strong>Study real-world materials:</strong> Take photos, observe lighting, notice subtle details in everyday objects</li>
+                            <li><strong>Use reference images:</strong> Google "PBR material reference" for scientifically accurate values</li>
+                            <li><strong>Build a material library habit:</strong> Every time you create a good material, save it to your library</li>
+                            <li><strong>Experiment constantly:</strong> The best way to learn is to try things and see what happens</li>
+                            <li><strong>Start simple, add complexity:</strong> Build materials gradually—it's easier to add than to debug complexity</li>
+                            <li><strong>Join the community:</strong> Blender Artists, Reddit r/blender, Discord servers—share materials and get feedback</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>What's Next?</h3>
+                        <p>With advanced material knowledge under your belt, you're ready to tackle the rendering half of the visualization equation!</p>
+                        <p><strong>Coming up in Module 4:</strong></p>
+                        <ul>
+                            <li><strong>Lesson 15:</strong> Understanding Light Types—area lights, point lights, sun, spotlights</li>
+                            <li><strong>Lesson 16:</strong> Three-Point Lighting Setup—professional lighting techniques</li>
+                            <li><strong>Lesson 17:</strong> HDRI and World Lighting—realistic environment lighting</li>
+                            <li><strong>Lesson 18:</strong> Eevee Real-time Rendering—fast, interactive rendering</li>
+                            <li><strong>Lesson 19:</strong> Cycles Path Tracing—photorealistic rendering</li>
+                        </ul>
+                        <p>Great materials need great lighting to truly shine. In the next module, you'll learn how to light your scenes like a professional cinematographer, bringing your materials to life with beautiful, dramatic lighting.</p>
+                    </div>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎉 Excellent Work!</h3>
+                        <p style="color: white;">You've mastered one of Blender's most powerful and complex systems. Materials are the visual language of 3D art—and you're now fluent!</p>
+                        <p style="color: white;">The material library you created isn't just a project—it's a tool you'll use throughout your Blender journey. Every material you make from now on becomes part of your personal asset library, making each subsequent project faster and more professional.</p>
+                        <p style="color: white;"><strong>Remember:</strong> Great materials aren't about complexity—they're about observation, understanding, and subtle detail. Keep studying the real world, and your digital materials will feel increasingly real.</p>
+                        <p style="color: white;">Ready to light up your scenes? Let's move on to lighting! 💡</p>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 06
+     Continue with lesson_14_advanced_materials_part_07.html (if needed)
+     ============================================ -->
+<!-- ============================================
+     LESSON 14 - PART 07 (FINAL)
+     File: lesson_14_advanced_materials_part_07.html
+     ============================================ -->
+
+            </article>
+        </main>
+
+        <!-- Lesson Navigation -->
+        <nav class="lesson-nav" aria-label="Lesson Navigation">
+            <a href="lesson_13_texture_painting_basics.html" class="prev-lesson">← Previous: Lesson 13 - Texture Painting Basics</a>
+            <a href="index.html" class="home-link">🏠 Course Home</a>
+            <a href="lesson_15_understanding_light_types.html" class="next-lesson">Next: Lesson 15 - Understanding Light Types →</a>
+        </nav>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>
+
+<!-- ============================================
+     END OF PART 07 (FINAL PART)
+     This completes Lesson 14: Advanced Materials and Shading
+     
+     NEXT STEPS:
+     1. Concatenate all parts (01-07) into final file
+     2. Name final file: lesson_14_advanced_materials.html
+     3. Verify all sections are present and flow correctly
+     4. Test in browser for proper rendering
+     ============================================ -->
