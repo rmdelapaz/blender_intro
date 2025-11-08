@@ -1,0 +1,2468 @@
+<!-- ============================================
+     LESSON 28 - PART 01
+     File: lesson_28_sculpting_basics_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn digital sculpting in Blender. Master sculpting tools, brushes, and techniques to create organic 3D models with artistic freedom.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 28: Sculpting Basics - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Navigation -->
+        <nav class="main-nav" role="navigation" aria-label="Main Navigation">
+            <div class="nav-container">
+                <a href="index.html" class="nav-logo">🎨 Blender Mastery</a>
+                <button class="nav-toggle" aria-label="Toggle Navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="index.html">🏠 Home</a></li>
+                    <li><a href="index.html#modules">📚 Modules</a></li>
+                    <li><a href="index.html#about">ℹ️ About</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#module-7">Module 7: Advanced Modeling</a> &gt; 
+            <span>Lesson 28: Sculpting Basics</span>
+        </nav>
+
+        <div class="content-wrapper">
+            <main>
+                <!-- Header -->
+                <header class="lesson-header">
+                    <h1>🗿 Lesson 28: Sculpting Basics</h1>
+                    <p class="lead">Transform Blender into a digital clay studio. Learn sculpting tools, brushes, and workflows to create organic 3D models with artistic freedom. No polygon modeling required—just shape and form.</p>
+                </header>
+
+                <!-- Learning Objectives -->
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 2rem;">
+                    <h2 style="color: white;">🎯 What You'll Learn</h2>
+                    <ul style="color: white;">
+                        <li><strong>Sculpting fundamentals:</strong> Digital clay manipulation vs. polygon modeling</li>
+                        <li><strong>Sculpt Mode:</strong> Interface, navigation, and essential settings</li>
+                        <li><strong>Brush system:</strong> Push, pull, smooth, grab, and specialized sculpting tools</li>
+                        <li><strong>Mesh resolution:</strong> Dynamic topology, multiresolution, and remeshing</li>
+                        <li><strong>Sculpting workflow:</strong> From rough forms to detailed surfaces</li>
+                        <li><strong>Project:</strong> Sculpt a complete organic object (rock, creature head, or simple character)</li>
+                    </ul>
+                    <p style="color: white; margin-top: 1rem;"><strong>⏱️ Estimated time:</strong> 90-120 minutes</p>
+                    <p style="color: white;"><strong>🎨 Project:</strong> Create a detailed sculpted object showcasing major brush techniques</p>
+                </div>
+
+                <!-- Table of Contents -->
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#what-is-sculpting" class="toc-link">What Is Digital Sculpting?</a></li>
+                            <li><a href="#sculpting-vs-modeling" class="toc-link">Sculpting vs. Polygon Modeling</a></li>
+                            <li><a href="#when-to-sculpt" class="toc-link">When to Use Sculpting</a></li>
+                            <li><a href="#sculpt-mode-interface" class="toc-link">Sculpt Mode Interface</a></li>
+                            <li><a href="#essential-brushes" class="toc-link">Essential Sculpting Brushes</a></li>
+                            <li><a href="#mesh-resolution" class="toc-link">Understanding Mesh Resolution</a></li>
+                            <li><a href="#first-sculpt-project" class="toc-link">Project: Your First Sculpt</a></li>
+                            <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <!-- Main Content Sections -->
+                <section id="what-is-sculpting" class="content-section">
+                    <h2>🎨 What Is Digital Sculpting?</h2>
+
+                    <p>Digital sculpting is fundamentally different from polygon modeling. Instead of carefully placing vertices and edges, you manipulate mesh surfaces like clay—pushing, pulling, smoothing, and carving to create organic forms. It's intuitive, artistic, and extraordinarily powerful for certain types of 3D models.</p>
+
+                    <h3>The Clay Metaphor</h3>
+
+                    <div class="card">
+                        <h4>🏺 Working with Digital Clay</h4>
+                        <p><strong>Think of sculpting like working with real clay:</strong></p>
+                        <ul>
+                            <li><strong>Push into surface:</strong> Create indentations and creases</li>
+                            <li><strong>Pull out material:</strong> Add volume and forms</li>
+                            <li><strong>Smooth surface:</strong> Blend and refine transitions</li>
+                            <li><strong>Carve details:</strong> Add fine surface features</li>
+                            <li><strong>Add/remove clay:</strong> Build up or cut away forms</li>
+                        </ul>
+
+                        <p><strong>But with superpowers traditional clay doesn't have:</strong></p>
+                        <ul>
+                            <li><strong>Undo/redo:</strong> Infinite corrections</li>
+                            <li><strong>Non-destructive:</strong> Save every stage of your work</li>
+                            <li><strong>Symmetry:</strong> Perfect mirrored sculpting</li>
+                            <li><strong>Layers:</strong> Separate detail passes</li>
+                            <li><strong>Dynamic detail:</strong> Add geometry only where needed</li>
+                            <li><strong>No mess:</strong> No cleanup, no drying time, no firing</li>
+                        </ul>
+
+                        <p><strong>The core experience:</strong></p>
+                        <ul>
+                            <li>Move brush over surface → surface responds</li>
+                            <li>More pressure → stronger effect</li>
+                            <li>Smaller brush → finer detail</li>
+                            <li>Different brushes → different effects</li>
+                            <li>Feels organic and immediate</li>
+                        </ul>
+                    </div>
+
+                    <h3>How Sculpting Works Technically</h3>
+
+                    <div class="card">
+                        <h4>🔧 Under the Hood</h4>
+                        <p><strong>What happens when you sculpt:</strong></p>
+                        <ul>
+                            <li>Start with mesh (cube, sphere, plane, etc.)</li>
+                            <li>Mesh has vertices (like polygon modeling)</li>
+                            <li>Sculpting brushes move these vertices</li>
+                            <li>But you don't see vertices—you see smooth surface</li>
+                            <li>More vertices = smoother, more detailed surface</li>
+                        </ul>
+
+                        <p><strong>Key technical concept—resolution:</strong></p>
+                        <ul>
+                            <li>High resolution (lots of vertices) = fine detail possible</li>
+                            <li>Low resolution (few vertices) = only large forms possible</li>
+                            <li>Like pixel resolution in images: more pixels = sharper image</li>
+                            <li>Blender can add vertices as you sculpt (dynamic topology)</li>
+                            <li>Or use fixed subdivisions (multiresolution modifier)</li>
+                        </ul>
+
+                        <p><strong>Sculpting is geometry manipulation:</strong></p>
+                        <ul>
+                            <li>Not creating new mesh—reshaping existing mesh</li>
+                            <li>Brushes modify vertex positions (and sometimes add/remove vertices)</li>
+                            <li>Surface updates in real-time as you work</li>
+                            <li>All changes stored as vertex position data</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Sculpting Mindset</h3>
+
+                    <div class="card">
+                        <h4>🧠 Thinking Like a Sculptor</h4>
+                        <p><strong>Different mental approach than polygon modeling:</strong></p>
+                        <ul>
+                            <li><strong>Big to small:</strong> Start with rough masses, add detail progressively</li>
+                            <li><strong>Additive and subtractive:</strong> Build up and carve away</li>
+                            <li><strong>Gestural:</strong> Loose, fluid movements at first</li>
+                            <li><strong>Iterative:</strong> Constantly refining and adjusting</li>
+                            <li><strong>Intuitive:</strong> Less technical thinking, more artistic feeling</li>
+                        </ul>
+
+                        <p><strong>Traditional sculpting principles apply:</strong></p>
+                        <ul>
+                            <li><strong>Form before detail:</strong> Get big shapes right first</li>
+                            <li><strong>Anatomy matters:</strong> Understand structure underneath</li>
+                            <li><strong>Gesture and flow:</strong> Create dynamic, interesting shapes</li>
+                            <li><strong>Planes and surfaces:</strong> Think about how light hits forms</li>
+                            <li><strong>Reference is essential:</strong> Study real objects constantly</li>
+                        </ul>
+
+                        <p><strong>You don't need to be a traditional sculptor:</strong></p>
+                        <ul>
+                            <li>Digital sculpting is more forgiving</li>
+                            <li>Unlimited undo removes fear of mistakes</li>
+                            <li>Tools help you achieve results faster</li>
+                            <li>But understanding sculpture principles accelerates learning</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Liberation of Sculpting:</strong> If polygon modeling feels like architecture—precise, measured, technical—then sculpting feels like painting or drawing. It's expressive. You can be loose. You can explore. You're not counting edge loops or worrying about topology (at least not initially). You're just shaping forms. For many artists, this is the unlock moment in 3D. The point where it stops feeling like technical work and starts feeling like art. Not everyone prefers sculpting (some love the precision of polygon modeling), but everyone should try it. Because sculpting teaches you to see form differently.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="sculpting-vs-modeling" class="content-section">
+                    <h2>⚖️ Sculpting vs. Polygon Modeling</h2>
+
+                    <p>Understanding when to sculpt versus when to polygon model is crucial. Each approach has strengths and ideal use cases. Often, professional workflows combine both methods in a single project.</p>
+
+                    <h3>Key Differences</h3>
+
+                    <div class="card">
+                        <h4>📊 Method Comparison</h4>
+                        
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                            <thead>
+                                <tr style="background: #667eea; color: white;">
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Aspect</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Polygon Modeling</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Sculpting</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Approach</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Vertex-by-vertex precision</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Freeform surface manipulation</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Feel</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Technical, architectural</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Artistic, organic</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Control</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Exact, measurable</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Fluid, gestural</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Best for</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Hard surfaces, mechanical objects</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Organic forms, characters, creatures</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Topology</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Clean, controlled from start</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Messy initially, cleaned later</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Detail level</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Depends on subdivision</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Unlimited (add geometry as needed)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Learning curve</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Steeper (many tools/concepts)</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Gentler (intuitive interaction)</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Performance</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Lightweight models</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Heavy models (millions of polygons)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Strengths and Weaknesses</h3>
+
+                    <div class="card">
+                        <h4>✅ Polygon Modeling Excels At</h4>
+                        <ul>
+                            <li><strong>Hard surface objects:</strong> Furniture, buildings, vehicles, weapons</li>
+                            <li><strong>Precise dimensions:</strong> When measurements matter</li>
+                            <li><strong>Clean topology:</strong> Models ready for animation or games</li>
+                            <li><strong>Modifiers:</strong> Array, mirror, bevel work better with polygon modeling</li>
+                            <li><strong>Low-poly modeling:</strong> Game assets, optimization</li>
+                            <li><strong>Architectural/CAD work:</strong> Technical accuracy needed</li>
+                        </ul>
+
+                        <p style="margin-top: 1.5rem;"><strong>❌ Polygon modeling struggles with:</strong></p>
+                        <ul>
+                            <li>Complex organic surfaces (faces, muscles, creatures)</li>
+                            <li>Fine surface details (pores, wrinkles, scales)</li>
+                            <li>Gestural, artistic exploration</li>
+                            <li>Speed when creating characters</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>✅ Sculpting Excels At</h4>
+                        <ul>
+                            <li><strong>Character creation:</strong> Faces, bodies, creatures</li>
+                            <li><strong>Organic forms:</strong> Rocks, plants, terrain, natural objects</li>
+                            <li><strong>Surface detail:</strong> Wrinkles, pores, scales, fabric texture</li>
+                            <li><strong>Artistic exploration:</strong> Trying different forms quickly</li>
+                            <li><strong>High-detail models:</strong> Film-quality assets with millions of polygons</li>
+                            <li><strong>Concept sculpting:</strong> Designing characters and creatures</li>
+                        </ul>
+
+                        <p style="margin-top: 1.5rem;"><strong>❌ Sculpting struggles with:</strong></p>
+                        <ul>
+                            <li>Hard edges and precise angles</li>
+                            <li>Mechanical objects with flat surfaces</li>
+                            <li>Low-poly requirements (game engines)</li>
+                            <li>Exact measurements and dimensions</li>
+                            <li>Creating topology suitable for animation (requires retopology)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Combined Workflows</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>🔄 Best of Both Worlds</h4>
+                        <p><strong>Professional workflow often combines both methods:</strong></p>
+                        
+                        <p><strong>Character creation workflow:</strong></p>
+                        <ol>
+                            <li><strong>Block out form:</strong> Polygon modeling for basic body shape</li>
+                            <li><strong>Sculpt details:</strong> Add muscles, wrinkles, facial features</li>
+                            <li><strong>Retopology:</strong> Create clean mesh over sculpt</li>
+                            <li><strong>Bake details:</strong> Transfer sculpted detail to low-poly via normal maps</li>
+                            <li><strong>Rig and animate:</strong> Use clean mesh with baked details</li>
+                        </ol>
+
+                        <p><strong>Environment asset workflow:</strong></p>
+                        <ol>
+                            <li><strong>Sculpt hero assets:</strong> Rocks, trees, organic elements</li>
+                            <li><strong>Model structures:</strong> Buildings, props, mechanical objects</li>
+                            <li><strong>Combine in scene:</strong> Sculpted organics + modeled hard surface</li>
+                            <li><strong>Detail pass:</strong> Add sculpted surface detail where needed</li>
+                        </ol>
+
+                        <p><strong>The key insight:</strong></p>
+                        <ul>
+                            <li>Don't think "sculpting OR polygon modeling"</li>
+                            <li>Think "sculpting AND polygon modeling"</li>
+                            <li>Use each method where it's strongest</li>
+                            <li>Transition between methods as needed</li>
+                            <li>Final asset may combine both approaches</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Choose Your Tool Wisely:</strong> Beginner mistake: trying to sculpt a car or model a face with polygon modeling. Use the right tool for the job. Sculpting a character? Start in Sculpt Mode. Modeling a spaceship? Stay in Edit Mode. Building a game prop? Polygon model it, then sculpt surface details. Creating a film-quality creature? Sculpt first, retopo later. The more you understand each method's strengths, the better your workflow decisions become. And the faster you work.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_28_sculpting_basics_part_02.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 28 - PART 02
+     File: lesson_28_sculpting_basics_part_02.html
+     ============================================ -->
+
+                <section id="when-to-sculpt" class="content-section">
+                    <h2>🤔 When to Use Sculpting</h2>
+
+                    <p>Making the right choice between sculpting and polygon modeling saves enormous time and frustration. Here's a practical decision framework based on what you're creating and what matters most in your project.</p>
+
+                    <h3>Decision Framework</h3>
+
+                    <div class="card">
+                        <h4>🎯 Quick Decision Guide</h4>
+                        
+                        <p><strong>Choose sculpting if:</strong></p>
+                        <ul>
+                            <li>✅ Creating characters, creatures, or organic objects</li>
+                            <li>✅ Need fine surface detail (pores, wrinkles, texture)</li>
+                            <li>✅ Exploring forms and designs (concept phase)</li>
+                            <li>✅ Topology doesn't matter yet (film, illustration, concept art)</li>
+                            <li>✅ Want natural, irregular surfaces</li>
+                            <li>✅ Need high-resolution detail (millions of polygons okay)</li>
+                            <li>✅ Feel more comfortable with artistic/gestural approach</li>
+                        </ul>
+
+                        <p><strong>Choose polygon modeling if:</strong></p>
+                        <ul>
+                            <li>✅ Creating hard-surface objects (vehicles, weapons, furniture)</li>
+                            <li>✅ Need precise dimensions and measurements</li>
+                            <li>✅ Creating game-ready assets (low poly requirement)</li>
+                            <li>✅ Want clean topology from the start</li>
+                            <li>✅ Building architectural or mechanical objects</li>
+                            <li>✅ Need sharp edges and flat surfaces</li>
+                            <li>✅ Working with modifiers (arrays, mirrors, bevels)</li>
+                        </ul>
+
+                        <p><strong>Use both methods if:</strong></p>
+                        <ul>
+                            <li>✅ Creating characters for games (model base, sculpt detail, retopo)</li>
+                            <li>✅ Building environments (model structures, sculpt organic elements)</li>
+                            <li>✅ Making props with surface detail (model form, sculpt wear/damage)</li>
+                            <li>✅ Want best results regardless of method</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common Use Cases</h3>
+
+                    <div class="card">
+                        <h4>🎭 Character Creation</h4>
+                        <p><strong>Perfect for sculpting:</strong></p>
+                        <ul>
+                            <li>Faces (complex anatomy, subtle details)</li>
+                            <li>Bodies (muscles, proportions, natural forms)</li>
+                            <li>Creatures (fantastical designs, organic shapes)</li>
+                            <li>Clothing details (wrinkles, folds, fabric texture)</li>
+                        </ul>
+                        <p><strong>Why sculpting wins here:</strong> Facial features require millions of polygons for realistic detail. Creating that with polygon modeling is tedious. Sculpting lets you shape organically and add detail where needed.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>🌍 Environment Assets</h4>
+                        <p><strong>Sculpt these elements:</strong></p>
+                        <ul>
+                            <li><strong>Rocks and cliffs:</strong> Natural, irregular surfaces</li>
+                            <li><strong>Trees and plants:</strong> Organic, varied forms</li>
+                            <li><strong>Terrain:</strong> Hills, mountains, natural landscape</li>
+                            <li><strong>Organic debris:</strong> Fallen logs, roots, natural objects</li>
+                        </ul>
+                        <p><strong>Model these elements:</strong></p>
+                        <ul>
+                            <li>Buildings and structures</li>
+                            <li>Walls and fences</li>
+                            <li>Props and furniture</li>
+                            <li>Mechanical objects</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>🗡️ Props and Objects</h4>
+                        <p><strong>Use combined workflow:</strong></p>
+                        <ol>
+                            <li><strong>Model base form:</strong> Basic sword shape using polygon modeling</li>
+                            <li><strong>Sculpt surface detail:</strong> Scratches, dents, wear patterns</li>
+                            <li><strong>Add decorative elements:</strong> Engravings, reliefs, ornate details</li>
+                            <li><strong>Bake to low-poly:</strong> Capture detail in textures for game use</li>
+                        </ol>
+                        <p>This gives you precision where needed (blade edges, hard surfaces) and organic detail where it enhances realism (weathering, battle damage).</p>
+                    </div>
+
+                    <h3>Project Requirements</h3>
+
+                    <div class="card">
+                        <h4>📋 What Determines Your Choice</h4>
+                        
+                        <p><strong>For games (real-time engines):</strong></p>
+                        <ul>
+                            <li>Final asset needs low polygon count</li>
+                            <li>Workflow: Sculpt high-poly → Retopology → Bake details to normal map</li>
+                            <li>Sculpting creates detail, retopology creates usable mesh</li>
+                            <li>Best of both worlds: sculpted quality, optimized performance</li>
+                        </ul>
+
+                        <p><strong>For film/rendering (offline):</strong></p>
+                        <ul>
+                            <li>Polygon count less critical (no real-time requirement)</li>
+                            <li>Can use multi-million polygon sculpts directly</li>
+                            <li>Subdivision surface for smooth results</li>
+                            <li>Focus on visual quality over optimization</li>
+                        </ul>
+
+                        <p><strong>For 3D printing:</strong></p>
+                        <ul>
+                            <li>Need watertight mesh (no holes, proper thickness)</li>
+                            <li>Sculpting great for organic designs</li>
+                            <li>Must export at appropriate resolution</li>
+                            <li>May need cleanup after sculpting</li>
+                        </ul>
+
+                        <p><strong>For concept/illustration:</strong></p>
+                        <ul>
+                            <li>Sculpting fastest for exploring forms</li>
+                            <li>Topology doesn't matter (not animating)</li>
+                            <li>Can push detail extremely high</li>
+                            <li>Render from any angle without retopology</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Common Beginner Mistakes</h4>
+                        <p><strong>Mistake 1: Sculpting mechanical objects</strong></p>
+                        <ul>
+                            <li>Trying to sculpt a car or weapon from scratch</li>
+                            <li>Hard edges and flat surfaces don't sculpt well</li>
+                            <li>Use polygon modeling for base, sculpt details only</li>
+                        </ul>
+
+                        <p><strong>Mistake 2: Polygon modeling organic detail</strong></p>
+                        <ul>
+                            <li>Trying to model facial wrinkles vertex-by-vertex</li>
+                            <li>Creating muscles with manual edge loops</li>
+                            <li>Switch to sculpting—it's 100x faster</li>
+                        </ul>
+
+                        <p><strong>Mistake 3: Not planning for retopology</strong></p>
+                        <ul>
+                            <li>Sculpting game character to millions of polygons</li>
+                            <li>Then discovering it's unusable in game engine</li>
+                            <li>Solution: Always plan workflow from start to finish</li>
+                        </ul>
+
+                        <p><strong>Mistake 4: Using wrong tool stubbornly</strong></p>
+                        <ul>
+                            <li>Sticking with familiar method even when wrong choice</li>
+                            <li>Spending hours fighting the tool</li>
+                            <li>Be flexible—switch methods when needed</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Right Tool for the Right Job:</strong> Professional 3D artists don't ask "Should I sculpt or polygon model?" They ask "What's the fastest way to get the result I need?" Sometimes that's pure sculpting. Sometimes pure polygon modeling. Often it's both. The real skill isn't mastering one method—it's knowing when to use each, and how to combine them effectively. Learn both. Use both. Let the project requirements guide your choice, not your personal preference.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="sculpt-mode-interface" class="content-section">
+                    <h2>🖥️ Sculpt Mode Interface</h2>
+
+                    <p>Sculpt Mode transforms Blender into a digital sculpting studio. The interface adapts to give you brush-focused tools and sculpting-specific controls. Understanding this interface is your foundation for everything that follows.</p>
+
+                    <h3>Entering Sculpt Mode</h3>
+
+                    <div class="card">
+                        <h4>🚪 Getting Started</h4>
+                        <p><strong>Method 1: Mode dropdown</strong></p>
+                        <ol>
+                            <li>Select a mesh object (cube, sphere, etc.)</li>
+                            <li>Top-left corner: Mode dropdown (currently "Object Mode")</li>
+                            <li>Click dropdown → Select "Sculpt Mode"</li>
+                            <li>Interface transforms to sculpting tools</li>
+                        </ol>
+
+                        <p><strong>Method 2: Keyboard shortcut</strong></p>
+                        <ul>
+                            <li>Select mesh object</li>
+                            <li>Press <code>Ctrl+Tab</code> → Pie menu appears</li>
+                            <li>Select "Sculpt Mode" from pie menu</li>
+                            <li>Quick switching between modes</li>
+                        </ul>
+
+                        <p><strong>What changes when you enter Sculpt Mode:</strong></p>
+                        <ul>
+                            <li>Cursor becomes circular brush</li>
+                            <li>Toolbar changes to brush icons</li>
+                            <li>Top header shows brush settings</li>
+                            <li>Right sidebar (N-panel) shows sculpting tools</li>
+                            <li>Object becomes sculptable surface</li>
+                        </ul>
+
+                        <p><strong>Quick start test:</strong></p>
+                        <ol>
+                            <li>Default scene with cube</li>
+                            <li>Switch to Sculpt Mode</li>
+                            <li>Click and drag on cube surface</li>
+                            <li>See it deform immediately</li>
+                            <li>Congratulations—you just sculpted!</li>
+                        </ol>
+                    </div>
+
+                    <h3>Interface Layout</h3>
+
+                    <div class="card">
+                        <h4>🗺️ Navigating the Sculpt Interface</h4>
+                        
+                        <p><strong>Toolbar (left side):</strong></p>
+                        <ul>
+                            <li><strong>Brush icons:</strong> Each icon is different sculpting tool</li>
+                            <li><strong>Draw brush:</strong> Default, most commonly used</li>
+                            <li><strong>Grab, Smooth, Inflate:</strong> Other essential brushes</li>
+                            <li>Click icon to switch active brush</li>
+                            <li>Or use keyboard shortcuts (we'll cover these)</li>
+                        </ul>
+
+                        <p><strong>Top header:</strong></p>
+                        <ul>
+                            <li><strong>Brush settings:</strong> Size, strength, falloff</li>
+                            <li><strong>Symmetry options:</strong> Mirror sculpting across axes</li>
+                            <li><strong>Stroke method:</strong> How brush applies (dots, line, etc.)</li>
+                            <li><strong>Texture:</strong> Add surface pattern to brush</li>
+                            <li>Most frequently adjusted settings here</li>
+                        </ul>
+
+                        <p><strong>Right sidebar (N-panel):</strong></p>
+                        <ul>
+                            <li>Press <code>N</code> to toggle visibility</li>
+                            <li><strong>Tool tab:</strong> Detailed brush settings</li>
+                            <li><strong>Brush tab:</strong> Brush management and library</li>
+                            <li><strong>Texture tab:</strong> Brush texture settings</li>
+                            <li>More detailed control than header</li>
+                        </ul>
+
+                        <p><strong>Properties panel (bottom-right):</strong></p>
+                        <ul>
+                            <li><strong>Active Tool:</strong> Current brush properties</li>
+                            <li><strong>Modifier Properties:</strong> Add Multiresolution, etc.</li>
+                            <li><strong>Object Data Properties:</strong> Mesh settings</li>
+                            <li>Context-sensitive to active operation</li>
+                        </ul>
+                    </div>
+
+                    <h3>Essential Settings and Options</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Important Controls</h4>
+                        
+                        <p><strong>Brush radius (size):</strong></p>
+                        <ul>
+                            <li>Controls how large your brush affects surface</li>
+                            <li>Shortcut: <code>F</code> + move mouse (interactive resize)</li>
+                            <li>Or header: Radius slider</li>
+                            <li>Or brackets: <code>[</code> decrease, <code>]</code> increase</li>
+                            <li>Large brush = broad changes, small brush = fine detail</li>
+                        </ul>
+
+                        <p><strong>Brush strength:</strong></p>
+                        <ul>
+                            <li>Controls how intensely brush affects surface</li>
+                            <li>Shortcut: <code>Shift+F</code> + move mouse</li>
+                            <li>Or header: Strength slider (0.0 to 1.0)</li>
+                            <li>Lower strength = subtle changes, gradual buildup</li>
+                            <li>Higher strength = dramatic changes, faster work</li>
+                        </ul>
+
+                        <p><strong>Symmetry:</strong></p>
+                        <ul>
+                            <li>Mirror sculpting across X, Y, or Z axis</li>
+                            <li>Header: X, Y, Z checkboxes</li>
+                            <li>Most common: X-axis symmetry (left/right)</li>
+                            <li>Sculpt one side, other side mirrors automatically</li>
+                            <li>Essential for characters and symmetrical objects</li>
+                        </ul>
+
+                        <p><strong>Smooth shading:</strong></p>
+                        <ul>
+                            <li>Right-click mesh → Shade Smooth</li>
+                            <li>Makes surface appear smooth rather than faceted</li>
+                            <li>Critical for seeing sculpted forms correctly</li>
+                            <li>Always use smooth shading when sculpting</li>
+                        </ul>
+
+                        <p><strong>Matcap shading:</strong></p>
+                        <ul>
+                            <li>Viewport shading icon (top-right) → Solid mode</li>
+                            <li>Enable "Matcap" in shading dropdown</li>
+                            <li>Choose matcap that shows form clearly</li>
+                            <li>Clay or basic gray work well</li>
+                            <li>Makes surface detail more visible</li>
+                        </ul>
+                    </div>
+
+                    <h3>Navigation in Sculpt Mode</h3>
+
+                    <div class="card">
+                        <h4>🧭 Moving Around Your Sculpt</h4>
+                        
+                        <p><strong>Same navigation as other modes:</strong></p>
+                        <ul>
+                            <li><strong>Rotate view:</strong> Middle mouse button + drag</li>
+                            <li><strong>Pan view:</strong> <code>Shift</code> + middle mouse + drag</li>
+                            <li><strong>Zoom:</strong> Scroll wheel</li>
+                            <li><strong>Frame selected:</strong> Numpad <code>.</code> or View menu → Frame Selected</li>
+                        </ul>
+
+                        <p><strong>Sculpting-specific navigation:</strong></p>
+                        <ul>
+                            <li>Sculpting doesn't change navigation</li>
+                            <li>But you'll rotate view constantly while sculpting</li>
+                            <li>Work from all angles—don't stay in one view</li>
+                            <li>Frequent rotation prevents flat, boring forms</li>
+                        </ul>
+
+                        <p><strong>Focus and detail work:</strong></p>
+                        <ul>
+                            <li>Zoom in close for fine detail</li>
+                            <li>Zoom out to check overall form</li>
+                            <li>Constantly switch between close-up and distant views</li>
+                            <li>Prevents "overworking" small areas</li>
+                        </ul>
+                    </div>
+
+                    <h3>Basic Sculpting Interaction</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>🖱️ How to Sculpt</h4>
+                        
+                        <p><strong>Basic sculpting action:</strong></p>
+                        <ol>
+                            <li><strong>Position brush:</strong> Hover cursor over surface</li>
+                            <li><strong>Click and drag:</strong> Left mouse button + move</li>
+                            <li><strong>Surface deforms:</strong> Follows brush as you move</li>
+                            <li><strong>Release:</strong> Stroke complete</li>
+                        </ol>
+
+                        <p><strong>Brush behavior modifiers:</strong></p>
+                        <ul>
+                            <li><strong>Normal sculpting:</strong> Left click + drag (pushes out)</li>
+                            <li><strong>Inverted:</strong> <code>Ctrl</code> + left click + drag (pushes in)</li>
+                            <li><strong>Smooth:</strong> <code>Shift</code> + left click + drag (smooths surface)</li>
+                            <li>These work with most brushes</li>
+                        </ul>
+
+                        <p><strong>Try it now:</strong></p>
+                        <ol>
+                            <li>Start Blender with default cube</li>
+                            <li>Enter Sculpt Mode</li>
+                            <li>Right-click cube → Shade Smooth</li>
+                            <li>Click and drag on surface (creates bump)</li>
+                            <li><code>Ctrl</code> + click and drag (creates indent)</li>
+                            <li><code>Shift</code> + click and drag (smooths surface)</li>
+                            <li>Experiment freely—undo with <code>Ctrl+Z</code></li>
+                        </ol>
+
+                        <p><strong>Important realization:</strong></p>
+                        <ul>
+                            <li>Sculpting is immediate and responsive</li>
+                            <li>No complex tools or settings needed to start</li>
+                            <li>Click and drag = results</li>
+                            <li>This is why sculpting feels intuitive</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Common Early Confusion</h4>
+                        <p><strong>"Nothing happens when I sculpt"</strong></p>
+                        <ul>
+                            <li>Check you're in Sculpt Mode (not Edit or Object Mode)</li>
+                            <li>Check mesh is selected (highlighted in viewport)</li>
+                            <li>Try increasing brush strength (might be too low)</li>
+                            <li>Check mesh has enough geometry (cube needs subdivision)</li>
+                        </ul>
+
+                        <p><strong>"Surface looks faceted/blocky"</strong></p>
+                        <ul>
+                            <li>Right-click mesh → Shade Smooth</li>
+                            <li>Smooth shading is almost always needed</li>
+                            <li>Faceted shading hides sculpted detail</li>
+                        </ul>
+
+                        <p><strong>"Can't see detail in my sculpt"</strong></p>
+                        <ul>
+                            <li>Change viewport shading to Solid with Matcap</li>
+                            <li>Matcap shows form better than flat shading</li>
+                            <li>Try different matcaps until one shows detail clearly</li>
+                        </ul>
+
+                        <p><strong>"Brush is too big/small/weak/strong"</strong></p>
+                        <ul>
+                            <li>Press <code>F</code> to adjust size interactively</li>
+                            <li>Press <code>Shift+F</code> to adjust strength interactively</li>
+                            <li>These shortcuts are essential—memorize them</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Sculpting Workspace:</strong> Blender's Sculpt Mode interface is optimized for one thing: getting out of your way. Most tools accessible via shortcuts. Brush visible at all times. Surface updates in real-time. Everything designed to keep you focused on sculpting, not hunting through menus. As you learn shortcuts (<code>F</code> for size, <code>Shift+F</code> for strength, <code>Shift</code> for smooth), you'll find yourself barely touching the interface. Just sculpting. Which is exactly how it should be. The interface should feel invisible. The sculpture should feel immediate.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_28_sculpting_basics_part_03.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 28 - PART 03
+     File: lesson_28_sculpting_basics_part_03.html
+     ============================================ -->
+
+                <section id="essential-brushes" class="content-section">
+                    <h2>🖌️ Essential Sculpting Brushes</h2>
+
+                    <p>Blender provides dozens of sculpting brushes, but you'll spend 90% of your time using about eight core brushes. Master these fundamentals before exploring specialty brushes. Each brush has a distinct purpose and feel—like different tools in a traditional sculptor's toolkit.</p>
+
+                    <h3>The Core Eight Brushes</h3>
+
+                    <div class="card">
+                        <h4>🎨 Your Primary Toolkit</h4>
+                        <p>These eight brushes handle almost all sculpting tasks:</p>
+                        <ol>
+                            <li><strong>Draw:</strong> Standard brush, pushes surface out</li>
+                            <li><strong>Draw Sharp:</strong> Creates hard edges and creases</li>
+                            <li><strong>Clay Strips:</strong> Builds up flat planes of material</li>
+                            <li><strong>Grab:</strong> Moves geometry like grabbing clay</li>
+                            <li><strong>Smooth:</strong> Blends and softens surfaces</li>
+                            <li><strong>Crease:</strong> Creates sharp indentations</li>
+                            <li><strong>Inflate:</strong> Expands surface outward evenly</li>
+                            <li><strong>Scrape:</strong> Flattens and levels surfaces</li>
+                        </ol>
+                        <p>Learn these first. Specialty brushes come later.</p>
+                    </div>
+
+                    <h3>Draw Brush</h3>
+
+                    <div class="card">
+                        <h4>✏️ The Workhorse Brush</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Pushes surface outward (or inward with <code>Ctrl</code>)</li>
+                            <li>Smooth, rounded strokes</li>
+                            <li>Most versatile brush—use for general sculpting</li>
+                            <li>Good for building forms, adding volume</li>
+                            <li>Default active brush when entering Sculpt Mode</li>
+                        </ul>
+
+                        <p><strong>Best uses:</strong></p>
+                        <ul>
+                            <li>Building up muscles and organic forms</li>
+                            <li>Adding volume to areas</li>
+                            <li>General form refinement</li>
+                            <li>Creating gentle curves and transitions</li>
+                            <li>Sketching out basic shapes</li>
+                        </ul>
+
+                        <p><strong>Tips for using Draw brush:</strong></p>
+                        <ul>
+                            <li><strong>Lower strength:</strong> Better control, build up gradually</li>
+                            <li><strong>Multiple passes:</strong> Several light strokes better than one heavy stroke</li>
+                            <li><strong>Vary size:</strong> Large for big forms, small for details</li>
+                            <li><strong>Invert frequently:</strong> <code>Ctrl</code> to push in, create depth</li>
+                            <li><strong>Rotate view:</strong> Work from different angles constantly</li>
+                        </ul>
+
+                        <p><strong>Common mistakes:</strong></p>
+                        <ul>
+                            <li>Too much strength—creates lumpy, bumpy surface</li>
+                            <li>Not enough variation—boring, uniform surface</li>
+                            <li>Working from one angle—flat, unconvincing forms</li>
+                        </ul>
+
+                        <p><strong>Shortcut:</strong> Press <code>X</code> to switch to Draw brush quickly</p>
+                    </div>
+
+                    <h3>Grab Brush</h3>
+
+                    <div class="card">
+                        <h4>✊ The Clay Grabber</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Grabs geometry and moves it in space</li>
+                            <li>Like physically grabbing and pulling clay</li>
+                            <li>Doesn't add or remove material—just repositions</li>
+                            <li>Large-scale form manipulation</li>
+                            <li>Creates dramatic shape changes quickly</li>
+                        </ul>
+
+                        <p><strong>Best uses:</strong></p>
+                        <ul>
+                            <li>Repositioning large forms (move nose, adjust cheekbone)</li>
+                            <li>Stretching and pulling surfaces</li>
+                            <li>Creating gesture and flow in poses</li>
+                            <li>Rough blocking of major forms</li>
+                            <li>Fixing proportions (make head bigger, arm longer)</li>
+                        </ul>
+
+                        <p><strong>How Grab brush works differently:</strong></p>
+                        <ul>
+                            <li>Click and drag—geometry follows cursor</li>
+                            <li>No continuous stroke like Draw</li>
+                            <li>Single motion per click</li>
+                            <li>All geometry in brush radius moves together</li>
+                            <li>Creates smooth, unified movement</li>
+                        </ul>
+
+                        <p><strong>Tips for using Grab brush:</strong></p>
+                        <ul>
+                            <li><strong>Large radius:</strong> Move bigger areas smoothly</li>
+                            <li><strong>Small radius:</strong> Precise local adjustments</li>
+                            <li><strong>Quick gestures:</strong> Don't overthink, just pull and adjust</li>
+                            <li><strong>Combine with Draw:</strong> Grab for form, Draw for detail</li>
+                            <li><strong>Use early:</strong> Block major forms with Grab before adding detail</li>
+                        </ul>
+
+                        <p><strong>Shortcut:</strong> Press <code>G</code> to switch to Grab brush</p>
+                    </div>
+
+                    <h3>Smooth Brush</h3>
+
+                    <div class="card">
+                        <h4>🌊 The Surface Smoother</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Averages vertices to create smooth transitions</li>
+                            <li>Removes bumps, lumps, and harsh details</li>
+                            <li>Blends areas together</li>
+                            <li>Softens hard edges</li>
+                            <li>Essential cleanup tool</li>
+                        </ul>
+
+                        <p><strong>Best uses:</strong></p>
+                        <ul>
+                            <li>Blending between hard and soft areas</li>
+                            <li>Removing unwanted texture or noise</li>
+                            <li>Cleaning up messy sculpting</li>
+                            <li>Creating gradual transitions</li>
+                            <li>Softening overly detailed areas</li>
+                        </ul>
+
+                        <p><strong>Critical shortcut:</strong></p>
+                        <ul>
+                            <li><strong>Hold <code>Shift</code>:</strong> Temporarily activates Smooth brush</li>
+                            <li>Works with ANY active brush</li>
+                            <li>Most frequently used shortcut in sculpting</li>
+                            <li>Don't need to switch brushes—just hold Shift</li>
+                            <li>Release Shift—back to previous brush</li>
+                        </ul>
+
+                        <p><strong>Smooth brush workflow:</strong></p>
+                        <ol>
+                            <li>Sculpt with Draw brush (adds detail)</li>
+                            <li>Hold <code>Shift</code> (temporarily Smooth)</li>
+                            <li>Smooth over rough areas</li>
+                            <li>Release <code>Shift</code> (back to Draw)</li>
+                            <li>Continue sculpting</li>
+                            <li>Repeat constantly throughout sculpting</li>
+                        </ol>
+
+                        <p><strong>Smooth strength considerations:</strong></p>
+                        <ul>
+                            <li><strong>Low strength:</strong> Subtle smoothing, preserves detail</li>
+                            <li><strong>High strength:</strong> Aggressive smoothing, removes detail</li>
+                            <li>Start low, increase if needed</li>
+                            <li>Over-smoothing destroys your work</li>
+                            <li>Multiple light passes better than one heavy pass</li>
+                        </ul>
+
+                        <p><strong>When NOT to smooth:</strong></p>
+                        <ul>
+                            <li>Don't smooth sharp edges you want to keep (creases, wrinkles)</li>
+                            <li>Don't smooth away all texture (creates boring surface)</li>
+                            <li>Don't smooth excessively (loses character and life)</li>
+                        </ul>
+
+                        <p><strong>Shortcut:</strong> Press <code>S</code> to switch to Smooth brush (or hold <code>Shift</code> temporarily)</p>
+                    </div>
+
+                    <h3>Clay Strips Brush</h3>
+
+                    <div class="card">
+                        <h4>🧱 The Form Builder</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Builds up flat, planar surfaces</li>
+                            <li>Creates clay-like ribbons of material</li>
+                            <li>Excellent for blocking large forms</li>
+                            <li>More controlled than Draw brush</li>
+                            <li>Popular for speed sculpting</li>
+                        </ul>
+
+                        <p><strong>Best uses:</strong></p>
+                        <ul>
+                            <li>Initial form blocking (rough head shape, body masses)</li>
+                            <li>Building up anatomy (muscles, bone structure)</li>
+                            <li>Creating planes and facets (sculpting technique)</li>
+                            <li>Adding volume quickly</li>
+                            <li>Establishing major forms before details</li>
+                        </ul>
+
+                        <p><strong>Why professionals love Clay Strips:</strong></p>
+                        <ul>
+                            <li>Faster than Draw for building forms</li>
+                            <li>Creates more controlled, planar surfaces</li>
+                            <li>Works well with low brush strength</li>
+                            <li>Naturally creates planes that show form</li>
+                            <li>Less "blobby" than Draw brush</li>
+                        </ul>
+
+                        <p><strong>Clay Strips technique:</strong></p>
+                        <ol>
+                            <li>Start with low strength (0.3-0.5)</li>
+                            <li>Make long, confident strokes</li>
+                            <li>Build up layers gradually</li>
+                            <li>Think in planes, not curves</li>
+                            <li>Smooth between passes with <code>Shift</code></li>
+                            <li>Creates structured, strong forms</li>
+                        </ol>
+
+                        <p><strong>Comparison with Draw brush:</strong></p>
+                        <ul>
+                            <li><strong>Draw:</strong> Soft, rounded, organic</li>
+                            <li><strong>Clay Strips:</strong> Structured, planar, deliberate</li>
+                            <li>Use both—they complement each other</li>
+                            <li>Clay Strips for structure, Draw for refinement</li>
+                        </ul>
+
+                        <p><strong>Shortcut:</strong> Press <code>C</code> to switch to Clay Strips brush</p>
+                    </div>
+
+                    <h3>Crease Brush</h3>
+
+                    <div class="card">
+                        <h4>📏 The Line Maker</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Creates sharp indentations in surface</li>
+                            <li>Makes lines and creases</li>
+                            <li>Opposite of Inflate</li>
+                            <li>Pinches geometry inward</li>
+                            <li>Good for wrinkles, folds, definition lines</li>
+                        </ul>
+
+                        <p><strong>Best uses:</strong></p>
+                        <ul>
+                            <li>Wrinkles and skin folds</li>
+                            <li>Defining edges between forms</li>
+                            <li>Creating fabric creases in clothing</li>
+                            <li>Adding character lines in faces</li>
+                            <li>Surface detail and texture</li>
+                        </ul>
+
+                        <p><strong>Crease brush behavior:</strong></p>
+                        <ul>
+                            <li>Pulls geometry inward along stroke</li>
+                            <li>Creates sharp valley in surface</li>
+                            <li>Can be smoothed afterward for softer crease</li>
+                            <li>Works best with light strength</li>
+                            <li>Too strong = unnatural, harsh lines</li>
+                        </ul>
+
+                        <p><strong>Tips for using Crease:</strong></p>
+                        <ul>
+                            <li><strong>Low strength:</strong> Build up creases gradually</li>
+                            <li><strong>Smooth afterward:</strong> Soften harsh lines</li>
+                            <li><strong>Vary depth:</strong> Not all creases equal depth</li>
+                            <li><strong>Follow anatomy:</strong> Wrinkles follow muscle/bone structure</li>
+                            <li><strong>Don't overuse:</strong> Too many creases = busy surface</li>
+                        </ul>
+
+                        <p><strong>Inverted Crease (Ctrl):</strong></p>
+                        <ul>
+                            <li>Pushes outward instead of inward</li>
+                            <li>Creates raised lines (like welding seams)</li>
+                            <li>Good for decorative elements</li>
+                            <li>Armor details, mechanical features</li>
+                        </ul>
+                    </div>
+
+                    <h3>Inflate Brush</h3>
+
+                    <div class="card">
+                        <h4>🎈 The Volume Expander</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Expands surface outward evenly in all directions</li>
+                            <li>Like inflating a balloon</li>
+                            <li>Doesn't create directional bumps</li>
+                            <li>Uniform expansion from center</li>
+                            <li>Opposite of Crease brush</li>
+                        </ul>
+
+                        <p><strong>Best uses:</strong></p>
+                        <ul>
+                            <li>Adding volume to areas (cheeks, muscles)</li>
+                            <li>Creating rounded forms</li>
+                            <li>Puffing up surfaces</li>
+                            <li>Making things look fuller or fatter</li>
+                            <li>Organic swelling effects</li>
+                        </ul>
+
+                        <p><strong>Inflate vs. Draw:</strong></p>
+                        <ul>
+                            <li><strong>Draw:</strong> Pushes in direction of stroke</li>
+                            <li><strong>Inflate:</strong> Expands perpendicular to surface</li>
+                            <li>Inflate creates more uniform, balloon-like forms</li>
+                            <li>Draw creates directional, sculpted forms</li>
+                            <li>Use Inflate when direction doesn't matter</li>
+                        </ul>
+
+                        <p><strong>Inverted Inflate (Deflate with Ctrl):</strong></p>
+                        <ul>
+                            <li>Contracts surface inward evenly</li>
+                            <li>Like deflating balloon</li>
+                            <li>Good for creating indentations</li>
+                            <li>Hollows and depressions</li>
+                        </ul>
+
+                        <p><strong>Tips for Inflate brush:</strong></p>
+                        <ul>
+                            <li>Best with moderate to low strength</li>
+                            <li>Creates very smooth, uniform expansion</li>
+                            <li>Good for bulging muscles</li>
+                            <li>Use Draw brush when you need directional control</li>
+                            <li>Combine with Smooth for organic results</li>
+                        </ul>
+                    </div>
+
+                    <h3>Draw Sharp Brush</h3>
+
+                    <div class="card">
+                        <h4>🔪 The Edge Creator</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Like Draw brush but creates harder edges</li>
+                            <li>Pushes surface out with less falloff</li>
+                            <li>Creates more defined, crisp forms</li>
+                            <li>Between Draw and Crease in sharpness</li>
+                            <li>Good for harder organic forms</li>
+                        </ul>
+
+                        <p><strong>Best uses:</strong></p>
+                        <ul>
+                            <li>Scales and armor plates</li>
+                            <li>Sharp anatomy (cheekbones, jaw)</li>
+                            <li>Stylized characters (angular forms)</li>
+                            <li>Surface detail with definition</li>
+                            <li>Mechanical-organic hybrids</li>
+                        </ul>
+
+                        <p><strong>When to use Draw vs. Draw Sharp:</strong></p>
+                        <ul>
+                            <li><strong>Draw:</strong> Soft, organic, natural forms</li>
+                            <li><strong>Draw Sharp:</strong> Defined, stylized, harder forms</li>
+                            <li>Draw Sharp = more character and definition</li>
+                            <li>Draw = more natural and soft</li>
+                            <li>Switch between based on desired feel</li>
+                        </ul>
+
+                        <p><strong>Tips for Draw Sharp:</strong></p>
+                        <ul>
+                            <li>Great for stylized art styles</li>
+                            <li>Can always smooth afterward if too sharp</li>
+                            <li>Good for initial blocking (clear forms)</li>
+                            <li>Creates more dynamic silhouettes</li>
+                            <li>Use lower strength for control</li>
+                        </ul>
+                    </div>
+
+                    <h3>Scrape Brush</h3>
+
+                    <div class="card">
+                        <h4>🔨 The Flattener</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Pushes high points down to average level</li>
+                            <li>Flattens and levels surfaces</li>
+                            <li>Like scraping excess clay off</li>
+                            <li>Creates flat planes</li>
+                            <li>Good for cleanup and refinement</li>
+                        </ul>
+
+                        <p><strong>Best uses:</strong></p>
+                        <ul>
+                            <li>Creating flat surfaces (planes)</li>
+                            <li>Cleanup of lumpy areas</li>
+                            <li>Defining flat forms in anatomy</li>
+                            <li>Architectural sculpting details</li>
+                            <li>Creating hard-surface feel in organic sculpts</li>
+                        </ul>
+
+                        <p><strong>Scrape technique:</strong></p>
+                        <ul>
+                            <li>Drag across high points</li>
+                            <li>High areas get pushed down</li>
+                            <li>Creates flatter, more planar surface</li>
+                            <li>Good for establishing planes of form</li>
+                            <li>Often used with Clay Strips workflow</li>
+                        </ul>
+
+                        <p><strong>Inverted Scrape (Ctrl):</strong></p>
+                        <ul>
+                            <li>Fills in low points instead</li>
+                            <li>Raises valleys to average level</li>
+                            <li>Good for filling gaps</li>
+                            <li>Cleanup tool</li>
+                        </ul>
+                    </div>
+
+                    <h3>Brush Quick Reference</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">⌨️ Essential Brush Shortcuts</h3>
+                        <ul style="color: white;">
+                            <li><strong><code>X</code></strong> - Draw brush (workhorse)</li>
+                            <li><strong><code>G</code></strong> - Grab brush (move forms)</li>
+                            <li><strong><code>S</code></strong> - Smooth brush (or hold <code>Shift</code> temporarily)</li>
+                            <li><strong><code>C</code></strong> - Clay Strips brush (form building)</li>
+                            <li><strong><code>F</code></strong> - Adjust brush size (move mouse)</li>
+                            <li><strong><code>Shift+F</code></strong> - Adjust brush strength (move mouse)</li>
+                            <li><strong><code>Ctrl</code></strong> - Invert brush (push becomes pull)</li>
+                            <li><strong><code>Shift</code></strong> - Temporary smooth (most used shortcut)</li>
+                        </ul>
+                        <p style="color: white; margin-top: 1rem;">Memorize these—they're your foundation.</p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Master the Basics Before Exploring:</strong> Blender has 30+ sculpting brushes. Ignore most of them initially. The eight brushes covered here—Draw, Grab, Smooth, Clay Strips, Crease, Inflate, Draw Sharp, Scrape—handle 95% of sculpting tasks. Master these first. Understand when to use each. Learn the shortcuts. Get comfortable switching between them fluidly. Only then explore specialty brushes. Most professional sculptors use the same core brushes 90% of the time. Not because they don't know the others. Because these core brushes are powerful enough to do almost anything. More brushes don't make you better. Better use of essential brushes makes you better.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 03
+     Continue with lesson_28_sculpting_basics_part_04.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 28 - PART 04
+     File: lesson_28_sculpting_basics_part_04.html
+     ============================================ -->
+
+                <section id="mesh-resolution" class="content-section">
+                    <h2>🔬 Understanding Mesh Resolution</h2>
+
+                    <p>Mesh resolution is the single most important technical concept in sculpting. It determines how much detail you can create and how smooth your surfaces can be. Understanding resolution management separates frustrating sculpting experiences from productive ones.</p>
+
+                    <h3>What Is Mesh Resolution?</h3>
+
+                    <div class="card">
+                        <h4>📊 The Detail Limit</h4>
+                        <p><strong>Resolution defined:</strong></p>
+                        <ul>
+                            <li>Number of vertices (points) in your mesh</li>
+                            <li>More vertices = higher resolution = more detail possible</li>
+                            <li>Fewer vertices = lower resolution = only large forms possible</li>
+                            <li>Like pixels in image: more pixels = sharper image</li>
+                            <li>Same principle in 3D: more vertices = smoother surface</li>
+                        </ul>
+
+                        <p><strong>Why resolution matters:</strong></p>
+                        <ul>
+                            <li><strong>Too low:</strong> Can't add detail, surface looks faceted</li>
+                            <li><strong>Too high:</strong> Performance suffers, Blender slows down</li>
+                            <li><strong>Just right:</strong> Enough detail for current work, good performance</li>
+                            <li>Resolution needs change as you work (start low, increase gradually)</li>
+                        </ul>
+
+                        <p><strong>Visual example:</strong></p>
+                        <ul>
+                            <li>Default cube: 8 vertices (corners only)</li>
+                            <li>Can't sculpt detail—not enough geometry</li>
+                            <li>Subdivide once: 26 vertices (better, but still limited)</li>
+                            <li>Subdivide 3 times: 1,538 vertices (good for sculpting)</li>
+                            <li>Subdivide 5 times: ~100,000 vertices (high detail possible)</li>
+                        </ul>
+
+                        <p><strong>The resolution challenge:</strong></p>
+                        <ul>
+                            <li>Start with low resolution (cube: 8 vertices)</li>
+                            <li>Need more resolution to sculpt details</li>
+                            <li>But how do you add resolution intelligently?</li>
+                            <li>Three methods: Dynamic Topology, Multiresolution, Remeshing</li>
+                        </ul>
+                    </div>
+
+                    <h3>Method 1: Dynamic Topology (Dyntopo)</h3>
+
+                    <div class="card">
+                        <h4>⚡ Automatic Resolution Management</h4>
+                        <p><strong>What Dynamic Topology does:</strong></p>
+                        <ul>
+                            <li>Adds geometry automatically as you sculpt</li>
+                            <li>More detail needed? Dyntopo adds vertices on the fly</li>
+                            <li>Less detail needed? Dyntopo removes excess vertices</li>
+                            <li>Hands-free resolution management</li>
+                            <li>Just sculpt—Dyntopo handles geometry</li>
+                        </ul>
+
+                        <p><strong>Enabling Dynamic Topology:</strong></p>
+                        <ol>
+                            <li>Enter Sculpt Mode</li>
+                            <li>Header (top): Find "Dynamic Topology" section</li>
+                            <li>Check the box or press <code>Ctrl+D</code></li>
+                            <li>Icon appears in header (wireframe cube icon)</li>
+                            <li>Now sculpting automatically adds/removes geometry</li>
+                        </ol>
+
+                        <p><strong>Dyntopo settings:</strong></p>
+                        <ul>
+                            <li><strong>Detail Size:</strong> How small triangles get (lower = more detail)
+                                <ul>
+                                    <li>Start at 12-20 (moderate detail)</li>
+                                    <li>Decrease to 5-8 for fine detail</li>
+                                    <li>Increase to 30-50 for rough blocking</li>
+                                </ul>
+                            </li>
+                            <li><strong>Detail Type:</strong> Relative or Constant
+                                <ul>
+                                    <li><strong>Relative:</strong> Detail based on view (zoom affects detail)</li>
+                                    <li><strong>Constant:</strong> Fixed detail regardless of view</li>
+                                    <li>Relative is default and usually best</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Advantages of Dyntopo:</strong></p>
+                        <ul>
+                            <li>✅ Beginner-friendly (automatic)</li>
+                            <li>✅ No pre-planning needed</li>
+                            <li>✅ Just start sculpting on any mesh</li>
+                            <li>✅ Detail only where needed</li>
+                            <li>✅ Great for organic, freeform sculpting</li>
+                        </ul>
+
+                        <p><strong>Disadvantages of Dyntopo:</strong></p>
+                        <ul>
+                            <li>❌ Creates triangles (not quads—messy topology)</li>
+                            <li>❌ Can't use Multiresolution modifier</li>
+                            <li>❌ Harder to control exact resolution</li>
+                            <li>❌ Not ideal for animation-ready topology</li>
+                            <li>❌ Need to remesh or retopo afterward for production</li>
+                        </ul>
+
+                        <p><strong>Best uses for Dyntopo:</strong></p>
+                        <ul>
+                            <li>Concept sculpting (exploring forms)</li>
+                            <li>Creating sculpts for normal map baking</li>
+                            <li>3D printing models</li>
+                            <li>Illustrations and still renders</li>
+                            <li>Learning sculpting (removes technical barriers)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Method 2: Multiresolution Modifier</h3>
+
+                    <div class="card">
+                        <h4>📊 Controlled Subdivision Levels</h4>
+                        <p><strong>What Multiresolution does:</strong></p>
+                        <ul>
+                            <li>Subdivides mesh in controlled levels</li>
+                            <li>Level 0: Base mesh (low poly)</li>
+                            <li>Level 1: Subdivided once</li>
+                            <li>Level 2: Subdivided again (4x geometry of Level 1)</li>
+                            <li>Can sculpt at any level, detail transfers correctly</li>
+                            <li>Non-destructive—can go back to base mesh</li>
+                        </ul>
+
+                        <p><strong>Setting up Multiresolution:</strong></p>
+                        <ol>
+                            <li>Start with clean base mesh (quad topology)</li>
+                            <li>Enter Sculpt Mode</li>
+                            <li>Modifier Properties panel (wrench icon)</li>
+                            <li>Add Modifier → Multiresolution</li>
+                            <li>Click "Subdivide" 2-3 times (adds levels)</li>
+                            <li>Now have multiple resolution levels</li>
+                        </ol>
+
+                        <p><strong>Using Multiresolution levels:</strong></p>
+                        <ul>
+                            <li><strong>Level 0 (base):</strong> Rough forms, major shapes
+                                <ul>
+                                    <li>Low poly, fast performance</li>
+                                    <li>Establish proportions and big forms</li>
+                                    <li>Block out character or creature</li>
+                                </ul>
+                            </li>
+                            <li><strong>Level 1-2 (medium):</strong> Secondary forms
+                                <ul>
+                                    <li>Add muscle groups</li>
+                                    <li>Refine anatomy</li>
+                                    <li>Define major surface features</li>
+                                </ul>
+                            </li>
+                            <li><strong>Level 3-4 (high):</strong> Fine details
+                                <ul>
+                                    <li>Wrinkles, pores, scales</li>
+                                    <li>Surface texture</li>
+                                    <li>Final polish</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Multiresolution workflow:</strong></p>
+                        <ol>
+                            <li>Start at Level 0 or 1—rough forms</li>
+                            <li>Increase level when need more detail</li>
+                            <li>Sculpt current level</li>
+                            <li>Drop back to lower level if forms need adjustment</li>
+                            <li>Gradually work up to highest level for final details</li>
+                            <li>Can always go back down—non-destructive</li>
+                        </ol>
+
+                        <p><strong>Advantages of Multiresolution:</strong></p>
+                        <ul>
+                            <li>✅ Clean quad topology (good for animation)</li>
+                            <li>✅ Non-destructive (edit any level anytime)</li>
+                            <li>✅ Controlled resolution (you decide when to add detail)</li>
+                            <li>✅ Can export base mesh (low poly for games)</li>
+                            <li>✅ Professional workflow standard</li>
+                        </ul>
+
+                        <p><strong>Disadvantages of Multiresolution:</strong></p>
+                        <ul>
+                            <li>❌ Requires good starting topology</li>
+                            <li>❌ Resolution uniform across mesh (can't vary locally)</li>
+                            <li>❌ More planning required</li>
+                            <li>❌ Steeper learning curve</li>
+                        </ul>
+
+                        <p><strong>Best uses for Multiresolution:</strong></p>
+                        <ul>
+                            <li>Game character creation (need base mesh)</li>
+                            <li>Animation-ready models</li>
+                            <li>Professional production pipelines</li>
+                            <li>When clean topology matters</li>
+                            <li>Sculpting over polygon-modeled base</li>
+                        </ul>
+                    </div>
+
+                    <h3>Method 3: Remeshing</h3>
+
+                    <div class="card">
+                        <h4>🔄 Topology Reset</h4>
+                        <p><strong>What Remeshing does:</strong></p>
+                        <ul>
+                            <li>Rebuilds mesh with new, even topology</li>
+                            <li>Takes existing sculpt and creates clean mesh</li>
+                            <li>Uniform resolution across surface</li>
+                            <li>Fixes messy topology from Dyntopo</li>
+                            <li>Useful for cleanup and optimization</li>
+                        </ul>
+
+                        <p><strong>Types of remeshing:</strong></p>
+                        <ul>
+                            <li><strong>Voxel Remesh:</strong> Converts to voxels, then back to mesh
+                                <ul>
+                                    <li>Very even, uniform topology</li>
+                                    <li>Good for organic sculpts</li>
+                                    <li>Can lose some sharp detail</li>
+                                    <li>Fast and automatic</li>
+                                </ul>
+                            </li>
+                            <li><strong>Quad Remesh (Blender 4.0+):</strong> Creates quad topology
+                                <ul>
+                                    <li>Better topology than voxel</li>
+                                    <li>Good for animation prep</li>
+                                    <li>More control over flow</li>
+                                    <li>Slower but higher quality</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Using Voxel Remesh:</strong></p>
+                        <ol>
+                            <li>Sculpt Mode or Object Mode</li>
+                            <li>Object Data Properties (green triangle icon)</li>
+                            <li>Find "Remesh" section</li>
+                            <li>Select "Voxel" remesh type</li>
+                            <li>Adjust "Voxel Size" (smaller = more detail)
+                                <ul>
+                                    <li>0.1 = low detail</li>
+                                    <li>0.05 = medium detail</li>
+                                    <li>0.02 = high detail</li>
+                                </ul>
+                            </li>
+                            <li>Click "Voxel Remesh" button</li>
+                            <li>Mesh rebuilt with even topology</li>
+                        </ol>
+
+                        <p><strong>When to remesh:</strong></p>
+                        <ul>
+                            <li>After Dyntopo sculpting (cleanup messy triangles)</li>
+                            <li>Before adding Multiresolution modifier</li>
+                            <li>When topology becomes too irregular</li>
+                            <li>Fixing stretched or distorted geometry</li>
+                            <li>Creating clean base for further sculpting</li>
+                        </ul>
+
+                        <p><strong>Remeshing workflow:</strong></p>
+                        <ol>
+                            <li>Sculpt with Dyntopo (freedom to explore)</li>
+                            <li>Remesh when happy with forms (cleanup topology)</li>
+                            <li>Continue sculpting on clean mesh</li>
+                            <li>Add Multiresolution for controlled detail</li>
+                            <li>Final detail pass at high resolution</li>
+                        </ol>
+
+                        <p><strong>Advantages of Remeshing:</strong></p>
+                        <ul>
+                            <li>✅ Fixes messy topology instantly</li>
+                            <li>✅ Creates even, uniform resolution</li>
+                            <li>✅ Good bridge between Dyntopo and Multiresolution</li>
+                            <li>✅ Can remesh as often as needed</li>
+                        </ul>
+
+                        <p><strong>Disadvantages of Remeshing:</strong></p>
+                        <ul>
+                            <li>❌ Can lose fine detail</li>
+                            <li>❌ Destructive (can't undo easily—duplicate object first)</li>
+                            <li>❌ May need to re-sculpt some areas</li>
+                            <li>❌ Not perfect for animation topology</li>
+                        </ul>
+                    </div>
+
+                    <h3>Choosing Your Resolution Method</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">🎯 Quick Decision Guide</h3>
+                        
+                        <p style="color: white;"><strong>Use Dynamic Topology when:</strong></p>
+                        <ul style="color: white;">
+                            <li>Learning sculpting (removes technical barriers)</li>
+                            <li>Concept sculpting or exploration</li>
+                            <li>Creating high-res sculpt for baking to low-poly</li>
+                            <li>Topology doesn't matter for final use</li>
+                            <li>Want to just start sculpting without prep</li>
+                        </ul>
+
+                        <p style="color: white; margin-top: 1rem;"><strong>Use Multiresolution when:</strong></p>
+                        <ul style="color: white;">
+                            <li>Starting with good base mesh topology</li>
+                            <li>Creating animation-ready character</li>
+                            <li>Need to maintain clean quad topology</li>
+                            <li>Professional production pipeline</li>
+                            <li>Want non-destructive workflow</li>
+                        </ul>
+
+                        <p style="color: white; margin-top: 1rem;"><strong>Use Remeshing when:</strong></p>
+                        <ul style="color: white;">
+                            <li>Dyntopo created messy topology</li>
+                            <li>Need to clean up after sculpting</li>
+                            <li>Want to transition from Dyntopo to Multiresolution</li>
+                            <li>Topology became stretched or irregular</li>
+                            <li>Need even resolution across surface</li>
+                        </ul>
+
+                        <p style="color: white; margin-top: 1rem;"><strong>Combine methods:</strong></p>
+                        <ul style="color: white;">
+                            <li>Start with Dyntopo (free exploration)</li>
+                            <li>Remesh when forms are good (cleanup)</li>
+                            <li>Add Multiresolution (controlled detail)</li>
+                            <li>This workflow combines best of all methods</li>
+                        </ul>
+                    </div>
+
+                    <h3>Resolution Best Practices</h3>
+
+                    <div class="card">
+                        <h4>✨ Professional Tips</h4>
+                        
+                        <p><strong>Start low, go high gradually:</strong></p>
+                        <ul>
+                            <li>Don't start with maximum resolution</li>
+                            <li>Block rough forms at low resolution first</li>
+                            <li>Add detail only when big forms are correct</li>
+                            <li>Prevents wasting time on details you'll delete</li>
+                            <li>Big forms to small details—always</li>
+                        </ul>
+
+                        <p><strong>Match resolution to current task:</strong></p>
+                        <ul>
+                            <li>Rough blocking: Low resolution (fast, responsive)</li>
+                            <li>Refining anatomy: Medium resolution (balanced)</li>
+                            <li>Final details: High resolution (slow but detailed)</li>
+                            <li>Don't work at max resolution unnecessarily</li>
+                        </ul>
+
+                        <p><strong>Watch performance:</strong></p>
+                        <ul>
+                            <li>If Blender slows down, resolution too high</li>
+                            <li>Lower subdivision level or Dyntopo detail</li>
+                            <li>Work at highest resolution your computer can handle smoothly</li>
+                            <li>Laggy sculpting = frustrating sculpting</li>
+                        </ul>
+
+                        <p><strong>Save resolution levels:</strong></p>
+                        <ul>
+                            <li>With Multiresolution, can always go back to lower levels</li>
+                            <li>With Dyntopo, duplicate object before remeshing</li>
+                            <li>Keep progressive saves (sculpt_v01, v02, v03)</li>
+                            <li>Easy to go back if you go too far</li>
+                        </ul>
+
+                        <p><strong>Know your limits:</strong></p>
+                        <ul>
+                            <li>Average computer: 2-5 million polygons comfortably</li>
+                            <li>Powerful computer: 10-20 million polygons</li>
+                            <li>Workstation: 50+ million polygons</li>
+                            <li>Test your machine—find comfortable limit</li>
+                            <li>Work within that limit for smooth experience</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Common Resolution Mistakes</h4>
+                        
+                        <p><strong>Mistake 1: Starting too high</strong></p>
+                        <ul>
+                            <li>Beginning with millions of polygons</li>
+                            <li>Computer lags, sculpting frustrating</li>
+                            <li>Solution: Start low, increase gradually</li>
+                        </ul>
+
+                        <p><strong>Mistake 2: Never increasing resolution</strong></p>
+                        <ul>
+                            <li>Trying to add fine detail to low-res mesh</li>
+                            <li>Creates faceted, blocky results</li>
+                            <li>Solution: Increase resolution when need detail</li>
+                        </ul>
+
+                        <p><strong>Mistake 3: Adding detail too early</strong></p>
+                        <ul>
+                            <li>Sculpting wrinkles before face is shaped correctly</li>
+                            <li>Waste time on detail that gets deleted</li>
+                            <li>Solution: Big forms first, details last</li>
+                        </ul>
+
+                        <p><strong>Mistake 4: Wrong method for project</strong></p>
+                        <ul>
+                            <li>Using Dyntopo for animation character</li>
+                            <li>Using Multiresolution for concept sculpt</li>
+                            <li>Solution: Match method to project requirements</li>
+                        </ul>
+
+                        <p><strong>Mistake 5: Not saving before remeshing</strong></p>
+                        <ul>
+                            <li>Remeshing destroys original topology</li>
+                            <li>Can't undo if result is bad</li>
+                            <li>Solution: Duplicate object before remeshing</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Resolution Is Your Canvas:</strong> Traditional painters choose canvas texture based on their painting. Rough canvas for impressionistic work. Smooth canvas for detailed realism. Same with sculpting—your resolution is your canvas. Too coarse, can't paint details. Too fine, wastes resources and time. Just right? Smooth workflow, beautiful results. Learn to match resolution to current task. Start coarse. Refine progressively. Add detail only when foundation is solid. This isn't just technical knowledge—it's wisdom. The difference between fighting your tools and dancing with them.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 04
+     Continue with lesson_28_sculpting_basics_part_05.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 28 - PART 05
+     File: lesson_28_sculpting_basics_part_05.html
+     ============================================ -->
+
+                <section id="first-sculpt-project" class="content-section">
+                    <h2>🎯 Project: Your First Sculpt</h2>
+
+                    <p>Time to put everything together. You'll create a complete sculpted object from start to finish, applying brush techniques, resolution management, and workflow principles. This project builds confidence and muscle memory for all core sculpting skills.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">🎨 Project Overview</h3>
+                        <p style="color: white;"><strong>Choose one of three projects:</strong></p>
+                        <ul style="color: white;">
+                            <li><strong>Option A: Stylized Rock</strong> - Organic forms, good for beginners</li>
+                            <li><strong>Option B: Simple Creature Head</strong> - Character forms, more challenging</li>
+                            <li><strong>Option C: Decorative Vase</strong> - Controlled forms, symmetry practice</li>
+                        </ul>
+                        <p style="color: white; margin-top: 1rem;"><strong>What you'll practice:</strong></p>
+                        <ul style="color: white;">
+                            <li>Using 5-6 essential brushes fluently</li>
+                            <li>Managing resolution with Dynamic Topology</li>
+                            <li>Working from rough forms to refined details</li>
+                            <li>Proper sculpting workflow</li>
+                            <li>Creating finished, presentable sculpt</li>
+                        </ul>
+                        <p style="color: white; margin-top: 1rem;"><strong>Time:</strong> 60-90 minutes | <strong>Difficulty:</strong> Beginner-friendly</p>
+                    </div>
+
+                    <h3>Project Option A: Stylized Rock</h3>
+
+                    <div class="card">
+                        <h4>🪨 Perfect Beginner Sculpt</h4>
+                        <p><strong>Why rocks are ideal for learning:</strong></p>
+                        <ul>
+                            <li>Organic, irregular forms (forgiving)</li>
+                            <li>No right or wrong anatomy</li>
+                            <li>Practices all essential brushes</li>
+                            <li>Quick to complete</li>
+                            <li>Immediately useful (game assets, environments)</li>
+                        </ul>
+
+                        <p><strong>Phase 1: Setup (5 minutes)</strong></p>
+                        <ol>
+                            <li>New Blender file (default cube is fine)</li>
+                            <li>Delete default cube, add UV Sphere (Shift+A → Mesh → UV Sphere)</li>
+                            <li>Enter Sculpt Mode (mode dropdown or Ctrl+Tab)</li>
+                            <li>Right-click sphere → Shade Smooth</li>
+                            <li>Enable Dynamic Topology (<code>Ctrl+D</code>)</li>
+                            <li>Set Dyntopo detail to 12 (moderate resolution)</li>
+                            <li>Ready to sculpt!</li>
+                        </ol>
+
+                        <p><strong>Phase 2: Block Basic Form (10 minutes)</strong></p>
+                        <ol>
+                            <li><strong>Grab brush (<code>G</code>):</strong>
+                                <ul>
+                                    <li>Large brush size</li>
+                                    <li>Pull sphere into rough rock shape</li>
+                                    <li>Make it irregular, asymmetric</li>
+                                    <li>Don't worry about details yet</li>
+                                    <li>Just establish overall mass</li>
+                                </ul>
+                            </li>
+                            <li><strong>Clay Strips (<code>C</code>):</strong>
+                                <ul>
+                                    <li>Medium brush size</li>
+                                    <li>Build up planes and facets</li>
+                                    <li>Rocks have planar surfaces, not smooth curves</li>
+                                    <li>Create angular, crystalline feeling</li>
+                                    <li>Vary brush size for different plane sizes</li>
+                                </ul>
+                            </li>
+                            <li><strong>Smooth (hold <code>Shift</code>):</strong>
+                                <ul>
+                                    <li>Blend between planes occasionally</li>
+                                    <li>Not too much—rocks aren't perfectly smooth</li>
+                                    <li>Just soften harsh transitions</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotate view constantly</strong> - work from all angles</li>
+                        </ol>
+
+                        <p><strong>Phase 3: Add Character (15 minutes)</strong></p>
+                        <ol>
+                            <li><strong>Draw brush (<code>X</code>):</strong>
+                                <ul>
+                                    <li>Add lumps and bumps</li>
+                                    <li>Create variety in surface</li>
+                                    <li>Some areas bulge out, others recede</li>
+                                    <li>Natural irregularity</li>
+                                </ul>
+                            </li>
+                            <li><strong>Crease brush:</strong>
+                                <ul>
+                                    <li>Add cracks and fissures</li>
+                                    <li>Random placement (nature is chaotic)</li>
+                                    <li>Vary depth and width</li>
+                                    <li>Don't overdo—few strategic cracks better than many</li>
+                                </ul>
+                            </li>
+                            <li><strong>Scrape brush:</strong>
+                                <ul>
+                                    <li>Flatten some areas</li>
+                                    <li>Create flat weathered surfaces</li>
+                                    <li>Contrast with rounded areas</li>
+                                </ul>
+                            </li>
+                            <li><strong>Grab brush:</strong>
+                                <ul>
+                                    <li>Adjust overall form if needed</li>
+                                    <li>Pull out interesting protrusions</li>
+                                    <li>Push in concave areas</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Phase 4: Surface Detail (10 minutes)</strong></p>
+                        <ol>
+                            <li><strong>Decrease Dyntopo detail to 8:</strong> Higher resolution for fine detail</li>
+                            <li><strong>Draw brush (small size):</strong>
+                                <ul>
+                                    <li>Add small pits and pockmarks</li>
+                                    <li>Weathering texture</li>
+                                    <li>Random placement</li>
+                                </ul>
+                            </li>
+                            <li><strong>Draw Sharp brush:</strong>
+                                <ul>
+                                    <li>Add sharp crystalline edges</li>
+                                    <li>Highlight interesting planes</li>
+                                    <li>Create visual interest</li>
+                                </ul>
+                            </li>
+                            <li><strong>Smooth (hold Shift):</strong>
+                                <ul>
+                                    <li>Selectively smooth areas</li>
+                                    <li>Some surfaces smooth, others rough</li>
+                                    <li>Variation = realism</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Phase 5: Final Polish (10 minutes)</strong></p>
+                        <ol>
+                            <li>Zoom out—check overall silhouette</li>
+                            <li>Adjust major forms if needed (Grab brush)</li>
+                            <li>Add final accent details</li>
+                            <li>Smooth any overly harsh areas</li>
+                            <li>Rotate 360° to check all angles</li>
+                            <li>Done!</li>
+                        </ol>
+
+                        <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                            <h4>✅ Rock Success Criteria</h4>
+                            <ul>
+                                <li>✓ Asymmetric, irregular form (not sphere-like)</li>
+                                <li>✓ Mix of planar and curved surfaces</li>
+                                <li>✓ Some sharp edges, some smooth areas</li>
+                                <li>✓ Cracks and surface texture present</li>
+                                <li>✓ Interesting silhouette from multiple angles</li>
+                                <li>✓ Looks like something from nature, not manufactured</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Project Option B: Simple Creature Head</h3>
+
+                    <div class="card">
+                        <h4>👾 Character Sculpting Introduction</h4>
+                        <p><strong>Why creature head:</strong></p>
+                        <ul>
+                            <li>Introduces character/anatomy concepts</li>
+                            <li>Symmetry practice</li>
+                            <li>More challenging than rock (anatomy considerations)</li>
+                            <li>Foundation for character work</li>
+                            <li>Portfolio-worthy when complete</li>
+                        </ul>
+
+                        <p><strong>Phase 1: Setup (5 minutes)</strong></p>
+                        <ol>
+                            <li>New Blender file</li>
+                            <li>Delete cube, add UV Sphere</li>
+                            <li>Enter Sculpt Mode</li>
+                            <li>Shade Smooth</li>
+                            <li>Enable Dynamic Topology (<code>Ctrl+D</code>)</li>
+                            <li>Set detail to 12</li>
+                            <li><strong>Enable X-axis symmetry</strong> (header: check X box)
+                                <ul>
+                                    <li>Critical for heads/faces</li>
+                                    <li>Left side mirrors right side automatically</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Phase 2: Basic Head Shape (15 minutes)</strong></p>
+                        <ol>
+                            <li><strong>Grab brush:</strong>
+                                <ul>
+                                    <li>Pull sphere into egg shape (head-like)</li>
+                                    <li>Taper toward bottom (neck area)</li>
+                                    <li>Slightly elongated front (snout/face)</li>
+                                    <li>Work from front and side views</li>
+                                </ul>
+                            </li>
+                            <li><strong>Clay Strips:</strong>
+                                <ul>
+                                    <li>Build up brow ridge area</li>
+                                    <li>Add volume to cheeks</li>
+                                    <li>Define jaw area</li>
+                                    <li>Create basic skull structure</li>
+                                </ul>
+                            </li>
+                            <li><strong>Draw brush:</strong>
+                                <ul>
+                                    <li>Push in eye sockets (Ctrl+click)</li>
+                                    <li>Push in mouth area</li>
+                                    <li>Create basic facial features placement</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Phase 3: Features Placement (15 minutes)</strong></p>
+                        <ol>
+                            <li><strong>Eyes (use Inflate brush):</strong>
+                                <ul>
+                                    <li>Click in eye socket areas</li>
+                                    <li>Create rounded eye bulges</li>
+                                    <li>Position slightly above center of head</li>
+                                    <li>Symmetry ensures both eyes match</li>
+                                </ul>
+                            </li>
+                            <li><strong>Nose/Snout (use Draw and Clay Strips):</strong>
+                                <ul>
+                                    <li>Build up center of face</li>
+                                    <li>Can be small nose or large snout</li>
+                                    <li>Your creature, your design</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mouth (use Crease):</strong>
+                                <ul>
+                                    <li>Draw line where mouth opens</li>
+                                    <li>Crease creates mouth line</li>
+                                    <li>Can be simple line or complex opening</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ears (optional):</strong>
+                                <ul>
+                                    <li>Use Draw to pull out ear shapes on sides</li>
+                                    <li>Or leave smooth (alien/fish-like)</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Phase 4: Character and Detail (20 minutes)</strong></p>
+                        <ol>
+                            <li><strong>Decrease Dyntopo detail to 8</strong> (more resolution)</li>
+                            <li><strong>Refine features:</strong>
+                                <ul>
+                                    <li>Define eyelids around eyes</li>
+                                    <li>Add nostril indents if applicable</li>
+                                    <li>Detail mouth area</li>
+                                    <li>Smooth (Shift) to blend transitions</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add surface interest:</strong>
+                                <ul>
+                                    <li>Scales (Draw Sharp, small size, repeated marks)</li>
+                                    <li>Wrinkles (Crease brush, light touches)</li>
+                                    <li>Texture variation (Draw, random pitting)</li>
+                                    <li>Bone/ridge details (Clay Strips, sharp edges)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Expression:</strong>
+                                <ul>
+                                    <li>Slight smile? (mouth corners up)</li>
+                                    <li>Angry? (brow down, mouth corners down)</li>
+                                    <li>Surprised? (eyes wide, mouth open)</li>
+                                    <li>Even simple expression adds life</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Phase 5: Final Pass (10 minutes)</strong></p>
+                        <ol>
+                            <li>Zoom out frequently—check overall read</li>
+                            <li>Adjust major proportions if needed</li>
+                            <li>Add final accent details</li>
+                            <li>Smooth harsh areas</li>
+                            <li>Check symmetry is correct</li>
+                            <li>Rotate 360° to view all angles</li>
+                        </ol>
+
+                        <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                            <h4>✅ Creature Head Success Criteria</h4>
+                            <ul>
+                                <li>✓ Clearly identifiable as head/face</li>
+                                <li>✓ Eyes, nose/snout, mouth visible</li>
+                                <li>✓ Symmetry maintained (left/right match)</li>
+                                <li>✓ Some character or personality evident</li>
+                                <li>✓ Surface detail present (texture, features)</li>
+                                <li>✓ Proportions feel believable</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Project Option C: Decorative Vase</h3>
+
+                    <div class="card">
+                        <h4>🏺 Controlled Form Practice</h4>
+                        <p><strong>Why decorative vase:</strong></p>
+                        <ul>
+                            <li>Practices symmetry extensively</li>
+                            <li>Controlled, deliberate forms</li>
+                            <li>Good for precision practice</li>
+                            <li>Combines organic and hard-surface elements</li>
+                            <li>Useful prop modeling skill</li>
+                        </ul>
+
+                        <p><strong>Phase 1: Setup (5 minutes)</strong></p>
+                        <ol>
+                            <li>New Blender file</li>
+                            <li>Delete cube, add Cylinder (Shift+A → Mesh → Cylinder)</li>
+                            <li>Scale cylinder taller (S, Z, 3 to scale 3x on Z-axis)</li>
+                            <li>Enter Sculpt Mode</li>
+                            <li>Shade Smooth</li>
+                            <li>Enable Dynamic Topology</li>
+                            <li>Detail: 12</li>
+                            <li><strong>Enable both X and Y symmetry</strong> (radial symmetry effect)</li>
+                        </ol>
+
+                        <p><strong>Phase 2: Basic Vase Shape (15 minutes)</strong></p>
+                        <ol>
+                            <li><strong>Grab brush:</strong>
+                                <ul>
+                                    <li>Narrow neck area (top third)</li>
+                                    <li>Widen body area (middle)</li>
+                                    <li>Narrow base slightly</li>
+                                    <li>Create classic vase profile</li>
+                                    <li>Work from side view primarily</li>
+                                </ul>
+                            </li>
+                            <li><strong>Inflate brush:</strong>
+                                <ul>
+                                    <li>Expand body to create volume</li>
+                                    <li>Round curves naturally</li>
+                                    <li>Smooth, elegant form</li>
+                                </ul>
+                            </li>
+                            <li><strong>Smooth (Shift):</strong>
+                                <ul>
+                                    <li>Blend all transitions</li>
+                                    <li>Vases should be smooth, graceful</li>
+                                    <li>No harsh edges on body</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Phase 3: Add Decorative Elements (20 minutes)</strong></p>
+                        <ol>
+                            <li><strong>Draw Sharp brush:</strong>
+                                <ul>
+                                    <li>Create bands around vase</li>
+                                    <li>Raised ridges for decoration</li>
+                                    <li>Symmetry creates perfect circles</li>
+                                </ul>
+                            </li>
+                            <li><strong>Crease brush:</strong>
+                                <ul>
+                                    <li>Add grooves between bands</li>
+                                    <li>Decorative line work</li>
+                                    <li>Pattern details</li>
+                                </ul>
+                            </li>
+                            <li><strong>Clay Strips:</strong>
+                                <ul>
+                                    <li>Add handles on sides (turn OFF symmetry for this)</li>
+                                    <li>Build up decorative elements</li>
+                                    <li>Feet/base details</li>
+                                </ul>
+                            </li>
+                            <li><strong>Decrease detail to 8:</strong>
+                                <ul>
+                                    <li>Add fine surface ornamentation</li>
+                                    <li>Floral patterns (small Draw strokes)</li>
+                                    <li>Geometric designs</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Phase 4: Refinement (15 minutes)</strong></p>
+                        <ol>
+                            <li>Smooth all harsh transitions</li>
+                            <li>Ensure symmetry is perfect</li>
+                            <li>Refine decorative elements</li>
+                            <li>Add rim detail at top</li>
+                            <li>Base detail at bottom</li>
+                            <li>Final surface texture if desired</li>
+                        </ol>
+
+                        <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                            <h4>✅ Vase Success Criteria</h4>
+                            <ul>
+                                <li>✓ Clear vase form (neck, body, base)</li>
+                                <li>✓ Smooth, graceful curves</li>
+                                <li>✓ Symmetry perfect throughout</li>
+                                <li>✓ Decorative elements present</li>
+                                <li>✓ Professional, refined appearance</li>
+                                <li>✓ Could believably hold flowers</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>After Completing Your Sculpt</h3>
+
+                    <div class="card">
+                        <h4>🎨 Presentation and Next Steps</h4>
+                        
+                        <p><strong>Setting up presentation:</strong></p>
+                        <ol>
+                            <li><strong>Better viewport shading:</strong>
+                                <ul>
+                                    <li>Viewport shading → Solid mode</li>
+                                    <li>Enable MatCap</li>
+                                    <li>Choose appealing matcap (clay, gold, etc.)</li>
+                                    <li>Shows form beautifully</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add lighting (optional):</strong>
+                                <ul>
+                                    <li>Switch to Shading workspace</li>
+                                    <li>Add simple material</li>
+                                    <li>Add sun lamp for shadows</li>
+                                    <li>Render for presentation image</li>
+                                </ul>
+                            </li>
+                            <li><strong>Save your work:</strong>
+                                <ul>
+                                    <li>File → Save As</li>
+                                    <li>Descriptive name: "first_sculpt_rock_v01.blend"</li>
+                                    <li>Keep version numbers for practice pieces</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>What you learned:</strong></p>
+                        <ul>
+                            <li>✅ Complete sculpting workflow (setup to finish)</li>
+                            <li>✅ Essential brush usage in practice</li>
+                            <li>✅ Resolution management with Dyntopo</li>
+                            <li>✅ Working from rough to refined</li>
+                            <li>✅ Symmetry for controlled forms</li>
+                            <li>✅ Surface detail techniques</li>
+                        </ul>
+
+                        <p><strong>Next challenges:</strong></p>
+                        <ul>
+                            <li>Create second sculpt (different project option)</li>
+                            <li>Try same project with Multiresolution instead of Dyntopo</li>
+                            <li>Experiment with more specialty brushes</li>
+                            <li>Follow reference photo (sculpt real rock or object)</li>
+                            <li>Combine multiple sculpts in scene</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Common Project Issues</h4>
+                        
+                        <p><strong>"My sculpt looks lumpy and uneven"</strong></p>
+                        <ul>
+                            <li>Use Smooth brush (Shift) more frequently</li>
+                            <li>Lower brush strength (build up gradually)</li>
+                            <li>Use Clay Strips for more controlled forms</li>
+                        </ul>
+
+                        <p><strong>"Details aren't showing up"</strong></p>
+                        <ul>
+                            <li>Decrease Dyntopo detail size (more resolution)</li>
+                            <li>Make brush smaller for fine details</li>
+                            <li>Increase brush strength slightly</li>
+                        </ul>
+
+                        <p><strong>"Symmetry not working"</strong></p>
+                        <ul>
+                            <li>Check symmetry checkbox in header (X, Y, or Z)</li>
+                            <li>Verify object origin is centered</li>
+                            <li>May need to apply transformations (Object Mode → Ctrl+A → All Transforms)</li>
+                        </ul>
+
+                        <p><strong>"Blender is lagging"</strong></p>
+                        <ul>
+                            <li>Increase Dyntopo detail size (lower resolution)</li>
+                            <li>Too many polygons for your computer</li>
+                            <li>Save and restart Blender</li>
+                        </ul>
+
+                        <p><strong>"Lost my forms/went too far"</strong></p>
+                        <ul>
+                            <li>Undo (Ctrl+Z) - can undo many steps</li>
+                            <li>Or start over—it's practice</li>
+                            <li>Second attempt always better than first</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Your First Sculpt Is a Milestone:</strong> Not because it's perfect. It probably isn't. Your rock might look lumpy. Your creature head might look strange. Your vase might be asymmetric despite your best efforts. That's okay. That's normal. That's exactly how it should be. Because you finished it. You went from sphere to something recognizable. You used brushes. You managed resolution. You completed a workflow. That's not nothing. That's everything. Every professional sculptor has a terrible first sculpt in their history. The difference between them and people who quit? They made a second sculpt. Then a third. Then a hundredth. Each one slightly better. You just made your first. Congratulations. Now make your second.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_28_sculpting_basics_part_06.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 28 - PART 06 - FINAL
+     File: lesson_28_sculpting_basics_part_06.html
+     ============================================ -->
+
+                <section id="summary" class="content-section">
+                    <h2>🎯 Lesson Summary</h2>
+
+                    <p>You've completed your introduction to digital sculpting in Blender. You've learned a completely new way of creating 3D forms—intuitive, artistic, and powerful. Let's review everything you've accomplished and map out your continued sculpting journey.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">🎓 What You've Mastered</h3>
+                        
+                        <p style="color: white;"><strong>Core concepts:</strong></p>
+                        <ul style="color: white;">
+                            <li>✅ Digital sculpting fundamentals (clay metaphor, mesh manipulation)</li>
+                            <li>✅ When to sculpt vs. polygon model (decision framework)</li>
+                            <li>✅ Sculpt Mode interface and navigation</li>
+                            <li>✅ Eight essential sculpting brushes and their applications</li>
+                            <li>✅ Resolution management (Dyntopo, Multiresolution, Remeshing)</li>
+                            <li>✅ Complete sculpting workflow (rough to refined)</li>
+                        </ul>
+
+                        <p style="color: white; margin-top: 1rem;"><strong>Technical skills:</strong></p>
+                        <ul style="color: white;">
+                            <li>✅ Brush shortcuts and modifiers (F, Shift+F, Ctrl, Shift)</li>
+                            <li>✅ Dynamic Topology setup and usage</li>
+                            <li>✅ Symmetry for controlled sculpting</li>
+                            <li>✅ Surface smoothing and blending</li>
+                            <li>✅ Form building and refinement</li>
+                            <li>✅ Detail layering techniques</li>
+                        </ul>
+
+                        <p style="color: white; margin-top: 1rem;"><strong>Hands-on experience:</strong></p>
+                        <ul style="color: white;">
+                            <li>✅ Completed full sculpt from start to finish</li>
+                            <li>✅ Applied multiple brushes in context</li>
+                            <li>✅ Managed resolution throughout workflow</li>
+                            <li>✅ Created presentable, finished piece</li>
+                        </ul>
+                    </div>
+
+                    <h3>Key Takeaways</h3>
+
+                    <div class="card">
+                        <h4>💎 Essential Lessons</h4>
+                        
+                        <p><strong>Sculpting is intuitive but requires practice:</strong></p>
+                        <ul>
+                            <li>Interface is simple—click and drag</li>
+                            <li>But mastery takes time and repetition</li>
+                            <li>Muscle memory develops through volume of work</li>
+                            <li>First sculpts always rough—improvement comes with practice</li>
+                        </ul>
+
+                        <p><strong>Use the right tool for the job:</strong></p>
+                        <ul>
+                            <li>Sculpting excels at organic forms and surface detail</li>
+                            <li>Polygon modeling better for hard-surface objects</li>
+                            <li>Combine methods for best results</li>
+                            <li>Don't force wrong tool for the task</li>
+                        </ul>
+
+                        <p><strong>Resolution management is crucial:</strong></p>
+                        <ul>
+                            <li>Start low resolution (rough forms)</li>
+                            <li>Increase progressively (add detail gradually)</li>
+                            <li>Never add detail to low-resolution mesh</li>
+                            <li>Match resolution to current task</li>
+                        </ul>
+
+                        <p><strong>Master the core brushes first:</strong></p>
+                        <ul>
+                            <li>Eight essential brushes handle 95% of sculpting</li>
+                            <li>Draw, Grab, Smooth most frequently used</li>
+                            <li>Shortcuts critical for fluid workflow</li>
+                            <li>Specialty brushes come later</li>
+                        </ul>
+
+                        <p><strong>Work from big to small:</strong></p>
+                        <ul>
+                            <li>Block major forms first</li>
+                            <li>Refine secondary forms</li>
+                            <li>Add details last</li>
+                            <li>This order prevents wasted effort</li>
+                        </ul>
+
+                        <p><strong>Rotate and review constantly:</strong></p>
+                        <ul>
+                            <li>Work from all angles</li>
+                            <li>Zoom in for detail, zoom out for form</li>
+                            <li>Check silhouette frequently</li>
+                            <li>Prevents flat, unconvincing sculpts</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common Beginner Mistakes to Avoid</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Learn from Others' Mistakes</h4>
+                        
+                        <p><strong>Adding detail too early:</strong></p>
+                        <ul>
+                            <li>Sculpting wrinkles before face is shaped</li>
+                            <li>Adding scales before creature form is established</li>
+                            <li>Solution: Block all major forms FIRST, details LAST</li>
+                        </ul>
+
+                        <p><strong>Working at wrong resolution:</strong></p>
+                        <ul>
+                            <li>Trying to add fine detail at low resolution (looks faceted)</li>
+                            <li>Starting at maximum resolution (computer lags)</li>
+                            <li>Solution: Match resolution to task, increase gradually</li>
+                        </ul>
+
+                        <p><strong>Using too much strength:</strong></p>
+                        <ul>
+                            <li>Brush at 100% strength creates lumpy surfaces</li>
+                            <li>Overworking areas leads to mushy forms</li>
+                            <li>Solution: Lower strength (0.3-0.6), build up gradually</li>
+                        </ul>
+
+                        <p><strong>Not using Smooth brush enough:</strong></p>
+                        <ul>
+                            <li>Surfaces become overly textured and noisy</li>
+                            <li>Forms lack refinement</li>
+                            <li>Solution: Hold Shift constantly, smooth as you go</li>
+                        </ul>
+
+                        <p><strong>Ignoring symmetry:</strong></p>
+                        <ul>
+                            <li>Character faces come out lopsided</li>
+                            <li>Symmetrical objects become asymmetric</li>
+                            <li>Solution: Enable X-symmetry for faces/heads/symmetrical forms</li>
+                        </ul>
+
+                        <p><strong>Working from one angle:</strong></p>
+                        <ul>
+                            <li>Sculpt looks good from front but flat from side</li>
+                            <li>Proportions wrong in 3D space</li>
+                            <li>Solution: Rotate view every few strokes, check all angles</li>
+                        </ul>
+
+                        <p><strong>Perfectionism paralysis:</strong></p>
+                        <ul>
+                            <li>Overworking single area endlessly</li>
+                            <li>Never moving forward or finishing</li>
+                            <li>Solution: Work whole sculpt to same level, refine overall</li>
+                        </ul>
+                    </div>
+
+                    <h3>Next Steps in Your Sculpting Journey</h3>
+
+                    <div class="card">
+                        <h4>🚀 Continuing Your Progress</h4>
+                        
+                        <p><strong>Immediate practice (this week):</strong></p>
+                        <ol>
+                            <li>Create 3-5 more simple sculpts
+                                <ul>
+                                    <li>Different rocks with varied textures</li>
+                                    <li>Simple creature heads (different species)</li>
+                                    <li>Objects from daily life (fruit, tools)</li>
+                                </ul>
+                            </li>
+                            <li>Focus on brush fluency
+                                <ul>
+                                    <li>Memorize shortcuts (X, G, S, C)</li>
+                                    <li>Practice switching brushes quickly</li>
+                                    <li>Build muscle memory</li>
+                                </ul>
+                            </li>
+                            <li>Experiment with settings
+                                <ul>
+                                    <li>Try different Dyntopo detail sizes</li>
+                                    <li>Test Multiresolution workflow</li>
+                                    <li>Compare Remesh results</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Short-term goals (next month):</strong></p>
+                        <ul>
+                            <li>Create 10-15 completed sculpts (volume builds skill)</li>
+                            <li>Try specialty brushes (Pinch, Clay, Blob)</li>
+                            <li>Sculpt from reference images (real objects/creatures)</li>
+                            <li>Learn basic anatomy (muscles, bone structure)</li>
+                            <li>Explore advanced Multiresolution workflows</li>
+                            <li>Combine sculpting with polygon modeling</li>
+                        </ul>
+
+                        <p><strong>Medium-term goals (3-6 months):</strong></p>
+                        <ul>
+                            <li>Complete character bust (head, neck, shoulders)</li>
+                            <li>Learn retopology (clean mesh over sculpt)</li>
+                            <li>Bake sculpt details to normal maps</li>
+                            <li>Create environment asset pack (rocks, trees, props)</li>
+                            <li>Study traditional sculpture principles</li>
+                            <li>Build sculpting portfolio (5-10 strong pieces)</li>
+                        </ul>
+
+                        <p><strong>Advanced topics to explore:</strong></p>
+                        <ul>
+                            <li>Full character creation workflow</li>
+                            <li>Creature design and concept sculpting</li>
+                            <li>Hard-surface detailing with sculpting</li>
+                            <li>Cloth and fabric sculpting</li>
+                            <li>Stylized vs. realistic sculpting approaches</li>
+                            <li>Professional pipeline integration</li>
+                        </ul>
+                    </div>
+
+                    <h3>Learning Resources</h3>
+
+                    <div class="card">
+                        <h4>📚 Where to Learn More</h4>
+                        
+                        <p><strong>Blender-specific resources:</strong></p>
+                        <ul>
+                            <li><strong>Blender Manual:</strong> Official sculpting documentation</li>
+                            <li><strong>Blender Cloud:</strong> Professional sculpting tutorials and assets</li>
+                            <li><strong>YouTube channels:</strong> YanSculpts, Julien Kaspar, Grant Abbitt</li>
+                            <li><strong>FlippedNormals:</strong> Industry-level sculpting courses</li>
+                        </ul>
+
+                        <p><strong>General sculpting knowledge:</strong></p>
+                        <ul>
+                            <li><strong>Books:</strong> Anatomy for Sculptors (detailed human anatomy)</li>
+                            <li><strong>ZBrush tutorials:</strong> Techniques transfer to Blender</li>
+                            <li><strong>Traditional sculpture:</strong> Principles apply to digital</li>
+                            <li><strong>Figure drawing:</strong> Understanding form helps sculpting</li>
+                        </ul>
+
+                        <p><strong>Communities for feedback:</strong></p>
+                        <ul>
+                            <li>BlenderArtists.org (focused sculpting forum)</li>
+                            <li>Reddit r/blender (active, helpful community)</li>
+                            <li>ArtStation (professional portfolio feedback)</li>
+                            <li>Discord servers (real-time discussion)</li>
+                        </ul>
+
+                        <p><strong>Reference resources:</strong></p>
+                        <ul>
+                            <li><strong>3D.sk:</strong> High-quality photo reference</li>
+                            <li><strong>Pinterest:</strong> Creature design inspiration</li>
+                            <li><strong>Museum collections:</strong> Traditional sculpture study</li>
+                            <li><strong>Nature photography:</strong> Organic forms and textures</li>
+                        </ul>
+                    </div>
+
+                    <h3>Sculpting in Your Blender Workflow</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>🔄 Integrating Sculpting</h4>
+                        
+                        <p><strong>Sculpting fits into larger pipeline:</strong></p>
+                        <ol>
+                            <li><strong>Concept/Design:</strong> Sculpt to explore forms quickly</li>
+                            <li><strong>High-detail creation:</strong> Sculpt for detail that's hard to model</li>
+                            <li><strong>Retopology:</strong> Create clean mesh over sculpt</li>
+                            <li><strong>Baking:</strong> Transfer sculpt detail to textures</li>
+                            <li><strong>Production:</strong> Use low-poly with baked details</li>
+                        </ol>
+
+                        <p><strong>Upcoming lessons will cover:</strong></p>
+                        <ul>
+                            <li><strong>Lesson 29: Hard Surface Modeling</strong> - Complement to sculpting</li>
+                            <li><strong>Lesson 30: Retopology Fundamentals</strong> - Clean up sculpts</li>
+                            <li><strong>Lesson 36-39: Character Creation</strong> - Full character workflow</li>
+                            <li>Each builds on sculpting foundation you have now</li>
+                        </ul>
+
+                        <p><strong>How sculpting enhances other skills:</strong></p>
+                        <ul>
+                            <li>Better understanding of form and volume</li>
+                            <li>Improved modeling decisions (knowing end result)</li>
+                            <li>Texture creation (sculpted detail → normal maps)</li>
+                            <li>Concept visualization (3D sketching)</li>
+                            <li>Overall 3D spatial awareness</li>
+                        </ul>
+                    </div>
+
+                    <h3>Final Thoughts</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white;">
+                        <h3 style="color: white;">🎨 You're a Digital Sculptor Now</h3>
+                        
+                        <p style="color: white;">You've crossed a significant threshold. You understand sculpting fundamentals. You can use the essential brushes. You know how to manage resolution. You've completed a sculpt from start to finish.</p>
+                        
+                        <p style="color: white;">Is your first sculpt perfect? Probably not. Does it matter? Not at all. Because you finished it. You took formless geometry and shaped it into something recognizable. That's not a small thing. That's creation.</p>
+                        
+                        <p style="color: white;">Traditional sculptors spend years mastering their craft. Digital sculpting is no different. The tools are different. The medium is different. But the core skill—understanding form, volume, gesture, flow—that takes time to develop. Takes practice. Takes patience.</p>
+                        
+                        <p style="color: white;">You have the foundation now. The rest is mileage. Every sculpt you create makes you better. Every hour you spend shaping digital clay teaches you something new. Some sculpts will come out great. Others will look weird. Both are valuable. Both are practice.</p>
+                        
+                        <p style="color: white;">The professionals you admire? They started exactly where you are now. Struggling with lumpy forms. Fighting with resolution. Wondering if they'd ever "get it." The only difference between them and beginners who quit? They kept sculpting.</p>
+                        
+                        <p style="color: white; margin-top: 1rem; font-weight: bold;">Welcome to the world of digital sculpting. Now go make something beautiful.</p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Sculpting Journey:</strong> Sculpting isn't about creating perfect art immediately. It's about developing a relationship with form. Learning how shapes interact. Understanding how light reveals volume. Feeling when something is "right" versus when it needs more work. These aren't skills you learn from a lesson. They're skills you develop through hundreds of hours of practice. But here's the secret: practice doesn't feel like work when you love what you're creating. So don't chase perfection. Chase interesting. Chase weird. Chase expressive. Chase whatever makes you excited to open Blender and start shaping. Because excitement sustains practice. And practice creates mastery.</p>
+                    </blockquote>
+
+                </section>
+
+                <!-- Navigation -->
+                <nav class="lesson-nav" aria-label="Lesson Navigation">
+                    <a href="lesson_27_basic_character_animation.html" class="prev-lesson">← Previous: Basic Character Animation</a>
+                    <a href="index.html" class="home-link">🏠 Course Home</a>
+                    <a href="lesson_29_hard_surface_modeling.html" class="next-lesson">Next: Hard Surface Modeling →</a>
+                </nav>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: #2c3e50; color: white; text-align: center; padding: 2rem 1rem; margin-top: 4rem;">
+        <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">Learn Blender. Create Amazing 3D Art. Build Your Future.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>
+
+<!-- ============================================
+     END OF PART 06 - FINAL PART
+     Lesson 28 Complete: Sculpting Basics
+     ============================================ -->
