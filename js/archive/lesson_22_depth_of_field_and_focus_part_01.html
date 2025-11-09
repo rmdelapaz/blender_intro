@@ -1,0 +1,295 @@
+<!-- ============================================
+     LESSON 22 - PART 01
+     File: lesson_22_depth_of_field_and_focus_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master depth of field and focus in Blender - learn how to create cinematic blur effects, control focus, simulate camera optics, and separate subjects from backgrounds for professional 3D renders.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 22: Depth of Field and Focus - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="main-nav" aria-label="Main Navigation">
+            <a href="index.html" class="nav-logo">🎨 Blender Course</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#lessons">Lessons</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#lessons">Lessons</a> &gt; 
+            <span>Lesson 22: Depth of Field and Focus</span>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <article class="lesson-content">
+                <header class="lesson-header">
+                    <h1>📸 Lesson 22: Depth of Field and Focus</h1>
+                    <p class="lesson-intro">Welcome to one of the most powerful cinematic techniques available to 3D artists! Depth of field (DoF) is that beautiful blur you see in professional photography and film where the subject is sharp while foreground and background fade into soft bokeh. It's not just a pretty effect—it's a fundamental tool for directing attention, creating depth, and making 3D renders feel photorealistic. Real cameras can't keep everything in focus simultaneously; they must choose what matters. This limitation became an artistic strength that cinematographers exploit masterfully. In 3D, everything is infinitely sharp by default—technically perfect but visually unnatural. Adding depth of field transforms your renders from "obviously CG" to "could this be real?" It separates subjects from backgrounds, guides viewer attention, and adds that professional polish that distinguishes amateur work from pro. In this lesson, you'll learn the physics behind focus, how to control it in Blender, and most importantly, when and how to use depth of field for maximum artistic impact.</p>
+                </header>
+
+                <!-- Learning Objectives -->
+                <div class="card">
+                    <h2>🎯 What You'll Learn</h2>
+                    <ul>
+                        <li>Understanding depth of field fundamentals and optics</li>
+                        <li>How aperture (f-stop) controls blur amount</li>
+                        <li>Focus distance and focal plane</li>
+                        <li>Bokeh shapes and quality</li>
+                        <li>Enabling and configuring DoF in Blender</li>
+                        <li>Using focus objects and Empty targets</li>
+                        <li>Viewport vs render DoF differences</li>
+                        <li>Shallow vs deep depth of field choices</li>
+                        <li>DoF for composition and storytelling</li>
+                        <li>Common DoF mistakes and solutions</li>
+                        <li>Rack focus techniques</li>
+                        <li>Hands-on DoF project</li>
+                    </ul>
+                    <p><strong>⏱️ Estimated Time:</strong> 50-65 minutes</p>
+                    <p><strong>🎯 Project:</strong> Create multiple DoF studies</p>
+                </div>
+
+                <!-- Table of Contents -->
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#dof-fundamentals" class="toc-link">Depth of Field Fundamentals</a></li>
+                            <li><a href="#aperture-fstop" class="toc-link">Aperture and F-Stop</a></li>
+                            <li><a href="#focus-distance" class="toc-link">Focus Distance and Focal Plane</a></li>
+                            <li><a href="#bokeh" class="toc-link">Bokeh and Blur Quality</a></li>
+                            <li><a href="#blender-setup" class="toc-link">Setting Up DoF in Blender</a></li>
+                            <li><a href="#artistic-choices" class="toc-link">Artistic DoF Decisions</a></li>
+                            <li><a href="#advanced-techniques" class="toc-link">Advanced Focus Techniques</a></li>
+                            <li><a href="#troubleshooting" class="toc-link">Common Issues and Solutions</a></li>
+                            <li><a href="#project" class="toc-link">Project: DoF Study Series</a></li>
+                            <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="dof-fundamentals" class="content-section">
+                    <h2>📸 Depth of Field Fundamentals</h2>
+
+                    <p>Before diving into Blender's technical settings, let's understand what depth of field is, why it exists, and how it became one of cinematography's most powerful tools.</p>
+
+                    <h3>What is Depth of Field?</h3>
+
+                    <div class="card">
+                        <h4>🔍 The Zone of Sharpness</h4>
+                        <p><strong>Depth of field defined:</strong></p>
+                        <ul>
+                            <li>The distance range within which objects appear acceptably sharp</li>
+                            <li>Everything in this zone is in focus</li>
+                            <li>Everything outside this zone is blurred</li>
+                            <li>A physical limitation of camera optics</li>
+                        </ul>
+
+                        <p><strong>Real-world analogy:</strong></p>
+                        <ul>
+                            <li>Hold your finger 6 inches from your face</li>
+                            <li>Focus on your finger—background blurs</li>
+                            <li>Focus on the background—finger blurs</li>
+                            <li>You can't see both sharp simultaneously</li>
+                            <li>This is depth of field in action</li>
+                        </ul>
+
+                        <p><strong>The three zones:</strong></p>
+                        <ul>
+                            <li><strong>Foreground blur:</strong> Objects closer than focus distance</li>
+                            <li><strong>Focal plane:</strong> The distance that's perfectly sharp</li>
+                            <li><strong>Background blur:</strong> Objects farther than focus distance</li>
+                        </ul>
+
+                        <p><strong>Why DoF exists:</strong></p>
+                        <ul>
+                            <li>Light passes through lens opening (aperture)</li>
+                            <li>Lens focuses light to a point (focal plane)</li>
+                            <li>Light from other distances doesn't focus to point—spreads out</li>
+                            <li>This spread creates blur (circles of confusion)</li>
+                            <li>Physics of optics, not a flaw—now used artistically</li>
+                        </ul>
+                    </div>
+
+                    <h3>Shallow vs Deep Depth of Field</h3>
+
+                    <div class="card">
+                        <h4>📏 The DoF Spectrum</h4>
+                        <p><strong>Shallow depth of field (narrow zone):</strong></p>
+                        <ul>
+                            <li>Small range of acceptable sharpness</li>
+                            <li>Subject sharp, everything else blurred</li>
+                            <li>Strong foreground and background blur</li>
+                            <li>Isolates subject dramatically</li>
+                            <li><strong>Visual characteristics:</strong>
+                                <ul>
+                                    <li>Beautiful bokeh (out-of-focus blur)</li>
+                                    <li>Strong subject separation</li>
+                                    <li>Dreamy, romantic, cinematic quality</li>
+                                    <li>Professional photography look</li>
+                                </ul>
+                            </li>
+                            <li><strong>Use for:</strong>
+                                <ul>
+                                    <li>Portraits (isolate person from background)</li>
+                                    <li>Product shots (focus on product only)</li>
+                                    <li>Close-ups (emphasize details)</li>
+                                    <li>Romantic or intimate scenes</li>
+                                    <li>Directing attention to specific element</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Deep depth of field (wide zone):</strong></p>
+                        <ul>
+                            <li>Large range of acceptable sharpness</li>
+                            <li>Foreground and background both sharp</li>
+                            <li>Minimal or no blur</li>
+                            <li>Everything visible and clear</li>
+                            <li><strong>Visual characteristics:</strong>
+                                <ul>
+                                    <li>Documentary or journalistic feel</li>
+                                    <li>Information-dense compositions</li>
+                                    <li>Realistic, objective quality</li>
+                                    <li>Maximum detail visible</li>
+                                </ul>
+                            </li>
+                            <li><strong>Use for:</strong>
+                                <ul>
+                                    <li>Landscapes (everything sharp horizon to foreground)</li>
+                                    <li>Architecture (show full detail)</li>
+                                    <li>Group shots (everyone in focus)</li>
+                                    <li>Action scenes (see all movement)</li>
+                                    <li>Technical/informational imagery</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Medium depth of field:</strong></p>
+                        <ul>
+                            <li>Moderate range of sharpness</li>
+                            <li>Subject sharp, gradual blur beyond</li>
+                            <li>Natural, balanced look</li>
+                            <li>Most common in general cinematography</li>
+                        </ul>
+                    </div>
+
+                    <h3>Why Depth of Field Matters</h3>
+
+                    <div class="card">
+                        <h4>🎨 Artistic and Technical Benefits</h4>
+                        <p><strong>Directs attention:</strong></p>
+                        <ul>
+                            <li>Blur removes distracting details</li>
+                            <li>Eye naturally drawn to sharp areas</li>
+                            <li>Creates clear focal point</li>
+                            <li>Guides viewer to what matters</li>
+                        </ul>
+
+                        <p><strong>Creates depth separation:</strong></p>
+                        <ul>
+                            <li>Sharp subject vs blurred background = clear depth</li>
+                            <li>Enhances three-dimensionality</li>
+                            <li>Prevents subject merging with background</li>
+                            <li>Professional compositional technique</li>
+                        </ul>
+
+                        <p><strong>Adds realism:</strong></p>
+                        <ul>
+                            <li>Real cameras have DoF—no DoF looks artificial</li>
+                            <li>Mimics how human vision works (selective focus)</li>
+                            <li>Bridges "uncanny valley" in 3D</li>
+                            <li>Makes CG indistinguishable from photography</li>
+                        </ul>
+
+                        <p><strong>Simplifies compositions:</strong></p>
+                        <ul>
+                            <li>Blur hides imperfect background modeling</li>
+                            <li>Reduces visual clutter</li>
+                            <li>Focuses on hero assets</li>
+                            <li>Artistic way to handle complex scenes</li>
+                        </ul>
+
+                        <p><strong>Evokes emotion:</strong></p>
+                        <ul>
+                            <li>Shallow DoF = intimate, romantic, delicate</li>
+                            <li>Deep DoF = objective, informational, epic</li>
+                            <li>Rack focus (changing focus) = narrative shift</li>
+                            <li>Emotional language of cinematography</li>
+                        </ul>
+                    </div>
+
+                    <h3>DoF in 3D vs Real Cameras</h3>
+
+                    <div class="card">
+                        <h4>🎬 The Fundamental Difference</h4>
+                        <p><strong>Real cameras (physical limitation):</strong></p>
+                        <ul>
+                            <li>DoF is unavoidable physical result of optics</li>
+                            <li>Cannot have infinite DoF (except with tricks)</li>
+                            <li>Always present to some degree</li>
+                            <li>Varies with aperture, focal length, distance</li>
+                        </ul>
+
+                        <p><strong>3D cameras (perfect by default):</strong></p>
+                        <ul>
+                            <li>Everything infinitely sharp by default</li>
+                            <li>No physical optics—mathematical projection</li>
+                            <li>DoF is added effect, not inherent</li>
+                            <li>Must be enabled intentionally</li>
+                        </ul>
+
+                        <p><strong>The advantage:</strong></p>
+                        <ul>
+                            <li>Complete control—enable or disable at will</li>
+                            <li>Adjust DoF in post without re-shooting</li>
+                            <li>No physics limitations</li>
+                            <li>Can have impossible combinations of settings</li>
+                        </ul>
+
+                        <p><strong>The challenge:</strong></p>
+                        <ul>
+                            <li>Must understand real camera behavior</li>
+                            <li>Easy to overdo or misuse DoF</li>
+                            <li>Render time increases with DoF</li>
+                            <li>Need to match real camera for photorealism</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Cinematographer's Secret Weapon:</strong> Depth of field is how cinematographers sculpt space and attention. Watch any professional film and notice how shallow DoF isolates actors during emotional moments, while deep DoF shows scope during epic scenes. It's invisible storytelling—viewers feel the effect without consciously noticing the technique. As a 3D artist, you have an advantage: you can dial in perfect DoF without the constraints of physical optics, test different settings instantly, and even change it after rendering. But with great power comes responsibility—you need to understand real camera behavior to make choices that feel natural. The goal isn't to show off DoF; it's to use it so skillfully that viewers never think about it, they just feel more immersed in your world.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_22_depth_of_field_and_focus_part_02.html
+     ============================================ -->

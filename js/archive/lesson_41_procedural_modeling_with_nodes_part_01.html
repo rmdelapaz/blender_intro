@@ -1,0 +1,320 @@
+<!-- ============================================
+     LESSON 41 - PART 01
+     File: lesson_41_procedural_modeling_with_nodes_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn advanced procedural modeling techniques with Geometry Nodes. Master field operations, noise systems, and complex procedural workflows to create stunning 3D assets.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 41: Procedural Modeling with Nodes - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="top-nav" aria-label="Main Navigation">
+            <a href="index.html" class="logo">🎨 Blender Mastery</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#modules">Modules</a>
+                <a href="index.html#about">About</a>
+            </div>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> 
+            <span class="separator">›</span>
+            <a href="index.html#module-10">Module 10: Node Systems Mastery</a>
+            <span class="separator">›</span>
+            <span class="current">Lesson 41: Procedural Modeling with Nodes</span>
+        </nav>
+
+        <main>
+            <!-- Lesson Header -->
+            <header class="lesson-header">
+                <h1>🏗️ Lesson 41: Procedural Modeling with Nodes</h1>
+                <p class="lead">Master advanced Geometry Nodes techniques to create complex, flexible, and stunning procedural models that would be impossible with traditional modeling methods.</p>
+            </header>
+
+            <!-- Learning Objectives -->
+            <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <h2 style="color: white;">🎯 What You'll Learn</h2>
+                <ul style="color: white;">
+                    <li><strong>Field-based operations:</strong> Master attribute fields for per-element control and complex selections</li>
+                    <li><strong>Noise systems:</strong> Create organic, natural-looking procedural patterns and variations</li>
+                    <li><strong>Distribution techniques:</strong> Advanced scattering methods including density control and surface sampling</li>
+                    <li><strong>Proximity systems:</strong> Build context-aware geometries that respond to surrounding objects</li>
+                    <li><strong>Complex workflows:</strong> Combine multiple techniques into production-ready procedural assets</li>
+                    <li><strong>Optimization strategies:</strong> Create efficient, performant node setups for real-world projects</li>
+                </ul>
+                
+                <h3 style="color: white; margin-top: 1.5rem;">⏱️ Lesson Info</h3>
+                <ul style="color: white;">
+                    <li><strong>Estimated Time:</strong> 90-120 minutes</li>
+                    <li><strong>Difficulty:</strong> Intermediate to Advanced</li>
+                    <li><strong>Prerequisites:</strong> Lesson 40 (Geometry Nodes Introduction) completed</li>
+                    <li><strong>Project:</strong> Build three procedural systems: Terrain Generator, Ivy Growth System, and Parametric Building</li>
+                </ul>
+            </div>
+
+            <!-- Table of Contents -->
+            <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                    <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                </summary>
+                <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                    <ol>
+                        <li><a href="#introduction" class="toc-link">Introduction to Procedural Modeling</a></li>
+                        <li><a href="#field-operations" class="toc-link">Field-Based Operations</a></li>
+                        <li><a href="#noise-systems" class="toc-link">Noise and Texture Systems</a></li>
+                        <li><a href="#distribution" class="toc-link">Advanced Distribution Techniques</a></li>
+                        <li><a href="#proximity" class="toc-link">Proximity and Context-Aware Systems</a></li>
+                        <li><a href="#project-terrain" class="toc-link">Project 1: Procedural Terrain Generator</a></li>
+                        <li><a href="#project-ivy" class="toc-link">Project 2: Ivy Growth System</a></li>
+                        <li><a href="#project-building" class="toc-link">Project 3: Parametric Building Generator</a></li>
+                        <li><a href="#optimization" class="toc-link">Optimization and Best Practices</a></li>
+                        <li><a href="#summary" class="toc-link">Lesson Summary and Next Steps</a></li>
+                    </ol>
+                </nav>
+            </details>
+
+            <!-- Introduction -->
+            <section id="introduction">
+                <h2>🌟 Introduction to Procedural Modeling</h2>
+                
+                <p>Welcome to the next level of Geometry Nodes mastery! In Lesson 40, you learned the fundamentals—how nodes connect, basic operations, simple projects. Now we're going deeper. Procedural modeling isn't just about copying objects along a path; it's about creating intelligent systems that generate complex, varied, and natural-looking geometry based on rules and parameters. Think of it this way: traditional modeling is like painting by hand, while procedural modeling is like programming a robot painter that can create infinite variations while following your artistic vision.</p>
+
+                <p>In this lesson, you'll learn techniques that professionals use daily in studios around the world. We're talking about creating forests that populate hillsides realistically, buildings that generate architectural details automatically, terrain that looks hand-sculpted but adjusts with a slider. These aren't just party tricks—they're production tools that save hundreds of hours and enable creative possibilities that would be impractical or impossible with traditional methods.</p>
+
+                <h3>Why Procedural Modeling Matters</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 The Procedural Advantage</h4>
+                    
+                    <p><strong>Traditional Modeling Challenges:</strong></p>
+                    <ul>
+                        <li><strong>Repetitive work:</strong> Manually placing hundreds of trees, rocks, or building elements</li>
+                        <li><strong>Inflexible:</strong> Want to change spacing? Move everything by hand</li>
+                        <li><strong>Limited variation:</strong> Copy-paste creates obvious patterns</li>
+                        <li><strong>Time-consuming:</strong> Complex scenes take days or weeks to build</li>
+                        <li><strong>Hard to iterate:</strong> Director wants changes? Start over</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Procedural Modeling Solutions:</strong></p>
+                    <ul>
+                        <li><strong>Automated placement:</strong> Algorithm handles distribution, you control rules</li>
+                        <li><strong>Fully parametric:</strong> Adjust sliders to change entire scenes instantly</li>
+                        <li><strong>Infinite variation:</strong> Randomness + control = natural-looking results</li>
+                        <li><strong>Rapid creation:</strong> Build systems once, generate variations forever</li>
+                        <li><strong>Non-destructive iteration:</strong> Experiment freely without losing work</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Real-World Example:</strong></p>
+                    <blockquote style="margin-top: 0.5rem;">
+                        <p><strong>Traditional:</strong> Placing 1000 trees on a mountainside = 8+ hours of tedious work. Each tree positioned, rotated, scaled manually. Client wants more trees? Add another 4 hours.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Procedural:</strong> Build scatter system = 2 hours. Generate 1000 trees = instant. Client wants more? Adjust slider. Want different distribution? Tweak parameters. Change tree species? Swap instance. Total time saved: Days.</p>
+                    </blockquote>
+                </div>
+
+                <h3>What Makes Modeling "Procedural"?</h3>
+
+                <div class="card">
+                    <h4>🔍 Key Characteristics</h4>
+                    
+                    <p><strong>Procedural systems share these traits:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Rule-Based Generation</strong></p>
+                    <ul>
+                        <li>Geometry created by algorithms, not direct manipulation</li>
+                        <li>Rules define patterns: "Place object every 2 meters," "Scale based on elevation"</li>
+                        <li>Change rules = change output instantly</li>
+                        <li><strong>Example:</strong> "Ivy only grows on north-facing surfaces below 10m height"</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Parametric Control</strong></p>
+                    <ul>
+                        <li>Exposed parameters control system behavior</li>
+                        <li>Artist tweaks values, system regenerates</li>
+                        <li>No manual vertex pushing</li>
+                        <li><strong>Example:</strong> Building height slider from 1 to 100 floors, system adds floors automatically</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Non-Destructive Workflow</strong></p>
+                    <ul>
+                        <li>Original data never lost</li>
+                        <li>Undo = adjust parameter back</li>
+                        <li>Experiment without fear</li>
+                        <li><strong>Example:</strong> Try 50 different tree distributions, choose favorite, all others still accessible</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Scalable Complexity</strong></p>
+                    <ul>
+                        <li>Same system works with 10 or 10,000 elements</li>
+                        <li>Computational power = main limit</li>
+                        <li>Detail level adjustable (preview vs render quality)</li>
+                        <li><strong>Example:</strong> City generator works for village (10 buildings) or metropolis (1000 buildings)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Controlled Randomness</strong></p>
+                    <ul>
+                        <li>Natural variation without chaos</li>
+                        <li>Seed-based: Same seed = same result (reproducible)</li>
+                        <li>Ranges define acceptable variation</li>
+                        <li><strong>Example:</strong> Trees vary 0.8× to 1.2× base scale, never smaller/larger</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Input Parameters<br/>Height, Density, Style] --> B[Procedural Rules<br/>Algorithm]
+                    B --> C{Generation Process}
+                    C --> D[Base Geometry]
+                    C --> E[Instance Placement]
+                    C --> F[Variation Application]
+                    D --> G[Final Output<br/>Complete Asset]
+                    E --> G
+                    F --> G
+                    G --> H{Need Changes?}
+                    H -->|Yes| A
+                    H -->|No| I[Done!<br/>Export/Render]
+                    style A fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style B fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
+                    style G fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h3>Procedural Modeling vs Other Approaches</h3>
+
+                <div class="card">
+                    <h4>📊 Comparison Matrix</h4>
+                    
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Aspect</th>
+                                <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Traditional Modeling</th>
+                                <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Procedural Modeling</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Control</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Direct, per-vertex</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Parametric, rule-based</td>
+                            </tr>
+                            <tr style="background: #fafafa;">
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Flexibility</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Fixed after creation</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Adjustable anytime</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Speed (simple)</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Fast (minutes)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Setup time (hours)</td>
+                            </tr>
+                            <tr style="background: #fafafa;">
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Speed (complex)</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Slow (days/weeks)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Fast after setup (seconds)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Variation</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Manual duplication</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Automatic, infinite</td>
+                            </tr>
+                            <tr style="background: #fafafa;">
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Iteration</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Destructive (redo work)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Non-destructive (adjust)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Learning Curve</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Gentler, immediate</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Steeper, logical thinking</td>
+                            </tr>
+                            <tr style="background: #fafafa;">
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Artistic Control</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Complete, intuitive</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Indirect, technical</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Best For</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Unique, hero assets</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Repetitive, systemic content</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p style="margin-top: 1rem;"><strong>The Professional Approach:</strong> Use both! Model hero assets by hand, populate scenes procedurally. Sculpt main character traditionally, scatter crowd with Geometry Nodes. Combine strengths, avoid weaknesses.</p>
+                </div>
+
+                <h3>What You'll Build This Lesson</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Three Production-Ready Systems</h4>
+                    
+                    <p><strong>Project 1: Procedural Terrain Generator</strong></p>
+                    <ul>
+                        <li>Noise-based height displacement</li>
+                        <li>Multiple noise layers for natural variation</li>
+                        <li>Automatic material zones (snow, rock, grass by elevation)</li>
+                        <li>Erosion simulation with slope detection</li>
+                        <li>Performance optimization for large terrains</li>
+                        <li><strong>Skills:</strong> Fields, noise textures, attribute math, selection masks</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Project 2: Ivy Growth System</strong></p>
+                    <ul>
+                        <li>Surface-aware distribution (only grows on surfaces)</li>
+                        <li>Proximity detection (follows surface contours)</li>
+                        <li>Randomized branch patterns</li>
+                        <li>Leaves that orient to surface normals</li>
+                        <li>Density control and pruning</li>
+                        <li><strong>Skills:</strong> Proximity, raycasting, surface sampling, instancing</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Project 3: Parametric Building Generator</strong></p>
+                    <ul>
+                        <li>Floor height and count control</li>
+                        <li>Automatic window placement (grid-based)</li>
+                        <li>Boolean operations for door/window cutouts</li>
+                        <li>Roof variations (flat, peaked, complex)</li>
+                        <li>Material assignments per element</li>
+                        <li><strong>Skills:</strong> Mesh operations, booleans, complex parameter systems, modular design</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>By Lesson End:</strong> Three reusable, production-ready procedural systems in your library. Skills to create your own custom generators.</p>
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Mindset Shift:</strong> Traditional modeling asks "How do I create this specific object?" Procedural modeling asks "What system can generate infinite variations of this type of object?" This shift from specific to systemic thinking is powerful—it's the difference between being a craftsperson and being a designer of tools. Both are valuable, but procedural thinking multiplies your creative output exponentially. Embrace the challenge!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎯 Ready to Level Up?</h3>
+                    <p style="color: white;">You've mastered the basics. Now it's time to build systems that feel like magic. Each project in this lesson builds on the last, introducing new concepts gradually. By the end, you'll have skills that put you in the top tier of Blender users. Let's begin!</p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_41_procedural_modeling_with_nodes_part_02.html
+     ============================================ -->

@@ -1,0 +1,587 @@
+<!-- ============================================
+     LESSON 42 - PART 03
+     File: lesson_42_advanced_shader_techniques_part_03.html
+     ============================================ -->
+
+            <!-- Texture Coordinate Systems -->
+            <section id="texture-coordinates">
+                <h2>🧭 Texture Coordinate Systems</h2>
+                
+                <p>Time to answer a crucial question: when Blender generates procedural patterns or applies image textures, <strong>how does it know where to put what?</strong> That's where texture coordinates come in! Coordinates are the "addressing system" for textures—they tell Blender "this point on the surface corresponds to this point in the texture." Understanding texture coordinates is like understanding how GPS works. Once you get it, you can control texture placement with precision and create effects impossible with basic UV mapping alone!</p>
+
+                <p>Most beginners only use UV coordinates—the 2D unwrapped version of their 3D model. But Blender offers multiple coordinate systems, each with different properties and use cases. Generated coordinates, Object coordinates, World coordinates, even Camera coordinates—each tells textures to behave differently. Master these and you unlock procedural mapping, seamless texturing, triplanar projection, and more professional techniques that separate novice work from studio-quality materials!</p>
+
+                <h3>The Texture Coordinate Node</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Understanding Coordinate Systems</h4>
+                    
+                    <p><strong>The Texture Coordinate node (Shift+A → Input → Texture Coordinate) provides seven different coordinate systems:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Generated (Most Common for Procedural!)</strong></p>
+                    <ul>
+                        <li><strong>What it is:</strong> Automatic coordinates based on object bounding box</li>
+                        <li><strong>Range:</strong> 0 to 1 across each axis of bounding box</li>
+                        <li><strong>Advantage:</strong> No UV unwrapping needed!</li>
+                        <li><strong>Disadvantage:</strong> Changes if you modify object shape</li>
+                        <li><strong>Perfect for:</strong> Simple objects, procedural textures, primitives</li>
+                        <li><strong>Use case:</strong> Quick procedural materials without UV work</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. UV (The Standard)</strong></p>
+                    <ul>
+                        <li><strong>What it is:</strong> Your custom 2D unwrapping</li>
+                        <li><strong>Range:</strong> 0 to 1 in U and V dimensions</li>
+                        <li><strong>Advantage:</strong> Full control over texture placement</li>
+                        <li><strong>Disadvantage:</strong> Requires unwrapping work</li>
+                        <li><strong>Perfect for:</strong> Image textures, detailed models, characters</li>
+                        <li><strong>Use case:</strong> When you need precise control</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Object</strong></p>
+                    <ul>
+                        <li><strong>What it is:</strong> Based on object's local coordinate system</li>
+                        <li><strong>Range:</strong> Uses object's actual dimensions</li>
+                        <li><strong>Advantage:</strong> Stays consistent if you scale/rotate in Edit mode</li>
+                        <li><strong>Disadvantage:</strong> Affected by object-mode transforms</li>
+                        <li><strong>Perfect for:</strong> Patterns that should stay fixed to object</li>
+                        <li><strong>Use case:</strong> Wood grain direction, anisotropic reflections</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Camera</strong></p>
+                    <ul>
+                        <li><strong>What it is:</strong> Based on camera view</li>
+                        <li><strong>Range:</strong> Changes with camera movement</li>
+                        <li><strong>Advantage:</strong> Creates screen-space effects</li>
+                        <li><strong>Use case:</strong> Special effects, projection mapping, screen-aligned textures</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Window (Screen Space)</strong></p>
+                    <ul>
+                        <li><strong>What it is:</strong> Based on viewport/render window position</li>
+                        <li><strong>Use case:</strong> Compositing tricks, screen-space effects</li>
+                        <li><strong>Rare in typical materials</strong></li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>6. Normal</strong></p>
+                    <ul>
+                        <li><strong>What it is:</strong> Based on surface normal direction</li>
+                        <li><strong>Range:</strong> -1 to 1 converted to 0 to 1 for each XYZ axis</li>
+                        <li><strong>Use case:</strong> Facing-dependent effects, rim lighting</li>
+                        <li><strong>Advanced technique:</strong> Different materials based on surface angle</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>7. Reflection</strong></p>
+                    <ul>
+                        <li><strong>What it is:</strong> Based on reflection vector</li>
+                        <li><strong>Use case:</strong> Environment mapping, reflection maps</li>
+                        <li><strong>Typically used with:</strong> Spherical or HDRI environments</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Texture Coordinate<br/>Node] --> B[Generated]
+                    A --> C[UV]
+                    A --> D[Object]
+                    A --> E[Camera]
+                    A --> F[Window]
+                    A --> G[Normal]
+                    A --> H[Reflection]
+                    
+                    B --> I[Procedural Textures]
+                    C --> J[Image Textures]
+                    D --> K[Directional Patterns]
+                    G --> L[Angle-Based Effects]
+                    
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style B fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h3>Generated vs UV: When to Use Each</h3>
+
+                <p>The eternal question! Generated coordinates are fantastic for procedural work—they're automatic and require zero setup. UV coordinates give you precise control but require unwrapping. Here's how to choose:</p>
+
+                <div class="card">
+                    <h4>⚖️ Generated vs UV Comparison</h4>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Generated Coordinates</th>
+                                <th>UV Coordinates</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Setup Required</strong></td>
+                                <td>None! Automatic</td>
+                                <td>Must UV unwrap</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Control</strong></td>
+                                <td>Limited, automatic</td>
+                                <td>Complete manual control</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Stretching</strong></td>
+                                <td>Can have stretching on complex shapes</td>
+                                <td>Control stretching via unwrap</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Best For</strong></td>
+                                <td>Procedural textures, simple shapes</td>
+                                <td>Image textures, complex models</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Modifications</strong></td>
+                                <td>Changes if mesh shape changes</td>
+                                <td>Stays consistent (pinned to UVs)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Speed</strong></td>
+                                <td>Instant, no prep</td>
+                                <td>Time investment to unwrap</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Professional Use</strong></td>
+                                <td>Quick tests, procedural materials</td>
+                                <td>Final production, detailed work</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p style="margin-top: 1rem;"><strong>The Professional Approach:</strong></p>
+                    <ul>
+                        <li><strong>Early stages:</strong> Use Generated for quick procedural testing</li>
+                        <li><strong>Simple objects:</strong> Generated works great (spheres, cubes, simple shapes)</li>
+                        <li><strong>Complex models:</strong> Invest time in proper UV unwrapping</li>
+                        <li><strong>Image textures:</strong> Always use UV coordinates</li>
+                        <li><strong>Hybrid approach:</strong> UV for color/detail, Generated for procedural variation</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>🎯 Real-World Strategy:</strong> Professional studios often use both! UV coordinates for hero image textures (albedo, normal maps from photos or substance painter). Generated/Object coordinates for procedural overlay layers (dirt, wear, variation). This hybrid approach combines the precision of UV mapping with the flexibility of procedural generation. Best of both worlds!</p>
+                </blockquote>
+
+                <h3>The Mapping Node: Coordinate Transformation</h3>
+
+                <p>The Mapping node is your coordinate manipulation tool! Think of it as Photoshop transform tools for 3D texture space. You can move, rotate, and scale texture coordinates, which effectively moves, rotates, and scales your textures. This is incredibly powerful—it means you can adjust texture placement without touching your mesh or UVs. Need the wood grain rotated 45 degrees? Mapping node. Want the brick pattern twice as big? Mapping node. It's essential for fine-tuning texture appearance!</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Mapping Node Controls</h4>
+                    
+                    <p><strong>Location (Texture Offset):</strong></p>
+                    <ul>
+                        <li>Moves texture in X, Y, Z directions</li>
+                        <li>Positive values shift texture that direction</li>
+                        <li><strong>Use case:</strong> Reposition texture without moving UVs</li>
+                        <li><strong>Example:</strong> Shift wood grain to different area of plank</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Rotation (Texture Orientation):</strong></p>
+                    <ul>
+                        <li>Rotates texture around X, Y, Z axes</li>
+                        <li>Values in radians (90° = 1.5708 radians)</li>
+                        <li><strong>Use case:</strong> Change texture direction/orientation</li>
+                        <li><strong>Example:</strong> Rotate wood grain to match board direction</li>
+                        <li><strong>Pro tip:</strong> For Z-axis rotation, use degrees mentally (45° ≈ 0.785)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Scale (Texture Size):</strong></p>
+                    <ul>
+                        <li>Makes texture bigger (values < 1) or smaller (values > 1)</li>
+                        <li>Independent control per axis</li>
+                        <li><strong>Use case:</strong> Resize patterns without changing Scale node</li>
+                        <li><strong>Example:</strong> Make brick pattern half as big (Scale = 2, 2, 2)</li>
+                        <li><strong>Inverse relationship:</strong> Scale 2 = half-size pattern (shows twice as many repeats)</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Mapping Node Workflow Tip</h4>
+                    <p><strong>Standard Setup:</strong> Texture Coordinate → Mapping → Texture Node</p>
+                    <p>Always insert a Mapping node between your coordinate source and texture! Even if you don't need it now, you'll probably need adjustment later. It's like leaving yourself a control panel for future tweaks. Studio materials almost always have this three-node setup as standard practice!</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Pro Workflow:</strong></p>
+                    <ol>
+                        <li>Add Texture Coordinate node</li>
+                        <li>Add Mapping node</li>
+                        <li>Connect coordinate type (Generated/UV/Object) to Mapping Vector</li>
+                        <li>Connect Mapping Vector to Texture</li>
+                        <li>Now you can adjust without rewiring!</li>
+                    </ol>
+                </div>
+
+                <div class="mermaid">
+                    graph LR
+                    A[Texture Coordinate] --> B[Generated/UV/Object]
+                    B --> C[Mapping Node]
+                    C --> D[Location<br/>Rotation<br/>Scale]
+                    D --> E[Texture Node]
+                    E --> F[Material Output]
+                    
+                    style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h3>Triplanar Mapping: The Stretching Solution</h3>
+
+                <p>Here's a common problem: you have a complex object, and when you use Generated coordinates, you get ugly stretching. The texture looks fine on some faces but stretched and distorted on others. UV unwrapping would fix it, but that's time-consuming. Enter <strong>triplanar mapping</strong>—a technique that projects textures from three perpendicular directions (X, Y, Z) and blends them based on surface normals. Result? No stretching, no unwrapping needed! It's computational UV mapping!</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 How Triplanar Mapping Works</h4>
+                    
+                    <p><strong>The Concept:</strong></p>
+                    <ol>
+                        <li>Project texture from X direction onto X-facing surfaces</li>
+                        <li>Project texture from Y direction onto Y-facing surfaces</li>
+                        <li>Project texture from Z direction onto Z-facing surfaces</li>
+                        <li>Blend the three projections based on surface normal</li>
+                        <li>Result: Each face gets texture from its best-aligned direction</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Why It's Powerful:</strong></p>
+                    <ul>
+                        <li>Works on any geometry without UV unwrapping</li>
+                        <li>No texture stretching on complex shapes</li>
+                        <li>Perfect for architectural surfaces (walls, floors, ceilings)</li>
+                        <li>Great for organic shapes that are hard to unwrap</li>
+                        <li><strong>Tradeoff:</strong> More complex node setup, three texture samples</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>When to Use Triplanar:</strong></p>
+                    <ul>
+                        <li>Architectural visualization (box-shaped rooms)</li>
+                        <li>Terrain and landscapes</li>
+                        <li>Quick procedural texturing of complex shapes</li>
+                        <li>When unwrapping is impractical</li>
+                        <li>Procedural materials that need to work on any object</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>🔧 Building Triplanar Mapping (Manual Method)</h4>
+                    
+                    <p><strong>Node Setup (This gets technical!):</strong></p>
+                    
+                    <ol>
+                        <li><strong>Get Coordinates:</strong>
+                            <ul>
+                                <li>Add Texture Coordinate node</li>
+                                <li>Use Generated or Object output</li>
+                            </ul>
+                        </li>
+                        <li><strong>Separate Axes:</strong>
+                            <ul>
+                                <li>Add Separate XYZ node</li>
+                                <li>Connect coordinates to it</li>
+                                <li>This separates X, Y, Z into individual values</li>
+                            </ul>
+                        </li>
+                        <li><strong>Create Three Projections:</strong>
+                            <ul>
+                                <li>Create three Combine XYZ nodes</li>
+                                <li><strong>XY plane:</strong> Connect X and Y, leave Z at 0</li>
+                                <li><strong>XZ plane:</strong> Connect X and Z, leave Y at 0</li>
+                                <li><strong>YZ plane:</strong> Connect Y and Z, leave X at 0</li>
+                            </ul>
+                        </li>
+                        <li><strong>Sample Texture Three Times:</strong>
+                            <ul>
+                                <li>Add three copies of your texture node</li>
+                                <li>Connect each combined coordinate to one texture copy</li>
+                            </ul>
+                        </li>
+                        <li><strong>Get Surface Normals:</strong>
+                            <ul>
+                                <li>Add Geometry node (Input → Geometry)</li>
+                                <li>Use Normal output</li>
+                                <li>Add Separate XYZ to split normal components</li>
+                            </ul>
+                        </li>
+                        <li><strong>Create Blend Weights:</strong>
+                            <ul>
+                                <li>Add Math nodes set to Absolute for each normal component</li>
+                                <li>This makes all normal values positive</li>
+                                <li>These become blend weights</li>
+                            </ul>
+                        </li>
+                        <li><strong>Mix the Three Projections:</strong>
+                            <ul>
+                                <li>Use Mix nodes with blend weights from normals</li>
+                                <li>Blend XY projection with XZ projection using appropriate weight</li>
+                                <li>Blend result with YZ projection</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Honest Assessment:</strong> This is complex! It's 15+ nodes. For production work, use a node group or download a triplanar shader group from online. But understanding the concept matters—you're sampling texture from three directions and blending based on which direction each face points!</p>
+                </div>
+
+                <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Practical Triplanar Advice</h4>
+                    <p><strong>Don't build it from scratch every time!</strong> Triplanar mapping is a solved problem. Create it once, save as a node group, reuse forever. Or download pre-made triplanar node groups from Blender community. Many professional add-ons include triplanar mapping as a one-click feature. Understanding the concept is valuable; rebuilding it manually each time is not efficient!</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Alternative:</strong> For simple cases, use Object coordinates with multiple objects or UV Project modifier. For architectural work, many studios use specialized texturing tools. Triplanar is powerful but not always necessary!</p>
+                </div>
+
+                <h3>Object Coordinates for Directional Patterns</h3>
+
+                <p>Object coordinates deserve special attention because they're perfect for directional effects like wood grain or brushed metal. Unlike Generated coordinates that fit to the bounding box, Object coordinates use the actual object's local coordinate system. This means you can control pattern direction by rotating the object in Edit mode, and the pattern stays consistent when you scale or rotate in Object mode. This stability makes Object coordinates ideal for materials where direction matters!</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Object Coordinates Use Cases</h4>
+                    
+                    <p><strong>1. Wood Grain Direction</strong></p>
+                    <ul>
+                        <li>Use Object coordinates with Wave Texture (Bands)</li>
+                        <li>Bands follow object's local Y-axis by default</li>
+                        <li>Rotate object in Edit mode to align grain with plank length</li>
+                        <li>Apply rotation (Ctrl+A) to lock it in</li>
+                        <li><strong>Result:</strong> Wood grain follows board direction perfectly!</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Brushed Metal (Anisotropic Reflections)</strong></p>
+                    <ul>
+                        <li>Use Object coordinates to define brush direction</li>
+                        <li>Connect to Anisotropic Rotation in Principled BSDF</li>
+                        <li>Set Anisotropic value > 0 to activate</li>
+                        <li><strong>Result:</strong> Reflections streak in one direction like real brushed metal</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Fabric Weave</strong></p>
+                    <ul>
+                        <li>Object coordinates maintain weave direction</li>
+                        <li>Use with Wave or Checker textures</li>
+                        <li>Stays consistent across clothing pieces</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Pattern Alignment Across Multiple Objects</strong></p>
+                    <ul>
+                        <li>Multiple objects with same material</li>
+                        <li>Using Object coordinates aligns patterns to each object's orientation</li>
+                        <li>Perfect for instanced objects (floorboards, tiles)</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>🔧 Pro Technique:</strong> When creating wood materials, always use Object coordinates for the grain direction (Wave Texture for rings/grain). Then use Generated coordinates for color variation (Noise). Mix them! Object gives you directional control, Generated gives you natural variation. This combination is the industry-standard approach for believable wood!</p>
+                </blockquote>
+
+                <h3>Normal Coordinates: Angle-Based Effects</h3>
+
+                <p>Normal coordinates are wonderfully weird and powerful! They don't map texture to surface location—they map based on surface direction. Each point gets coordinates based on which way the surface is facing. Why is this useful? Because you can create effects that change based on surface angle. Want different materials on horizontal vs. vertical surfaces? Want edges to show wear? Want rim lighting effects? Normal coordinates make it possible!</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Normal Coordinate Applications</h4>
+                    
+                    <p><strong>1. Angle-Based Material Mixing</strong></p>
+                    <ul>
+                        <li>Mix different materials based on surface angle</li>
+                        <li><strong>Example:</strong> Snow accumulates on horizontal surfaces, not vertical</li>
+                        <li><strong>Setup:</strong> Normal Z-component → ColorRamp → Mix Factor</li>
+                        <li><strong>Result:</strong> Automatic snow on tops, rock on sides!</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Edge Wear (Worn Edges)</strong></p>
+                    <ul>
+                        <li>Combine Normal with Pointiness attribute</li>
+                        <li>Creates wear on edges that face outward</li>
+                        <li><strong>Ultra-realistic:</strong> Edges wear more than recesses</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Fresnel-Like Effects</strong></p>
+                    <ul>
+                        <li>Different appearance at grazing vs. direct angles</li>
+                        <li>Use with Layer Weight node for true Fresnel</li>
+                        <li><strong>Natural phenomenon:</strong> Water more reflective at shallow angles</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Procedural Ambient Occlusion</strong></p>
+                    <ul>
+                        <li>Darken crevices and inward-facing surfaces</li>
+                        <li>Combine Normal with AO output from Geometry node</li>
+                        <li><strong>Cheap AO:</strong> Faster than true AO calculation</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>🎯 Practical Example: Snow on Landscape</h4>
+                    
+                    <p><strong>Creating Auto-Snow Shader (Based on Surface Angle):</strong></p>
+                    
+                    <ol>
+                        <li><strong>Setup Base Materials:</strong>
+                            <ul>
+                                <li>Create rock/ground material (dark, rough)</li>
+                                <li>Create snow material (white, slight subsurface)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Normal-Based Mask:</strong>
+                            <ul>
+                                <li>Add Texture Coordinate → Normal output</li>
+                                <li>Add Separate XYZ</li>
+                                <li>Take Z output (vertical component)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Control Snow Threshold:</strong>
+                            <ul>
+                                <li>Add ColorRamp after Z output</li>
+                                <li>Adjust gradient to control snow angle</li>
+                                <li>Higher position = only very horizontal surfaces get snow</li>
+                                <li>Lower position = snow on more angled surfaces</li>
+                            </ul>
+                        </li>
+                        <li><strong>Mix Materials:</strong>
+                            <ul>
+                                <li>Add Mix Shader node</li>
+                                <li>Connect rock to input 1, snow to input 2</li>
+                                <li>Connect ColorRamp to Factor</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Realism:</strong>
+                            <ul>
+                                <li>Multiply mask with Noise for irregular snow coverage</li>
+                                <li>Add slight Bump to snow for texture</li>
+                                <li><strong>Result:</strong> Realistic snow that automatically appears on upward-facing surfaces!</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>This same technique works for:</strong> Moss on stone (upward surfaces), rust/corrosion (downward surfaces where water pools), dust accumulation, weathering patterns. Any material distribution based on angle!</p>
+                </div>
+
+                <h3>Coordinate Tricks and Advanced Techniques</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Pro Coordinate Techniques</h4>
+                    
+                    <p><strong>1. Mixing Coordinate Systems</strong></p>
+                    <ul>
+                        <li>Different textures can use different coordinates!</li>
+                        <li><strong>Example:</strong> UV for detail, Generated for variation overlay</li>
+                        <li>Color map uses UV, dirt mask uses Generated</li>
+                        <li><strong>Why:</strong> Combines precision with flexibility</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Scaling Coordinates with Math</strong></p>
+                    <ul>
+                        <li>Vector Math node → Multiply</li>
+                        <li>Multiply coordinates by value to scale texture</li>
+                        <li><strong>Use case:</strong> Uniform scaling without Mapping node</li>
+                        <li>Great for animating texture scale</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Distorting Coordinates</strong></p>
+                    <ul>
+                        <li>Feed noise into Vector Math (Add/Multiply)</li>
+                        <li>Warps the coordinate space itself</li>
+                        <li><strong>Result:</strong> Makes regular patterns irregular</li>
+                        <li><strong>Example:</strong> Perfectly aligned bricks → slightly irregular placement</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Empty Object Coordinates</strong></p>
+                    <ul>
+                        <li>Add Empty object in scene</li>
+                        <li>Use Object info node → Location</li>
+                        <li>Drive texture with Empty's position</li>
+                        <li><strong>Power move:</strong> Animate Empty to move texture pattern!</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Camera-Based Projection</strong></p>
+                    <ul>
+                        <li>Use Camera coordinates for projection mapping</li>
+                        <li>Like a texture projector following camera</li>
+                        <li><strong>Use case:</strong> Matching CG to photographed backgrounds</li>
+                        <li>Advanced: Camera projection for texturing from photos</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Coordinate System Choice] --> B{What's the Goal?}
+                    B -->|Quick & Procedural| C[Generated]
+                    B -->|Precise Placement| D[UV]
+                    B -->|Directional Pattern| E[Object]
+                    B -->|Angle-Based Effect| F[Normal]
+                    B -->|No Stretching| G[Triplanar]
+                    B -->|Special FX| H[Camera/Window]
+                    
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style B fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h3>Practical Exercise: Coordinate System Comparison</h3>
+
+                <div class="card" style="background: #f3e5f5; border-left: 4px solid #9C27B0;">
+                    <h4>🎯 Try It Now: See Coordinate Differences</h4>
+                    
+                    <p><strong>Let's see how different coordinates affect the same texture!</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Setup (2 minutes):</strong></p>
+                    <ol>
+                        <li>Create a Suzanne (Shift+A → Mesh → Monkey)</li>
+                        <li>Subdivide it once (Tab → A → Right-click → Subdivide)</li>
+                        <li>Add material, open Shader Editor</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Test Each Coordinate:</strong></p>
+                    <ol>
+                        <li><strong>Add Nodes:</strong>
+                            <ul>
+                                <li>Add Texture Coordinate node</li>
+                                <li>Add Checker Texture (easy to see distortion)</li>
+                                <li>Set Checker Scale to 5</li>
+                                <li>Connect to Base Color</li>
+                            </ul>
+                        </li>
+                        <li><strong>Try Generated:</strong>
+                            <ul>
+                                <li>Connect Generated → Checker Vector</li>
+                                <li><strong>Observe:</strong> Pattern fits bounding box, some stretching</li>
+                            </ul>
+                        </li>
+                        <li><strong>Try Object:</strong>
+                            <ul>
+                                <li>Connect Object → Checker Vector</li>
+                                <li><strong>Observe:</strong> Based on actual geometry size, different scale</li>
+                            </ul>
+                        </li>
+                        <li><strong>Try Normal:</strong>
+                            <ul>
+                                <li>Connect Normal → Checker Vector</li>
+                                <li><strong>Observe:</strong> Weird! Pattern based on surface direction, not position</li>
+                            </ul>
+                        </li>
+                        <li><strong>Try with Mapping:</strong>
+                            <ul>
+                                <li>Insert Mapping node between coordinate and Checker</li>
+                                <li>Try rotating, scaling, moving</li>
+                                <li><strong>See the control you get!</strong></li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Key Observations:</strong></p>
+                    <ul>
+                        <li>Generated: Automatic but can stretch on complex shapes</li>
+                        <li>Object: Size matches actual object dimensions</li>
+                        <li>Normal: Wild! Changes with angle, not position</li>
+                        <li>Mapping node: Instant control without changing mesh</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎓 Section Complete: Texture Coordinates</h3>
+                    <p style="color: white;">You now understand how Blender maps textures to surfaces! You know when to use Generated vs. UV, how to control placement with Mapping nodes, what triplanar mapping solves, and how to leverage Object and Normal coordinates for special effects. This knowledge unlocks precise control over texture appearance. Next up: layered materials—combining multiple materials with masks to create complex, realistic surfaces!</p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 03
+     Continue with lesson_42_advanced_shader_techniques_part_04.html
+     ============================================ -->

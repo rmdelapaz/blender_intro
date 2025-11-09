@@ -1,0 +1,542 @@
+<!-- ============================================
+     LESSON 26 - PART 02
+     File: lesson_26_graph_editor_essentials_part_02.html
+     ============================================ -->
+
+                <section id="reading-curves" class="content-section">
+                    <h2>📖 Reading F-Curves</h2>
+
+                    <p>Before you can edit curves, you need to read them fluently. Learning to interpret curve shapes is like learning to read music—once you understand the language, you can see motion before it happens.</p>
+
+                    <h3>Basic Curve Interpretation</h3>
+
+                    <div class="card">
+                        <h4>🔤 The Curve Alphabet</h4>
+                        <p><strong>Straight line (Linear):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Value
+  5 ┤           ╱
+    │         ╱
+    │       ╱
+  0 ┤─────╯
+    └─────┬─────┬
+          1    24 (frames)
+                        </pre>
+                        <ul>
+                            <li><strong>Means:</strong> Constant speed from start to end</li>
+                            <li><strong>Motion feel:</strong> Robotic, mechanical</li>
+                            <li><strong>When you see it:</strong> Linear interpolation mode</li>
+                            <li><strong>Usually indicates:</strong> Needs refinement to Bezier</li>
+                        </ul>
+
+                        <p><strong>S-curve (Bezier ease in/out):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Value
+  5 ┤        ╭────
+    │      ╱
+    │    ╱
+  0 ┤────╯
+    └─────┬─────┬
+          1    24 (frames)
+                        </pre>
+                        <ul>
+                            <li><strong>Means:</strong> Slow start, fast middle, slow end</li>
+                            <li><strong>Motion feel:</strong> Natural, organic</li>
+                            <li><strong>When you see it:</strong> Default Bezier interpolation</li>
+                            <li><strong>Usually indicates:</strong> Good motion (what you want)</li>
+                        </ul>
+
+                        <p><strong>Sharp peak (Mountain):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Value
+  5 ┤      ╱╲
+    │    ╱  ╲
+    │  ╱    ╲
+  0 ┤─╯      ╰─
+    └─────┬─────┬
+          1    24 (frames)
+                        </pre>
+                        <ul>
+                            <li><strong>Means:</strong> Quick rise, instant reverse</li>
+                            <li><strong>Motion feel:</strong> Sharp, snappy</li>
+                            <li><strong>When you see it:</strong> Bounce peak, apex of jump</li>
+                            <li><strong>Usually indicates:</strong> Could soften peak for natural motion</li>
+                        </ul>
+
+                        <p><strong>Flat plateau (Hold):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Value
+  5 ┤────────────
+    │
+    │
+  0 ┤
+    └─────┬─────┬
+          1    24 (frames)
+                        </pre>
+                        <ul>
+                            <li><strong>Means:</strong> No change, value held constant</li>
+                            <li><strong>Motion feel:</strong> Stationary, paused</li>
+                            <li><strong>When you see it:</strong> Object at rest or between keyframes with constant interpolation</li>
+                            <li><strong>Usually indicates:</strong> Intentional hold or waiting</li>
+                        </ul>
+                    </div>
+
+                    <h3>Advanced Curve Reading</h3>
+
+                    <div class="card">
+                        <h4>🎓 Deeper Analysis</h4>
+                        <p><strong>Steep vs gentle slopes:</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Steep (fast):           Gentle (slow):
+  5 ┤   ╱               5 ┤        ╱
+    │  ╱                  │      ╱
+    │ ╱                   │    ╱
+  0 ┤╯                  0 ┤──╯
+    └──┬──              └────┬────
+       12                   24
+                        </pre>
+                        <ul>
+                            <li><strong>Steep:</strong> Large value change in few frames (fast motion)</li>
+                            <li><strong>Gentle:</strong> Small value change over many frames (slow motion)</li>
+                            <li>Same distance traveled, different timing</li>
+                            <li>Controls perceived speed without changing keyframe values</li>
+                        </ul>
+
+                        <p><strong>Curve direction changes:</strong></p>
+                        <ul>
+                            <li><strong>Peak (local maximum):</strong> Motion reaches highest point, starts descending</li>
+                            <li><strong>Valley (local minimum):</strong> Motion reaches lowest point, starts rising</li>
+                            <li><strong>Inflection point:</strong> Curve changes from concave to convex (acceleration changes)</li>
+                            <li>Each direction change = keyframe or tangent adjustment</li>
+                        </ul>
+
+                        <p><strong>Curve smoothness quality:</strong></p>
+                        <ul>
+                            <li><strong>Smooth curve:</strong> Continuous motion, no sudden changes</li>
+                            <li><strong>Bumpy curve:</strong> Oscillating motion, vibration (might be intentional or error)</li>
+                            <li><strong>Jagged curve:</strong> Jerky motion, usually indicates problem</li>
+                            <li><strong>Sharp corner:</strong> Instant direction change (impact, collision)</li>
+                        </ul>
+
+                        <p><strong>Symmetry analysis:</strong></p>
+                        <ul>
+                            <li><strong>Symmetrical curve:</strong> Same ease in/out (up and down match)</li>
+                            <li><strong>Asymmetrical curve:</strong> Different ease in/out (intentional variation)</li>
+                            <li>Example: Ball falls slowly, bounces back quickly (asymmetric)</li>
+                            <li>Symmetry or asymmetry should be intentional choice</li>
+                        </ul>
+                    </div>
+
+                    <h3>Real-World Curve Examples</h3>
+
+                    <div class="card">
+                        <h4>🌍 Common Animation Patterns</h4>
+                        <p><strong>Bouncing ball Z location curve:</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Height
+  5 ┤  ╱╲   ╱╲
+    │ ╱  ╲ ╱  ╲╱╲
+  0 ┤╯    ╰╯    ╰──
+    └──┬───┬───┬───
+       10  20  30 (frames)
+                        </pre>
+                        <ul>
+                            <li>Parabolic arcs (gravity)</li>
+                            <li>Decreasing peak heights (energy loss)</li>
+                            <li>Sharp valleys at ground contact (impact)</li>
+                            <li>Smooth peaks at apex (hang time)</li>
+                        </ul>
+
+                        <p><strong>Door rotation curve (opening):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Rotation
+ 90°┤        ╭────
+    │      ╱
+    │    ╱
+  0°┤───╯
+    └─────┬─────┬
+          1    24 (frames)
+                        </pre>
+                        <ul>
+                            <li>S-curve (ease in/out)</li>
+                            <li>Slow start (door begins moving)</li>
+                            <li>Fast middle (door swinging)</li>
+                            <li>Slow end (door settling at open position)</li>
+                        </ul>
+
+                        <p><strong>Camera push-in (dolly) curve:</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Distance
+ 10 ┤───╮
+    │    ╲
+    │     ╲
+  0 ┤      ╰────
+    └─────┬─────┬
+          1    24 (frames)
+                        </pre>
+                        <ul>
+                            <li>Ease in/out but descending</li>
+                            <li>Camera starts far, moves close</li>
+                            <li>Smooth professional camera move</li>
+                            <li>Value decreases (distance to subject reduces)</li>
+                        </ul>
+
+                        <p><strong>Pulsing glow (emission) curve:</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Emission
+  5 ┤  ╱╲  ╱╲  ╱╲
+    │ ╱  ╲╱  ╲╱  ╲
+  0 ┤╯          ╰
+    └──┬───┬───┬──
+       8  16  24 (frames)
+                        </pre>
+                        <ul>
+                            <li>Repeating wave pattern</li>
+                            <li>Smooth sinusoidal motion</li>
+                            <li>Creates pulsing/breathing effect</li>
+                            <li>Could be created with Cycles modifier</li>
+                        </ul>
+                    </div>
+
+                    <h3>Diagnostic Reading</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>🔍 Identifying Problems</h4>
+                        <p><strong>Problem: Animation feels robotic</strong></p>
+                        <ul>
+                            <li><strong>Curve symptom:</strong> Straight lines between keyframes</li>
+                            <li><strong>Cause:</strong> Linear interpolation</li>
+                            <li><strong>Solution:</strong> Change to Bezier (<code>T</code> → Bezier)</li>
+                        </ul>
+
+                        <p><strong>Problem: Motion feels sluggish</strong></p>
+                        <ul>
+                            <li><strong>Curve symptom:</strong> Very gentle slopes throughout</li>
+                            <li><strong>Cause:</strong> Too much easing, not enough speed variation</li>
+                            <li><strong>Solution:</strong> Adjust handles to create steeper middle section</li>
+                        </ul>
+
+                        <p><strong>Problem: Object "floats" unnaturally</strong></p>
+                        <ul>
+                            <li><strong>Curve symptom:</strong> Perfectly symmetrical up/down curves</li>
+                            <li><strong>Cause:</strong> No gravity effect (should fall faster than rise)</li>
+                            <li><strong>Solution:</strong> Make downward slope steeper, upward slope gentler</li>
+                        </ul>
+
+                        <p><strong>Problem: Animation jerks/stutters</strong></p>
+                        <ul>
+                            <li><strong>Curve symptom:</strong> Jagged curve with many small bumps</li>
+                            <li><strong>Cause:</strong> Too many keyframes, conflicting tangents</li>
+                            <li><strong>Solution:</strong> Delete extra keyframes, smooth remaining curves</li>
+                        </ul>
+
+                        <p><strong>Problem: Motion overshoots target</strong></p>
+                        <ul>
+                            <li><strong>Curve symptom:</strong> Curve goes beyond final keyframe value, then returns</li>
+                            <li><strong>Cause:</strong> Handle extends too far past keyframe</li>
+                            <li><strong>Solution:</strong> Adjust handle length or use vector handles</li>
+                        </ul>
+                    </div>
+
+                    <h3>Comparing Multiple Curves</h3>
+
+                    <div class="card">
+                        <h4>🔀 Multi-Channel Analysis</h4>
+                        <p><strong>Location X, Y, Z together:</strong></p>
+                        <ul>
+                            <li>Viewing all three location curves reveals movement path</li>
+                            <li>If all three curve smoothly → 3D motion is smooth</li>
+                            <li>If one curve is linear while others are Bezier → motion feels weird</li>
+                            <li>Check that curves work together harmoniously</li>
+                        </ul>
+
+                        <p><strong>Example: Diagonal movement</strong></p>
+                        <ul>
+                            <li>X Location: Smooth S-curve (left to right)</li>
+                            <li>Y Location: Also smooth S-curve (forward)</li>
+                            <li>Z Location: Flat (no height change)</li>
+                            <li>Result: Smooth diagonal slide across ground</li>
+                        </ul>
+
+                        <p><strong>Synchronized timing:</strong></p>
+                        <ul>
+                            <li>All curves should reach peaks/valleys at logical times</li>
+                            <li>Example: Ball bounce—all channels peak together at apex</li>
+                            <li>Misaligned peaks = motion feels disconnected</li>
+                            <li>Graph Editor reveals these timing relationships</li>
+                        </ul>
+
+                        <p><strong>Relative curve shapes:</strong></p>
+                        <ul>
+                            <li>Similar curve shapes on different channels = unified motion</li>
+                            <li>Different curve shapes = intentional complexity or problem</li>
+                            <li>Example: X and Y both S-curves → smooth 2D path</li>
+                            <li>Example: X S-curve, Y linear → feels disjointed</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Curves Don't Lie:</strong> Your viewport might play back at choppy framerates. Your eye might miss subtle problems. But curves tell the mathematical truth. A jerky curve produces jerky motion—always. A smooth curve produces smooth motion—always. Learn to trust curves over visual playback. When curves look perfect and motion still feels wrong, the problem is elsewhere (maybe posing, maybe timing). But if curves look wrong, motion is definitely wrong. Fix the curves first. They're your source of truth.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="curve-handles" class="content-section">
+                    <h2>🎣 Understanding Handles</h2>
+
+                    <p>Handles are your primary tool for shaping curves. These small lines extending from keyframes control curve shape between keys. Mastering handles is mastering motion control.</p>
+
+                    <h3>What Are Handles?</h3>
+
+                    <div class="card">
+                        <h4>🔧 Bezier Curve Controllers</h4>
+                        <p><strong>Handle anatomy:</strong></p>
+                        <ul>
+                            <li><strong>Keyframe:</strong> Diamond/dot on curve (the anchor point)</li>
+                            <li><strong>Handle:</strong> Line extending from keyframe</li>
+                            <li><strong>Handle endpoint:</strong> Small circle at end of handle</li>
+                            <li>Most keyframes have two handles: one before, one after</li>
+                        </ul>
+
+                        <p><strong>How handles work:</strong></p>
+                        <ul>
+                            <li>Handles define curve tangent (slope) at keyframe</li>
+                            <li><strong>Handle direction:</strong> Which way curve goes</li>
+                            <li><strong>Handle length:</strong> How much influence over nearby curve</li>
+                            <li>Longer handle = more influence = gentler curve</li>
+                            <li>Shorter handle = less influence = sharper curve</li>
+                        </ul>
+
+                        <p><strong>Handle directions:</strong></p>
+                        <ul>
+                            <li><strong>Horizontal handle:</strong> Flat tangent (no value change)</li>
+                            <li><strong>Vertical handle:</strong> Instant value change (usually bad)</li>
+                            <li><strong>Angled handle:</strong> Gradual value change (most common)</li>
+                            <li>Handle angle determines ease in/out strength</li>
+                        </ul>
+
+                        <p><strong>Visual representation:</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+        Handle endpoint ●─────────────╮
+                                       │
+                                       ● Keyframe
+                                       │
+        Handle endpoint ●─────────────╯
+        
+Left handle controls curve BEFORE keyframe
+Right handle controls curve AFTER keyframe
+                        </pre>
+                    </div>
+
+                    <h3>Handle Manipulation Basics</h3>
+
+                    <div class="card">
+                        <h4>✋ Moving and Adjusting</h4>
+                        <p><strong>Selecting handles:</strong></p>
+                        <ul>
+                            <li>Click keyframe → Both handles selected (appear visible)</li>
+                            <li>Click handle endpoint → That handle selected individually</li>
+                            <li>Can select multiple handles with Shift+Click</li>
+                            <li>Box select (<code>B</code>) works on handles too</li>
+                        </ul>
+
+                        <p><strong>Moving handles:</strong></p>
+                        <ul>
+                            <li>Select handle endpoint</li>
+                            <li>Press <code>G</code> (Grab) to move freely</li>
+                            <li><code>G</code> then <code>X</code> or <code>Y</code>: Constrain to axis</li>
+                            <li>Move mouse to reshape curve</li>
+                            <li>Click to confirm, <code>Esc</code> to cancel</li>
+                        </ul>
+
+                        <p><strong>Rotating handles:</strong></p>
+                        <ul>
+                            <li>Select keyframe (both handles)</li>
+                            <li>Press <code>R</code> (Rotate)</li>
+                            <li>Both handles rotate together (stay aligned)</li>
+                            <li>Changes curve approach angle</li>
+                        </ul>
+
+                        <p><strong>Scaling handles:</strong></p>
+                        <ul>
+                            <li>Select keyframe or individual handle</li>
+                            <li>Press <code>S</code> (Scale)</li>
+                            <li>Makes handles longer (more ease) or shorter (less ease)</li>
+                            <li><code>S</code> then number: Scale by exact amount (e.g., <code>S</code> <code>2</code> = double length)</li>
+                        </ul>
+
+                        <p><strong>Resetting handles:</strong></p>
+                        <ul>
+                            <li>Select keyframe</li>
+                            <li>Key → Clear Keyframe (Handles)</li>
+                            <li>Or: <code>Alt+H</code> (resets to auto handles)</li>
+                            <li>Returns to default Bezier shape</li>
+                        </ul>
+                    </div>
+
+                    <h3>Handle Length and Influence</h3>
+
+                    <div class="card">
+                        <h4>📏 Size Matters</h4>
+                        <p><strong>Long handles (gentle ease):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+  5 ┤        ╭─────────
+    │       ╱
+    │     ╱
+  0 ┤────╯
+    └──────┬──────┬
+    Long handle = gradual curve
+                        </pre>
+                        <ul>
+                            <li>Curve changes gradually over many frames</li>
+                            <li>Strong ease in/out effect</li>
+                            <li>Motion feels smooth and flowing</li>
+                            <li>Good for: Organic motion, large objects, graceful movements</li>
+                        </ul>
+
+                        <p><strong>Short handles (sharp ease):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+  5 ┤      ╭──
+    │     ╱
+    │   ╱
+  0 ┤──╯
+    └──────┬──────┬
+    Short handle = sharp curve
+                        </pre>
+                        <ul>
+                            <li>Curve changes quickly over few frames</li>
+                            <li>Minimal ease in/out effect</li>
+                            <li>Motion feels snappy and responsive</li>
+                            <li>Good for: Quick reactions, small objects, mechanical movements</li>
+                        </ul>
+
+                        <p><strong>Handle length guidelines:</strong></p>
+                        <ul>
+                            <li><strong>Heavy objects:</strong> Long handles (slow to start/stop)</li>
+                            <li><strong>Light objects:</strong> Short handles (quick to start/stop)</li>
+                            <li><strong>Dramatic moment:</strong> Long handles (emphasize motion)</li>
+                            <li><strong>Quick action:</strong> Short handles (rapid response)</li>
+                        </ul>
+
+                        <p><strong>Common mistake: Handles too long</strong></p>
+                        <ul>
+                            <li>Default Blender handles sometimes too long for style</li>
+                            <li>Creates overly smooth, floaty motion</li>
+                            <li>Solution: Scale handles down (<code>S</code> <code>0.5</code> = half length)</li>
+                            <li>Adjust to match desired motion energy</li>
+                        </ul>
+                    </div>
+
+                    <h3>Handle Angles and Direction</h3>
+
+                    <div class="card">
+                        <h4>📐 Angle of Approach</h4>
+                        <p><strong>Horizontal handles (flat tangent):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+  5 ┤  ─●─────────●─
+    │
+  0 ┤
+    └────┬─────┬────
+         Horizontal = no value change
+                        </pre>
+                        <ul>
+                            <li>Creates flat plateau at keyframe</li>
+                            <li>Object pauses before continuing</li>
+                            <li>Good for: Apex of jump, peak of arc, held poses</li>
+                            <li>Creates "hang time" feeling</li>
+                        </ul>
+
+                        <p><strong>Angled handles (sloped tangent):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+  5 ┤    ╱●─────────
+    │   ╱
+  0 ┤──╯
+    └────┬─────┬────
+         Angled = continuous motion
+                        </pre>
+                        <ul>
+                            <li>Creates smooth continuous motion through keyframe</li>
+                            <li>No pause, object keeps moving</li>
+                            <li>Good for: Flowing motion, passing through positions</li>
+                            <li>Most common handle angle</li>
+                        </ul>
+
+                        <p><strong>Steep handles (sharp tangent):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+  5 ┤   │●─────────
+    │   │
+  0 ┤───╯
+    └────┬─────┬────
+         Steep = rapid change
+                        </pre>
+                        <ul>
+                            <li>Near-vertical handle (not quite vertical)</li>
+                            <li>Very rapid value change</li>
+                            <li>Good for: Impacts, snaps, instant reactions</li>
+                            <li>Use sparingly—can look unnatural</li>
+                        </ul>
+
+                        <p><strong>Opposing handle directions:</strong></p>
+                        <ul>
+                            <li>Left handle up, right handle down = peak</li>
+                            <li>Left handle down, right handle up = valley</li>
+                            <li>Both handles horizontal = plateau</li>
+                            <li>Both handles angled same way = smooth pass-through</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common Handle Patterns</h3>
+
+                    <div class="card">
+                        <h4>🎨 Practical Applications</h4>
+                        <p><strong>Pattern 1: Ease in/out (S-curve)</strong></p>
+                        <ul>
+                            <li><strong>First keyframe:</strong> Left handle horizontal, right handle angled</li>
+                            <li><strong>Last keyframe:</strong> Left handle angled, right handle horizontal</li>
+                            <li>Creates classic slow-fast-slow motion</li>
+                            <li>Use for: Most organic movements</li>
+                        </ul>
+
+                        <p><strong>Pattern 2: Ease in only</strong></p>
+                        <ul>
+                            <li><strong>First keyframe:</strong> Right handle angled gently</li>
+                            <li><strong>Last keyframe:</strong> Left handle angled steeply</li>
+                            <li>Slow start, then constant speed</li>
+                            <li>Use for: Object accelerating to constant velocity</li>
+                        </ul>
+
+                        <p><strong>Pattern 3: Ease out only</strong></p>
+                        <ul>
+                            <li><strong>First keyframe:</strong> Right handle angled steeply</li>
+                            <li><strong>Last keyframe:</strong> Left handle angled gently</li>
+                            <li>Constant speed, then slow stop</li>
+                            <li>Use for: Object decelerating from constant velocity</li>
+                        </ul>
+
+                        <p><strong>Pattern 4: Bounce (sharp valley)</strong></p>
+                        <ul>
+                            <li><strong>Impact keyframe:</strong> Both handles short and steep</li>
+                            <li>Creates sharp V-shape</li>
+                            <li>Quick direction reversal</li>
+                            <li>Use for: Ball bounces, impacts</li>
+                        </ul>
+
+                        <p><strong>Pattern 5: Overshoot (anticipation)</strong></p>
+                        <ul>
+                            <li>Handle extends past target, then curve returns</li>
+                            <li>Creates small overshoot before settling</li>
+                            <li>Adds energy and life to motion</li>
+                            <li>Use for: Springy objects, cartoon motion</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Handles Are Your Paint Brushes:</strong> Moving keyframes controls timing—when things happen. Moving handles controls feeling—how things happen. You can have perfect keyframe timing and terrible motion if handles are wrong. Think of handles as paint brushes. Long, sweeping strokes (long handles) create flowing, graceful motion. Short, precise strokes (short handles) create tight, controlled motion. The shape you paint with handles is the shape of motion itself. Handles aren't technical details—they're your primary creative tool for motion quality.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_26_graph_editor_essentials_part_03.html
+     ============================================ -->

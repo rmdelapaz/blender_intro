@@ -1,0 +1,496 @@
+<!-- ============================================
+     LESSON 42 - PART 06
+     File: lesson_42_advanced_shader_techniques_part_06.html
+     ============================================ -->
+
+            <!-- Shader Node Groups -->
+            <section id="node-groups">
+                <h2>📦 Shader Node Groups</h2>
+                
+                <p>You've built complex material setups—dozens of nodes creating intricate effects. But here's the problem: every time you need that effect, you rebuild it from scratch. Enter <strong>Node Groups</strong>—Blender's system for packaging node networks into reusable components. Think of them as custom nodes you create yourself. Build a complex dirt mask once, package it as a node group, and reuse it everywhere. Create a library of material components (edge wear, cavity dirt, procedural wood grain) and assemble materials like building blocks. This is how professionals work efficiently!</p>
+
+                <p>Node groups aren't just about saving time—they're about consistency and maintainability. When you use the same dirt mask across ten materials, and later decide to improve it, update the node group once and all ten materials improve! They also simplify complex shader networks—collapse fifty nodes into one clean interface with labeled controls. Your shader editor stays organized, your workflow accelerates, and your materials maintain consistent quality. Let's master this professional technique!</p>
+
+                <h3>Understanding Node Groups</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 What Are Node Groups?</h4>
+                    
+                    <p><strong>The Concept:</strong></p>
+                    <ul>
+                        <li>A node group is a <strong>container</strong> that holds a network of nodes</li>
+                        <li>From the outside, it looks like a single node</li>
+                        <li>Inside, it contains your complete node setup</li>
+                        <li>You define which parameters are exposed (inputs/outputs)</li>
+                        <li><strong>Analogy:</strong> Like a function in programming—complex code packaged with simple interface</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Benefits:</strong></p>
+                    <ul>
+                        <li><strong>Reusability:</strong> Build once, use everywhere</li>
+                        <li><strong>Organization:</strong> Collapse complexity into single node</li>
+                        <li><strong>Consistency:</strong> Same effect across all uses</li>
+                        <li><strong>Maintainability:</strong> Update once, changes everywhere</li>
+                        <li><strong>Sharing:</strong> Export and share with others</li>
+                        <li><strong>Clean interface:</strong> Hide complexity, expose only relevant controls</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>What Can Be Grouped:</strong></p>
+                    <ul>
+                        <li>Shader nodes (materials)</li>
+                        <li>Geometry nodes (modeling)</li>
+                        <li>Compositor nodes (post-processing)</li>
+                        <li>Texture nodes (procedural textures)</li>
+                        <li><strong>This lesson focuses on shader node groups</strong></li>
+                    </ul>
+                </div>
+
+                <div class="mermaid">
+                    graph LR
+                    A[Complex Network<br/>15 Nodes] --> B[Select Nodes]
+                    B --> C[Group Nodes<br/>Ctrl+G]
+                    C --> D[Single Node Group<br/>Clean Interface]
+                    D --> E[Reuse Anywhere]
+                    
+                    style A fill:#999,stroke:#333,stroke-width:2px,color:#fff
+                    style D fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h3>Creating Your First Node Group</h3>
+
+                <p>Let's build a practical node group step by step. We'll create a "Procedural Dirt Mask" that combines noise and AO—a component you'd use repeatedly. This will teach you the complete workflow: building nodes, grouping them, defining inputs/outputs, and reusing the group.</p>
+
+                <div class="card" style="background: #f3e5f5; border-left: 4px solid #9C27B0;">
+                    <h4>🎯 Workshop: Creating a Dirt Mask Node Group</h4>
+                    
+                    <p><strong>Step 1: Build the Node Network (First Time Manual Setup)</strong></p>
+                    <ol>
+                        <li>Open Shader Editor with a material</li>
+                        <li>Add Noise Texture (Scale: 15, Detail: 4)</li>
+                        <li>Add ColorRamp after Noise (adjust range to 0.4-0.6)</li>
+                        <li>Add Shader to RGB node (for AO access)</li>
+                        <li>Add AO node, connect to Shader to RGB</li>
+                        <li>Add second ColorRamp for AO (adjust for crevice sensitivity)</li>
+                        <li>Add Math node (Multiply) to combine both ColorRamps</li>
+                        <li>Result: Dirt mask combining random noise with crevice detection</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Select Nodes to Group</strong></p>
+                    <ol>
+                        <li><strong>Box select:</strong> Click and drag to select all the nodes you want in the group</li>
+                        <li>Include: Noise Texture, both ColorRamps, Shader to RGB, AO, Math multiply</li>
+                        <li><strong>Don't include:</strong> The final nodes you're connecting to (leave connection points free)</li>
+                        <li><strong>Tip:</strong> You want everything that creates the effect, but leave inputs/outputs flexible</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Create the Node Group</strong></p>
+                    <ol>
+                        <li>With nodes selected, press <strong>Ctrl+G</strong> (or Menu → Node → Make Group)</li>
+                        <li><strong>Magic happens:</strong> All selected nodes collapse into one!</li>
+                        <li>You now have a green node group with inputs and outputs</li>
+                        <li>The grouped nodes are still there—just hidden inside</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Edit Inside the Group</strong></p>
+                    <ol>
+                        <li><strong>Enter group:</strong> Tab key (with node group selected) or double-click</li>
+                        <li>You'll see your original network plus "Group Input" and "Group Output" nodes</li>
+                        <li>These special nodes define the group's interface</li>
+                        <li><strong>Exit group:</strong> Tab key again (or click "Go to Parent Node Tree" at top)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Organize the Interface (Inside Group)</strong></p>
+                    <ol>
+                        <li>Inside the group, find "Group Input" node</li>
+                        <li>This shows what parameters users can adjust</li>
+                        <li><strong>Add useful controls:</strong>
+                            <ul>
+                                <li>Connect Scale from Group Input to Noise Scale (user can adjust dirt size)</li>
+                                <li>You can add Value inputs in Group Input node (click + button)</li>
+                                <li>Name them clearly: "Dirt Scale", "Dirt Amount", etc.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Group Output:</strong> Should have your final mask value</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 6: Name and Organize</strong></p>
+                    <ol>
+                        <li><strong>Name the group:</strong> Select node group (from outside), press F2, rename to "Procedural Dirt Mask"</li>
+                        <li><strong>Add description:</strong> In properties, you can add description/tooltip</li>
+                        <li><strong>Organize outputs:</strong> Make sure output is clearly labeled "Mask"</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 7: Test the Group</strong></p>
+                    <ol>
+                        <li>Exit the group (Tab)</li>
+                        <li>Use the group output as a mask for Mix Shader</li>
+                        <li>Test that adjusting exposed parameters works</li>
+                        <li>Tweak interface inside group if needed</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 8: Reuse the Group</strong></p>
+                    <ol>
+                        <li>In any material, Shift+A → Group → Procedural Dirt Mask</li>
+                        <li>Your custom node appears in the Add menu!</li>
+                        <li>It's ready to use with clean interface</li>
+                        <li><strong>All instances share the same group definition</strong></li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Node Group Linking vs Appending</h4>
+                    <p><strong>Understanding how node groups are stored:</strong></p>
+                    
+                    <ul>
+                        <li><strong>Within file:</strong> Node groups are stored in the .blend file</li>
+                        <li><strong>Multiple uses:</strong> All instances reference the same group definition</li>
+                        <li><strong>Editing:</strong> Edit group once, all instances update</li>
+                        <li><strong>Between files:</strong> Can append node groups from other files (File → Append → NodeTree)</li>
+                        <li><strong>Making unique:</strong> Click shield icon next to group name to make instance independent</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Pro Tip:</strong> Create a "Material Library.blend" file with all your common node groups. Append them into projects as needed!</p>
+                </div>
+
+                <h3>Node Group Best Practices</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Professional Node Group Techniques</h4>
+                    
+                    <p><strong>1. Clear, Descriptive Names</strong></p>
+                    <ul>
+                        <li><strong>Bad:</strong> "Group.001", "MyNodeGroup"</li>
+                        <li><strong>Good:</strong> "Edge Wear Mask", "Wood Grain Pattern", "Cavity Dirt"</li>
+                        <li>Name describes what it does, not how it works</li>
+                        <li>Future you will thank present you!</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Expose Only Necessary Parameters</strong></p>
+                    <ul>
+                        <li>Too many inputs = overwhelming interface</li>
+                        <li>Too few inputs = not flexible enough</li>
+                        <li><strong>Sweet spot:</strong> 2-5 key parameters that users need to adjust</li>
+                        <li>Internal complexity hidden, interface simple</li>
+                        <li><strong>Example:</strong> "Dirt Amount" (yes), "Noise ColorRamp Second Stop Position" (no—too technical!)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Set Sensible Defaults</strong></p>
+                    <ul>
+                        <li>Default values should work out-of-box for common cases</li>
+                        <li>Users can adjust but shouldn't have to</li>
+                        <li><strong>Example:</strong> Noise scale default to 15 (good medium scale)</li>
+                        <li>Test defaults in multiple scenarios</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Use Descriptive Socket Names</strong></p>
+                    <ul>
+                        <li>Inputs/outputs should have clear labels</li>
+                        <li><strong>Bad:</strong> "Value", "Factor", "Output"</li>
+                        <li><strong>Good:</strong> "Mask Strength", "Dirt Intensity", "Edge Wear Amount"</li>
+                        <li>Hover tooltips help but good names are better</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Organize with Frames (Inside Group)</strong></p>
+                    <ul>
+                        <li>Use frames to organize complex groups internally</li>
+                        <li>Label sections: "Noise Generation", "AO Calculation", "Final Blend"</li>
+                        <li>Makes editing group later much easier</li>
+                        <li><strong>Add frame:</strong> Select nodes, Ctrl+J</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>6. Version Your Groups</strong></p>
+                    <ul>
+                        <li>If making significant changes, consider new version</li>
+                        <li><strong>Naming:</strong> "Dirt Mask v1", "Dirt Mask v2"</li>
+                        <li>Prevents breaking old materials that use the group</li>
+                        <li>Can gradually migrate to new version</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>7. Test Thoroughly</strong></p>
+                    <ul>
+                        <li>Test group in multiple materials/scenarios</li>
+                        <li>Try extreme parameter values (make sure nothing breaks)</li>
+                        <li>Ensure it works with both Eevee and Cycles if applicable</li>
+                        <li>Check performance (avoid unnecessary complexity)</li>
+                    </ul>
+                </div>
+
+                <h3>Common Node Group Patterns</h3>
+
+                <p>Certain node setups are used so frequently they deserve to be node groups. Here are professional-grade patterns you should build into your library. Each solves a common material challenge and will save you hours over time!</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Essential Node Groups to Build</h4>
+                    
+                    <p><strong>1. Edge Wear Mask</strong></p>
+                    <ul>
+                        <li><strong>Contains:</strong> Geometry (Pointiness) → ColorRamp → Optional noise multiplier</li>
+                        <li><strong>Inputs:</strong> Edge Sharpness, Edge Width, Randomness</li>
+                        <li><strong>Output:</strong> Mask (white on edges, black elsewhere)</li>
+                        <li><strong>Use case:</strong> Paint wear, metal exposure on corners, damage</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Cavity Dirt Mask</strong></p>
+                    <ul>
+                        <li><strong>Contains:</strong> Shader to RGB → AO → ColorRamp → Noise multiplier</li>
+                        <li><strong>Inputs:</strong> Dirt Amount, Crevice Sensitivity, Randomness</li>
+                        <li><strong>Output:</strong> Mask (white in crevices)</li>
+                        <li><strong>Use case:</strong> Dirt accumulation, grime in details</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Roughness Variation</strong></p>
+                    <ul>
+                        <li><strong>Contains:</strong> Noise → ColorRamp → Math (to add to base roughness)</li>
+                        <li><strong>Inputs:</strong> Base Roughness, Variation Amount, Variation Scale</li>
+                        <li><strong>Output:</strong> Final Roughness Value</li>
+                        <li><strong>Use case:</strong> Non-uniform surface finish</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Color Variation</strong></p>
+                    <ul>
+                        <li><strong>Contains:</strong> Base color → Noise → HSV adjustment → Mix</li>
+                        <li><strong>Inputs:</strong> Base Color, Variation Amount, Hue Shift, Value Shift</li>
+                        <li><strong>Output:</strong> Varied Color</li>
+                        <li><strong>Use case:</strong> Natural color variation in wood, stone, organic materials</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Triplanar Mapping</strong></p>
+                    <ul>
+                        <li><strong>Contains:</strong> The complex triplanar setup from earlier lesson</li>
+                        <li><strong>Inputs:</strong> Texture (or texture coordinates), Blend Sharpness</li>
+                        <li><strong>Outputs:</strong> UV coordinates for texture sampling</li>
+                        <li><strong>Use case:</strong> Stretch-free texturing on any geometry</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>6. Fresnel Mask</strong></p>
+                    <ul>
+                        <li><strong>Contains:</strong> Layer Weight (Facing) → Power/Multiply for control</li>
+                        <li><strong>Inputs:</strong> Fresnel Power, IOR</li>
+                        <li><strong>Output:</strong> Mask (white at grazing angles)</li>
+                        <li><strong>Use case:</strong> Rim lighting, edge highlights, angle-based effects</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>7. Bump Blend</strong></p>
+                    <ul>
+                        <li><strong>Contains:</strong> Multiple bump inputs → Vector math to combine</li>
+                        <li><strong>Inputs:</strong> Bump 1, Bump 2, Bump 3, Strengths</li>
+                        <li><strong>Output:</strong> Combined normal</li>
+                        <li><strong>Use case:</strong> Layering multiple surface details</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>🎯 Build Your Library Strategy:</strong> Don't try to create all node groups at once. Instead, when you build a complex setup you're proud of, immediately convert it to a node group. Over time, you'll naturally accumulate a library of your most-used patterns. Keep them in a master .blend file, organized by category (Masks, Patterns, Effects, etc.). This library becomes your secret weapon for rapid material creation!</p>
+                </blockquote>
+
+                <h3>Advanced Node Group Techniques</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Pro-Level Node Group Features</h4>
+                    
+                    <p><strong>1. Nested Node Groups</strong></p>
+                    <ul>
+                        <li>Node groups can contain other node groups!</li>
+                        <li><strong>Example:</strong> "Complete Material" group contains "Edge Wear" and "Cavity Dirt" groups</li>
+                        <li>Build complexity hierarchically</li>
+                        <li><strong>Benefit:</strong> Update sub-groups, all parent groups update</li>
+                        <li><strong>Warning:</strong> Don't nest too deep (3 levels max for sanity)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Multiple Outputs</strong></p>
+                    <ul>
+                        <li>Node groups can have many outputs</li>
+                        <li><strong>Example:</strong> Wood grain group outputs: Color, Roughness, Normal</li>
+                        <li>One group provides multiple material aspects</li>
+                        <li>Users pick which outputs they need</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Optional Inputs</strong></p>
+                    <ul>
+                        <li>Inputs can have default values if not connected</li>
+                        <li><strong>Inside group:</strong> Check if input is connected, use default if not</li>
+                        <li>Makes groups more flexible</li>
+                        <li><strong>Example:</strong> "Custom Texture" input defaults to procedural if nothing connected</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Driver Integration</strong></p>
+                    <ul>
+                        <li>Expose group inputs to drivers/animations</li>
+                        <li><strong>Use case:</strong> "Age" parameter drives wear amount</li>
+                        <li>Animate materials procedurally</li>
+                        <li>Control from Python scripts</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Asset Browser Integration</strong></p>
+                    <ul>
+                        <li>Mark node groups as assets (shield icon in outliner)</li>
+                        <li>Add preview thumbnail</li>
+                        <li>Tag with keywords</li>
+                        <li><strong>Benefit:</strong> Browse and drag-drop from Asset Browser</li>
+                        <li><strong>Pro workflow:</strong> Build asset library of node groups</li>
+                    </ul>
+                </div>
+
+                <h3>Node Group Workflow Example</h3>
+
+                <div class="card" style="background: #f3e5f5; border-left: 4px solid #9C27B0;">
+                    <h4>🏗️ Professional Material Assembly</h4>
+                    
+                    <p><strong>Scenario:</strong> Building a worn metal material using node groups</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 1: Add Base Material</strong></p>
+                    <ul>
+                        <li>Start with Principled BSDF</li>
+                        <li>Set up clean metal (metallic 1.0, base color gray, roughness 0.3)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Add Roughness Variation (Node Group)</strong></p>
+                    <ul>
+                        <li>Shift+A → Group → "Roughness Variation"</li>
+                        <li>Connect output to Principled Roughness input</li>
+                        <li>Adjust: Base Roughness = 0.3, Variation = 0.15</li>
+                        <li><strong>Result:</strong> Non-uniform surface finish</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Add Edge Wear (Node Group)</strong></p>
+                    <ul>
+                        <li>Shift+A → Group → "Edge Wear Mask"</li>
+                        <li>Create second Principled BSDF (rust material)</li>
+                        <li>Use Edge Wear output as Mix Shader factor</li>
+                        <li><strong>Result:</strong> Rust appears on edges</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Add Cavity Dirt (Node Group)</strong></p>
+                    <ul>
+                        <li>Shift+A → Group → "Cavity Dirt Mask"</li>
+                        <li>Create dirt material (dark, rough)</li>
+                        <li>Add another Mix Shader with cavity mask</li>
+                        <li><strong>Result:</strong> Dirt in crevices</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Fine-Tune</strong></p>
+                    <ul>
+                        <li>Adjust each node group's exposed parameters</li>
+                        <li>Balance between layers</li>
+                        <li>Test under different lighting</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Time Saved:</strong></p>
+                    <ul>
+                        <li><strong>Without groups:</strong> 30-45 minutes setting up masks and blending</li>
+                        <li><strong>With groups:</strong> 5-10 minutes assembling pre-built components</li>
+                        <li><strong>Plus:</strong> Consistent quality, no forgotten details</li>
+                    </ul>
+                </div>
+
+                <h3>Sharing and Managing Node Groups</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Node Group Library Management</h4>
+                    
+                    <p><strong>Creating a Master Library File:</strong></p>
+                    <ol>
+                        <li>Create new .blend file: "Material_Library.blend"</li>
+                        <li>Create one material for each node group category</li>
+                        <li>Build your node groups in these materials</li>
+                        <li>Name everything clearly</li>
+                        <li><strong>Categories:</strong> Masks, Patterns, Effects, Complete Materials</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Using Library in Projects:</strong></p>
+                    <ul>
+                        <li><strong>Method 1: Append</strong>
+                            <ul>
+                                <li>File → Append → Material_Library.blend → NodeTree</li>
+                                <li>Select node groups to import</li>
+                                <li>They become part of project file</li>
+                            </ul>
+                        </li>
+                        <li><strong>Method 2: Link</strong>
+                            <ul>
+                                <li>File → Link (not Append)</li>
+                                <li>Node groups stay in library file</li>
+                                <li>Updates to library affect all linked projects</li>
+                                <li><strong>Pro workflow but requires careful file management</strong></li>
+                            </ul>
+                        </li>
+                        <li><strong>Method 3: Asset Browser</strong>
+                            <ul>
+                                <li>Mark node groups as assets in library file</li>
+                                <li>Set library path in preferences</li>
+                                <li>Drag-drop from Asset Browser</li>
+                                <li><strong>Most convenient for large libraries</strong></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Backup and Version Control:</strong></p>
+                    <ul>
+                        <li>Keep library file backed up (it's valuable!)</li>
+                        <li>Version control if collaborating (Git works with .blend)</li>
+                        <li>Document what each group does (text datablocks in file)</li>
+                        <li>Include example materials showing groups in action</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Node Group Pitfalls to Avoid</h4>
+                    
+                    <p><strong>Common mistakes and how to avoid them:</strong></p>
+                    
+                    <ol>
+                        <li><strong>Over-Grouping:</strong>
+                            <ul>
+                                <li>Not everything needs to be a group</li>
+                                <li>Simple 2-3 node setups can stay loose</li>
+                                <li>Group when pattern repeats or is complex</li>
+                            </ul>
+                        </li>
+                        <li><strong>Under-Documenting:</strong>
+                            <ul>
+                                <li>6 months later, you won't remember what "Group.043" does</li>
+                                <li>Name clearly, add tooltips/descriptions</li>
+                                <li>Consider adding text notes inside group</li>
+                            </ul>
+                        </li>
+                        <li><strong>Too Many Parameters:</strong>
+                            <ul>
+                                <li>Exposing every internal value overwhelms users</li>
+                                <li>Focus on key creative controls</li>
+                                <li>Advanced users can enter group if needed</li>
+                            </ul>
+                        </li>
+                        <li><strong>No Testing:</strong>
+                            <ul>
+                                <li>Test groups in multiple scenarios before considering done</li>
+                                <li>Edge cases reveal problems</li>
+                                <li>Better to find issues in test than production</li>
+                            </ul>
+                        </li>
+                        <li><strong>Forgetting to Update:</strong>
+                            <ul>
+                                <li>If you improve a commonly-used group, announce it</li>
+                                <li>In team settings, coordinate group updates</li>
+                                <li>Consider making new version rather than breaking old</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 The Node Group Mindset:</strong> Professional material artists think in components, not individual nodes. They see a material as an assembly of functional blocks: "I need edge wear, cavity dirt, color variation, and roughness noise." Rather than manually wiring dozens of nodes, they drop in pre-built, tested components and adjust parameters. This component-based thinking isn't just faster—it's more reliable, more maintainable, and produces more consistent results. Start thinking in reusable components!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎓 Section Complete: Shader Node Groups</h3>
+                    <p style="color: white;">You now know how to create, organize, and use shader node groups! You understand the workflow for building reusable components, best practices for clean interfaces, essential patterns to include in your library, and advanced techniques like nesting and multiple outputs. This knowledge transforms you from node-by-node material building to efficient component-based assembly. Your material creation speed and consistency will skyrocket!</p>
+                    
+                    <p style="color: white; margin-top: 1rem;">Coming up next: hands-on projects where you'll apply everything you've learned! We'll build four complete professional materials from scratch: realistic wood, weathered metal, procedural stone, and subsurface skin shader. Time to put theory into practice!</p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 06
+     Continue with lesson_42_advanced_shader_techniques_part_07.html
+     ============================================ -->

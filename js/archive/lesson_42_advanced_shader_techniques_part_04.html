@@ -1,0 +1,522 @@
+<!-- ============================================
+     LESSON 42 - PART 04
+     File: lesson_42_advanced_shader_techniques_part_04.html
+     ============================================ -->
+
+            <!-- Layered Material Workflows -->
+            <section id="layered-materials">
+                <h2>🎭 Layered Material Workflows</h2>
+                
+                <p>Now we're entering the realm where materials become truly photorealistic! Layered materials are the secret sauce behind every convincing surface you've ever seen in professional CG. Here's the truth: real-world surfaces aren't a single material. That painted metal table? It's paint, plus exposed metal where paint wore away, plus rust forming on that exposed metal, plus dirt accumulating in crevices, plus fingerprint oils on frequently touched areas. Five layers, each appearing in specific places based on logical rules. This is what separates "nice render" from "wait, is that a photograph?"</p>
+
+                <p>Layering materials in Blender means combining multiple shaders using masks to control where each appears. Think of it like Photoshop layers, but in 3D and based on surface properties rather than just image layers. You'll use procedural masks, texture masks, geometric information (pointiness, curvature), and clever mixing techniques to create surfaces with depth, history, and believability. This is where your understanding of procedural textures and coordinates pays off massively—everything comes together here!</p>
+
+                <h3>Understanding Material Layers</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 The Layering Philosophy</h4>
+                    
+                    <p><strong>Think About Real Surfaces:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example: An Old Painted Metal Chair</strong></p>
+                    <ol>
+                        <li><strong>Base Layer:</strong> Raw metal substrate (steel, aluminum)</li>
+                        <li><strong>Paint Layer:</strong> Painted finish (green, blue, whatever)</li>
+                        <li><strong>Wear Layer:</strong> Paint worn away on edges and contact points → metal showing through</li>
+                        <li><strong>Oxidation Layer:</strong> Rust forming on exposed metal (especially at edges)</li>
+                        <li><strong>Dirt Layer:</strong> Accumulated grime in crevices and less-touched areas</li>
+                        <li><strong>Contamination Layer:</strong> Oils, fingerprints on frequently touched surfaces</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Each Layer Has:</strong></p>
+                    <ul>
+                        <li><strong>Its own material properties:</strong> Different color, roughness, metallic values</li>
+                        <li><strong>A mask controlling where it appears:</strong> Procedural or texture-based</li>
+                        <li><strong>Logical placement rules:</strong> Wear on edges, dirt in crevices, etc.</li>
+                        <li><strong>Interaction with other layers:</strong> Layers can affect each other</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>The Professional Approach:</strong></p>
+                    <blockquote style="margin-top: 0.5rem;">
+                        <p>Start with a clean base material. Add layers one at a time, each with clear logic. Edges wear first → add edge wear. Crevices collect dirt → add cavity dirt. Horizontal surfaces get dust → add dust layer. Build complexity gradually. The magic isn't one perfect material—it's multiple simple materials combined intelligently!</p>
+                    </blockquote>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Base Material<br/>Clean Surface] --> B[+ Wear Layer<br/>Edges Exposed]
+                    B --> C[+ Oxidation<br/>Rust on Metal]
+                    C --> D[+ Dirt Layer<br/>Crevice Grime]
+                    D --> E[+ Surface Contamination<br/>Oils, Fingerprints]
+                    E --> F[Complex Realistic<br/>Material]
+                    
+                    style A fill:#999,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h3>Mix Shader vs Mix Color: Know the Difference!</h3>
+
+                <p>Before we build layered materials, let's clarify a common confusion: Blender has Mix Shader nodes and Mix Color nodes (formerly MixRGB). They look similar but work very differently! Understanding when to use each is crucial for efficient, correct material setups.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Mix Shader vs Mix Color</h4>
+                    
+                    <p><strong>Mix Shader Node:</strong></p>
+                    <ul>
+                        <li><strong>What it mixes:</strong> Complete shaders (entire material definitions)</li>
+                        <li><strong>Inputs:</strong> Two shader sockets (green connectors)</li>
+                        <li><strong>Output:</strong> One combined shader</li>
+                        <li><strong>Use when:</strong> Combining entirely different materials (metal AND paint)</li>
+                        <li><strong>Example:</strong> 50% glossy shader + 50% diffuse shader = semi-glossy result</li>
+                        <li><strong>Performance:</strong> Calculates both shaders, more expensive</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mix Color Node (Mix):</strong></p>
+                    <ul>
+                        <li><strong>What it mixes:</strong> Values or colors</li>
+                        <li><strong>Inputs:</strong> Two color/value sockets (yellow or gray connectors)</li>
+                        <li><strong>Output:</strong> One blended value/color</li>
+                        <li><strong>Use when:</strong> Blending colors, roughness values, any parameter</li>
+                        <li><strong>Example:</strong> Mix red and blue based on noise → varied color</li>
+                        <li><strong>Performance:</strong> Lightweight, just blending values</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>When to Use Which:</strong></p>
+                    <table style="margin-top: 0.5rem;">
+                        <thead>
+                            <tr>
+                                <th>Scenario</th>
+                                <th>Use This</th>
+                                <th>Why</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Blending two complete materials</td>
+                                <td><strong>Mix Shader</strong></td>
+                                <td>Each has different roughness, color, metallic, etc.</td>
+                            </tr>
+                            <tr>
+                                <td>Varying base color across surface</td>
+                                <td><strong>Mix Color</strong></td>
+                                <td>Same material, just color changes</td>
+                            </tr>
+                            <tr>
+                                <td>Roughness variation</td>
+                                <td><strong>Mix Color</strong></td>
+                                <td>Blending roughness values</td>
+                            </tr>
+                            <tr>
+                                <td>Metal showing through paint</td>
+                                <td><strong>Mix Shader</strong></td>
+                                <td>Completely different materials</td>
+                            </tr>
+                            <tr>
+                                <td>Dirt over clean surface</td>
+                                <td><strong>Mix Shader</strong></td>
+                                <td>Different material properties</td>
+                            </tr>
+                            <tr>
+                                <td>Wood color variation</td>
+                                <td><strong>Mix Color</strong></td>
+                                <td>Same wood, just light/dark areas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Performance Tip: Mix Values, Not Shaders When Possible</h4>
+                    <p><strong>Efficient approach:</strong> Use one Principled BSDF and mix its input values (colors, roughness) rather than multiple complete shaders when appropriate. Mix Shader calculates both materials fully, then blends results. Mixing values into one Principled BSDF is faster!</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example of efficient setup:</strong></p>
+                    <ul>
+                        <li><strong>Instead of:</strong> Clean material (Principled) → Mix Shader ← Dirty material (Principled)</li>
+                        <li><strong>Do this:</strong> Clean color → Mix Color (dirt mask) ← Dirty color → Single Principled BSDF</li>
+                        <li><strong>When both work, prefer value mixing!</strong></li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>But use Mix Shader when materials are truly different:</strong> Metal and non-metal must use Mix Shader because Metallic is binary in Principled BSDF. Reflective and diffuse surfaces need Mix Shader. Different IOR values need Mix Shader.</p>
+                </div>
+
+                <h3>Creating Effective Masks</h3>
+
+                <p>Masks are the heart of layered materials—they control where each layer appears. A mask is just a grayscale value (0-1) where white = layer fully visible, black = layer fully hidden, and gray = partial visibility. The art is creating masks that follow logical, real-world rules. Wear happens on edges. Dirt accumulates in crevices. Dust settles on horizontal surfaces. Your masks should reflect these natural patterns!</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Mask Creation Techniques</h4>
+                    
+                    <p><strong>1. Procedural Noise Masks (Random Variation)</strong></p>
+                    <ul>
+                        <li><strong>Method:</strong> Noise Texture → ColorRamp → Mix Factor</li>
+                        <li><strong>Creates:</strong> Random, organic-looking distribution</li>
+                        <li><strong>Control:</strong> ColorRamp position controls coverage amount</li>
+                        <li><strong>Best for:</strong> General dirt, wear patterns, imperfections</li>
+                        <li><strong>Pro tip:</strong> Layer multiple noise scales for realistic complexity</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Ambient Occlusion Masks (Crevice Detection)</strong></p>
+                    <ul>
+                        <li><strong>Method:</strong> Shader to RGB → Ambient Occlusion → ColorRamp</li>
+                        <li><strong>Creates:</strong> Darkening in crevices, corners, where surfaces meet</li>
+                        <li><strong>Best for:</strong> Dirt accumulation, aging, contact shadows</li>
+                        <li><strong>Note:</strong> Cycles only! Eevee needs baked AO</li>
+                        <li><strong>Performance:</strong> Expensive to calculate, but looks great</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Pointiness/Curvature Masks (Edge Detection)</strong></p>
+                    <ul>
+                        <li><strong>Method:</strong> Geometry node → Pointiness output → ColorRamp</li>
+                        <li><strong>Creates:</strong> White on convex areas (edges), black in concave</li>
+                        <li><strong>Best for:</strong> Edge wear, highlights on corners, weathering</li>
+                        <li><strong>Why it works:</strong> Edges wear first in reality!</li>
+                        <li><strong>Adjust:</strong> ColorRamp position controls how sharp/broad the edge detection is</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Facing/Normal-Based Masks (Angle Detection)</strong></p>
+                    <ul>
+                        <li><strong>Method:</strong> Layer Weight → Facing output / Texture Coordinate → Normal</li>
+                        <li><strong>Creates:</strong> Masks based on surface angle relative to camera/world</li>
+                        <li><strong>Best for:</strong> Dust on horizontal surfaces, wear on upward faces</li>
+                        <li><strong>Example:</strong> Dust only on tops of objects, not undersides</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Texture-Based Masks (Painted Control)</strong></p>
+                    <ul>
+                        <li><strong>Method:</strong> Image Texture (grayscale) → Mix Factor</li>
+                        <li><strong>Creates:</strong> Precise manual control via painted/photo mask</li>
+                        <li><strong>Best for:</strong> Hero assets, specific wear patterns, art-directed looks</li>
+                        <li><strong>Workflow:</strong> Paint in Photoshop, Substance Painter, or Blender texture paint</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>6. UV-Based Masks (Coordinate Manipulation)</strong></p>
+                    <ul>
+                        <li><strong>Method:</strong> Gradient Texture with UV coordinates</li>
+                        <li><strong>Creates:</strong> Gradual transitions, fades, directional effects</li>
+                        <li><strong>Best for:</strong> Controlled gradients, directional wear</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid">
+                    graph LR
+                    A[Mask Source] --> B[Noise Texture]
+                    A --> C[Ambient Occlusion]
+                    A --> D[Pointiness]
+                    A --> E[Normal/Facing]
+                    A --> F[Image Texture]
+                    
+                    B --> G[ColorRamp<br/>Control]
+                    C --> G
+                    D --> G
+                    E --> G
+                    F --> G
+                    
+                    G --> H[Mix Factor]
+                    H --> I[Layer Visibility]
+                    
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h3>The Pointiness Attribute: Edge Wear Magic</h3>
+
+                <p>Let's spotlight Pointiness because it's incredibly powerful and often underutilized! Pointiness measures surface curvature—how "pointy" or "recessed" each vertex is. Sharp edges and corners have high positive pointiness. Crevices and concave areas have negative pointiness. Flat areas are near zero. This is pure gold for realistic wear because in the real world, edges wear first! Paint chips on corners, metal rusts on exposed edges, dirt accumulates in recesses. Pointiness lets you replicate this automatically!</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Mastering Pointiness</h4>
+                    
+                    <p><strong>How to Access:</strong></p>
+                    <ol>
+                        <li>Add Geometry node (Shift+A → Input → Geometry)</li>
+                        <li>Use Pointiness output (gray socket, value output)</li>
+                        <li>Connect to ColorRamp for control</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Understanding Pointiness Values:</strong></p>
+                    <ul>
+                        <li><strong>Positive values (white):</strong> Convex areas, edges, corners, raised parts</li>
+                        <li><strong>Zero (middle gray):</strong> Flat surfaces</li>
+                        <li><strong>Negative values (black):</strong> Concave areas, crevices, indentations</li>
+                        <li><strong>Range typically:</strong> -1 to +1, but depends on mesh detail</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Using ColorRamp with Pointiness:</strong></p>
+                    <ul>
+                        <li><strong>For edge wear:</strong> Move black stop to ~0.5, white stop to ~0.6
+                            <ul>
+                                <li>Only positive pointiness shows (edges)</li>
+                                <li>Tighter stops = only sharpest edges</li>
+                                <li>Wider stops = broader edge effect</li>
+                            </ul>
+                        </li>
+                        <li><strong>For crevice dirt:</strong> Move white stop to ~0.4, black stop to ~0.5
+                            <ul>
+                                <li>Inverted! White in concave areas</li>
+                                <li>Dirt appears in recesses</li>
+                            </ul>
+                        </li>
+                        <li><strong>Adjust spread:</strong> How gradual vs. sharp the transition is</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Common Pointiness Setups:</strong></p>
+                    <ol>
+                        <li><strong>Edge Wear:</strong> Geometry (Pointiness) → ColorRamp (limit to edges) → Mix Factor → Worn metal shows</li>
+                        <li><strong>Edge Highlights:</strong> Pointiness → ColorRamp → Multiply with Roughness → Shinier edges</li>
+                        <li><strong>Cavity Dirt:</strong> Pointiness → ColorRamp (inverted for concave) → Dirt layer visibility</li>
+                        <li><strong>Combined:</strong> Edge wear AND cavity dirt using same Pointiness with different ColorRamps!</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Pointiness Requires Good Topology!</h4>
+                    <p>Pointiness calculation needs enough geometry detail to detect curvature. A cube with just 8 vertices shows no pointiness variation. The same cube with a Subdivision Surface modifier shows beautiful edge detection! Ensure your mesh has sufficient subdivision or edge loops where you want pointiness effects. The Modifier Stack affects pointiness calculation!</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Quick fix:</strong> Add Subdivision Surface modifier (even just 1 level) to see pointiness work better. Apply Edge Split to create harder edges if needed. Pointiness reads the final mesh topology after modifiers!</p>
+                </div>
+
+                <blockquote>
+                    <p><strong>🎯 Real-World Application:</strong> Look at any used metal tool—a wrench, hammer, or knife. The edges are shinier (worn smooth from use), the body has its original rough finish, and dirt hides in any engravings or recesses. That's pointiness masking in action! Edges = high pointiness = worn material. Recesses = low pointiness = dirt accumulation. Your CG should replicate this pattern for instant realism!</p>
+                </blockquote>
+
+                <h3>Combining Multiple Masks</h3>
+
+                <p>The real power comes from combining masks! One mask isn't enough for realism. Combine procedural noise (randomness) with pointiness (edges) with AO (crevices) with facing (angle). Each adds another layer of logic. Dirt appears randomly BUT more in crevices AND more on upward surfaces. Wear appears randomly BUT primarily on edges AND more where hands touch. Layer your logic like you layer your materials!</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Mask Combination Techniques</h4>
+                    
+                    <p><strong>1. Multiplying Masks (AND Logic)</strong></p>
+                    <ul>
+                        <li><strong>Method:</strong> Math node set to Multiply</li>
+                        <li><strong>Effect:</strong> Both masks must be white for final white</li>
+                        <li><strong>Use case:</strong> "Dirt in crevices AND on horizontal surfaces"</li>
+                        <li><strong>Example:</strong> AO mask × Facing mask = dirt only in upward-facing crevices</li>
+                        <li><strong>Multiplies intensities:</strong> 0.5 × 0.5 = 0.25 (more selective)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Adding Masks (OR Logic)</strong></p>
+                    <ul>
+                        <li><strong>Method:</strong> Math node set to Add</li>
+                        <li><strong>Effect:</strong> Either mask white makes final white (additive)</li>
+                        <li><strong>Use case:</strong> "Wear on edges OR on contact areas"</li>
+                        <li><strong>Example:</strong> Pointiness mask + Noise mask = wear in more places</li>
+                        <li><strong>Watch for:</strong> Values exceeding 1.0, may need to clamp</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Mixing Masks (Blended Logic)</strong></p>
+                    <ul>
+                        <li><strong>Method:</strong> Mix node with both masks as inputs</li>
+                        <li><strong>Effect:</strong> Blend between two mask patterns</li>
+                        <li><strong>Factor controls:</strong> How much of each mask influences result</li>
+                        <li><strong>Use case:</strong> Balancing procedural and painted masks</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Masking the Mask (Nested Logic)</strong></p>
+                    <ul>
+                        <li><strong>Method:</strong> Use one mask to control another mask's strength</li>
+                        <li><strong>Example:</strong> Noise mask controls how strongly AO affects result</li>
+                        <li><strong>Creates:</strong> Variable dirt accumulation in crevices (more realistic!)</li>
+                        <li><strong>Advanced:</strong> Chain multiple levels of mask control</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>🔧 Practical Example: Complex Dirt Mask</h4>
+                    
+                    <p><strong>Building Realistic Dirt Distribution:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Layer 1 - Crevice Detection (Base Logic):</strong></p>
+                    <ul>
+                        <li>Ambient Occlusion → ColorRamp → adjust for crevice depth</li>
+                        <li><strong>Result:</strong> Dirt base appears in crevices</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Layer 2 - Randomness (Natural Variation):</strong></p>
+                    <ul>
+                        <li>Noise Texture (scale ~15) → ColorRamp → Random distribution</li>
+                        <li><strong>Result:</strong> Not ALL crevices equally dirty</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Layer 3 - Gravity Effect (Physics Logic):</strong></p>
+                    <ul>
+                        <li>Texture Coordinate → Normal → Separate XYZ → Z component</li>
+                        <li>ColorRamp to favor upward surfaces</li>
+                        <li><strong>Result:</strong> More dirt on surfaces facing up</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Combining:</strong></p>
+                    <ol>
+                        <li>Multiply AO × Noise (dirt in crevices, but random amount)</li>
+                        <li>Multiply result × Facing (strongest on upward surfaces)</li>
+                        <li>Add subtle Noise (overall variation)</li>
+                        <li>ColorRamp final result (control overall dirt coverage)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Final mask says:</strong> "Dirt accumulates primarily in upward-facing crevices, with random variation in amount, plus some general surface contamination." That's how real dirt works! The layered logic creates believable distribution.</p>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[AO Mask<br/>Crevice Detection] --> D[Multiply]
+                    B[Noise Mask<br/>Randomness] --> D
+                    D --> E[Multiply]
+                    C[Facing Mask<br/>Angle-Based] --> E
+                    E --> F[Add]
+                    G[Overall Variation<br/>Subtle Noise] --> F
+                    F --> H[ColorRamp<br/>Final Control]
+                    H --> I[Complex<br/>Realistic Mask]
+                    
+                    style I fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h3>Building Your First Layered Material</h3>
+
+                <p>Theory is great, but let's build something! Here's a step-by-step walkthrough for creating a classic layered material: painted metal with edge wear and rust. This combines everything we've learned—procedural textures, masks, Mix Shader nodes, and logical layer distribution. Follow along, and you'll have a production-ready material setup!</p>
+
+                <div class="card" style="background: #f3e5f5; border-left: 4px solid #9C27B0;">
+                    <h4>🎯 Workshop: Painted Metal with Wear</h4>
+                    
+                    <p><strong>What we're creating:</strong> Old painted metal surface with worn edges exposing metal underneath, rust forming on exposed areas, and dirt in crevices. Four material layers!</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Setup (2 minutes):</strong></p>
+                    <ol>
+                        <li>Create test object: Add Cylinder (Shift+A → Mesh → Cylinder)</li>
+                        <li>Add Subdivision Surface modifier (level 2) for smooth curves</li>
+                        <li>Add Bevel modifier (0.02 width) for realistic edges</li>
+                        <li>New material, open Shader Editor</li>
+                        <li>Switch to Rendered viewport (Z → Rendered) with good lighting</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 1: Base Paint Material</strong></p>
+                    <ol>
+                        <li>Use existing Principled BSDF</li>
+                        <li><strong>Base Color:</strong> Dark blue-green (RGB: 0.1, 0.3, 0.3)</li>
+                        <li><strong>Metallic:</strong> 0.0 (paint is not metallic)</li>
+                        <li><strong>Roughness:</strong> 0.4 (semi-matte paint)</li>
+                        <li><strong>Result:</strong> Clean painted surface</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Add Paint Roughness Variation</strong></p>
+                    <ol>
+                        <li>Add Noise Texture (Scale: 25, Detail: 4)</li>
+                        <li>Add ColorRamp after noise</li>
+                        <li>Set ColorRamp: Black at 0.35, White at 0.65 (centered around 0.5)</li>
+                        <li>Connect to Roughness input (replace 0.4)</li>
+                        <li><strong>Result:</strong> Paint has subtle rough/smooth variation</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Create Edge Wear Mask</strong></p>
+                    <ol>
+                        <li>Add Geometry node (Input → Geometry)</li>
+                        <li>Add ColorRamp to Pointiness output</li>
+                        <li>Adjust ColorRamp: Black at 0.5, White at 0.52 (tight range = sharp edges only)</li>
+                        <li><strong>Don't connect yet—</strong>this is your edge wear mask</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Create Exposed Metal Material</strong></p>
+                    <ol>
+                        <li>Add new Principled BSDF (don't delete the first one!)</li>
+                        <li><strong>Base Color:</strong> Gray (RGB: 0.5, 0.5, 0.5)</li>
+                        <li><strong>Metallic:</strong> 1.0 (it's metal!)</li>
+                        <li><strong>Roughness:</strong> 0.3 (polished metal)</li>
+                        <li><strong>Result:</strong> This is your exposed metal layer</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Mix Paint and Metal with Edge Mask</strong></p>
+                    <ol>
+                        <li>Add Mix Shader node (Shift+A → Shader → Mix Shader)</li>
+                        <li>Connect painted material (first BSDF) to Input 1</li>
+                        <li>Connect metal material (second BSDF) to Input 2</li>
+                        <li>Connect edge wear mask (ColorRamp) to Factor</li>
+                        <li>Connect Mix Shader output to Material Output</li>
+                        <li><strong>Result:</strong> Metal shows on edges, paint elsewhere!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 6: Add Rust to Exposed Metal (Bonus Layer!)</strong></p>
+                    <ol>
+                        <li>Add third Principled BSDF for rust</li>
+                        <li><strong>Base Color:</strong> Rust orange (RGB: 0.5, 0.2, 0.1)</li>
+                        <li><strong>Metallic:</strong> 0.0 (rust is oxidized, not metallic)</li>
+                        <li><strong>Roughness:</strong> 0.9 (very rough)</li>
+                        <li>Add Noise Texture (Scale: 50) as mask</li>
+                        <li>Add another Mix Shader</li>
+                        <li>Mix metal with rust, use noise as factor (reduces to 0.3 strength for subtle rust)</li>
+                        <li>Connect this to Input 2 of the first Mix Shader</li>
+                        <li><strong>Result:</strong> Some exposed metal areas show rust!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 7: Polish and Refine</strong></p>
+                    <ul>
+                        <li>Adjust edge mask ColorRamp positions for more/less wear</li>
+                        <li>Tweak rust noise scale for rust cluster size</li>
+                        <li>Add Bump node to rust layer for texture</li>
+                        <li>Experiment with mask combinations</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Congratulations!</strong> You built a professional multi-layer material with logical wear patterns. This same structure works for countless material types—just change the base materials and masks!</p>
+                </div>
+
+                <h3>Advanced Layering Patterns</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Common Professional Layering Patterns</h4>
+                    
+                    <p><strong>Pattern 1: Base + Wear + Dirt (Three Layers)</strong></p>
+                    <ul>
+                        <li><strong>Base:</strong> Clean material (paint, plastic, whatever)</li>
+                        <li><strong>Wear:</strong> Exposed underlayer (metal, substrate) on edges</li>
+                        <li><strong>Dirt:</strong> Grime in crevices and on surfaces</li>
+                        <li><strong>Structure:</strong> Base → Mix (wear mask) → Mix (dirt mask) → Output</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Pattern 2: Dual Finish (Glossy + Matte)</strong></p>
+                    <ul>
+                        <li><strong>Layer 1:</strong> Glossy material (polished metal, clearcoat)</li>
+                        <li><strong>Layer 2:</strong> Matte material (rough metal, flat paint)</li>
+                        <li><strong>Mask:</strong> Roughness variation or wear pattern</li>
+                        <li><strong>Use case:</strong> Brushed then polished metal, car paint with clearcoat</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Pattern 3: Clearcoat Over Base (Two-Layer Shader)</strong></p>
+                    <ul>
+                        <li><strong>Don't use Mix Shader!</strong> Use Clearcoat parameter in Principled BSDF</li>
+                        <li><strong>Base layer:</strong> Colored paint or material</li>
+                        <li><strong>Clearcoat layer:</strong> Glossy protective layer on top</li>
+                        <li><strong>Use case:</strong> Car paint, coated wood, glossy ceramics</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Pattern 4: Layered Dirt (Multiple Dirt Types)</strong></p>
+                    <ul>
+                        <li><strong>Dirt 1:</strong> Crevice accumulation (AO mask)</li>
+                        <li><strong>Dirt 2:</strong> Surface dust (facing + noise mask)</li>
+                        <li><strong>Dirt 3:</strong> Splatter/stains (noise or texture mask)</li>
+                        <li><strong>Structure:</strong> Stack multiple Mix Shaders, each adding dirt layer</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Pattern 5: Age Progression (Temporal Layering)</strong></p>
+                    <ul>
+                        <li><strong>New:</strong> Base clean material</li>
+                        <li><strong>Aged:</strong> Add wear on edges (light aging)</li>
+                        <li><strong>Old:</strong> Add rust/patina (medium aging)</li>
+                        <li><strong>Ancient:</strong> Add heavy dirt, more exposed areas</li>
+                        <li><strong>Control:</strong> Single "age" value drives all masks!</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Material Artist's Wisdom:</strong> Complex materials aren't built in one session. Professionals iterate! Start with base material. Add first wear layer, test under different lighting. Add dirt layer, adjust masks. Refine, adjust, test, repeat. Sometimes you remove layers that don't help. The goal isn't maximum complexity—it's believability. Sometimes three well-tuned layers beat ten poorly thought-out layers. Quality over quantity!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎓 Section Complete: Layered Material Workflows</h3>
+                    <p style="color: white;">You now know how to build complex, multi-layer materials using Mix Shaders, procedural masks, geometric attributes, and logical distribution rules. You understand the difference between Mix Shader and Mix Color, how to use Pointiness for edge wear, how to combine multiple masks, and how to structure professional layered materials. This is the core technique that separates hobbyist materials from production-quality work!</p>
+                    
+                    <p style="color: white; margin-top: 1rem;">Next up: Advanced PBR techniques—diving deeper into the Principled BSDF parameters you might have overlooked, including Subsurface Scattering, Clearcoat, Sheen, Anisotropic, and proper IOR usage!</p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 04
+     Continue with lesson_42_advanced_shader_techniques_part_05.html
+     ============================================ -->

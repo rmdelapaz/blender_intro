@@ -1,0 +1,496 @@
+<!-- ============================================
+     LESSON 42 - PART 07
+     File: lesson_42_advanced_shader_techniques_part_07.html
+     ============================================ -->
+
+            <!-- Project 1: Realistic Wood Shader -->
+            <section id="project-wood">
+                <h2>🌳 Project 1: Realistic Wood Shader</h2>
+                
+                <p>Time to build something beautiful! We're creating a photorealistic wood material from scratch using only procedural textures. No image textures—pure math and artistry. This project combines everything: procedural patterns (Wave + Noise), multi-scale layering, color variation, roughness variation, and bump detail. By the end, you'll have wood that looks like you could feel the grain. This is a showcase material—the kind that makes people ask "is that real wood or CG?" Let's build it!</p>
+
+                <p>Wood is perfect for learning advanced shading because it has so many characteristic features to replicate: growth rings, grain direction, color variation, knots (optional), surface texture, and varying density. Real wood is never uniform—it's a rich tapestry of patterns at multiple scales. We'll capture all of this procedurally, creating a material that's infinitely customizable and works on any wood object without UV unwrapping!</p>
+
+                <h3>Understanding Wood Structure</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 What Makes Wood Look Like Wood?</h4>
+                    
+                    <p><strong>Key Visual Features:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Growth Rings (Primary Pattern)</strong></p>
+                    <ul>
+                        <li>Concentric circles from tree center</li>
+                        <li>Not perfectly regular—organic variation</li>
+                        <li>Rings closer together = denser wood (darker)</li>
+                        <li>Rings farther apart = lighter wood</li>
+                        <li><strong>Creates:</strong> The "wood ring" pattern everyone recognizes</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Wood Grain (Directional Texture)</strong></p>
+                    <ul>
+                        <li>Fine lines running along wood length</li>
+                        <li>Follows growth direction</li>
+                        <li>Visible as subtle streaks and fiber patterns</li>
+                        <li><strong>Scale:</strong> Much finer than growth rings</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Color Variation</strong></p>
+                    <ul>
+                        <li>Not uniform brown—varies from tan to dark brown</li>
+                        <li>Rings alternate lighter/darker (spring/summer growth)</li>
+                        <li>Random color variation within rings</li>
+                        <li>Some areas naturally darker or redder</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Surface Texture</strong></p>
+                    <ul>
+                        <li>Wood pores (tiny holes where sap traveled)</li>
+                        <li>Grain raises and valleys</li>
+                        <li>Not perfectly smooth—subtle surface relief</li>
+                        <li><strong>Varies:</strong> Rough-sawn vs. sanded vs. polished</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Roughness Variation</strong></p>
+                    <ul>
+                        <li>Dense ring areas smoother (harder wood)</li>
+                        <li>Lighter areas slightly rougher (softer wood)</li>
+                        <li>Grain direction affects how light catches</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Wood Material] --> B[Growth Rings<br/>Wave Texture]
+                    A --> C[Wood Grain<br/>Fine Noise]
+                    A --> D[Color Variation<br/>Multiple Scales]
+                    A --> E[Surface Texture<br/>Bump Detail]
+                    A --> F[Roughness Variation<br/>Following Rings]
+                    
+                    B --> G[Combine All]
+                    C --> G
+                    D --> G
+                    E --> G
+                    F --> G
+                    
+                    G --> H[Photorealistic Wood]
+                    
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style H fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h3>Project Setup</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Before We Start Building</h4>
+                    
+                    <p><strong>Scene Setup (5 minutes):</strong></p>
+                    <ol>
+                        <li><strong>Test object:</strong> Add Cylinder (will be wood log cross-section)
+                            <ul>
+                                <li>Or use Cube (will be wood plank)</li>
+                                <li>Or use UV Sphere (to see how rings wrap)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Scale appropriately:</strong> Scale object to reasonable size (2-3 units)</li>
+                        <li><strong>Subdivide:</strong> Add Subdivision Surface modifier (1-2 levels) for smooth surface</li>
+                        <li><strong>Lighting:</strong> Add HDRI or three-point lighting
+                            <ul>
+                                <li>Good lighting essential to see material properly!</li>
+                                <li>Use warm lighting for wood (matches natural settings)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Viewport:</strong> Switch to Rendered view (Z → Rendered)</li>
+                        <li><strong>Render engine:</strong> Cycles recommended (Eevee works but Cycles shows detail better)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Shader Editor Preparation:</strong></p>
+                    <ul>
+                        <li>Create new material: "Wood Procedural"</li>
+                        <li>Open Shader Editor (plenty of space—we'll build complex network)</li>
+                        <li>Start with default Principled BSDF</li>
+                        <li><strong>Pro tip:</strong> Use frames (Ctrl+J) to organize as you build</li>
+                    </ul>
+                </div>
+
+                <h3>Building the Wood Shader: Step by Step</h3>
+
+                <div class="card" style="background: #f3e5f5; border-left: 4px solid #9C27B0;">
+                    <h4>🎯 Complete Workshop: Procedural Wood Material</h4>
+                    
+                    <p><strong>Step 1: Create Growth Rings (The Foundation)</strong></p>
+                    
+                    <ol>
+                        <li><strong>Add Texture Coordinate node</strong>
+                            <ul>
+                                <li>We'll use Object coordinates (better for directional control)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Mapping node</strong>
+                            <ul>
+                                <li>Connect Texture Coordinate → Object to Mapping → Vector</li>
+                                <li><strong>Rotation:</strong> Rotate Z-axis if needed to align rings properly</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Wave Texture</strong>
+                            <ul>
+                                <li>Connect Mapping → Vector to Wave Texture</li>
+                                <li><strong>Wave Type:</strong> Rings (circular pattern)</li>
+                                <li><strong>Scale:</strong> 3.0 (spacing between rings)</li>
+                                <li><strong>Distortion:</strong> 2.0 (makes rings irregular—critical!)</li>
+                                <li><strong>Detail:</strong> 3.0 (adds complexity)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Observe result:</strong> You should see concentric rings. Too perfect? Keep going!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Step 2: Add Ring Irregularity (Nature Isn't Perfect)</strong></p>
+                    
+                    <ol>
+                        <li><strong>Add Noise Texture</strong> (for ring distortion)
+                            <ul>
+                                <li><strong>Scale:</strong> 0.5 (very large scale—affects overall ring shape)</li>
+                                <li><strong>Detail:</strong> 2</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Vector Math node</strong> (set to Add)
+                            <ul>
+                                <li>Connect Mapping output to Vector Math input 1</li>
+                                <li>Connect Noise Color to Vector Math input 2</li>
+                                <li>This warps the coordinate space</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Math node</strong> (Multiply) before Vector Math
+                            <ul>
+                                <li>Connect Noise → Multiply (by 0.3) → Vector Math</li>
+                                <li><strong>Why:</strong> Controls strength of distortion</li>
+                            </ul>
+                        </li>
+                        <li><strong>Connect Vector Math output to Wave Texture Vector</strong></li>
+                        <li><strong>Result:</strong> Rings now irregular, more organic!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Step 3: Create Ring Color Pattern</strong></p>
+                    
+                    <ol>
+                        <li><strong>Add ColorRamp</strong> after Wave Texture
+                            <ul>
+                                <li>Connect Wave Color → ColorRamp Color</li>
+                            </ul>
+                        </li>
+                        <li><strong>Configure ColorRamp for wood colors:</strong>
+                            <ul>
+                                <li><strong>Stop 1 (Position 0.0):</strong> Light tan (RGB: 0.6, 0.4, 0.25)</li>
+                                <li><strong>Stop 2 (Position 0.3):</strong> Medium brown (RGB: 0.4, 0.25, 0.15)</li>
+                                <li><strong>Stop 3 (Position 0.7):</strong> Medium brown (same as Stop 2)</li>
+                                <li><strong>Stop 4 (Position 1.0):</strong> Dark brown (RGB: 0.2, 0.12, 0.08)</li>
+                                <li><strong>Why 4 stops:</strong> Creates bands of light/dark rings</li>
+                            </ul>
+                        </li>
+                        <li><strong>Interpolation:</strong> B-Spline (smooth color transitions)</li>
+                        <li><strong>Result:</strong> Alternating light/dark ring bands</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Step 4: Add Overall Color Variation</strong></p>
+                    
+                    <ol>
+                        <li><strong>Add another Noise Texture</strong> (large scale color variation)
+                            <ul>
+                                <li><strong>Scale:</strong> 2.0 (large areas of color shift)</li>
+                                <li><strong>Detail:</strong> 4</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add ColorRamp</strong> after this noise
+                            <ul>
+                                <li><strong>Range:</strong> Set to output values from 0.4 to 0.6 (subtle variation)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Mix Color node</strong> (set to Mix or Multiply)
+                            <ul>
+                                <li>Input A: Ring colors (from Step 3)</li>
+                                <li>Input B: Color variation (from this step)</li>
+                                <li><strong>Factor:</strong> 0.3 (subtle influence)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Result:</strong> Wood color varies across surface naturally</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Step 5: Add Fine Wood Grain Texture</strong></p>
+                    
+                    <ol>
+                        <li><strong>Add Noise Texture</strong> (fine scale)
+                            <ul>
+                                <li><strong>Scale:</strong> 50 (very fine detail)</li>
+                                <li><strong>Detail:</strong> 6 (complex grain)</li>
+                                <li><strong>Roughness:</strong> 0.7 (softer pattern)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add ColorRamp</strong>
+                            <ul>
+                                <li>Adjust to increase contrast slightly</li>
+                                <li>This creates visible grain streaks</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Mix Color node</strong>
+                            <ul>
+                                <li>Blend grain texture with color from Step 4</li>
+                                <li><strong>Mode:</strong> Overlay or Multiply</li>
+                                <li><strong>Factor:</strong> 0.15 (subtle but visible)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Connect result to Base Color of Principled BSDF</strong></li>
+                        <li><strong>Checkpoint:</strong> You now have colored wood with rings and grain!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Step 6: Add Roughness Variation</strong></p>
+                    
+                    <ol>
+                        <li><strong>Use the Wave Texture output again</strong> (rings affect roughness!)
+                            <ul>
+                                <li>Dense rings = harder wood = smoother</li>
+                                <li>Light areas = softer wood = rougher</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add ColorRamp to Wave output</strong> (separate from color one)
+                            <ul>
+                                <li>Map ring pattern to roughness values</li>
+                                <li><strong>Black (0.0):</strong> 0.3 roughness (smooth)</li>
+                                <li><strong>White (1.0):</strong> 0.6 roughness (rough)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Noise Texture</strong> (additional roughness variation)
+                            <ul>
+                                <li><strong>Scale:</strong> 25 (medium detail)</li>
+                                <li>Creates surface imperfections</li>
+                            </ul>
+                        </li>
+                        <li><strong>Mix both:</strong> Add Math node (Add or Mix)
+                            <ul>
+                                <li>Ring-based roughness + noise variation</li>
+                                <li>Divide by 2 if values exceed 1.0</li>
+                            </ul>
+                        </li>
+                        <li><strong>Connect to Roughness input</strong></li>
+                        <li><strong>Result:</strong> Roughness follows wood structure!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Step 7: Add Surface Bump Detail</strong></p>
+                    
+                    <ol>
+                        <li><strong>Create bump from fine grain noise</strong>
+                            <ul>
+                                <li>Use the fine noise from Step 5 (scale 50)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Bump node</strong>
+                            <ul>
+                                <li>Connect fine noise Color → Bump Height</li>
+                                <li><strong>Strength:</strong> 0.1 (subtle surface texture)</li>
+                                <li><strong>Distance:</strong> 0.1 (controls bump intensity)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add second Bump node</strong> (for ring raised texture)
+                            <ul>
+                                <li>Connect Wave texture → Bump Height</li>
+                                <li><strong>Strength:</strong> 0.05 (very subtle ring relief)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Combine bumps:</strong>
+                            <ul>
+                                <li>Connect first Bump Normal → second Bump Normal input</li>
+                                <li>Connect second Bump output → Principled BSDF Normal</li>
+                                <li><strong>This stacks bump effects</strong></li>
+                            </ul>
+                        </li>
+                        <li><strong>Result:</strong> Wood has subtle surface texture!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Step 8: Final Principled BSDF Settings</strong></p>
+                    
+                    <ol>
+                        <li><strong>Base Color:</strong> Connected from Step 5 (full color network)</li>
+                        <li><strong>Metallic:</strong> 0.0 (wood isn't metal)</li>
+                        <li><strong>Roughness:</strong> Connected from Step 6 (variable roughness)</li>
+                        <li><strong>Specular:</strong> 0.3 (wood has low specularity)</li>
+                        <li><strong>Normal:</strong> Connected from Step 7 (bump detail)</li>
+                        <li><strong>Optional - Subsurface:</strong>
+                            <ul>
+                                <li>For thin wood (veneer): Subsurface 0.1, Radius (0.5, 0.3, 0.2)</li>
+                                <li>Makes wood glow slightly when backlit</li>
+                                <li>Skip for solid wood objects</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Step 9: Test and Refine</strong></p>
+                    
+                    <ol>
+                        <li><strong>Rotate view:</strong> Check from different angles</li>
+                        <li><strong>Test lighting:</strong> Add strong side light to see surface detail</li>
+                        <li><strong>Adjust parameters:</strong>
+                            <ul>
+                                <li>Wave Scale: Changes ring spacing</li>
+                                <li>Wave Distortion: Makes rings more/less irregular</li>
+                                <li>ColorRamp positions: Adjust wood color variety</li>
+                                <li>Noise scales: Fine-tune detail levels</li>
+                            </ul>
+                        </li>
+                        <li><strong>Try variations:</strong>
+                            <ul>
+                                <li>Change ColorRamp colors for different wood species</li>
+                                <li>Reduce distortion for straighter grain</li>
+                                <li>Increase fine noise for rougher wood</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <h3>Wood Variations and Customization</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Creating Different Wood Types</h4>
+                    
+                    <p><strong>Oak (Light, Pronounced Grain):</strong></p>
+                    <ul>
+                        <li><strong>Colors:</strong> Light tan (0.7, 0.5, 0.3) to medium brown (0.5, 0.35, 0.2)</li>
+                        <li><strong>Wave Scale:</strong> 2.5 (wider rings)</li>
+                        <li><strong>Wave Distortion:</strong> 2.5 (very irregular)</li>
+                        <li><strong>Fine grain:</strong> Scale 60, strong visibility</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Walnut (Dark, Rich):</strong></p>
+                    <ul>
+                        <li><strong>Colors:</strong> Medium brown (0.3, 0.2, 0.15) to very dark (0.15, 0.1, 0.08)</li>
+                        <li><strong>Wave Scale:</strong> 4.0 (tighter rings)</li>
+                        <li><strong>Add purple tint:</strong> Slight blue/purple in darker areas</li>
+                        <li><strong>Roughness:</strong> Generally smoother (0.2-0.4)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Pine (Light, Softer Appearance):</strong></p>
+                    <ul>
+                        <li><strong>Colors:</strong> Very light tan (0.8, 0.6, 0.4) to light brown (0.6, 0.4, 0.25)</li>
+                        <li><strong>Wave Scale:</strong> 2.0 (wide, gentle rings)</li>
+                        <li><strong>Wave Distortion:</strong> 1.5 (less distortion, straighter)</li>
+                        <li><strong>Roughness:</strong> Higher overall (0.5-0.8, softer wood)</li>
+                        <li><strong>Yellower tones:</strong> Increase red and green slightly</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mahogany (Red-Brown, Elegant):</strong></p>
+                    <ul>
+                        <li><strong>Colors:</strong> Red-brown (0.4, 0.2, 0.15) to dark red-brown (0.25, 0.12, 0.1)</li>
+                        <li><strong>More red:</strong> Increase red channel significantly</li>
+                        <li><strong>Fine grain:</strong> Less visible, smoother appearance</li>
+                        <li><strong>Roughness:</strong> Lower (0.2-0.4, polished look)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Weathered/Old Wood:</strong></p>
+                    <ul>
+                        <li><strong>Colors:</strong> Grayer tones (reduce saturation)</li>
+                        <li><strong>Roughness:</strong> Higher (0.7-0.9)</li>
+                        <li><strong>Bump strength:</strong> Increase significantly (0.3-0.5)</li>
+                        <li><strong>Add cracks:</strong> Use Voronoi texture as additional bump</li>
+                        <li><strong>Add dirt layer:</strong> Mix in dirt material in crevices</li>
+                    </ul>
+                </div>
+
+                <h3>Advanced Wood Techniques</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Taking Wood to the Next Level</h4>
+                    
+                    <p><strong>Adding Knots (Advanced):</strong></p>
+                    <ol>
+                        <li>Add Voronoi Texture (Scale: 1-2, F1 distance)</li>
+                        <li>Use Distance output as mask for knot locations</li>
+                        <li>ColorRamp with tight range = scattered knots</li>
+                        <li>Mix darker color where knots appear</li>
+                        <li>Add spiral pattern inside knots (Wave + rotation)</li>
+                        <li><strong>Challenge:</strong> Complex but very realistic!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Plank Separation (For Floors/Boards):</strong></p>
+                    <ul>
+                        <li>Use Brick Texture or Manual coordinate division</li>
+                        <li>Creates separate planks with gaps</li>
+                        <li>Each plank can have slightly different color/scale</li>
+                        <li>Add beveled edges at plank boundaries</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Anisotropic Reflections (Polished Wood):</strong></p>
+                    <ul>
+                        <li>Enable Anisotropic in Principled BSDF (0.3-0.5)</li>
+                        <li>Use Object coordinates for consistent direction</li>
+                        <li>Creates streaky reflections along grain</li>
+                        <li>Very effective for polished furniture</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Clearcoat for Varnished Wood:</strong></p>
+                    <ul>
+                        <li><strong>Clearcoat:</strong> 0.8 (strong protective coat)</li>
+                        <li><strong>Clearcoat Roughness:</strong> 0.05-0.1 (glossy finish)</li>
+                        <li>Base roughness stays higher (shows grain through coating)</li>
+                        <li>Perfect for lacquered furniture</li>
+                    </ul>
+                </div>
+
+                <h3>Troubleshooting Common Issues</h3>
+
+                <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Wood Material Problems and Fixes</h4>
+                    
+                    <p><strong>Problem: Rings look too perfect/computer-generated</strong></p>
+                    <ul>
+                        <li><strong>Solution:</strong> Increase Wave Distortion (try 2.0-3.0)</li>
+                        <li>Increase Detail parameter in Wave (adds irregularity)</li>
+                        <li>Add more noise-based warping to coordinates</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Wood looks too dark/light</strong></p>
+                    <ul>
+                        <li><strong>Solution:</strong> Adjust ColorRamp colors</li>
+                        <li>Check scene lighting (wood needs good light to show!)</li>
+                        <li>Adjust color range in overall variation noise</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: No visible surface texture</strong></p>
+                    <ul>
+                        <li><strong>Solution:</strong> Increase Bump strength</li>
+                        <li>Check that Bump is connected to Normal input</li>
+                        <li>View from grazing angle to see bump better</li>
+                        <li>Add strong side lighting</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Rings stretched or wrong orientation</strong></p>
+                    <ul>
+                        <li><strong>Solution:</strong> Adjust Mapping node rotation</li>
+                        <li>Use Object coordinates instead of Generated</li>
+                        <li>Ensure object scale is applied (Ctrl+A → Scale)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Pattern too repetitive</strong></p>
+                    <ul>
+                        <li><strong>Solution:</strong> Increase noise scale used for variation</li>
+                        <li>Add multiple layers of noise at different scales</li>
+                        <li>Increase Detail in procedural textures</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>🎨 Artistic Note:</strong> Real wood photography often shows wood that's been sanded, stained, and sealed—it's enhanced! Don't feel bad about making your CG wood "perfect." That said, subtle imperfections sell realism: slight color inconsistency, random darker/lighter patches, grain that's not perfectly aligned. Observe real wood carefully. The difference between good and great wood materials is in these small details!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎓 Project 1 Complete: Procedural Wood!</h3>
+                    <p style="color: white;">Congratulations! You've built a sophisticated procedural wood material from scratch. This material demonstrates multi-scale texturing, coordinate manipulation, layered detail, and physically-based rendering principles. The techniques here—using Wave for patterns, Noise for variation, ColorRamp for control, and Bump for surface detail—apply to countless other materials. You've learned a professional workflow that scales to any complexity level!</p>
+                    
+                    <p style="color: white; margin-top: 1rem;"><strong>Save this material!</strong> It's a building block. Package it as a node group, save it to your library, and use it whenever you need wood. Better yet, create variations (oak, walnut, pine) and save each as a preset.</p>
+                    
+                    <p style="color: white; margin-top: 1rem;">Next up: <strong>Project 2 - Weathered Metal</strong>, where we'll create a multi-layered metal material with rust, paint, wear, and advanced masking techniques!</p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 07
+     Continue with lesson_42_advanced_shader_techniques_part_08.html
+     ============================================ -->

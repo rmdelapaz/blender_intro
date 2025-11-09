@@ -1,0 +1,468 @@
+<!-- ============================================
+     LESSON 41 - PART 06
+     File: lesson_41_procedural_modeling_with_nodes_part_06.html
+     ============================================ -->
+
+            <section id="project-terrain">
+                <h2>🏔️ Project 1: Procedural Terrain Generator</h2>
+                
+                <p>Time to put everything together! In this project, you'll build a complete procedural terrain system that combines noise displacement, material zones, and optimization techniques. This isn't a toy example—it's a production-ready system you can use in real projects. By the end, you'll have terrain that generates realistic mountains with proper material distribution (grass in valleys, rock on slopes, snow on peaks), all controllable through exposed parameters. Let's build something impressive!</p>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎯 Project Goals</h3>
+                    <p style="color: white;"><strong>What We're Building:</strong></p>
+                    <ul style="color: white;">
+                        <li>Multi-layer noise displacement for realistic terrain</li>
+                        <li>Automatic material zones based on elevation and slope</li>
+                        <li>Erosion simulation using slope detection</li>
+                        <li>Fully parametric—adjust everything with sliders</li>
+                        <li>Optimized for both viewport and render</li>
+                    </ul>
+                    <p style="color: white;"><strong>Skills Applied:</strong></p>
+                    <ul style="color: white;">
+                        <li>Layered noise systems</li>
+                        <li>Field-based material assignment</li>
+                        <li>Normal/slope calculations</li>
+                        <li>Map Range for value remapping</li>
+                        <li>Parameter organization</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0;"><strong>Time: 30-45 minutes</strong></p>
+                </div>
+
+                <h3>Phase 1: Base Grid Setup</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Creating the Foundation</h4>
+                    
+                    <p><strong>1. Scene Setup:</strong></p>
+                    <ul>
+                        <li>Start fresh: File > New > General</li>
+                        <li>Delete default cube (we'll create terrain from scratch)</li>
+                        <li>Keep camera and light for preview</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Create Plane Object:</strong></p>
+                    <ul>
+                        <li><code>Shift + A</code> > Mesh > Plane</li>
+                        <li>This will become our terrain</li>
+                        <li>Keep at origin (0, 0, 0)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Add Geometry Nodes Modifier:</strong></p>
+                    <ul>
+                        <li>Select plane</li>
+                        <li>Switch to Geometry Nodes workspace (or add modifier manually)</li>
+                        <li>Click "New" to create node tree</li>
+                        <li>Default Group Input → Group Output appears</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Create Subdivided Grid:</strong></p>
+                    <ul>
+                        <li><strong>Add:</strong> Mesh > Primitives > Grid</li>
+                        <li><strong>Parameters:</strong>
+                            <ul>
+                                <li>Size X: 100.0 (100 meter terrain)</li>
+                                <li>Size Y: 100.0</li>
+                                <li>Vertices X: 200 (high resolution for detail)</li>
+                                <li>Vertices Y: 200</li>
+                            </ul>
+                        </li>
+                        <li><strong>Note:</strong> This replaces input plane with dense grid</li>
+                        <li><strong>Connect:</strong> Grid → Group Output (temporary, to verify)</li>
+                        <li><strong>Result:</strong> Should see dense grid in viewport</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Resolution Guidelines:</strong></p>
+                    <ul>
+                        <li><strong>Preview (fast):</strong> 100×100 vertices</li>
+                        <li><strong>Good quality:</strong> 200×200 vertices (our choice)</li>
+                        <li><strong>High detail:</strong> 500×500 vertices (slow but detailed)</li>
+                        <li><strong>Tip:</strong> Expose vertex count as parameter for easy adjustment</li>
+                    </ul>
+                </div>
+
+                <h3>Phase 2: Multi-Layer Noise Displacement</h3>
+
+                <div class="card">
+                    <h4>🎨 Building Realistic Height Variation</h4>
+                    
+                    <p><strong>Strategy:</strong> Three noise layers at different scales for natural terrain.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Create Position Input:</strong></p>
+                    <ul>
+                        <li>Add: Input > Scene > Position (or use Named Attribute "position")</li>
+                        <li>This provides point coordinates for noise sampling</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Add Layer 1 (Large Features):</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Large mountains and valleys
+Add: Texture > Noise Texture
+Connect: Position → Noise Texture "Vector"
+Set parameters:
+  - Scale: 2.0 (large features)
+  - Detail: 4 (moderate complexity)
+  - Roughness: 0.5 (default)
+  - Distortion: 0.0 (clean for base)
+
+# Amplify output
+Add: Math node (Multiply)
+Connect: Noise "Fac" → Math "Value"
+Set: Math multiply by 15.0 (15 meter amplitude)
+Output: Layer 1 height
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Add Layer 2 (Medium Features):</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Hills and ridges
+Add: Texture > Noise Texture
+Connect: Position → Noise Texture "Vector"
+Set parameters:
+  - Scale: 8.0 (medium features)
+  - Detail: 5 (more detail)
+  - Roughness: 0.5
+  - Distortion: 0.0
+
+# Amplify output (smaller amplitude than base)
+Add: Math node (Multiply)
+Connect: Noise "Fac" → Math "Value"
+Set: Math multiply by 6.0 (6 meter amplitude)
+Output: Layer 2 height
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Add Layer 3 (Fine Detail):</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Surface texture and small bumps
+Add: Texture > Noise Texture
+Connect: Position → Noise Texture "Vector"
+Set parameters:
+  - Scale: 30.0 (fine features)
+  - Detail: 3 (subtle detail)
+  - Roughness: 0.5
+  - Distortion: 0.5 (slight warping)
+
+# Amplify output (smallest amplitude)
+Add: Math node (Multiply)
+Connect: Noise "Fac" → Math "Value"
+Set: Math multiply by 2.0 (2 meter amplitude)
+Output: Layer 3 height
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Combine All Layers:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Add layers together
+Add: Math node (Add)
+Connect: Layer 1 → Math A, Layer 2 → Math B
+Output: Sum1
+
+Add: Math node (Add)
+Connect: Sum1 → Math A, Layer 3 → Math B
+Output: Total Height (all layers combined)
+</pre>
+                </div>
+
+                <h3>Phase 3: Apply Displacement</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Vertical Offset Using Set Position</h4>
+                    
+                    <p><strong>Method:</strong> Offset Z-coordinate of each point by height value.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Create Displacement Vector:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Convert height (float) to vertical vector (0, 0, height)
+Add: Utilities > Vector > Combine XYZ
+Set X: 0.0
+Set Y: 0.0
+Connect: Total Height → Z
+Output: Displacement vector (only Z component)
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Apply with Set Position:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Add: Geometry > Set Position
+Connect: Grid → Set Position "Geometry"
+Connect: Displacement vector → Set Position "Offset"
+# Note: Using "Offset" adds to current position (relative)
+
+Set Position → Output (temporarily, to see terrain)
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Preview Result:</strong></p>
+                    <ul>
+                        <li><strong>What you should see:</strong> Grid transformed into mountainous terrain</li>
+                        <li><strong>Large hills/valleys:</strong> Layer 1</li>
+                        <li><strong>Medium ridges:</strong> Layer 2</li>
+                        <li><strong>Surface texture:</strong> Layer 3</li>
+                        <li><strong>If flat:</strong> Check amplitude multipliers, ensure connections correct</li>
+                    </ul>
+                </div>
+
+                <h3>Phase 4: Material Zones (Elevation-Based)</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Automatic Material Distribution</h4>
+                    
+                    <p><strong>Goal:</strong> Grass in valleys, rock on mid-slopes, snow on peaks.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Calculate Current Height:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# After displacement, get new Z positions
+Add: Input > Position (this reads MODIFIED positions after Set Position)
+Add: Utilities > Vector > Separate XYZ
+Connect: Position → Separate XYZ
+Output: Use Z component (current height after displacement)
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Define Material Zones by Height:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Zone 1: Grass (low elevation, 0-8 meters)
+Height Z → Compare (Less Than) 8.0 → Grass zone
+
+# Zone 2: Rock (mid elevation, 8-18 meters)
+Height Z → Compare (Greater Than) 8.0 → Above grass
+Height Z → Compare (Less Than) 18.0 → Below snow
+Above grass AND Below snow → Rock zone
+
+# Zone 3: Snow (high elevation, 18+ meters)
+Height Z → Compare (Greater Than) 18.0 → Snow zone
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Create Materials (In Shading):</strong></p>
+                    <ul>
+                        <li><strong>Switch to Shading workspace briefly</strong></li>
+                        <li><strong>Create three materials:</strong>
+                            <ul>
+                                <li>Material 1: "Grass" (green, Base Color: #2d5016)</li>
+                                <li>Material 2: "Rock" (gray, Base Color: #5a5a5a)</li>
+                                <li>Material 3: "Snow" (white, Base Color: #f0f0f0)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Assign to object:</strong> Select terrain, add all three material slots</li>
+                        <li><strong>Return to Geometry Nodes workspace</strong></li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Assign Materials Based on Zones:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Set material index based on zone
+# Material indices: Grass=0, Rock=1, Snow=2 (order in material slots)
+
+Add: Geometry > Set Material Index
+Connect: Set Position output → Set Material Index "Geometry"
+
+# Create index field
+Add: Math node (Multiply)
+Grass zone → Math → × 0 = 0 (Grass material index)
+
+Add: Math node (Multiply)  
+Rock zone → Math → × 1 = 1 (Rock material index)
+
+Add: Math node (Multiply)
+Snow zone → Math → × 2 = 2 (Snow material index)
+
+# Sum indices (only one zone true per point, so sum works)
+Add all indices → Set Material Index "Material Index"
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Alternative Simpler Method:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Use multiple Set Material nodes with selections
+Add: Geometry > Set Material
+Connect: Geometry → Set Material
+Connect: Grass zone → Set Material "Selection"
+Set: Material slot index = 0 (Grass)
+
+Add: Geometry > Set Material
+Connect: Previous → Set Material
+Connect: Rock zone → Set Material "Selection"  
+Set: Material slot index = 1 (Rock)
+
+Add: Geometry > Set Material
+Connect: Previous → Set Material
+Connect: Snow zone → Set Material "Selection"
+Set: Material slot index = 2 (Snow)
+
+Final Set Material → Group Output
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Preview Materials:</strong></p>
+                    <ul>
+                        <li>Switch viewport shading to Material Preview or Rendered</li>
+                        <li>Should see green valleys, gray mid-elevation, white peaks</li>
+                        <li>If all one color: Check material assignments and zone logic</li>
+                    </ul>
+                </div>
+
+                <h3>Phase 5: Slope-Based Material Blending</h3>
+
+                <div class="card">
+                    <h4>🎯 Adding Realism with Slope Detection</h4>
+                    
+                    <p><strong>Concept:</strong> Steep slopes should show rock, regardless of elevation.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Calculate Slope:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Surface normal tells us slope
+Add: Named Attribute, name: "normal"
+Add: Separate XYZ
+Connect: Normal → Separate XYZ
+Output: Normal.Z (1.0 = flat, 0.0 = vertical)
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Define Steep Slope Mask:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Steep = Normal.Z < 0.6 (about 53° or steeper)
+Normal.Z → Compare (Less Than) 0.6 → Steep slope mask
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Override Material on Steep Slopes:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# On steep slopes, force rock material
+Add: Set Material (after elevation-based materials)
+Connect: Steep slope mask → "Selection"
+Set: Material index = 1 (Rock)
+
+# Result: Steep cliffs show rock, even if at grass or snow elevation
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Final Material Logic:</strong></p>
+                    <ul>
+                        <li><strong>Base rule:</strong> Elevation determines material</li>
+                        <li><strong>Override rule:</strong> Steep slopes = rock (overrides elevation)</li>
+                        <li><strong>Result:</strong> Natural looking—valleys green, peaks white, cliffs gray</li>
+                    </ul>
+                </div>
+
+                <h3>Phase 6: Parameter Exposure and Organization</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Making System User-Friendly</h4>
+                    
+                    <p><strong>Key Parameters to Expose:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Noise Scales (3 parameters):</strong></p>
+                    <ul>
+                        <li>Right-click "Scale" on each Noise Texture node</li>
+                        <li>"Expose as Input" for all three</li>
+                        <li>Rename in modifier panel:
+                            <ul>
+                                <li>"Large Feature Scale" (default: 2.0)</li>
+                                <li>"Medium Feature Scale" (default: 8.0)</li>
+                                <li>"Fine Detail Scale" (default: 30.0)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Noise Amplitudes (3 parameters):</strong></p>
+                    <ul>
+                        <li>Expose multiply values for each layer</li>
+                        <li>Rename:
+                            <ul>
+                                <li>"Large Amplitude" (default: 15.0)</li>
+                                <li>"Medium Amplitude" (default: 6.0)</li>
+                                <li>"Fine Amplitude" (default: 2.0)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Material Thresholds (2 parameters):</strong></p>
+                    <ul>
+                        <li>Expose height comparisons</li>
+                        <li>Rename:
+                            <ul>
+                                <li>"Grass to Rock Height" (default: 8.0)</li>
+                                <li>"Rock to Snow Height" (default: 18.0)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Slope Threshold:</strong></p>
+                    <ul>
+                        <li>Expose steep slope comparison value</li>
+                        <li>Rename: "Cliff Steepness" (default: 0.6)</li>
+                        <li>Lower = more cliffs, Higher = fewer cliffs</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Grid Resolution (Optional but Recommended):</strong></p>
+                    <ul>
+                        <li>Expose Grid "Vertices X" and "Vertices Y"</li>
+                        <li>Rename: "Resolution" (if both same value)</li>
+                        <li>Allows easy quality adjustment</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Organization in Modifier Panel:</strong></p>
+                    <ul>
+                        <li><strong>Group 1: Resolution</strong> (top, most frequently changed)</li>
+                        <li><strong>Group 2: Terrain Shape</strong> (scales and amplitudes)</li>
+                        <li><strong>Group 3: Materials</strong> (elevation thresholds, slope)</li>
+                        <li>Drag to reorder for logical workflow</li>
+                    </ul>
+                </div>
+
+                <h3>Phase 7: Testing and Refinement</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Experimentation and Polish</h4>
+                    
+                    <p><strong>Test Variations:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Rolling Hills:</strong></p>
+                    <ul>
+                        <li>Large Scale: 1.0 (very large features)</li>
+                        <li>Large Amplitude: 8.0 (gentle)</li>
+                        <li>Medium/Fine: Low values</li>
+                        <li>Result: Smooth, flowing landscape</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Dramatic Mountains:</strong></p>
+                    <ul>
+                        <li>Large Amplitude: 25.0 (tall peaks)</li>
+                        <li>All Detail: 6-8 (complex)</li>
+                        <li>Cliff Steepness: 0.5 (more rock faces)</li>
+                        <li>Result: Alpine terrain</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Desert Dunes:</strong></p>
+                    <ul>
+                        <li>Large Scale: 3.0, Amplitude: 10.0</li>
+                        <li>Fine Scale: 50.0, Amplitude: 0.5</li>
+                        <li>Materials: All sand color (override system)</li>
+                        <li>Result: Smooth dune-like terrain</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Performance Testing:</strong></p>
+                    <ul>
+                        <li><strong>Preview:</strong> Resolution 50-100 (very fast)</li>
+                        <li><strong>Good:</strong> Resolution 200 (our default)</li>
+                        <li><strong>Render:</strong> Resolution 500+ (slow but beautiful)</li>
+                        <li>Test animation: Does it update smoothly when changing parameters?</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎉 Project 1 Complete!</h3>
+                    <p style="color: white;"><strong>What You Built:</strong></p>
+                    <ul style="color: white;">
+                        <li>Multi-layer procedural terrain system</li>
+                        <li>Automatic material zones (elevation + slope)</li>
+                        <li>Fully parametric control</li>
+                        <li>Optimizable resolution</li>
+                        <li>Production-ready asset</li>
+                    </ul>
+                    <p style="color: white;"><strong>Skills Mastered:</strong></p>
+                    <ul style="color: white;">
+                        <li>Noise layering techniques</li>
+                        <li>Field-based material assignment</li>
+                        <li>Slope detection and usage</li>
+                        <li>Parameter organization</li>
+                        <li>System optimization</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0;"><strong>Save this! You'll use it in future projects!</strong></p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 06
+     Continue with lesson_41_procedural_modeling_with_nodes_part_07.html
+     ============================================ -->

@@ -1,0 +1,811 @@
+<!-- ============================================
+     LESSON 22 - PART 05
+     File: lesson_22_depth_of_field_and_focus_part_05.html
+     ============================================ -->
+
+                <section id="troubleshooting-dof" class="content-section">
+                    <h2>🔧 Troubleshooting DoF Issues</h2>
+
+                    <p>Depth of field can be finicky. Sometimes it doesn't look right, doesn't render as expected, or creates unexpected artifacts. Let's solve the most common problems you'll encounter.</p>
+
+                    <h3>DoF Not Visible in Render</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: Everything Sharp Despite Shallow Aperture</h4>
+                        <p><strong>Symptoms:</strong></p>
+                        <ul>
+                            <li>Set aperture to f/1.4 but render looks like f/16</li>
+                            <li>No blur visible in background or foreground</li>
+                            <li>Viewport shows DoF preview but render doesn't</li>
+                        </ul>
+
+                        <p><strong>Cause 1: DoF not enabled</strong></p>
+                        <ul>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Select camera</li>
+                                    <li>Camera Properties → Depth of Field section</li>
+                                    <li>Check that there's an F-Stop value set (not blank)</li>
+                                    <li>Or check that Focus Object is assigned</li>
+                                    <li>If both are empty, DoF is disabled</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Cause 2: Render samples too low (Cycles)</strong></p>
+                        <ul>
+                            <li>DoF requires many samples to render cleanly</li>
+                            <li>Low samples = noisy or absent DoF</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Render Properties → Sampling</li>
+                                    <li>Increase Render samples to 128+ (256+ for clean DoF)</li>
+                                    <li>Viewport samples can stay lower (32-64)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Cause 3: Eevee DoF not enabled</strong></p>
+                        <ul>
+                            <li>In Eevee, DoF requires specific enabling</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Camera Properties → Depth of Field → Enable</li>
+                                    <li>Render Properties → Bloom (if you want bokeh highlights)</li>
+                                    <li>May need to increase Max Size for large blur</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Cause 4: Insufficient subject-background separation</strong></p>
+                        <ul>
+                            <li>If subject and background at similar distances, DoF minimal</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Move background farther from subject</li>
+                                    <li>Or move subject farther from background</li>
+                                    <li>Need at least 2-3x focus distance for visible blur</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Cause 5: Aperture too small</strong></p>
+                        <ul>
+                            <li>f/8 or higher creates deep DoF—blur barely visible</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Reduce f-stop to f/2.8 or lower</li>
+                                    <li>Test with f/1.4 for obvious DoF effect</li>
+                                    <li>Then adjust to taste</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>DoF Too Strong or Too Weak</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: Can't Achieve Desired DoF Strength</h4>
+                        <p><strong>DoF too strong (everything blurred):</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Aperture too wide, subject too close, or focal length too long</li>
+                            <li><strong>Solutions:</strong>
+                                <ul>
+                                    <li>Increase f-stop (f/1.4 → f/2.8 → f/4)</li>
+                                    <li>Move camera farther from subject</li>
+                                    <li>Use shorter focal length (85mm → 50mm)</li>
+                                    <li>Each adjustment deepens DoF slightly</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>DoF too weak (not enough blur):</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Aperture too narrow, subject too far, or focal length too short</li>
+                            <li><strong>Solutions:</strong>
+                                <ul>
+                                    <li>Decrease f-stop (f/5.6 → f/2.8 → f/1.4)</li>
+                                    <li>Use longer focal length (50mm → 85mm → 135mm)</li>
+                                    <li>Move camera closer to subject (increases blur)</li>
+                                    <li>Increase subject-background distance</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Remember the DoF equation:</strong></p>
+                        <ul>
+                            <li>Shallow DoF = Wide aperture + Long lens + Close subject + Far background</li>
+                            <li>Deep DoF = Narrow aperture + Short lens + Distant subject + Close background</li>
+                        </ul>
+                    </div>
+
+                    <h3>Noisy or Grainy DoF (Cycles)</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: DoF Looks Grainy/Noisy</h4>
+                        <p><strong>Symptoms:</strong></p>
+                        <ul>
+                            <li>Out-of-focus areas have visible grain/noise</li>
+                            <li>Bokeh circles not smooth</li>
+                            <li>Uneven blur quality</li>
+                        </ul>
+
+                        <p><strong>Cause: Insufficient render samples</strong></p>
+                        <ul>
+                            <li>DoF is computationally expensive in Cycles</li>
+                            <li>Requires many samples for clean blur</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Render Properties → Sampling → Render: 256+ samples</li>
+                                    <li>For very shallow DoF: 512-1024 samples</li>
+                                    <li>Enable denoising to help (but samples still needed)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Denoising settings:</strong></p>
+                        <ul>
+                            <li>Render Properties → Sampling → Denoise (enable)</li>
+                            <li>Use OptiX or OpenImageDenoise</li>
+                            <li>Helps reduce noise but can't fix extreme undersampling</li>
+                            <li>DoF requires samples—denoising is supplement, not replacement</li>
+                        </ul>
+
+                        <p><strong>Progressive refinement approach:</strong></p>
+                        <ul>
+                            <li>Render with 128 samples for quick preview</li>
+                            <li>Verify DoF looks correct (focus, amount)</li>
+                            <li>Then render final at 256-512 samples</li>
+                            <li>Saves time—don't waste high sample count on wrong settings</li>
+                        </ul>
+                    </div>
+
+                    <h3>Subject Out of Focus</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: Wrong Part of Scene is Sharp</h4>
+                        <p><strong>Symptoms:</strong></p>
+                        <ul>
+                            <li>Background sharp, subject blurred</li>
+                            <li>Or foreground sharp, subject blurred</li>
+                            <li>Focus seems to be in wrong location</li>
+                        </ul>
+
+                        <p><strong>Cause 1: Focus distance incorrect</strong></p>
+                        <ul>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Enable Camera Properties → Viewport Display → Limits</li>
+                                    <li>Yellow cross shows focus plane location in viewport</li>
+                                    <li>Adjust Focus Distance until cross aligns with subject</li>
+                                    <li>Or use Focus Object for automatic targeting</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Cause 2: Focus Object set incorrectly</strong></p>
+                        <ul>
+                            <li>Focus Object pointing to wrong object</li>
+                            <li>Or Empty in wrong location</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Check Camera Properties → Depth of Field → Focus Object</li>
+                                    <li>Verify it's pointing to correct object/Empty</li>
+                                    <li>In viewport, select camera, verify line connects to intended focus point</li>
+                                    <li>Move Empty to correct location if needed</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Cause 3: DoF too shallow</strong></p>
+                        <ul>
+                            <li>Aperture so wide that DoF range tiny</li>
+                            <li>Focus technically correct but subject spans beyond DoF depth</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Slightly close aperture (f/1.4 → f/2 → f/2.8)</li>
+                                    <li>Gives more "wiggle room" for subject</li>
+                                    <li>Especially important for deep subjects (person facing camera)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Quick fix method:</strong></p>
+                        <ul>
+                            <li>In viewport (camera view), <code>Shift+Right-Click</code> on subject</li>
+                            <li>Focus distance automatically set to that point</li>
+                            <li>Quick way to get focus approximately right</li>
+                            <li>Then fine-tune with Focus Distance value or Empty</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bokeh Artifacts or Weird Shapes</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: Bokeh Looks Wrong</h4>
+                        <p><strong>Hexagonal bokeh when you want circular:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Low blade count (default is often 6)</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Camera Properties → Depth of Field → Aperture</li>
+                                    <li>Increase Blades to 9-12 for rounder bokeh</li>
+                                    <li>Or set very wide aperture (f/1.4) for perfect circles</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Bokeh not visible at all:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> No bright point sources in scene</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Add small bright lights in background</li>
+                                    <li>Or add glossy spheres with specular highlights</li>
+                                    <li>Bokeh only visible with bright, small light sources</li>
+                                    <li>Large diffuse surfaces don't create visible bokeh</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Bokeh too distracting:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Background lights too bright or numerous</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Reduce background light intensity</li>
+                                    <li>Remove some lights</li>
+                                    <li>Slightly close aperture to reduce bokeh size</li>
+                                    <li>Balance: visible but not overwhelming</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Weird polygonal shapes (not bokeh circles):</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Object edges being blurred, not point lights</li>
+                            <li>This is normal—only point lights create circular bokeh</li>
+                            <li>Large object edges blur into irregular shapes</li>
+                            <li>Not a problem—this is accurate behavior</li>
+                        </ul>
+                    </div>
+
+                    <h3>DoF Animation Issues</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: Animated DoF Behaves Unexpectedly</h4>
+                        <p><strong>Focus doesn't follow moving subject:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Using manual Focus Distance instead of Focus Object</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Create Empty</li>
+                                    <li>Parent Empty to subject (or subject's armature bone)</li>
+                                    <li>Set Camera → Focus Object to Empty</li>
+                                    <li>Focus now tracks subject automatically</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Rack focus too fast or too slow:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Keyframe timing incorrect</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Open Timeline or Graph Editor</li>
+                                    <li>Move keyframes closer together (faster) or farther apart (slower)</li>
+                                    <li>Typically 30-60 frames (1-2 seconds) for normal rack focus</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Rack focus feels robotic:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Linear interpolation</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Graph Editor → Select keyframes</li>
+                                    <li>Press <code>T</code> → Set Interpolation → Bezier</li>
+                                    <li>Or choose Sinusoidal for smooth ease in/out</li>
+                                    <li>Adjust handles for custom easing</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Focus "hunting" (oscillating):</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Too many keyframes or conflicting keyframes</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Simplify keyframes—only key start and end points</li>
+                                    <li>Remove intermediate keyframes unless intentional</li>
+                                    <li>Check for accidental duplicate keyframes</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Performance and Render Time Issues</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: DoF Renders Too Slowly</h4>
+                        <p><strong>Cycles DoF slow:</strong></p>
+                        <ul>
+                            <li><strong>Reality:</strong> DoF adds render time—this is normal</li>
+                            <li><strong>Optimization strategies:</strong>
+                                <ul>
+                                    <li>Use Eevee for preview/test renders (much faster)</li>
+                                    <li>Only render final shot in Cycles</li>
+                                    <li>Reduce render samples to minimum acceptable (256 often sufficient)</li>
+                                    <li>Enable adaptive sampling to save samples on converged areas</li>
+                                    <li>Use denoising to allow lower sample counts</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Eevee DoF slow:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> DoF Max Size set too high</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Camera Properties → Depth of Field → Max Size</li>
+                                    <li>Lower value = faster but limited blur amount</li>
+                                    <li>Try 64-128 for most cases</li>
+                                    <li>Only increase if blur is getting cut off</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Viewport preview slow:</strong></p>
+                        <ul>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Disable viewport DoF until ready to test</li>
+                                    <li>Camera icon in viewport header → uncheck Depth of Field</li>
+                                    <li>Work without DoF, enable only for preview</li>
+                                    <li>Or reduce viewport samples (Render Properties → Viewport Sampling)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Eevee vs Cycles DoF Differences</h3>
+
+                    <div class="card">
+                        <h4>🎨 Render Engine Behavior</h4>
+                        <p><strong>Cycles DoF characteristics:</strong></p>
+                        <ul>
+                            <li>✅ Physically accurate blur</li>
+                            <li>✅ Proper bokeh shape (respects blade count)</li>
+                            <li>✅ Accurate light gathering</li>
+                            <li>❌ Slower render times</li>
+                            <li>❌ Requires high sample counts</li>
+                            <li><strong>Best for:</strong> Final renders, hero shots, extreme DoF effects</li>
+                        </ul>
+
+                        <p><strong>Eevee DoF characteristics:</strong></p>
+                        <ul>
+                            <li>✅ Very fast rendering</li>
+                            <li>✅ Interactive viewport preview</li>
+                            <li>✅ Good for quick iteration</li>
+                            <li>❌ Approximated DoF (not physically accurate)</li>
+                            <li>❌ Bokeh shape less accurate</li>
+                            <li>❌ Limited blur amount (Max Size)</li>
+                            <li><strong>Best for:</strong> Previews, animations, less critical shots</li>
+                        </ul>
+
+                        <p><strong>When Eevee is good enough:</strong></p>
+                        <ul>
+                            <li>Moderate DoF (f/4-8 range)</li>
+                            <li>No extreme bokeh emphasis</li>
+                            <li>Fast turnaround needed</li>
+                            <li>Animation (render time critical)</li>
+                        </ul>
+
+                        <p><strong>When Cycles is necessary:</strong></p>
+                        <ul>
+                            <li>Extreme shallow DoF (f/1.4-2)</li>
+                            <li>Bokeh is key visual element</li>
+                            <li>Final portfolio/client work</li>
+                            <li>Quality over speed priority</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ DoF Troubleshooting Checklist</h4>
+                        <p><strong>If DoF isn't working, check in this order:</strong></p>
+                        <ol>
+                            <li>✓ Is DoF enabled? (F-Stop value or Focus Object assigned)</li>
+                            <li>✓ Is focus distance correct? (Use Limits display to verify)</li>
+                            <li>✓ Is aperture appropriate? (f/2.8 or wider for visible DoF)</li>
+                            <li>✓ Is subject-background distance sufficient? (Need separation)</li>
+                            <li>✓ Are render samples high enough? (256+ for Cycles)</li>
+                            <li>✓ Is Eevee DoF enabled in camera properties?</li>
+                        </ol>
+
+                        <p><strong>If DoF is working but looks wrong:</strong></p>
+                        <ol>
+                            <li>✓ Adjust aperture for stronger/weaker effect</li>
+                            <li>✓ Increase render samples for cleaner blur</li>
+                            <li>✓ Adjust blade count for better bokeh</li>
+                            <li>✓ Check focus distance (Shift+Right-Click for quick fix)</li>
+                            <li>✓ Verify interpolation (use easing for animated focus)</li>
+                        </ol>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 DoF Troubleshooting Philosophy:</strong> When DoF isn't working, resist the urge to randomly adjust every setting. The systematic approach wins: verify it's enabled, check focus distance, confirm aperture setting, ensure adequate samples. Most DoF problems are one of these four issues. Once it's working but doesn't look right, then you optimize—adjust aperture for amount, increase samples for quality, tune bokeh for aesthetics. The best troubleshooters don't know more solutions—they just work methodically through the possibilities instead of guessing. Keep a render with DoF working correctly as reference, and when something goes wrong, compare settings side-by-side. Often the answer jumps out immediately.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="project-dof-mastery" class="content-section">
+                    <h2>🎯 Project: DoF Mastery Gallery</h2>
+
+                    <p>Time to put everything together! You'll create a gallery of four different DoF scenarios, each demonstrating your understanding of aperture, focus, and bokeh. This project will become portfolio-ready evidence of your camera mastery.</p>
+
+                    <h3>Project Overview</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎬 Your Mission</h3>
+                        <p style="color: white;">Create four distinct renders, each showcasing different depth of field techniques:</p>
+                        <ol style="color: white;">
+                            <li><strong>Portrait Shot:</strong> Extreme shallow DoF with beautiful bokeh</li>
+                            <li><strong>Product Display:</strong> Moderate DoF balancing sharpness and depth</li>
+                            <li><strong>Environmental Story:</strong> Rack focus transition (animated)</li>
+                            <li><strong>Landscape/Vista:</strong> Deep DoF showing front-to-back sharpness</li>
+                        </ol>
+                        <p style="color: white;">Each render should demonstrate technical mastery and artistic intent.</p>
+                    </div>
+
+                    <h3>Setup: Creating Your Scene Library</h3>
+
+                    <div class="card">
+                        <h4>📦 Asset Preparation</h4>
+                        <p><strong>You'll need simple subjects for each shot:</strong></p>
+                        
+                        <p><strong>For Portrait:</strong></p>
+                        <ul>
+                            <li>Suzanne (monkey head) with Subdivision Surface modifier</li>
+                            <li>Or simple character proxy (UV Sphere + cylinders for body)</li>
+                            <li>Position at origin for easy camera setup</li>
+                        </ul>
+
+                        <p><strong>For Product:</strong></p>
+                        <ul>
+                            <li>Simple product shape (cylinder for can/bottle, cube for box)</li>
+                            <li>Add Bevel modifier for realistic edges</li>
+                            <li>Apply simple material (metallic or glossy)</li>
+                        </ul>
+
+                        <p><strong>For Environment:</strong></p>
+                        <ul>
+                            <li>Foreground object (cube or sphere)</li>
+                            <li>Background object (different shape, 5-10 units away)</li>
+                            <li>Simple ground plane</li>
+                        </ul>
+
+                        <p><strong>For Landscape:</strong></p>
+                        <ul>
+                            <li>Use Plane + Subdivision Surface + Displace modifier</li>
+                            <li>Or import simple terrain mesh</li>
+                            <li>Add several objects at different distances (trees, rocks)</li>
+                            <li>Can use primitive shapes—doesn't need to be photorealistic</li>
+                        </ul>
+
+                        <p><strong>Background elements for bokeh (all shots):</strong></p>
+                        <ul>
+                            <li>Array of small Point lights (10-20) scattered in background</li>
+                            <li>Or small Emission spheres (0.1 unit radius)</li>
+                            <li>Position 5-15 units behind main subject</li>
+                            <li>Random heights for natural look</li>
+                        </ul>
+                    </div>
+
+                    <h3>Shot 1: Portrait with Extreme DoF</h3>
+
+                    <div class="card">
+                        <h4>👤 The Cinematic Closeup</h4>
+                        <p><strong>Goal:</strong> Create dramatic portrait with subject sharp, everything else beautifully blurred</p>
+
+                        <p><strong>Camera setup:</strong></p>
+                        <ul>
+                            <li>Add Camera (<code>Shift+A</code> → Camera)</li>
+                            <li>Camera Properties → Lens:
+                                <ul>
+                                    <li>Focal Length: 85mm</li>
+                                    <li>Sensor Size: 36mm (full frame)</li>
+                                </ul>
+                            </li>
+                            <li>Camera Properties → Depth of Field:
+                                <ul>
+                                    <li>F-Stop: 1.8</li>
+                                    <li>Blades: 12 (smooth bokeh)</li>
+                                    <li>Focus Object: Create Empty at subject's "eye" location</li>
+                                </ul>
+                            </li>
+                            <li>Position camera 3-4 units from subject</li>
+                        </ul>
+
+                        <p><strong>Lighting setup:</strong></p>
+                        <ul>
+                            <li>Key light: Area light, above and 45° to side</li>
+                            <li>Fill light: Lower intensity, opposite side</li>
+                            <li>Rim light: Behind subject, highlighting edge</li>
+                            <li>Background lights: 15-20 small point lights scattered</li>
+                        </ul>
+
+                        <p><strong>Materials:</strong></p>
+                        <ul>
+                            <li>Subject: Principled BSDF, adjust color/roughness</li>
+                            <li>Background elements: Emission shader (for bokeh)</li>
+                        </ul>
+
+                        <p><strong>Render settings (Cycles):</strong></p>
+                        <ul>
+                            <li>Samples: 512 (for clean DoF)</li>
+                            <li>Resolution: 1920x1080</li>
+                            <li>Denoise: Enabled</li>
+                        </ul>
+
+                        <p><strong>Success criteria:</strong></p>
+                        <ul>
+                            <li>✓ Subject's face perfectly sharp</li>
+                            <li>✓ Background completely blurred</li>
+                            <li>✓ Visible circular bokeh from background lights</li>
+                            <li>✓ Smooth, creamy blur quality</li>
+                            <li>✓ Professional portrait aesthetic</li>
+                        </ul>
+                    </div>
+
+                    <h3>Shot 2: Product Display</h3>
+
+                    <div class="card">
+                        <h4>📦 Commercial Quality</h4>
+                        <p><strong>Goal:</strong> Show product clearly while maintaining depth and context</p>
+
+                        <p><strong>Camera setup:</strong></p>
+                        <ul>
+                            <li>Focal Length: 50mm</li>
+                            <li>F-Stop: 4.0</li>
+                            <li>Focus Object: Empty at product center or logo</li>
+                            <li>Position: Slight angle (not dead-on), 2-3 units away</li>
+                        </ul>
+
+                        <p><strong>Scene composition:</strong></p>
+                        <ul>
+                            <li>Product: Center frame, elevated on surface</li>
+                            <li>Props: Complementary objects (books, plants, etc.)</li>
+                            <li>Background: 3-5 units behind product</li>
+                            <li>Surface: Simple plane with material</li>
+                        </ul>
+
+                        <p><strong>Lighting setup:</strong></p>
+                        <ul>
+                            <li>Three-point lighting (from previous lessons)</li>
+                            <li>Soft key light (large area light)</li>
+                            <li>Fill to lift shadows</li>
+                            <li>Back/rim for separation</li>
+                            <li>Optional: HDRI for reflections</li>
+                        </ul>
+
+                        <p><strong>Materials focus:</strong></p>
+                        <ul>
+                            <li>Product: Glossy/metallic material showing reflections</li>
+                            <li>Ensure reflections in focus (part of product sharpness)</li>
+                            <li>Props: Matte materials (don't compete with product)</li>
+                        </ul>
+
+                        <p><strong>Success criteria:</strong></p>
+                        <ul>
+                            <li>✓ Product entirely sharp (all details readable)</li>
+                            <li>✓ Background softly blurred but recognizable</li>
+                            <li>✓ Depth apparent (product separated from background)</li>
+                            <li>✓ Professional, commercial look</li>
+                            <li>✓ Balanced DoF—not too shallow, not too deep</li>
+                        </ul>
+                    </div>
+
+                    <h3>Shot 3: Rack Focus Story (Animated)</h3>
+
+                    <div class="card">
+                        <h4>🎬 Dynamic Focus Shift</h4>
+                        <p><strong>Goal:</strong> Create animated shot where focus shifts from foreground to background</p>
+
+                        <p><strong>Scene setup:</strong></p>
+                        <ul>
+                            <li>Foreground object: 2 units from camera</li>
+                            <li>Background object: 8-10 units from camera</li>
+                            <li>Clear visual connection (foreground character "looking at" background object)</li>
+                        </ul>
+
+                        <p><strong>Camera setup:</strong></p>
+                        <ul>
+                            <li>Focal Length: 85mm (emphasizes DoF)</li>
+                            <li>F-Stop: 2.8 (shallow enough for clear transition)</li>
+                            <li>Static camera (no movement)</li>
+                        </ul>
+
+                        <p><strong>Animating the focus:</strong></p>
+                        <ul>
+                            <li><strong>Method: Animated Empty</strong>
+                                <ul>
+                                    <li>Create Empty_Focus</li>
+                                    <li>Camera → Focus Object → Empty_Focus</li>
+                                </ul>
+                            </li>
+                            <li><strong>Frame 1:</strong>
+                                <ul>
+                                    <li>Position Empty at foreground object</li>
+                                    <li>Hover over Empty location, press <code>I</code> → Location</li>
+                                </ul>
+                            </li>
+                            <li><strong>Frame 60:</strong>
+                                <ul>
+                                    <li>Move Empty to background object</li>
+                                    <li>Press <code>I</code> → Location</li>
+                                </ul>
+                            </li>
+                            <li><strong>Easing:</strong>
+                                <ul>
+                                    <li>Open Graph Editor</li>
+                                    <li>Select Empty's location keyframes</li>
+                                    <li>Press <code>T</code> → Sinusoidal (smooth ease in/out)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Lighting:</strong></p>
+                        <ul>
+                            <li>Light both foreground and background adequately</li>
+                            <li>Background should be visible (even if blurred at start)</li>
+                            <li>Foreground should be visible (even if blurred at end)</li>
+                        </ul>
+
+                        <p><strong>Render settings:</strong></p>
+                        <ul>
+                            <li>Animation: 90 frames (3 seconds at 30fps)</li>
+                            <li>Frame 1-30: Focus on foreground (hold)</li>
+                            <li>Frame 30-60: Rack focus transition</li>
+                            <li>Frame 60-90: Focus on background (hold)</li>
+                            <li>Samples: 256 (acceptable for animation)</li>
+                            <li>Output as video file or image sequence</li>
+                        </ul>
+
+                        <p><strong>Success criteria:</strong></p>
+                        <ul>
+                            <li>✓ Smooth transition between focus points</li>
+                            <li>✓ Both subjects clearly visible when in focus</li>
+                            <li>✓ Natural easing (not linear)</li>
+                            <li>✓ 1-2 second transition timing</li>
+                            <li>✓ Storytelling: reveals information progressively</li>
+                        </ul>
+                    </div>
+
+                    <h3>Shot 4: Landscape with Deep DoF</h3>
+
+                    <div class="card">
+                        <h4>🌄 Front-to-Back Sharpness</h4>
+                        <p><strong>Goal:</strong> Create expansive scene with everything sharp from near to far</p>
+
+                        <p><strong>Camera setup:</strong></p>
+                        <ul>
+                            <li>Focal Length: 35mm (wide angle for landscape feel)</li>
+                            <li>F-Stop: 16 (very deep DoF)</li>
+                            <li>Focus Distance: 1/3 into scene (hyperfocal principle)</li>
+                            <li>Position: Ground level or slightly elevated</li>
+                        </ul>
+
+                        <p><strong>Scene composition:</strong></p>
+                        <ul>
+                            <li>Foreground elements: 1-3 units from camera</li>
+                            <li>Midground: 5-10 units</li>
+                            <li>Background: 15-30+ units</li>
+                            <li>Vary heights for visual interest</li>
+                            <li>Leading lines directing eye through scene</li>
+                        </ul>
+
+                        <p><strong>Lighting setup:</strong></p>
+                        <ul>
+                            <li>Sun light (Directional light, low angle for drama)</li>
+                            <li>Or HDRI world lighting (outdoor environment)</li>
+                            <li>Sky with atmospheric gradient</li>
+                            <li>Long shadows emphasizing depth</li>
+                        </ul>
+
+                        <p><strong>Focus technique:</strong></p>
+                        <ul>
+                            <li>Create Empty at 1/3 distance into scene</li>
+                            <li>Or manually set Focus Distance to approximately 1/3 of far distance</li>
+                            <li>Enable Limits display to verify focus plane</li>
+                            <li>Adjust until foreground, middle, and background all acceptably sharp</li>
+                        </ul>
+
+                        <p><strong>Success criteria:</strong></p>
+                        <ul>
+                            <li>✓ Foreground elements sharp and detailed</li>
+                            <li>✓ Midground elements sharp</li>
+                            <li>✓ Background/horizon sharp</li>
+                            <li>✓ No obvious blur anywhere in frame</li>
+                            <li>✓ Epic, expansive feeling</li>
+                            <li>✓ Demonstrates control over deep DoF</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bonus Challenges</h3>
+
+                    <div class="card" style="background: #fff3e0; border-left: 4px solid #ff9800;">
+                        <h4>🌟 Go Further (Optional)</h4>
+                        <p><strong>Challenge 1: Anamorphic bokeh</strong></p>
+                        <ul>
+                            <li>Recreate Portrait shot with anamorphic bokeh (oval shapes)</li>
+                            <li>Set Aperture Ratio to 0.5</li>
+                            <li>Add horizontal lens flare in post (optional)</li>
+                            <li>Render at 2.39:1 aspect ratio (cinemascope)</li>
+                        </ul>
+
+                        <p><strong>Challenge 2: Focus breathing</strong></p>
+                        <ul>
+                            <li>Create animated shot with subtle focus drift</li>
+                            <li>Animate focus distance slightly (0.1-0.2 units oscillation)</li>
+                            <li>Slow, organic movement (2-3 second cycles)</li>
+                            <li>Simulates manual focus pulling or handheld feel</li>
+                        </ul>
+
+                        <p><strong>Challenge 3: Multi-subject rack focus</strong></p>
+                        <ul>
+                            <li>Scene with 3+ subjects at different distances</li>
+                            <li>Rack focus through all subjects sequentially</li>
+                            <li>A → B → C → D progression</li>
+                            <li>Tells story through focus sequence</li>
+                        </ul>
+
+                        <p><strong>Challenge 4: DoF comparison sheet</strong></p>
+                        <ul>
+                            <li>Same scene, 6 renders with different f-stops</li>
+                            <li>f/1.4, f/2.8, f/4, f/5.6, f/8, f/16</li>
+                            <li>Arrange in grid to show DoF progression</li>
+                            <li>Educational reference showing aperture impact</li>
+                        </ul>
+                    </div>
+
+                    <h3>Submission and Review</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Project Completion Checklist</h4>
+                        <p><strong>Required deliverables:</strong></p>
+                        <ul>
+                            <li>✓ Portrait render (1920x1080, PNG or JPG)</li>
+                            <li>✓ Product render (1920x1080, PNG or JPG)</li>
+                            <li>✓ Rack focus animation (MP4 or image sequence)</li>
+                            <li>✓ Landscape render (1920x1080, PNG or JPG)</li>
+                        </ul>
+
+                        <p><strong>Quality verification:</strong></p>
+                        <ul>
+                            <li>✓ Each render demonstrates appropriate DoF for scenario</li>
+                            <li>✓ Focus is accurate (sharp where intended)</li>
+                            <li>✓ Bokeh visible in shots that should have it</li>
+                            <li>✓ No noise/grain in out-of-focus areas</li>
+                            <li>✓ Professional composition and lighting</li>
+                        </ul>
+
+                        <p><strong>Self-assessment questions:</strong></p>
+                        <ul>
+                            <li>Can you explain why you chose each f-stop value?</li>
+                            <li>Can you describe how DoF helps tell the story in each shot?</li>
+                            <li>Would you make the same choices for a client project?</li>
+                            <li>What did you learn about DoF that surprised you?</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Portfolio Power of DoF Mastery:</strong> These four shots aren't just practice—they're portfolio gold. When art directors and clients see your work, they're not just looking at pretty pictures—they're assessing technical competence. A gallery showing mastery of shallow DoF, moderate DoF, animated focus, and deep DoF instantly communicates "this person understands cameras at a professional level." It says you can deliver the right depth of field for any project: intimate portraits, commercial products, cinematic storytelling, or epic environments. Many 3D artists neglect camera work, creating technically perfect models with novice camera technique. Don't be that artist. These DoF skills separate professionals from hobbyists, and this project proves you're the former.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_22_depth_of_field_and_focus_part_06.html
+     ============================================ -->

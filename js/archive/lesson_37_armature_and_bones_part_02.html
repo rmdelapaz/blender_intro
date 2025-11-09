@@ -1,0 +1,302 @@
+<!-- ============================================
+     LESSON 37 - PART 02
+     File: lesson_37_armature_and_bones_part_02.html
+     ============================================ -->
+
+            <section id="bone-anatomy">
+                <h3>🔬 Bone Anatomy and Properties</h3>
+                
+                <p>Every bone in Blender has specific parts and properties that control how it behaves. Understanding bone anatomy is like learning the parts of a car before driving—you need to know what each component does to use bones effectively. Let's break down the anatomy of a Blender bone and explore its essential properties!</p>
+
+                <h4>Parts of a Bone</h4>
+
+                <blockquote>
+                    <p><strong>🎨 Think of a Bone Like an Arrow:</strong> A bone is essentially a directional line segment with a thick end (head), a thin end (tail), and a body connecting them. The direction matters—bones "point" from head to tail, just like an arrow points from feather to tip. This directionality affects how rotation works and how the bone influences the mesh!</p>
+                </blockquote>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Bone Components</h4>
+                    
+                    <p><strong>1. Head (Start Point):</strong></p>
+                    <ul>
+                        <li>The "root" or starting point of the bone</li>
+                        <li>Represented by a larger sphere/ball in viewport</li>
+                        <li>Where the bone connects to its parent (if it has one)</li>
+                        <li><strong>Example:</strong> Elbow joint is the "head" of the forearm bone</li>
+                        <li>Position in 3D space defines where the bone begins</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Tail (End Point):</strong></p>
+                    <ul>
+                        <li>The "tip" or ending point of the bone</li>
+                        <li>Represented by a smaller sphere/point in viewport</li>
+                        <li>Where child bones typically connect to this bone</li>
+                        <li><strong>Example:</strong> Wrist joint is the "tail" of the forearm bone</li>
+                        <li>Bone length = distance from head to tail</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Body (Shaft):</strong></p>
+                    <ul>
+                        <li>The line/octahedron shape connecting head and tail</li>
+                        <li>Visual representation of the bone's direction and length</li>
+                        <li>Thickness is just for visibility—doesn't affect functionality</li>
+                        <li>The body shows the bone's orientation in 3D space</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Roll (Rotation around Bone's Length):</strong></p>
+                    <ul>
+                        <li>How the bone is "twisted" along its length axis</li>
+                        <li>Affects the local coordinate system of the bone</li>
+                        <li>Important for controlling bend direction</li>
+                        <li><strong>Example:</strong> Determines whether elbow bends forward or sideways</li>
+                        <li>Visualized by the "axis lines" when bone is selected</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>📐 Bone Coordinate System</h4>
+                    
+                    <p>Each bone has its own local coordinate system (like its personal compass):</p>
+                    
+                    <p><strong>Local Axes:</strong></p>
+                    <ul>
+                        <li><strong>Y-axis (Blue):</strong> Points from head to tail—the bone's "length" direction</li>
+                        <li><strong>X-axis (Red):</strong> Points to the side—perpendicular to bone length</li>
+                        <li><strong>Z-axis (Green):</strong> Points forward/backward—also perpendicular</li>
+                        <li>These axes rotate with the bone—they're "attached" to it</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Why This Matters:</strong></p>
+                    <ul>
+                        <li>When you rotate a bone on its X-axis, it bends (elbow, knee)</li>
+                        <li>Rotating on Z-axis typically twists (forearm rotation)</li>
+                        <li>Y-axis rotation usually isn't used (would make bone shorter/longer visually)</li>
+                        <li>Roll determines which way X and Z point</li>
+                    </ul>
+                </div>
+
+                <h4>Bone Display Types</h4>
+
+                <p>Blender offers several ways to visualize bones. Choosing the right display type makes working with armatures much easier!</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Bone Visualization Options</h4>
+                    
+                    <p><strong>Octahedral (Default):</strong></p>
+                    <ul>
+                        <li>Diamond/pyramid shape from head to tail</li>
+                        <li>Clear head and tail visualization</li>
+                        <li>Good for seeing bone orientation</li>
+                        <li><strong>Best for:</strong> Initial armature setup and bone placement</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Stick:</strong></p>
+                    <ul>
+                        <li>Simple line from head to tail</li>
+                        <li>Minimal visual clutter</li>
+                        <li>Easy to see through to mesh underneath</li>
+                        <li><strong>Best for:</strong> Weight painting and seeing mesh deformation</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>B-Bone (Bendy Bones):</strong></p>
+                    <ul>
+                        <li>Segmented bone that can curve</li>
+                        <li>Multiple segments create smooth bending</li>
+                        <li>More organic deformation</li>
+                        <li><strong>Best for:</strong> Spine, tail, tentacles—anything that curves smoothly</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Envelope:</strong></p>
+                    <ul>
+                        <li>Shows radius of influence around bone</li>
+                        <li>Spherical areas at head and tail</li>
+                        <li>Visualizes which vertices the bone affects</li>
+                        <li><strong>Best for:</strong> Envelope skinning method (older technique, less common now)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Wire:</strong></p>
+                    <ul>
+                        <li>Bone outlines only, no fill</li>
+                        <li>Very transparent, minimal obstruction</li>
+                        <li><strong>Best for:</strong> Complex rigs where you need maximum visibility</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>How to Change Display:</strong></p>
+                    <ul>
+                        <li>Select armature (Object Mode)</li>
+                        <li>Armature Properties panel (icon looks like skeleton)</li>
+                        <li>Viewport Display section</li>
+                        <li>Change "Display As" dropdown</li>
+                    </ul>
+                </div>
+
+                <h4>Bone Layers and Organization</h4>
+
+                <p>Complex characters can have 50-100+ bones! Bone layers help you organize them and reduce visual clutter.</p>
+
+                <div class="card">
+                    <h4>📁 Using Bone Layers</h4>
+                    
+                    <p><strong>What Are Bone Layers?</strong></p>
+                    <ul>
+                        <li>32 separate "layers" (like folders) to organize bones</li>
+                        <li>Each bone can be on one or more layers</li>
+                        <li>Toggle layer visibility to show/hide bone groups</li>
+                        <li>Doesn't affect functionality—purely organizational</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Common Layer Organization:</strong></p>
+                    <ul>
+                        <li><strong>Layer 1:</strong> Main deformation bones (spine, limbs)</li>
+                        <li><strong>Layer 2:</strong> Facial bones (jaw, eyes, etc.)</li>
+                        <li><strong>Layer 3:</strong> Hand/finger bones</li>
+                        <li><strong>Layer 4:</strong> Foot/toe bones</li>
+                        <li><strong>Layer 10+:</strong> Control/helper bones (IK controllers, targets)</li>
+                        <li><strong>Layer 20+:</strong> Mechanism bones (usually hidden)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Managing Layers:</strong></p>
+                    <ul>
+                        <li><strong>View layers:</strong> Armature Properties > Skeleton > Layers (grid of dots)</li>
+                        <li><strong>Assign bone to layer:</strong> Select bone(s), press <code>M</code>, choose layer(s)</li>
+                        <li><strong>Show/hide layer:</strong> Click layer dot in properties or press <code>M</code> in viewport</li>
+                        <li><strong>Multiple layers:</strong> Shift+click to select multiple layer dots</li>
+                    </ul>
+                </div>
+
+                <h4>Bone Relationships and Modes</h4>
+
+                <div class="card">
+                    <h4>🔗 Connected vs. Disconnected Bones</h4>
+                    
+                    <p><strong>Connected Bones:</strong></p>
+                    <ul>
+                        <li>Child bone's head is "locked" to parent's tail</li>
+                        <li>When parent tail moves, child head follows automatically</li>
+                        <li>Creates rigid joint connection</li>
+                        <li><strong>Example:</strong> Forearm connected to upper arm—elbow joint stays together</li>
+                        <li><strong>Pro:</strong> Joint stays together automatically</li>
+                        <li><strong>Con:</strong> Less flexibility for complex rigs</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Disconnected Bones:</strong></p>
+                    <ul>
+                        <li>Child bone's head can be anywhere in space</li>
+                        <li>Still follows parent's rotation and position, but offset</li>
+                        <li>More flexible for complex rigging</li>
+                        <li><strong>Example:</strong> Shoulder bone controlling arm, but not directly touching it</li>
+                        <li><strong>Pro:</strong> Maximum control and flexibility</li>
+                        <li><strong>Con:</strong> Need to manually maintain joint positions</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>When to Use Each:</strong></p>
+                    <ul>
+                        <li><strong>Connected:</strong> Simple chains (fingers, spine segments, simple limbs)</li>
+                        <li><strong>Disconnected:</strong> Complex rigs, control bones, IK setups</li>
+                        <li>Can toggle connection: Select bone, Armature > Parent > Connect/Disconnect</li>
+                    </ul>
+                </div>
+
+                <h4>Bone Constraints Preview</h4>
+
+                <p>While we'll cover constraints in detail in the rigging lesson, it's important to know they exist and what they do!</p>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>🔒 What Are Bone Constraints?</h4>
+                    
+                    <p><strong>Constraints Control How Bones Can Move:</strong></p>
+                    <ul>
+                        <li><strong>Limit Rotation:</strong> "This elbow can only bend 0-150 degrees" (prevents backward bending)</li>
+                        <li><strong>Track To:</strong> "This eye bone always looks at the target" (eye following movement)</li>
+                        <li><strong>IK (Inverse Kinematics):</strong> "Move hand, arm figures out elbow position automatically"</li>
+                        <li><strong>Copy Rotation:</strong> "This bone mirrors another bone's rotation"</li>
+                        <li><strong>Child Of:</strong> "This bone follows another bone's movement"</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Why Mention This Now?</strong></p>
+                    <ul>
+                        <li>Understanding that constraints exist helps you plan your armature</li>
+                        <li>Some bone placements only make sense when you know constraints will be added later</li>
+                        <li>Professional rigs use constraints extensively—they're not optional!</li>
+                        <li>We'll add constraints after basic armature is built</li>
+                    </ul>
+                </div>
+
+                <h4>Bone Properties Panel</h4>
+
+                <p>When you select a bone in Edit Mode or Pose Mode, the Bone Properties panel shows all its settings. Let's tour the important ones!</p>
+
+                <div class="card">
+                    <h4>⚙️ Essential Bone Properties</h4>
+                    
+                    <p><strong>Transform Panel:</strong></p>
+                    <ul>
+                        <li><strong>Head/Tail Position:</strong> Exact X, Y, Z coordinates in 3D space</li>
+                        <li><strong>Roll:</strong> Rotation around the bone's length axis (in degrees)</li>
+                        <li><strong>Length:</strong> Distance from head to tail</li>
+                        <li>Can type exact values for precision placement</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Relations Panel:</strong></p>
+                    <ul>
+                        <li><strong>Parent:</strong> Which bone is this bone's parent?</li>
+                        <li><strong>Connected:</strong> Checkbox—is head locked to parent's tail?</li>
+                        <li><strong>Layers:</strong> Which layer(s) this bone appears on</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Deform Panel:</strong></p>
+                    <ul>
+                        <li><strong>Deform:</strong> Checkbox—does this bone deform the mesh? (control bones = off)</li>
+                        <li><strong>Envelope/B-Bone settings:</strong> Advanced deformation controls</li>
+                        <li>Most bones have "Deform" checked</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Display Panel:</strong></p>
+                    <ul>
+                        <li><strong>Hide:</strong> Make bone invisible (still functional)</li>
+                        <li><strong>Custom Shape:</strong> Replace bone display with custom object (for control bones)</li>
+                        <li>Useful for creating animator-friendly control rigs</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Bone Anatomy] --> B[Head - Start Point]
+                    A --> C[Tail - End Point]
+                    A --> D[Body - Connection]
+                    A --> E[Roll - Twist]
+                    E --> F[Local Coordinate System]
+                    F --> G[X-axis - Bending]
+                    F --> H[Y-axis - Length]
+                    F --> I[Z-axis - Twisting]
+                    B --> J[Joint Connection]
+                    C --> J
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Pro Tip:</strong> When building your first armatures, stick with octahedral display and connected bones. These are the simplest to understand and visualize. As you gain experience, you'll learn when to use other display types and disconnected bones for advanced rigs. Master the basics first—complexity comes naturally with practice!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎯 Bone Anatomy Recap</h3>
+                    <ul style="color: white;">
+                        <li><strong>Head:</strong> Start point, connects to parent</li>
+                        <li><strong>Tail:</strong> End point, children connect here</li>
+                        <li><strong>Body:</strong> Visual representation of bone direction</li>
+                        <li><strong>Roll:</strong> Twist that determines local axes orientation</li>
+                        <li><strong>Local Axes:</strong> Y=length, X=bend, Z=twist</li>
+                        <li><strong>Display Types:</strong> Octahedral (default), Stick, B-Bone, etc.</li>
+                        <li><strong>Connection:</strong> Connected (locked to parent) vs Disconnected (free)</li>
+                        <li><strong>Deform:</strong> Controls whether bone affects mesh</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0; margin-top: 1rem;"><strong>Understanding these fundamentals makes everything else in rigging click into place!</strong></p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_37_armature_and_bones_part_03.html
+     ============================================ -->

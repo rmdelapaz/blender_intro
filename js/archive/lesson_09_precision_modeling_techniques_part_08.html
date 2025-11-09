@@ -1,0 +1,447 @@
+<!-- ============================================
+     LESSON 09 - PART 08
+     File: lesson_09_precision_modeling_techniques_part_08.html
+     ============================================ -->
+
+                <section id="project" class="content-section">
+                    <h2>🎯 Project: Precision Mechanical Part</h2>
+
+                    <p>Now it's time to put everything together! You're going to model a mechanical connector piece that requires every precision technique we've covered. This project simulates real-world production modeling where measurements matter and everything must fit together perfectly.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">🎯 Project Goals</h3>
+                        <ul style="color: white;">
+                            <li><strong>Primary Goal:</strong> Model a mechanical connector with exact dimensions</li>
+                            <li><strong>Precision Skills:</strong> Use grid snapping, numerical input, measurements, and mirror modeling</li>
+                            <li><strong>Learning Goal:</strong> Develop precision modeling workflow from start to finish</li>
+                            <li><strong>Real-World Application:</strong> Practice techniques used in product design and engineering</li>
+                        </ul>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.3); color: white;">
+                            <p><strong>⏱️ Estimated Time:</strong> 45-60 minutes</p>
+                            <p><strong>📐 Difficulty:</strong> Intermediate</p>
+                        </div>
+                    </div>
+
+                    <h3>Project Overview: T-Connector Fitting</h3>
+
+                    <p>You'll create a T-shaped pipe connector—the kind used in plumbing, pneumatics, or mechanical systems. This seemingly simple object requires precision at every step:</p>
+
+                    <div class="card">
+                        <h4>📋 T-Connector Specifications</h4>
+                        <ul>
+                            <li><strong>Main body:</strong> Cylindrical, 3 units diameter × 2 units long</li>
+                            <li><strong>Branch pipe:</strong> 2 units diameter × 2 units long, perpendicular to main body</li>
+                            <li><strong>Connection flanges:</strong> 0.2 units thick, 0.3 units wide, at each opening</li>
+                            <li><strong>Interior hollow:</strong> 2 units diameter through entire connector</li>
+                            <li><strong>Beveled edges:</strong> 0.05 unit bevel on all exterior edges</li>
+                            <li><strong>Symmetry:</strong> Mirror symmetry on two axes</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Why This Project?</strong> T-connectors teach you to handle multiple axes, precise alignments, symmetry, and boolean operations—all essential precision modeling skills. Plus, the techniques transfer directly to countless other projects from architecture to product design.</p>
+                    </blockquote>
+
+                    <h3>Phase 1: Project Setup</h3>
+
+                    <p>Before modeling a single vertex, set up your scene properly. This determines success or frustration:</p>
+
+                    <div class="card">
+                        <h4>📝 Step 1: Configure Scene Units</h4>
+                        <ol>
+                            <li><strong>Start fresh:</strong> File → New → General</li>
+                            <li><strong>Delete default cube:</strong> <code>X</code> → Delete</li>
+                            <li><strong>Open Scene Properties</strong> (scene icon in properties panel)</li>
+                            <li><strong>Set Units:</strong>
+                                <ul>
+                                    <li>Unit System: Metric</li>
+                                    <li>Length: Centimeters (we'll work in centimeter scale)</li>
+                                    <li>Unit Scale: 1.0</li>
+                                </ul>
+                            </li>
+                            <li><strong>Save immediately:</strong> <code>Ctrl+S</code> → "T_Connector_Project.blend"</li>
+                        </ol>
+                    </div>
+
+                    <div class="card">
+                        <h4>📝 Step 2: Configure Grid and Snapping</h4>
+                        <ol>
+                            <li><strong>Open Overlay menu</strong> (top-right, overlapping circles icon)</li>
+                            <li><strong>Under Grid section:</strong>
+                                <ul>
+                                    <li>Scale: 0.1 (for finer grid lines)</li>
+                                    <li>Subdivision: 10</li>
+                                </ul>
+                            </li>
+                            <li><strong>Enable snapping:</strong> <code>Shift+Tab</code></li>
+                            <li><strong>Set snap type to Increment (Grid)</strong></li>
+                            <li><strong>Your workspace is now precision-ready!</strong></li>
+                        </ol>
+                    </div>
+
+                    <div class="card">
+                        <h4>📝 Step 3: Create Reference Cube</h4>
+                        <ol>
+                            <li><strong>Add cube:</strong> <code>Shift+A</code> → Mesh → Cube</li>
+                            <li><strong>Scale to 1 unit:</strong> <code>S</code> <code>0.5</code> <code>Enter</code> (cube is 2 units by default)</li>
+                            <li><strong>Apply scale:</strong> <code>Ctrl+A</code> → Scale</li>
+                            <li><strong>Move to side:</strong> <code>G</code> <code>X</code> <code>-5</code> <code>Enter</code></li>
+                            <li><strong>Name it "Reference_1cm"</strong> in outliner</li>
+                            <li><strong>This is your visual scale reference</strong></li>
+                        </ol>
+                    </div>
+
+                    <h3>Phase 2: Main Body Cylinder</h3>
+
+                    <p>Now we'll create the main horizontal pipe of the T-connector:</p>
+
+                    <div class="card">
+                        <h4>📝 Step 4: Create Base Cylinder</h4>
+                        <ol>
+                            <li><strong>Add cylinder:</strong> <code>Shift+A</code> → Mesh → Cylinder</li>
+                            <li><strong>In the add operator options</strong> (bottom-left):
+                                <ul>
+                                    <li>Vertices: 32 (smooth circular profile)</li>
+                                    <li>Radius: 1.5 (3 units diameter)</li>
+                                    <li>Depth: 2 units</li>
+                                </ul>
+                            </li>
+                            <li><strong>Apply scale immediately:</strong> <code>Ctrl+A</code> → Scale</li>
+                            <li><strong>Check dimensions in Properties panel (<code>N</code> key):</strong>
+                                <ul>
+                                    <li>Should show: X: 3cm, Y: 3cm, Z: 2cm</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="card">
+                        <h4>📝 Step 5: Add Connection Flanges</h4>
+                        <ol>
+                            <li><strong>Enter Edit Mode:</strong> <code>Tab</code></li>
+                            <li><strong>Switch to Face Select:</strong> <code>3</code></li>
+                            <li><strong>Select both end faces</strong> (top and bottom circles)</li>
+                            <li><strong>Extrude:</strong> <code>E</code> <code>0.2</code> <code>Enter</code> (2mm flange thickness)</li>
+                            <li><strong>Scale outward:</strong> <code>S</code> <code>1.15</code> <code>Enter</code> (15% larger)</li>
+                            <li><strong>Check result:</strong> You now have flanges on both ends!</li>
+                        </ol>
+                    </div>
+
+                    <h3>Phase 3: Branch Pipe with Mirror Symmetry</h3>
+
+                    <p>The perpendicular branch is where precision and symmetry techniques come together:</p>
+
+                    <div class="card">
+                        <h4>📝 Step 6: Create Half of Branch Pipe</h4>
+                        <ol>
+                            <li><strong>Return to Object Mode:</strong> <code>Tab</code></li>
+                            <li><strong>Add another cylinder:</strong> <code>Shift+A</code> → Mesh → Cylinder</li>
+                            <li><strong>Set dimensions:</strong>
+                                <ul>
+                                    <li>Vertices: 32</li>
+                                    <li>Radius: 1.0 (2 units diameter)</li>
+                                    <li>Depth: 1.0 (we'll mirror this to make 2 units total)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotate to vertical:</strong> <code>R</code> <code>X</code> <code>90</code> <code>Enter</code></li>
+                            <li><strong>Apply rotation:</strong> <code>Ctrl+A</code> → Rotation</li>
+                            <li><strong>Position at center top:</strong> <code>G</code> <code>Z</code> <code>0.5</code> <code>Enter</code></li>
+                        </ol>
+                    </div>
+
+                    <div class="card">
+                        <h4>📝 Step 7: Add Mirror Modifier</h4>
+                        <ol>
+                            <li><strong>Ensure branch cylinder origin is at world center for Z-axis</strong></li>
+                            <li><strong>With branch selected, add Mirror modifier</strong></li>
+                            <li><strong>In modifier settings:</strong>
+                                <ul>
+                                    <li>Uncheck X-axis</li>
+                                    <li>Check Z-axis (vertical mirror)</li>
+                                    <li>Enable Clipping</li>
+                                    <li>Enable Merge</li>
+                                </ul>
+                            </li>
+                            <li><strong>Branch now extends symmetrically up and down!</strong></li>
+                        </ol>
+                    </div>
+
+                    <div class="card">
+                        <h4>📝 Step 8: Add Branch Flanges</h4>
+                        <ol>
+                            <li><strong>Enter Edit Mode on branch</strong></li>
+                            <li><strong>Select top end face</strong></li>
+                            <li><strong>Extrude:</strong> <code>E</code> <code>0.2</code> <code>Enter</code></li>
+                            <li><strong>Scale:</strong> <code>S</code> <code>1.15</code> <code>Enter</code></li>
+                            <li><strong>Mirror automatically creates matching bottom flange!</strong></li>
+                        </ol>
+                    </div>
+
+                    <h3>Phase 4: Creating Hollow Interior</h3>
+
+                    <p>Now we'll make the connector hollow using precise boolean operations:</p>
+
+                    <div class="card">
+                        <h4>📝 Step 9: Create Hollow Boolean Cutters</h4>
+                        <ol>
+                            <li><strong>Return to Object Mode</strong></li>
+                            <li><strong>Add cylinder for main body hollow:</strong> <code>Shift+A</code> → Mesh → Cylinder</li>
+                            <li><strong>Configure:</strong>
+                                <ul>
+                                    <li>Radius: 1.0 (2cm hollow)</li>
+                                    <li>Depth: 3.0 (longer than main body to ensure clean cut)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Name it "Cutter_Main"</strong></li>
+                            <li><strong>Add another cylinder for branch hollow:</strong>
+                                <ul>
+                                    <li>Radius: 1.0</li>
+                                    <li>Depth: 3.0</li>
+                                    <li>Rotate: <code>R</code> <code>X</code> <code>90</code> <code>Enter</code></li>
+                                    <li>Apply rotation: <code>Ctrl+A</code> → Rotation</li>
+                                </ul>
+                            </li>
+                            <li><strong>Name it "Cutter_Branch"</strong></li>
+                            <li><strong>Position both cutters at origin (they should already be there)</strong></li>
+                        </ol>
+                    </div>
+
+                    <div class="card">
+                        <h4>📝 Step 10: Apply Boolean Operations</h4>
+                        <ol>
+                            <li><strong>Select main body cylinder</strong></li>
+                            <li><strong>Add Boolean modifier</strong></li>
+                            <li><strong>Settings:</strong>
+                                <ul>
+                                    <li>Operation: Difference</li>
+                                    <li>Object: Cutter_Main</li>
+                                    <li>Solver: Exact (more reliable)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Main body is now hollow!</strong></li>
+                            <li><strong>Repeat for branch:</strong>
+                                <ul>
+                                    <li>Select branch cylinder</li>
+                                    <li>Add Boolean modifier</li>
+                                    <li>Operation: Difference</li>
+                                    <li>Object: Cutter_Branch</li>
+                                </ul>
+                            </li>
+                            <li><strong>Hide the cutter objects:</strong> Select them, press <code>H</code></li>
+                        </ol>
+                    </div>
+
+                    <h3>Phase 5: Joining and Refinement</h3>
+
+                    <p>Now we'll combine the parts and add finishing touches:</p>
+
+                    <div class="card">
+                        <h4>📝 Step 11: Join the Parts</h4>
+                        <ol>
+                            <li><strong>Select both visible cylinders</strong> (main body and branch)</li>
+                            <li><strong>Join them:</strong> <code>Ctrl+J</code></li>
+                            <li><strong>Name the combined object "T_Connector"</strong></li>
+                            <li><strong>Enter Edit Mode and verify geometry looks correct</strong></li>
+                            <li><strong>Select all:</strong> <code>A</code></li>
+                            <li><strong>Remove doubles:</strong> <code>M</code> → By Distance</li>
+                            <li><strong>Recalculate normals:</strong> <code>Shift+N</code></li>
+                        </ol>
+                    </div>
+
+                    <div class="card">
+                        <h4>📝 Step 12: Add Bevel for Realism</h4>
+                        <ol>
+                            <li><strong>Return to Object Mode</strong></li>
+                            <li><strong>Add Bevel modifier</strong></li>
+                            <li><strong>Settings:</strong>
+                                <ul>
+                                    <li>Amount: 0.05 (0.5mm bevel)</li>
+                                    <li>Segments: 2</li>
+                                    <li>Limit Method: Angle</li>
+                                    <li>Angle: 30 degrees</li>
+                                </ul>
+                            </li>
+                            <li><strong>Edges are now realistically rounded!</strong></li>
+                        </ol>
+                    </div>
+
+                    <div class="card">
+                        <h4>📝 Step 13: Add Smooth Shading</h4>
+                        <ol>
+                            <li><strong>Right-click the T-connector</strong></li>
+                            <li><strong>Choose "Shade Smooth"</strong></li>
+                            <li><strong>Add Subdivision Surface modifier (optional):</strong>
+                                <ul>
+                                    <li>Levels Viewport: 1</li>
+                                    <li>Render: 2</li>
+                                </ul>
+                            </li>
+                            <li><strong>Your connector now looks production-ready!</strong></li>
+                        </ol>
+                    </div>
+
+                    <h3>Phase 6: Verification and Quality Check</h3>
+
+                    <p>Professional work always includes thorough verification:</p>
+
+                    <div class="card">
+                        <h4>📝 Step 14: Measure and Verify</h4>
+                        <ol>
+                            <li><strong>Activate Measure tool:</strong> Toolbar → Measure</li>
+                            <li><strong>Measure main body diameter:</strong>
+                                <ul>
+                                    <li>Click on one side of cylinder</li>
+                                    <li>Click on opposite side</li>
+                                    <li>Should read 3.0 cm</li>
+                                </ul>
+                            </li>
+                            <li><strong>Measure branch diameter:</strong> Should read 2.0 cm</li>
+                            <li><strong>Measure flange thickness:</strong> Should read 0.2 cm</li>
+                            <li><strong>Enable Edge Length overlay to spot-check dimensions</strong></li>
+                        </ol>
+                    </div>
+
+                    <div class="card">
+                        <h4>📝 Step 15: Visual Inspection</h4>
+                        <ol>
+                            <li><strong>Switch to orthographic views:</strong>
+                                <ul>
+                                    <li>Front: <code>Numpad 1</code></li>
+                                    <li>Right: <code>Numpad 3</code></li>
+                                    <li>Top: <code>Numpad 7</code></li>
+                                </ul>
+                            </li>
+                            <li><strong>Check for symmetry in each view</strong></li>
+                            <li><strong>Look for any misalignments or gaps</strong></li>
+                            <li><strong>Enable X-Ray mode (<code>Alt+Z</code>) to inspect interior</strong></li>
+                        </ol>
+                    </div>
+
+                    <h3>Success Checklist</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Your Project is Complete When:</h4>
+                        <ul>
+                            <li>☐ Main body is 3cm diameter × 2cm long</li>
+                            <li>☐ Branch is 2cm diameter × 2cm total length (1cm each side of mirror)</li>
+                            <li>☐ All flanges are 0.2cm thick and proportionally scaled</li>
+                            <li>☐ Interior is hollow (2cm diameter throughout)</li>
+                            <li>☐ Edges are beveled (0.05cm bevel visible)</li>
+                            <li>☐ Smooth shading applied</li>
+                            <li>☐ No gaps or overlapping geometry</li>
+                            <li>☐ Measurements verified with Measure tool</li>
+                            <li>☐ Symmetry confirmed in orthographic views</li>
+                            <li>☐ All scale transformations applied</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bonus Challenges</h3>
+
+                    <p>Ready to take it further? Try these advanced variations:</p>
+
+                    <div class="card">
+                        <h4>🏆 Challenge 1: Add Bolt Holes</h4>
+                        <ol>
+                            <li>Create small cylinders for bolt holes in each flange</li>
+                            <li>Position them precisely using numerical input</li>
+                            <li>Use Array modifier to duplicate around flange (6 bolts)</li>
+                            <li>Boolean subtract from connector</li>
+                            <li>Creates realistic mounting holes!</li>
+                        </ol>
+                    </div>
+
+                    <div class="card">
+                        <h4>🏆 Challenge 2: Create Matching Parts</h4>
+                        <ol>
+                            <li>Duplicate your T-connector</li>
+                            <li>Create straight pipe sections that fit exactly</li>
+                            <li>Use your connector's measurements for perfect fit</li>
+                            <li>Build a complete pipe assembly</li>
+                            <li>Everything should snap together with grid snapping!</li>
+                        </ol>
+                    </div>
+
+                    <div class="card">
+                        <h4>🏆 Challenge 3: Add Thread Details</h4>
+                        <ol>
+                            <li>Add subtle spiral thread grooves to interior</li>
+                            <li>Use Array modifier + Curve modifier for spiral</li>
+                            <li>Or add thread texture with displacement</li>
+                            <li>Creates realistic threaded connection!</li>
+                        </ol>
+                    </div>
+
+                    <h3>Troubleshooting Common Issues</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ If Something Goes Wrong</h4>
+                        
+                        <p><strong>Boolean operation fails or looks weird:</strong></p>
+                        <ul>
+                            <li>Ensure all scale is applied: <code>Ctrl+A</code> → Scale</li>
+                            <li>Try "Exact" solver instead of "Fast"</li>
+                            <li>Make sure cutter objects are slightly larger than target</li>
+                            <li>Check normals: Select all, <code>Shift+N</code></li>
+                        </ul>
+                        
+                        <p><strong>Measurements don't match specifications:</strong></p>
+                        <ul>
+                            <li>Check unit settings in Scene Properties</li>
+                            <li>Verify scale is applied on all objects</li>
+                            <li>Use Measure tool, not eyeballing</li>
+                            <li>Remember: Radius vs. Diameter (Radius = Diameter ÷ 2)</li>
+                        </ul>
+                        
+                        <p><strong>Mirror modifier creates gap or doesn't work:</strong></p>
+                        <ul>
+                            <li>Ensure Clipping and Merge are enabled</li>
+                            <li>Check object origin is at correct position</li>
+                            <li>Flatten center vertices: <code>S</code> <code>Z</code> <code>0</code> (for Z-axis mirror)</li>
+                        </ul>
+                        
+                        <p><strong>Parts don't join cleanly:</strong></p>
+                        <ul>
+                            <li>Use Merge by Distance after joining: <code>M</code> → By Distance</li>
+                            <li>Increase merge threshold if needed (but not too much!)</li>
+                            <li>Manually select and merge problem vertices</li>
+                        </ul>
+                    </div>
+
+                    <h3>What You've Accomplished</h3>
+
+                    <p>Take a moment to appreciate what you've created! Starting from nothing, you've built a precision mechanical part using professional techniques:</p>
+
+                    <ul>
+                        <li>✅ Set up proper units and measurement system</li>
+                        <li>✅ Used grid snapping for consistent alignment</li>
+                        <li>✅ Applied numerical input for exact dimensions</li>
+                        <li>✅ Employed mirror modifier for perfect symmetry</li>
+                        <li>✅ Used boolean operations for complex shapes</li>
+                        <li>✅ Applied beveling for realistic edges</li>
+                        <li>✅ Verified dimensions with measurement tools</li>
+                        <li>✅ Created production-ready geometry</li>
+                    </ul>
+
+                    <blockquote>
+                        <p><strong>🎉 Congratulations!</strong> You've completed a project that demonstrates real-world precision modeling skills. The workflow you followed—setup, modeling with precision tools, verification—is exactly what professionals use daily. These techniques apply to everything from architectural visualization to product design to game asset creation.</p>
+                    </blockquote>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; margin: 2rem 0;">
+                        <h3 style="color: white; margin-top: 0;">💼 Real-World Application</h3>
+                        <p style="color: white;">The T-connector you just modeled is a real product design challenge. Engineering teams model these types of parts daily for:</p>
+                        <ul style="color: white;">
+                            <li>Manufacturing specifications</li>
+                            <li>3D printing production files</li>
+                            <li>Assembly instructions and documentation</li>
+                            <li>Marketing and visualization</li>
+                            <li>Simulation and testing</li>
+                        </ul>
+                        <p style="color: white; margin-bottom: 0;">You now have skills that translate directly to professional product design!</p>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 08
+     Continue with lesson_09_precision_modeling_techniques_part_09.html
+     ============================================ -->

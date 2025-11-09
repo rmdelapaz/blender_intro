@@ -1,0 +1,519 @@
+<!-- ============================================
+     LESSON 14 - PART 05
+     File: lesson_14_advanced_materials_part_05.html
+     ============================================ -->
+
+                <section id="realistic-materials" class="content-section">
+                    <h2>🌟 Creating Realistic Materials</h2>
+
+                    <p>Now let's put everything together and create specific realistic materials. We'll build complete material setups for common material types, learning the exact parameters and techniques for each.</p>
+
+                    <h3>Glass Material</h3>
+
+                    <div class="card">
+                        <h4>🪟 Creating Realistic Glass</h4>
+                        <p><strong>Basic glass setup:</strong></p>
+                        <ol>
+                            <li>Start with Principled BSDF (default material)</li>
+                            <li><strong>Transmission:</strong> 1.0 (fully transparent)</li>
+                            <li><strong>Roughness:</strong> 0.0 (perfectly smooth)</li>
+                            <li><strong>IOR:</strong> 1.45-1.55 (glass range)
+                                <ul>
+                                    <li>1.45 = Acrylic/plastic</li>
+                                    <li>1.5 = Standard glass</li>
+                                    <li>1.55 = Dense glass</li>
+                                </ul>
+                            </li>
+                            <li><strong>Base Color:</strong> White (or slight tint for colored glass)</li>
+                        </ol>
+                        <p><strong>Glass variations:</strong></p>
+                        <ul>
+                            <li><strong>Frosted glass:</strong>
+                                <ul>
+                                    <li>Roughness: 0.1-0.4</li>
+                                    <li>Higher roughness = more diffusion</li>
+                                </ul>
+                            </li>
+                            <li><strong>Tinted glass:</strong>
+                                <ul>
+                                    <li>Base Color: Colored (green, blue, amber)</li>
+                                    <li>Keep slightly desaturated</li>
+                                </ul>
+                            </li>
+                            <li><strong>Dirty glass:</strong>
+                                <ul>
+                                    <li>Add slight roughness variation (noise texture)</li>
+                                    <li>Mix in subtle dirt layer on surface</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Render settings for glass (Eevee):</strong></p>
+                        <ul>
+                            <li>Material Settings → Screen Space Refraction: ON</li>
+                            <li>Render Properties → Screen Space Reflections: ON</li>
+                            <li>Note: Cycles handles glass automatically (more accurate)</li>
+                        </ul>
+                        <p><strong>Pro tip:</strong> Slightly increase Specular to 0.6-0.7 for extra "glass-iness"</p>
+                    </div>
+
+                    <h3>Metal Materials</h3>
+
+                    <div class="card">
+                        <h4>🏆 Creating Various Metals</h4>
+                        <p><strong>Gold material:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> RGB (1.0, 0.766, 0.336) or hex #FFC355</li>
+                            <li><strong>Metallic:</strong> 1.0</li>
+                            <li><strong>Roughness:</strong> 0.1-0.3 (polished gold)</li>
+                            <li><strong>Roughness:</strong> 0.4-0.6 (brushed gold)</li>
+                        </ul>
+                        <p><strong>Silver/Chrome material:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> Light gray RGB (0.95, 0.95, 0.95)</li>
+                            <li><strong>Metallic:</strong> 1.0</li>
+                            <li><strong>Roughness:</strong> 0.0-0.15 (mirror chrome)</li>
+                            <li><strong>Roughness:</strong> 0.2-0.4 (brushed steel)</li>
+                        </ul>
+                        <p><strong>Copper material:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> RGB (0.955, 0.637, 0.538) or hex #F4A289</li>
+                            <li><strong>Metallic:</strong> 1.0</li>
+                            <li><strong>Roughness:</strong> 0.15-0.35</li>
+                        </ul>
+                        <p><strong>Iron/Steel material:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> Medium gray RGB (0.56, 0.57, 0.58)</li>
+                            <li><strong>Metallic:</strong> 1.0</li>
+                            <li><strong>Roughness:</strong> 0.3-0.5 (raw steel)</li>
+                            <li><strong>Add variation:</strong> Noise texture in roughness for realism</li>
+                        </ul>
+                        <p><strong>Aluminum material:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> Light gray RGB (0.91, 0.92, 0.92)</li>
+                            <li><strong>Metallic:</strong> 1.0</li>
+                            <li><strong>Roughness:</strong> 0.25-0.45</li>
+                            <li><strong>Anisotropic:</strong> 0.3-0.5 (for brushed aluminum)</li>
+                        </ul>
+                        <p><strong>Adding realism to metals:</strong></p>
+                        <ul>
+                            <li>Plug Noise texture into Roughness (subtle variation)</li>
+                            <li>Add fingerprints with very low-opacity noise</li>
+                            <li>Mix in rust/oxidation using Mix Shader</li>
+                            <li>Add scratches with procedural lines</li>
+                        </ul>
+                    </div>
+
+                    <h3>Wood Material</h3>
+
+                    <div class="card">
+                        <h4>🌲 Procedural Wood</h4>
+                        <p><strong>Basic procedural wood setup:</strong></p>
+                        <ol>
+                            <li><strong>Create wood grain pattern:</strong>
+                                <ul>
+                                    <li>Add Wave Texture (Rings mode)</li>
+                                    <li>Or Noise Texture with high distortion</li>
+                                    <li>Connect through ColorRamp</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add to Mapping node:</strong>
+                                <ul>
+                                    <li>Texture Coordinate (Object) → Mapping</li>
+                                    <li>Rotate around one axis to align grain</li>
+                                    <li>Adjust scale for grain density</li>
+                                </ul>
+                            </li>
+                            <li><strong>Create wood colors:</strong>
+                                <ul>
+                                    <li>ColorRamp with 2-4 color stops</li>
+                                    <li>Dark brown (grain lines)</li>
+                                    <li>Medium brown (base wood)</li>
+                                    <li>Light tan (highlights)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Connect to Principled BSDF:</strong>
+                                <ul>
+                                    <li>ColorRamp Color → Base Color</li>
+                                    <li><strong>Metallic:</strong> 0.0</li>
+                                    <li><strong>Roughness:</strong> 0.4-0.6 (raw wood) or 0.1-0.3 (polished)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add bump for texture:</strong>
+                                <ul>
+                                    <li>Same noise pattern → Bump node → Normal input</li>
+                                    <li>Strength: 0.1-0.3</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <p><strong>Wood color schemes:</strong></p>
+                        <ul>
+                            <li><strong>Oak:</strong> Medium brown (#8B6F47) to tan (#D4A574)</li>
+                            <li><strong>Walnut:</strong> Dark brown (#3D2817) to medium brown (#6B4423)</li>
+                            <li><strong>Pine:</strong> Light tan (#E8C896) to yellow-brown (#C19A6B)</li>
+                            <li><strong>Cherry:</strong> Reddish-brown (#8B4513) to light red-tan (#D2691E)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Plastic Material</h3>
+
+                    <div class="card">
+                        <h4>🎨 Creating Plastic</h4>
+                        <p><strong>Glossy plastic setup:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> Any color (plastic can be any hue)</li>
+                            <li><strong>Metallic:</strong> 0.0</li>
+                            <li><strong>Roughness:</strong> 0.2-0.4 (smooth, glossy plastic)</li>
+                            <li><strong>Specular:</strong> 0.5 (default works well)</li>
+                        </ul>
+                        <p><strong>Matte plastic setup:</strong></p>
+                        <ul>
+                            <li><strong>Roughness:</strong> 0.6-0.8 (higher = more matte)</li>
+                            <li>Everything else same as glossy</li>
+                        </ul>
+                        <p><strong>Transparent plastic (like bottles):</strong></p>
+                        <ul>
+                            <li><strong>Transmission:</strong> 0.9-1.0</li>
+                            <li><strong>Roughness:</strong> 0.05-0.15</li>
+                            <li><strong>IOR:</strong> 1.45 (plastic IOR)</li>
+                            <li><strong>Base Color:</strong> Slight tint if colored plastic</li>
+                        </ul>
+                        <p><strong>Adding realism:</strong></p>
+                        <ul>
+                            <li>Slight roughness variation with noise</li>
+                            <li>Fingerprints and smudges (low-opacity noise in roughness)</li>
+                            <li>Scratches (linear patterns)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Stone/Rock Material</h3>
+
+                    <div class="card">
+                        <h4>🪨 Procedural Stone</h4>
+                        <p><strong>Basic stone setup:</strong></p>
+                        <ol>
+                            <li><strong>Base color variation:</strong>
+                                <ul>
+                                    <li>Noise Texture (scale 5-15)</li>
+                                    <li>Through ColorRamp</li>
+                                    <li>Gray to slightly warm gray</li>
+                                    <li>2-3 color stops for subtle variation</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add surface detail:</strong>
+                                <ul>
+                                    <li>Voronoi or Musgrave texture</li>
+                                    <li>Connect to Bump node</li>
+                                    <li>Strength: 0.3-0.8</li>
+                                    <li>Creates rocky surface irregularities</li>
+                                </ul>
+                            </li>
+                            <li><strong>Principled BSDF settings:</strong>
+                                <ul>
+                                    <li><strong>Metallic:</strong> 0.0</li>
+                                    <li><strong>Roughness:</strong> 0.7-0.9 (stone is quite rough)</li>
+                                    <li><strong>Subsurface (optional):</strong> 0.05-0.15 for marble/translucent stone</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <p><strong>Stone type variations:</strong></p>
+                        <ul>
+                            <li><strong>Granite:</strong> High detail noise, salt-and-pepper colors</li>
+                            <li><strong>Marble:</strong> Wave texture for veins, subsurface scattering</li>
+                            <li><strong>Sandstone:</strong> Warm colors, moderate roughness, layered appearance</li>
+                            <li><strong>Concrete:</strong> Uniform gray, high roughness, subtle noise variation</li>
+                        </ul>
+                    </div>
+
+                    <h3>Fabric Material</h3>
+
+                    <div class="card">
+                        <h4>🧵 Creating Fabric/Cloth</h4>
+                        <p><strong>Basic fabric setup:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> Any fabric color</li>
+                            <li><strong>Metallic:</strong> 0.0</li>
+                            <li><strong>Roughness:</strong> 0.8-1.0 (very matte)</li>
+                            <li><strong>Sheen:</strong> 0.3-0.7 (fabric characteristic glow)</li>
+                            <li><strong>Sheen Tint:</strong> 0.5-0.8 (colored sheen)</li>
+                        </ul>
+                        <p><strong>Velvet/Carpet:</strong></p>
+                        <ul>
+                            <li>Increase Sheen to 0.8-1.0</li>
+                            <li>Roughness: 1.0</li>
+                            <li>Strong sheen effect at grazing angles</li>
+                        </ul>
+                        <p><strong>Silk/Satin:</strong></p>
+                        <ul>
+                            <li><strong>Roughness:</strong> 0.2-0.4 (much smoother)</li>
+                            <li><strong>Anisotropic:</strong> 0.5-0.8 (thread direction)</li>
+                            <li>Less sheen than velvet</li>
+                        </ul>
+                        <p><strong>Adding fabric detail:</strong></p>
+                        <ul>
+                            <li>Bump map for weave pattern</li>
+                            <li>Noise for color variation</li>
+                            <li>Normal map for detailed cloth texture</li>
+                        </ul>
+                    </div>
+
+                    <h3>Water Material</h3>
+
+                    <div class="card">
+                        <h4>💧 Creating Water</h4>
+                        <p><strong>Basic water setup:</strong></p>
+                        <ul>
+                            <li><strong>Transmission:</strong> 1.0 (fully transparent)</li>
+                            <li><strong>Roughness:</strong> 0.0-0.05 (very smooth)</li>
+                            <li><strong>IOR:</strong> 1.33 (water's IOR)</li>
+                            <li><strong>Base Color:</strong> Slight blue tint (#E0F5FF or similar)</li>
+                        </ul>
+                        <p><strong>Adding water movement/ripples:</strong></p>
+                        <ol>
+                            <li>Wave Texture or Noise Texture</li>
+                            <li>Through Bump or Normal Map node</li>
+                            <li>Low strength (0.05-0.2)</li>
+                            <li>Creates surface ripples</li>
+                            <li>Animate texture coordinates for moving water</li>
+                        </ol>
+                        <p><strong>Murky/dirty water:</strong></p>
+                        <ul>
+                            <li>Reduce Transmission (0.5-0.8)</li>
+                            <li>Increase roughness slightly</li>
+                            <li>Darker, greener tint in Base Color</li>
+                        </ul>
+                    </div>
+
+                    <h3>Skin Material (Basic)</h3>
+
+                    <div class="card">
+                        <h4>👤 Basic Skin Material</h4>
+                        <p><strong>Simple skin setup:</strong></p>
+                        <ul>
+                            <li><strong>Base Color:</strong> Skin tone (peachy-pink to brown)
+                                <ul>
+                                    <li>Light skin: RGB (0.95, 0.78, 0.71) approx</li>
+                                    <li>Medium skin: RGB (0.77, 0.58, 0.45) approx</li>
+                                    <li>Dark skin: RGB (0.42, 0.27, 0.19) approx</li>
+                                </ul>
+                            </li>
+                            <li><strong>Metallic:</strong> 0.0</li>
+                            <li><strong>Roughness:</strong> 0.3-0.5</li>
+                            <li><strong>Subsurface Weight:</strong> 0.1-0.2 (ESSENTIAL for skin!)</li>
+                            <li><strong>Subsurface Radius:</strong> RGB (1.0, 0.5, 0.3)
+                                <ul>
+                                    <li>Red penetrates deeper</li>
+                                    <li>Creates natural skin translucency</li>
+                                </ul>
+                            </li>
+                            <li><strong>Subsurface Scale:</strong> 0.05-0.1</li>
+                        </ul>
+                        <p><strong>Note:</strong> Professional skin is complex! This is simplified for learning. Advanced skin requires multiple texture maps and complex subsurface setups.</p>
+                    </div>
+
+                    <h3>Emission/Glowing Materials</h3>
+
+                    <div class="card">
+                        <h4>💡 Creating Glowing Materials</h4>
+                        <p><strong>Basic emission setup:</strong></p>
+                        <ul>
+                            <li><strong>Emission Strength:</strong> 1.0+ (adjust to taste)
+                                <ul>
+                                    <li>1-5 = Subtle glow</li>
+                                    <li>10-50 = Strong light source</li>
+                                    <li>100+ = Very bright (sun-like)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Emission Color:</strong> Glow color (can differ from Base Color)</li>
+                        </ul>
+                        <p><strong>Combining emission with surface:</strong></p>
+                        <ol>
+                            <li>Set up Principled BSDF with surface properties</li>
+                            <li>Increase Emission Strength (built into Principled)</li>
+                            <li>Object glows AND has surface detail</li>
+                        </ol>
+                        <p><strong>For Eevee glow effect:</strong></p>
+                        <ul>
+                            <li>Render Properties → Bloom: ON</li>
+                            <li>Adjust Bloom Threshold and Intensity</li>
+                            <li>Creates visible glow halo around emissive objects</li>
+                        </ul>
+                        <p><strong>Patterned emission:</strong></p>
+                        <ul>
+                            <li>Plug texture into Emission Color or Emission Strength</li>
+                            <li>Creates glowing patterns (neon signs, sci-fi panels, etc.)</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="advanced-techniques" class="content-section">
+                    <h2>🎓 Advanced Shading Techniques</h2>
+
+                    <p>Let's explore some advanced techniques that will take your materials to the next level. These methods add subtle realism and complexity that separate good materials from great ones.</p>
+
+                    <h3>Edge Wear and Weathering</h3>
+
+                    <div class="card">
+                        <h4>🛠️ Realistic Wear Patterns</h4>
+                        <p><strong>Using Pointiness for edge wear:</strong></p>
+                        <ol>
+                            <li>Add Geometry node: <code>Shift+A</code> → Input → Geometry</li>
+                            <li>Add ColorRamp node</li>
+                            <li>Connect: Geometry Pointiness → ColorRamp Fac</li>
+                            <li>Adjust ColorRamp:
+                                <ul>
+                                    <li>Black stop at 0.0</li>
+                                    <li>White stop at 0.6-0.8 (isolates edges)</li>
+                                </ul>
+                            </li>
+                            <li>Connect ColorRamp to Mix Shader Fac</li>
+                            <li>Shader 1: Base material</li>
+                            <li>Shader 2: Worn material (lighter, smoother)</li>
+                        </ol>
+                        <p><strong>The result:</strong> Edges naturally brighter/shinier from use (like real objects!)</p>
+                    </div>
+
+                    <h3>Dirt and Grime Accumulation</h3>
+
+                    <div class="card">
+                        <h4>🧹 Adding Dirt Realistically</h4>
+                        <p><strong>Procedural dirt workflow:</strong></p>
+                        <ol>
+                            <li><strong>Create dirt mask:</strong>
+                                <ul>
+                                    <li>Noise Texture (large scale, 2-5)</li>
+                                    <li>Through ColorRamp (adjust to isolate dark areas)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Combine with geometry:</strong>
+                                <ul>
+                                    <li>Use Geometry Pointiness (negative values = recesses)</li>
+                                    <li>Invert and multiply with noise</li>
+                                    <li>Dirt accumulates in crevices</li>
+                                </ul>
+                            </li>
+                            <li><strong>Create dirt shader:</strong>
+                                <ul>
+                                    <li>Dark brown/gray color</li>
+                                    <li>Higher roughness than base</li>
+                                    <li>Slightly desaturated</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mix with base material:</strong>
+                                <ul>
+                                    <li>Mix Shader with combined mask</li>
+                                    <li>Adjust strength to taste</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Layered Materials</h3>
+
+                    <div class="card">
+                        <h4>🎂 Building Complex Layered Materials</h4>
+                        <p><strong>The layering concept:</strong></p>
+                        <ul>
+                            <li>Start with base material (foundation)</li>
+                            <li>Add layer 1: Primary variation (rust, paint chips, etc.)</li>
+                            <li>Add layer 2: Secondary details (scratches, fingerprints)</li>
+                            <li>Add layer 3: Environmental effects (dust, dirt)</li>
+                            <li>Each layer = one Mix Shader</li>
+                        </ul>
+                        <p><strong>Example: Worn painted metal</strong></p>
+                        <ol>
+                            <li><strong>Base:</strong> Bare metal shader (steel)</li>
+                            <li><strong>Layer 1:</strong> Mix in paint (covering most surface)</li>
+                            <li><strong>Layer 2:</strong> Mix in chipped areas (exposing metal at edges)</li>
+                            <li><strong>Layer 3:</strong> Mix in rust (on exposed metal)</li>
+                            <li><strong>Layer 4:</strong> Mix in dust/dirt (overall aging)</li>
+                        </ol>
+                        <p><strong>Organization tip:</strong> Use Frame nodes to group each layer</p>
+                    </div>
+
+                    <h3>Clearcoat Effect</h3>
+
+                    <div class="card">
+                        <h4>🚗 Car Paint and Clearcoat</h4>
+                        <p><strong>What clearcoat simulates:</strong></p>
+                        <ul>
+                            <li>Second reflective layer on top of base paint</li>
+                            <li>Common in car paint, lacquered wood, coated surfaces</li>
+                            <li>Creates depth and multi-layer reflection</li>
+                        </ul>
+                        <p><strong>Using Clearcoat parameter:</strong></p>
+                        <ul>
+                            <li>In Principled BSDF: Clearcoat slider (0.0 - 1.0)</li>
+                            <li><strong>Clearcoat:</strong> 0.5-1.0 for car paint</li>
+                            <li><strong>Clearcoat Roughness:</strong> 0.0-0.1 (very smooth layer)</li>
+                            <li><strong>Base Color:</strong> Car paint color</li>
+                            <li><strong>Metallic:</strong> 0.0 or 1.0 depending on paint type</li>
+                            <li><strong>Roughness:</strong> 0.3-0.5 (base paint layer)</li>
+                        </ul>
+                        <p><strong>Result:</strong> Dual-layer reflection like real car paint!</p>
+                    </div>
+
+                    <h3>Anisotropic Reflections</h3>
+
+                    <div class="card">
+                        <h4>↔️ Directional Highlights</h4>
+                        <p><strong>What anisotropic does:</strong></p>
+                        <ul>
+                            <li>Stretches highlights in one direction</li>
+                            <li>Simulates brushed metal, hair, fabric threads</li>
+                            <li>Creates distinctive elongated reflections</li>
+                        </ul>
+                        <p><strong>Using Anisotropic:</strong></p>
+                        <ul>
+                            <li><strong>Anisotropic:</strong> 0.3-0.8 (amount of stretching)</li>
+                            <li><strong>Anisotropic Rotation:</strong> 0.0-1.0 (rotation angle)
+                                <ul>
+                                    <li>0.0 = horizontal stretch</li>
+                                    <li>0.25 = vertical stretch</li>
+                                    <li>Can plug in texture for varying rotation!</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Best uses:</strong></p>
+                        <ul>
+                            <li>Brushed aluminum (Anisotropic: 0.5, one direction)</li>
+                            <li>Hair and fur (varying rotation)</li>
+                            <li>Satin fabric (moderate anisotropy)</li>
+                            <li>CDs/DVDs (circular anisotropic pattern)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Displacement and Height</h3>
+
+                    <div class="card">
+                        <h4>⛰️ True 3D Surface Detail</h4>
+                        <p><strong>Displacement vs. Bump/Normal:</strong></p>
+                        <ul>
+                            <li><strong>Bump/Normal:</strong> Fake detail (lighting trick, no geometry change)</li>
+                            <li><strong>Displacement:</strong> Actually moves vertices (true 3D detail)</li>
+                            <li>Displacement is more realistic but requires subdivided mesh</li>
+                        </ul>
+                        <p><strong>Setting up displacement:</strong></p>
+                        <ol>
+                            <li>Subdivide mesh (Subdivision Surface modifier or manual)</li>
+                            <li>Add displacement texture (grayscale)</li>
+                            <li>Set Color Space to Non-Color</li>
+                            <li>Connect to Material Output Displacement socket</li>
+                            <li>Material Settings → Displacement: Displacement Only or Displacement and Bump</li>
+                            <li>Adjust strength (usually 0.1-1.0)</li>
+                        </ol>
+                        <p><strong>When to use displacement:</strong></p>
+                        <ul>
+                            <li>Extreme close-ups where silhouette matters</li>
+                            <li>Terrain and landscapes</li>
+                            <li>Highly detailed surfaces (rock, bark, rough materials)</li>
+                        </ul>
+                        <p><strong>Performance note:</strong> Displacement is expensive! Use bump/normal when possible.</p>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_14_advanced_materials_part_06.html
+     ============================================ -->

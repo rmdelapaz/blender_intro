@@ -1,0 +1,352 @@
+<!-- ============================================
+     LESSON 28 - PART 01
+     File: lesson_28_sculpting_basics_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn digital sculpting in Blender. Master sculpting tools, brushes, and techniques to create organic 3D models with artistic freedom.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 28: Sculpting Basics - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Navigation -->
+        <nav class="main-nav" role="navigation" aria-label="Main Navigation">
+            <div class="nav-container">
+                <a href="index.html" class="nav-logo">🎨 Blender Mastery</a>
+                <button class="nav-toggle" aria-label="Toggle Navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="index.html">🏠 Home</a></li>
+                    <li><a href="index.html#modules">📚 Modules</a></li>
+                    <li><a href="index.html#about">ℹ️ About</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#module-7">Module 7: Advanced Modeling</a> &gt; 
+            <span>Lesson 28: Sculpting Basics</span>
+        </nav>
+
+        <div class="content-wrapper">
+            <main>
+                <!-- Header -->
+                <header class="lesson-header">
+                    <h1>🗿 Lesson 28: Sculpting Basics</h1>
+                    <p class="lead">Transform Blender into a digital clay studio. Learn sculpting tools, brushes, and workflows to create organic 3D models with artistic freedom. No polygon modeling required—just shape and form.</p>
+                </header>
+
+                <!-- Learning Objectives -->
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 2rem;">
+                    <h2 style="color: white;">🎯 What You'll Learn</h2>
+                    <ul style="color: white;">
+                        <li><strong>Sculpting fundamentals:</strong> Digital clay manipulation vs. polygon modeling</li>
+                        <li><strong>Sculpt Mode:</strong> Interface, navigation, and essential settings</li>
+                        <li><strong>Brush system:</strong> Push, pull, smooth, grab, and specialized sculpting tools</li>
+                        <li><strong>Mesh resolution:</strong> Dynamic topology, multiresolution, and remeshing</li>
+                        <li><strong>Sculpting workflow:</strong> From rough forms to detailed surfaces</li>
+                        <li><strong>Project:</strong> Sculpt a complete organic object (rock, creature head, or simple character)</li>
+                    </ul>
+                    <p style="color: white; margin-top: 1rem;"><strong>⏱️ Estimated time:</strong> 90-120 minutes</p>
+                    <p style="color: white;"><strong>🎨 Project:</strong> Create a detailed sculpted object showcasing major brush techniques</p>
+                </div>
+
+                <!-- Table of Contents -->
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#what-is-sculpting" class="toc-link">What Is Digital Sculpting?</a></li>
+                            <li><a href="#sculpting-vs-modeling" class="toc-link">Sculpting vs. Polygon Modeling</a></li>
+                            <li><a href="#when-to-sculpt" class="toc-link">When to Use Sculpting</a></li>
+                            <li><a href="#sculpt-mode-interface" class="toc-link">Sculpt Mode Interface</a></li>
+                            <li><a href="#essential-brushes" class="toc-link">Essential Sculpting Brushes</a></li>
+                            <li><a href="#mesh-resolution" class="toc-link">Understanding Mesh Resolution</a></li>
+                            <li><a href="#first-sculpt-project" class="toc-link">Project: Your First Sculpt</a></li>
+                            <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <!-- Main Content Sections -->
+                <section id="what-is-sculpting" class="content-section">
+                    <h2>🎨 What Is Digital Sculpting?</h2>
+
+                    <p>Digital sculpting is fundamentally different from polygon modeling. Instead of carefully placing vertices and edges, you manipulate mesh surfaces like clay—pushing, pulling, smoothing, and carving to create organic forms. It's intuitive, artistic, and extraordinarily powerful for certain types of 3D models.</p>
+
+                    <h3>The Clay Metaphor</h3>
+
+                    <div class="card">
+                        <h4>🏺 Working with Digital Clay</h4>
+                        <p><strong>Think of sculpting like working with real clay:</strong></p>
+                        <ul>
+                            <li><strong>Push into surface:</strong> Create indentations and creases</li>
+                            <li><strong>Pull out material:</strong> Add volume and forms</li>
+                            <li><strong>Smooth surface:</strong> Blend and refine transitions</li>
+                            <li><strong>Carve details:</strong> Add fine surface features</li>
+                            <li><strong>Add/remove clay:</strong> Build up or cut away forms</li>
+                        </ul>
+
+                        <p><strong>But with superpowers traditional clay doesn't have:</strong></p>
+                        <ul>
+                            <li><strong>Undo/redo:</strong> Infinite corrections</li>
+                            <li><strong>Non-destructive:</strong> Save every stage of your work</li>
+                            <li><strong>Symmetry:</strong> Perfect mirrored sculpting</li>
+                            <li><strong>Layers:</strong> Separate detail passes</li>
+                            <li><strong>Dynamic detail:</strong> Add geometry only where needed</li>
+                            <li><strong>No mess:</strong> No cleanup, no drying time, no firing</li>
+                        </ul>
+
+                        <p><strong>The core experience:</strong></p>
+                        <ul>
+                            <li>Move brush over surface → surface responds</li>
+                            <li>More pressure → stronger effect</li>
+                            <li>Smaller brush → finer detail</li>
+                            <li>Different brushes → different effects</li>
+                            <li>Feels organic and immediate</li>
+                        </ul>
+                    </div>
+
+                    <h3>How Sculpting Works Technically</h3>
+
+                    <div class="card">
+                        <h4>🔧 Under the Hood</h4>
+                        <p><strong>What happens when you sculpt:</strong></p>
+                        <ul>
+                            <li>Start with mesh (cube, sphere, plane, etc.)</li>
+                            <li>Mesh has vertices (like polygon modeling)</li>
+                            <li>Sculpting brushes move these vertices</li>
+                            <li>But you don't see vertices—you see smooth surface</li>
+                            <li>More vertices = smoother, more detailed surface</li>
+                        </ul>
+
+                        <p><strong>Key technical concept—resolution:</strong></p>
+                        <ul>
+                            <li>High resolution (lots of vertices) = fine detail possible</li>
+                            <li>Low resolution (few vertices) = only large forms possible</li>
+                            <li>Like pixel resolution in images: more pixels = sharper image</li>
+                            <li>Blender can add vertices as you sculpt (dynamic topology)</li>
+                            <li>Or use fixed subdivisions (multiresolution modifier)</li>
+                        </ul>
+
+                        <p><strong>Sculpting is geometry manipulation:</strong></p>
+                        <ul>
+                            <li>Not creating new mesh—reshaping existing mesh</li>
+                            <li>Brushes modify vertex positions (and sometimes add/remove vertices)</li>
+                            <li>Surface updates in real-time as you work</li>
+                            <li>All changes stored as vertex position data</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Sculpting Mindset</h3>
+
+                    <div class="card">
+                        <h4>🧠 Thinking Like a Sculptor</h4>
+                        <p><strong>Different mental approach than polygon modeling:</strong></p>
+                        <ul>
+                            <li><strong>Big to small:</strong> Start with rough masses, add detail progressively</li>
+                            <li><strong>Additive and subtractive:</strong> Build up and carve away</li>
+                            <li><strong>Gestural:</strong> Loose, fluid movements at first</li>
+                            <li><strong>Iterative:</strong> Constantly refining and adjusting</li>
+                            <li><strong>Intuitive:</strong> Less technical thinking, more artistic feeling</li>
+                        </ul>
+
+                        <p><strong>Traditional sculpting principles apply:</strong></p>
+                        <ul>
+                            <li><strong>Form before detail:</strong> Get big shapes right first</li>
+                            <li><strong>Anatomy matters:</strong> Understand structure underneath</li>
+                            <li><strong>Gesture and flow:</strong> Create dynamic, interesting shapes</li>
+                            <li><strong>Planes and surfaces:</strong> Think about how light hits forms</li>
+                            <li><strong>Reference is essential:</strong> Study real objects constantly</li>
+                        </ul>
+
+                        <p><strong>You don't need to be a traditional sculptor:</strong></p>
+                        <ul>
+                            <li>Digital sculpting is more forgiving</li>
+                            <li>Unlimited undo removes fear of mistakes</li>
+                            <li>Tools help you achieve results faster</li>
+                            <li>But understanding sculpture principles accelerates learning</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Liberation of Sculpting:</strong> If polygon modeling feels like architecture—precise, measured, technical—then sculpting feels like painting or drawing. It's expressive. You can be loose. You can explore. You're not counting edge loops or worrying about topology (at least not initially). You're just shaping forms. For many artists, this is the unlock moment in 3D. The point where it stops feeling like technical work and starts feeling like art. Not everyone prefers sculpting (some love the precision of polygon modeling), but everyone should try it. Because sculpting teaches you to see form differently.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="sculpting-vs-modeling" class="content-section">
+                    <h2>⚖️ Sculpting vs. Polygon Modeling</h2>
+
+                    <p>Understanding when to sculpt versus when to polygon model is crucial. Each approach has strengths and ideal use cases. Often, professional workflows combine both methods in a single project.</p>
+
+                    <h3>Key Differences</h3>
+
+                    <div class="card">
+                        <h4>📊 Method Comparison</h4>
+                        
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                            <thead>
+                                <tr style="background: #667eea; color: white;">
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Aspect</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Polygon Modeling</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Sculpting</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Approach</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Vertex-by-vertex precision</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Freeform surface manipulation</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Feel</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Technical, architectural</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Artistic, organic</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Control</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Exact, measurable</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Fluid, gestural</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Best for</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Hard surfaces, mechanical objects</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Organic forms, characters, creatures</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Topology</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Clean, controlled from start</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Messy initially, cleaned later</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Detail level</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Depends on subdivision</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Unlimited (add geometry as needed)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Learning curve</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Steeper (many tools/concepts)</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Gentler (intuitive interaction)</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Performance</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Lightweight models</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Heavy models (millions of polygons)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Strengths and Weaknesses</h3>
+
+                    <div class="card">
+                        <h4>✅ Polygon Modeling Excels At</h4>
+                        <ul>
+                            <li><strong>Hard surface objects:</strong> Furniture, buildings, vehicles, weapons</li>
+                            <li><strong>Precise dimensions:</strong> When measurements matter</li>
+                            <li><strong>Clean topology:</strong> Models ready for animation or games</li>
+                            <li><strong>Modifiers:</strong> Array, mirror, bevel work better with polygon modeling</li>
+                            <li><strong>Low-poly modeling:</strong> Game assets, optimization</li>
+                            <li><strong>Architectural/CAD work:</strong> Technical accuracy needed</li>
+                        </ul>
+
+                        <p style="margin-top: 1.5rem;"><strong>❌ Polygon modeling struggles with:</strong></p>
+                        <ul>
+                            <li>Complex organic surfaces (faces, muscles, creatures)</li>
+                            <li>Fine surface details (pores, wrinkles, scales)</li>
+                            <li>Gestural, artistic exploration</li>
+                            <li>Speed when creating characters</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>✅ Sculpting Excels At</h4>
+                        <ul>
+                            <li><strong>Character creation:</strong> Faces, bodies, creatures</li>
+                            <li><strong>Organic forms:</strong> Rocks, plants, terrain, natural objects</li>
+                            <li><strong>Surface detail:</strong> Wrinkles, pores, scales, fabric texture</li>
+                            <li><strong>Artistic exploration:</strong> Trying different forms quickly</li>
+                            <li><strong>High-detail models:</strong> Film-quality assets with millions of polygons</li>
+                            <li><strong>Concept sculpting:</strong> Designing characters and creatures</li>
+                        </ul>
+
+                        <p style="margin-top: 1.5rem;"><strong>❌ Sculpting struggles with:</strong></p>
+                        <ul>
+                            <li>Hard edges and precise angles</li>
+                            <li>Mechanical objects with flat surfaces</li>
+                            <li>Low-poly requirements (game engines)</li>
+                            <li>Exact measurements and dimensions</li>
+                            <li>Creating topology suitable for animation (requires retopology)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Combined Workflows</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>🔄 Best of Both Worlds</h4>
+                        <p><strong>Professional workflow often combines both methods:</strong></p>
+                        
+                        <p><strong>Character creation workflow:</strong></p>
+                        <ol>
+                            <li><strong>Block out form:</strong> Polygon modeling for basic body shape</li>
+                            <li><strong>Sculpt details:</strong> Add muscles, wrinkles, facial features</li>
+                            <li><strong>Retopology:</strong> Create clean mesh over sculpt</li>
+                            <li><strong>Bake details:</strong> Transfer sculpted detail to low-poly via normal maps</li>
+                            <li><strong>Rig and animate:</strong> Use clean mesh with baked details</li>
+                        </ol>
+
+                        <p><strong>Environment asset workflow:</strong></p>
+                        <ol>
+                            <li><strong>Sculpt hero assets:</strong> Rocks, trees, organic elements</li>
+                            <li><strong>Model structures:</strong> Buildings, props, mechanical objects</li>
+                            <li><strong>Combine in scene:</strong> Sculpted organics + modeled hard surface</li>
+                            <li><strong>Detail pass:</strong> Add sculpted surface detail where needed</li>
+                        </ol>
+
+                        <p><strong>The key insight:</strong></p>
+                        <ul>
+                            <li>Don't think "sculpting OR polygon modeling"</li>
+                            <li>Think "sculpting AND polygon modeling"</li>
+                            <li>Use each method where it's strongest</li>
+                            <li>Transition between methods as needed</li>
+                            <li>Final asset may combine both approaches</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Choose Your Tool Wisely:</strong> Beginner mistake: trying to sculpt a car or model a face with polygon modeling. Use the right tool for the job. Sculpting a character? Start in Sculpt Mode. Modeling a spaceship? Stay in Edit Mode. Building a game prop? Polygon model it, then sculpt surface details. Creating a film-quality creature? Sculpt first, retopo later. The more you understand each method's strengths, the better your workflow decisions become. And the faster you work.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_28_sculpting_basics_part_02.html
+     ============================================ -->

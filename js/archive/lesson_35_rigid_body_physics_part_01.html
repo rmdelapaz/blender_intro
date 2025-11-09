@@ -1,0 +1,286 @@
+<!-- ============================================
+     LESSON 35 - PART 01
+     File: lesson_35_rigid_body_physics_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master rigid body physics in Blender. Learn to create realistic collisions, destruction effects, and dynamic simulations with solid objects like falling blocks, dominos, and more.">
+    <meta name="author" content="Blender Course">
+    <title>Rigid Body Physics - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>🎨 Blender Mastery Course</h1>
+        <nav>
+            <a href="index.html">🏠 Home</a>
+            <a href="index.html#modules">📚 Modules</a>
+            <a href="index.html#resources">🔗 Resources</a>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &gt; 
+                <a href="index.html#module8">Module 8: Particles and Simulations</a> &gt; 
+                <span>Lesson 35: Rigid Body Physics</span>
+            </div>
+
+            <h2>🎲 Lesson 35: Rigid Body Physics</h2>
+            
+            <p class="lead">Ever wanted to create a tower of blocks that topples dramatically? A chain of dominos that cascade perfectly? Or maybe an epic destruction scene where objects crash and collide realistically? Welcome to rigid body physics—where solid objects behave according to real-world physics laws! Unlike cloth simulation where objects are soft and flexible, rigid body physics is all about hard surfaces that maintain their shape: cubes, spheres, furniture, buildings, and anything else that doesn't bend or deform. In this lesson, you'll learn how to make objects fall, bounce, collide, and interact in ways that would take days to animate manually.</p>
+
+            <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; margin: 2rem 0;">
+                <h3 style="color: white; margin-top: 0;">🎯 What You'll Learn</h3>
+                <ul style="color: white;">
+                    <li><strong>Rigid Body Fundamentals:</strong> Understand the difference between active and passive objects</li>
+                    <li><strong>Basic Physics Setup:</strong> Create your first rigid body simulation</li>
+                    <li><strong>Mass and Shape Properties:</strong> Control how objects behave physically</li>
+                    <li><strong>Collision Settings:</strong> Fine-tune how objects interact with each other</li>
+                    <li><strong>Constraints and Joints:</strong> Connect objects with hinges, motors, and more</li>
+                    <li><strong>World Settings:</strong> Adjust gravity, speed, and simulation parameters</li>
+                    <li><strong>Common Effects:</strong> Create domino chains, towers, destruction, and more</li>
+                    <li><strong>Optimization and Baking:</strong> Make simulations run smoothly</li>
+                </ul>
+                <p style="color: white; margin-bottom: 0;"><strong>⏱️ Estimated Time:</strong> 90-120 minutes</p>
+                <p style="color: white; margin-bottom: 0;"><strong>🎯 Project:</strong> Create a dynamic tower collapse simulation</p>
+            </div>
+
+            <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                    <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                </summary>
+                <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                    <ol>
+                        <li><a href="#understanding-rigid-body" class="toc-link">Understanding Rigid Body Physics</a></li>
+                        <li><a href="#first-simulation" class="toc-link">Your First Rigid Body Simulation</a></li>
+                        <li><a href="#active-vs-passive" class="toc-link">Active vs. Passive Objects</a></li>
+                        <li><a href="#physical-properties" class="toc-link">Physical Properties</a></li>
+                        <li><a href="#collision-shapes" class="toc-link">Collision Shapes</a></li>
+                        <li><a href="#constraints" class="toc-link">Constraints and Joints</a></li>
+                        <li><a href="#world-settings" class="toc-link">Rigid Body World Settings</a></li>
+                        <li><a href="#practical-examples" class="toc-link">Practical Examples</a></li>
+                        <li><a href="#optimization" class="toc-link">Optimization and Performance</a></li>
+                        <li><a href="#project" class="toc-link">Project: Tower Collapse</a></li>
+                        <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                    </ol>
+                </nav>
+            </details>
+
+            <section id="understanding-rigid-body">
+                <h3>🔬 Understanding Rigid Body Physics</h3>
+                
+                <p>Before we jump into creating simulations, let's understand what makes rigid body physics different from other physics systems in Blender. The key is in the name: <em>rigid</em>. These objects don't bend, stretch, or deform—they maintain their shape no matter what happens to them.</p>
+
+                <h4>What Are Rigid Bodies?</h4>
+                
+                <p>Think about everyday objects around you: a coffee mug, a book, a chair, wooden blocks, or a bowling ball. When these objects fall, collide, or roll, they keep their shape. They don't squish like cloth or flow like liquid. This is rigid body behavior!</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Real-World Examples</h4>
+                    <ul>
+                        <li><strong>Building Blocks:</strong> Stack them high and watch them tumble</li>
+                        <li><strong>Bowling:</strong> Ball rolls down lane, hits pins, pins scatter</li>
+                        <li><strong>Dominos:</strong> One falls, knocks the next, chain reaction</li>
+                        <li><strong>Pool/Billiards:</strong> Balls collide and bounce off each other</li>
+                        <li><strong>Jenga Tower:</strong> Remove blocks, tower becomes unstable, crashes</li>
+                        <li><strong>Destruction Scenes:</strong> Buildings crumbling, walls breaking</li>
+                    </ul>
+                </div>
+
+                <h4>How Rigid Body Physics Works</h4>
+                
+                <p>Blender's rigid body system calculates physics frame by frame, considering several factors:</p>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Rigid Body Object] --> B[Mass & Weight]
+                    A --> C[Collision Shape]
+                    A --> D[Velocity & Forces]
+                    B --> E[Physics Calculation]
+                    C --> E
+                    D --> E
+                    E --> F[New Position]
+                    E --> G[New Rotation]
+                    E --> H[New Velocity]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style E fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style H fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <p>Each frame, Blender:</p>
+                <ol>
+                    <li><strong>Checks for collisions</strong> between objects</li>
+                    <li><strong>Calculates forces</strong> (gravity, impacts, constraints)</li>
+                    <li><strong>Updates positions</strong> based on velocity and acceleration</li>
+                    <li><strong>Updates rotations</strong> based on angular momentum</li>
+                    <li><strong>Applies friction and damping</strong> to slow things down</li>
+                </ol>
+
+                <blockquote>
+                    <p><strong>🎮 Think of It Like a Video Game Physics Engine:</strong> Rigid body physics is exactly what powers realistic physics in video games. When you knock over crates in a game or watch debris fly in an explosion, that's rigid body simulation at work. Blender uses similar principles!</p>
+                </blockquote>
+
+                <h4>Rigid Body vs. Other Physics Systems</h4>
+
+                <div class="card">
+                    <h4>📊 Physics Systems Comparison</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">System</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Objects</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Behavior</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Use Cases</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Rigid Body</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Solid, hard objects</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Keep shape, bounce, collide</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Falling objects, destruction, collisions</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Cloth</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Flexible fabrics</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Bend, fold, drape</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Clothing, flags, curtains</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Soft Body</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Squishy objects</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Deform, jiggle, compress</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Jello, pillows, soft materials</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Fluid</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Liquids and gases</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Flow, splash, pour</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Water, smoke, fire</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Key Concepts You Need to Know</h4>
+
+                <p>Before we start creating simulations, here are the fundamental concepts:</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>🔑 Essential Rigid Body Concepts</h4>
+                    
+                    <p><strong>1. Active vs. Passive</strong></p>
+                    <ul>
+                        <li><strong>Active:</strong> Objects affected by physics (they fall, bounce, react)</li>
+                        <li><strong>Passive:</strong> Objects that affect others but don't move (floors, walls)</li>
+                        <li>Think: Active = dynamic, Passive = static</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Mass</strong></p>
+                    <ul>
+                        <li>How heavy an object is</li>
+                        <li>Heavier objects hit harder but are harder to move</li>
+                        <li>Measured in kilograms</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Collision Shape</strong></p>
+                    <ul>
+                        <li>Simplified shape used for collision detection</li>
+                        <li>Box, Sphere, Mesh, Convex Hull, etc.</li>
+                        <li>Simpler shapes = faster simulation</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Friction and Bounciness</strong></p>
+                    <ul>
+                        <li><strong>Friction:</strong> How much surfaces "stick" when sliding</li>
+                        <li><strong>Bounciness:</strong> How much energy is retained after impact</li>
+                        <li>Combine to create realistic material behavior</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Constraints</strong></p>
+                    <ul>
+                        <li>Connections between objects</li>
+                        <li>Hinges, motors, springs, fixed joints</li>
+                        <li>Create complex mechanical behavior</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Important Limitation</h4>
+                    <p><strong>Rigid bodies don't deform.</strong> If you need objects that break apart, bend, or shatter, you'll need to:</p>
+                    <ul>
+                        <li>Pre-fracture the object (break it into pieces beforehand)</li>
+                        <li>Use addons like Cell Fracture for destruction</li>
+                        <li>Combine with other simulation types</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">The object maintains its shape—it just moves, rotates, and collides as a solid unit.</p>
+                </div>
+
+                <h4>When to Use Rigid Body Physics</h4>
+
+                <div class="mermaid">
+                    graph LR
+                    A[Use Rigid Body For] --> B[Falling Objects]
+                    A --> C[Collisions]
+                    A --> D[Stacking & Balance]
+                    A --> E[Chain Reactions]
+                    A --> F[Destruction Pre-Fractured]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style B fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style D fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <p><strong>Perfect for:</strong></p>
+                <ul>
+                    <li>Dice rolling, marbles falling, blocks tumbling</li>
+                    <li>Domino chain reactions</li>
+                    <li>Objects falling onto or off surfaces</li>
+                    <li>Bouncing balls, rolling wheels</li>
+                    <li>Furniture tipping over</li>
+                    <li>Pre-fractured destruction scenes</li>
+                    <li>Newton's cradle and pendulums</li>
+                    <li>Rube Goldberg machines</li>
+                </ul>
+
+                <p><strong>Not ideal for:</strong></p>
+                <ul>
+                    <li>Fabric, hair, or flexible materials (use Cloth)</li>
+                    <li>Liquids or gases (use Fluid simulation)</li>
+                    <li>Squishy, deformable objects (use Soft Body)</li>
+                    <li>Character animation (use rigging and keyframes)</li>
+                </ul>
+
+                <blockquote>
+                    <p><strong>💭 Creative Possibilities:</strong> Rigid body physics is incredibly versatile. From simple falling blocks to complex mechanical contraptions, from abstract art installations to realistic destruction scenes—once you understand the basics, your creativity is the only limit!</p>
+                </blockquote>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_35_rigid_body_physics_part_02.html
+     ============================================ -->

@@ -1,0 +1,350 @@
+<!-- ============================================
+     LESSON 35 - PART 08
+     File: lesson_35_rigid_body_physics_part_08.html
+     ============================================ -->
+
+            <section id="practical-examples">
+                <h3>🎨 Practical Examples</h3>
+                
+                <p>Now let's put everything together with some fun, practical examples! These tutorials will help you master rigid body physics by creating real-world scenarios you can use in your projects.</p>
+
+                <h4>Example 1: Domino Chain Reaction</h4>
+                
+                <p>The classic physics demonstration—a chain of dominos toppling one after another. This teaches precise placement and demonstrates force transfer between objects.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Creating a Domino Chain</h4>
+                    
+                    <p><strong>Step 1: Create First Domino</strong></p>
+                    <ol>
+                        <li>Add cube: Shift + A → Mesh → Cube</li>
+                        <li>Scale thin: S, Y, 0.1, Enter</li>
+                        <li>Scale tall: S, Z, 2, Enter</li>
+                        <li>This creates a domino shape</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Position and Duplicate</strong></p>
+                    <ol>
+                        <li>Position first domino upright</li>
+                        <li>Select it, Shift + D to duplicate</li>
+                        <li>Move along X: X, 0.4, Enter (small gap)</li>
+                        <li>Repeat to create 10-15 dominos in a line</li>
+                        <li><strong>Tip:</strong> Use Array Modifier for perfect spacing!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Physics Setup</strong></p>
+                    <ol>
+                        <li>Select all dominos (A)</li>
+                        <li>Add Rigid Body → Active</li>
+                        <li>Settings for all:
+                            <ul>
+                                <li>Mass: 0.5 (light enough to topple)</li>
+                                <li>Friction: 0.5</li>
+                                <li>Shape: Box (perfect for rectangular)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Add Ground</strong></p>
+                    <ol>
+                        <li>Add plane, scale large</li>
+                        <li>Rigid Body → Passive</li>
+                        <li>Friction: 0.6 (stable surface)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Start the Chain</strong></p>
+                    <ol>
+                        <li>Add small sphere at one end</li>
+                        <li>Position it to roll into first domino</li>
+                        <li>Give sphere Active physics</li>
+                        <li>Or: Manually tip first domino (rotate slightly at frame 1)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 6: Fine-Tune</strong></p>
+                    <ol>
+                        <li>Test the simulation</li>
+                        <li>Adjust spacing if dominos miss each other</li>
+                        <li>Increase Solver Iterations to 15-20 for stability</li>
+                        <li>Watch the satisfying cascade!</li>
+                    </ol>
+                </div>
+
+                <blockquote>
+                    <p><strong>🎯 Pro Tip:</strong> For curved domino paths, use a Curve modifier and Array modifier together! Create a curve path, array the dominos along it, and they'll follow the curve perfectly.</p>
+                </blockquote>
+
+                <h4>Example 2: Bowling Alley</h4>
+                
+                <p>Create a simple bowling scene with a ball rolling down a lane to hit pins. Great for understanding mass, collision, and momentum transfer.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Bowling Simulation</h4>
+                    
+                    <p><strong>Step 1: Create the Lane</strong></p>
+                    <ol>
+                        <li>Add plane, scale long: S, Y, 5, Enter</li>
+                        <li>Rigid Body → Passive</li>
+                        <li>Friction: 0.1 (slippery bowling lane)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Create Bowling Pins</strong></p>
+                    <ol>
+                        <li>Add cone (Shift + A → Mesh → Cone)</li>
+                        <li>Scale and shape to look like pin</li>
+                        <li>Position at end of lane</li>
+                        <li>Duplicate in triangle formation (1-2-3-4 pattern)</li>
+                        <li>Total: 10 pins in bowling triangle</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Pin Physics</strong></p>
+                    <ol>
+                        <li>Select all pins</li>
+                        <li>Rigid Body → Active</li>
+                        <li>Settings:
+                            <ul>
+                                <li>Mass: 1.5 (bowling pin weight)</li>
+                                <li>Shape: Convex Hull or Cylinder</li>
+                                <li>Friction: 0.4</li>
+                                <li>Start Deactivated: Enable (pins don't move until hit)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Create Bowling Ball</strong></p>
+                    <ol>
+                        <li>Add UV Sphere</li>
+                        <li>Scale to bowling ball size (radius 0.11 meters in reality)</li>
+                        <li>Position at start of lane</li>
+                        <li>Rigid Body → Active</li>
+                        <li>Settings:
+                            <ul>
+                                <li>Mass: 7.0 (standard bowling ball: 7kg)</li>
+                                <li>Shape: Sphere (perfect fit!)</li>
+                                <li>Friction: 0.3</li>
+                                <li>Bounciness: 0.1 (barely bounces)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Give Ball Initial Velocity</strong></p>
+                    <ol>
+                        <li>Two methods:
+                            <ul>
+                                <li><strong>Method A:</strong> At frame 1, ball at start. At frame 2, move ball forward. Creates initial push.</li>
+                                <li><strong>Method B:</strong> Position ball on slight ramp, gravity provides velocity</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 6: Test and Refine</strong></p>
+                    <ol>
+                        <li>Play simulation</li>
+                        <li>Adjust ball speed by changing how far you move it</li>
+                        <li>Watch for realistic pin scatter!</li>
+                        <li>Increase Steps Per Second to 120 for accuracy</li>
+                    </ol>
+                </div>
+
+                <h4>Example 3: Jenga Tower</h4>
+                
+                <p>Stack blocks in a tower and watch physics determine how it falls when you remove pieces.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Building a Jenga Tower</h4>
+                    
+                    <p><strong>Step 1: Create a Block</strong></p>
+                    <ol>
+                        <li>Add cube</li>
+                        <li>Scale to Jenga proportions: S, Z, 0.3, S, X, 1.5, Enter</li>
+                        <li>This creates rectangular block</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Build First Layer</strong></p>
+                    <ol>
+                        <li>Duplicate 3 times, arrange side-by-side (touching)</li>
+                        <li>This is one layer: 3 blocks horizontal</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Build Tower</strong></p>
+                    <ol>
+                        <li>Duplicate entire layer upward</li>
+                        <li>Rotate new layer 90° (perpendicular to below)</li>
+                        <li>Repeat for 10-15 layers</li>
+                        <li>Alternating directions: horizontal, vertical, horizontal...</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Physics Setup</strong></p>
+                    <ol>
+                        <li>Ground plane: Passive, high friction (0.8)</li>
+                        <li>All blocks: Active
+                            <ul>
+                                <li>Mass: 1.0</li>
+                                <li>Friction: 0.6 (wood on wood)</li>
+                                <li>Shape: Box</li>
+                                <li>Damping: 0.1 (settles quickly)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Remove a Block</strong></p>
+                    <ol>
+                        <li>Method 1: Delete a middle block before frame 1</li>
+                        <li>Method 2: Animate a block sliding out (keyframe it moving)</li>
+                        <li>Method 3: Add "pusher" object that knocks block out</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 6: Critical Settings</strong></p>
+                    <ol>
+                        <li>Increase Solver Iterations to 30+ (critical for stacking!)</li>
+                        <li>Increase Steps Per Second to 120</li>
+                        <li>These prevent tower collapsing immediately</li>
+                        <li>Tower should stand stable until block removed</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Tower Stacking Tips</h4>
+                    <ul>
+                        <li><strong>If tower collapses immediately:</strong> Increase Solver Iterations drastically (40-50)</li>
+                        <li><strong>If blocks sink into each other:</strong> Increase Steps Per Second to 240</li>
+                        <li><strong>For perfect stability:</strong> Make bottom layer Passive (locked in place)</li>
+                        <li><strong>Patient building:</strong> Start simulation, let tower settle for 50 frames before removing blocks</li>
+                    </ul>
+                </div>
+
+                <h4>Example 4: Newton's Cradle</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Physics Demonstration Device</h4>
+                    
+                    <p><strong>Setup:</strong></p>
+                    <ol>
+                        <li>Create 5 spheres in a perfect line (touching)</li>
+                        <li>All spheres: Active, Mass 1.0, Bounciness 0.9, Shape: Sphere</li>
+                        <li>Create 5 small cubes above spheres (supports)</li>
+                        <li>Cubes: Passive (don't move)</li>
+                        <li>Add Point constraints:
+                            <ul>
+                                <li>Sphere 1 to Cube 1</li>
+                                <li>Sphere 2 to Cube 2</li>
+                                <li>Continue for all 5</li>
+                            </ul>
+                        </li>
+                        <li>Pull first sphere to the side (G, X, 2)</li>
+                        <li>Play: Classic Newton's Cradle motion!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Fine-tuning:</strong></p>
+                    <ul>
+                        <li>Increase Solver Iterations to 20</li>
+                        <li>Set Bounciness exactly same for all spheres</li>
+                        <li>Disable Collisions on Point constraints</li>
+                        <li>Perfect alignment is critical!</li>
+                    </ul>
+                </div>
+
+                <h4>Example 5: Dice Roll</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Random Dice Simulation</h4>
+                    
+                    <p><strong>Quick Setup:</strong></p>
+                    <ol>
+                        <li>Add cube (your die)</li>
+                        <li>Position high above ground</li>
+                        <li>Rotate randomly: R, Z, 45, R, Y, 30 (any angles)</li>
+                        <li>Active physics:
+                            <ul>
+                                <li>Mass: 0.01 (dice are very light)</li>
+                                <li>Shape: Box</li>
+                                <li>Bounciness: 0.3</li>
+                                <li>Friction: 0.4</li>
+                            </ul>
+                        </li>
+                        <li>Ground: Passive, Friction 0.5</li>
+                        <li>Let it drop and tumble!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>For Multiple Dice:</strong></p>
+                    <ul>
+                        <li>Duplicate several dice</li>
+                        <li>Vary starting positions and rotations</li>
+                        <li>They'll collide and tumble realistically</li>
+                        <li>Each run gives different results (like real dice!)</li>
+                    </ul>
+                </div>
+
+                <h4>Quick Reference: Common Scenarios</h4>
+
+                <div class="card">
+                    <h4>📋 Setup Quick Guide</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.85em;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Scenario</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Key Settings</th>
+                                <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Critical Factor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Dominos</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Mass 0.5, Box shape, 15-20 iterations</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Precise spacing</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Bowling</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Ball: Mass 7.0, Pins: 1.5, Start Deactivated</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Ball velocity</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Stacking</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">High friction (0.8), 30+ iterations, 120 steps/sec</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Solver iterations</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Rolling Ball</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Sphere shape, low friction (0.2), slight slope</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Surface friction</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Destruction</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Varied masses, convex hull, moderate settings</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Initial impact force</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Dice/Random</strong></td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Very light mass (0.01), varied rotation, medium bounce</td>
+                                <td style="padding: 0.5rem; border: 1px solid #ddd;">Initial randomness</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Rigid Body Scene] --> B[Choose Scenario]
+                    B --> C[Dominos/Chain]
+                    B --> D[Bowling/Impact]
+                    B --> E[Stacking/Tower]
+                    B --> F[Constraints/Joints]
+                    C --> G[Focus: Spacing & Timing]
+                    D --> G
+                    E --> H[Focus: Stability & Iterations]
+                    F --> I[Focus: Joint Setup]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style H fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                    style I fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Learning Through Play:</strong> The best way to master rigid body physics is experimentation! Try these examples, then modify them. What happens if you make the bowling ball super light? What if you give dominos different masses? Every "failure" teaches you something about physics behavior!</p>
+                </blockquote>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 08
+     Continue with lesson_35_rigid_body_physics_part_09.html
+     ============================================ -->

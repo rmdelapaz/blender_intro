@@ -1,0 +1,248 @@
+<!-- ============================================
+     LESSON 12 - PART 01
+     File: lesson_12_uv_unwrapping_basics_part_01.html
+     ============================================ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master UV unwrapping in Blender - learn to map 2D textures onto 3D models with minimal distortion. Understand UV coordinates, seam placement, and unwrapping strategies for any object.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 12: UV Unwrapping Basics - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="brand">
+                    <h1>🎨 Blender Mastery Course</h1>
+                    <p class="tagline">Complete 3D Creation from Beginner to Professional</p>
+                </div>
+                <nav>
+                    <a href="index.html">🏠 Home</a>
+                    <a href="index.html#modules">📚 Modules</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &raquo; 
+            <a href="index.html#module-3">Module 3: Materials and Texturing</a> &raquo; 
+            <span>Lesson 12</span>
+        </nav>
+
+        <main>
+            <article class="lesson-content">
+                <div class="lesson-header">
+                    <h1>🗺️ UV Unwrapping Basics</h1>
+                    <p class="lead">Learn the art and science of UV unwrapping—the crucial bridge between your 3D models and 2D textures. Master the techniques for mapping image textures onto any surface with minimal distortion and maximum control.</p>
+                </div>
+
+                <p>You've learned to create beautiful 3D models and physically accurate materials. But how do you add detailed textures—wood grain, fabric patterns, painted graphics, rust, dirt—to your surfaces? That's where UV unwrapping comes in. It's the essential skill that connects your 3D geometry with 2D texture images.</p>
+
+                <p>Think of UV unwrapping as the pattern-making process in garment design. Just as a tailor creates a flat paper pattern that will be sewn into a 3D garment, you create a flat UV layout that maps 2D images onto 3D surfaces. The quality of your unwrap determines how well textures fit, whether they stretch or distort, and how easy they are to paint or apply.</p>
+
+                <blockquote>
+                    <p><strong>💡 The Gift Wrapping Analogy:</strong> Imagine trying to wrap a cube vs. a sphere with wrapping paper. The cube is easy—six flat pieces, no stretching needed. The sphere is challenging—you need to cut, fold, and stretch the paper to make it fit smoothly. UV unwrapping is about finding the best way to "unfold" any 3D shape into flat pieces that minimize stretching and distortion!</p>
+                </blockquote>
+
+                <p>This lesson demystifies UV unwrapping. You'll understand what UV coordinates are, why they matter, and how to create clean, efficient unwraps for any object. By the end, you'll be able to apply photorealistic textures to your models with professional precision.</p>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 2rem;">
+                    <h3>🎓 What You'll Learn</h3>
+                    <ul style="color: white;">
+                        <li><strong>UV Coordinate System:</strong> What U and V mean and how they map textures</li>
+                        <li><strong>UV Editor Interface:</strong> Navigate and work efficiently in the UV Editor</li>
+                        <li><strong>Seam Placement:</strong> Where to cut models for optimal unwrapping</li>
+                        <li><strong>Unwrapping Methods:</strong> Automatic, smart UV project, cube projection, and more</li>
+                        <li><strong>Minimizing Distortion:</strong> Techniques for clean, even texture mapping</li>
+                        <li><strong>UV Layout and Packing:</strong> Organize UVs efficiently in texture space</li>
+                        <li><strong>Testing Unwraps:</strong> Verify quality with checkerboard and test textures</li>
+                        <li><strong>Common Object Types:</strong> Best practices for cubes, cylinders, spheres, organic shapes</li>
+                    </ul>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.3);">
+                        <p><strong>⏱️ Estimated Time:</strong> 75-90 minutes</p>
+                        <p><strong>🎯 Project:</strong> Unwrap a complete character or prop model</p>
+                    </div>
+                </div>
+
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#what-are-uvs" class="toc-link">What Are UV Coordinates?</a></li>
+                            <li><a href="#uv-editor-interface" class="toc-link">The UV Editor Interface</a></li>
+                            <li><a href="#seams-and-unwrapping" class="toc-link">Seams and Unwrapping Concepts</a></li>
+                            <li><a href="#unwrapping-methods" class="toc-link">Unwrapping Methods and When to Use Them</a></li>
+                            <li><a href="#minimizing-distortion" class="toc-link">Minimizing Distortion and Stretching</a></li>
+                            <li><a href="#uv-layout-packing" class="toc-link">UV Layout and Packing Strategies</a></li>
+                            <li><a href="#practical-unwrapping" class="toc-link">Practical Unwrapping: Common Objects</a></li>
+                            <li><a href="#project" class="toc-link">Project: Unwrap a Complete Model</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="what-are-uvs" class="content-section">
+                    <h2>🧭 What Are UV Coordinates?</h2>
+
+                    <p>Before diving into unwrapping techniques, let's understand what UV coordinates actually are and why we need them.</p>
+
+                    <h3>The Problem: Mapping 2D to 3D</h3>
+
+                    <p>You have a 3D model in 3D space (X, Y, Z coordinates). You have a 2D texture image (just width and height). How do you tell Blender which part of the image goes where on the model? That's what UV coordinates solve!</p>
+
+                    <div class="card">
+                        <h4>📊 Coordinate Systems Explained</h4>
+                        <p><strong>3D Model Space (X, Y, Z):</strong></p>
+                        <ul>
+                            <li>X = Left/Right</li>
+                            <li>Y = Forward/Backward</li>
+                            <li>Z = Up/Down</li>
+                            <li>Your model exists here in 3D world</li>
+                        </ul>
+                        <p><strong>2D Texture Space (U, V):</strong></p>
+                        <ul>
+                            <li>U = Horizontal (like X, but for 2D images)</li>
+                            <li>V = Vertical (like Y, but for 2D images)</li>
+                            <li>Range: 0.0 to 1.0 (covers entire image)</li>
+                            <li>Your texture image exists here in 2D space</li>
+                        </ul>
+                        <p><strong>Why U and V instead of X and Y?</strong> To avoid confusion with 3D coordinates! U and V are specifically for 2D texture space.</p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Grid Map Analogy:</strong> Imagine you have a paper map (texture image) and a 3D globe (your model). UV coordinates are like saying "this corner of Africa on the map goes to these coordinates on the globe." Every point on the 3D surface has corresponding U,V coordinates that tell it where to sample color from the 2D texture!</p>
+                    </blockquote>
+
+                    <h3>UV Space: The 0 to 1 Square</h3>
+
+                    <p>UV space is elegantly simple: it's always a square from 0.0 to 1.0 in both directions:</p>
+
+                    <div class="card">
+                        <h4>🔲 UV Space Layout</h4>
+                        <ul>
+                            <li><strong>Bottom-left corner:</strong> U=0.0, V=0.0</li>
+                            <li><strong>Bottom-right corner:</strong> U=1.0, V=0.0</li>
+                            <li><strong>Top-left corner:</strong> U=0.0, V=1.0</li>
+                            <li><strong>Top-right corner:</strong> U=1.0, V=1.0</li>
+                            <li><strong>Center:</strong> U=0.5, V=0.5</li>
+                        </ul>
+                        <p><strong>Key insight:</strong> UV coordinates are normalized (0-1 range) regardless of actual texture resolution. Whether your texture is 512×512 or 4096×4096, UV space is always 0-1!</p>
+                    </div>
+
+                    <h3>How UV Mapping Works</h3>
+
+                    <p>Every vertex (point) on your 3D mesh stores UV coordinates in addition to its 3D position:</p>
+
+                    <div class="card">
+                        <h4>🎯 UV Mapping Process</h4>
+                        <ol>
+                            <li><strong>Each vertex has 3D coordinates:</strong> Position in world (X, Y, Z)</li>
+                            <li><strong>Each vertex also has UV coordinates:</strong> Position in texture space (U, V)</li>
+                            <li><strong>When rendering:</strong> Blender looks up UV coordinates for each surface point</li>
+                            <li><strong>Samples texture at that UV location:</strong> Gets color from texture image</li>
+                            <li><strong>Applies color to 3D surface:</strong> Your textured model appears!</li>
+                        </ol>
+                    </div>
+
+                    <div class="mermaid">
+                        graph LR
+                        A[3D Vertex<br/>X,Y,Z] --> B[Has UV Coords<br/>U,V]
+                        B --> C[Look up color<br/>in texture at U,V]
+                        C --> D[Apply color<br/>to 3D surface]
+                        D --> E[Textured Model!]
+                        
+                        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                        style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    </div>
+
+                    <h3>UV Islands</h3>
+
+                    <p>When you unwrap a model, it typically breaks into separate pieces called "UV islands":</p>
+
+                    <div class="card">
+                        <h4>🏝️ UV Islands Explained</h4>
+                        <p><strong>What is a UV island?</strong></p>
+                        <ul>
+                            <li>A continuous, connected piece of your unwrapped mesh</li>
+                            <li>No breaks or seams within the island</li>
+                            <li>Like a single piece of flattened fabric</li>
+                        </ul>
+                        <p><strong>Why multiple islands?</strong></p>
+                        <ul>
+                            <li>Complex 3D shapes can't unwrap as one flat piece without distortion</li>
+                            <li>Need to "cut" the mesh to flatten it</li>
+                            <li>Each cut creates new islands</li>
+                            <li>Trade-off: More islands = less distortion, but more seams to hide</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Unwrapping Challenge</h3>
+
+                    <p>Here's the fundamental challenge of UV unwrapping:</p>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ The Distortion Problem</h4>
+                        <p>You're trying to flatten a 3D surface into 2D space. This is mathematically impossible without some distortion—just like trying to flatten an orange peel perfectly flat!</p>
+                        <p><strong>Types of distortion:</strong></p>
+                        <ul>
+                            <li><strong>Stretching:</strong> Some areas get elongated</li>
+                            <li><strong>Compression:</strong> Some areas get squished</li>
+                            <li><strong>Shearing:</strong> Some areas get skewed</li>
+                        </ul>
+                        <p><strong>UV unwrapping skill = minimizing distortion through smart seam placement!</strong></p>
+                    </div>
+
+                    <h3>Good vs. Bad Unwraps</h3>
+
+                    <p>Let's look at what makes a UV unwrap good or bad:</p>
+
+                    <div class="card">
+                        <h4>✅ Characteristics of Good Unwraps</h4>
+                        <ul>
+                            <li><strong>Minimal distortion:</strong> Square textures look square on the model</li>
+                            <li><strong>Even texel density:</strong> Texture resolution consistent across model</li>
+                            <li><strong>Efficient packing:</strong> UVs use available texture space well</li>
+                            <li><strong>Smart seam placement:</strong> Seams hidden in natural breaks or obscured areas</li>
+                            <li><strong>Logical layout:</strong> Similar geometry pieces grouped together</li>
+                            <li><strong>Ease of painting:</strong> Artist can paint textures intuitively</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>❌ Signs of Bad Unwraps</h4>
+                        <ul>
+                            <li><strong>Extreme stretching:</strong> Checker pattern warped beyond recognition</li>
+                            <li><strong>Overlapping UVs:</strong> Multiple faces using same texture space</li>
+                            <li><strong>Wasted space:</strong> Large empty areas in UV layout</li>
+                            <li><strong>Tiny islands:</strong> Some pieces too small to texture effectively</li>
+                            <li><strong>Visible seams:</strong> Cuts in obvious, high-visibility areas</li>
+                            <li><strong>Inconsistent scale:</strong> Head gets 50% of texture, body gets 5%</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_12_uv_unwrapping_basics_part_02.html
+     ============================================ -->

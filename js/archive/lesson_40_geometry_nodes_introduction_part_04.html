@@ -1,0 +1,418 @@
+<!-- ============================================
+     LESSON 40 - PART 04
+     File: lesson_40_geometry_nodes_introduction_part_04.html
+     ============================================ -->
+
+            <section id="node-anatomy">
+                <h3>🔍 Understanding Node Anatomy</h3>
+                
+                <p>Nodes are the building blocks of Geometry Nodes systems. Each node is a self-contained unit that performs a specific operation—create a cube, move geometry, scatter instances, perform calculations. Understanding how nodes work—their inputs, outputs, and settings—is fundamental to building anything in Geometry Nodes. Let's dissect a node and understand every part!</p>
+
+                <h4>Parts of a Node</h4>
+
+                <div class="card">
+                    <h4>🧩 Node Components</h4>
+                    
+                    <p><strong>Every node has these elements:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Node Header (Top Bar)</strong></p>
+                    <ul>
+                        <li><strong>Node name:</strong> What this node does (e.g., "Set Position", "Mesh Cube", "Join Geometry")</li>
+                        <li><strong>Icon:</strong> Visual indicator of node type (geometry, utility, math, etc.)</li>
+                        <li><strong>Collapse arrow:</strong> Click to minimize node (save space)</li>
+                        <li><strong>Color:</strong> Category color-coding (green = geometry, blue = input, orange = geometry operations)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Input Sockets (Left Side)</strong></p>
+                    <ul>
+                        <li>Small circles/diamonds on left edge</li>
+                        <li>Where data <em>enters</em> the node</li>
+                        <li>Connect output from another node here</li>
+                        <li>Each socket has a specific data type (geometry, number, vector, color, etc.)</li>
+                        <li>Can have default values (used if nothing connected)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Output Sockets (Right Side)</strong></p>
+                    <ul>
+                        <li>Small circles/diamonds on right edge</li>
+                        <li>Where data <em>exits</em> the node</li>
+                        <li>Connect to input of another node</li>
+                        <li>One output can connect to multiple inputs (data can split)</li>
+                        <li>Each socket has specific data type</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Parameters/Settings (Middle Area)</strong></p>
+                    <ul>
+                        <li>Input sockets with no connection show as editable fields</li>
+                        <li>Number fields, sliders, dropdowns, color pickers</li>
+                        <li>Adjust values to change node behavior</li>
+                        <li>Some nodes have few parameters, others have many</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Node Body</strong></p>
+                    <ul>
+                        <li>Background area containing all elements</li>
+                        <li>Can be colored for organization</li>
+                        <li>Can be moved, duplicated, deleted</li>
+                        <li>Size adjusts based on content</li>
+                    </ul>
+                </div>
+
+                <h4>Data Types and Socket Colors</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Understanding Socket Colors</h4>
+                    
+                    <p><strong>Sockets are color-coded by data type:</strong></p>
+                    
+                    <ul>
+                        <li><strong>Green:</strong> Geometry (meshes, curves, point clouds, instances)
+                            <ul>
+                                <li>The main data flowing through most node trees</li>
+                                <li>Can contain vertices, edges, faces, attributes</li>
+                            </ul>
+                        </li>
+                        <li><strong>Gray:</strong> Float (single number, like 3.14 or 100)
+                            <ul>
+                                <li>Used for distances, scales, weights, etc.</li>
+                                <li>Most common numeric type</li>
+                            </ul>
+                        </li>
+                        <li><strong>Purple:</strong> Vector (three numbers: X, Y, Z)
+                            <ul>
+                                <li>Used for positions, directions, rotations, scales</li>
+                                <li>Example: (1.0, 2.5, -3.0)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Dark Gray:</strong> Integer (whole number, like 5 or 42)
+                            <ul>
+                                <li>Used for counts, indices, seed values</li>
+                                <li>No decimals allowed</li>
+                            </ul>
+                        </li>
+                        <li><strong>Yellow:</strong> Color (RGBA values)
+                            <ul>
+                                <li>Used for vertex colors, material inputs</li>
+                                <li>Four values: Red, Green, Blue, Alpha</li>
+                            </ul>
+                        </li>
+                        <li><strong>Green (lighter):</strong> Boolean (True/False)
+                            <ul>
+                                <li>Used for on/off switches, conditions</li>
+                                <li>Shows as checkbox when unconnected</li>
+                            </ul>
+                        </li>
+                        <li><strong>Pink:</strong> String (text)
+                            <ul>
+                                <li>Used for names, labels, attribute names</li>
+                                <li>Example: "position", "my_attribute"</li>
+                            </ul>
+                        </li>
+                        <li><strong>Orange:</strong> Material
+                            <ul>
+                                <li>Material shader trees (link to Shader Editor)</li>
+                                <li>Assign materials to geometry</li>
+                            </ul>
+                        </li>
+                        <li><strong>Purple (darker):</strong> Rotation
+                            <ul>
+                                <li>Specific rotation data (Euler or Quaternion)</li>
+                                <li>Different from regular vectors</li>
+                            </ul>
+                        </li>
+                        <li><strong>Diamond shape:</strong> Field (special type)
+                            <ul>
+                                <li>Value that can be different for each point/element</li>
+                                <li>Example: random value per instance</li>
+                                <li>More on this later!</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Connection Rule:</strong> Can only connect sockets of compatible types. Green to green, gray to gray, etc. Blender won't let you connect incompatible types (connection won't attach).</p>
+                </div>
+
+                <h4>How Nodes Process Data</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ The Flow of Data</h4>
+                    
+                    <p><strong>Nodes work like an assembly line:</strong></p>
+                    
+                    <ol>
+                        <li><strong>Input arrives</strong> at left sockets
+                            <ul>
+                                <li>Data comes from connected nodes or default values</li>
+                                <li>Multiple inputs possible (geometry + parameters)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Node performs operation</strong>
+                            <ul>
+                                <li>Executes its specific function using inputs</li>
+                                <li>Example: "Set Position" node moves geometry based on offset input</li>
+                            </ul>
+                        </li>
+                        <li><strong>Output exits</strong> at right sockets
+                            <ul>
+                                <li>Result of operation available to other nodes</li>
+                                <li>Can output multiple types (geometry + selection + value)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Flows to next node</strong>
+                            <ul>
+                                <li>Output connects to another node's input</li>
+                                <li>Process repeats through entire tree</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example Flow:</strong></p>
+                    <p><code>Group Input (Geometry) → Set Position (moves it) → Join Geometry (combines with other) → Group Output (result)</code></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Key Concept:</strong> Data flows LEFT to RIGHT through the tree. Think of it like reading a sentence—start on the left, follow the connections, end on the right.</p>
+                </div>
+
+                <h4>Node Categories</h4>
+
+                <div class="card">
+                    <h4>📚 Types of Nodes</h4>
+                    
+                    <p><strong>Geometry Nodes are organized into categories (Shift+A menu):</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Input Nodes (Create Geometry):</strong></p>
+                    <ul>
+                        <li><strong>Primitives:</strong> Mesh Cube, UV Sphere, Cylinder, Cone, Grid, etc.
+                            <ul>
+                                <li>Generate basic shapes from scratch</li>
+                            </ul>
+                        </li>
+                        <li><strong>Curve primitives:</strong> Curve Circle, Bezier Segment, Spiral, etc.
+                            <ul>
+                                <li>Generate curves and lines</li>
+                            </ul>
+                        </li>
+                        <li><strong>Scene:</strong> Collection Info, Object Info
+                            <ul>
+                                <li>Pull objects/collections from scene</li>
+                            </ul>
+                        </li>
+                        <li><strong>Constants:</strong> Value, Integer, Vector, Color
+                            <ul>
+                                <li>Create specific values for use in tree</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Geometry Nodes (Modify Geometry):</strong></p>
+                    <ul>
+                        <li><strong>Transform:</strong> Set Position, Transform Geometry, Scale Elements
+                            <ul>
+                                <li>Move, rotate, scale geometry</li>
+                            </ul>
+                        </li>
+                        <li><strong>Operations:</strong> Join Geometry, Merge by Distance, Delete Geometry
+                            <ul>
+                                <li>Combine or remove geometry</li>
+                            </ul>
+                        </li>
+                        <li><strong>Mesh:</strong> Subdivide Mesh, Extrude Mesh, Dual Mesh
+                            <ul>
+                                <li>Mesh-specific operations</li>
+                            </ul>
+                        </li>
+                        <li><strong>Curve:</strong> Resample Curve, Trim Curve, Fillet Curve
+                            <ul>
+                                <li>Curve-specific operations</li>
+                            </ul>
+                        </li>
+                        <li><strong>Instances:</strong> Instance on Points, Realize Instances
+                            <ul>
+                                <li>Create and manage instanced geometry</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Utilities Nodes (Math & Logic):</strong></p>
+                    <ul>
+                        <li><strong>Math:</strong> Math node (add, multiply, sin, cos, etc.)
+                            <ul>
+                                <li>Perform calculations on numbers</li>
+                            </ul>
+                        </li>
+                        <li><strong>Vector:</strong> Vector Math (add vectors, dot product, etc.)
+                            <ul>
+                                <li>Calculations involving 3D coordinates</li>
+                            </ul>
+                        </li>
+                        <li><strong>Color:</strong> Mix, RGB Curves, Hue/Saturation
+                            <ul>
+                                <li>Manipulate color values</li>
+                            </ul>
+                        </li>
+                        <li><strong>Utilities:</strong> Map Range, Clamp, Switch, Compare
+                            <ul>
+                                <li>Remap values, create conditions</li>
+                            </ul>
+                        </li>
+                        <li><strong>Text:</strong> String to Curves, Join Strings
+                            <ul>
+                                <li>Work with text data</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Attribute Nodes (Read/Write Data):</strong></p>
+                    <ul>
+                        <li><strong>Store/Capture:</strong> Store Named Attribute, Capture Attribute
+                            <ul>
+                                <li>Save data on geometry for later use</li>
+                            </ul>
+                        </li>
+                        <li><strong>Remove:</strong> Remove Named Attribute
+                            <ul>
+                                <li>Delete stored data</li>
+                            </ul>
+                        </li>
+                        <li><strong>Special:</strong> Position, Normal, ID, Index
+                            <ul>
+                                <li>Access built-in geometry data</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Material/Texture Nodes:</strong></p>
+                    <ul>
+                        <li><strong>Material:</strong> Set Material, Replace Material
+                            <ul>
+                                <li>Assign materials to geometry</li>
+                            </ul>
+                        </li>
+                        <li><strong>Texture:</strong> Image Texture, Noise Texture, Voronoi
+                            <ul>
+                                <li>Generate or sample textures for data</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <h4>Common Node Patterns</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 How Nodes Connect</h4>
+                    
+                    <p><strong>Pattern 1: Linear Chain</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Input → Node A → Node B → Node C → Output
+</pre>
+                    <ul>
+                        <li>Data flows straight through, each node modifying result</li>
+                        <li>Example: Input Cube → Scale → Rotate → Subdivide → Output</li>
+                        <li>Most common pattern for simple operations</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Pattern 2: Branching</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+         → Node B →
+Input →             → Join → Output
+         → Node C →
+</pre>
+                    <ul>
+                        <li>One input splits to multiple paths, then recombines</li>
+                        <li>Example: Input Cube → (Scale large + Scale small) → Join → Output</li>
+                        <li>Used when creating variations or parallel processing</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Pattern 3: Multi-Input</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Node A →
+         → Node C → Output
+Node B →
+</pre>
+                    <ul>
+                        <li>Multiple sources feed into one operation</li>
+                        <li>Example: (Cube + Sphere) → Join Geometry → Output</li>
+                        <li>Common with Join, Mix, and combination nodes</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Pattern 4: Parameter Control</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Input Geometry →
+                  → Set Position → Output
+Value Node     →
+</pre>
+                    <ul>
+                        <li>Separate nodes provide parameters to main operation</li>
+                        <li>Example: Cube → Set Position (controlled by Math node for animation)</li>
+                        <li>Allows calculations to drive parameters</li>
+                    </ul>
+                </div>
+
+                <h4>Connecting Nodes</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Making Connections</h4>
+                    
+                    <p><strong>Method 1: Click and Drag (Most Common)</strong></p>
+                    <ol>
+                        <li>Click on output socket (right side of node)</li>
+                        <li>Drag to input socket (left side of another node)</li>
+                        <li>Release—connection line appears</li>
+                        <li>If connection doesn't attach, types are incompatible</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Method 2: Drop on Node</strong></p>
+                    <ol>
+                        <li>Drag from output socket</li>
+                        <li>Hover over target node (don't aim for specific socket)</li>
+                        <li>Blender auto-connects to appropriate input</li>
+                        <li>Faster for quick connections</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Method 3: Link Drag (Reorganize)</strong></p>
+                    <ol>
+                        <li>Grab existing connection line</li>
+                        <li>Drag to different socket</li>
+                        <li>Reconnects without deleting original</li>
+                        <li>Useful for trying different connections quickly</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Disconnecting:</strong></p>
+                    <ul>
+                        <li>Drag connection away from socket and release in empty space (deletes connection)</li>
+                        <li>Or: Ctrl+RMB drag through connection lines (slices them)</li>
+                        <li>Or: Connect different output to same input (replaces old connection)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Visual Feedback:</strong></p>
+                    <ul>
+                        <li>Valid connection target: Socket highlights/glows</li>
+                        <li>Invalid connection: Socket doesn't highlight (incompatible types)</li>
+                        <li>Active connection: Brighter/thicker line</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Node Philosophy:</strong> Nodes are like LEGO blocks—each piece does one thing well, and you combine them to build complex systems. A "Set Position" node only moves geometry. A "Math" node only does math. Combine them, and you can move geometry based on calculations. This modularity is powerful: build complex behaviors from simple building blocks. The art of Geometry Nodes is knowing which blocks to use and how to connect them!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎯 Node Anatomy Summary</h3>
+                    <ul style="color: white;">
+                        <li><strong>Node parts:</strong> Header (name), inputs (left), outputs (right), parameters (middle)</li>
+                        <li><strong>Data types:</strong> Color-coded sockets (green=geometry, gray=float, purple=vector, etc.)</li>
+                        <li><strong>Data flow:</strong> Left to right, like reading—input → process → output</li>
+                        <li><strong>Categories:</strong> Input (create), Geometry (modify), Utilities (math), Attributes (data)</li>
+                        <li><strong>Connection rule:</strong> Can only connect compatible socket types</li>
+                        <li><strong>Common patterns:</strong> Linear chain, branching, multi-input, parameter control</li>
+                        <li><strong>Connecting:</strong> Click-drag from output to input, drop on node for auto-connect</li>
+                        <li><strong>Modular design:</strong> Simple nodes combine to create complex systems</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0;"><strong>Node anatomy understood! Time to see data flow in action!</strong></p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 04
+     Continue with lesson_40_geometry_nodes_introduction_part_05.html
+     ============================================ -->

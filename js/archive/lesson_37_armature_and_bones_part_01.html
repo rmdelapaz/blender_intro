@@ -1,0 +1,227 @@
+<!-- ============================================
+     LESSON 37 - PART 01
+     File: lesson_37_armature_and_bones_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master armature and bone systems in Blender. Learn to create skeletal structures, understand bone hierarchies, and prepare characters for animation with professional rigging techniques.">
+    <meta name="author" content="Blender Course">
+    <title>Armature and Bones - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>🎨 Blender Mastery Course</h1>
+        <nav>
+            <a href="index.html">🏠 Home</a>
+            <a href="index.html#modules">📚 Modules</a>
+            <a href="index.html#resources">🔗 Resources</a>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &gt; 
+                <a href="index.html#module9">Module 9: Character Creation</a> &gt; 
+                <span>Lesson 37: Armature and Bones</span>
+            </div>
+
+            <h2>🦴 Lesson 37: Armature and Bones</h2>
+            
+            <p class="lead">You've created a beautiful character mesh—now it's time to give it a skeleton! An armature is Blender's skeletal system that lets you pose and animate your characters. Think of it as the invisible puppet strings that bring your creation to life. In this lesson, you'll learn how to build bone structures, understand hierarchies, position joints correctly, and create the foundation for character animation. This is where your static model transforms into a poseable, animatable character!</p>
+
+            <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; margin: 2rem 0;">
+                <h3 style="color: white; margin-top: 0;">🎯 What You'll Learn</h3>
+                <ul style="color: white;">
+                    <li><strong>Armature Fundamentals:</strong> What armatures are and how they control character movement</li>
+                    <li><strong>Bone Anatomy:</strong> Understanding bone parts (head, tail, body, roll) and how they work</li>
+                    <li><strong>Creating Armatures:</strong> Adding bones and building skeletal structures from scratch</li>
+                    <li><strong>Bone Hierarchies:</strong> Parent-child relationships and how they create natural movement chains</li>
+                    <li><strong>Positioning Techniques:</strong> Aligning bones to character anatomy accurately</li>
+                    <li><strong>Naming Conventions:</strong> Professional bone naming for organization and automation</li>
+                    <li><strong>Bone Constraints:</strong> Introduction to limiting and controlling bone movement</li>
+                    <li><strong>Common Armature Patterns:</strong> Standard skeletal structures for bipeds, quadrupeds, and more</li>
+                </ul>
+                <p style="color: white; margin-bottom: 0;"><strong>⏱️ Estimated Time:</strong> 90-120 minutes</p>
+                <p style="color: white; margin-bottom: 0;"><strong>🎯 Project:</strong> Create a complete character armature with proper hierarchy</p>
+            </div>
+
+            <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                    <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                </summary>
+                <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                    <ol>
+                        <li><a href="#understanding-armatures" class="toc-link">Understanding Armatures</a></li>
+                        <li><a href="#bone-anatomy" class="toc-link">Bone Anatomy and Properties</a></li>
+                        <li><a href="#creating-first-armature" class="toc-link">Creating Your First Armature</a></li>
+                        <li><a href="#bone-hierarchies" class="toc-link">Bone Hierarchies and Parenting</a></li>
+                        <li><a href="#positioning-bones" class="toc-link">Positioning Bones Accurately</a></li>
+                        <li><a href="#naming-conventions" class="toc-link">Naming Conventions and Organization</a></li>
+                        <li><a href="#biped-armature" class="toc-link">Building a Biped Armature</a></li>
+                        <li><a href="#bone-properties" class="toc-link">Bone Properties and Settings</a></li>
+                        <li><a href="#symmetry-mirroring" class="toc-link">Symmetry and Mirroring Bones</a></li>
+                        <li><a href="#project" class="toc-link">Project: Character Skeleton</a></li>
+                        <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                    </ol>
+                </nav>
+            </details>
+
+            <section id="understanding-armatures">
+                <h3>🦴 Understanding Armatures</h3>
+                
+                <p>Before we dive into creating bones, let's understand what armatures actually are and why they're essential for character animation. This foundational knowledge will make everything else click into place!</p>
+
+                <h4>What Is an Armature?</h4>
+
+                <blockquote>
+                    <p><strong>🎭 Real-World Analogy:</strong> Think of your character mesh as a puppet made of cloth, and the armature as the wooden frame inside that lets you pose it. Just like a puppet's joints (where wood pieces connect) let you bend arms and legs, bone joints in an armature let you pose your 3D character. The puppet can't move without its frame, and your character can't animate without its armature!</p>
+                </blockquote>
+
+                <div class="card">
+                    <h4>🎯 Armature Core Concepts</h4>
+                    
+                    <p><strong>What Armatures Do:</strong></p>
+                    <ul>
+                        <li><strong>Control mesh deformation:</strong> Bones "pull" nearby mesh vertices when they move</li>
+                        <li><strong>Create hierarchical movement:</strong> Moving a parent bone (shoulder) moves children (arm, hand)</li>
+                        <li><strong>Enable posing:</strong> Rotate bones to create character poses</li>
+                        <li><strong>Drive animation:</strong> Keyframe bone rotations/positions to create movement</li>
+                        <li><strong>Provide constraints:</strong> Limit movement to natural ranges (elbows only bend one way)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Key Terminology:</strong></p>
+                    <ul>
+                        <li><strong>Armature:</strong> The entire skeletal system (the object that contains all bones)</li>
+                        <li><strong>Bone:</strong> Individual element of the skeleton (like "upper arm" or "spine")</li>
+                        <li><strong>Joint:</strong> Connection point between bones (shoulder, elbow, knee, etc.)</li>
+                        <li><strong>Rig:</strong> Complete setup including armature, constraints, and controls for animation</li>
+                        <li><strong>Deformation:</strong> How the mesh bends and stretches when bones move</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 How Armatures and Meshes Work Together</h4>
+                    
+                    <p><strong>The Relationship:</strong></p>
+                    <ol>
+                        <li><strong>Mesh:</strong> The visible surface (skin) of your character</li>
+                        <li><strong>Armature:</strong> The invisible skeleton inside</li>
+                        <li><strong>Skinning/Weight Painting:</strong> Defines which vertices follow which bones</li>
+                        <li><strong>Deformation:</strong> Mesh vertices move based on bone movement</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>The Process:</strong></p>
+                    <ul>
+                        <li>You rotate a bone (e.g., bend elbow 90 degrees)</li>
+                        <li>Blender looks at which vertices are "bound" to that bone</li>
+                        <li>Those vertices move to follow the bone's new position</li>
+                        <li>The mesh deforms naturally, creating a bent arm!</li>
+                    </ul>
+                </div>
+
+                <h4>Armature vs. Skeleton vs. Rig - What's the Difference?</h4>
+
+                <div class="card">
+                    <h4>📚 Terminology Clarification</h4>
+                    
+                    <p><strong>Armature (Blender-specific term):</strong></p>
+                    <ul>
+                        <li>The object type in Blender that contains bones</li>
+                        <li>Literally called "Armature" in the Add menu</li>
+                        <li>A collection of bones working together</li>
+                        <li><strong>Example:</strong> "Add an armature to your character"</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Skeleton (General 3D term):</strong></p>
+                    <ul>
+                        <li>Generic term for bone structure in any 3D software</li>
+                        <li>Same concept, different software calls it different things</li>
+                        <li>Maya calls it "joints," 3ds Max calls it "bones"</li>
+                        <li><strong>Example:</strong> "The character's skeleton drives animation"</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Rig (Complete control system):</strong></p>
+                    <ul>
+                        <li>The ENTIRE animation control system</li>
+                        <li>Includes: armature + constraints + control bones + helpers</li>
+                        <li>A "rig" is production-ready; an "armature" is just the bones</li>
+                        <li><strong>Example:</strong> "This character has a facial rig and body rig"</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>In Practice:</strong></p>
+                    <ul>
+                        <li>This lesson = Building the <strong>armature</strong> (basic skeleton)</li>
+                        <li>Next lessons = Adding constraints and controls to create a full <strong>rig</strong></li>
+                        <li>You'll hear people use these terms interchangeably—context makes it clear!</li>
+                    </ul>
+                </div>
+
+                <h4>Why Proper Armature Setup Matters</h4>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ The Foundation of Animation</h4>
+                    
+                    <p><strong>Good Armature = Easy Animation:</strong></p>
+                    <ul>
+                        <li>Bones positioned correctly make natural poses effortless</li>
+                        <li>Proper hierarchy means moving shoulder automatically moves entire arm</li>
+                        <li>Clean naming makes finding bones instant (not hunting through lists)</li>
+                        <li>Well-placed joints create smooth deformation (no weird bending)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Bad Armature = Animation Nightmare:</strong></p>
+                    <ul>
+                        <li>Misaligned bones create unnatural poses that fight you</li>
+                        <li>Wrong hierarchy means every movement requires manual adjustment</li>
+                        <li>Poor naming wastes hours searching for "which bone is the left pinky?"</li>
+                        <li>Bad joint placement creates ugly mesh distortion when posing</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>The Truth:</strong> You can't fix a bad armature with clever animation. But a great armature makes even beginner animation look good. Invest time here—it pays off a hundredfold!</p>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[3D Character] --> B[Mesh - The Visible Surface]
+                    A --> C[Armature - The Skeleton]
+                    C --> D[Individual Bones]
+                    D --> E[Head - Start Point]
+                    D --> F[Tail - End Point]
+                    D --> G[Joint - Connection to Other Bones]
+                    B --> H[Skinning/Weight Paint]
+                    C --> H
+                    H --> I[Animated Character!]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style C fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                    style I fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Industry Insight:</strong> Professional animators at Pixar, Disney, and game studios often spend 30-40% of character creation time on rigging (armature + controls). Why? Because a great rig makes animation 10x faster and results 10x better. The investment upfront saves months of pain later. This lesson focuses on the foundation—getting bones right from the start!</p>
+                </blockquote>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_37_armature_and_bones_part_02.html
+     ============================================ -->

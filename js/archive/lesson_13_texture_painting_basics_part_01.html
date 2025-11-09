@@ -1,0 +1,422 @@
+<!-- ============================================
+     LESSON 13 - PART 01
+     File: lesson_13_texture_painting_basics_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn texture painting fundamentals in Blender - paint directly on 3D models, master brush tools, create hand-painted textures, and bring your models to life with color and detail.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 13: Texture Painting Basics - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="main-nav" aria-label="Main Navigation">
+            <a href="index.html" class="nav-logo">🎨 Blender Course</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#lessons">Lessons</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#lessons">Lessons</a> &gt; 
+            <span>Lesson 13: Texture Painting Basics</span>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <article class="lesson-content">
+                <header class="lesson-header">
+                    <h1>🎨 Lesson 13: Texture Painting Basics</h1>
+                    <p class="lesson-intro">Welcome to one of the most creative and satisfying aspects of 3D art—texture painting! In this lesson, you'll learn how to paint directly on your 3D models, transforming plain gray surfaces into vibrant, detailed, and realistic objects. Whether you want to create stylized hand-painted textures or add weathering and detail to realistic models, texture painting is an essential skill in your 3D artist toolkit.</p>
+                </header>
+
+                <!-- Learning Objectives -->
+                <div class="card">
+                    <h2>🎯 What You'll Learn</h2>
+                    <ul>
+                        <li>Understanding texture painting and why it matters</li>
+                        <li>Setting up Blender's Texture Paint workspace</li>
+                        <li>Creating and managing texture images</li>
+                        <li>Mastering the paint brush and its settings</li>
+                        <li>Working with colors, opacity, and blend modes</li>
+                        <li>Using texture slots and multiple maps</li>
+                        <li>Painting techniques for different effects</li>
+                        <li>Working with layers and masks</li>
+                        <li>Saving and exporting your painted textures</li>
+                        <li>Complete hands-on project: painting a stylized prop</li>
+                    </ul>
+                    <p><strong>⏱️ Estimated Time:</strong> 45-60 minutes</p>
+                    <p><strong>🎯 Project:</strong> Paint a complete hand-painted texture on a 3D object</p>
+                </div>
+
+                <!-- Table of Contents -->
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#what-is-texture-painting" class="toc-link">What is Texture Painting?</a></li>
+                            <li><a href="#why-paint-textures" class="toc-link">Why Paint Textures in Blender?</a></li>
+                            <li><a href="#texture-painting-workspace" class="toc-link">The Texture Paint Workspace</a></li>
+                            <li><a href="#creating-textures" class="toc-link">Creating and Setting Up Textures</a></li>
+                            <li><a href="#brush-basics" class="toc-link">Brush Basics and Settings</a></li>
+                            <li><a href="#painting-techniques" class="toc-link">Essential Painting Techniques</a></li>
+                            <li><a href="#color-management" class="toc-link">Working with Colors</a></li>
+                            <li><a href="#texture-slots" class="toc-link">Understanding Texture Slots</a></li>
+                            <li><a href="#advanced-painting" class="toc-link">Advanced Painting Features</a></li>
+                            <li><a href="#hands-on-project" class="toc-link">Hands-On Project: Paint a Treasure Chest</a></li>
+                            <li><a href="#common-mistakes" class="toc-link">Common Texture Painting Mistakes</a></li>
+                            <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                            <li><a href="#whats-next" class="toc-link">What's Next?</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="what-is-texture-painting" class="content-section">
+                    <h2>🖌️ What is Texture Painting?</h2>
+
+                    <p>Texture painting is the process of painting color, details, and surface information directly onto your 3D models. Instead of applying pre-made images or procedural materials, you become the artist—wielding digital brushes to create custom textures that are uniquely yours!</p>
+
+                    <div class="card">
+                        <h4>🎨 Texture Painting Explained</h4>
+                        <p><strong>The basic concept:</strong></p>
+                        <ul>
+                            <li>You paint directly on the 3D model's surface in the 3D viewport</li>
+                            <li>Blender projects your brush strokes onto the UV-mapped texture image</li>
+                            <li>The painted texture is saved as an image file</li>
+                            <li>This image is then applied to the model via materials</li>
+                            <li>You see results in real-time as you paint!</li>
+                        </ul>
+                        <p><strong>What makes it special:</strong></p>
+                        <ul>
+                            <li>Paint in 3D space while seeing 2D texture result</li>
+                            <li>Brush strokes wrap around curves and corners naturally</li>
+                            <li>No need to unwrap mentally—paint where you see it</li>
+                            <li>Immediate visual feedback</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Artist's Canvas Analogy:</strong> Imagine your 3D model is a physical sculpture, and you're painting it with actual brushes and paint. The difference? Your "sculpture" exists in digital space, your brush never runs out of paint, you can undo mistakes instantly, and gravity doesn't make the paint drip! Texture painting gives you all the creative freedom of traditional painting with the superpowers of digital art.</p>
+                    </blockquote>
+
+                    <h3>How Texture Painting Works</h3>
+
+                    <p>Understanding the relationship between 3D painting and 2D textures is crucial:</p>
+
+                    <div class="card">
+                        <h4>🔄 The Paint-to-Texture Pipeline</h4>
+                        <p><strong>Step-by-step process:</strong></p>
+                        <ol>
+                            <li><strong>You paint on the 3D model</strong>
+                                <ul>
+                                    <li>Brush strokes appear on model surface</li>
+                                    <li>You see color/detail in 3D viewport</li>
+                                </ul>
+                            </li>
+                            <li><strong>Blender uses UVs to map strokes</strong>
+                                <ul>
+                                    <li>Your UV unwrap determines where paint goes on texture</li>
+                                    <li>Brush stroke in 3D = paint on 2D texture image</li>
+                                </ul>
+                            </li>
+                            <li><strong>Texture image updates in real-time</strong>
+                                <ul>
+                                    <li>See your strokes appear in UV Editor</li>
+                                    <li>Image file contains all painted data</li>
+                                </ul>
+                            </li>
+                            <li><strong>Material displays the texture</strong>
+                                <ul>
+                                    <li>Shader uses painted image as color source</li>
+                                    <li>Model shows painted result in renders</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="mermaid">
+                        graph TD
+                        A[Paint Stroke on 3D Model] --> B[Blender Uses UV Map]
+                        B --> C[Projects Paint to 2D Texture]
+                        C --> D[Texture Image Updates]
+                        D --> E[Material Shows Result]
+                        E --> F[You See Painted Model!]
+                        
+                        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                        style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    </div>
+
+                    <h3>Types of Textures You Can Paint</h3>
+
+                    <p>Texture painting isn't just for color! You can paint various texture maps:</p>
+
+                    <div class="card">
+                        <h4>🗺️ Paintable Texture Types</h4>
+                        <p><strong>Base Color (Diffuse):</strong></p>
+                        <ul>
+                            <li>The main color information</li>
+                            <li>What most people think of as "the texture"</li>
+                            <li>RGB color values defining object appearance</li>
+                            <li><strong>Example:</strong> Red paint on a toy, wood grain color, fabric patterns</li>
+                        </ul>
+                        <p><strong>Roughness:</strong></p>
+                        <ul>
+                            <li>Controls how shiny or matte surfaces appear</li>
+                            <li>Grayscale values (black = glossy, white = rough)</li>
+                            <li><strong>Example:</strong> Shiny metal areas vs. worn matte spots</li>
+                        </ul>
+                        <p><strong>Metallic:</strong></p>
+                        <ul>
+                            <li>Defines which areas are metallic vs. non-metallic</li>
+                            <li>Usually binary (0 = non-metal, 1 = metal)</li>
+                            <li><strong>Example:</strong> Gold trim on wooden chest</li>
+                        </ul>
+                        <p><strong>Normal Map:</strong></p>
+                        <ul>
+                            <li>Fake surface detail and bumps</li>
+                            <li>RGB colors represent surface angle information</li>
+                            <li>Advanced technique (covered in later lessons)</li>
+                        </ul>
+                        <p><strong>Emission:</strong></p>
+                        <ul>
+                            <li>Areas that glow or emit light</li>
+                            <li>Color and intensity of self-illumination</li>
+                            <li><strong>Example:</strong> Glowing runes, LED lights</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ In This Lesson</h4>
+                        <p>We'll focus primarily on <strong>Base Color texture painting</strong>—the foundation of all texture work. Once you master painting color, the same techniques apply to roughness, metallic, and other maps!</p>
+                    </div>
+
+                    <h3>Texture Painting vs. Other Texturing Methods</h3>
+
+                    <p>Let's understand how texture painting fits into the broader texturing ecosystem:</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Best For</th>
+                                <th>Advantages</th>
+                                <th>Limitations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Texture Painting (Blender)</strong></td>
+                                <td>Stylized art, quick texturing, custom details</td>
+                                <td>Direct, intuitive, see results in 3D</td>
+                                <td>Basic tools compared to dedicated apps</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Procedural Textures</strong></td>
+                                <td>Generic materials, tiling textures, technical surfaces</td>
+                                <td>No UV unwrapping needed, infinitely scalable</td>
+                                <td>Hard to create unique, artistic details</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Image Textures</strong></td>
+                                <td>Photorealistic surfaces, pre-made assets</td>
+                                <td>Fast, high quality, professional libraries available</td>
+                                <td>Generic, not customized to your model</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Substance Painter</strong></td>
+                                <td>Professional game/film assets, PBR workflows</td>
+                                <td>Industry-standard, powerful tools, smart materials</td>
+                                <td>Expensive, separate software, learning curve</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Photogrammetry</strong></td>
+                                <td>Realistic scanned objects, environments</td>
+                                <td>Ultimate realism, captures real-world detail</td>
+                                <td>Requires photo equipment, processing time</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚡ When to Use Blender's Texture Painting</h4>
+                        <p><strong>Perfect for:</strong></p>
+                        <ul>
+                            <li>Stylized, hand-painted, or cartoon-style textures</li>
+                            <li>Quick texturing for personal projects or tests</li>
+                            <li>Adding custom details to procedural materials</li>
+                            <li>Painting wear, dirt, and variation on surfaces</li>
+                            <li>Learning texture painting fundamentals</li>
+                            <li>Budget-conscious workflows (it's free!)</li>
+                        </ul>
+                        <p><strong>Consider alternatives for:</strong></p>
+                        <ul>
+                            <li>Professional game assets (Substance Painter might be better)</li>
+                            <li>Hyper-realistic characters (specialized software helps)</li>
+                            <li>Large-scale production (dedicated tools offer more efficiency)</li>
+                        </ul>
+                        <p><strong>The truth:</strong> Blender's texture painting is surprisingly capable! Many professionals use it for specific tasks even when they own dedicated software.</p>
+                    </div>
+
+                </section>
+
+                <section id="why-paint-textures" class="content-section">
+                    <h2>🌟 Why Paint Textures in Blender?</h2>
+
+                    <p>You might wonder: "Why learn texture painting when there are thousands of pre-made textures available online?" Great question! Here's why texture painting is a skill worth mastering:</p>
+
+                    <h3>Creative Freedom and Customization</h3>
+
+                    <div class="card">
+                        <h4>🎨 Be the Artist</h4>
+                        <p><strong>Complete creative control:</strong></p>
+                        <ul>
+                            <li>Your vision, your colors, your style</li>
+                            <li>Not limited to what exists in texture libraries</li>
+                            <li>Perfect match for your specific project needs</li>
+                            <li>Express unique artistic voice</li>
+                        </ul>
+                        <p><strong>Customization examples:</strong></p>
+                        <ul>
+                            <li>Want a purple dragon with gold spots? Paint it!</li>
+                            <li>Need a rusty robot with specific wear patterns? Paint it!</li>
+                            <li>Creating a fantasy weapon with magical runes? Paint it!</li>
+                            <li>No searching for "the perfect texture"—create it yourself!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Perfect Integration with Your Model</h3>
+
+                    <div class="card">
+                        <h4>🎯 Custom-Fit Textures</h4>
+                        <p><strong>Model-specific details:</strong></p>
+                        <ul>
+                            <li>Paint exactly where details are needed</li>
+                            <li>Weathering and wear in logical locations</li>
+                            <li>Details that follow your model's geometry</li>
+                            <li>No generic stretching or misalignment</li>
+                        </ul>
+                        <p><strong>Example scenario:</strong></p>
+                        <p>You modeled a treasure chest. Generic wood texture looks okay, but with texture painting you can add:</p>
+                        <ul>
+                            <li>Scratches around the lock (where someone tried to pry it open)</li>
+                            <li>Darker stains in corners (where water collected)</li>
+                            <li>Worn edges (where hands grabbed it)</li>
+                            <li>Decorative designs that align perfectly with geometry</li>
+                        </ul>
+                    </div>
+
+                    <h3>Stylized and Hand-Painted Aesthetics</h3>
+
+                    <div class="card">
+                        <h4>🖼️ The Hand-Painted Look</h4>
+                        <p><strong>Why hand-painted textures are popular:</strong></p>
+                        <ul>
+                            <li>Timeless, artistic quality</li>
+                            <li>Stands out from generic PBR photorealism</li>
+                            <li>Perfect for games (especially stylized genres)</li>
+                            <li>Lower performance cost (simple textures)</li>
+                            <li>Forgiving of imperfections (part of the charm!)</li>
+                        </ul>
+                        <p><strong>Famous examples:</strong></p>
+                        <ul>
+                            <li><strong>World of Warcraft:</strong> Iconic hand-painted style</li>
+                            <li><strong>Overwatch:</strong> Stylized character textures</li>
+                            <li><strong>Fortnite:</strong> Bright, painted aesthetics</li>
+                            <li><strong>Pixar films:</strong> Hand-painted quality even in 3D</li>
+                        </ul>
+                    </div>
+
+                    <h3>Workflow Efficiency</h3>
+
+                    <div class="card">
+                        <h4>⚡ Speed and Convenience</h4>
+                        <p><strong>All-in-one solution:</strong></p>
+                        <ul>
+                            <li>No switching between applications</li>
+                            <li>Model, UV, and paint in same software</li>
+                            <li>See results immediately in context</li>
+                            <li>Faster iteration and experimentation</li>
+                        </ul>
+                        <p><strong>Quick adjustments:</strong></p>
+                        <ul>
+                            <li>Client wants color change? Paint it in minutes</li>
+                            <li>Spot something wrong in render? Jump in and fix it</li>
+                            <li>Want to try different color scheme? Save versions and test</li>
+                        </ul>
+                    </div>
+
+                    <h3>Learning and Skill Development</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Educational Value</h4>
+                        <p><strong>Foundation for advanced techniques:</strong></p>
+                        <ul>
+                            <li>Understand how textures work at fundamental level</li>
+                            <li>Skills transfer to Substance Painter, Mari, etc.</li>
+                            <li>Learn color theory and painting principles</li>
+                            <li>Develop artistic eye for detail and realism</li>
+                        </ul>
+                        <p><strong>Career relevance:</strong></p>
+                        <ul>
+                            <li>Many game studios use hand-painted textures</li>
+                            <li>Valuable skill for indie game development</li>
+                            <li>Demonstrates artistic ability beyond technical modeling</li>
+                            <li>Portfolio pieces that show personality and style</li>
+                        </ul>
+                    </div>
+
+                    <h3>Cost-Effectiveness</h3>
+
+                    <div class="card">
+                        <h4>💰 Free Tools, Professional Results</h4>
+                        <p><strong>No additional costs:</strong></p>
+                        <ul>
+                            <li>Blender is free and open-source</li>
+                            <li>No subscription fees (unlike Substance Painter)</li>
+                            <li>No need to buy texture packs</li>
+                            <li>Create unlimited unique textures</li>
+                        </ul>
+                        <p><strong>Perfect for:</strong></p>
+                        <ul>
+                            <li>Students and hobbyists</li>
+                            <li>Indie developers on tight budgets</li>
+                            <li>Learning before investing in premium tools</li>
+                            <li>Personal projects where budget matters</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The Bottom Line:</strong> Texture painting gives you superpowers. You're no longer limited by what textures you can find or afford—you become the texture creator. Every model becomes a canvas, and your imagination is the only limit. Whether you're creating stylized characters, weathered props, or fantastical creatures, texture painting lets you bring your unique vision to life!</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_13_texture_painting_basics_part_02.html
+     ============================================ -->

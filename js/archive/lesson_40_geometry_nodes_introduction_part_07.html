@@ -1,0 +1,643 @@
+<!-- ============================================
+     LESSON 40 - PART 07
+     File: lesson_40_geometry_nodes_introduction_part_07.html
+     ============================================ -->
+
+            <section id="essential-nodes">
+                <h3>📚 Essential Beginner Nodes Reference</h3>
+                
+                <p>Now that you've built your first node tree, let's expand your toolkit! There are hundreds of Geometry Nodes, but you don't need to know them all to create amazing things. In this section, we'll cover the essential nodes that you'll use again and again—the "greatest hits" of Geometry Nodes. Think of these as your starter pack: master these nodes, and you'll be able to build 80% of what you'll want to create. We'll organize them by category and show you exactly when and why to use each one. Let's build your node vocabulary!</p>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎯 Node Categories</h3>
+                    <p style="color: white;"><strong>We'll cover:</strong></p>
+                    <ul style="color: white;">
+                        <li><strong>Primitives:</strong> Building blocks (cubes, spheres, grids)</li>
+                        <li><strong>Geometry Operations:</strong> Transform, join, delete, duplicate</li>
+                        <li><strong>Instances:</strong> Efficient copying and placement</li>
+                        <li><strong>Attributes:</strong> Reading and writing data</li>
+                        <li><strong>Math & Utilities:</strong> Numbers, vectors, conversions</li>
+                        <li><strong>Curves:</strong> Lines, circles, paths</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0;"><strong>Focus: Practical understanding over memorization!</strong></p>
+                </div>
+
+                <h4>Primitive Generators</h4>
+
+                <div class="card">
+                    <h4>🧊 Mesh Primitives (Add > Mesh > Primitives)</h4>
+                    
+                    <p><strong>These nodes CREATE new geometry from scratch. They ignore input geometry and generate fresh meshes.</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mesh Cube</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Creates a cube mesh</li>
+                        <li><strong>Parameters:</strong>
+                            <ul>
+                                <li>Size: Overall dimensions (uniform or per-axis)</li>
+                                <li>Vertices X/Y/Z: Subdivisions per axis</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Need basic box shape, building, room, container</li>
+                        <li><strong>Output:</strong> Green geometry socket (the cube mesh)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>UV Sphere</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Creates a sphere with UV-friendly topology</li>
+                        <li><strong>Parameters:</strong>
+                            <ul>
+                                <li>Segments: Horizontal rings</li>
+                                <li>Rings: Vertical segments</li>
+                                <li>Radius: Size</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Planets, balls, bubbles, round objects</li>
+                        <li><strong>Note:</strong> Higher segments/rings = smoother but heavier</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Ico Sphere</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Creates sphere from icosahedron (more even topology)</li>
+                        <li><strong>Parameters:</strong>
+                            <ul>
+                                <li>Subdivisions: Detail level (each level quadruples faces)</li>
+                                <li>Radius: Size</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Need more uniform sphere, subdividing sphere, geodesic patterns</li>
+                        <li><strong>Warning:</strong> Subdivision 4+ = very heavy (thousands of faces)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Cylinder</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Creates cylinder mesh</li>
+                        <li><strong>Parameters:</strong>
+                            <ul>
+                                <li>Vertices: Sides (6 = hexagon, 32 = smooth cylinder)</li>
+                                <li>Radius: Width at top and bottom (different = cone/frustum)</li>
+                                <li>Depth: Height</li>
+                                <li>Fill Type: None/NGon/Triangles (cap options)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Pillars, tubes, pipes, tree trunks</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Cone</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Creates cone mesh (cylinder with zero top radius)</li>
+                        <li><strong>Parameters:</strong> Similar to cylinder</li>
+                        <li><strong>Use when:</strong> Pointed objects, arrows, mountain, party hat</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Grid</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Creates flat grid of faces</li>
+                        <li><strong>Parameters:</strong>
+                            <ul>
+                                <li>Size X/Y: Dimensions</li>
+                                <li>Vertices X/Y: Subdivisions (resolution)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Ground plane, terrain base, cloth simulation start</li>
+                        <li><strong>Pro tip:</strong> High vertex count grid = great for displacement/noise</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Curve Primitives (Add > Curve > Primitives)</h4>
+                    
+                    <p><strong>Curves are special: They're paths/lines, not solid geometry (until converted to mesh).</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Curve Line</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Creates straight line curve</li>
+                        <li><strong>Modes:</strong>
+                            <ul>
+                                <li>Points: Line between two points</li>
+                                <li>Direction: Start point + direction vector + length</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Straight edges, paths, extrusion rails</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Curve Circle</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Creates circular curve</li>
+                        <li><strong>Parameters:</strong> Radius, resolution (points on circle)</li>
+                        <li><strong>Use when:</strong> Circular paths, rings, orbits, wheels</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mesh Line</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Creates line of POINTS (not connected)</li>
+                        <li><strong>Modes:</strong>
+                            <ul>
+                                <li>Count: Specific number of points</li>
+                                <li>Resolution: Points based on length/spacing</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Instance locations, particle positions (most common!)</li>
+                        <li><strong>Remember:</strong> This is what we used in first project!</li>
+                    </ul>
+                </div>
+
+                <h4>Geometry Operations</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Transform and Modify (Add > Geometry)</h4>
+                    
+                    <p><strong>Transform Geometry</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Moves, rotates, scales entire geometry</li>
+                        <li><strong>Inputs:</strong>
+                            <ul>
+                                <li>Geometry (what to transform)</li>
+                                <li>Translation (move)</li>
+                                <li>Rotation (rotate in Euler angles)</li>
+                                <li>Scale (resize)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Repositioning generated geometry, offsetting, simple transformations</li>
+                        <li><strong>Note:</strong> Affects ALL geometry equally (not per-point)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Set Position</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Moves individual points/vertices</li>
+                        <li><strong>Inputs:</strong>
+                            <ul>
+                                <li>Geometry (mesh to modify)</li>
+                                <li>Selection (which points to affect - optional mask)</li>
+                                <li>Position (new positions - Vector)</li>
+                                <li>Offset (relative movement - adds to current position)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Per-vertex modifications, deformations, displacement</li>
+                        <li><strong>Pro tip:</strong> Use with noise to create organic deformations</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Join Geometry</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Combines multiple geometry inputs into one</li>
+                        <li><strong>Inputs:</strong> Multiple geometry sockets (expandable with + button)</li>
+                        <li><strong>Use when:</strong> Merging separate branches, combining primitives, adding to input</li>
+                        <li><strong>Critical node:</strong> Most trees need this somewhere!</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Delete Geometry</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Removes selected parts of geometry</li>
+                        <li><strong>Inputs:</strong>
+                            <ul>
+                                <li>Geometry (what to delete from)</li>
+                                <li>Selection (which parts to delete - boolean mask)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Domain:</strong> Points, Edges, Faces (what type to delete)</li>
+                        <li><strong>Use when:</strong> Removing unwanted parts, creating holes, selective pruning</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Duplicate Elements</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Duplicates selected geometry elements</li>
+                        <li><strong>Inputs:</strong>
+                            <ul>
+                                <li>Geometry</li>
+                                <li>Selection (what to duplicate)</li>
+                                <li>Amount (how many copies)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Creating repeating patterns, multiplying faces</li>
+                    </ul>
+                </div>
+
+                <h4>Instance Operations</h4>
+
+                <div class="card">
+                    <h4>📦 Working with Instances (Add > Instances)</h4>
+                    
+                    <p><strong>Instance on Points</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Places instances at point locations</li>
+                        <li><strong>Inputs:</strong>
+                            <ul>
+                                <li>Points: Where to place instances (geometry with points)</li>
+                                <li>Instance: What to copy</li>
+                                <li>Selection: Which points to use (optional)</li>
+                                <li>Pick Instance: Choose from multiple instance options</li>
+                                <li>Rotation/Scale: Per-instance transformation</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Scattering objects, placing copies, distribution systems</li>
+                        <li><strong>Most used node:</strong> Core of most procedural systems!</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Realize Instances</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Converts instances to real geometry</li>
+                        <li><strong>Input:</strong> Geometry (with instances)</li>
+                        <li><strong>Output:</strong> Geometry (instances converted to meshes)</li>
+                        <li><strong>Use when:</strong> Need to modify individual copies, apply modifiers, export</li>
+                        <li><strong>Warning:</strong> Heavy operation with many instances!</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Rotate Instances</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Rotates instances (without realizing them)</li>
+                        <li><strong>Inputs:</strong>
+                            <ul>
+                                <li>Instances</li>
+                                <li>Selection: Which instances to rotate</li>
+                                <li>Rotation: Euler angles</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Randomizing rotations, aligning instances, orientation control</li>
+                        <li><strong>Efficient:</strong> Modifies instance data, not geometry</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Scale Instances</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Scales instances (without realizing)</li>
+                        <li><strong>Inputs:</strong>
+                            <ul>
+                                <li>Instances</li>
+                                <li>Selection: Which instances</li>
+                                <li>Scale: Per-axis or uniform</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Size variation, randomization, progressive scaling</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Translate Instances</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Moves instances from their points</li>
+                        <li><strong>Use when:</strong> Offsetting from exact point locations, jitter, displacement</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Points] --> B[Instance on Points]
+                    C[Template Geometry] --> B
+                    B --> D{Need Individual Edits?}
+                    D -->|No| E[Keep as Instances<br/>Rotate/Scale/Translate]
+                    D -->|Yes| F[Realize Instances<br/>Convert to Mesh]
+                    E --> G[Output<br/>Efficient]
+                    F --> H[Output<br/>Editable but Heavy]
+                    style B fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style D fill:#ffc107,stroke:#333,stroke-width:2px
+                </div>
+
+                <h4>Attribute Operations</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Reading and Writing Data (Add > Attribute)</h4>
+                    
+                    <p><strong>Understanding Attributes:</strong></p>
+                    <ul>
+                        <li>Attributes = data stored per point/edge/face</li>
+                        <li>Examples: Position, Normal, Color, Custom values</li>
+                        <li>Think of them as spreadsheet columns (each point/face = row)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Store Named Attribute</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Saves data to geometry for later use</li>
+                        <li><strong>Inputs:</strong>
+                            <ul>
+                                <li>Geometry</li>
+                                <li>Name: Attribute identifier (text)</li>
+                                <li>Value: Data to store (any type)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Need to remember data, pass info between nodes, mark geometry</li>
+                        <li><strong>Example:</strong> Store random values, mark selected faces, save IDs</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Named Attribute (Read)</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Retrieves stored attribute data</li>
+                        <li><strong>Input:</strong> Name (attribute to read)</li>
+                        <li><strong>Output:</strong> Attribute values (color-coded by type)</li>
+                        <li><strong>Use when:</strong> Reading previously stored data, accessing built-in attributes</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Built-in Attributes (Always Available):</strong></p>
+                    <ul>
+                        <li><strong>position:</strong> Point locations (Vector)</li>
+                        <li><strong>normal:</strong> Surface direction (Vector)</li>
+                        <li><strong>id:</strong> Point/face index (Integer)</li>
+                        <li><strong>material_index:</strong> Material slot (Integer)</li>
+                        <li>Access these without storing—they exist automatically!</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Capture Attribute</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Saves current state of attribute for later comparison</li>
+                        <li><strong>Use when:</strong> Need "before and after" comparisons, measuring change</li>
+                        <li><strong>Example:</strong> Capture original position, then measure displacement amount</li>
+                    </ul>
+                </div>
+
+                <h4>Math and Utilities</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Number Crunching (Add > Utilities)</h4>
+                    
+                    <p><strong>Math Node</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Performs math operations on floats (single numbers)</li>
+                        <li><strong>Operations:</strong>
+                            <ul>
+                                <li>Basic: Add, Subtract, Multiply, Divide</li>
+                                <li>Functions: Power, Square Root, Absolute, Round</li>
+                                <li>Comparison: Less Than, Greater Than, Compare</li>
+                                <li>Trigonometry: Sine, Cosine, Tangent</li>
+                                <li>Many more! (dropdown menu has 30+ options)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Calculations, value manipulation, formulas</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Vector Math Node</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Math operations on vectors (X,Y,Z triplets)</li>
+                        <li><strong>Operations:</strong>
+                            <ul>
+                                <li>Add, Subtract, Multiply, Divide (per-component)</li>
+                                <li>Dot Product, Cross Product</li>
+                                <li>Normalize (make length = 1)</li>
+                                <li>Length, Distance</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Position calculations, directions, scaling vectors</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Map Range</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Remaps values from one range to another</li>
+                        <li><strong>Example:</strong> Convert 0-10 range to 0-100 range</li>
+                        <li><strong>Inputs:</strong>
+                            <ul>
+                                <li>Value: Input to remap</li>
+                                <li>From Min/Max: Original range</li>
+                                <li>To Min/Max: Target range</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Scaling parameters, normalizing values, adjusting ranges</li>
+                        <li><strong>Pro tip:</strong> Essential for making procedural systems flexible!</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Compare (Math Node variant)</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Compares values, outputs boolean (true/false)</li>
+                        <li><strong>Operations:</strong> Less Than, Greater Than, Equal, Not Equal</li>
+                        <li><strong>Use when:</strong> Creating selections, conditional logic, filtering</li>
+                        <li><strong>Output:</strong> Boolean (white socket) - use for Selection inputs!</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Random Value</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Generates random numbers or vectors</li>
+                        <li><strong>Types:</strong> Float, Integer, Vector, Boolean</li>
+                        <li><strong>Parameters:</strong>
+                            <ul>
+                                <li>Min/Max: Range of random values</li>
+                                <li>ID: Seed (same ID = same "random" result)</li>
+                                <li>Seed: Global randomization offset</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Variation, scatter, natural randomness</li>
+                        <li><strong>Pro tip:</strong> Use Index as ID for per-point randomness!</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>🔄 Type Conversions (Add > Utilities > Convert)</h4>
+                    
+                    <p><strong>Combine XYZ</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Combines three floats into vector</li>
+                        <li><strong>Inputs:</strong> X, Y, Z (gray sockets)</li>
+                        <li><strong>Output:</strong> Vector (purple socket)</li>
+                        <li><strong>Use when:</strong> Building vectors from separate values</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Separate XYZ</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Splits vector into three floats</li>
+                        <li><strong>Input:</strong> Vector (purple socket)</li>
+                        <li><strong>Outputs:</strong> X, Y, Z (gray sockets)</li>
+                        <li><strong>Use when:</strong> Need individual components, isolating one axis</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Float to Integer</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Converts float to integer</li>
+                        <li><strong>Modes:</strong> Round, Floor, Ceiling, Truncate</li>
+                        <li><strong>Use when:</strong> Index calculations, counting, discrete values</li>
+                    </ul>
+                </div>
+
+                <h4>Index and ID</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Tracking Elements (Add > Input)</h4>
+                    
+                    <p><strong>Index Node</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Outputs each element's index number</li>
+                        <li><strong>Output:</strong> Integer (0, 1, 2, 3...)</li>
+                        <li><strong>Domain-dependent:</strong> Changes based on context
+                            <ul>
+                                <li>Point domain: 0 = first point, 1 = second point, etc.</li>
+                                <li>Face domain: 0 = first face, 1 = second face, etc.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong>
+                            <ul>
+                                <li>Creating gradients (index → color)</li>
+                                <li>Per-element variation (index → random seed)</li>
+                                <li>Selecting every Nth element (index modulo N)</li>
+                                <li>Progressive effects (first different from last)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Common pattern:</strong> Index → Random Value ID (unique randomness per element)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>ID Node</strong></p>
+                    <ul>
+                        <li><strong>What it does:</strong> Reads stored ID attribute (if it exists)</li>
+                        <li><strong>Difference from Index:</strong>
+                            <ul>
+                                <li>Index: Automatic, sequential (0, 1, 2...)</li>
+                                <li>ID: Custom, stored attribute (can be any values)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use when:</strong> Tracking specific elements after modifications</li>
+                    </ul>
+                </div>
+
+                <h4>Quick Reference Tables</h4>
+
+                <div class="card">
+                    <h4>📊 Node Selection Guide</h4>
+                    
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Task</th>
+                                <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Use This Node</th>
+                                <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Why</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Create starting geometry</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Mesh Cube/Sphere/Grid</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Primitives generate fresh geometry</td>
+                            </tr>
+                            <tr style="background: #fafafa;">
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Copy object many times</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Instance on Points</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Most efficient duplication method</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Combine separate objects</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Join Geometry</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Merges multiple geometry streams</td>
+                            </tr>
+                            <tr style="background: #fafafa;">
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Move entire object</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Transform Geometry</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Uniform transformation</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Move individual vertices</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Set Position</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Per-point control</td>
+                            </tr>
+                            <tr style="background: #fafafa;">
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Add randomness</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Random Value</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Generates varied values</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Create point line</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Mesh Line</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Perfect for instance locations</td>
+                            </tr>
+                            <tr style="background: #fafafa;">
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Remove parts</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Delete Geometry</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Selective removal</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Make instances editable</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Realize Instances</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Converts to real geometry</td>
+                            </tr>
+                            <tr style="background: #fafafa;">
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Do math calculations</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Math/Vector Math</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Numerical operations</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Change value ranges</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Map Range</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Remap min/max</td>
+                            </tr>
+                            <tr style="background: #fafafa;">
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Build vectors</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Combine XYZ</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Three floats → vector</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Per-element variation</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Index</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Sequential numbering</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Socket Color Cheat Sheet</h4>
+                    
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Color</th>
+                                <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Data Type</th>
+                                <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Example Values</th>
+                                <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Common Uses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd; background: #4CAF50; color: white;"><strong>Green</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Geometry</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Meshes, curves, instances</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Main data flow</td>
+                            </tr>
+                            <tr style="background: #fafafa;">
+                                <td style="padding: 0.75rem; border: 1px solid #ddd; background: #999; color: white;"><strong>Gray</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Float</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">0.5, -2.7, 100.0</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Numbers, measurements</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd; background: #6B8FD6; color: white;"><strong>Blue</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Integer</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">0, 5, -3, 42</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Counts, indices</td>
+                            </tr>
+                            <tr style="background: #fafafa;">
+                                <td style="padding: 0.75rem; border: 1px solid #ddd; background: #A67CB3; color: white;"><strong>Purple</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Vector</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">(1.0, 2.5, -0.5)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Positions, directions</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd; background: #DDD; color: #333;"><strong>White</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Boolean</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">True/False</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Selections, masks</td>
+                            </tr>
+                            <tr style="background: #fafafa;">
+                                <td style="padding: 0.75rem; border: 1px solid #ddd; background: #FFD54F; color: #333;"><strong>Yellow</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Color</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">RGBA (0-1 per channel)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Vertex colors, materials</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Building Your Mental Library:</strong> You don't need to memorize every node—that's what the Add menu is for! What you DO need is to understand categories: "When I need to create geometry, look in Mesh/Primitives. When I need to scatter, use Instance on Points. When I need math, use Math nodes." With practice, you'll know the 10-15 nodes you use constantly, and you'll look up the rest as needed. That's how professionals work too!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎯 Essential Nodes Summary</h3>
+                    <p style="color: white;"><strong>Your Core Toolkit:</strong></p>
+                    <ul style="color: white;">
+                        <li><strong>Primitives:</strong> Cube, Sphere, Grid (starting shapes)</li>
+                        <li><strong>Points:</strong> Mesh Line, Curve Circle (instance locations)</li>
+                        <li><strong>Instances:</strong> Instance on Points, Realize Instances (efficient copying)</li>
+                        <li><strong>Transforms:</strong> Transform Geometry, Set Position (movement)</li>
+                        <li><strong>Combine:</strong> Join Geometry (merge branches)</li>
+                        <li><strong>Math:</strong> Math, Vector Math, Map Range, Random Value (calculations)</li>
+                        <li><strong>Conversion:</strong> Combine/Separate XYZ (type matching)</li>
+                        <li><strong>Tracking:</strong> Index (per-element identification)</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0;"><strong>Master these, and you're ready for 90% of projects!</strong></p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 07
+     Continue with lesson_40_geometry_nodes_introduction_part_08.html
+     ============================================ -->

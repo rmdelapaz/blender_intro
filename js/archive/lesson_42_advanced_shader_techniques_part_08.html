@@ -1,0 +1,618 @@
+<!-- ============================================
+     LESSON 42 - PART 08
+     File: lesson_42_advanced_shader_techniques_part_08.html
+     ============================================ -->
+
+            <!-- Project 2: Weathered Metal -->
+            <section id="project-metal">
+                <h2>⚙️ Project 2: Weathered Metal</h2>
+                
+                <p>Now for the ultimate layered material challenge! Weathered metal is the perfect showcase for everything you've learned about masking, layering, and material complexity. We're building a painted metal surface with four distinct layers: base metal, paint, edge wear exposing metal, rust forming on exposed areas, and dirt accumulating in crevices. Each layer has its own material properties, and masks control where each appears based on logical, real-world rules. This is production-level material work!</p>
+
+                <p>What makes this project special is the storytelling. Every weathered surface has a history. Paint applied years ago. Edges worn from handling and use. Rust creeping in where moisture reached bare metal. Dirt settling in protected spots. Your material will tell this story visually. When someone looks at your render, they should feel the age, the use, the environment. This is material artistry at its finest—using shaders to create narrative!</p>
+
+                <h3>Understanding Metal Weathering</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 The Life Story of Painted Metal</h4>
+                    
+                    <p><strong>Timeline of Degradation:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Stage 1: Factory Fresh</strong></p>
+                    <ul>
+                        <li>Clean metal base (steel, aluminum, iron)</li>
+                        <li>Uniform paint coat applied</li>
+                        <li>Smooth, consistent surface</li>
+                        <li><strong>Appearance:</strong> Perfect, unblemished</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Stage 2: Early Use (Months)</strong></p>
+                    <ul>
+                        <li>Fingerprints and oils on frequently touched areas</li>
+                        <li>Fine scratches from handling</li>
+                        <li>Edges begin showing wear (paint thins)</li>
+                        <li><strong>Appearance:</strong> Slightly used but maintained</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Stage 3: Heavy Use (Years)</strong></p>
+                    <ul>
+                        <li><strong>Edge wear:</strong> Paint completely gone on corners, bare metal exposed</li>
+                        <li><strong>Surface wear:</strong> Paint worn thin in high-contact areas</li>
+                        <li><strong>Scratches:</strong> Deep gouges through paint to metal</li>
+                        <li><strong>Dirt:</strong> Accumulating in crevices and corners</li>
+                        <li><strong>Early rust:</strong> Orange spots where metal is exposed</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Stage 4: Neglected/Outdoor Exposure (Decades)</strong></p>
+                    <ul>
+                        <li><strong>Paint failure:</strong> Chipping, peeling, large bare areas</li>
+                        <li><strong>Rust spreading:</strong> From exposed edges, creeping under paint</li>
+                        <li><strong>Surface oxidation:</strong> Even painted areas showing corrosion</li>
+                        <li><strong>Heavy dirt/grime:</strong> Thick accumulation, staining</li>
+                        <li><strong>Appearance:</strong> Obviously aged, abandoned look</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Our Goal:</strong> Create Stage 3 material—well-used but not destroyed. Shows age and use but still functional. This is the sweet spot for realism!</p>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Base Metal<br/>Steel/Iron] --> B[+ Paint Layer<br/>Protective Coating]
+                    B --> C[+ Edge Wear<br/>Paint Removed]
+                    C --> D[+ Rust Layer<br/>Metal Oxidation]
+                    D --> E[+ Dirt Layer<br/>Environmental Grime]
+                    E --> F[Weathered Metal<br/>Complete Material]
+                    
+                    style A fill:#999,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h3>Material Layer Breakdown</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ The Four Material Layers</h4>
+                    
+                    <p><strong>Layer 1: Base Metal (Foundation)</strong></p>
+                    <ul>
+                        <li><strong>Material type:</strong> Steel/Iron</li>
+                        <li><strong>Base Color:</strong> Medium gray (0.5, 0.5, 0.5)</li>
+                        <li><strong>Metallic:</strong> 1.0 (pure metal)</li>
+                        <li><strong>Roughness:</strong> 0.3-0.4 (slightly worn metal, not mirror)</li>
+                        <li><strong>Purpose:</strong> Shows through where paint is gone</li>
+                        <li><strong>Visibility:</strong> Only at edges and damage areas</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Layer 2: Paint (Primary Surface)</strong></p>
+                    <ul>
+                        <li><strong>Material type:</strong> Non-metallic coating</li>
+                        <li><strong>Base Color:</strong> Your choice! (Dark blue, olive green, gray common for industrial)</li>
+                        <li><strong>Metallic:</strong> 0.0 (paint isn't metal)</li>
+                        <li><strong>Roughness:</strong> 0.4-0.5 (semi-matte finish)</li>
+                        <li><strong>Purpose:</strong> Main visible surface, protective coat</li>
+                        <li><strong>Visibility:</strong> Most of surface except worn areas</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Layer 3: Rust (Oxidation)</strong></p>
+                    <ul>
+                        <li><strong>Material type:</strong> Iron oxide (non-metallic)</li>
+                        <li><strong>Base Color:</strong> Orange-brown (0.5, 0.25, 0.1) to dark rust (0.3, 0.15, 0.08)</li>
+                        <li><strong>Metallic:</strong> 0.0 (rust is oxidized, not metallic anymore)</li>
+                        <li><strong>Roughness:</strong> 0.8-0.95 (very rough, porous)</li>
+                        <li><strong>Purpose:</strong> Shows metal degradation, adds realism</li>
+                        <li><strong>Visibility:</strong> On exposed metal, especially edges where moisture collects</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Layer 4: Dirt/Grime (Environmental)</strong></p>
+                    <ul>
+                        <li><strong>Material type:</strong> Accumulated contamination</li>
+                        <li><strong>Base Color:</strong> Dark brown-gray (0.15, 0.12, 0.1)</li>
+                        <li><strong>Metallic:</strong> 0.0</li>
+                        <li><strong>Roughness:</strong> 0.9-1.0 (very matte)</li>
+                        <li><strong>Purpose:</strong> Environmental storytelling, adds age</li>
+                        <li><strong>Visibility:</strong> In crevices, recessed areas, protected corners</li>
+                    </ul>
+                </div>
+
+                <h3>Project Setup</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Scene Preparation</h4>
+                    
+                    <p><strong>Test Object Setup:</strong></p>
+                    <ol>
+                        <li><strong>Add Cylinder</strong> (or any mechanical object)
+                            <ul>
+                                <li>Represents pipe, barrel, machinery</li>
+                                <li>Scale to reasonable size (2-3 units)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Subdivision Surface modifier</strong>
+                            <ul>
+                                <li>Level 2 for smooth curves</li>
+                                <li><strong>Critical:</strong> Pointiness needs smooth geometry!</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Bevel modifier</strong>
+                            <ul>
+                                <li>Amount: 0.02-0.05</li>
+                                <li>Segments: 2-3</li>
+                                <li><strong>Why:</strong> Creates realistic edges (nothing is perfectly sharp)</li>
+                                <li>Beveled edges = better edge wear effect</li>
+                            </ul>
+                        </li>
+                        <li><strong>Optional: Add details</strong>
+                            <ul>
+                                <li>Boolean some dents, indentations</li>
+                                <li>More geometry detail = more places for weathering</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Lighting Setup:</strong></p>
+                    <ul>
+                        <li><strong>HDRI recommended:</strong> Shows metal reflections beautifully</li>
+                        <li><strong>Or Three-Point Lighting:</strong> With strong key light for edge highlights</li>
+                        <li><strong>Add fill light:</strong> To see details in crevices</li>
+                        <li><strong>Test with side lighting:</strong> Reveals surface bumps and wear</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Render Settings:</strong></p>
+                    <ul>
+                        <li><strong>Use Cycles:</strong> For accurate metal reflections and AO</li>
+                        <li>Rendered viewport shading</li>
+                        <li><strong>AO needed:</strong> Enable if using cavity dirt mask</li>
+                    </ul>
+                </div>
+
+                <h3>Building the Weathered Metal: Complete Workflow</h3>
+
+                <div class="card" style="background: #f3e5f5; border-left: 4px solid #9C27B0;">
+                    <h4>🎯 Master Workshop: Multi-Layer Metal Material</h4>
+                    
+                    <p><strong>Phase 1: Create Base Materials (The Building Blocks)</strong></p>
+                    
+                    <ol>
+                        <li><strong>Paint Material (Principled BSDF #1)</strong>
+                            <ul>
+                                <li><strong>Base Color:</strong> Dark blue-green (0.1, 0.3, 0.3) or your choice</li>
+                                <li><strong>Metallic:</strong> 0.0</li>
+                                <li><strong>Roughness:</strong> 0.45</li>
+                                <li><strong>This will be our primary material</strong></li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Paint Roughness Variation:</strong>
+                            <ul>
+                                <li>Noise Texture (Scale: 25, Detail: 4)</li>
+                                <li>ColorRamp (range: 0.4 to 0.5)</li>
+                                <li>Connect to Roughness (replaces 0.45)</li>
+                                <li><strong>Result:</strong> Paint not perfectly uniform</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add subtle paint color variation:</strong>
+                            <ul>
+                                <li>Noise Texture (Scale: 5, Detail: 3) — large scale</li>
+                                <li>ColorRamp (very subtle, 0.48 to 0.52)</li>
+                                <li>Mix Color (Multiply) with base color, Factor: 0.1</li>
+                                <li><strong>Result:</strong> Paint has slight color variation</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Phase 2: Create Edge Wear Mask</strong></p>
+                    
+                    <ol>
+                        <li><strong>Add Geometry node</strong> (for Pointiness)
+                            <ul>
+                                <li>Use Pointiness output</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add ColorRamp to Pointiness</strong>
+                            <ul>
+                                <li><strong>Black stop:</strong> 0.50 (neutral pointiness)</li>
+                                <li><strong>White stop:</strong> 0.52 (tight range = only sharp edges)</li>
+                                <li><strong>Interpolation:</strong> Linear</li>
+                                <li><strong>Result:</strong> White on edges, black elsewhere</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Noise for wear variation</strong>
+                            <ul>
+                                <li>Noise Texture (Scale: 15, Detail: 4)</li>
+                                <li>ColorRamp to increase contrast</li>
+                            </ul>
+                        </li>
+                        <li><strong>Multiply masks together</strong>
+                            <ul>
+                                <li>Math node (Multiply)</li>
+                                <li>Pointiness mask × Noise mask</li>
+                                <li><strong>Why:</strong> Edges wear, but randomly (not all edges equally)</li>
+                                <li><strong>Result:</strong> Organic, believable wear pattern</li>
+                            </ul>
+                        </li>
+                        <li><strong>Control wear amount</strong>
+                            <ul>
+                                <li>Add Math node (Multiply) to final mask</li>
+                                <li>Value: 1.5-2.0 (brightens mask = more wear)</li>
+                                <li>Add ColorRamp to clamp values 0-1</li>
+                                <li><strong>This is your "Edge Wear Mask"</strong></li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Phase 3: Create Clean Metal Material</strong></p>
+                    
+                    <ol>
+                        <li><strong>Add Principled BSDF #2</strong> (Metal Layer)
+                            <ul>
+                                <li><strong>Base Color:</strong> Gray (0.5, 0.5, 0.5)</li>
+                                <li><strong>Metallic:</strong> 1.0</li>
+                                <li><strong>Roughness:</strong> 0.35</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add metal scratches (optional but great):</strong>
+                            <ul>
+                                <li>Noise Texture (Scale: 100, Detail: 2) — very fine</li>
+                                <li>ColorRamp (high contrast)</li>
+                                <li>Connect to Bump (Strength: 0.05)</li>
+                                <li>Connect Bump Normal to Metal Principled Normal</li>
+                                <li><strong>Result:</strong> Metal has micro-scratches</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Phase 4: Mix Paint and Metal</strong></p>
+                    
+                    <ol>
+                        <li><strong>Add Mix Shader node</strong>
+                            <ul>
+                                <li><strong>Input 1:</strong> Paint material (Principled #1)</li>
+                                <li><strong>Input 2:</strong> Metal material (Principled #2)</li>
+                                <li><strong>Factor:</strong> Edge Wear Mask from Phase 2</li>
+                            </ul>
+                        </li>
+                        <li><strong>Connect to Material Output (temporarily to test)</strong></li>
+                        <li><strong>Checkpoint:</strong> You should see metal exposed on edges!</li>
+                        <li><strong>Adjust:</strong> If too much/little wear, adjust mask multiplication value</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Phase 5: Create Rust Material</strong></p>
+                    
+                    <ol>
+                        <li><strong>Add Principled BSDF #3</strong> (Rust Layer)
+                            <ul>
+                                <li><strong>Base Color:</strong> Use Noise for variation!</li>
+                            </ul>
+                        </li>
+                        <li><strong>Create varied rust color:</strong>
+                            <ul>
+                                <li>Noise Texture (Scale: 20, Detail: 6)</li>
+                                <li>ColorRamp with multiple stops:
+                                    <ul>
+                                        <li>Stop 1: Orange rust (0.6, 0.3, 0.15)</li>
+                                        <li>Stop 2: Medium rust (0.4, 0.2, 0.1)</li>
+                                        <li>Stop 3: Dark rust (0.2, 0.1, 0.05)</li>
+                                    </ul>
+                                </li>
+                                <li>Connect to Base Color</li>
+                            </ul>
+                        </li>
+                        <li><strong>Rust properties:</strong>
+                            <ul>
+                                <li><strong>Metallic:</strong> 0.0 (rust isn't metallic)</li>
+                                <li><strong>Roughness:</strong> 0.9 (very rough, porous)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add rust surface texture:</strong>
+                            <ul>
+                                <li>Noise Texture (Scale: 80, Detail: 8) — fine bumpy texture</li>
+                                <li>Bump node (Strength: 0.3) — rust is bumpy!</li>
+                                <li>Connect to Rust Principled Normal</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Phase 6: Create Rust Mask</strong></p>
+                    
+                    <ol>
+                        <li><strong>Rust should appear on exposed metal:</strong>
+                            <ul>
+                                <li>Use Edge Wear Mask as starting point</li>
+                                <li>But not ALL exposed metal is rusty</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add randomness to rust:</strong>
+                            <ul>
+                                <li>Noise Texture (Scale: 10, Detail: 4)</li>
+                                <li>ColorRamp (adjust for rust coverage)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Combine with edge wear:</strong>
+                            <ul>
+                                <li>Math node (Multiply)</li>
+                                <li>Edge Wear Mask × Rust Noise</li>
+                                <li><strong>Result:</strong> Rust appears on some worn edges, not all</li>
+                            </ul>
+                        </li>
+                        <li><strong>Boost mask for visibility:</strong>
+                            <ul>
+                                <li>Math (Multiply by 0.5-0.8)</li>
+                                <li>Less rust than bare metal = realistic</li>
+                                <li><strong>This is your "Rust Mask"</strong></li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Phase 7: Layer Metal and Rust</strong></p>
+                    
+                    <ol>
+                        <li><strong>Add Mix Shader node</strong> (Metal + Rust)
+                            <ul>
+                                <li><strong>Input 1:</strong> Metal material (clean)</li>
+                                <li><strong>Input 2:</strong> Rust material</li>
+                                <li><strong>Factor:</strong> Rust Mask from Phase 6</li>
+                            </ul>
+                        </li>
+                        <li><strong>Connect output to Input 2 of Paint/Metal Mix Shader</strong>
+                            <ul>
+                                <li>Replace the clean metal with metal/rust mix</li>
+                                <li>Now the exposed layer shows both metal AND rust!</li>
+                            </ul>
+                        </li>
+                        <li><strong>Checkpoint:</strong> Orange rust on some worn edges!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Phase 8: Create Dirt Material and Mask</strong></p>
+                    
+                    <ol>
+                        <li><strong>Add Principled BSDF #4</strong> (Dirt Layer)
+                            <ul>
+                                <li><strong>Base Color:</strong> Dark brown-gray (0.12, 0.1, 0.08)</li>
+                                <li><strong>Metallic:</strong> 0.0</li>
+                                <li><strong>Roughness:</strong> 0.95 (almost completely matte)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Create Cavity Dirt Mask:</strong>
+                            <ul>
+                                <li>Add Shader to RGB node</li>
+                                <li>Add Ambient Occlusion node</li>
+                                <li>Connect AO Color → Shader to RGB Shader</li>
+                                <li>Use Color output from Shader to RGB</li>
+                            </ul>
+                        </li>
+                        <li><strong>Control dirt amount:</strong>
+                            <ul>
+                                <li>ColorRamp after AO</li>
+                                <li><strong>Black stop:</strong> 0.3 (less dirt)</li>
+                                <li><strong>White stop:</strong> 0.8 (crevices get dirt)</li>
+                                <li>Adjust positions for more/less dirt</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add randomness to dirt:</strong>
+                            <ul>
+                                <li>Noise Texture (Scale: 20)</li>
+                                <li>ColorRamp</li>
+                                <li>Multiply with AO mask</li>
+                                <li><strong>Result:</strong> Not ALL crevices equally dirty</li>
+                            </ul>
+                        </li>
+                        <li><strong>Optional - Facing-based dirt:</strong>
+                            <ul>
+                                <li>Layer Weight node → Facing output</li>
+                                <li>ColorRamp (favor upward surfaces)</li>
+                                <li>Multiply with cavity mask</li>
+                                <li><strong>Result:</strong> More dirt on horizontal surfaces</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Phase 9: Final Layer Assembly</strong></p>
+                    
+                    <ol>
+                        <li><strong>Add Mix Shader node</strong> (Everything + Dirt)
+                            <ul>
+                                <li><strong>Input 1:</strong> Paint/Metal/Rust mix (everything so far)</li>
+                                <li><strong>Input 2:</strong> Dirt material</li>
+                                <li><strong>Factor:</strong> Cavity Dirt Mask from Phase 8</li>
+                            </ul>
+                        </li>
+                        <li><strong>Connect to Material Output Surface</strong></li>
+                        <li><strong>Material structure:</strong>
+                            <ul>
+                                <li>Paint base</li>
+                                <li>→ Mixed with (Metal + Rust) on edges</li>
+                                <li>→ Mixed with Dirt in crevices</li>
+                                <li>Four materials, three Mix Shader nodes!</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Phase 10: Polish and Refinement</strong></p>
+                    
+                    <ol>
+                        <li><strong>Test from multiple angles</strong>
+                            <ul>
+                                <li>Rotate view to see all edges</li>
+                                <li>Check crevices have dirt</li>
+                                <li>Verify rust appears logically</li>
+                            </ul>
+                        </li>
+                        <li><strong>Adjust mask strengths:</strong>
+                            <ul>
+                                <li>Too much wear? Reduce edge mask brightness</li>
+                                <li>Not enough rust? Increase rust mask factor</li>
+                                <li>Dirt too subtle? Adjust AO ColorRamp range</li>
+                            </ul>
+                        </li>
+                        <li><strong>Fine-tune colors:</strong>
+                            <ul>
+                                <li>Paint color to match desired look</li>
+                                <li>Rust color variety (more orange vs. brown)</li>
+                                <li>Dirt color based on environment (gray dust vs. brown mud)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Test lighting scenarios:</strong>
+                            <ul>
+                                <li>Strong side light (shows bump detail)</li>
+                                <li>Soft ambient (shows color better)</li>
+                                <li>Outdoor HDRI (shows environment reflections)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <h3>Advanced Weathering Techniques</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Taking It Further</h4>
+                    
+                    <p><strong>Peeling Paint (Advanced):</strong></p>
+                    <ul>
+                        <li>Use Voronoi Texture (small scale) as mask for paint chips</li>
+                        <li>Combine with edge wear for realistic peeling pattern</li>
+                        <li>Add Displacement for actual 3D paint edges (expensive!)</li>
+                        <li>Or use Bump for painted edge relief (cheaper)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Streaking Rust (Water Damage):</strong></p>
+                    <ul>
+                        <li>Use Gradient Texture (vertical) as directional mask</li>
+                        <li>Multiply with noise for irregular streaks</li>
+                        <li>Apply to rust mask → rust runs downward from edges</li>
+                        <li><strong>Very effective for outdoor weathering!</strong></li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Oil/Grease Stains:</strong></p>
+                    <ul>
+                        <li>Create fifth material layer: darker, shinier areas</li>
+                        <li>Lower roughness (0.2-0.3) in stained areas</li>
+                        <li>Use noise mask for random distribution</li>
+                        <li>Perfect for machinery, automotive parts</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1.rem;"><strong>Decals/Labels:</strong></p>
+                    <ul>
+                        <li>Image texture for warning labels, logos</li>
+                        <li>Use Alpha for transparency</li>
+                        <li>Add wear to decal itself (faded, scratched)</li>
+                        <li>Layer over paint, under dirt</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Dents and Damage:</strong></p>
+                    <ul>
+                        <li>Use Geometry → True Normal vs Shading Normal</li>
+                        <li>Detect concave dents, apply different wear</li>
+                        <li>Dented areas often show more paint damage</li>
+                        <li>Advanced: use particle system for impact marks</li>
+                    </ul>
+                </div>
+
+                <h3>Variations and Customization</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Different Metal Types and Ages</h4>
+                    
+                    <p><strong>Lightly Used (Industrial Equipment):</strong></p>
+                    <ul>
+                        <li>Reduce edge wear mask strength (less exposed metal)</li>
+                        <li>Reduce rust mask significantly (minimal rust)</li>
+                        <li>Lighter dirt (less accumulation)</li>
+                        <li>Cleaner paint (less color variation)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Heavily Weathered (Abandoned Machinery):</strong></p>
+                    <ul>
+                        <li>Increase edge wear (large bare metal areas)</li>
+                        <li>Heavy rust coverage (multiply rust mask by 2-3)</li>
+                        <li>Thick dirt layers (increase AO influence)</li>
+                        <li>Paint very faded (reduce saturation)</li>
+                        <li>Add peeling/chipping paint</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Coastal/Marine Exposure:</strong></p>
+                    <ul>
+                        <li>Much more rust (salt accelerates corrosion)</li>
+                        <li>White salt deposits (additional layer)</li>
+                        <li>Rust streaking downward (water flow)</li>
+                        <li>Metal more pitted (deeper bump)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Aluminum (Different Metal Type):</strong></p>
+                    <ul>
+                        <li><strong>Base metal color:</strong> Lighter gray (0.7, 0.7, 0.7)</li>
+                        <li><strong>No rust!</strong> Aluminum oxidizes white, not orange</li>
+                        <li>Replace rust layer with white oxidation</li>
+                        <li>Generally smoother, less rough texture</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Brass/Copper:</strong></p>
+                    <ul>
+                        <li><strong>Base metal color:</strong> Orange-yellow for copper, gold for brass</li>
+                        <li><strong>Patina instead of rust:</strong> Green-blue oxidation</li>
+                        <li>Creates beautiful green patina in crevices</li>
+                        <li>Often appears shinier (lower roughness)</li>
+                    </ul>
+                </div>
+
+                <h3>Troubleshooting</h3>
+
+                <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Common Issues and Solutions</h4>
+                    
+                    <p><strong>Problem: No edge wear visible</strong></p>
+                    <ul>
+                        <li><strong>Check:</strong> Is Subdivision Surface applied? (Pointiness needs smooth geometry)</li>
+                        <li><strong>Check:</strong> Did you add Bevel modifier? (Creates detectible edges)</li>
+                        <li><strong>Solution:</strong> Increase edge wear mask brightness (multiply by 2-3)</li>
+                        <li><strong>Solution:</strong> Widen ColorRamp range on pointiness (0.45-0.55 instead of 0.50-0.52)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Rust everywhere, too much</strong></p>
+                    <ul>
+                        <li><strong>Solution:</strong> Reduce rust mask multiplication factor (0.3-0.5)</li>
+                        <li>Adjust rust noise ColorRamp to limit coverage</li>
+                        <li>Ensure rust only appears where metal is exposed</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: No dirt visible in crevices</strong></p>
+                    <ul>
+                        <li><strong>Check:</strong> Is AO enabled in scene? (Cycles only)</li>
+                        <li><strong>Solution:</strong> Increase AO Distance in Shader to RGB node</li>
+                        <li><strong>Solution:</strong> Widen dirt ColorRamp range</li>
+                        <li><strong>Check:</strong> Does geometry have crevices/details?</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Material looks too uniform/fake</strong></p>
+                    <ul>
+                        <li><strong>Solution:</strong> Add more noise variation layers</li>
+                        <li>Increase Detail parameter in existing noises</li>
+                        <li>Add subtle color variation to each material layer</li>
+                        <li>Add micro-detail bump textures</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Performance issues (slow viewport)</strong></p>
+                    <ul>
+                        <li><strong>Solution:</strong> Reduce Noise Detail parameters</li>
+                        <li>Disable AO in viewport, enable for renders only</li>
+                        <li>Use lower subdivision in viewport</li>
+                        <li>Consider baking some procedural textures to images</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>🎨 Material Storytelling:</strong> Every weathered surface tells a story. Where is this object? Indoors (less weathering) or outdoors (more rust, dirt)? How is it used? High-contact areas wear differently than neglected corners. What's the climate? Humid environments rust faster. Desert environments show dust, not moisture damage. Think about your object's life story and let the material reflect that narrative. This attention to logical detail is what separates good materials from great ones!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎓 Project 2 Complete: Weathered Metal!</h3>
+                    <p style="color: white;">Incredible work! You've built a production-quality, multi-layered material with sophisticated masking, logical wear patterns, and photorealistic results. This material demonstrates professional-level shader network organization, mask combination techniques, and physical plausibility. The skills here—layering materials, creating believable masks, thinking about real-world degradation—apply to any complex surface you'll ever need to create!</p>
+                    
+                    <p style="color: white; margin-top: 1rem;"><strong>This is portfolio material.</strong> Seriously. A well-executed weathered metal material showcases more technical skill than most beginner portfolios combined. Save it, document your process, and show it off!</p>
+                    
+                    <p style="color: white; margin-top: 1rem;">Next up: <strong>Project 3 - Procedural Stone</strong>, where we'll create realistic rock surfaces with color variation, surface detail, and multiple scales of texture!</p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 08
+     Continue with lesson_42_advanced_shader_techniques_part_09.html
+     ============================================ -->

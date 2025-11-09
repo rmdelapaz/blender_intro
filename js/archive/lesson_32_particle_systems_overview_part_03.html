@@ -1,0 +1,425 @@
+<!-- ============================================
+     LESSON 32 - PART 03
+     File: lesson_32_particle_systems_overview_part_03.html
+     ============================================ -->
+
+                <section id="emission-settings" class="content-section">
+                    <h2>🌊 Emission Settings and Types</h2>
+
+                    <p>How particles are born determines everything about your effect. Emission controls where particles appear, when they appear, and how they're distributed across your emitter. Understanding emission modes and settings transforms simple particle systems into precise, controllable effects.</p>
+
+                    <h3>Emission Source Types</h3>
+
+                    <div class="card">
+                        <h4>📍 Where Particles Emit From</h4>
+                        
+                        <p><strong>Emission → Emit From dropdown:</strong></p>
+                        <ul>
+                            <li><strong>Faces:</strong>
+                                <ul>
+                                    <li>Particles emit from face surfaces</li>
+                                    <li>Distributed across mesh faces</li>
+                                    <li>Most common choice</li>
+                                    <li>Good for: Surface effects, area emission</li>
+                                    <li>Example: Rain from cloud plane, sparks from object surface</li>
+                                </ul>
+                            </li>
+                            <li><strong>Volume:</strong>
+                                <ul>
+                                    <li>Particles emit from inside mesh volume</li>
+                                    <li>Fills 3D space of object</li>
+                                    <li>Mesh must be closed (no holes)</li>
+                                    <li>Good for: Explosions from center, volumetric effects</li>
+                                    <li>Example: Smoke from inside object, debris explosion</li>
+                                </ul>
+                            </li>
+                            <li><strong>Vertices:</strong>
+                                <ul>
+                                    <li>Particles emit from vertex points only</li>
+                                    <li>One or more particles per vertex</li>
+                                    <li>Precise control over emission points</li>
+                                    <li>Good for: Specific locations, controlled patterns</li>
+                                    <li>Example: Lights on city model vertices, specific effect points</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Choosing emission source:</strong></p>
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                            <thead>
+                                <tr style="background-color: #f0f0f0;">
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Effect</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Best Emission</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Why</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Rain</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Faces</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Large plane emits across area</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Explosion</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Volume</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Debris from inside sphere</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Sparks from weld</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Faces (small area)</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Concentrated surface emission</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">City lights</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Vertices</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Precise placement per vertex</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Distribution Modes</h3>
+
+                    <div class="card">
+                        <h4>📐 Particle Placement</h4>
+                        
+                        <p><strong>When Emit From = Faces:</strong></p>
+                        <ul>
+                            <li><strong>Random:</strong>
+                                <ul>
+                                    <li>Particles randomly distributed across faces</li>
+                                    <li>Natural, organic distribution</li>
+                                    <li>Most common for effects</li>
+                                    <li>No visible pattern</li>
+                                </ul>
+                            </li>
+                            <li><strong>Jittered:</strong>
+                                <ul>
+                                    <li>Grid-based with randomization</li>
+                                    <li>More even coverage than random</li>
+                                    <li>Prevents clustering</li>
+                                    <li>Good for even distributions</li>
+                                </ul>
+                            </li>
+                            <li><strong>Grid:</strong>
+                                <ul>
+                                    <li>Perfect grid pattern</li>
+                                    <li>Evenly spaced particles</li>
+                                    <li>Looks artificial</li>
+                                    <li>Use for specific effects only</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Distribution visualization:</strong></p>
+                        <div class="mermaid">
+                            graph LR
+                            A[Random:<br/>Natural clusters] 
+                            B[Jittered:<br/>Even coverage]
+                            C[Grid:<br/>Perfect spacing]
+                            
+                            style A fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                            style B fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style C fill:#f0f0f0,stroke:#333,stroke-width:2px
+                        </div>
+
+                        <p><strong>Use face area:</strong></p>
+                        <ul>
+                            <li><strong>When enabled:</strong>
+                                <ul>
+                                    <li>Larger faces emit more particles</li>
+                                    <li>Maintains even density across surface</li>
+                                    <li>Good for: Organic meshes with varied face sizes</li>
+                                </ul>
+                            </li>
+                            <li><strong>When disabled:</strong>
+                                <ul>
+                                    <li>Each face emits equal particles</li>
+                                    <li>Small faces denser, large faces sparser</li>
+                                    <li>Good for: Uniform meshes, specific distributions</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Vertex Groups for Emission Control</h3>
+
+                    <div class="card">
+                        <h4>🎯 Precise Emission Areas</h4>
+                        
+                        <p><strong>Vertex group emission:</strong></p>
+                        <ul>
+                            <li>Limit emission to specific areas of mesh</li>
+                            <li>Paint where particles should emit</li>
+                            <li>Gradual density control via vertex weights</li>
+                            <li>Professional technique for controlled effects</li>
+                        </ul>
+
+                        <p><strong>Setup process:</strong></p>
+                        <ol>
+                            <li><strong>Create vertex group:</strong>
+                                <ul>
+                                    <li>Select emitter mesh</li>
+                                    <li>Object Data Properties → Vertex Groups</li>
+                                    <li>Click "+" to add new group</li>
+                                    <li>Name it: "Emission_Area"</li>
+                                </ul>
+                            </li>
+                            <li><strong>Paint vertex weights:</strong>
+                                <ul>
+                                    <li>Enter Weight Paint mode (<kbd>Ctrl+Tab</kbd> → Weight Paint)</li>
+                                    <li>Select vertex group in sidebar</li>
+                                    <li>Paint areas where particles should emit</li>
+                                    <li>Red = full emission, Blue = no emission</li>
+                                    <li>Gradient = gradual transition</li>
+                                </ul>
+                            </li>
+                            <li><strong>Assign to particle system:</strong>
+                                <ul>
+                                    <li>Particle Properties → Vertex Groups section</li>
+                                    <li>Density: Select "Emission_Area" vertex group</li>
+                                    <li>Now particles only emit from painted areas</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Use cases:</strong></p>
+                        <ul>
+                            <li><strong>Fire from specific areas:</strong> Paint where flames should appear</li>
+                            <li><strong>Sparks from weld seam:</strong> Paint along edge</li>
+                            <li><strong>Leaking water:</strong> Paint around damage area</li>
+                            <li><strong>Smoke from vents:</strong> Paint vent locations</li>
+                            <li><strong>Grass density variation:</strong> Less grass on paths, more in fields</li>
+                        </ul>
+
+                        <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                            <h4>💡 Pro Tip: Vertex Group Workflow</h4>
+                            <p>Vertex groups give you control impossible otherwise:</p>
+                            <ul>
+                                <li>Paint emission exactly where needed</li>
+                                <li>Gradual density transitions</li>
+                                <li>No particles in unwanted areas</li>
+                                <li>Animate vertex weights for moving emission zones</li>
+                                <li>Essential for professional VFX work</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Emission Timing</h3>
+
+                    <div class="card">
+                        <h4>⏰ When Particles Are Born</h4>
+                        
+                        <p><strong>Frame Start and Frame End:</strong></p>
+                        <ul>
+                            <li><strong>Continuous emission (typical):</strong>
+                                <ul>
+                                    <li>Frame Start: 1</li>
+                                    <li>Frame End: 200</li>
+                                    <li>Particles emit steadily from frame 1-200</li>
+                                    <li>New particles born every frame</li>
+                                    <li>Good for: Rain, snow, ongoing effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Burst emission:</strong>
+                                <ul>
+                                    <li>Frame Start: 50</li>
+                                    <li>Frame End: 50</li>
+                                    <li>All particles emit at once on frame 50</li>
+                                    <li>Sudden emission event</li>
+                                    <li>Good for: Explosions, impacts, bursts</li>
+                                </ul>
+                            </li>
+                            <li><strong>Delayed start:</strong>
+                                <ul>
+                                    <li>Frame Start: 100</li>
+                                    <li>Frame End: 200</li>
+                                    <li>No particles before frame 100</li>
+                                    <li>Then continuous emission 100-200</li>
+                                    <li>Good for: Timed effects, sequenced events</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Lifetime considerations:</strong></p>
+                        <ul>
+                            <li><strong>Lifetime = 50 frames:</strong>
+                                <ul>
+                                    <li>Each particle lives 50 frames after birth</li>
+                                    <li>Particle born frame 1 → dies frame 51</li>
+                                    <li>Particle born frame 100 → dies frame 150</li>
+                                </ul>
+                            </li>
+                            <li><strong>Steady state:</strong>
+                                <ul>
+                                    <li>After initial ramp-up (= lifetime duration)</li>
+                                    <li>Particle count stays constant</li>
+                                    <li>New births replace deaths</li>
+                                </ul>
+                            </li>
+                            <li><strong>Calculation:</strong>
+                                <ul>
+                                    <li>Emission duration = Frame End - Frame Start</li>
+                                    <li>Total lifespan = Emission duration + Lifetime</li>
+                                    <li>Last particle dies at Frame End + Lifetime</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Lifetime randomness:</strong></p>
+                        <ul>
+                            <li><strong>Lifetime Random:</strong> 0.0 to 1.0
+                                <ul>
+                                    <li>0.0: All particles live exact lifetime</li>
+                                    <li>0.5: Lifetime varies ±50%</li>
+                                    <li>1.0: Lifetime varies 0-200%</li>
+                                    <li>Natural effects need variation (0.2-0.5 typical)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Source Object Considerations</h3>
+
+                    <div class="card">
+                        <h4>🎭 Emitter Shape Matters</h4>
+                        
+                        <p><strong>Different emitter shapes create different patterns:</strong></p>
+                        <ul>
+                            <li><strong>Plane:</strong>
+                                <ul>
+                                    <li>Flat, wide emission area</li>
+                                    <li>Good for: Rain, snow (overhead plane)</li>
+                                    <li>Particles fall straight down</li>
+                                </ul>
+                            </li>
+                            <li><strong>Sphere:</strong>
+                                <ul>
+                                    <li>Radial emission in all directions</li>
+                                    <li>Good for: Explosions, bursts</li>
+                                    <li>Normal velocity shoots outward</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cube:</strong>
+                                <ul>
+                                    <li>Rectangular emission volume</li>
+                                    <li>Good for: Room-filling effects</li>
+                                    <li>Volume emission fills space</li>
+                                </ul>
+                            </li>
+                            <li><strong>Custom mesh:</strong>
+                                <ul>
+                                    <li>Any shape works</li>
+                                    <li>Particles follow mesh surface</li>
+                                    <li>Complex shapes create complex patterns</li>
+                                    <li>Example: Character mesh emits particles from body</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Emitter visibility:</strong></p>
+                        <ul>
+                            <li><strong>Usually hide emitter in render:</strong>
+                                <ul>
+                                    <li>Object Properties → Visibility → Camera (uncheck)</li>
+                                    <li>Or move to hidden collection</li>
+                                    <li>Particles visible, emitter invisible</li>
+                                    <li>Clean final render</li>
+                                </ul>
+                            </li>
+                            <li><strong>Sometimes keep visible:</strong>
+                                <ul>
+                                    <li>Smoke from chimney (chimney visible)</li>
+                                    <li>Fountain with water particles</li>
+                                    <li>Character with magic effects</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Animated emitters:</strong></p>
+                        <ul>
+                            <li>Emitter can move during animation</li>
+                            <li>Particles emit from moving position</li>
+                            <li>Creates trails and dynamic patterns</li>
+                            <li>Example: Moving torch leaves fire trail</li>
+                            <li>Example: Flying character emits magic sparkles</li>
+                        </ul>
+                    </div>
+
+                    <h3>Emission Modifiers</h3>
+
+                    <div class="card">
+                        <h4>🔧 Modifiers Affect Emission</h4>
+                        
+                        <p><strong>Modifiers change emitter geometry:</strong></p>
+                        <ul>
+                            <li>Particles emit from modified geometry</li>
+                            <li>Not original mesh</li>
+                            <li>Order matters (modifier stack)</li>
+                        </ul>
+
+                        <p><strong>Common combinations:</strong></p>
+                        <ul>
+                            <li><strong>Array + Particles:</strong>
+                                <ul>
+                                    <li>Array modifier duplicates emitter</li>
+                                    <li>Particles emit from all duplicates</li>
+                                    <li>Example: Row of torches, each emitting smoke</li>
+                                </ul>
+                            </li>
+                            <li><strong>Subdivision + Particles:</strong>
+                                <ul>
+                                    <li>More faces = more emission points</li>
+                                    <li>Denser particle distribution</li>
+                                    <li>Example: Smooth emission from subdivided surface</li>
+                                </ul>
+                            </li>
+                            <li><strong>Boolean + Particles:</strong>
+                                <ul>
+                                    <li>Modified shape emits particles</li>
+                                    <li>Example: Particles from cut-out areas</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Modifier application:</strong></p>
+                        <ul>
+                            <li><strong>Unapplied modifiers:</strong>
+                                <ul>
+                                    <li>Particles use modified geometry in real-time</li>
+                                    <li>Non-destructive workflow</li>
+                                    <li>Can adjust modifiers, particles update</li>
+                                </ul>
+                            </li>
+                            <li><strong>Applied modifiers:</strong>
+                                <ul>
+                                    <li>Geometry frozen</li>
+                                    <li>Apply before particle system for fixed emission</li>
+                                    <li>Or after for modifier-driven emission</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                            <h4>⚠️ Modifier Stack Order</h4>
+                            <p><strong>Particle modifier position matters:</strong></p>
+                            <ul>
+                                <li>Particle system appears as modifier in stack</li>
+                                <li>Modifiers above it affect emission geometry</li>
+                                <li>Modifiers below it don't affect particles</li>
+                                <li>Example: Subdivision before particles = denser emission</li>
+                                <li>Example: Subdivision after particles = doesn't affect emission</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Emission Is Foundation:</strong> Everything starts with emission. Where particles are born. When they appear. How they're distributed. Get emission wrong and no amount of physics, forces, or rendering will save your effect. But get emission right—precise placement, good timing, smart distribution—and half your work is done. Particles already look good before you touch velocity or forces. Professional VFX artists spend significant time on emission setup. Not because it's complicated. Because it's critical. Control birth and you control the effect. Master emission and you master particle systems. The rest is refinement. But foundation matters most.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 03
+     Continue with lesson_32_particle_systems_overview_part_04.html
+     ============================================ -->

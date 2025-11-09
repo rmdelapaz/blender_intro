@@ -1,0 +1,781 @@
+<!-- ============================================
+     LESSON 32 - PART 04
+     File: lesson_32_particle_systems_overview_part_04.html
+     ============================================ -->
+
+                <section id="particle-physics" class="content-section">
+                    <h2>🌀 Particle Physics and Forces</h2>
+
+                    <p>Physics transforms static particles into dynamic, believable effects. Gravity pulls. Wind pushes. Turbulence swirls. Collisions redirect. Understanding particle physics means controlling how particles move through space, how they respond to their environment, and how they interact with objects. This is where particle systems go from "things appearing" to "things behaving naturally."</p>
+
+                    <h3>Velocity and Initial Motion</h3>
+
+                    <div class="card">
+                        <h4>🚀 How Particles Start Moving</h4>
+                        
+                        <p><strong>Initial velocity determines birth motion:</strong></p>
+                        <ul>
+                            <li><strong>Velocity → Normal:</strong>
+                                <ul>
+                                    <li>Particles shoot perpendicular to emitter surface</li>
+                                    <li>Default: 1.0 (moderate speed)</li>
+                                    <li>Higher values = faster initial speed</li>
+                                    <li>Negative values = shoot inward (into emitter)</li>
+                                    <li>Zero = particles don't move initially (just gravity)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Example normal velocities:</strong>
+                                <ul>
+                                    <li><strong>0.5:</strong> Gentle emission (soft smoke, light dust)</li>
+                                    <li><strong>1.0:</strong> Standard emission (rain, sparks)</li>
+                                    <li><strong>5.0:</strong> Fast emission (explosion debris, projectiles)</li>
+                                    <li><strong>20.0:</strong> Violent emission (shrapnel, burst)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Velocity components (Velocity panel):</strong></p>
+                        <ul>
+                            <li><strong>Normal:</strong> Speed perpendicular to surface (primary control)
+                                <ul>
+                                    <li>Sphere emitter: particles shoot radially outward</li>
+                                    <li>Plane emitter: particles shoot straight up (or down)</li>
+                                    <li>Custom mesh: follows face normals</li>
+                                </ul>
+                            </li>
+                            <li><strong>Tangent:</strong> Speed along surface tangent
+                                <ul>
+                                    <li>Particles move along surface before leaving</li>
+                                    <li>Creates swirl or rotation patterns</li>
+                                    <li>Usually keep at 0.0 for simple effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Object Velocity:</strong> Inherit emitter's motion
+                                <ul>
+                                    <li>0.0: Particles don't inherit motion (stay in place)</li>
+                                    <li>1.0: Particles fully inherit emitter velocity</li>
+                                    <li>Important for moving emitters (flying torch, moving car)</li>
+                                    <li>Creates realistic motion trails</li>
+                                </ul>
+                            </li>
+                            <li><strong>Random:</strong> Randomize initial velocity
+                                <ul>
+                                    <li>0.0: All particles same velocity</li>
+                                    <li>1.0: Maximum randomization</li>
+                                    <li>Adds natural variation</li>
+                                    <li>Typical range: 0.1 to 0.3 for realism</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="mermaid">
+                            graph LR
+                            A[Emitter Surface] --> B[Normal Velocity<br/>Perpendicular]
+                            A --> C[Tangent Velocity<br/>Along Surface]
+                            A --> D[Object Velocity<br/>Inherited Motion]
+                            
+                            B --> E[Primary Direction]
+                            C --> E
+                            D --> E
+                            
+                            style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                        </div>
+                    </div>
+
+                    <h3>Physics Types</h3>
+
+                    <div class="card">
+                        <h4>⚙️ How Particles Behave</h4>
+                        
+                        <p><strong>Physics Type dropdown (Particle Properties → Physics):</strong></p>
+                        <ul>
+                            <li><strong>Newtonian:</strong>
+                                <ul>
+                                    <li>Standard physics simulation</li>
+                                    <li>Gravity, air resistance, forces</li>
+                                    <li>Most common choice</li>
+                                    <li>Realistic physical behavior</li>
+                                    <li>Use for: Rain, debris, sparks, most effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Keyed:</strong>
+                                <ul>
+                                    <li>Particles follow path between targets</li>
+                                    <li>Animated point-to-point motion</li>
+                                    <li>No physics applied</li>
+                                    <li>Use for: Scripted particle motion, special effects</li>
+                                    <li>Advanced technique (covered later)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Boids:</strong>
+                                <ul>
+                                    <li>Flocking/swarming artificial intelligence</li>
+                                    <li>Particles avoid each other, follow leader</li>
+                                    <li>Organic group behavior</li>
+                                    <li>Use for: Birds, fish, insects, crowds</li>
+                                    <li>Complex system (covered in advanced lessons)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fluid:</strong>
+                                <ul>
+                                    <li>Particles act as fluid simulation</li>
+                                    <li>SPH (Smoothed Particle Hydrodynamics)</li>
+                                    <li>Particles interact, maintain volume</li>
+                                    <li>Use for: Liquid effects, water droplets</li>
+                                    <li>Computationally expensive</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Choosing physics type:</strong></p>
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                            <thead>
+                                <tr style="background-color: #f0f0f0;">
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Effect</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Physics Type</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Why</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Rain</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Newtonian</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Simple gravity and collision</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Bird flock</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Boids</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Flocking AI behavior</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Magic trail</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Keyed</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Controlled path following</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Explosion</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Newtonian</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Debris with gravity/forces</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Water splash</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Fluid or Newtonian</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Fluid for cohesion, Newtonian for simple</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                            <h4>💡 Pro Tip: Start with Newtonian</h4>
+                            <p><strong>Newtonian physics handles 90% of effects:</strong></p>
+                            <ul>
+                                <li>Simple, predictable, fast to calculate</li>
+                                <li>Works for most common scenarios</li>
+                                <li>Other types are specialized tools</li>
+                                <li>Master Newtonian before exploring others</li>
+                                <li>You can always change type later if needed</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Gravity and Field Weights</h3>
+
+                    <div class="card">
+                        <h4>🌍 Gravity Control</h4>
+                        
+                        <p><strong>Physics → Field Weights → Gravity:</strong></p>
+                        <ul>
+                            <li><strong>Default: 1.0</strong>
+                                <ul>
+                                    <li>Full Earth gravity applied</li>
+                                    <li>Particles fall naturally</li>
+                                    <li>Standard for most effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>0.0: No gravity</strong>
+                                <ul>
+                                    <li>Particles float weightlessly</li>
+                                    <li>Only initial velocity and forces affect them</li>
+                                    <li>Use for: Space scenes, floating magic, bubbles</li>
+                                </ul>
+                            </li>
+                            <li><strong>Negative values: Reverse gravity</strong>
+                                <ul>
+                                    <li>-1.0: Particles fall upward</li>
+                                    <li>Use for: Rising smoke, helium balloons, anti-gravity</li>
+                                    <li>Useful for effects that need upward motion</li>
+                                </ul>
+                            </li>
+                            <li><strong>Values > 1.0: Strong gravity</strong>
+                                <ul>
+                                    <li>2.0: Double gravity (heavy objects)</li>
+                                    <li>Use for: Dense debris, emphasizing weight</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Practical gravity values:</strong></p>
+                        <ul>
+                            <li><strong>Rain: 1.0</strong> (standard fall)</li>
+                            <li><strong>Snow: 0.3</strong> (gentle drift)</li>
+                            <li><strong>Feathers: 0.1</strong> (very light)</li>
+                            <li><strong>Debris: 1.0-2.0</strong> (weighty chunks)</li>
+                            <li><strong>Sparks: 0.5</strong> (lighter than solid matter)</li>
+                            <li><strong>Smoke: -0.5 to -1.0</strong> (rises)</li>
+                            <li><strong>Bubbles: -0.3</strong> (float upward)</li>
+                        </ul>
+
+                        <p><strong>Scene gravity settings:</strong></p>
+                        <ul>
+                            <li><strong>Scene Properties → Gravity:</strong>
+                                <ul>
+                                    <li>Sets global gravity direction and strength</li>
+                                    <li>Default: Z = -9.81 (Earth gravity, downward)</li>
+                                    <li>Particle gravity weight multiplies this value</li>
+                                </ul>
+                            </li>
+                            <li><strong>Calculation:</strong>
+                                <ul>
+                                    <li>Actual gravity = Scene Gravity × Particle Weight</li>
+                                    <li>Example: -9.81 × 0.5 = -4.905 (half gravity)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Force Fields</h3>
+
+                    <div class="card">
+                        <h4>💨 External Forces</h4>
+                        
+                        <p><strong>Force fields affect particle motion:</strong></p>
+                        <ul>
+                            <li>Add force field objects to scene</li>
+                            <li>Particles respond within field influence</li>
+                            <li>Multiple fields can combine</li>
+                            <li>Essential for wind, turbulence, magnetism effects</li>
+                        </ul>
+
+                        <p><strong>Adding force field:</strong></p>
+                        <ol>
+                            <li><strong>Add → Force Field → [Type]</strong></li>
+                            <li>Position field in scene</li>
+                            <li>Adjust strength and falloff</li>
+                            <li>Particles automatically respond (if Field Weight enabled)</li>
+                        </ol>
+
+                        <p><strong>Common force field types:</strong></p>
+                        <ul>
+                            <li><strong>Wind:</strong>
+                                <ul>
+                                    <li>Constant directional push</li>
+                                    <li>Blows particles in one direction</li>
+                                    <li>Good for: Weather effects, directional flow</li>
+                                    <li>Strength: 1.0-10.0 typical</li>
+                                    <li>Align field rotation to control wind direction</li>
+                                </ul>
+                            </li>
+                            <li><strong>Turbulence:</strong>
+                                <ul>
+                                    <li>Random swirling motion</li>
+                                    <li>Creates organic, chaotic movement</li>
+                                    <li>Good for: Smoke, dust clouds, magical effects</li>
+                                    <li>Strength: 5.0-30.0 typical</li>
+                                    <li>Size: Controls turbulence scale</li>
+                                    <li>Essential for realistic atmospheric effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Force:</strong>
+                                <ul>
+                                    <li>Pushes/pulls from point</li>
+                                    <li>Radial influence</li>
+                                    <li>Positive strength: Pushes away (repel)</li>
+                                    <li>Negative strength: Pulls toward (attract)</li>
+                                    <li>Good for: Explosions (push), black holes (pull)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Vortex:</strong>
+                                <ul>
+                                    <li>Spinning tornado-like force</li>
+                                    <li>Pulls particles into spiral</li>
+                                    <li>Good for: Tornado, drain, magical vortex</li>
+                                </ul>
+                            </li>
+                            <li><strong>Drag:</strong>
+                                <ul>
+                                    <li>Air resistance, slows particles</li>
+                                    <li>Reduces velocity over time</li>
+                                    <li>Good for: Water resistance, thick atmosphere</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="mermaid">
+                            graph TD
+                            A[Force Fields] --> B[Wind:<br/>Directional push]
+                            A --> C[Turbulence:<br/>Random chaos]
+                            A --> D[Force:<br/>Radial push/pull]
+                            A --> E[Vortex:<br/>Spiral motion]
+                            A --> F[Drag:<br/>Resistance]
+                            
+                            style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                        </div>
+
+                        <p><strong>Field weights (Particle Properties → Field Weights):</strong></p>
+                        <ul>
+                            <li><strong>All: 1.0</strong>
+                                <ul>
+                                    <li>Master control for all fields</li>
+                                    <li>0.0: Ignore all force fields</li>
+                                    <li>1.0: Full field response</li>
+                                </ul>
+                            </li>
+                            <li><strong>Individual field types:</strong>
+                                <ul>
+                                    <li>Wind: Weight for wind fields</li>
+                                    <li>Turbulence: Weight for turbulence fields</li>
+                                    <li>Can disable specific field types</li>
+                                    <li>Fine control over which forces affect particles</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                            <h4>✅ Turbulence for Realism</h4>
+                            <p><strong>Most effects benefit from turbulence:</strong></p>
+                            <ul>
+                                <li>Perfect motion looks artificial</li>
+                                <li>Nature is chaotic and unpredictable</li>
+                                <li>Turbulence adds that chaos</li>
+                                <li>Even subtle turbulence (Strength: 5-10) improves realism</li>
+                                <li>Dust, smoke, rain, sparks—nearly everything needs turbulence</li>
+                                <li><strong>Rule of thumb:</strong> If it moves in air, add turbulence</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Damping and Drag</h3>
+
+                    <div class="card">
+                        <h4>🎯 Velocity Control</h4>
+                        
+                        <p><strong>Physics → Damping:</strong></p>
+                        <ul>
+                            <li><strong>Reduces velocity over time</strong>
+                                <ul>
+                                    <li>Particles gradually slow down</li>
+                                    <li>Simulates air resistance</li>
+                                    <li>Value: 0.0 to 1.0</li>
+                                </ul>
+                            </li>
+                            <li><strong>Damping = 0.0:</strong>
+                                <ul>
+                                    <li>No slowdown</li>
+                                    <li>Particles maintain velocity forever</li>
+                                    <li>Unrealistic in atmosphere</li>
+                                    <li>Use for: Space, vacuum, fantasy effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Damping = 0.1-0.3:</strong>
+                                <ul>
+                                    <li>Subtle resistance</li>
+                                    <li>Natural air resistance</li>
+                                    <li>Most realistic for atmospheric effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Damping = 0.5-1.0:</strong>
+                                <ul>
+                                    <li>Strong resistance</li>
+                                    <li>Particles slow quickly</li>
+                                    <li>Use for: Underwater, thick smoke, heavy drag</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>When to use damping:</strong></p>
+                        <ul>
+                            <li><strong>Explosions:</strong> Initial burst, then particles slow (0.2-0.4)</li>
+                            <li><strong>Smoke:</strong> Rises then dissipates, slowing (0.3-0.5)</li>
+                            <li><strong>Sparks:</strong> Quick burst, air resistance slows (0.2)</li>
+                            <li><strong>Water droplets:</strong> Some drag in air (0.1-0.2)</li>
+                            <li><strong>No damping:</strong> Rain (constant fall speed), projectiles in space</li>
+                        </ul>
+
+                        <p><strong>Damping vs. Drag force field:</strong></p>
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                            <thead>
+                                <tr style="background-color: #f0f0f0;">
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Feature</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Damping (Particle Property)</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Drag (Force Field)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Scope</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Affects all particles equally</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Localized to field area</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Control</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Global setting</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Positioned in scene</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Use case</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">General air resistance</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Specific areas (water, wind tunnel)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Typical</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Most effects use this</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Special situations only</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Mass and Size</h3>
+
+                    <div class="card">
+                        <h4>⚖️ Particle Weight</h4>
+                        
+                        <p><strong>Physics → Mass:</strong></p>
+                        <ul>
+                            <li><strong>Affects force response:</strong>
+                                <ul>
+                                    <li>Heavier particles harder to push</li>
+                                    <li>Lighter particles more affected by forces</li>
+                                    <li>Default: 1.0</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mass does NOT affect gravity:</strong>
+                                <ul>
+                                    <li>Common misconception</li>
+                                    <li>All masses fall at same rate (physics!)</li>
+                                    <li>Mass only matters for forces and collisions</li>
+                                </ul>
+                            </li>
+                            <li><strong>Use cases:</strong>
+                                <ul>
+                                    <li><strong>Heavy debris (Mass: 2.0-5.0):</strong> Less affected by wind</li>
+                                    <li><strong>Light dust (Mass: 0.1-0.5):</strong> Blown easily by forces</li>
+                                    <li><strong>Standard particles (Mass: 1.0):</strong> Balanced behavior</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Size affects behavior:</strong></p>
+                        <ul>
+                            <li><strong>Render → Scale:</strong>
+                                <ul>
+                                    <li>Visual size of particles</li>
+                                    <li>Also affects collision size</li>
+                                    <li>Larger particles = bigger collision volume</li>
+                                </ul>
+                            </li>
+                            <li><strong>Scale Randomness:</strong>
+                                <ul>
+                                    <li>Varies particle sizes</li>
+                                    <li>Natural variation</li>
+                                    <li>Typical: 0.2-0.5 for organic effects</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Mass in context:</strong></p>
+                        <ul>
+                            <li>Useful when multiple force fields present</li>
+                            <li>Heavy particles resist turbulence, light forces</li>
+                            <li>Light particles blown around easily</li>
+                            <li>Example: Heavy rocks vs. light leaves in wind</li>
+                        </ul>
+                    </div>
+
+                    <h3>Collisions</h3>
+
+                    <div class="card">
+                        <h4>💥 Particle-Object Interaction</h4>
+                        
+                        <p><strong>Collision setup (two-step process):</strong></p>
+                        <ol>
+                            <li><strong>Enable collision on particles:</strong>
+                                <ul>
+                                    <li>Particle Properties → Physics → Collision</li>
+                                    <li>Check "Collision" checkbox</li>
+                                    <li>Now particles CAN collide</li>
+                                </ul>
+                            </li>
+                            <li><strong>Enable collision on objects:</strong>
+                                <ul>
+                                    <li>Select object that should block particles</li>
+                                    <li>Physics Properties → Collision (icon looks like two spheres)</li>
+                                    <li>Check "Collision" checkbox</li>
+                                    <li>Now object blocks particles</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Collision settings (Particle Properties → Physics):</strong></p>
+                        <ul>
+                            <li><strong>Permeability: 0.0 to 1.0</strong>
+                                <ul>
+                                    <li>0.0: Solid collision (all particles blocked)</li>
+                                    <li>0.5: Half particles pass through</li>
+                                    <li>1.0: No collision (all pass through)</li>
+                                    <li>Use for: Semi-permeable barriers, screens, grids</li>
+                                </ul>
+                            </li>
+                            <li><strong>Stickiness: 0.0 to 1.0</strong>
+                                <ul>
+                                    <li>0.0: Particles don't stick</li>
+                                    <li>1.0: Particles stick on contact</li>
+                                    <li>Stuck particles stop moving</li>
+                                    <li>Use for: Water droplets on surface, snow accumulation</li>
+                                </ul>
+                            </li>
+                            <li><strong>Kill Particles on collision</strong>
+                                <ul>
+                                    <li>Checkbox: Particles die when hitting object</li>
+                                    <li>Instantly disappear on contact</li>
+                                    <li>Use for: Bullets hitting targets, rain on ground</li>
+                                    <li>Efficient—reduces particle count</li>
+                                </ul>
+                            </li>
+                            <li><strong>Damping: 0.0 to 1.0</strong>
+                                <ul>
+                                    <li>Energy lost on collision</li>
+                                    <li>0.0: Perfect bounce (no energy loss)</li>
+                                    <li>1.0: Complete absorption (no bounce)</li>
+                                    <li>Typical: 0.5-0.8 (some bounce, some loss)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Friction: 0.0 to 1.0</strong>
+                                <ul>
+                                    <li>Surface friction on collision</li>
+                                    <li>Slows particles sliding across surface</li>
+                                    <li>0.0: Slippery (no friction)</li>
+                                    <li>1.0: High friction (particles slow quickly)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="mermaid">
+                            graph TD
+                            A[Particle Hits Object] --> B{Collision Settings}
+                            B --> C[Kill?<br/>Particle disappears]
+                            B --> D[Stick?<br/>Particle stays on surface]
+                            B --> E[Bounce?<br/>Damping controls bounce]
+                            B --> F[Slide?<br/>Friction affects motion]
+                            
+                            style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style C fill:#f44336,stroke:#333,stroke-width:2px,color:#fff
+                            style D fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                            style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                            style F fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
+                        </div>
+
+                        <p><strong>Practical collision examples:</strong></p>
+                        <ul>
+                            <li><strong>Rain hitting ground:</strong>
+                                <ul>
+                                    <li>Kill Particles: ON (rain disappears)</li>
+                                    <li>Optional: Emit splash particles on collision</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ball bouncing:</strong>
+                                <ul>
+                                    <li>Damping: 0.3 (loses some energy each bounce)</li>
+                                    <li>Friction: 0.2 (some surface drag)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Debris hitting wall:</strong>
+                                <ul>
+                                    <li>Damping: 0.6 (significant energy loss)</li>
+                                    <li>Friction: 0.5 (slides to rest)</li>
+                                    <li>Stickiness: 0.0 (doesn't stick to wall)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Water droplets on window:</strong>
+                                <ul>
+                                    <li>Stickiness: 0.8 (most stick)</li>
+                                    <li>Damping: 0.9 (little bounce)</li>
+                                    <li>Some particles slide down slowly</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                            <h4>⚠️ Collision Performance</h4>
+                            <p><strong>Collisions are computationally expensive:</strong></p>
+                            <ul>
+                                <li>Every particle checks against collision objects</li>
+                                <li>Complex collision meshes slow simulation</li>
+                                <li><strong>Optimization tips:</strong>
+                                    <ul>
+                                        <li>Use simple collision geometry (low-poly proxies)</li>
+                                        <li>Kill particles after collision if they're not needed</li>
+                                        <li>Limit collision to essential objects only</li>
+                                        <li>Enable "Kill Particles" when particles won't be seen after impact</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Integration and Simulation Quality</h3>
+
+                    <div class="card">
+                        <h4>🎛️ Simulation Accuracy</h4>
+                        
+                        <p><strong>Physics → Integration:</strong></p>
+                        <ul>
+                            <li><strong>Timestep / Timestep:</strong>
+                                <ul>
+                                    <li>Controls simulation accuracy</li>
+                                    <li>Higher values = more sub-steps per frame</li>
+                                    <li>More accurate but slower</li>
+                                    <li>Default: 0.04 (usually sufficient)</li>
+                                </ul>
+                            </li>
+                            <li><strong>When to increase:</strong>
+                                <ul>
+                                    <li>Fast-moving particles passing through collision objects</li>
+                                    <li>Erratic, jittery motion</li>
+                                    <li>Particles behaving strangely</li>
+                                    <li>Try: 0.02 or 0.01 (double or quadruple accuracy)</li>
+                                </ul>
+                            </li>
+                            <li><strong>When to decrease:</strong>
+                                <ul>
+                                    <li>Simulation too slow</li>
+                                    <li>Simple effects that don't need precision</li>
+                                    <li>Try: 0.1 (less accurate but faster)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Subframes (Scene Properties → Rigid Body World):</strong></p>
+                        <ul>
+                            <li>Applies to scene-wide physics</li>
+                            <li>Affects particle/rigid body interaction</li>
+                            <li>Usually leave at default unless problems occur</li>
+                        </ul>
+
+                        <p><strong>Caching (Particle Properties → Cache):</strong></p>
+                        <ul>
+                            <li><strong>Automatic caching:</strong>
+                                <ul>
+                                    <li>Blender caches simulation as it plays</li>
+                                    <li>Faster playback after first run</li>
+                                    <li>Memory-based (not saved to disk by default)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Baking simulation:</strong>
+                                <ul>
+                                    <li>Cache → Bake All Dynamics</li>
+                                    <li>Calculates entire simulation, saves to disk</li>
+                                    <li>Required before rendering animation</li>
+                                    <li>Locked simulation (can't change settings until freed)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Free bake:</strong>
+                                <ul>
+                                    <li>Delete baked cache to adjust settings</li>
+                                    <li>Must re-bake after changes</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                            <h4>💡 Pro Tip: Always Bake Before Final Render</h4>
+                            <p><strong>Baking ensures consistent results:</strong></p>
+                            <ul>
+                                <li>Unbaked simulations may vary between renders</li>
+                                <li>Baking locks simulation, guarantees identical results</li>
+                                <li>Essential for animation rendering</li>
+                                <li>Workflow: Adjust → Test → Bake → Render</li>
+                                <li>Can bake to external cache files for safety</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Particle Rotation</h3>
+
+                    <div class="card">
+                        <h4>🔄 Orientation and Spin</h4>
+                        
+                        <p><strong>Rotation → Orientation:</strong></p>
+                        <ul>
+                            <li><strong>None:</strong>
+                                <ul>
+                                    <li>No rotation applied</li>
+                                    <li>Particles stay in default orientation</li>
+                                    <li>Use for: Simple point effects, spheres</li>
+                                </ul>
+                            </li>
+                            <li><strong>Normal:</strong>
+                                <ul>
+                                    <li>Align to emission surface normal</li>
+                                    <li>Particles face away from emitter</li>
+                                    <li>Use for: Directional particles (arrows, projectiles)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Velocity / Hair:</strong>
+                                <ul>
+                                    <li>Align to velocity direction</li>
+                                    <li>Particles point where they're moving</li>
+                                    <li>Dynamic orientation follows motion</li>
+                                    <li>Use for: Rain streaks, motion-oriented objects</li>
+                                    <li>Most common for realistic effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Global X/Y/Z:</strong>
+                                <ul>
+                                    <li>Align to world axis</li>
+                                    <li>Static orientation</li>
+                                    <li>Use for: Specific directional needs</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Rotation → Angular Velocity:</strong></p>
+                        <ul>
+                            <li><strong>Mode:</strong>
+                                <ul>
+                                    <li>None: No spin</li>
+                                    <li>Spin: Rotate around axis</li>
+                                    <li>Random: Random rotation rates</li>
+                                </ul>
+                            </li>
+                            <li><strong>Angular Velocity:</strong>
+                                <ul>
+                                    <li>Rotation speed in radians/second</li>
+                                    <li>Positive: Clockwise spin</li>
+                                    <li>Negative: Counter-clockwise</li>
+                                    <li>Use for: Tumbling debris, spinning objects</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Use cases:</strong></p>
+                        <ul>
+                            <li><strong>Rain:</strong> Velocity orientation (streaks point down)</li>
+                            <li><strong>Leaves:</strong> Random angular velocity (tumble naturally)</li>
+                            <li><strong>Arrows:</strong> Velocity orientation (point forward)</li>
+                            <li><strong>Debris:</strong> Random rotation (chaotic tumbling)</li>
+                            <li><strong>Spheres:</strong> None (rotation not visible)</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Physics Makes It Real:</strong> You can place thousand particles perfectly. Give them beautiful materials. Light them dramatically. But without physics they're dead. Frozen. Artificial. Physics is what makes particles feel alive. Gravity pulls. Forces push. Collisions redirect. Rotation spins. Suddenly particles don't just exist—they behave. They respond to environment. They feel weight, resistance, momentum. Professional VFX artists spend more time on physics than emission. Because physics is where "looks good" becomes "feels real." Audience doesn't consciously notice good physics. But they absolutely notice bad physics. Brain knows how things should move. Violate those expectations and immersion breaks. Match them and magic happens. Scene goes from "that's CG" to "that's real." Physics is the difference. Master forces, collisions, motion—master believability. Everything else is secondary.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 04
+     Continue with lesson_32_particle_systems_overview_part_05.html
+     ============================================ -->

@@ -1,0 +1,565 @@
+<!-- ============================================
+     LESSON 33 - PART 06
+     File: lesson_33_hair_and_fur_part_06.html
+     ============================================ -->
+
+                <section id="materials-and-rendering" class="content-section">
+                    <h2>🎨 Materials and Rendering</h2>
+
+                    <p>Groomed hair with physics is impressive. But rendering determines final appearance. How light interacts with strands. How color varies root to tip. How translucency creates that characteristic glow. Hair materials are specialized—different from standard surface shaders. Understanding hair rendering means creating convincing, photorealistic results.</p>
+
+                    <h3>Hair BSDF Shader</h3>
+
+                    <div class="card">
+                        <h4>🌟 Specialized Hair Shader</h4>
+                        
+                        <p><strong>Why Hair BSDF is different:</strong></p>
+                        <ul>
+                            <li>Hair strands are cylindrical (not flat surfaces)</li>
+                            <li>Light scatters differently along curves</li>
+                            <li>Requires specialized shading model</li>
+                            <li>Principled BSDF doesn't handle hair correctly</li>
+                            <li>Hair BSDF designed specifically for strands</li>
+                        </ul>
+
+                        <p><strong>Accessing Hair BSDF:</strong></p>
+                        <ol>
+                            <li><strong>Select object with hair system</strong></li>
+                            <li><strong>Shading workspace</strong> (top menu tabs)</li>
+                            <li><strong>Material Properties:</strong>
+                                <ul>
+                                    <li>Click "+" to add material slot</li>
+                                    <li>Click "New" to create material</li>
+                                    <li>Material applies to hair</li>
+                                </ul>
+                            </li>
+                            <li><strong>Shader Editor (bottom panel):</strong>
+                                <ul>
+                                    <li>Delete default Principled BSDF node</li>
+                                    <li>Add → Shader → Hair BSDF</li>
+                                    <li>Connect to Material Output → Surface</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Hair BSDF parameters:</strong></p>
+                        <ul>
+                            <li><strong>Color:</strong>
+                                <ul>
+                                    <li>Base hair color</li>
+                                    <li>RGB values or hex color</li>
+                                    <li>Examples: Brown (0.2, 0.1, 0.05), Blonde (0.8, 0.7, 0.4), Black (0.05, 0.05, 0.05)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Component:</strong>
+                                <ul>
+                                    <li><strong>Reflection:</strong> Surface reflection (most common)</li>
+                                    <li><strong>Transmission:</strong> Light passing through hair (advanced)</li>
+                                    <li>Usually use Reflection</li>
+                                </ul>
+                            </li>
+                            <li><strong>Offset:</strong>
+                                <ul>
+                                    <li>Shifts highlight along strand</li>
+                                    <li>Creates hair shine appearance</li>
+                                    <li>Range: -90° to +90°</li>
+                                    <li>Typical: 0° to 10°</li>
+                                </ul>
+                            </li>
+                            <li><strong>Roughness U / Roughness V:</strong>
+                                <ul>
+                                    <li>Controls reflection sharpness</li>
+                                    <li>U: Along strand</li>
+                                    <li>V: Around strand circumference</li>
+                                    <li>Lower = sharper highlights (0.1-0.3)</li>
+                                    <li>Higher = diffuse, matte appearance (0.5-0.8)</li>
+                                    <li>Typical: U=0.2, V=0.3</li>
+                                </ul>
+                            </li>
+                            <li><strong>Tangent:</strong>
+                                <ul>
+                                    <li>Defines strand direction (usually auto-calculated)</li>
+                                    <li>Leave disconnected for automatic</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="mermaid">
+                            graph LR
+                            A[Hair BSDF] --> B[Color:<br/>Base Tone]
+                            A --> C[Roughness:<br/>Shine Amount]
+                            A --> D[Offset:<br/>Highlight Position]
+                            
+                            B --> E[Natural Hair Color]
+                            C --> F[Glossy vs Matte]
+                            D --> G[Shine Location]
+                            
+                            style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                        </div>
+                    </div>
+
+                    <h3>Basic Hair Material Setup</h3>
+
+                    <div class="card">
+                        <h4>🎨 Simple Hair Material</h4>
+                        
+                        <p><strong>Standard hair material (starting point):</strong></p>
+                        <ol>
+                            <li><strong>Add Hair BSDF node</strong></li>
+                            <li><strong>Set Color:</strong>
+                                <ul>
+                                    <li>Choose natural hair color</li>
+                                    <li>Reference photos for realistic tones</li>
+                                </ul>
+                            </li>
+                            <li><strong>Adjust Roughness:</strong>
+                                <ul>
+                                    <li>Roughness U: 0.2 (moderate shine along strand)</li>
+                                    <li>Roughness V: 0.3 (slight diffusion around strand)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Connect to output:</strong>
+                                <ul>
+                                    <li>Hair BSDF → Material Output (Surface)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test render:</strong>
+                                <ul>
+                                    <li>Viewport shading: Rendered mode</li>
+                                    <li>Or press F12 for full render</li>
+                                    <li>Adjust based on results</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Common hair colors (RGB values):</strong></p>
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                            <thead>
+                                <tr style="background-color: #f0f0f0;">
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Hair Type</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">RGB Values</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Black</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">0.05, 0.05, 0.05</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Not pure black (too dark)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Dark Brown</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">0.15, 0.08, 0.04</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Rich brown tone</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Medium Brown</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">0.25, 0.15, 0.08</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Common natural color</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Auburn/Red</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">0.4, 0.15, 0.08</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Reddish brown</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Blonde</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">0.8, 0.7, 0.4</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Golden blonde</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Platinum Blonde</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">0.9, 0.9, 0.85</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Very light, almost white</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Gray</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">0.5, 0.5, 0.5</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Neutral gray</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>White</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">0.95, 0.95, 0.95</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Elderly/stylized</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                            <h4>💡 Pro Tip: Hair Is Never Pure Black or White</h4>
+                            <p><strong>Natural hair always has subtle color:</strong></p>
+                            <ul>
+                                <li>Black hair: Actually very dark brown (0.05, 0.05, 0.05)</li>
+                                <li>White hair: Slightly off-white with warm tone (0.95, 0.95, 0.9)</li>
+                                <li>Pure values (0,0,0) or (1,1,1) look artificial</li>
+                                <li>Add subtle color variation for realism</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Advanced Hair Materials</h3>
+
+                    <div class="card">
+                        <h4>🔬 Adding Variation and Realism</h4>
+                        
+                        <p><strong>Root-to-tip color gradient:</strong></p>
+                        <ul>
+                            <li><strong>Why vary color:</strong>
+                                <ul>
+                                    <li>Natural hair lighter at tips (sun exposure)</li>
+                                    <li>Roots often darker</li>
+                                    <li>Adds depth and realism</li>
+                                </ul>
+                            </li>
+                            <li><strong>Setup:</strong>
+                                <ol>
+                                    <li>Add → Input → Hair Info node</li>
+                                    <li>Add → Converter → ColorRamp node</li>
+                                    <li>Connect Hair Info "Intercept" → ColorRamp "Fac"</li>
+                                    <li>Connect ColorRamp "Color" → Hair BSDF "Color"</li>
+                                    <li>Adjust ColorRamp:
+                                        <ul>
+                                            <li>Left stop (0.0): Root color (darker)</li>
+                                            <li>Right stop (1.0): Tip color (lighter)</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                            </li>
+                            <li><strong>Example: Dark brown to light brown</strong>
+                                <ul>
+                                    <li>Root (0.0): RGB(0.15, 0.08, 0.04)</li>
+                                    <li>Tip (1.0): RGB(0.3, 0.2, 0.12)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Random color variation per strand:</strong></p>
+                        <ul>
+                            <li><strong>Why randomize:</strong>
+                                <ul>
+                                    <li>Real hair isn't uniform color</li>
+                                    <li>Subtle variation adds realism</li>
+                                    <li>Prevents "plastic" appearance</li>
+                                </ul>
+                            </li>
+                            <li><strong>Setup:</strong>
+                                <ol>
+                                    <li>Add → Input → Hair Info node</li>
+                                    <li>Add → Converter → ColorRamp</li>
+                                    <li>Connect Hair Info "Random" → ColorRamp "Fac"</li>
+                                    <li>Set ColorRamp to narrow range:
+                                        <ul>
+                                            <li>Left (0.45): Slightly darker base color</li>
+                                            <li>Right (0.55): Slightly lighter base color</li>
+                                        </ul>
+                                    </li>
+                                    <li>Use this as color source or mix with gradient</li>
+                                </ol>
+                            </li>
+                            <li><strong>Keep subtle:</strong> 10-15% variation maximum</li>
+                        </ul>
+
+                        <p><strong>Combining gradient and randomness:</strong></p>
+                        <ul>
+                            <li>Add → Color → Mix (or MixRGB in older Blender)</li>
+                            <li>Factor: 0.3 (30% random, 70% gradient)</li>
+                            <li>Input 1: Root-to-tip gradient</li>
+                            <li>Input 2: Random variation</li>
+                            <li>Output → Hair BSDF Color</li>
+                            <li>Result: Natural variation with depth</li>
+                        </ul>
+
+                        <p><strong>Roughness variation:</strong></p>
+                        <ul>
+                            <li>Add Hair Info → Random</li>
+                            <li>Add Math node (Multiply)</li>
+                            <li>Connect Random × 0.1 (subtle variation)</li>
+                            <li>Add to base roughness value</li>
+                            <li>Some strands shinier, some more matte</li>
+                        </ul>
+
+                        <div class="mermaid">
+                            graph TD
+                            A[Hair Info Node] --> B[Intercept:<br/>Position along strand]
+                            A --> C[Random:<br/>Per-strand variation]
+                            
+                            B --> D[ColorRamp:<br/>Root → Tip gradient]
+                            C --> E[ColorRamp:<br/>Color variation]
+                            
+                            D --> F[Mix]
+                            E --> F
+                            
+                            F --> G[Hair BSDF Color]
+                            
+                            style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                        </div>
+                    </div>
+
+                    <h3>Rendering Hair</h3>
+
+                    <div class="card">
+                        <h4>📸 Render Settings for Hair</h4>
+                        
+                        <p><strong>Render engine choice:</strong></p>
+                        <ul>
+                            <li><strong>Cycles (recommended):</strong>
+                                <ul>
+                                    <li>Accurate light interaction</li>
+                                    <li>Proper strand shading</li>
+                                    <li>Transmission/transparency correct</li>
+                                    <li>Best quality but slower</li>
+                                </ul>
+                            </li>
+                            <li><strong>Eevee:</strong>
+                                <ul>
+                                    <li>Fast preview</li>
+                                    <li>Limited hair shader support</li>
+                                    <li>Good for quick tests</li>
+                                    <li>Not recommended for final renders</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Cycles render settings (Render Properties):</strong></p>
+                        <ul>
+                            <li><strong>Samples:</strong>
+                                <ul>
+                                    <li>Render: 256-512 (hair needs more samples than surfaces)</li>
+                                    <li>Viewport: 64-128 (for preview)</li>
+                                    <li>Higher samples = less noise but slower</li>
+                                </ul>
+                            </li>
+                            <li><strong>Light Paths → Max Bounces:</strong>
+                                <ul>
+                                    <li>Transmission: 8-12 (if using transparent hair)</li>
+                                    <li>Diffuse: 4-8</li>
+                                    <li>Glossy: 4-8</li>
+                                    <li>Hair needs adequate bounces for light scattering</li>
+                                </ul>
+                            </li>
+                            <li><strong>Hair → Shape:</strong>
+                                <ul>
+                                    <li><strong>Rounded Ribbons:</strong> Default, good quality</li>
+                                    <li><strong>3D Curves:</strong> Best quality, slower</li>
+                                    <li>Use Rounded Ribbons for most work</li>
+                                </ul>
+                            </li>
+                            <li><strong>Hair → Subdivisions:</strong>
+                                <ul>
+                                    <li>Render-time curve smoothing</li>
+                                    <li>2-3 typical</li>
+                                    <li>Higher = smoother but slower</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Motion blur for hair:</strong></p>
+                        <ul>
+                            <li>Render Properties → Motion Blur</li>
+                            <li>Enable checkbox</li>
+                            <li>Essential for animated hair</li>
+                            <li>Creates natural blur on moving strands</li>
+                            <li>Significantly increases render time</li>
+                        </ul>
+
+                        <p><strong>Denoising:</strong></p>
+                        <ul>
+                            <li>Render Properties → Sampling → Denoising</li>
+                            <li>Enable for cleaner results with fewer samples</li>
+                            <li>OptiX or OpenImageDenoise</li>
+                            <li>Helps with hair noise (common issue)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Lighting Considerations</h3>
+
+                    <div class="card">
+                        <h4>💡 Lighting Hair Effectively</h4>
+                        
+                        <p><strong>Hair lighting challenges:</strong></p>
+                        <ul>
+                            <li>Thin strands create complex shadows</li>
+                            <li>Requires adequate lighting to see detail</li>
+                            <li>Can appear too dark without proper setup</li>
+                            <li>Highlights crucial for showing shape and flow</li>
+                        </ul>
+
+                        <p><strong>Effective lighting setups:</strong></p>
+                        <ul>
+                            <li><strong>Key light:</strong>
+                                <ul>
+                                    <li>Main light source</li>
+                                    <li>Creates primary highlights on hair</li>
+                                    <li>Position 45° above and to side</li>
+                                    <li>Shows hair direction and flow</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rim/back light:</strong>
+                                <ul>
+                                    <li>Behind and above subject</li>
+                                    <li>Creates edge lighting on hair</li>
+                                    <li>Separates hair from background</li>
+                                    <li>Shows hair volume and mass</li>
+                                    <li><strong>Critical for hair</strong></li>
+                                </ul>
+                            </li>
+                            <li><strong>Fill light:</strong>
+                                <ul>
+                                    <li>Soft, low-intensity</li>
+                                    <li>Reduces shadow darkness</li>
+                                    <li>Shows detail in dark hair</li>
+                                    <li>Optional but helpful</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>HDRI environment lighting:</strong></p>
+                        <ul>
+                            <li>World Properties → Surface → Environment Texture</li>
+                            <li>Load HDRI image (outdoor scene works well)</li>
+                            <li>Provides natural ambient lighting</li>
+                            <li>Good for realistic hair appearance</li>
+                            <li>Supplement with area lights for highlights</li>
+                        </ul>
+
+                        <p><strong>Hair-specific lighting tips:</strong></p>
+                        <ul>
+                            <li><strong>Avoid pure overhead lighting:</strong> Creates flat appearance</li>
+                            <li><strong>Use rim lights:</strong> Essential for separating hair mass</li>
+                            <li><strong>Warm key, cool rim:</strong> Temperature contrast adds interest</li>
+                            <li><strong>Test with different angles:</strong> Hair appearance changes dramatically with light position</li>
+                            <li><strong>Preview in viewport:</strong> Rendered view shows lighting effect on hair</li>
+                        </ul>
+                    </div>
+
+                    <h3>Optimization for Performance</h3>
+
+                    <div class="card">
+                        <h4>⚡ Faster Renders</h4>
+                        
+                        <p><strong>Hair rendering is expensive—optimize wisely:</strong></p>
+                        <ul>
+                            <li><strong>Children count:</strong>
+                                <ul>
+                                    <li>Biggest performance impact</li>
+                                    <li>Start low (Render: 50-100) and increase gradually</li>
+                                    <li>Test render quality vs. performance</li>
+                                    <li>More isn't always better visually</li>
+                                </ul>
+                            </li>
+                            <li><strong>Hair segments:</strong>
+                                <ul>
+                                    <li>Fewer segments = faster render</li>
+                                    <li>5-7 segments sufficient for most hair</li>
+                                    <li>Only increase for extreme close-ups</li>
+                                </ul>
+                            </li>
+                            <li><strong>Render samples:</strong>
+                                <ul>
+                                    <li>Balance quality and time</li>
+                                    <li>Start 128, increase if too noisy</li>
+                                    <li>Use denoising to reduce needed samples</li>
+                                </ul>
+                            </li>
+                            <li><strong>Simplified collision:</strong>
+                                <ul>
+                                    <li>Use low-poly collision meshes</li>
+                                    <li>Only essential objects need collision</li>
+                                </ul>
+                            </li>
+                            <li><strong>Distance-based simplification:</strong>
+                                <ul>
+                                    <li>Reduce hair count for distant characters</li>
+                                    <li>Background characters: Half normal counts</li>
+                                    <li>Close-ups: Full detail</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Render strategy:</strong></p>
+                        <ol>
+                            <li><strong>Test render small area:</strong> Border render (<kbd>Ctrl+B</kbd> in camera view)</li>
+                            <li><strong>Evaluate quality:</strong> Are children count, samples sufficient?</li>
+                            <li><strong>Adjust settings:</strong> Increase only if needed</li>
+                            <li><strong>Full render:</strong> After optimization</li>
+                        </ol>
+
+                        <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                            <h4>⚠️ Render Time Reality Check</h4>
+                            <p><strong>Hair renders are slow—this is normal:</strong></p>
+                            <ul>
+                                <li>100,000+ strands each calculating light interaction</li>
+                                <li>Hair material more complex than simple surfaces</li>
+                                <li>Motion blur and transparency multiply time</li>
+                                <li>A character with hair might take 10-30 minutes per frame (1080p, 256 samples)</li>
+                                <li>Professional productions allocate significant render time for hair</li>
+                                <li>Plan accordingly—don't panic if renders take time</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Material Troubleshooting</h3>
+
+                    <div class="card">
+                        <h4>🔧 Common Material Issues</h4>
+                        
+                        <p><strong>Hair appears black/too dark:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Insufficient lighting or samples</li>
+                            <li><strong>Fix:</strong> Add more lights (especially rim light)</li>
+                            <li><strong>Or:</strong> Increase render samples (256-512)</li>
+                            <li><strong>Or:</strong> Lighten hair color slightly</li>
+                        </ul>
+
+                        <p><strong>Hair looks plastic/fake:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Too uniform, no variation</li>
+                            <li><strong>Fix:</strong> Add color gradient (root to tip)</li>
+                            <li><strong>Or:</strong> Add random per-strand variation</li>
+                            <li><strong>Or:</strong> Adjust roughness (less shiny)</li>
+                        </ul>
+
+                        <p><strong>Hair has no definition/looks mushy:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Poor lighting or too many children</li>
+                            <li><strong>Fix:</strong> Add rim/back light to separate strands</li>
+                            <li><strong>Or:</strong> Reduce children count slightly</li>
+                            <li><strong>Or:</strong> Increase render samples</li>
+                        </ul>
+
+                        <p><strong>Fireflies (bright pixels) in render:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Caustics from hair shader</li>
+                            <li><strong>Fix:</strong> Enable denoising</li>
+                            <li><strong>Or:</strong> Light Paths → Clamp Indirect (3.0)</li>
+                            <li><strong>Or:</strong> Increase samples</li>
+                        </ul>
+
+                        <p><strong>Hair doesn't match viewport preview:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Display children vs. render children different</li>
+                            <li><strong>Expected:</strong> Render always denser than viewport</li>
+                            <li><strong>Check:</strong> Children → Display vs. Render counts</li>
+                        </ul>
+
+                        <p><strong>Render takes forever:</strong></p>
+                        <ul>
+                            <li><strong>Normal:</strong> Hair is render-intensive</li>
+                            <li><strong>Optimize:</strong> Reduce children render count</li>
+                            <li><strong>Or:</strong> Lower samples (use denoising)</li>
+                            <li><strong>Or:</strong> Disable motion blur for tests</li>
+                            <li><strong>Or:</strong> Render smaller resolution for previews</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Materials Complete the Illusion:</strong> Perfect grooming with bad materials still looks CG. Good materials with average grooming can look convincing. Materials are final translation layer. From geometry to image. From strands to hair. Shader determines how light scatters. How color varies. How shine appears. Professional artists understand this. Spend time on materials. Study real hair. Notice how it catches light. How highlights work. How color isn't uniform. Then replicate with nodes. Hair Info node is powerful tool. Intercept gives you position along strand. Random gives variation. Use them. Create gradients. Add randomness. Make hair feel alive. And lighting matters enormously. Rim light isn't optional for hair. It's essential. Separates mass. Shows volume. Makes hair pop. Without it—flat, undefined. With it—dimensional, real. Master materials and lighting together. They're inseparable for hair. Get both right and magic happens. Your CG hair looks photographed. Not rendered. That's the goal.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 06
+     Continue with lesson_33_hair_and_fur_part_07.html
+     ============================================ -->

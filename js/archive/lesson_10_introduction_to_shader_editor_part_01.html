@@ -1,0 +1,258 @@
+<!-- ============================================
+     LESSON 10 - PART 01
+     File: lesson_10_introduction_to_shader_editor_part_01.html
+     ============================================ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master Blender's Shader Editor and learn to create realistic materials. Understand nodes, shaders, and the fundamentals of material creation for stunning 3D renders.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 10: Introduction to Shader Editor - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="brand">
+                    <h1>🎨 Blender Mastery Course</h1>
+                    <p class="tagline">Complete 3D Creation from Beginner to Professional</p>
+                </div>
+                <nav>
+                    <a href="index.html">🏠 Home</a>
+                    <a href="index.html#modules">📚 Modules</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &raquo; 
+            <a href="index.html#module-3">Module 3: Materials and Texturing</a> &raquo; 
+            <span>Lesson 10</span>
+        </nav>
+
+        <main>
+            <article class="lesson-content">
+                <div class="lesson-header">
+                    <h1>🎨 Introduction to Shader Editor</h1>
+                    <p class="lead">Discover the power of Blender's node-based material system and learn to create stunning, realistic surfaces that bring your 3D models to life.</p>
+                </div>
+
+                <p>You've learned to model beautiful geometry—cubes, spheres, complex shapes with perfect precision. But right now, everything looks like gray plastic. That's about to change dramatically! In this lesson, you'll discover how to give your models realistic surfaces: shiny metal, rough wood, transparent glass, glowing emissive materials—anything you can imagine.</p>
+
+                <p>The Shader Editor is Blender's material creation workshop. Think of it like a painter's studio, but instead of mixing physical paints, you're connecting visual "nodes" that define how light interacts with your surfaces. It's powerful, flexible, and once you understand the basics, surprisingly intuitive. By the end of this lesson, you'll be creating materials that make people ask, "Wait, that's 3D?"</p>
+
+                <p>This is where your models transform from geometry into art. Materials add the final layer of believability—the difference between a gray sphere and a polished chrome ball bearing, between a flat plane and weathered wood flooring. Let's unlock this creative superpower!</p>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 2rem;">
+                    <h3>🎓 What You'll Learn</h3>
+                    <ul style="color: white;">
+                        <li><strong>Shader Editor Basics:</strong> Navigate and understand the node-based interface</li>
+                        <li><strong>Material Fundamentals:</strong> How materials work and interact with light</li>
+                        <li><strong>Node System:</strong> Connect nodes to create complex material networks</li>
+                        <li><strong>Essential Shaders:</strong> Principled BSDF, Emission, Glass, and more</li>
+                        <li><strong>Material Properties:</strong> Roughness, metallic, color, and other key attributes</li>
+                        <li><strong>Quick Materials:</strong> Create common materials (metal, plastic, glass) fast</li>
+                        <li><strong>Preview and Testing:</strong> See your materials in real-time with proper lighting</li>
+                    </ul>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.3);">
+                        <p><strong>⏱️ Estimated Time:</strong> 60-75 minutes</p>
+                        <p><strong>🎯 Project:</strong> Create a material library with 5 essential materials</p>
+                    </div>
+                </div>
+
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#what-are-materials" class="toc-link">What Are Materials and Why They Matter</a></li>
+                            <li><a href="#shader-editor-interface" class="toc-link">The Shader Editor Interface</a></li>
+                            <li><a href="#understanding-nodes" class="toc-link">Understanding the Node System</a></li>
+                            <li><a href="#principled-bsdf" class="toc-link">The Principled BSDF: Your Main Shader</a></li>
+                            <li><a href="#basic-material-properties" class="toc-link">Basic Material Properties</a></li>
+                            <li><a href="#creating-simple-materials" class="toc-link">Creating Your First Simple Materials</a></li>
+                            <li><a href="#material-preview" class="toc-link">Material Preview and Viewport Shading</a></li>
+                            <li><a href="#project" class="toc-link">Project: Essential Material Library</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="what-are-materials" class="content-section">
+                    <h2>🎨 What Are Materials and Why They Matter</h2>
+
+                    <p>Before diving into the Shader Editor, let's understand what materials actually are and why they're crucial to 3D art. A material is essentially a set of instructions that tells Blender how light should interact with a surface.</p>
+
+                    <blockquote>
+                        <p><strong>💡 The Photography Studio Analogy:</strong> Imagine photographing different objects under the same studio lighting—a chrome sphere, a rubber ball, a glass marble, and a wooden block. They're all lit identically, but they look completely different because their surfaces interact with light differently. Chrome reflects sharply, rubber absorbs most light, glass transmits and refracts it, wood scatters it diffusely. Materials define these unique light interactions in your 3D scene.</p>
+                    </blockquote>
+
+                    <h3>The Role of Materials in 3D</h3>
+
+                    <p>Without materials, every object in your scene would look like flat, gray clay. Materials provide:</p>
+
+                    <div class="card">
+                        <h4>🎯 What Materials Control</h4>
+                        <ul>
+                            <li><strong>Color and Appearance:</strong> Base color, patterns, variations across surface</li>
+                            <li><strong>Reflectivity:</strong> How shiny or matte the surface is</li>
+                            <li><strong>Light Response:</strong> Whether light bounces off, penetrates, or gets absorbed</li>
+                            <li><strong>Surface Texture:</strong> Bumps, scratches, roughness at microscopic level</li>
+                            <li><strong>Transparency:</strong> Whether objects are opaque, translucent, or transparent</li>
+                            <li><strong>Emission:</strong> Whether surface glows or emits light</li>
+                            <li><strong>Realism:</strong> The final 10% that makes renders look photoreal vs. "CG"</li>
+                        </ul>
+                    </div>
+
+                    <h3>Materials vs. Textures: Understanding the Difference</h3>
+
+                    <p>People often confuse materials and textures. Here's the distinction:</p>
+
+                    <div class="card">
+                        <h4>📊 Materials vs. Textures</h4>
+                        <table>
+                            <tr>
+                                <th>Concept</th>
+                                <th>What It Is</th>
+                                <th>Example</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Material</strong></td>
+                                <td>The complete shader setup defining surface properties</td>
+                                <td>"Polished Chrome" material with metallic: 1.0, roughness: 0.1</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Texture</strong></td>
+                                <td>Image or procedural pattern used within a material</td>
+                                <td>Wood grain image plugged into base color</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Shader</strong></td>
+                                <td>Mathematical function calculating light interaction</td>
+                                <td>Principled BSDF shader node</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <p>Think of it this way: a <strong>material</strong> is the recipe, <strong>textures</strong> are ingredients, and <strong>shaders</strong> are cooking techniques. You combine them all to create the final result!</p>
+
+                    <h3>Real-World Material Examples</h3>
+
+                    <p>Let's look at how different real-world materials behave with light:</p>
+
+                    <div class="mermaid">
+                        graph TD
+                        A[Light Hits Surface] --> B{Material Type}
+                        B --> C[Metal: Sharp Reflection]
+                        B --> D[Plastic: Some Reflection + Color]
+                        B --> E[Glass: Transmission + Refraction]
+                        B --> F[Rubber: Absorption + Diffuse]
+                        B --> G[Emissive: Adds Light]
+                        
+                        style A fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
+                        style C fill:#FFD700,stroke:#333,stroke-width:2px
+                        style D fill:#4CAF50,stroke:#333,stroke-width:2px
+                        style E fill:#2196F3,stroke:#333,stroke-width:2px
+                        style F fill:#9C27B0,stroke:#333,stroke-width:2px
+                        style G fill:#FF9800,stroke:#333,stroke-width:2px
+                    </div>
+
+                    <div class="card">
+                        <h4>🌟 Material Behavior Patterns</h4>
+                        <table>
+                            <tr>
+                                <th>Material Type</th>
+                                <th>Light Behavior</th>
+                                <th>Key Properties</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Metals</strong></td>
+                                <td>Reflects light sharply, tinted reflection</td>
+                                <td>Metallic: 1.0, Low Roughness, Colored reflection</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dielectrics (non-metal)</strong></td>
+                                <td>Some reflection + color from absorbed/scattered light</td>
+                                <td>Metallic: 0.0, Varying Roughness, Base Color important</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Glass/Transparent</strong></td>
+                                <td>Light passes through, bends (refracts)</td>
+                                <td>Transmission, IOR (Index of Refraction)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Subsurface (wax, skin)</strong></td>
+                                <td>Light enters, scatters inside, exits</td>
+                                <td>Subsurface Scattering, Radius values</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Emissive (lights, screens)</strong></td>
+                                <td>Emits light, doesn't just reflect</td>
+                                <td>Emission strength and color</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The Photography Principle:</strong> Professional 3D artists think like photographers. They understand that material appearance depends entirely on lighting conditions. The same chrome sphere looks different under bright sunlight vs. soft studio lights vs. neon signs. Good materials respond realistically to whatever lighting you throw at them!</p>
+                    </blockquote>
+
+                    <h3>Why Blender Uses Node-Based Materials</h3>
+
+                    <p>Blender's Shader Editor uses a "node-based" system. Instead of just sliders and buttons, you connect visual blocks (nodes) together. This might seem complex at first, but it's actually more powerful and flexible:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Benefits of Node-Based Materials</h4>
+                        <ul>
+                            <li><strong>Visual Programming:</strong> See the flow of data and connections</li>
+                            <li><strong>Infinite Flexibility:</strong> Combine shaders in ways traditional systems can't</li>
+                            <li><strong>Procedural Control:</strong> Create materials that adapt and respond</li>
+                            <li><strong>Industry Standard:</strong> Most professional 3D software uses nodes</li>
+                            <li><strong>Non-Destructive:</strong> Change connections without starting over</li>
+                            <li><strong>Power and Simplicity:</strong> Can be as simple or complex as you need</li>
+                        </ul>
+                    </div>
+
+                    <p>Think of nodes like LEGO blocks—individually simple, but you can build incredibly complex things by connecting them in creative ways!</p>
+
+                    <h3>The Journey Ahead</h3>
+
+                    <p>Materials and texturing is a deep topic—entire careers are built around it. In this lesson, we're focusing on fundamentals:</p>
+
+                    <div class="card">
+                        <h4>🗺️ Your Learning Path</h4>
+                        <ol>
+                            <li><strong>Today (Lesson 10):</strong> Shader Editor basics, simple materials, node fundamentals</li>
+                            <li><strong>Lesson 11:</strong> PBR (Physically Based Rendering) in depth—understanding realistic materials</li>
+                            <li><strong>Lesson 12:</strong> UV Unwrapping—controlling where textures appear</li>
+                            <li><strong>Lesson 13:</strong> Texture Painting—creating custom textures directly in Blender</li>
+                            <li><strong>Lesson 14:</strong> Procedural Textures—generating textures mathematically</li>
+                        </ol>
+                    </div>
+
+                    <p>By the end of Module 3, you'll be creating photoreal materials that make people question whether your renders are 3D or photographs. But first, let's master the basics!</p>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_10_introduction_to_shader_editor_part_02.html
+     ============================================ -->

@@ -1,0 +1,433 @@
+<!-- ============================================
+     LESSON 10 - PART 05
+     File: lesson_10_introduction_to_shader_editor_part_05.html
+     ============================================ -->
+
+                <section id="basic-material-properties" class="content-section">
+                    <h2>🎛️ Basic Material Properties</h2>
+
+                    <p>Now that you understand the Principled BSDF's core parameters, let's explore how to actually use them to create realistic materials. The secret to great materials isn't about knowing every parameter—it's about understanding how materials behave in the real world and translating that to your shader settings.</p>
+
+                    <blockquote>
+                        <p><strong>💡 The Reference Photo Principle:</strong> Professional material artists keep reference photos handy—not to copy pixel-by-pixel, but to observe how real materials respond to light. Look at a plastic toy, polished wood furniture, brushed aluminum laptop case, or frosted glass window. Notice how light behaves on each surface. Your shader parameters simply recreate these behaviors mathematically!</p>
+                    </blockquote>
+
+                    <h3>The Metallic/Roughness Workflow</h3>
+
+                    <p>Modern material creation follows the "metallic/roughness" workflow, which is the foundation of PBR (Physically Based Rendering). Understanding this workflow is essential:</p>
+
+                    <div class="card">
+                        <h4>🎯 The Metallic/Roughness Decision Tree</h4>
+                        <div class="mermaid">
+                            graph TD
+                            A[Start: What material am I creating?] --> B{Is it metal?}
+                            B -->|Yes| C[Metallic = 1.0]
+                            B -->|No| D[Metallic = 0.0]
+                            C --> E{How reflective/polished?}
+                            D --> E
+                            E -->|Mirror smooth| F[Roughness = 0.0 - 0.1]
+                            E -->|Glossy/polished| G[Roughness = 0.1 - 0.3]
+                            E -->|Satin/semi-gloss| H[Roughness = 0.3 - 0.6]
+                            E -->|Matte/diffuse| I[Roughness = 0.6 - 0.9]
+                            E -->|Completely rough| J[Roughness = 0.9 - 1.0]
+                            
+                            style A fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
+                            style F fill:#4CAF50,stroke:#333,stroke-width:2px
+                            style G fill:#4CAF50,stroke:#333,stroke-width:2px
+                            style H fill:#4CAF50,stroke:#333,stroke-width:2px
+                            style I fill:#4CAF50,stroke:#333,stroke-width:2px
+                            style J fill:#4CAF50,stroke:#333,stroke-width:2px
+                        </div>
+                    </div>
+
+                    <p>This simple decision tree handles 80% of material creation. First, ask "metal or not-metal?" Then, ask "how smooth or rough?" Those two decisions give you the foundation!</p>
+
+                    <h3>Understanding Material "Personality"</h3>
+
+                    <p>Every material has a distinct personality defined by how it interacts with light. Let's understand the main categories:</p>
+
+                    <div class="card">
+                        <h4>🎨 Material Personality Types</h4>
+                        <table>
+                            <tr>
+                                <th>Material Type</th>
+                                <th>Metallic</th>
+                                <th>Roughness Range</th>
+                                <th>Key Characteristic</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Polished Metals</strong></td>
+                                <td>1.0</td>
+                                <td>0.0 - 0.2</td>
+                                <td>Sharp, tinted reflections; little color variation</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Brushed Metals</strong></td>
+                                <td>1.0</td>
+                                <td>0.3 - 0.5</td>
+                                <td>Directional shine with slight blur</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Glossy Plastics</strong></td>
+                                <td>0.0</td>
+                                <td>0.1 - 0.3</td>
+                                <td>Colored base with clean specular highlights</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Matte Plastics</strong></td>
+                                <td>0.0</td>
+                                <td>0.6 - 0.9</td>
+                                <td>Solid color with minimal reflection</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Polished Wood</strong></td>
+                                <td>0.0</td>
+                                <td>0.2 - 0.4</td>
+                                <td>Wood grain visible through glossy finish</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rough Wood</strong></td>
+                                <td>0.0</td>
+                                <td>0.7 - 0.9</td>
+                                <td>Texture dominates, little reflection</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Clear Glass</strong></td>
+                                <td>0.0</td>
+                                <td>0.0 - 0.05</td>
+                                <td>Transparent with crisp refraction</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Frosted Glass</strong></td>
+                                <td>0.0</td>
+                                <td>0.3 - 0.6</td>
+                                <td>Translucent with soft light diffusion</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rubber/Silicone</strong></td>
+                                <td>0.0</td>
+                                <td>0.8 - 1.0</td>
+                                <td>Deep matte with soft edge highlighting</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The Real-World Test:</strong> If you're unsure about roughness values, look at real objects around you right now. See how a phone screen (roughness ~0.1) reflects light differently than a notebook cover (roughness ~0.7)? Your desk lamp reflects sharply (roughness ~0.2), but your fabric mouse pad barely reflects at all (roughness ~0.95). Train your eye by observing reality!</p>
+                    </blockquote>
+
+                    <h3>Base Color: More Than Just Paint</h3>
+
+                    <p>Base Color is the most intuitive parameter, but there are subtleties worth understanding:</p>
+
+                    <div class="card">
+                        <h4>🎨 Base Color Best Practices</h4>
+                        <ul>
+                            <li><strong>For non-metals (Metallic = 0.0):</strong>
+                                <ul>
+                                    <li>This is the diffuse/albedo color you see when light scatters from the surface</li>
+                                    <li>Think: paint color, plastic hue, fabric tone</li>
+                                    <li>Use full RGB spectrum freely</li>
+                                    <li>Avoid pure white (0.95 or less) and pure black (0.02 or more) for realism</li>
+                                </ul>
+                            </li>
+                            <li><strong>For metals (Metallic = 1.0):</strong>
+                                <ul>
+                                    <li>This tints the reflections, not a diffuse color</li>
+                                    <li>Most metals are near-grayscale with slight tints</li>
+                                    <li>Iron/Steel: Slight blue-gray (RGB: 0.56, 0.57, 0.58)</li>
+                                    <li>Aluminum: Brighter gray (RGB: 0.91, 0.92, 0.92)</li>
+                                    <li>Gold: Yellow-orange (RGB: 1.0, 0.71, 0.29)</li>
+                                    <li>Copper: Reddish-brown (RGB: 0.95, 0.64, 0.54)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ The Pure Black/White Trap</h4>
+                        <p>Beginner material artists often use pure white (RGB: 1.0, 1.0, 1.0) or pure black (RGB: 0.0, 0.0, 0.0) for base colors. In reality, these values almost never exist:</p>
+                        <ul>
+                            <li><strong>Pure white reflects 100% of light</strong> — even fresh snow is about 85-90% reflectance</li>
+                            <li><strong>Pure black absorbs 100% of light</strong> — even charcoal and coal reflect 3-5% of light</li>
+                            <li><strong>For realism:</strong> Keep base color values between 0.02-0.95 in RGB</li>
+                            <li><strong>Exception:</strong> Stylized/artistic renders can break this rule deliberately</li>
+                        </ul>
+                    </div>
+
+                    <h3>Specular: The Often-Ignored Parameter</h3>
+
+                    <p>The Specular parameter controls the Fresnel effect strength—how much reflection appears at glancing angles. For 99% of materials, the default value (0.5) is correct and you should leave it alone!</p>
+
+                    <div class="card">
+                        <h4>✨ When to Adjust Specular</h4>
+                        <ul>
+                            <li><strong>Default (0.5):</strong> Most dielectric materials (plastics, wood, stone, glass)</li>
+                            <li><strong>Lower (0.3-0.4):</strong> Materials with less reflectivity at grazing angles (rare—mostly eye fluid, some gemstones)</li>
+                            <li><strong>Higher (0.6-0.8):</strong> Extra-reflective materials (some crystals, very polished surfaces)</li>
+                            <li><strong>Never adjust for metals:</strong> Metallic = 1.0 materials ignore this parameter!</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Leave-It-Alone Rule:</strong> Specular is one of those parameters where the default is physically correct for 99% of cases. If your material doesn't look right, the problem is almost never Specular—check your Roughness, Metallic, or lighting instead. Resist the temptation to fiddle with every slider!</p>
+                    </blockquote>
+
+                    <h3>IOR: Index of Refraction</h3>
+
+                    <p>IOR controls how much light bends when passing through transparent materials. This parameter only matters when Transmission > 0 (transparent materials):</p>
+
+                    <div class="card">
+                        <h4>🔍 Common IOR Values</h4>
+                        <table>
+                            <tr>
+                                <th>Material</th>
+                                <th>IOR Value</th>
+                                <th>Visual Effect</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Air/Vacuum</strong></td>
+                                <td>1.0</td>
+                                <td>No refraction (reference point)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Water</strong></td>
+                                <td>1.33</td>
+                                <td>Slight bending, like looking into a pool</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Plastic/Acrylic</strong></td>
+                                <td>1.45 - 1.49</td>
+                                <td>Moderate bending, typical for synthetics</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Glass (standard)</strong></td>
+                                <td>1.45 - 1.52</td>
+                                <td>Window glass, bottles, lenses</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Quartz Crystal</strong></td>
+                                <td>1.54</td>
+                                <td>Noticeable optical effect</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sapphire</strong></td>
+                                <td>1.77</td>
+                                <td>Strong refraction, gemstone quality</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Diamond</strong></td>
+                                <td>2.42</td>
+                                <td>Extreme bending, brilliant sparkle</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <p>The higher the IOR, the more dramatic the light bending. Diamond's high IOR (2.42) is part of what makes it sparkle so brilliantly!</p>
+
+                    <h3>Sheen: For Fabric and Velvet</h3>
+
+                    <p>Sheen adds a soft, velvet-like glow at the edges of objects. It's specialized for fabric materials:</p>
+
+                    <div class="card">
+                        <h4>✨ Sheen Usage</h4>
+                        <ul>
+                            <li><strong>Sheen = 0.0 (default):</strong> No sheen effect, for most materials</li>
+                            <li><strong>Sheen = 0.3-0.7:</strong> Soft fabric glow (cotton, polyester)</li>
+                            <li><strong>Sheen = 0.8-1.0:</strong> Strong velvet/satin effect</li>
+                            <li><strong>Sheen Tint:</strong> Controls sheen color (0.0 = white, 1.0 = match base color)</li>
+                        </ul>
+                    </div>
+
+                    <p>For most hard-surface materials (metal, plastic, wood, glass), keep Sheen at 0.0. This parameter is specifically for textiles and soft materials that have that characteristic edge glow.</p>
+
+                    <h3>Clearcoat: The Extra Glossy Layer</h3>
+
+                    <p>Clearcoat simulates a glossy coating on top of another material—like car paint with a clear protective layer:</p>
+
+                    <div class="card">
+                        <h4>🚗 Clearcoat Applications</h4>
+                        <ul>
+                            <li><strong>Car paint:</strong> Colored base + glossy clearcoat on top</li>
+                            <li><strong>Coated wood:</strong> Wood grain visible through polyurethane</li>
+                            <li><strong>Lacquered surfaces:</strong> Furniture with protective finish</li>
+                            <li><strong>Nail polish:</strong> Glossy layer over colored nails</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>🎛️ Clearcoat Parameters</h4>
+                        <ul>
+                            <li><strong>Clearcoat (0.0-1.0):</strong> Strength of the effect (0 = none, 1 = full)</li>
+                            <li><strong>Clearcoat Roughness (0.0-1.0):</strong> How glossy the coat is (separate from base roughness!)</li>
+                        </ul>
+                    </div>
+
+                    <p>The beauty of clearcoat is that it gives you two layers of reflection with different roughness values. The base material can be rough while the clearcoat stays glossy!</p>
+
+                    <h3>Normal Maps: Surface Detail Without Geometry</h3>
+
+                    <p>The Normal input socket is how you add surface detail like bumps, scratches, and texture without adding actual geometry. We'll dive deep into this in future lessons, but here's the concept:</p>
+
+                    <blockquote>
+                        <p><strong>💡 The Movie Set Analogy:</strong> Normal maps are like painted detail on a movie set wall. From a distance, the wall looks like it has bricks, mortar lines, and texture. Up close, it's actually flat painted plywood. Normal maps trick the lighting calculations into seeing surface detail that doesn't geometrically exist. This saves massive amounts of polygons!</p>
+                    </blockquote>
+
+                    <div class="card">
+                        <h4>🗺️ Normal Map Types</h4>
+                        <ul>
+                            <li><strong>Bump Maps:</strong> Grayscale height information (simple, less accurate)</li>
+                            <li><strong>Normal Maps:</strong> RGB direction information (standard, accurate)</li>
+                            <li><strong>Displacement Maps:</strong> Actually moves geometry (expensive, most realistic)</li>
+                        </ul>
+                    </div>
+
+                    <p>For now, just know that the Normal input exists and can make flat surfaces appear incredibly detailed. We'll explore texture mapping and normal maps thoroughly in Lessons 12-14!</p>
+
+                    <h3>Putting It All Together: The Material Mindset</h3>
+
+                    <p>Creating materials isn't about randomly tweaking sliders—it's about understanding the material you're recreating and translating its real-world properties into parameters:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ The Professional Material Creation Process</h4>
+                        <ol>
+                            <li><strong>Observe Reference:</strong> Look at (or imagine) the real material. How does light behave on it?</li>
+                            <li><strong>Identify Type:</strong> Is it metal or not? This determines Metallic (0.0 or 1.0)</li>
+                            <li><strong>Assess Roughness:</strong> How smooth/shiny vs. rough/matte? Set Roughness accordingly</li>
+                            <li><strong>Set Base Color:</strong> What color is it? (Or add texture later)</li>
+                            <li><strong>Check Transparency:</strong> Does light pass through? Adjust Transmission if needed</li>
+                            <li><strong>Add Emission:</strong> Does it glow? Set Emission color/strength if needed</li>
+                            <li><strong>Refine Special Properties:</strong> Does it need clearcoat, sheen, or other advanced properties?</li>
+                            <li><strong>Test Under Different Lighting:</strong> Good materials look correct in various lighting conditions</li>
+                        </ol>
+                    </div>
+
+                    <h3>Common Material Mistakes to Avoid</h3>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Material Creation Pitfalls</h4>
+                        
+                        <p><strong>Mistake 1: Using Metallic = 0.5</strong></p>
+                        <ul>
+                            <li><strong>Why it's wrong:</strong> Materials are either conductors (metal) or insulators (non-metal)</li>
+                            <li><strong>Fix:</strong> Use 0.0 or 1.0 only (exception: stylized art with deliberate unrealistic look)</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 2: Everything is too glossy or too rough</strong></p>
+                        <ul>
+                            <li><strong>Why it happens:</strong> Not observing real-world roughness variety</li>
+                            <li><strong>Fix:</strong> Most materials are in the 0.2-0.7 roughness range, not extremes</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 3: Pure black or pure white base colors</strong></p>
+                        <ul>
+                            <li><strong>Why it's wrong:</strong> Nothing in nature reflects 0% or 100% of light</li>
+                            <li><strong>Fix:</strong> Keep RGB values between 0.02 and 0.95</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 4: Adjusting too many parameters at once</strong></p>
+                        <ul>
+                            <li><strong>Why it's confusing:</strong> You can't tell what's causing what effect</li>
+                            <li><strong>Fix:</strong> Change one parameter at a time and observe the result</li>
+                        </ul>
+                        
+                        <p><strong>Mistake 5: Forgetting that materials respond to lighting</strong></p>
+                        <ul>
+                            <li><strong>Why it happens:</strong> Testing materials with default lighting only</li>
+                            <li><strong>Fix:</strong> View your material under different lighting setups to verify it behaves correctly</li>
+                        </ul>
+                    </div>
+
+                    <h3>Quick Material Reference Chart</h3>
+
+                    <p>Bookmark this chart for quick material creation:</p>
+
+                    <div class="card">
+                        <h4>📋 Fast Material Setup Guide</h4>
+                        <table>
+                            <tr>
+                                <th>Material</th>
+                                <th>Metallic</th>
+                                <th>Roughness</th>
+                                <th>Base Color</th>
+                                <th>Special Notes</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Chrome</strong></td>
+                                <td>1.0</td>
+                                <td>0.05</td>
+                                <td>Light gray</td>
+                                <td>Nearly mirror-like</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Gold</strong></td>
+                                <td>1.0</td>
+                                <td>0.1</td>
+                                <td>RGB: 1.0, 0.71, 0.29</td>
+                                <td>Warm reflection tint</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Brushed Steel</strong></td>
+                                <td>1.0</td>
+                                <td>0.4</td>
+                                <td>RGB: 0.56, 0.57, 0.58</td>
+                                <td>Use anisotropic for directional scratches</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Glossy Plastic</strong></td>
+                                <td>0.0</td>
+                                <td>0.2</td>
+                                <td>Any color</td>
+                                <td>Typical for toys, cases</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rubber</strong></td>
+                                <td>0.0</td>
+                                <td>0.9</td>
+                                <td>Dark colors typical</td>
+                                <td>Very matte with soft highlights</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Clear Glass</strong></td>
+                                <td>0.0</td>
+                                <td>0.0</td>
+                                <td>White/slight tint</td>
+                                <td>Transmission: 1.0, IOR: 1.45</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wood (Polished)</strong></td>
+                                <td>0.0</td>
+                                <td>0.3</td>
+                                <td>Brown tones</td>
+                                <td>Add texture for grain</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Concrete</strong></td>
+                                <td>0.0</td>
+                                <td>0.8</td>
+                                <td>Gray variations</td>
+                                <td>Add bump map for realism</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Car Paint</strong></td>
+                                <td>0.0</td>
+                                <td>0.4</td>
+                                <td>Any color</td>
+                                <td>Clearcoat: 1.0, Clearcoat Roughness: 0.1</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Velvet Fabric</strong></td>
+                                <td>0.0</td>
+                                <td>0.8</td>
+                                <td>Rich colors</td>
+                                <td>Sheen: 0.7, Sheen Tint: 0.5</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_10_introduction_to_shader_editor_part_06.html
+     ============================================ -->

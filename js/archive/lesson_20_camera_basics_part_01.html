@@ -1,0 +1,453 @@
+<!-- ============================================
+     LESSON 20 - PART 01
+     File: lesson_20_camera_basics_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master camera basics in Blender - learn camera settings, focal length, sensor size, framing, and how to create professional shots for your 3D scenes.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 20: Camera Basics - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="main-nav" aria-label="Main Navigation">
+            <a href="index.html" class="nav-logo">🎨 Blender Course</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#lessons">Lessons</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#lessons">Lessons</a> &gt; 
+            <span>Lesson 20: Camera Basics</span>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <article class="lesson-content">
+                <header class="lesson-header">
+                    <h1>📷 Lesson 20: Camera Basics</h1>
+                    <p class="lesson-intro">Welcome to the art of virtual cinematography! The camera is your eye into the 3D world—it determines what your audience sees and how they experience your creation. Just like a real photographer or cinematographer, you control focal length, framing, position, and more to tell your visual story. A perfectly lit, beautifully modeled scene can be ruined by poor camera work, while a simple scene can become stunning with excellent camera choices. In this lesson, you'll learn the fundamental camera settings and techniques that separate amateur renders from professional work. You'll understand how focal length affects perspective, how to frame shots like a cinematographer, and how to position cameras for maximum impact. Master these basics, and your renders will instantly look more polished and intentional.</p>
+                </header>
+
+                <!-- Learning Objectives -->
+                <div class="card">
+                    <h2>🎯 What You'll Learn</h2>
+                    <ul>
+                        <li>Understanding camera fundamentals in 3D</li>
+                        <li>Camera settings and properties in Blender</li>
+                        <li>Focal length and how it affects perspective</li>
+                        <li>Sensor size and aspect ratios</li>
+                        <li>Camera positioning and orientation</li>
+                        <li>Framing techniques (rule of thirds, composition)</li>
+                        <li>Camera constraints for easier control</li>
+                        <li>Multiple cameras and switching between them</li>
+                        <li>Safe frames and render borders</li>
+                        <li>Common camera mistakes and how to avoid them</li>
+                        <li>Hands-on camera setup project</li>
+                    </ul>
+                    <p><strong>⏱️ Estimated Time:</strong> 50-65 minutes</p>
+                    <p><strong>🎯 Project:</strong> Create multiple camera setups for a scene</p>
+                </div>
+
+                <!-- Table of Contents -->
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#camera-fundamentals" class="toc-link">Camera Fundamentals</a></li>
+                            <li><a href="#camera-properties" class="toc-link">Camera Properties in Blender</a></li>
+                            <li><a href="#focal-length" class="toc-link">Focal Length and Perspective</a></li>
+                            <li><a href="#positioning" class="toc-link">Camera Positioning Techniques</a></li>
+                            <li><a href="#framing" class="toc-link">Framing and Composition</a></li>
+                            <li><a href="#multiple-cameras" class="toc-link">Working with Multiple Cameras</a></li>
+                            <li><a href="#camera-constraints" class="toc-link">Camera Constraints</a></li>
+                            <li><a href="#tips-tricks" class="toc-link">Camera Tips and Tricks</a></li>
+                            <li><a href="#project" class="toc-link">Project: Camera Setup Showcase</a></li>
+                            <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="camera-fundamentals" class="content-section">
+                    <h2>📷 Camera Fundamentals</h2>
+
+                    <p>Before diving into Blender's camera settings, let's understand what cameras do and why they're essential for every 3D project.</p>
+
+                    <h3>What is a Camera in 3D?</h3>
+
+                    <div class="card">
+                        <h4>👁️ The Virtual Viewpoint</h4>
+                        <p><strong>Camera definition:</strong></p>
+                        <ul>
+                            <li>A camera defines what gets rendered</li>
+                            <li>It's your "eye" into the 3D scene</li>
+                            <li>Everything outside camera view is not rendered</li>
+                            <li>Simulates real-world camera or human vision</li>
+                        </ul>
+
+                        <p><strong>Why cameras are essential:</strong></p>
+                        <ul>
+                            <li><strong>Frame the shot:</strong> Choose what audience sees</li>
+                            <li><strong>Control perspective:</strong> Wide-angle vs telephoto effects</li>
+                            <li><strong>Set render dimensions:</strong> Aspect ratio and resolution</li>
+                            <li><strong>Enable effects:</strong> Depth of field, motion blur</li>
+                            <li><strong>Tell stories:</strong> Camera angle conveys mood and meaning</li>
+                        </ul>
+
+                        <p><strong>Real-world analogy:</strong></p>
+                        <ul>
+                            <li>Your 3D scene is like a movie set</li>
+                            <li>The camera is like a film camera or photographer's camera</li>
+                            <li>You position it, adjust settings, then "photograph" the scene</li>
+                            <li>Everything you learned about photography applies here</li>
+                        </ul>
+                    </div>
+
+                    <h3>Camera vs Viewport</h3>
+
+                    <div class="card">
+                        <h4>🖥️ Understanding the Difference</h4>
+                        <p><strong>Viewport (navigation view):</strong></p>
+                        <ul>
+                            <li>Your interactive 3D workspace</li>
+                            <li>Free to move and rotate anywhere</li>
+                            <li>Used for modeling, lighting, positioning objects</li>
+                            <li>Does NOT determine final render</li>
+                            <li>Think: "Construction site" view</li>
+                        </ul>
+
+                        <p><strong>Camera view:</strong></p>
+                        <ul>
+                            <li>Fixed viewpoint that renders</li>
+                            <li>What audience will see in final image</li>
+                            <li>Activate with <code>Numpad 0</code></li>
+                            <li>Shows exact framing of render</li>
+                            <li>Think: "Final photograph" view</li>
+                        </ul>
+
+                        <p><strong>Workflow:</strong></p>
+                        <ul>
+                            <li>Work in viewport to build scene</li>
+                            <li>Switch to camera view to compose shot</li>
+                            <li>Adjust camera position/settings</li>
+                            <li>Render captures camera view</li>
+                        </ul>
+
+                        <p><strong>Common beginner mistake:</strong></p>
+                        <ul>
+                            <li>Spending time perfecting viewport angle</li>
+                            <li>Rendering and seeing different view (camera!)</li>
+                            <li>Solution: Always check camera view before rendering</li>
+                        </ul>
+                    </div>
+
+                    <h3>Types of Camera Views</h3>
+
+                    <div class="card">
+                        <h4>🎬 Camera Terminology</h4>
+                        <p><strong>Common shot types (distance):</strong></p>
+                        <ul>
+                            <li><strong>Extreme Wide Shot (EWS):</strong> Shows environment, context</li>
+                            <li><strong>Wide Shot (WS):</strong> Subject with surroundings</li>
+                            <li><strong>Medium Shot (MS):</strong> Subject from waist up (for characters)</li>
+                            <li><strong>Close-Up (CU):</strong> Face or object detail</li>
+                            <li><strong>Extreme Close-Up (ECU):</strong> Eyes, texture details</li>
+                        </ul>
+
+                        <p><strong>Camera angles (vertical position):</strong></p>
+                        <ul>
+                            <li><strong>Eye level:</strong> Neutral, objective viewpoint</li>
+                            <li><strong>High angle:</strong> Camera above subject (makes subject small)</li>
+                            <li><strong>Low angle:</strong> Camera below subject (makes subject powerful)</li>
+                            <li><strong>Bird's eye:</strong> Directly overhead</li>
+                            <li><strong>Dutch angle:</strong> Tilted camera (creates tension)</li>
+                        </ul>
+
+                        <p><strong>Psychological impact:</strong></p>
+                        <ul>
+                            <li>Low angle = Power, dominance, importance</li>
+                            <li>High angle = Vulnerability, weakness, overview</li>
+                            <li>Eye level = Neutral, relatable, conversational</li>
+                            <li>Close-up = Intimacy, detail, emotion</li>
+                            <li>Wide shot = Context, scale, isolation</li>
+                        </ul>
+                    </div>
+
+                    <h3>Default Camera in Blender</h3>
+
+                    <div class="card">
+                        <h4>📸 Starting Camera</h4>
+                        <p><strong>Default scene includes:</strong></p>
+                        <ul>
+                            <li>One camera object (pyramid wireframe)</li>
+                            <li>Positioned at specific location</li>
+                            <li>Aimed at origin (0, 0, 0)</li>
+                            <li>Ready to use immediately</li>
+                        </ul>
+
+                        <p><strong>Camera object appearance:</strong></p>
+                        <ul>
+                            <li>Pyramid/trapezoid wireframe</li>
+                            <li>Shows field of view</li>
+                            <li>Dashed lines show view frustum</li>
+                            <li>Solid line shows frame border</li>
+                            <li>Triangle indicates "top" of image</li>
+                        </ul>
+
+                        <p><strong>Selecting the camera:</strong></p>
+                        <ul>
+                            <li>Click on camera object in viewport</li>
+                            <li>Or select in Outliner</li>
+                            <li>Selected camera has orange outline</li>
+                            <li>Active camera (renders) has solid triangle marker</li>
+                        </ul>
+
+                        <p><strong>Viewing through camera:</strong></p>
+                        <ul>
+                            <li>Press <code>Numpad 0</code> (enters camera view)</li>
+                            <li>Or View menu → Cameras → Active Camera</li>
+                            <li>Border shows render frame</li>
+                            <li>Everything outside border won't render</li>
+                            <li>Press <code>Numpad 0</code> again to exit camera view</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Photography Transfers to 3D:</strong> Everything you know about photography applies directly to 3D cameras. Focal length, aperture, exposure triangle, composition rules—it all works the same way. The difference? In 3D, you have perfect control over every element. No weather delays, no equipment limitations, no physics constraints. You can position the camera anywhere, even inside objects or underwater. But with this freedom comes responsibility: understanding real camera principles helps you make choices that feel natural and cinematic rather than random and artificial.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="camera-properties" class="content-section">
+                    <h2>⚙️ Camera Properties in Blender</h2>
+
+                    <p>Blender's cameras have numerous settings that control how they capture your scene. Let's explore each property and what it does.</p>
+
+                    <h3>Accessing Camera Settings</h3>
+
+                    <div class="card">
+                        <h4>🎛️ Camera Properties Panel</h4>
+                        <p><strong>Location:</strong></p>
+                        <ul>
+                            <li>Select camera object</li>
+                            <li>Properties panel (right side) → Camera Properties (camera icon)</li>
+                            <li>All camera settings organized in sections</li>
+                        </ul>
+
+                        <p><strong>Main sections:</strong></p>
+                        <ul>
+                            <li><strong>Lens:</strong> Focal length, sensor size, perspective</li>
+                            <li><strong>Depth of Field:</strong> Focus and blur effects</li>
+                            <li><strong>Viewport Display:</strong> How camera appears in viewport</li>
+                            <li><strong>Background Images:</strong> Reference images in camera view</li>
+                            <li><strong>Safe Areas:</strong> Composition guides</li>
+                        </ul>
+                    </div>
+
+                    <h3>Camera Type</h3>
+
+                    <div class="card">
+                        <h4>📐 Projection Types</h4>
+                        <p><strong>Camera Properties → Type:</strong></p>
+                        <ul>
+                            <li><strong>Perspective (default):</strong>
+                                <ul>
+                                    <li>Realistic camera simulation</li>
+                                    <li>Objects closer appear larger (perspective)</li>
+                                    <li>Parallel lines converge at distance</li>
+                                    <li>Use for: 99% of renders</li>
+                                </ul>
+                            </li>
+                            <li><strong>Orthographic:</strong>
+                                <ul>
+                                    <li>No perspective distortion</li>
+                                    <li>Objects same size regardless of distance</li>
+                                    <li>Parallel lines stay parallel</li>
+                                    <li>Use for: Technical drawings, schematics, blueprints</li>
+                                </ul>
+                            </li>
+                            <li><strong>Panoramic:</strong>
+                                <ul>
+                                    <li>360-degree capture</li>
+                                    <li>Equirectangular or fisheye</li>
+                                    <li>Use for: VR, HDRIs, panoramic renders</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>When to use orthographic:</strong></p>
+                        <ul>
+                            <li>Architectural plans (top view)</li>
+                            <li>Technical illustrations</li>
+                            <li>UI mockups and flat graphics</li>
+                            <li>Isometric game art</li>
+                        </ul>
+                    </div>
+
+                    <h3>Lens Settings</h3>
+
+                    <div class="card">
+                        <h4>🔍 Focal Length</h4>
+                        <p><strong>What is focal length?</strong></p>
+                        <ul>
+                            <li>Measured in millimeters (mm)</li>
+                            <li>Determines field of view (how much you see)</li>
+                            <li>Affects perspective and object proportions</li>
+                            <li>Default: 50mm (mimics human eye)</li>
+                        </ul>
+
+                        <p><strong>Focal length categories:</strong></p>
+                        <ul>
+                            <li><strong>Ultra-wide (12-24mm):</strong>
+                                <ul>
+                                    <li>Very wide field of view</li>
+                                    <li>Dramatic perspective distortion</li>
+                                    <li>Use for: Architecture exteriors, vast landscapes</li>
+                                </ul>
+                            </li>
+                            <li><strong>Wide-angle (24-35mm):</strong>
+                                <ul>
+                                    <li>Wide field of view</li>
+                                    <li>Noticeable perspective</li>
+                                    <li>Use for: Interiors, environmental shots</li>
+                                </ul>
+                            </li>
+                            <li><strong>Standard (35-55mm):</strong>
+                                <ul>
+                                    <li>Natural perspective</li>
+                                    <li>Mimics human vision</li>
+                                    <li>Use for: General purpose, product shots</li>
+                                </ul>
+                            </li>
+                            <li><strong>Portrait (85-135mm):</strong>
+                                <ul>
+                                    <li>Flattering perspective</li>
+                                    <li>Compressed depth</li>
+                                    <li>Use for: Character close-ups, portraits</li>
+                                </ul>
+                            </li>
+                            <li><strong>Telephoto (135mm+):</strong>
+                                <ul>
+                                    <li>Narrow field of view</li>
+                                    <li>Extreme compression</li>
+                                    <li>Use for: Distant subjects, abstract compositions</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Common focal lengths:</strong></p>
+                        <ul>
+                            <li>18mm: Extreme wide-angle</li>
+                            <li>24mm: Wide-angle interiors</li>
+                            <li>35mm: Environmental portraits</li>
+                            <li>50mm: Standard/normal lens</li>
+                            <li>85mm: Portrait lens</li>
+                            <li>135mm: Telephoto compression</li>
+                        </ul>
+                    </div>
+
+                    <h3>Sensor and Film Settings</h3>
+
+                    <div class="card">
+                        <h4>🎞️ Sensor Size</h4>
+                        <p><strong>What is sensor size?</strong></p>
+                        <ul>
+                            <li>Physical size of camera sensor/film</li>
+                            <li>Measured in millimeters (width)</li>
+                            <li>Affects field of view with focal length</li>
+                            <li>Default: 36mm (full-frame equivalent)</li>
+                        </ul>
+
+                        <p><strong>Common sensor sizes:</strong></p>
+                        <ul>
+                            <li><strong>Full Frame (36mm):</strong> Standard cinema/DSLR</li>
+                            <li><strong>Super 35 (24mm):</strong> Cinema standard</li>
+                            <li><strong>APS-C (23.5mm):</strong> Crop sensor cameras</li>
+                            <li><strong>Micro 4/3 (17mm):</strong> Compact cameras</li>
+                        </ul>
+
+                        <p><strong>Sensor size presets:</strong></p>
+                        <ul>
+                            <li>Camera Properties → Sensor → Preset dropdown</li>
+                            <li>Options: Various camera formats</li>
+                            <li>Usually leave at default unless matching specific camera</li>
+                        </ul>
+
+                        <p><strong>Sensor fit:</strong></p>
+                        <ul>
+                            <li><strong>Auto:</strong> Automatically fits to render aspect</li>
+                            <li><strong>Horizontal:</strong> Fits width, height adjusts</li>
+                            <li><strong>Vertical:</strong> Fits height, width adjusts</li>
+                            <li>Usually leave on Auto</li>
+                        </ul>
+                    </div>
+
+                    <h3>Clipping</h3>
+
+                    <div class="card">
+                        <h4>✂️ Near and Far Clipping</h4>
+                        <p><strong>What is clipping?</strong></p>
+                        <ul>
+                            <li>Defines visible distance range</li>
+                            <li>Objects closer than "Clip Start" invisible</li>
+                            <li>Objects farther than "Clip End" invisible</li>
+                            <li>Optimization for complex scenes</li>
+                        </ul>
+
+                        <p><strong>Clip Start:</strong></p>
+                        <ul>
+                            <li>Default: 0.1 Blender units</li>
+                            <li>Minimum distance camera can see</li>
+                            <li>Increase if camera penetrates objects</li>
+                            <li>Typical range: 0.01 - 1.0</li>
+                        </ul>
+
+                        <p><strong>Clip End:</strong></p>
+                        <ul>
+                            <li>Default: 100 Blender units</li>
+                            <li>Maximum distance camera can see</li>
+                            <li>Increase for very large scenes</li>
+                            <li>Decrease to optimize complex scenes</li>
+                        </ul>
+
+                        <p><strong>When to adjust:</strong></p>
+                        <ul>
+                            <li>Objects disappearing near camera: Increase Clip Start</li>
+                            <li>Distant objects invisible: Increase Clip End</li>
+                            <li>Z-fighting artifacts: Adjust Clip Start/End ratio</li>
+                            <li>Usually defaults work fine</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_20_camera_basics_part_02.html
+     ============================================ -->

@@ -1,0 +1,433 @@
+<!-- ============================================
+     LESSON 41 - PART 05
+     File: lesson_41_procedural_modeling_with_nodes_part_05.html
+     ============================================ -->
+
+            <section id="proximity">
+                <h2>🔍 Proximity and Context-Aware Systems</h2>
+                
+                <p>Truly intelligent procedural systems don't just place objects—they understand their environment. Proximity operations let geometry respond to nearby objects: ivy that only grows where surfaces exist, snow that accumulates only on horizontal ledges, grass that avoids paths. This is context-aware modeling, where procedural systems make decisions based on spatial relationships. These techniques separate basic scattering from professional procedural assets that feel like they "understand" the scene. Let's explore how to make your systems spatially intelligent!</p>
+
+                <h3>Proximity Concepts</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Understanding Spatial Queries</h4>
+                    
+                    <p><strong>What is Proximity?</strong></p>
+                    <ul>
+                        <li>Measuring distance between geometry elements</li>
+                        <li>Finding nearest surfaces/points</li>
+                        <li>Detecting intersections and overlaps</li>
+                        <li>Making decisions based on spatial relationships</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Key Questions Proximity Answers:</strong></p>
+                    <ul>
+                        <li>"How far is this point from that surface?"</li>
+                        <li>"What's the nearest point on that mesh?"</li>
+                        <li>"Does this ray hit that object?"</li>
+                        <li>"Is this point inside/outside that volume?"</li>
+                        <li>"Which points are within X distance of that object?"</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Real-World Applications:</strong></p>
+                    <ul>
+                        <li><strong>Ivy growth:</strong> Only place ivy near wall surfaces</li>
+                        <li><strong>Snow accumulation:</strong> More snow on horizontal surfaces, less on steep</li>
+                        <li><strong>Moss growth:</strong> Grows in crevices and sheltered areas</li>
+                        <li><strong>Erosion effects:</strong> Wear patterns where surfaces rub together</li>
+                        <li><strong>Clearance zones:</strong> Keep grass away from building foundations</li>
+                    </ul>
+                </div>
+
+                <h3>Geometry Proximity Node</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ The Distance Tool</h4>
+                    
+                    <p><strong>What It Does:</strong> Calculates distance from input geometry to target geometry.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Inputs:</strong></p>
+                    <ul>
+                        <li><strong>Geometry:</strong> Source geometry (points to measure from)</li>
+                        <li><strong>Target:</strong> Target geometry (object to measure to)</li>
+                        <li><strong>Source Position:</strong> Optional custom position field (defaults to geometry positions)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Outputs:</strong></p>
+                    <ul>
+                        <li><strong>Distance:</strong> Float field—distance to nearest point on target</li>
+                        <li><strong>Position:</strong> Vector field—position of nearest point on target</li>
+                        <li><strong>Normal:</strong> Vector field—surface normal at nearest point</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Basic Example: Distance Field</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Setup
+Source Mesh (e.g., scattered points) → Geometry Proximity "Geometry"
+Target Mesh (e.g., wall) → Geometry Proximity "Target"
+
+# Output: Distance field
+Distance output → Each point knows its distance to wall
+
+# Use: Select only points within 1 meter of wall
+Distance → Compare (Less Than) 1.0 → Near wall selection
+Near wall selection → Delete Geometry (delete far points)
+
+# Result: Only points close to wall remain
+</pre>
+                </div>
+
+                <h3>Practical Proximity Examples</h3>
+
+                <div class="card">
+                    <h4>🛠️ Common Use Cases</h4>
+                    
+                    <p><strong>Example 1: Ivy Growth Near Walls</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Distribute points in area
+Grid or Volume → Distribute Points → All points
+
+# Calculate distance to wall
+All points → Geometry Proximity (Target: Wall) → Distance
+
+# Keep only points very close to wall (0-0.5m)
+Distance → Compare (Less Than) 0.5 → Near wall
+Near wall → Delete Geometry (remove far points)
+
+# Remaining points become ivy positions
+Near wall points → Instance on Points (Ivy leaves)
+
+# Align ivy to wall normal
+Geometry Proximity "Normal" output → Align Euler to Vector → Rotation
+# Result: Ivy only near wall, facing outward from surface
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example 2: Snow Accumulation (Distance + Slope)</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Start with roof/ledge geometry
+Roof Mesh → Input geometry
+
+# Condition 1: Surface must be somewhat horizontal
+Normal.Z → Compare (Greater Than) 0.7 → Flat enough
+
+# Condition 2: Must be near snowfall source (above)
+Position → Geometry Proximity (Target: Sky plane above) → Distance to sky
+Distance → Compare (Less Than) 5.0 → Open to sky
+
+# Combine conditions
+Flat enough AND Open to sky → Snow accumulation mask
+
+# Add displacement for snow depth
+Snow mask → Math (Multiply) 0.5 → Snow depth
+Snow depth → Set Position (Offset Z) → Raised surfaces
+
+# Result: Snow only on flat, exposed surfaces
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example 3: Clearance Zone (No Grass Near Buildings)</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Distribute grass points
+Terrain → Distribute Points on Faces → Grass points
+
+# Calculate distance to building
+Grass points → Geometry Proximity (Target: Building) → Distance
+
+# Keep points more than 2m from building
+Distance → Compare (Greater Than) 2.0 → Safe distance
+
+# Delete points too close
+Safe distance → Delete Geometry (Points)
+
+# Instance grass on remaining points
+Remaining points → Instance on Points (Grass)
+
+# Result: Grass field with clear zone around building
+</pre>
+                </div>
+
+                <h3>Raycast Node</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Line-of-Sight Detection</h4>
+                    
+                    <p><strong>What It Does:</strong> Shoots ray from point in direction, detects if/where it hits target geometry.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Inputs:</strong></p>
+                    <ul>
+                        <li><strong>Target Geometry:</strong> Object to test against</li>
+                        <li><strong>Source Position:</strong> Ray origin points</li>
+                        <li><strong>Ray Direction:</strong> Vector direction to shoot ray</li>
+                        <li><strong>Ray Length:</strong> Maximum distance to check</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Outputs:</strong></p>
+                    <ul>
+                        <li><strong>Is Hit:</strong> Boolean—did ray hit target?</li>
+                        <li><strong>Hit Position:</strong> Vector—where ray hit (if hit)</li>
+                        <li><strong>Hit Normal:</strong> Vector—surface normal at hit point</li>
+                        <li><strong>Hit Distance:</strong> Float—distance to hit point</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example: Detect If Surface Exposed to Sky</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Setup
+Terrain points → Source Position
+Up vector (0, 0, 1) → Ray Direction
+100.0 → Ray Length (tall enough to clear scene)
+
+# Cast rays upward
+Raycast (Target: Ceiling/obstacles above) → Is Hit output
+
+# Interpret results
+Is Hit = True → Obstacle above (sheltered)
+Is Hit = False → Clear sky above (exposed)
+
+# Invert for "exposed to sky" selection
+Is Hit → Math (NOT) → Exposed selection
+
+# Use for effects
+Exposed selection → Snow/rain effects
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example: Ground Conforming (Raycast Down)</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Scatter points at random heights
+Random distribution in volume → Floating points
+
+# Cast rays downward to find ground
+Point positions → Source Position
+Down vector (0, 0, -1) → Ray Direction
+Raycast (Target: Terrain) → Hit Position
+
+# Move points to ground level
+Hit Position → Set Position
+# Result: Points snap to terrain surface below them
+</pre>
+                </div>
+
+                <h3>Sample Nearest Nodes</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Sampling Data from Nearby Geometry</h4>
+                    
+                    <p><strong>Sample Nearest Surface:</strong> Gets data from nearest point on target surface.</p>
+                    <p><strong>Sample Index:</strong> Gets data from specific element by index.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Use Case: Transfer Attributes Spatially</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Problem: Want scattered rocks to match terrain color beneath them
+
+# Terrain has vertex colors stored
+Terrain with "Color" attribute
+
+# Rocks distributed above terrain
+Distribute Points → Rock positions
+
+# Sample terrain color at rock positions
+Rock positions → Sample Nearest Surface (Target: Terrain)
+Sample "Color" attribute → Terrain colors at rock locations
+
+# Apply to rocks
+Sampled colors → Store Named Attribute "Color" on rocks
+
+# Result: Rocks automatically match terrain color beneath
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example: Height-Based Color from Another Object</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Reference object has height-based colors
+Reference object with gradient → Color attribute
+
+# Target object needs similar coloring
+Target mesh → Sample Nearest (Reference object)
+Sample "Color" → Borrowed colors
+
+# Apply to target
+Borrowed colors → Set Color on target
+
+# Result: Target adopts reference's color scheme spatially
+</pre>
+                </div>
+
+                <h3>Advanced Proximity Techniques</h3>
+
+                <div class="card">
+                    <h4>🎯 Professional Workflows</h4>
+                    
+                    <p><strong>Technique 1: Falloff Based on Distance</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Effect strongest near target, weakens with distance
+Source → Geometry Proximity (Target) → Distance
+
+# Convert distance to falloff (1.0 at target, 0.0 at max distance)
+Distance → Map Range (0 to 10) → (1.0 to 0.0) → Falloff
+
+# Apply effect scaled by falloff
+Base effect × Falloff → Scaled effect
+
+# Example: Displacement stronger near central object
+Falloff → Math (Multiply) Displacement → Varied displacement
+# Result: Smooth influence gradient radiating from target
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Technique 2: Multi-Target Proximity (Closest of Several)</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Multiple obstacles in scene
+Object A, Object B, Object C
+
+# Calculate distance to each
+Source → Geometry Proximity (Target: A) → Distance A
+Source → Geometry Proximity (Target: B) → Distance B
+Source → Geometry Proximity (Target: C) → Distance C
+
+# Find minimum (closest)
+Math (Minimum) between Distance A and B → Min AB
+Math (Minimum) between Min AB and Distance C → Overall minimum
+
+# Use minimum distance for effect
+Overall minimum → Effect based on closest obstacle
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Technique 3: Occlusion Detection (Shadowing)</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Determine if points are in "shadow" of object
+Points → Source Position
+Direction to light → Ray Direction (e.g., 1, 1, 1 normalized)
+
+Raycast (Target: Occluder objects) → Is Hit
+
+# Hit = In shadow, No hit = Lit
+Is Hit → Shadow mask
+
+# Apply effect only to lit areas
+Shadow mask (inverted) → Grass/effects only in light
+# Result: Growth only in illuminated areas
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Technique 4: Cavity Detection (Crevices)</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Find concave areas (dirt/moss accumulation)
+Surface → Sample rays in multiple directions (up, down, sides)
+Count hits → More hits = more enclosed (cavity)
+
+# Use hit count as cavity measure
+Hit count → Map Range (0-6 to 0-1) → Cavity amount
+
+# Apply effect in cavities
+Cavity amount → Dirt texture blend factor
+# Result: Dirt accumulates in cracks and corners
+</pre>
+                </div>
+
+                <h3>Combining Proximity with Other Techniques</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Layered Context Systems</h4>
+                    
+                    <p><strong>Pattern: Proximity + Noise + Slope</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Realistic moss distribution on rock wall
+
+# Condition 1: Near wall (proximity)
+Points → Geometry Proximity (Wall) → Distance
+Distance < 0.3 → Near surface
+
+# Condition 2: Sheltered areas (raycast)
+Points → Raycast (Up direction, Target: Overhang) → Is Hit (sheltered)
+
+# Condition 3: Not too steep (slope)
+Normal.Z > 0.3 → Not vertical
+
+# Condition 4: Noise variation (natural clumping)
+Position → Noise → Map Range → Noise mask
+Noise > 0.4 → Clump areas
+
+# Combine all conditions
+Near surface AND Sheltered AND Not vertical AND Clump areas → Final mask
+
+# Result: Moss grows realistically—near wall, sheltered, on suitable slopes, in patches
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Why Layer?</strong></p>
+                    <ul>
+                        <li>Single condition = artificial</li>
+                        <li>Multiple conditions = natural complexity</li>
+                        <li>Each adds realism layer</li>
+                        <li>Result feels "right" even if viewer can't identify why</li>
+                    </ul>
+                </div>
+
+                <h3>Performance Considerations</h3>
+
+                <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Optimizing Proximity Operations</h4>
+                    
+                    <p><strong>Challenge:</strong> Proximity calculations expensive (checking distances to many points).</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Optimization 1: Reduce Target Complexity</strong></p>
+                    <ul>
+                        <li>Use simplified collision mesh for proximity target</li>
+                        <li>Target doesn't need detail—just approximate shape</li>
+                        <li>Low-poly proxy = fast, high-poly visual = slow</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Optimization 2: Limit Source Point Count</strong></p>
+                    <ul>
+                        <li>Fewer source points = faster proximity calculations</li>
+                        <li>Pre-filter points before proximity (rough selection first)</li>
+                        <li>Example: Select by position bounds, THEN check proximity</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Optimization 3: Use Distance Threshold</strong></p>
+                    <ul>
+                        <li>Don't calculate if obviously too far</li>
+                        <li>Bounding box check before precise proximity</li>
+                        <li>Geometry Proximity stops searching after max distance</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Optimization 4: Cache Results</strong></p>
+                    <ul>
+                        <li>Store proximity data as attribute</li>
+                        <li>Calculate once, reuse many times</li>
+                        <li>Example: Store distance field, use for multiple effects</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example: Two-Pass Filtering</strong></p>
+                    <pre style="background: #f5f5f5; padding: 0.75rem; border-radius: 4px;">
+# Pass 1: Cheap broad filter
+Position.X → Compare (Between -5 and 5) → X range
+Position.Y → Compare (Between -5 and 5) → Y range
+X range AND Y range → Rough selection (fast)
+
+# Pass 2: Expensive proximity filter (only on rough selection)
+Rough selection → Geometry Proximity → Precise distance
+# Result: Proximity only calculated for potentially close points
+</pre>
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Context is Everything:</strong> The difference between "scattered objects" and "objects that belong in the scene" is context-awareness. When moss grows only in crevices, snow accumulates realistically, and ivy follows walls believably, viewers suspend disbelief. They don't think "nice procedural system"—they think "that looks right." Proximity operations are your tool for encoding spatial intelligence into procedural systems. Master them, and your work transcends obvious CG into convincing realism!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎯 Proximity Systems Summary</h3>
+                    <ul style="color: white;">
+                        <li><strong>Geometry Proximity:</strong> Calculate distance to nearest point on target</li>
+                        <li><strong>Outputs:</strong> Distance, Position, Normal at nearest point</li>
+                        <li><strong>Raycast:</strong> Line-of-sight detection, hit testing</li>
+                        <li><strong>Sample Nearest:</strong> Transfer attributes spatially from target</li>
+                        <li><strong>Falloff:</strong> Map distance to influence (1.0 near, 0.0 far)</li>
+                        <li><strong>Multi-condition:</strong> Layer proximity with noise, slope, other factors</li>
+                        <li><strong>Performance:</strong> Simplify targets, limit sources, two-pass filtering</li>
+                        <li><strong>Key principle:</strong> Spatial context creates believable results</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0;"><strong>Proximity = intelligent, context-aware procedural systems!</strong></p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_41_procedural_modeling_with_nodes_part_06.html
+     ============================================ -->

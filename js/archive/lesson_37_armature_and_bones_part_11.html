@@ -1,0 +1,465 @@
+<!-- ============================================
+     LESSON 37 - PART 11
+     File: lesson_37_armature_and_bones_part_11.html
+     ============================================ -->
+
+            <section id="summary">
+                <h3>📚 Lesson Summary</h3>
+                
+                <p>Congratulations on completing this comprehensive lesson on armatures and bones! You've learned the fundamental building blocks of character rigging—knowledge that will serve you throughout your entire 3D career. Let's recap everything you've mastered and look at what's coming next!</p>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem;">
+                    <h3 style="color: white; margin-top: 0;">🎯 What You've Learned</h3>
+                    
+                    <p style="color: white;"><strong>Core Concepts:</strong></p>
+                    <ul style="color: white;">
+                        <li><strong>Armature fundamentals:</strong> Skeletal systems that control character deformation</li>
+                        <li><strong>Bone anatomy:</strong> Head, tail, body, roll, and local coordinate systems</li>
+                        <li><strong>Three modes:</strong> Object (move whole), Edit (build structure), Pose (animate)</li>
+                        <li><strong>Parent-child hierarchies:</strong> How bones inherit movement from ancestors</li>
+                        <li><strong>Anatomical positioning:</strong> Aligning bones to real joints for natural deformation</li>
+                        <li><strong>Professional naming:</strong> Descriptive names with .L/.R suffixes for automation</li>
+                        <li><strong>Symmetry tools:</strong> Building once and mirroring for efficiency</li>
+                        <li><strong>Bone properties:</strong> Deform settings, display options, and constraints</li>
+                    </ul>
+                    
+                    <p style="color: white; margin-top: 1rem;"><strong>Practical Skills:</strong></p>
+                    <ul style="color: white;">
+                        <li>✓ Creating armatures and adding bones</li>
+                        <li>✓ Extruding bone chains with proper connections</li>
+                        <li>✓ Positioning bones accurately inside characters</li>
+                        <li>✓ Setting up parent-child relationships</li>
+                        <li>✓ Naming bones using industry conventions</li>
+                        <li>✓ Using Symmetrize and X-Axis Mirror</li>
+                        <li>✓ Building complete biped skeletons</li>
+                        <li>✓ Testing rigs in Pose Mode</li>
+                    </ul>
+                </div>
+
+                <h4>Key Takeaways</h4>
+
+                <div class="card">
+                    <h4>💡 Essential Concepts to Remember</h4>
+                    
+                    <p><strong>1. Armatures Are the Foundation</strong></p>
+                    <blockquote>
+                        <p>A well-built armature makes animation effortless. A poorly built armature makes every pose a struggle. Invest time here—it pays off exponentially!</p>
+                    </blockquote>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Hierarchy Determines Movement Flow</strong></p>
+                    <ul>
+                        <li>Parent bones control their children</li>
+                        <li>Children can move independently without affecting parents</li>
+                        <li>Single root bone (pelvis) makes moving entire character easy</li>
+                        <li>Logical hierarchy = intuitive animation</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Position Matters More Than You Think</strong></p>
+                    <ul>
+                        <li>Bones must align to anatomical pivot points (not surface)</li>
+                        <li>Knee slightly forward = natural bending and IK success</li>
+                        <li>Shoulder deep inside = realistic arm rotation</li>
+                        <li>Poor positioning = broken deformation (can't fix with weight painting)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Naming Is Not Optional</strong></p>
+                    <ul>
+                        <li>Professional rigs have 50-200+ bones—good names are essential</li>
+                        <li>.L and .R suffixes enable automatic symmetry tools</li>
+                        <li>Descriptive names make rigs self-documenting</li>
+                        <li>Consistent naming = professional workflow</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Symmetry Tools Save Massive Time</strong></p>
+                    <ul>
+                        <li>Build one side perfectly, mirror instantly</li>
+                        <li>50% time reduction for symmetrical characters</li>
+                        <li>Mathematical precision—perfect symmetry guaranteed</li>
+                        <li>Industry standard workflow for all humanoid characters</li>
+                    </ul>
+                </div>
+
+                <h4>Common Mistakes to Avoid</h4>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Pitfalls New Riggers Face</h4>
+                    
+                    <p><strong>Mistake 1: Building Both Sides Manually</strong></p>
+                    <ul>
+                        <li>❌ Creating left and right bones separately</li>
+                        <li>✅ Build left side, use Symmetrize tool</li>
+                        <li>Why: Saves time and ensures perfect symmetry</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mistake 2: Ignoring Bone Roll</strong></p>
+                    <ul>
+                        <li>❌ Leaving roll at default, bones bend sideways</li>
+                        <li>✅ Use Ctrl + N (Recalculate Roll) or adjust manually</li>
+                        <li>Why: Roll determines bend direction—critical for natural movement</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mistake 3: Bones Outside Mesh</strong></p>
+                    <ul>
+                        <li>❌ Bones sticking out of character surface</li>
+                        <li>✅ All bones inside mesh volume, aligned to joints</li>
+                        <li>Why: Bones outside mesh don't deform properly</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mistake 4: Leaving Default Names</strong></p>
+                    <ul>
+                        <li>❌ Bone.001, Bone.002, Bone.003...</li>
+                        <li>✅ upper_arm.L, forearm.R, spine_01</li>
+                        <li>Why: Unnamed bones = hours wasted searching for "that one bone"</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mistake 5: Skipping Testing</strong></p>
+                    <ul>
+                        <li>❌ Building entire armature without testing hierarchy</li>
+                        <li>✅ Test in Pose Mode frequently while building</li>
+                        <li>Why: Catching hierarchy errors early = easy fixes</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mistake 6: Centered Knee Position</strong></p>
+                    <ul>
+                        <li>❌ Knee perfectly centered in side view</li>
+                        <li>✅ Knee slightly forward of leg center</li>
+                        <li>Why: Forward knee prevents IK solver ambiguity</li>
+                    </ul>
+                </div>
+
+                <h4>Quick Reference Guide</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>⌨️ Essential Shortcuts</h4>
+                    
+                    <p><strong>Mode Switching:</strong></p>
+                    <ul>
+                        <li><code>Tab</code> - Toggle Edit Mode / Object Mode</li>
+                        <li><code>Ctrl + Tab</code> - Enter Pose Mode from Edit Mode</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Bone Creation:</strong></p>
+                    <ul>
+                        <li><code>Shift + A</code> - Add new bone (Edit Mode)</li>
+                        <li><code>E</code> - Extrude bone (creates connected child)</li>
+                        <li><code>Shift + D</code> - Duplicate bone</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Transformation:</strong></p>
+                    <ul>
+                        <li><code>G</code> - Move bone</li>
+                        <li><code>R</code> - Rotate bone</li>
+                        <li><code>S</code> - Scale bone (change length)</li>
+                        <li><code>Ctrl + R</code> - Roll bone (twist along length)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Hierarchy:</strong></p>
+                    <ul>
+                        <li><code>Ctrl + P</code> - Parent bones (select child, then parent)</li>
+                        <li><code>Alt + P</code> - Clear parent / Disconnect</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Naming:</strong></p>
+                    <ul>
+                        <li><code>F2</code> - Rename selected bone</li>
+                        <li>Right-click > Batch Rename - Rename multiple bones</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Symmetry:</strong></p>
+                    <ul>
+                        <li>Armature > Symmetrize - Mirror .L bones to .R</li>
+                        <li><code>Ctrl + N</code> - Recalculate bone roll</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Selection:</strong></p>
+                    <ul>
+                        <li><code>A</code> - Select all bones</li>
+                        <li><code>Alt + A</code> - Deselect all</li>
+                        <li><code>B</code> - Box select</li>
+                        <li><code>C</code> - Circle select</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Pose Mode:</strong></p>
+                    <ul>
+                        <li><code>Alt + R</code> - Clear rotation</li>
+                        <li><code>Alt + G</code> - Clear location</li>
+                        <li><code>Alt + S</code> - Clear scale</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Display:</strong></p>
+                    <ul>
+                        <li><code>Alt + Z</code> - X-ray mode (see through mesh)</li>
+                        <li><code>Z</code> - Shading menu (wireframe, solid, etc.)</li>
+                        <li><code>H</code> - Hide selected bones</li>
+                        <li><code>Alt + H</code> - Unhide all bones</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>📊 Bone Naming Cheat Sheet</h4>
+                    
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Body Part</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Left Side</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Right Side</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Center</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Pelvis/Root</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">pelvis</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Spine</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">spine_01, spine_02, spine_03</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Chest</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">chest</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Neck</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">neck</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Head</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">head</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Shoulder</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">shoulder.L</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">shoulder.R</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Upper Arm</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">upper_arm.L</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">upper_arm.R</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Forearm</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">forearm.L</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">forearm.R</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Hand</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">hand.L</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">hand.R</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Upper Leg</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">upper_leg.L</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">upper_leg.R</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Lower Leg</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">lower_leg.L</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">lower_leg.R</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Foot</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">foot.L</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">foot.R</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Fingers</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">thumb_01.L, index_01.L, etc.</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">thumb_01.R, index_01.R, etc.</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Workflow Best Practices</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Professional Rigging Workflow</h4>
+                    
+                    <p><strong>Step 1: Planning (Before Creating Bones)</strong></p>
+                    <ul>
+                        <li>Study character anatomy and reference images</li>
+                        <li>Identify major joint locations</li>
+                        <li>Decide on bone count (simple vs. detailed)</li>
+                        <li>Plan naming convention and stick to it</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Building (Edit Mode)</strong></p>
+                    <ul>
+                        <li>Start with center bones (pelvis → spine → head)</li>
+                        <li>Add left arm and left leg</li>
+                        <li>Name bones properly as you create them</li>
+                        <li>Test hierarchy frequently in Pose Mode</li>
+                        <li>Use Symmetrize to create right side</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Positioning (Edit Mode + Multiple Views)</strong></p>
+                    <ul>
+                        <li>Front view: Check left-right alignment</li>
+                        <li>Side view: Check depth and curves</li>
+                        <li>Top view: Verify spacing and width</li>
+                        <li>Use X-ray mode to see bones through mesh</li>
+                        <li>Snap to vertices for precision</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Refinement (Edit Mode)</strong></p>
+                    <ul>
+                        <li>Recalculate bone roll (Ctrl + N)</li>
+                        <li>Verify symmetry numerically</li>
+                        <li>Check all parent relationships</li>
+                        <li>Ensure proper naming (no Bone.001!)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Testing (Pose Mode)</strong></p>
+                    <ul>
+                        <li>Test every joint's range of motion</li>
+                        <li>Verify hierarchy works as expected</li>
+                        <li>Check that bones bend naturally</li>
+                        <li>Create sample poses to test rig</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 6: Documentation</strong></p>
+                    <ul>
+                        <li>Save file with version number</li>
+                        <li>Take reference screenshots</li>
+                        <li>Add notes about rig specifications</li>
+                        <li>Ready for next step: weight painting!</li>
+                    </ul>
+                </div>
+
+                <h4>What's Next?</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>🚀 Your Rigging Journey Continues</h4>
+                    
+                    <p><strong>Lesson 38: Weight Painting</strong></p>
+                    <ul>
+                        <li>Connect armature to mesh (skinning)</li>
+                        <li>Paint vertex weights to control deformation</li>
+                        <li>Fix common weight painting issues</li>
+                        <li>Create smooth, natural character movement</li>
+                        <li><em>Your armature finally controls the mesh!</em></li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Lesson 39: Rigging Essentials</strong></p>
+                    <ul>
+                        <li>Add IK (Inverse Kinematics) for hands and feet</li>
+                        <li>Create bone constraints for realistic limits</li>
+                        <li>Build control bones for animator-friendly rigs</li>
+                        <li>Add custom bone shapes</li>
+                        <li><em>Transform basic armature into production rig!</em></li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Beyond This Module:</strong></p>
+                    <ul>
+                        <li><strong>Animation:</strong> Use your rig to create character movement</li>
+                        <li><strong>Advanced Rigging:</strong> Facial rigs, mechanical rigs, creature rigs</li>
+                        <li><strong>Rigify:</strong> Blender's automatic rig generator</li>
+                        <li><strong>Professional Workflows:</strong> Studio-quality character pipelines</li>
+                    </ul>
+                </div>
+
+                <h4>Additional Resources</h4>
+
+                <div class="card">
+                    <h4>📚 Continue Learning</h4>
+                    
+                    <p><strong>Blender Documentation:</strong></p>
+                    <ul>
+                        <li>Blender Manual - Armatures: Official documentation</li>
+                        <li>Blender Manual - Rigging: Comprehensive rigging guide</li>
+                        <li>Search: "Blender armature tutorial" for video guides</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Practice Projects:</strong></p>
+                    <ul>
+                        <li><strong>Beginner:</strong> Rig a simple robot or blocky character</li>
+                        <li><strong>Intermediate:</strong> Add finger bones to your biped</li>
+                        <li><strong>Advanced:</strong> Create a quadruped armature (dog, cat, horse)</li>
+                        <li><strong>Challenge:</strong> Build a facial rig with jaw and eye bones</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Study Reference:</strong></p>
+                    <ul>
+                        <li>Human anatomy books (skeleton structure)</li>
+                        <li>Animation pose references</li>
+                        <li>Professional rigs (download free character rigs online)</li>
+                        <li>Study how pros organize complex armatures</li>
+                    </ul>
+                </div>
+
+                <h4>Final Thoughts</h4>
+
+                <blockquote>
+                    <p><strong>🎓 Mastering Armatures Takes Practice</strong></p>
+                    <p>Your first armature won't be perfect—and that's completely normal! Professional riggers spend years refining their craft. The armature you built in this lesson gives you a solid foundation. Each character you rig will teach you something new. Some bones will need adjustment, some hierarchies will need tweaking, and that's all part of the learning process.</p>
+                    <p>The difference between a beginner and a professional isn't that the professional never makes mistakes—it's that they know how to fix them quickly. Keep rigging, keep testing, keep iterating. Before you know it, you'll be creating complex rigs intuitively!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem;">
+                    <h3 style="color: white; margin-top: 0;">🎉 Lesson 37 Complete!</h3>
+                    
+                    <p style="color: white;"><strong>You've Mastered:</strong></p>
+                    <ul style="color: white;">
+                        <li>✅ Armature fundamentals and bone anatomy</li>
+                        <li>✅ Creating and manipulating bones in Edit Mode</li>
+                        <li>✅ Building hierarchies with parent-child relationships</li>
+                        <li>✅ Positioning bones anatomically for natural deformation</li>
+                        <li>✅ Professional naming conventions for organization</li>
+                        <li>✅ Symmetry tools for efficient workflow</li>
+                        <li>✅ Complete biped armature construction</li>
+                        <li>✅ Testing and verifying rigs in Pose Mode</li>
+                    </ul>
+                    
+                    <p style="color: white; margin-top: 1.5rem;"><strong>Achievement Unlocked:</strong></p>
+                    <p style="color: white; font-size: 1.1rem; margin-bottom: 0;">🦴 <strong>Character Rigger</strong> - You can now build professional skeletal systems for 3D characters!</p>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50; margin-top: 2rem;">
+                    <h4>🎯 Ready for the Next Challenge?</h4>
+                    <p>Your armature is built and ready—but it's not connected to the mesh yet! In <strong>Lesson 38: Weight Painting</strong>, you'll learn how to bind your skeleton to your character's mesh, painting vertex weights to create smooth, natural deformation. That's where your rig truly comes alive!</p>
+                    <p style="margin-bottom: 0;"><strong>See you in the next lesson, rigger!</strong> 🚀</p>
+                </div>
+
+            </section>
+
+            <nav class="lesson-nav" aria-label="Lesson Navigation">
+                <a href="lesson_36_character_modeling_workflow.html" class="prev-lesson">← Previous: Character Modeling Workflow</a>
+                <a href="index.html" class="home-link">🏠 Course Home</a>
+                <a href="lesson_38_weight_painting.html" class="next-lesson">Next: Weight Painting →</a>
+            </nav>
+
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+    </footer>
+
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>
+
+<!-- ============================================
+     END OF PART 11 - LESSON 37 COMPLETE
+     ============================================ -->

@@ -1,0 +1,331 @@
+<!-- ============================================
+     LESSON 10 - PART 04
+     File: lesson_10_introduction_to_shader_editor_part_04.html
+     ============================================ -->
+
+                <section id="principled-bsdf" class="content-section">
+                    <h2>⚡ The Principled BSDF: Your Main Shader</h2>
+
+                    <p>The Principled BSDF is the Swiss Army knife of shaders—it can create almost any material you need, from chrome metal to rough wood to transparent glass. Understanding this one shader unlocks 90% of material creation. Let's master it!</p>
+
+                    <blockquote>
+                        <p><strong>💡 The All-in-One Tool Analogy:</strong> Before Principled BSDF existed, artists had to combine multiple specialized shaders (Diffuse + Glossy + Fresnel + more) to create realistic materials. It was like needing separate tools for every screw type. Principled BSDF is like a power drill with every bit included—one tool that adapts to whatever you need.</p>
+                    </blockquote>
+
+                    <h3>What Does "BSDF" Mean?</h3>
+
+                    <p>BSDF stands for "Bidirectional Scattering Distribution Function"—a fancy way of saying "how light bounces off and through this surface." Don't worry about the technical term; just know that BSDF shaders are the core of realistic rendering.</p>
+
+                    <h3>Why "Principled"?</h3>
+
+                    <p>The "Principled" part means it's based on PBR (Physically Based Rendering) principles. This is the modern standard in 3D graphics used by game engines, film studios, and professional renderers:</p>
+
+                    <div class="card">
+                        <h4>🎯 PBR Advantages</h4>
+                        <ul>
+                            <li><strong>Physically accurate:</strong> Light behaves realistically under all lighting conditions</li>
+                            <li><strong>Predictable results:</strong> Same material looks right in any environment</li>
+                            <li><strong>Industry standard:</strong> Works consistently across Blender, Unity, Unreal, etc.</li>
+                            <li><strong>Artist-friendly:</strong> Parameters make intuitive sense</li>
+                            <li><strong>Efficient workflow:</strong> One shader for everything instead of shader soup</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Principled BSDF Interface</h3>
+
+                    <p>When you open a fresh Shader Editor, the Principled BSDF is already there. Let's understand its anatomy:</p>
+
+                    <div class="card">
+                        <h4>🎛️ Principled BSDF Structure</h4>
+                        <ul>
+                            <li><strong>Left side:</strong> 20+ input parameters controlling material properties</li>
+                            <li><strong>Right side:</strong> BSDF output socket (green) connecting to Material Output</li>
+                            <li><strong>Header dropdown:</strong> Distribution method (usually leave on default)</li>
+                        </ul>
+                    </div>
+
+                    <p>Those 20+ parameters might look overwhelming, but you'll use only a handful for most materials. Let's break them down into essential vs. advanced:</p>
+
+                    <h3>Essential Parameters (Use These All the Time)</h3>
+
+                    <div class="card">
+                        <h4>🌟 Core Material Properties</h4>
+                        <table>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>What It Controls</th>
+                                <th>Common Values</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Base Color</strong></td>
+                                <td>The object's color</td>
+                                <td>Any RGB color or texture</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Metallic</strong></td>
+                                <td>Is it metal or not?</td>
+                                <td>0.0 (plastic/wood) or 1.0 (metal)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Roughness</strong></td>
+                                <td>How smooth/matte the surface is</td>
+                                <td>0.0 (mirror) to 1.0 (completely matte)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Transmission</strong></td>
+                                <td>Transparency amount</td>
+                                <td>0.0 (opaque) to 1.0 (fully transparent like glass)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Emission</strong></td>
+                                <td>Light emission color and strength</td>
+                                <td>Color + Strength (0 = no glow)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Alpha</strong></td>
+                                <td>Visibility/opacity (different from transmission)</td>
+                                <td>1.0 (visible) to 0.0 (invisible)</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The 80/20 Rule:</strong> You'll spend 80% of your time adjusting just these six parameters: Base Color, Metallic, Roughness, Transmission, Emission, and occasionally Alpha. The other parameters are for specialized effects. Master these six first!</p>
+                    </blockquote>
+
+                    <h3>Base Color: The Foundation</h3>
+
+                    <p>Base Color is exactly what it sounds like—the main color of your material. But there's nuance:</p>
+
+                    <div class="card">
+                        <h4>🎨 Base Color Understanding</h4>
+                        <p><strong>For Non-Metals (Metallic = 0):</strong></p>
+                        <ul>
+                            <li>This is the "diffuse" color you see when light scatters from the surface</li>
+                            <li>Think: paint color, wood tone, plastic hue</li>
+                            <li>Full RGB range makes sense</li>
+                        </ul>
+                        <p><strong>For Metals (Metallic = 1):</strong></p>
+                        <ul>
+                            <li>This determines the color of reflections (tinted reflections)</li>
+                            <li>Think: gold (yellow-orange), copper (orange-brown), steel (slight blue-gray)</li>
+                            <li>Metals show less color variation; their "color" is in their reflection tint</li>
+                        </ul>
+                    </div>
+
+                    <p>You can click the color swatch to choose colors manually, or plug in a texture node to use images or procedural patterns!</p>
+
+                    <h3>Metallic: The Binary Decision</h3>
+
+                    <p>In PBR, materials are either metallic or non-metallic (dielectric). There's no in-between in the real world:</p>
+
+                    <div class="card">
+                        <h4>🔩 Metallic Values</h4>
+                        <table>
+                            <tr>
+                                <th>Value</th>
+                                <th>Material Type</th>
+                                <th>Examples</th>
+                            </tr>
+                            <tr>
+                                <td><strong>0.0</strong></td>
+                                <td>Non-metal (dielectric)</td>
+                                <td>Wood, plastic, rubber, ceramic, skin, fabric</td>
+                            </tr>
+                            <tr>
+                                <td><strong>1.0</strong></td>
+                                <td>Metal</td>
+                                <td>Iron, gold, silver, copper, aluminum, chrome</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.5</strong></td>
+                                <td>⚠️ Physically incorrect</td>
+                                <td>Don't use unless stylized/artistic effect</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Physics Rule:</strong> In reality, materials are either conductors (metals) or insulators (everything else). Setting Metallic to 0.5 doesn't exist in nature. For realistic materials, use 0.0 or 1.0 only. The only exception is when you're deliberately creating stylized, non-realistic art.</p>
+                    </blockquote>
+
+                    <h3>Roughness: Surface Microsurface Detail</h3>
+
+                    <p>Roughness controls how much light scatters when it bounces off the surface. Think of it as microscopic bumpiness:</p>
+
+                    <div class="card">
+                        <h4>✨ Roughness Visualization</h4>
+                        <table>
+                            <tr>
+                                <th>Roughness</th>
+                                <th>Surface Quality</th>
+                                <th>Real-World Examples</th>
+                            </tr>
+                            <tr>
+                                <td><strong>0.0 - 0.1</strong></td>
+                                <td>Mirror-smooth, sharp reflections</td>
+                                <td>Polished chrome, mirrors, new car paint, water</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.1 - 0.3</strong></td>
+                                <td>Glossy, slightly blurred reflections</td>
+                                <td>Polished wood, glossy plastic, Apple products</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.3 - 0.6</strong></td>
+                                <td>Satin, soft reflections</td>
+                                <td>Satin finish, brushed metal, semi-gloss paint</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.6 - 0.9</strong></td>
+                                <td>Matte, very diffuse</td>
+                                <td>Unfinished wood, paper, chalk, concrete</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0.9 - 1.0</strong></td>
+                                <td>Completely matte, no reflection</td>
+                                <td>Clay, very rough stone, powder</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <p>Roughness is probably the most important parameter for material realism. The difference between roughness 0.2 and 0.5 can completely change the perceived material!</p>
+
+                    <h3>Transmission: For Glass and Transparency</h3>
+
+                    <p>Transmission makes light pass through the object instead of bouncing off:</p>
+
+                    <div class="card">
+                        <h4>🔍 Transmission Explained</h4>
+                        <p><strong>Transmission = 0.0 (default):</strong></p>
+                        <ul>
+                            <li>Normal opaque materials</li>
+                            <li>Light bounces off the surface</li>
+                        </ul>
+                        <p><strong>Transmission = 1.0:</strong></p>
+                        <ul>
+                            <li>Transparent materials like glass or water</li>
+                            <li>Light passes through and refracts</li>
+                            <li>Combine with low Roughness for clear glass</li>
+                            <li>Combine with higher Roughness for frosted glass</li>
+                        </ul>
+                        <p><strong>Partial values (0.3, 0.7):</strong></p>
+                        <ul>
+                            <li>Semi-transparent materials</li>
+                            <li>Useful for things like thin fabric, colored glass, translucent plastic</li>
+                        </ul>
+                    </div>
+
+                    <p>For glass, you'll typically also adjust the IOR (Index of Refraction) parameter. Default is 1.45, which works for glass. Water is 1.33, diamond is 2.42.</p>
+
+                    <h3>Emission: Making Things Glow</h3>
+
+                    <p>Emission makes surfaces emit light. Think neon signs, screens, light bulbs:</p>
+
+                    <div class="card">
+                        <h4>💡 Emission Properties</h4>
+                        <ul>
+                            <li><strong>Emission Color:</strong> What color light the surface emits (click color swatch)</li>
+                            <li><strong>Emission Strength:</strong> How bright the emission is (0 = no glow, 1+ = brighter)</li>
+                            <li><strong>Default is 0:</strong> No emission, just normal surface</li>
+                        </ul>
+                    </div>
+
+                    <p>Emissive materials actually contribute light to your scene! A bright emission can illuminate nearby objects.</p>
+
+                    <h3>Alpha: Visibility Control</h3>
+
+                    <p>Alpha controls whether the surface is visible, which is different from transmission:</p>
+
+                    <div class="card">
+                        <h4>👻 Alpha vs. Transmission</h4>
+                        <table>
+                            <tr>
+                                <th>Property</th>
+                                <th>What It Does</th>
+                                <th>Use For</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Alpha</strong></td>
+                                <td>Makes surface invisible (no light interaction)</td>
+                                <td>Cutout textures (leaves, chains), fading effects</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Transmission</strong></td>
+                                <td>Makes surface transparent (light passes through)</td>
+                                <td>Glass, water, clear plastic</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <p>Alpha is often controlled by texture maps—think of leaf textures where green parts are visible (alpha = 1) and background parts are invisible (alpha = 0).</p>
+
+                    <h3>Quick Material Recipes</h3>
+
+                    <p>Let's put theory into practice with some simple material recipes using just these core parameters:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Basic Material Formulas</h4>
+                        
+                        <p><strong>Shiny Plastic:</strong></p>
+                        <ul>
+                            <li>Base Color: Any color you want</li>
+                            <li>Metallic: 0.0</li>
+                            <li>Roughness: 0.2</li>
+                        </ul>
+                        
+                        <p><strong>Polished Metal:</strong></p>
+                        <ul>
+                            <li>Base Color: Gray (or tinted for gold/copper)</li>
+                            <li>Metallic: 1.0</li>
+                            <li>Roughness: 0.1</li>
+                        </ul>
+                        
+                        <p><strong>Clear Glass:</strong></p>
+                        <ul>
+                            <li>Base Color: White or slight tint</li>
+                            <li>Metallic: 0.0</li>
+                            <li>Roughness: 0.0</li>
+                            <li>Transmission: 1.0</li>
+                            <li>IOR: 1.45</li>
+                        </ul>
+                        
+                        <p><strong>Matte Wood:</strong></p>
+                        <ul>
+                            <li>Base Color: Brown/tan</li>
+                            <li>Metallic: 0.0</li>
+                            <li>Roughness: 0.8</li>
+                        </ul>
+                        
+                        <p><strong>Glowing Screen:</strong></p>
+                        <ul>
+                            <li>Base Color: Black</li>
+                            <li>Emission Color: Blue (or any screen color)</li>
+                            <li>Emission Strength: 2.0-5.0</li>
+                        </ul>
+                    </div>
+
+                    <h3>Advanced Parameters (Optional)</h3>
+
+                    <p>You don't need these for basic materials, but here's what they do:</p>
+
+                    <div class="card">
+                        <h4>🔧 Advanced Principled BSDF Parameters</h4>
+                        <ul>
+                            <li><strong>Subsurface:</strong> Light scattering inside material (skin, wax, marble)</li>
+                            <li><strong>Specular:</strong> Fresnel effect strength (usually leave at default)</li>
+                            <li><strong>Sheen:</strong> Soft glow at edges (fabric, velvet)</li>
+                            <li><strong>Clearcoat:</strong> Extra glossy layer on top (car paint)</li>
+                            <li><strong>Anisotropic:</strong> Directional reflection stretching (brushed metal)</li>
+                            <li><strong>Normal:</strong> Surface bump/detail from normal maps</li>
+                        </ul>
+                    </div>
+
+                    <p>We'll explore these in future lessons. For now, focus on the six core parameters!</p>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 04
+     Continue with lesson_10_introduction_to_shader_editor_part_05.html
+     ============================================ -->

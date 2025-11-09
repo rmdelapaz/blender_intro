@@ -1,0 +1,420 @@
+<!-- ============================================
+     LESSON 37 - PART 07
+     File: lesson_37_armature_and_bones_part_07.html
+     ============================================ -->
+
+            <section id="biped-armature">
+                <h3>🚶 Building a Biped Armature</h3>
+                
+                <p>Now let's put everything together! In this section, you'll build a complete biped (two-legged) armature from scratch—the most common type of character rig. We'll work methodically through each body part, applying all the principles you've learned: positioning, hierarchy, naming, and organization. By the end, you'll have a functional character skeleton ready for weight painting and animation!</p>
+
+                <h4>The Biped Armature Blueprint</h4>
+
+                <blockquote>
+                    <p><strong>🏗️ Building from the Ground Up:</strong> Think of constructing a building—you start with the foundation (pelvis), build the support columns (spine), then add the framework (limbs). Same with armatures! We'll build from the center outward: pelvis → spine → head → arms → legs. This order ensures proper hierarchy and makes the process logical and manageable.</p>
+                </blockquote>
+
+                <div class="card">
+                    <h4>📐 Standard Biped Bone Count</h4>
+                    
+                    <p><strong>Basic Biped (Minimum Viable Rig):</strong></p>
+                    <ul>
+                        <li><strong>Spine/Torso:</strong> 5-7 bones (pelvis, 3-4 spine segments, neck, head)</li>
+                        <li><strong>Each Arm:</strong> 4 bones (shoulder, upper arm, forearm, hand)</li>
+                        <li><strong>Each Leg:</strong> 3 bones (upper leg, lower leg, foot)</li>
+                        <li><strong>Total:</strong> ~20 bones</li>
+                        <li><strong>Good for:</strong> Learning, simple animations, background characters</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Standard Biped (Production Quality):</strong></p>
+                    <ul>
+                        <li><strong>Spine/Torso:</strong> 8-10 bones (pelvis, 4-5 spine, chest, neck, head, jaw)</li>
+                        <li><strong>Each Arm:</strong> 30+ bones (shoulder, upper, forearm, hand, 5 fingers × 3-4 bones)</li>
+                        <li><strong>Each Leg:</strong> 5+ bones (upper, lower, foot, toe, heel)</li>
+                        <li><strong>Total:</strong> ~70-100 bones</li>
+                        <li><strong>Good for:</strong> Main characters, detailed animation, close-ups</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>For This Lesson:</strong></p>
+                    <ul>
+                        <li>We'll build the basic biped (~20 bones)</li>
+                        <li>Solid foundation you can expand later</li>
+                        <li>Focus on principles, not complexity</li>
+                        <li>You can add fingers/toes later if needed</li>
+                    </ul>
+                </div>
+
+                <h4>Step-by-Step Biped Construction</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Phase 1: Spine Chain (Center Bones)</h4>
+                    
+                    <p><strong>Starting Point - The Pelvis (Root):</strong></p>
+                    <ol>
+                        <li><strong>Add armature:</strong>
+                            <ul>
+                                <li>Object Mode: <code>Shift + A</code> > Armature > Single Bone</li>
+                                <li>Appears at 3D cursor (should be at world origin)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Enter Edit Mode:</strong> <code>Tab</code></li>
+                        <li><strong>Position pelvis bone:</strong>
+                            <ul>
+                                <li>Select bone tail, move to pelvis/hip area</li>
+                                <li>Select bone head, move to base of spine</li>
+                                <li>Bone should be vertical, at hip height</li>
+                                <li>In side view: roughly at center of pelvis depth</li>
+                            </ul>
+                        </li>
+                        <li><strong>Name it:</strong> Press <code>F2</code>, type <code>pelvis</code></li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Building the Spine:</strong></p>
+                    <ol>
+                        <li><strong>Extrude spine segments:</strong>
+                            <ul>
+                                <li>Select pelvis tail (top of pelvis bone)</li>
+                                <li>Press <code>E</code>, move up to lower back position</li>
+                                <li>Name: <code>spine_01</code></li>
+                                <li>Press <code>E</code> again, move to mid back</li>
+                                <li>Name: <code>spine_02</code></li>
+                                <li>Press <code>E</code> once more, move to upper back/shoulders</li>
+                                <li>Name: <code>spine_03</code></li>
+                            </ul>
+                        </li>
+                        <li><strong>Add chest (optional):</strong>
+                            <ul>
+                                <li>Press <code>E</code>, move to top of ribcage</li>
+                                <li>Name: <code>chest</code></li>
+                            </ul>
+                        </li>
+                        <li><strong>Curve the spine:</strong>
+                            <ul>
+                                <li>Side view (<code>Numpad 3</code>)</li>
+                                <li>Select spine bone heads/tails</li>
+                                <li>Adjust positions to create natural S-curve</li>
+                                <li>Lower back curves forward, upper back curves back</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Adding Neck and Head:</strong></p>
+                    <ol>
+                        <li><strong>Neck bone:</strong>
+                            <ul>
+                                <li>Select top spine/chest bone tail</li>
+                                <li>Press <code>E</code>, move to base of skull</li>
+                                <li>Name: <code>neck</code></li>
+                            </ul>
+                        </li>
+                        <li><strong>Head bone:</strong>
+                            <ul>
+                                <li>Press <code>E</code> again, move to top of head</li>
+                                <li>Name: <code>head</code></li>
+                                <li>In side view: slightly forward tilt is natural</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Verify Spine Hierarchy:</strong></p>
+                    <ul>
+                        <li>pelvis → spine_01 → spine_02 → spine_03 → neck → head</li>
+                        <li>All connected (each tail → next head)</li>
+                        <li>Test in Pose Mode: rotate pelvis, whole spine should move</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>✅ Phase 2: Arms (Left Side First)</h4>
+                    
+                    <p><strong>Shoulder Connection:</strong></p>
+                    <ol>
+                        <li><strong>Position 3D cursor:</strong>
+                            <ul>
+                                <li>Select a vertex at shoulder joint location (in mesh)</li>
+                                <li><code>Shift + S</code> > Cursor to Selected</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add shoulder bone:</strong>
+                            <ul>
+                                <li><code>Shift + A</code> > Single Bone</li>
+                                <li>Appears at cursor (shoulder position)</li>
+                                <li>Rotate and position: head at sternum, tail at shoulder joint</li>
+                                <li>Name: <code>shoulder.L</code></li>
+                            </ul>
+                        </li>
+                        <li><strong>Parent to spine:</strong>
+                            <ul>
+                                <li>Select shoulder.L, then chest/spine_03 (Shift-select)</li>
+                                <li>Press <code>Ctrl + P</code> > Keep Offset</li>
+                                <li>Now shoulder follows spine rotation</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Building the Arm Chain:</strong></p>
+                    <ol>
+                        <li><strong>Upper arm:</strong>
+                            <ul>
+                                <li>Select shoulder.L tail</li>
+                                <li>Press <code>E</code>, move to elbow position</li>
+                                <li>Name: <code>upper_arm.L</code></li>
+                                <li>Position head INSIDE ribcage at armpit level</li>
+                                <li>Tail at elbow joint (visible bump when arm is straight)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Forearm:</strong>
+                            <ul>
+                                <li>Press <code>E</code>, move to wrist</li>
+                                <li>Name: <code>forearm.L</code></li>
+                                <li>Head at elbow, tail at wrist crease</li>
+                            </ul>
+                        </li>
+                        <li><strong>Hand:</strong>
+                            <ul>
+                                <li>Press <code>E</code>, move to knuckles</li>
+                                <li>Name: <code>hand.L</code></li>
+                                <li>Extends from wrist to middle knuckle</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Adjust Arm Alignment:</strong></p>
+                    <ul>
+                        <li><strong>Front view:</strong> Check arm hangs straight down</li>
+                        <li><strong>Side view:</strong> Elbow slightly behind arm center</li>
+                        <li><strong>Top view:</strong> Arm extends outward from shoulder</li>
+                        <li><strong>Test bend:</strong> Pose Mode, rotate forearm—should bend naturally</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Phase 3: Legs (Left Side First)</h4>
+                    
+                    <p><strong>Upper Leg (Thigh):</strong></p>
+                    <ol>
+                        <li><strong>Add at hip:</strong>
+                            <ul>
+                                <li>Position cursor at hip joint</li>
+                                <li><code>Shift + A</code> > Single Bone</li>
+                                <li>Position: head INSIDE pelvis at hip joint, tail at knee</li>
+                                <li>Name: <code>upper_leg.L</code></li>
+                            </ul>
+                        </li>
+                        <li><strong>Parent to pelvis:</strong>
+                            <ul>
+                                <li>Select upper_leg.L, then pelvis</li>
+                                <li><code>Ctrl + P</code> > Keep Offset (disconnected is typical)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Position check:</strong>
+                            <ul>
+                                <li>Hip joint is DEEP inside body, not at surface</li>
+                                <li>Side view: leg angles slightly forward</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Lower Leg (Calf):</strong></p>
+                    <ol>
+                        <li><strong>Extrude from thigh:</strong>
+                            <ul>
+                                <li>Select upper_leg.L tail</li>
+                                <li>Press <code>E</code>, move to ankle</li>
+                                <li>Name: <code>lower_leg.L</code></li>
+                            </ul>
+                        </li>
+                        <li><strong>Critical positioning:</strong>
+                            <ul>
+                                <li><strong>Front view:</strong> Knee at kneecap position</li>
+                                <li><strong>Side view:</strong> Knee SLIGHTLY FORWARD (not center!)</li>
+                                <li>This forward position prevents IK ambiguity</li>
+                                <li>Ankle at ankle joint (between malleoli bumps)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Foot:</strong></p>
+                    <ol>
+                        <li><strong>Extrude from ankle:</strong>
+                            <ul>
+                                <li>Press <code>E</code>, move forward to ball of foot</li>
+                                <li>Name: <code>foot.L</code></li>
+                            </ul>
+                        </li>
+                        <li><strong>Optional toe:</strong>
+                            <ul>
+                                <li>Press <code>E</code> once more, move to toe tips</li>
+                                <li>Name: <code>toe.L</code></li>
+                                <li>Can skip for simple characters</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>✅ Phase 4: Mirror to Create Right Side</h4>
+                    
+                    <p><strong>Symmetrize - Automatic Mirroring:</strong></p>
+                    <ol>
+                        <li><strong>Select all left-side bones:</strong>
+                            <ul>
+                                <li>In Edit Mode</li>
+                                <li>Box select all .L bones (shoulder, arm, leg chains)</li>
+                                <li>Don't select spine/center bones!</li>
+                            </ul>
+                        </li>
+                        <li><strong>Symmetrize:</strong>
+                            <ul>
+                                <li>Menu: <strong>Armature > Symmetrize</strong></li>
+                                <li>Or right-click > Symmetrize</li>
+                            </ul>
+                        </li>
+                        <li><strong>Result:</strong>
+                            <ul>
+                                <li>Blender creates mirrored copies on right side</li>
+                                <li>Automatically renames .L to .R</li>
+                                <li>Maintains hierarchy (parents mirror correctly)</li>
+                                <li>shoulder.R, upper_arm.R, etc. all created!</li>
+                            </ul>
+                        </li>
+                        <li><strong>Verify:</strong>
+                            <ul>
+                                <li>Check all bones present: shoulder.R, upper_arm.R, etc.</li>
+                                <li>Test hierarchy: rotate spine, both arms should move</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Alternative: Manual Duplication:</strong></p>
+                    <ul>
+                        <li>Select left bones, <code>Shift + D</code> to duplicate</li>
+                        <li>Press <code>X</code> to constrain, type <code>-1</code>, <code>Enter</code> (mirrors on X-axis)</li>
+                        <li>Manually rename .L to .R</li>
+                        <li>More work, but gives more control</li>
+                    </ul>
+                </div>
+
+                <h4>Final Touches and Verification</h4>
+
+                <div class="card">
+                    <h4>🔍 Complete Armature Checklist</h4>
+                    
+                    <p><strong>Bone Count Verification:</strong></p>
+                    <ul>
+                        <li>□ 1 pelvis (root)</li>
+                        <li>□ 3-4 spine bones</li>
+                        <li>□ 1 neck</li>
+                        <li>□ 1 head</li>
+                        <li>□ 2 shoulders (L and R)</li>
+                        <li>□ 2 upper arms</li>
+                        <li>□ 2 forearms</li>
+                        <li>□ 2 hands</li>
+                        <li>□ 2 upper legs</li>
+                        <li>□ 2 lower legs</li>
+                        <li>□ 2 feet (+ optional toes)</li>
+                        <li><strong>Total:</strong> ~18-20 bones</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Naming Verification:</strong></p>
+                    <ul>
+                        <li>□ All center bones have no suffix (pelvis, spine_01, neck, head)</li>
+                        <li>□ All left bones end with .L</li>
+                        <li>□ All right bones end with .R</li>
+                        <li>□ No default names (Bone.001, etc.)</li>
+                        <li>□ Names are descriptive and consistent</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Hierarchy Verification:</strong></p>
+                    <ul>
+                        <li>□ Pelvis is root (no parent)</li>
+                        <li>□ Spine chain flows: pelvis → spine → neck → head</li>
+                        <li>□ Arms parent to upper spine/chest</li>
+                        <li>□ Legs parent to pelvis</li>
+                        <li>□ Test: Move pelvis in Pose Mode—everything should follow</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Position Verification:</strong></p>
+                    <ul>
+                        <li>□ All bones inside mesh volume</li>
+                        <li>□ Joints align to anatomical pivot points</li>
+                        <li>□ Knees slightly forward (critical!)</li>
+                        <li>□ Shoulders deep inside ribcage (not on surface)</li>
+                        <li>□ Hips deep inside pelvis</li>
+                        <li>□ Spine has natural S-curve in side view</li>
+                    </ul>
+                </div>
+
+                <h4>Testing Your Armature</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Pose Mode Testing Workflow</h4>
+                    
+                    <ol>
+                        <li><strong>Switch to Pose Mode:</strong> <code>Ctrl + Tab</code></li>
+                        <li><strong>Test spine:</strong>
+                            <ul>
+                                <li>Select spine_01, rotate (<code>R</code>)</li>
+                                <li>Upper body should bend</li>
+                                <li>Head and arms should follow</li>
+                            </ul>
+                        </li>
+                        <li><strong>Test arm:</strong>
+                            <ul>
+                                <li>Select shoulder.L, rotate</li>
+                                <li>Entire arm should rotate</li>
+                                <li>Select forearm.L, rotate</li>
+                                <li>Only forearm and hand should move</li>
+                            </ul>
+                        </li>
+                        <li><strong>Test leg:</strong>
+                            <ul>
+                                <li>Select upper_leg.L, rotate</li>
+                                <li>Entire leg should move</li>
+                                <li>Select lower_leg.L, rotate</li>
+                                <li>Should bend at knee naturally</li>
+                            </ul>
+                        </li>
+                        <li><strong>Test pelvis (root):</strong>
+                            <ul>
+                                <li>Select pelvis, move (<code>G</code>)</li>
+                                <li>ENTIRE character should move</li>
+                                <li>This confirms pelvis is true root</li>
+                            </ul>
+                        </li>
+                        <li><strong>Reset pose:</strong>
+                            <ul>
+                                <li>Select all (<code>A</code>)</li>
+                                <li><code>Alt + R</code> (clear rotation)</li>
+                                <li><code>Alt + G</code> (clear location)</li>
+                                <li>Returns to rest pose</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 First Armature Milestone:</strong> Congratulations! If you've built this armature, you've accomplished something significant. This basic skeleton is the foundation for any biped character—from simple cartoon mascots to realistic human characters. The principles you've applied (hierarchy, naming, positioning) scale up to the most complex rigs in production. You've learned the professional workflow!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎯 Biped Armature Summary</h3>
+                    <ul style="color: white;">
+                        <li><strong>Build order:</strong> Pelvis → Spine → Head → Arms → Legs → Mirror</li>
+                        <li><strong>Spine chain:</strong> Pelvis (root) → 3-4 spine → neck → head (all connected)</li>
+                        <li><strong>Arms:</strong> Shoulder → upper arm → forearm → hand (shoulder parents to chest)</li>
+                        <li><strong>Legs:</strong> Upper leg → lower leg → foot (legs parent to pelvis)</li>
+                        <li><strong>Symmetrize:</strong> Build left side, use Armature > Symmetrize for right</li>
+                        <li><strong>Name properly:</strong> Center bones no suffix, sides use .L and .R</li>
+                        <li><strong>Test in Pose Mode:</strong> Verify hierarchy and movement</li>
+                        <li><strong>~20 bones total:</strong> Production-ready foundation</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0; margin-top: 1rem;"><strong>Your first complete character skeleton—ready for weight painting!</strong></p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 07
+     Continue with lesson_37_armature_and_bones_part_08.html
+     ============================================ -->

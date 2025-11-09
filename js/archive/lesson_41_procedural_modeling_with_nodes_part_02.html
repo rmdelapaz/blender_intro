@@ -1,0 +1,375 @@
+<!-- ============================================
+     LESSON 41 - PART 02
+     File: lesson_41_procedural_modeling_with_nodes_part_02.html
+     ============================================ -->
+
+            <section id="field-operations">
+                <h2>🌊 Field-Based Operations</h2>
+                
+                <p>Fields are the secret sauce of advanced Geometry Nodes. If you master fields, you unlock procedural modeling's full potential. Here's the core concept: instead of thinking "this object has a position," think "every point on this object has its own position data." Instead of "the object is red," think "each point has its own color value that could be different." Fields transform single values into per-element data that varies across geometry. This enables gradient effects, conditional selections, position-based modifications, and everything that makes procedural systems feel intelligent. Let's dive deep into field thinking!</p>
+
+                <h3>Understanding Fields vs Values</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 The Fundamental Distinction</h4>
+                    
+                    <p><strong>Single Value (Not a Field):</strong></p>
+                    <ul>
+                        <li>One number/vector applies to entire geometry</li>
+                        <li><strong>Example:</strong> Scale = 2.0 (all geometry scales by 2.0)</li>
+                        <li>When you type a number directly in node input, it's a single value</li>
+                        <li>Gray socket with no connection = single value</li>
+                        <li><strong>Analogy:</strong> Setting thermostat to 70°F—entire house one temperature</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Field (Per-Element Data):</strong></p>
+                    <ul>
+                        <li>Data varies across geometry elements (points, faces, etc.)</li>
+                        <li><strong>Example:</strong> Position field—every point has different position</li>
+                        <li>When you connect attribute/math nodes, you create fields</li>
+                        <li>Gray socket WITH connection = usually a field</li>
+                        <li><strong>Analogy:</strong> Temperature map—different temperature at each location</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Why This Matters:</strong></p>
+                    <blockquote style="margin-top: 0.5rem;">
+                        <p>Fields enable per-element variation. Want to scale objects based on their height? That's a field operation. Want to color faces based on their slope? Field operation. Want to delete points that are too close to another object? Field operation. Without fields, everything is uniform. With fields, everything is possible.</p>
+                    </blockquote>
+                </div>
+
+                <div class="mermaid">
+                    graph TD
+                    A[Single Value Input<br/>Scale: 2.0] --> B[Applies to ALL<br/>elements equally]
+                    B --> C[Uniform Result<br/>Everything × 2]
+                    
+                    D[Field Input<br/>Position.Z] --> E[Each element has<br/>different Z value]
+                    E --> F[Varied Result<br/>Based on height]
+                    
+                    style A fill:#999,stroke:#333,stroke-width:2px,color:#fff
+                    style C fill:#999,stroke:#333,stroke-width:2px,color:#fff
+                    style D fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h3>Built-In Attribute Fields</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Always-Available Fields</h4>
+                    
+                    <p><strong>Blender provides these fields automatically on geometry:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Position (Vector Field)</strong></p>
+                    <ul>
+                        <li><strong>Access:</strong> Named Attribute node, name: "position"</li>
+                        <li><strong>Contains:</strong> X, Y, Z coordinates for each point</li>
+                        <li><strong>Type:</strong> Vector (purple socket)</li>
+                        <li><strong>Use cases:</strong>
+                            <ul>
+                                <li>Height-based effects (Z component)</li>
+                                <li>Distance-based variations</li>
+                                <li>Position-driven colors/scales</li>
+                            </ul>
+                        </li>
+                        <li><strong>Example:</strong> Delete points above Z=5 → Compare Position.Z > 5</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Normal (Vector Field)</strong></p>
+                    <ul>
+                        <li><strong>Access:</strong> Named Attribute node, name: "normal"</li>
+                        <li><strong>Contains:</strong> Surface direction at each point/face</li>
+                        <li><strong>Type:</strong> Vector (purple socket), unit length (normalized)</li>
+                        <li><strong>Use cases:</strong>
+                            <ul>
+                                <li>Slope detection (normal.Z = how flat)</li>
+                                <li>Orienting instances to surfaces</li>
+                                <li>Lighting calculations</li>
+                            </ul>
+                        </li>
+                        <li><strong>Example:</strong> Place trees only on flat surfaces → Normal.Z > 0.9 (facing up)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Index (Integer Field)</strong></p>
+                    <ul>
+                        <li><strong>Access:</strong> Index node (Add > Input > Index)</li>
+                        <li><strong>Contains:</strong> Sequential number for each element (0, 1, 2, 3...)</li>
+                        <li><strong>Type:</strong> Integer (blue socket)</li>
+                        <li><strong>Use cases:</strong>
+                            <ul>
+                                <li>Unique ID per element</li>
+                                <li>Per-element random seed (Index → Random Value ID)</li>
+                                <li>Selecting every Nth element (Index % N == 0)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Example:</strong> Color gradient from first to last point → Index → Map Range → Color</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>ID (Integer Field, Optional)</strong></p>
+                    <ul>
+                        <li><strong>Access:</strong> ID node (Add > Input > ID)</li>
+                        <li><strong>Contains:</strong> Custom stored IDs (if attribute exists)</li>
+                        <li><strong>Difference from Index:</strong> ID persists through modifications, Index changes</li>
+                        <li><strong>Use cases:</strong> Tracking specific elements after operations</li>
+                    </ul>
+                </div>
+
+                <h3>Creating Selection Fields</h3>
+
+                <div class="card">
+                    <h4>🎯 Boolean Masks for Selection</h4>
+                    
+                    <p><strong>The Power of Selection Fields:</strong> Most geometry operations accept "Selection" input (white/boolean socket). This field determines WHICH elements to affect. By creating smart selection fields, you make procedural systems intelligent.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Basic Pattern: Compare Field to Threshold</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; margin-top: 0.5rem;">
+Position.Z → Compare (Greater Than) → Value: 5.0 → Selection (Boolean)
+Result: True for points above Z=5, False below
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example 1: Height-Based Selection</strong></p>
+                    <ul>
+                        <li><strong>Goal:</strong> Delete all geometry above height 10</li>
+                        <li><strong>Setup:</strong>
+                            <ol>
+                                <li>Add: Named Attribute node, name: "position"</li>
+                                <li>Add: Separate XYZ node</li>
+                                <li>Connect: Position (vector) → Separate XYZ</li>
+                                <li>Add: Compare node (Math node set to "Compare")</li>
+                                <li>Connect: Separate XYZ "Z" → Compare "A"</li>
+                                <li>Set Compare "B": 10.0</li>
+                                <li>Set Compare mode: "Greater Than"</li>
+                                <li>Connect: Compare output → Delete Geometry "Selection"</li>
+                            </ol>
+                        </li>
+                        <li><strong>Result:</strong> Points with Z > 10 are deleted</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example 2: Slope-Based Selection</strong></p>
+                    <ul>
+                        <li><strong>Goal:</strong> Select only flat surfaces (for grass placement)</li>
+                        <li><strong>Setup:</strong>
+                            <ol>
+                                <li>Add: Named Attribute node, name: "normal"</li>
+                                <li>Add: Separate XYZ node</li>
+                                <li>Connect: Normal → Separate XYZ</li>
+                                <li>Add: Compare node</li>
+                                <li>Connect: Separate XYZ "Z" → Compare "A"</li>
+                                <li>Set Compare "B": 0.7 (about 45° or flatter)</li>
+                                <li>Set Compare mode: "Greater Than"</li>
+                            </ol>
+                        </li>
+                        <li><strong>Logic:</strong> Normal.Z = 1.0 (flat up), Normal.Z = 0.0 (vertical)</li>
+                        <li><strong>Result:</strong> True for surfaces facing upward</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example 3: Modulo for Patterns</strong></p>
+                    <ul>
+                        <li><strong>Goal:</strong> Select every 5th element</li>
+                        <li><strong>Setup:</strong>
+                            <ol>
+                                <li>Add: Index node</li>
+                                <li>Add: Math node, set to "Modulo"</li>
+                                <li>Connect: Index → Math "Value"</li>
+                                <li>Set Math "B": 5</li>
+                                <li>Add: Compare node, mode: "Equal"</li>
+                                <li>Connect: Math output → Compare "A"</li>
+                                <li>Set Compare "B": 0</li>
+                            </ol>
+                        </li>
+                        <li><strong>Logic:</strong> Index % 5 == 0 → True for indices 0, 5, 10, 15...</li>
+                        <li><strong>Result:</strong> Every fifth element selected</li>
+                    </ul>
+                </div>
+
+                <h3>Combining Multiple Fields</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Boolean Logic for Complex Selections</h4>
+                    
+                    <p><strong>Combine selection fields with Boolean operations:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Boolean Math Node Operations:</strong></p>
+                    <ul>
+                        <li><strong>AND:</strong> Both conditions must be true
+                            <ul>
+                                <li>Add: Math node, mode: "Compare", operation: "AND"</li>
+                                <li>Use: "Select flat surfaces ABOVE height 5"</li>
+                            </ul>
+                        </li>
+                        <li><strong>OR:</strong> Either condition true
+                            <ul>
+                                <li>Add: Math node, mode: "Compare", operation: "OR"</li>
+                                <li>Use: "Select very high OR very low points"</li>
+                            </ul>
+                        </li>
+                        <li><strong>NOT:</strong> Invert selection
+                            <ul>
+                                <li>Add: Math node, mode: "Compare", operation: "NOT"</li>
+                                <li>Use: "Select everything EXCEPT selected"</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Practical Example: Grass on Flat Low Ground</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; margin-top: 0.5rem;">
+# Condition 1: Height below 5
+Position.Z → Compare (Less Than) 5.0 → Boolean A
+
+# Condition 2: Surface flat (slope < 30°)
+Normal.Z → Compare (Greater Than) 0.85 → Boolean B
+
+# Combine: Must be BOTH low AND flat
+Boolean A → Math (AND) ← Boolean B → Final Selection
+</pre>
+                    <li><strong>Result:</strong> Only low, flat surfaces selected</li>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example: Trees on Slopes, Not Peaks or Valleys</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; margin-top: 0.5rem;">
+# Condition 1: Height between 5 and 15
+Position.Z → Compare (Greater Than) 5.0 → Boolean A
+Position.Z → Compare (Less Than) 15.0 → Boolean B
+Boolean A → Math (AND) ← Boolean B → HeightRange
+
+# Condition 2: Moderate slope (not too flat, not too steep)
+Normal.Z → Compare (Greater Than) 0.5 → Boolean C (not too steep)
+Normal.Z → Compare (Less Than) 0.9 → Boolean D (not too flat)
+Boolean C → Math (AND) ← Boolean D → SlopeRange
+
+# Combine both conditions
+HeightRange → Math (AND) ← SlopeRange → Final Selection
+</pre>
+                    <li><strong>Result:</strong> Trees only on mid-elevation slopes</li>
+                </div>
+
+                <h3>Field Math Operations</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Manipulating Field Values</h4>
+                    
+                    <p><strong>You can do math on fields just like single values:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example 1: Scale Based on Height</strong></p>
+                    <ul>
+                        <li><strong>Goal:</strong> Trees taller at higher elevations</li>
+                        <li><strong>Setup:</strong>
+                            <pre style="background: #f5f5f5; padding: 0.5rem; border-radius: 4px; margin-top: 0.5rem;">
+Position.Z → Map Range (0 to 20) → (0.5 to 2.0) → Scale Instances
+</pre>
+                        </li>
+                        <li><strong>Logic:</strong>
+                            <ul>
+                                <li>Ground level (Z=0) → Scale 0.5× (small)</li>
+                                <li>Mid elevation (Z=10) → Scale 1.25× (medium)</li>
+                                <li>High elevation (Z=20) → Scale 2.0× (large)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Result:</strong> Natural size variation correlated with height</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example 2: Color Gradient by Position</strong></p>
+                    <ul>
+                        <li><strong>Goal:</strong> Color transitions from red (bottom) to blue (top)</li>
+                        <li><strong>Setup:</strong>
+                            <pre style="background: #f5f5f5; padding: 0.5rem; border-radius: 4px; margin-top: 0.5rem;">
+Position.Z → Map Range (0 to 10) → (0.0 to 1.0) → ColorRamp → Store Color Attribute
+</pre>
+                        </li>
+                        <li>ColorRamp: Red at 0.0, Blue at 1.0</li>
+                        <li><strong>Result:</strong> Smooth vertical gradient</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Example 3: Distance-Based Falloff</strong></p>
+                    <ul>
+                        <li><strong>Goal:</strong> Effect stronger near origin, weaker far away</li>
+                        <li><strong>Setup:</strong>
+                            <pre style="background: #f5f5f5; padding: 0.5rem; border-radius: 4px; margin-top: 0.5rem;">
+Position → Vector Math (Length) → Distance from origin
+Distance → Map Range (0 to 50) → (1.0 to 0.0) → Falloff value
+Falloff → Math (Multiply) with Effect → Scaled Effect
+</pre>
+                        </li>
+                        <li><strong>Logic:</strong> Length of position vector = distance from center</li>
+                        <li><strong>Result:</strong> Radial falloff from center point</li>
+                    </ul>
+                </div>
+
+                <h3>Practical Field Workflow</h3>
+
+                <div class="card">
+                    <h4>🔄 Step-by-Step Field Design</h4>
+                    
+                    <p><strong>Process for Creating Field-Based Systems:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 1: Identify What Should Vary</strong></p>
+                    <ul>
+                        <li>Ask: "What should be different per element?"</li>
+                        <li>Examples:
+                            <ul>
+                                <li>Size based on elevation</li>
+                                <li>Color based on slope</li>
+                                <li>Density based on distance</li>
+                                <li>Selection based on multiple criteria</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Choose Input Field</strong></p>
+                    <ul>
+                        <li>What geometry data determines variation?</li>
+                        <li>Common choices:
+                            <ul>
+                                <li>Position (location-based)</li>
+                                <li>Normal (orientation-based)</li>
+                                <li>Index (sequential/pattern-based)</li>
+                                <li>Custom attribute (stored data)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Transform Field</strong></p>
+                    <ul>
+                        <li>Remap values to useful range</li>
+                        <li>Apply math operations</li>
+                        <li>Create boolean masks if selecting</li>
+                        <li>Tools: Map Range, Math nodes, Compare</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Apply to Target</strong></p>
+                    <ul>
+                        <li>Connect transformed field to appropriate input</li>
+                        <li>Scale, Rotation, Selection, Color, etc.</li>
+                        <li>Test and adjust ranges</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Refine and Combine</strong></p>
+                    <ul>
+                        <li>Add additional conditions</li>
+                        <li>Combine multiple fields</li>
+                        <li>Fine-tune ranges and operations</li>
+                        <li>Expose key parameters</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Field Thinking:</strong> The shift to field-based thinking is like learning to see the world in a new dimension. Initially, you think "make this object blue." With fields, you think "create a color field where each point's color depends on its properties." This unlocks infinite complexity from simple rules. When you catch yourself thinking in fields naturally—"I could use Position.Z to drive this"—you've made the leap. That's when procedural modeling becomes intuitive!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎯 Field Operations Summary</h3>
+                    <ul style="color: white;">
+                        <li><strong>Fields = per-element data:</strong> Values that vary across geometry</li>
+                        <li><strong>Built-in fields:</strong> Position, Normal, Index always available</li>
+                        <li><strong>Selection fields:</strong> Boolean masks using Compare nodes</li>
+                        <li><strong>Field math:</strong> Transform and combine fields with math operations</li>
+                        <li><strong>Boolean logic:</strong> AND, OR, NOT for complex conditions</li>
+                        <li><strong>Map Range:</strong> Essential for remapping field values to useful ranges</li>
+                        <li><strong>Workflow:</strong> Identify variation → Choose field → Transform → Apply → Refine</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0;"><strong>Master fields, master procedural modeling!</strong></p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_41_procedural_modeling_with_nodes_part_03.html
+     ============================================ -->

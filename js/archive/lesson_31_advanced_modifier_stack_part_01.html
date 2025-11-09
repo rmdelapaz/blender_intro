@@ -1,0 +1,399 @@
+<!-- ============================================
+     LESSON 31 - PART 01
+     File: lesson_31_advanced_modifier_stack_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master advanced modifier workflows in Blender. Learn to combine multiple modifiers strategically for complex models, non-destructive workflows, and professional production pipelines.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 31: Advanced Modifier Stack - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Navigation -->
+        <nav class="main-nav" role="navigation" aria-label="Main Navigation">
+            <div class="nav-container">
+                <a href="index.html" class="nav-logo">🎨 Blender Mastery</a>
+                <button class="nav-toggle" aria-label="Toggle Navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="index.html">🏠 Home</a></li>
+                    <li><a href="index.html#modules">📚 Modules</a></li>
+                    <li><a href="index.html#about">ℹ️ About</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#module-7">Module 7: Advanced Modeling</a> &gt; 
+            <span>Lesson 31: Advanced Modifier Stack</span>
+        </nav>
+
+        <div class="content-wrapper">
+            <main>
+                <!-- Header -->
+                <header class="lesson-header">
+                    <h1>⚡ Lesson 31: Advanced Modifier Stack</h1>
+                    <p class="lead">Unlock the true power of non-destructive modeling with advanced modifier workflows. Learn to strategically combine modifiers, understand stack order, and create complex models that remain editable throughout the production process. This is professional-level Blender technique.</p>
+                </header>
+
+                <!-- Learning Objectives -->
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 2rem;">
+                    <h2 style="color: white;">🎯 What You'll Learn</h2>
+                    <ul style="color: white;">
+                        <li><strong>Modifier stack theory:</strong> Understanding order, dependencies, and data flow</li>
+                        <li><strong>Strategic modifier combinations:</strong> Best practices for common workflows</li>
+                        <li><strong>Non-destructive workflows:</strong> Keeping models editable throughout production</li>
+                        <li><strong>Performance optimization:</strong> Managing complex modifier stacks efficiently</li>
+                        <li><strong>Advanced techniques:</strong> Mirror + Array + Boolean chains, Multiresolution workflows</li>
+                        <li><strong>Production pipeline integration:</strong> Export, version control, team collaboration</li>
+                        <li><strong>Project:</strong> Build a complex architectural element using 8+ modifiers</li>
+                    </ul>
+                    <p style="color: white; margin-top: 1rem;"><strong>⏱️ Estimated time:</strong> 90-120 minutes</p>
+                    <p style="color: white;"><strong>🎨 Project:</strong> Create procedural architecture with advanced modifier stack</p>
+                </div>
+
+                <!-- Table of Contents -->
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#understanding-stack" class="toc-link">Understanding the Modifier Stack</a></li>
+                            <li><a href="#stack-order" class="toc-link">Stack Order and Dependencies</a></li>
+                            <li><a href="#strategic-combinations" class="toc-link">Strategic Modifier Combinations</a></li>
+                            <li><a href="#advanced-techniques" class="toc-link">Advanced Modifier Techniques</a></li>
+                            <li><a href="#performance-optimization" class="toc-link">Performance and Optimization</a></li>
+                            <li><a href="#production-workflows" class="toc-link">Production Workflows</a></li>
+                            <li><a href="#project" class="toc-link">Hands-On Project</a></li>
+                            <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <!-- Main Content Sections -->
+                <section id="understanding-stack" class="content-section">
+                    <h2>🔧 Understanding the Modifier Stack</h2>
+
+                    <p>You've used individual modifiers throughout this course—Subdivision Surface, Mirror, Array, Boolean. But the real power emerges when you combine multiple modifiers strategically. The modifier stack is Blender's secret weapon for non-destructive, procedural modeling. Understanding how it works transforms your workflow from destructive editing to intelligent, flexible creation.</p>
+
+                    <h3>What Is the Modifier Stack?</h3>
+
+                    <div class="card">
+                        <h4>📚 Stack Fundamentals</h4>
+                        
+                        <p><strong>The modifier stack concept:</strong></p>
+                        <ul>
+                            <li><strong>Sequential processing:</strong> Each modifier processes the mesh in order
+                                <ul>
+                                    <li>Data flows from top to bottom</li>
+                                    <li>Each modifier sees result of previous modifier</li>
+                                    <li>Order matters tremendously</li>
+                                    <li>Think: assembly line for your mesh</li>
+                                </ul>
+                            </li>
+                            <li><strong>Non-destructive editing:</strong> Base mesh remains untouched
+                                <ul>
+                                    <li>Original geometry preserved</li>
+                                    <li>Modifiers create visual result</li>
+                                    <li>Can adjust or remove modifiers anytime</li>
+                                    <li>Like Photoshop adjustment layers</li>
+                                </ul>
+                            </li>
+                            <li><strong>Layer-based workflow:</strong> Each modifier adds or changes something
+                                <ul>
+                                    <li>Mirror: Creates symmetry</li>
+                                    <li>Array: Duplicates geometry</li>
+                                    <li>Boolean: Combines shapes</li>
+                                    <li>Subdivision: Smooths result</li>
+                                    <li>All work together</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="mermaid">
+                            graph TD
+                            A[Base Mesh] --> B[Modifier 1: Mirror]
+                            B --> C[Modifier 2: Array]
+                            C --> D[Modifier 3: Boolean]
+                            D --> E[Modifier 4: Bevel]
+                            E --> F[Modifier 5: Subdivision]
+                            F --> G[Final Visual Result]
+                            
+                            style A fill:#f9f9f9,stroke:#333,stroke-width:2px
+                            style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                            style B fill:#667eea,stroke:#333,stroke-width:1px,color:#fff
+                            style C fill:#667eea,stroke:#333,stroke-width:1px,color:#fff
+                            style D fill:#667eea,stroke:#333,stroke-width:1px,color:#fff
+                            style E fill:#667eea,stroke:#333,stroke-width:1px,color:#fff
+                            style F fill:#667eea,stroke:#333,stroke-width:1px,color:#fff
+                        </div>
+
+                        <p><strong>Why stack order matters:</strong></p>
+                        <ul>
+                            <li><strong>Example 1: Mirror → Subdivision</strong>
+                                <ul>
+                                    <li>Mirror creates symmetrical geometry</li>
+                                    <li>Subdivision smooths both sides</li>
+                                    <li>Result: Smooth symmetrical model</li>
+                                </ul>
+                            </li>
+                            <li><strong>Example 2: Subdivision → Mirror</strong>
+                                <ul>
+                                    <li>Subdivision smooths one half</li>
+                                    <li>Mirror duplicates smoothed half</li>
+                                    <li>Result: Seam down middle (wrong!)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lesson:</strong> Same modifiers, different order, completely different result</li>
+                        </ul>
+                    </div>
+
+                    <h3>Reading the Modifier Stack</h3>
+
+                    <div class="card">
+                        <h4>📖 Stack Anatomy</h4>
+                        
+                        <p><strong>Modifier panel elements:</strong></p>
+                        <ul>
+                            <li><strong>Modifier name and type:</strong> Top of each modifier section
+                                <ul>
+                                    <li>Icon shows modifier type</li>
+                                    <li>Name can be customized (helpful for complex stacks)</li>
+                                    <li>Click triangle to expand/collapse settings</li>
+                                </ul>
+                            </li>
+                            <li><strong>Visibility toggles (right side icons):</strong>
+                                <ul>
+                                    <li><strong>Eye icon:</strong> Viewport visibility (shows/hides effect in 3D view)</li>
+                                    <li><strong>Camera icon:</strong> Render visibility (includes/excludes from renders)</li>
+                                    <li><strong>Arrow icon:</strong> Show in Edit Mode (see modifier result while editing base mesh)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Stack position controls (arrows):</strong>
+                                <ul>
+                                    <li>Up arrow: Move modifier up in stack</li>
+                                    <li>Down arrow: Move modifier down in stack</li>
+                                    <li>Reordering changes result</li>
+                                </ul>
+                            </li>
+                            <li><strong>Additional controls:</strong>
+                                <ul>
+                                    <li>Copy icon: Duplicate modifier</li>
+                                    <li>X icon: Remove modifier</li>
+                                    <li>Dropdown: Additional options (Apply, Copy to Selected, etc.)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Modifier evaluation indicator:</strong></p>
+                        <ul>
+                            <li><strong>Blue outline:</strong> Modifier is actively calculating
+                                <ul>
+                                    <li>Shows which modifiers affect current view</li>
+                                    <li>Heavy modifiers may slow viewport</li>
+                                </ul>
+                            </li>
+                            <li><strong>Warning icons:</strong> Indicate issues
+                                <ul>
+                                    <li>Red triangle: Error (modifier can't evaluate)</li>
+                                    <li>Yellow triangle: Warning (modifier works but has issues)</li>
+                                    <li>Hover for details</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                            <h4>💡 Pro Tip: Naming Your Modifiers</h4>
+                            <p>With 5+ modifiers, default names get confusing. Click on modifier name to rename:</p>
+                            <ul>
+                                <li>"Subdivision Surface" → "Smooth Final"</li>
+                                <li>"Boolean" → "Window Cutout"</li>
+                                <li>"Array" → "Fence Posts"</li>
+                                <li>Descriptive names help you (and teammates) understand intent</li>
+                                <li>Future you will thank present you</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Modifier Data Flow</h3>
+
+                    <div class="card">
+                        <h4>🌊 How Data Moves Through Stack</h4>
+                        
+                        <p><strong>The processing pipeline:</strong></p>
+                        <ol>
+                            <li><strong>Base mesh (Edit Mode geometry):</strong>
+                                <ul>
+                                    <li>Your actual editable vertices, edges, faces</li>
+                                    <li>This is what you modify in Edit Mode</li>
+                                    <li>Modifiers don't change this</li>
+                                    <li>Foundation of everything</li>
+                                </ul>
+                            </li>
+                            <li><strong>First modifier processes base mesh:</strong>
+                                <ul>
+                                    <li>Takes base geometry as input</li>
+                                    <li>Applies its transformation/generation</li>
+                                    <li>Outputs modified geometry</li>
+                                    <li>Temporary result (not saved to base mesh)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Second modifier processes first modifier's output:</strong>
+                                <ul>
+                                    <li>Never sees original base mesh</li>
+                                    <li>Only sees result of modifier above it</li>
+                                    <li>Applies its own transformation</li>
+                                    <li>Passes result down the stack</li>
+                                </ul>
+                            </li>
+                            <li><strong>Chain continues to bottom of stack:</strong>
+                                <ul>
+                                    <li>Each modifier sees result of previous</li>
+                                    <li>Order creates final result</li>
+                                    <li>Last modifier's output = what you see</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Analogy: Assembly line manufacturing</strong></p>
+                        <ul>
+                            <li><strong>Base mesh =</strong> Raw material (steel ingot)</li>
+                            <li><strong>First modifier =</strong> Shape it (forge into basic form)</li>
+                            <li><strong>Second modifier =</strong> Refine it (machine smooth surfaces)</li>
+                            <li><strong>Third modifier =</strong> Add features (drill holes)</li>
+                            <li><strong>Fourth modifier =</strong> Finish it (polish)</li>
+                            <li><strong>Final result =</strong> Finished product</li>
+                            <li>Each station receives output from previous station</li>
+                            <li>Order determines final product</li>
+                        </ul>
+
+                        <p><strong>Viewing stack at different stages:</strong></p>
+                        <ul>
+                            <li>Disable modifiers (eye icon off) to see earlier stages</li>
+                            <li>Enable "Show in Edit Mode" to see modifier while editing base</li>
+                            <li>Helpful for understanding what each modifier contributes</li>
+                            <li>Debug problems by isolating each stage</li>
+                        </ul>
+                    </div>
+
+                    <h3>Types of Modifiers</h3>
+
+                    <div class="card">
+                        <h4>🗂️ Modifier Categories</h4>
+                        
+                        <p>Blender organizes modifiers into categories. Understanding these helps you choose the right tool:</p>
+
+                        <p><strong>Modify Category (transforms existing geometry):</strong></p>
+                        <ul>
+                            <li><strong>Data Transfer:</strong> Copies data from another object</li>
+                            <li><strong>Mesh Cache:</strong> Uses external mesh animation</li>
+                            <li><strong>Mesh Sequence Cache:</strong> Alembic file animation</li>
+                            <li><strong>Normal Edit:</strong> Modifies normal directions</li>
+                            <li><strong>Weighted Normal:</strong> Smart normal calculation</li>
+                            <li><strong>UV Project:</strong> Projects UVs like camera</li>
+                            <li><strong>UV Warp:</strong> Transforms UV coordinates</li>
+                            <li><strong>Vertex Weight Edit/Mix/Proximity:</strong> Manages vertex groups</li>
+                        </ul>
+
+                        <p><strong>Generate Category (creates new geometry):</strong></p>
+                        <ul>
+                            <li><strong>Array:</strong> Duplicates geometry in pattern</li>
+                            <li><strong>Bevel:</strong> Rounds edges</li>
+                            <li><strong>Boolean:</strong> Combines objects with operations</li>
+                            <li><strong>Build:</strong> Animates mesh construction</li>
+                            <li><strong>Decimate:</strong> Reduces polygon count</li>
+                            <li><strong>Edge Split:</strong> Splits edges for hard normals</li>
+                            <li><strong>Geometry Nodes:</strong> Node-based geometry generation</li>
+                            <li><strong>Mask:</strong> Hides geometry based on vertex group</li>
+                            <li><strong>Mirror:</strong> Creates symmetry</li>
+                            <li><strong>Multiresolution:</strong> Sculptable subdivision levels</li>
+                            <li><strong>Remesh:</strong> Regenerates topology</li>
+                            <li><strong>Screw:</strong> Rotates profile to create geometry</li>
+                            <li><strong>Skin:</strong> Creates skin from edges</li>
+                            <li><strong>Solidify:</strong> Adds thickness</li>
+                            <li><strong>Subdivision Surface:</strong> Subdivides and smooths</li>
+                            <li><strong>Triangulate:</strong> Converts quads to triangles</li>
+                            <li><strong>Volume to Mesh:</strong> Converts volume to mesh</li>
+                            <li><strong>Weld:</strong> Merges nearby vertices</li>
+                            <li><strong>Wireframe:</strong> Turns edges into geometry</li>
+                        </ul>
+
+                        <p><strong>Deform Category (moves vertices without adding/removing):</strong></p>
+                        <ul>
+                            <li><strong>Armature:</strong> Bone-based deformation</li>
+                            <li><strong>Cast:</strong> Projects to shape (sphere, cylinder, cube)</li>
+                            <li><strong>Curve:</strong> Deforms along curve</li>
+                            <li><strong>Displace:</strong> Moves vertices via texture</li>
+                            <li><strong>Hook:</strong> Control with empty object</li>
+                            <li><strong>Laplacian Deform:</strong> Preserves surface detail</li>
+                            <li><strong>Lattice:</strong> Cage deformation</li>
+                            <li><strong>Mesh Deform:</strong> Deforms with cage mesh</li>
+                            <li><strong>Shrinkwrap:</strong> Projects onto surface</li>
+                            <li><strong>Simple Deform:</strong> Twist, bend, taper, stretch</li>
+                            <li><strong>Smooth:</strong> Smooths vertex positions</li>
+                            <li><strong>Smooth Corrective:</strong> Maintains volume when deforming</li>
+                            <li><strong>Surface Deform:</strong> Binds to deforming surface</li>
+                            <li><strong>Warp:</strong> Deforms between two objects</li>
+                            <li><strong>Wave:</strong> Creates wave deformation</li>
+                        </ul>
+
+                        <p><strong>Physics Category (simulations):</strong></p>
+                        <ul>
+                            <li><strong>Cloth:</strong> Fabric simulation</li>
+                            <li><strong>Collision:</strong> Makes object block other simulations</li>
+                            <li><strong>Dynamic Paint:</strong> Paint simulation</li>
+                            <li><strong>Explode:</strong> Particle-based explosion</li>
+                            <li><strong>Fluid:</strong> Liquid/gas simulation</li>
+                            <li><strong>Ocean:</strong> Procedural ocean waves</li>
+                            <li><strong>Particle Instance:</strong> Geometry on particles</li>
+                            <li><strong>Particle System:</strong> Particle simulation</li>
+                            <li><strong>Soft Body:</strong> Soft body physics</li>
+                        </ul>
+
+                        <p><strong>Most commonly used in stacks:</strong></p>
+                        <ul>
+                            <li>Mirror (symmetry)</li>
+                            <li>Array (duplication)</li>
+                            <li>Subdivision Surface (smoothing)</li>
+                            <li>Boolean (combining shapes)</li>
+                            <li>Solidify (thickness)</li>
+                            <li>Bevel (edge rounding)</li>
+                            <li>Shrinkwrap (surface projection)</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Stack Is Your Workshop:</strong> Think of the modifier stack as your workbench. Base mesh is raw material. Each modifier is a tool that transforms it. Order matters—you can't polish before you cut. You can't paint before you smooth. Each step builds on previous. But unlike real workshop, you can rearrange the process anytime. Try mirror before subdivision. Don't like it? Swap the order. Instant result. This is the power of non-destructive workflow. Your mesh stays flexible. Your options stay open. You can experiment without consequences. Because you can always undo, reorder, adjust. The stack is your safety net. Your creative sandbox. Your production powerhouse. Master the stack and you master procedural modeling. Everything becomes possible.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_31_advanced_modifier_stack_part_02.html
+     ============================================ -->

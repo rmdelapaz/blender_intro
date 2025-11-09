@@ -1,0 +1,464 @@
+<!-- ============================================
+     LESSON 18 - PART 01
+     File: lesson_18_eevee_realtime_rendering_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master Eevee real-time rendering in Blender - learn fast viewport rendering, quality settings, screen space effects, and when to use Eevee vs Cycles.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 18: Eevee Real-Time Rendering - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="main-nav" aria-label="Main Navigation">
+            <a href="index.html" class="nav-logo">🎨 Blender Course</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#lessons">Lessons</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#lessons">Lessons</a> &gt; 
+            <span>Lesson 18: Eevee Real-Time Rendering</span>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <article class="lesson-content">
+                <header class="lesson-header">
+                    <h1>⚡ Lesson 18: Eevee Real-Time Rendering</h1>
+                    <p class="lesson-intro">Welcome to the world of real-time rendering! Eevee is Blender's lightning-fast render engine that delivers beautiful results in seconds instead of minutes or hours. Think of it as the difference between taking a Polaroid photo (instant!) versus developing film in a darkroom (slow but potentially higher quality). Eevee uses your graphics card (GPU) to render scenes almost instantly, making it perfect for animations, quick previews, and projects where speed matters. While it takes some shortcuts compared to Cycles' physically-accurate rendering, Eevee is incredibly powerful and used in professional productions worldwide. In this lesson, you'll master Eevee's settings, understand its strengths and limitations, and learn when to use it versus Cycles for maximum efficiency.</p>
+                </header>
+
+                <!-- Learning Objectives -->
+                <div class="card">
+                    <h2>🎯 What You'll Learn</h2>
+                    <ul>
+                        <li>What real-time rendering is and how Eevee works</li>
+                        <li>Key differences between Eevee and Cycles</li>
+                        <li>Eevee render settings and optimization</li>
+                        <li>Screen Space effects (Reflections, Refraction, Ambient Occlusion)</li>
+                        <li>Bloom, Motion Blur, and Depth of Field in Eevee</li>
+                        <li>Shadows and shadow settings for quality</li>
+                        <li>Indirect lighting with Irradiance Volumes and Light Probes</li>
+                        <li>Material setup differences for Eevee</li>
+                        <li>When to use Eevee vs Cycles (decision framework)</li>
+                        <li>Troubleshooting common Eevee issues</li>
+                        <li>Complete Eevee rendering workflow project</li>
+                    </ul>
+                    <p><strong>⏱️ Estimated Time:</strong> 60-75 minutes</p>
+                    <p><strong>🎯 Project:</strong> Render a complete scene optimized for Eevee</p>
+                </div>
+
+                <!-- Table of Contents -->
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#what-is-eevee" class="toc-link">What is Real-Time Rendering?</a></li>
+                            <li><a href="#eevee-vs-cycles" class="toc-link">Eevee vs Cycles Comparison</a></li>
+                            <li><a href="#basic-settings" class="toc-link">Eevee Basic Settings</a></li>
+                            <li><a href="#screen-space-effects" class="toc-link">Screen Space Effects</a></li>
+                            <li><a href="#bloom-effects" class="toc-link">Bloom and Visual Effects</a></li>
+                            <li><a href="#shadows" class="toc-link">Shadow Settings</a></li>
+                            <li><a href="#indirect-lighting" class="toc-link">Indirect Lighting Setup</a></li>
+                            <li><a href="#material-considerations" class="toc-link">Materials for Eevee</a></li>
+                            <li><a href="#optimization" class="toc-link">Performance Optimization</a></li>
+                            <li><a href="#troubleshooting" class="toc-link">Troubleshooting Eevee</a></li>
+                            <li><a href="#project" class="toc-link">Project: Eevee Scene Rendering</a></li>
+                            <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="what-is-eevee" class="content-section">
+                    <h2>⚡ What is Real-Time Rendering?</h2>
+
+                    <p>Before diving into Eevee specifically, let's understand what "real-time rendering" means and why it's revolutionary for 3D artists.</p>
+
+                    <h3>Understanding Real-Time Rendering</h3>
+
+                    <div class="card">
+                        <h4>💡 Real-Time Explained</h4>
+                        <p><strong>Real-time rendering means:</strong></p>
+                        <ul>
+                            <li>Rendering happens fast enough to be interactive</li>
+                            <li>Changes appear instantly (or near-instantly) in viewport</li>
+                            <li>Final renders complete in seconds, not minutes/hours</li>
+                            <li>Similar technology to video games (real-time graphics)</li>
+                        </ul>
+
+                        <p><strong>How it achieves speed:</strong></p>
+                        <ul>
+                            <li><strong>Rasterization:</strong> Projects 3D geometry to 2D screen quickly</li>
+                            <li><strong>Screen space calculations:</strong> Effects calculated based on what's visible on screen</li>
+                            <li><strong>Approximations:</strong> Uses clever tricks instead of physically accurate calculations</li>
+                            <li><strong>GPU optimization:</strong> Leverages graphics card parallel processing</li>
+                            <li><strong>Pre-baked data:</strong> Some lighting calculated ahead of time</li>
+                        </ul>
+
+                        <p><strong>Real-world analogy:</strong></p>
+                        <ul>
+                            <li><strong>Traditional rendering (Cycles):</strong> Like a painter carefully mixing every color, calculating exact light bounce</li>
+                            <li><strong>Real-time rendering (Eevee):</strong> Like a skilled sketch artist—quick, looks great, uses smart shortcuts</li>
+                            <li>Both can create beautiful results, just different approaches</li>
+                        </ul>
+                    </div>
+
+                    <h3>What is Eevee?</h3>
+
+                    <div class="card">
+                        <h4>🎨 Blender's Real-Time Engine</h4>
+                        <p><strong>Eevee defined:</strong></p>
+                        <ul>
+                            <li>Blender's real-time render engine (added in Blender 2.8)</li>
+                            <li>Named after the Pokémon character (Blender tradition)</li>
+                            <li>Uses OpenGL-based rendering (graphics card technology)</li>
+                            <li>Produces high-quality results extremely fast</li>
+                        </ul>
+
+                        <p><strong>What makes Eevee special:</strong></p>
+                        <ul>
+                            <li><strong>Speed:</strong> Renders 10-100x faster than Cycles</li>
+                            <li><strong>Interactivity:</strong> See changes instantly in viewport</li>
+                            <li><strong>Animation-friendly:</strong> Can render 300+ frame animations in minutes</li>
+                            <li><strong>Professional quality:</strong> Used in TV, commercials, motion graphics</li>
+                            <li><strong>PBR materials:</strong> Supports same Principled BSDF as Cycles</li>
+                        </ul>
+
+                        <p><strong>Where Eevee is used:</strong></p>
+                        <ul>
+                            <li>Animation and motion graphics</li>
+                            <li>Previz (pre-visualization) for film</li>
+                            <li>Real-time art installations</li>
+                            <li>Quick product shots and presentations</li>
+                            <li>Stylized rendering (non-photorealistic)</li>
+                            <li>Any project where speed is priority</li>
+                        </ul>
+                    </div>
+
+                    <h3>How Eevee Works</h3>
+
+                    <div class="card">
+                        <h4>🔧 The Technical Side (Simplified)</h4>
+                        <p><strong>Eevee's rendering approach:</strong></p>
+                        <ul>
+                            <li><strong>Step 1: Rasterization</strong>
+                                <ul>
+                                    <li>Converts 3D meshes to 2D screen pixels</li>
+                                    <li>Very fast GPU operation</li>
+                                    <li>Similar to video game rendering</li>
+                                </ul>
+                            </li>
+                            <li><strong>Step 2: Shading</strong>
+                                <ul>
+                                    <li>Calculates colors based on materials and lights</li>
+                                    <li>Uses shader programs (code running on GPU)</li>
+                                    <li>Principled BSDF supported</li>
+                                </ul>
+                            </li>
+                            <li><strong>Step 3: Screen Space Effects</strong>
+                                <ul>
+                                    <li>Reflections, refraction, ambient occlusion</li>
+                                    <li>Calculated using screen-visible information</li>
+                                    <li>Fast but has limitations (more later)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Step 4: Post-Processing</strong>
+                                <ul>
+                                    <li>Bloom, depth of field, motion blur</li>
+                                    <li>Applied after main rendering</li>
+                                    <li>Enhances final image</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Key concept - Screen space:</strong></p>
+                        <ul>
+                            <li>Many Eevee effects only "see" what's on screen</li>
+                            <li>Can't calculate reflections of objects behind camera</li>
+                            <li>This limitation is why it's so fast</li>
+                            <li>Understanding this explains Eevee's strengths and weaknesses</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Speed Revolution:</strong> Before Eevee, Blender artists had only Cycles for final rendering, which meant waiting minutes or hours for each frame. Eevee changed everything—suddenly you could render entire animations in the time it took Cycles to render a single frame. This wasn't just faster; it fundamentally changed workflows. Artists could iterate rapidly, experiment freely, and create animations that would have been impractical with Cycles alone. Eevee democratized animation by making it time-feasible for solo artists and small teams.</p>
+                    </blockquote>
+
+                    <h3>When Real-Time Rendering Excels</h3>
+
+                    <div class="card">
+                        <h4>✅ Perfect Use Cases for Eevee</h4>
+                        <p><strong>Eevee is ideal for:</strong></p>
+                        <ul>
+                            <li><strong>Animation:</strong>
+                                <ul>
+                                    <li>Need to render hundreds or thousands of frames</li>
+                                    <li>Time constraints make Cycles impractical</li>
+                                    <li>Motion graphics, explainer videos, short films</li>
+                                </ul>
+                            </li>
+                            <li><strong>Quick iterations:</strong>
+                                <ul>
+                                    <li>Testing lighting setups rapidly</li>
+                                    <li>Showing clients multiple options</li>
+                                    <li>Exploring creative directions</li>
+                                </ul>
+                            </li>
+                            <li><strong>Stylized looks:</strong>
+                                <ul>
+                                    <li>Cartoon or cel-shaded styles</li>
+                                    <li>Non-photorealistic rendering</li>
+                                    <li>Artistic projects where "perfect" realism not required</li>
+                                </ul>
+                            </li>
+                            <li><strong>Real-time presentations:</strong>
+                                <ul>
+                                    <li>Interactive viewport rendering</li>
+                                    <li>Live client presentations</li>
+                                    <li>Art installations with real-time updates</li>
+                                </ul>
+                            </li>
+                            <li><strong>Viewport previz:</strong>
+                                <ul>
+                                    <li>Planning camera angles</li>
+                                    <li>Blocking animation</li>
+                                    <li>Testing scene composition</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Limitations of Real-Time Rendering</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Where Eevee Struggles</h4>
+                        <p><strong>Eevee is less ideal for:</strong></p>
+                        <ul>
+                            <li><strong>Photorealistic still images:</strong>
+                                <ul>
+                                    <li>Cycles produces more physically accurate results</li>
+                                    <li>Better caustics (light through glass)</li>
+                                    <li>More realistic indirect lighting</li>
+                                </ul>
+                            </li>
+                            <li><strong>Complex glass/refraction:</strong>
+                                <ul>
+                                    <li>Screen-space refraction has limitations</li>
+                                    <li>Can't refract objects not on screen</li>
+                                    <li>Cycles handles this better</li>
+                                </ul>
+                            </li>
+                            <li><strong>Highly accurate reflections:</strong>
+                                <ul>
+                                    <li>Screen-space reflections limited</li>
+                                    <li>Objects behind camera won't reflect</li>
+                                    <li>Reflection probes help but aren't perfect</li>
+                                </ul>
+                            </li>
+                            <li><strong>Volumetrics (smoke, fog):</strong>
+                                <ul>
+                                    <li>Eevee volumetrics work but slower and lower quality</li>
+                                    <li>Cycles handles complex volumes better</li>
+                                </ul>
+                            </li>
+                            <li><strong>Extreme lighting scenarios:</strong>
+                                <ul>
+                                    <li>Very dark scenes with subtle lighting</li>
+                                    <li>Complex caustics and light transmission</li>
+                                    <li>Subsurface scattering depth</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="eevee-vs-cycles" class="content-section">
+                    <h2>🔄 Eevee vs Cycles Comparison</h2>
+
+                    <p>Understanding the differences between Eevee and Cycles helps you choose the right tool for each project. Let's compare them directly.</p>
+
+                    <h3>Side-by-Side Comparison</h3>
+
+                    <div class="card">
+                        <h4>📊 Eevee vs Cycles Overview</h4>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #f0f0f0;">
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Feature</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Eevee</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Cycles</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Speed</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">⚡ Very fast (seconds)</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">🐌 Slower (minutes-hours)</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Accuracy</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Good approximation</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">✅ Physically accurate</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Rendering method</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Rasterization</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Path tracing</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Best for</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Animation, speed</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Photorealism, stills</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Reflections</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Screen space (limited)</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">✅ Full ray traced</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Transparency</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Screen space refraction</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">✅ Accurate refraction</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Caustics</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">❌ Not supported</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">✅ Full caustics</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Indirect lighting</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Requires light probes</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">✅ Automatic</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Viewport preview</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">✅ Real-time accurate</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Preview (not final)</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Memory usage</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Lower</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Higher</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>GPU requirement</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Any modern GPU</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Better GPU = faster</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Visual Quality Differences</h3>
+
+                    <div class="card">
+                        <h4>🎨 What You'll Notice</h4>
+                        <p><strong>Eevee characteristics:</strong></p>
+                        <ul>
+                            <li><strong>Crisp, clean look:</strong> Often sharper than Cycles</li>
+                            <li><strong>Slightly "gamey" feel:</strong> Can look like high-end video game graphics</li>
+                            <li><strong>Strong direct lighting:</strong> Lights create clear, defined illumination</li>
+                            <li><strong>Softer indirect lighting:</strong> Ambient and bounce light less pronounced</li>
+                            <li><strong>Screen-space artifacts:</strong> Reflections may cut off at screen edges</li>
+                        </ul>
+
+                        <p><strong>Cycles characteristics:</strong></p>
+                        <ul>
+                            <li><strong>Softer, more natural:</strong> Light behaves more like real world</li>
+                            <li><strong>"Photographic" quality:</strong> Looks like camera photograph</li>
+                            <li><strong>Subtle indirect lighting:</strong> Natural bounce light and color bleed</li>
+                            <li><strong>More noise (without denoising):</strong> Grain from path tracing</li>
+                            <li><strong>Accurate glass/water:</strong> Realistic refraction and caustics</li>
+                        </ul>
+                    </div>
+
+                    <h3>Decision Framework</h3>
+
+                    <div class="card">
+                        <h4>🤔 Choosing Between Eevee and Cycles</h4>
+                        <p><strong>Use Eevee when:</strong></p>
+                        <ul>
+                            <li>✅ Rendering animation (multiple frames)</li>
+                            <li>✅ Time is limited (need quick results)</li>
+                            <li>✅ Stylized or non-photorealistic look</li>
+                            <li>✅ Real-time interactivity needed</li>
+                            <li>✅ Scene has straightforward materials</li>
+                            <li>✅ Client preview/iteration phase</li>
+                            <li>✅ Hardware limitations (older GPU)</li>
+                        </ul>
+
+                        <p><strong>Use Cycles when:</strong></p>
+                        <ul>
+                            <li>✅ Photorealism is critical</li>
+                            <li>✅ Single hero image (still render)</li>
+                            <li>✅ Complex glass, water, or refraction</li>
+                            <li>✅ Need caustics (light through glass patterns)</li>
+                            <li>✅ Extreme lighting scenarios</li>
+                            <li>✅ Architectural visualization (accuracy matters)</li>
+                            <li>✅ Time is available for quality</li>
+                        </ul>
+
+                        <p><strong>Hybrid approach (use both!):</strong></p>
+                        <ul>
+                            <li>Previz in Eevee → Final render in Cycles</li>
+                            <li>Animation in Eevee → Hero shots in Cycles</li>
+                            <li>Test lighting in Eevee → Refine in Cycles</li>
+                            <li>Get best of both workflows!</li>
+                        </ul>
+                    </div>
+
+                    <div class="mermaid">
+                        graph TD
+                        A[Starting New Project] --> B{Animation or Still?}
+                        B -->|Animation| C[Eevee Recommended]
+                        B -->|Still Image| D{Need Photorealism?}
+                        D -->|Yes| E[Cycles Recommended]
+                        D -->|No/Stylized| F[Eevee Works Great]
+                        C --> G{Complex Glass/Caustics?}
+                        G -->|Yes| H[Consider Cycles<br/>or simplify]
+                        G -->|No| I[Eevee Perfect Choice]
+                        E --> J{Time Available?}
+                        J -->|Limited| K[Start with Eevee<br/>Final in Cycles]
+                        J -->|Plenty| L[Use Cycles]
+                        
+                        style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                        style I fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                        style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                        style E fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                        style L fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_18_eevee_realtime_rendering_part_02.html
+     ============================================ -->

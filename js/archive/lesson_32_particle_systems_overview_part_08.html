@@ -1,0 +1,450 @@
+<!-- ============================================
+     LESSON 32 - PART 08
+     File: lesson_32_particle_systems_overview_part_08.html
+     ============================================ -->
+
+                <section id="summary" class="content-section">
+                    <h2>📚 Lesson Summary</h2>
+
+                    <p>Particle systems are no longer mystery. You understand emission, physics, forces, collision, rendering. You know how particles are born, how they behave, how they appear. You've seen common effects. You've built working rain system. Theory and practice combined. Foundation established. Time to consolidate that knowledge.</p>
+
+                    <h3>Key Concepts Review</h3>
+
+                    <div class="card">
+                        <h4>🎯 Core Particle System Concepts</h4>
+                        
+                        <p><strong>The particle lifecycle:</strong></p>
+                        <ul>
+                            <li><strong>Birth:</strong> Particles emit from source object (emitter)</li>
+                            <li><strong>Life:</strong> Particles move, respond to forces, interact with world</li>
+                            <li><strong>Death:</strong> Particles reach lifetime end or die on collision</li>
+                        </ul>
+
+                        <p><strong>Essential components of any particle system:</strong></p>
+                        <ol>
+                            <li><strong>Emitter:</strong> Object that spawns particles (plane, sphere, custom mesh)</li>
+                            <li><strong>Emission settings:</strong> How many, when, from where (faces/volume/vertices)</li>
+                            <li><strong>Velocity:</strong> Initial motion (normal, tangent, random)</li>
+                            <li><strong>Physics:</strong> How particles move (Newtonian, Boids, Keyed, Fluid)</li>
+                            <li><strong>Forces:</strong> External influences (gravity, wind, turbulence)</li>
+                            <li><strong>Collision:</strong> Interaction with objects (bounce, stick, kill)</li>
+                            <li><strong>Rendering:</strong> How particles appear (Object, Collection, Path, Halo)</li>
+                            <li><strong>Materials:</strong> Color, transparency, emission, variation</li>
+                        </ol>
+
+                        <div class="mermaid">
+                            graph TD
+                            A[Emitter Object] --> B[Emission Settings]
+                            B --> C[Particles Born]
+                            C --> D[Velocity Applied]
+                            D --> E[Physics Simulation]
+                            E --> F[Forces Affect Motion]
+                            F --> G[Collision Detection]
+                            G --> H[Rendering]
+                            H --> I[Final Image]
+                            
+                            style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style I fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                        </div>
+                    </div>
+
+                    <h3>Critical Settings by Category</h3>
+
+                    <div class="card">
+                        <h4>⚙️ The Settings That Matter Most</h4>
+                        
+                        <p><strong>Emission (determines particle birth):</strong></p>
+                        <ul>
+                            <li><strong>Number:</strong> Total particle count (balance quality vs. performance)</li>
+                            <li><strong>Frame Start/End:</strong> When emission happens (continuous or burst)</li>
+                            <li><strong>Lifetime:</strong> How long particles exist (affects density)</li>
+                            <li><strong>Emit From:</strong> Faces (area), Volume (3D space), Vertices (points)</li>
+                            <li><strong>Vertex Groups:</strong> Control emission density with painted weights</li>
+                        </ul>
+
+                        <p><strong>Velocity (determines initial motion):</strong></p>
+                        <ul>
+                            <li><strong>Normal:</strong> Speed perpendicular to surface (primary control)</li>
+                            <li><strong>Random:</strong> Variation in velocity (natural unpredictability)</li>
+                            <li><strong>Object Velocity:</strong> Inherit emitter motion (moving emitters)</li>
+                        </ul>
+
+                        <p><strong>Physics (determines behavior):</strong></p>
+                        <ul>
+                            <li><strong>Type:</strong> Newtonian (standard), Boids (flocking), Keyed (paths), Fluid (liquids)</li>
+                            <li><strong>Gravity:</strong> 1.0 = Earth gravity, 0.0 = weightless, negative = rises</li>
+                            <li><strong>Damping:</strong> Air resistance (slows particles over time)</li>
+                            <li><strong>Mass:</strong> Weight affects force response (not gravity)</li>
+                        </ul>
+
+                        <p><strong>Forces (external influences):</strong></p>
+                        <ul>
+                            <li><strong>Wind:</strong> Directional push (weather, directional flow)</li>
+                            <li><strong>Turbulence:</strong> Random swirling (essential for natural motion)</li>
+                            <li><strong>Force:</strong> Radial push/pull (explosions, attraction)</li>
+                            <li><strong>Vortex:</strong> Spiral motion (tornadoes, drains)</li>
+                            <li><strong>Drag:</strong> Localized resistance (water, thick atmosphere)</li>
+                        </ul>
+
+                        <p><strong>Collision (interaction with objects):</strong></p>
+                        <ul>
+                            <li><strong>Enable on particles:</strong> Particle Properties → Physics → Collision</li>
+                            <li><strong>Enable on objects:</strong> Physics Properties → Collision</li>
+                            <li><strong>Kill Particles:</strong> Die on impact (rain on ground)</li>
+                            <li><strong>Stickiness:</strong> Stick to surface (water droplets on window)</li>
+                            <li><strong>Damping:</strong> Bounce energy loss (0.0 = perfect bounce, 1.0 = no bounce)</li>
+                            <li><strong>Friction:</strong> Surface drag (sliding particles slow down)</li>
+                        </ul>
+
+                        <p><strong>Rendering (visual appearance):</strong></p>
+                        <ul>
+                            <li><strong>Object:</strong> Instance 3D mesh (most versatile)</li>
+                            <li><strong>Collection:</strong> Random selection from objects (variation)</li>
+                            <li><strong>Path:</strong> Motion trails (streaks, energy beams)</li>
+                            <li><strong>Orientation:</strong> Velocity/Hair for motion-aligned particles</li>
+                            <li><strong>Scale + Random:</strong> Size variation (natural effects)</li>
+                        </ul>
+
+                        <p><strong>Materials (color and appearance):</strong></p>
+                        <ul>
+                            <li><strong>Particle Info node:</strong> Per-particle data (Age, Random, Velocity, etc.)</li>
+                            <li><strong>Age-based effects:</strong> Fade in/out, color changes over lifetime</li>
+                            <li><strong>Random variation:</strong> Different colors/brightness per particle</li>
+                            <li><strong>Emission shader:</strong> Glowing particles (sparks, magic)</li>
+                            <li><strong>Transparency:</strong> Fade effects, semi-visible particles</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common Patterns and Recipes</h3>
+
+                    <div class="card">
+                        <h4>📖 Effect Templates</h4>
+                        
+                        <p><strong>Quick reference for common effects:</strong></p>
+
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                            <thead>
+                                <tr style="background-color: #f0f0f0;">
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; width: 15%;">Effect</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; width: 15%;">Emission</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; width: 20%;">Physics</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; width: 20%;">Forces</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; width: 15%;">Rendering</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; width: 15%;">Key Setting</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Rain</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Continuous<br/>3000+<br/>Vel: 0</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Gravity: 1.0<br/>Damp: 0</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Wind (optional)<br/>1-3 strength</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Stretched sphere<br/>Velocity orient</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Kill on collision</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Snow</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Continuous<br/>2000+<br/>Vel: 0</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Gravity: 0.3<br/>Damp: 0.2<br/>Mass: 0.3</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Turbulence<br/>10-20 strength<br/><em>Essential!</em></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Small planes<br/>Random rotation</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Angular velocity</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Sparks</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Burst<br/>100-500<br/>Vel: 5-15</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Gravity: 0.5<br/>Damp: 0.3</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">None typically</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Small sphere<br/>Emission material</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Age-based brightness</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Smoke</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Continuous<br/>1000+<br/>Vel: 1</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Gravity: -0.5<br/>Damp: 0.5<br/>Mass: 0.1</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Turbulence<br/>15-30 strength<br/><em>Essential!</em></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Large spheres<br/>Transparent</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Age-based alpha</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Explosion</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Burst<br/>500+<br/>Vel: 20+</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Gravity: 1-2<br/>Damp: 0.3<br/>Mass: 1-3</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">None or Force<br/>(initial push)</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Collection<br/>5-10 objects</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Random angular velocity</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Magic</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Trail<br/>100-300<br/>Vel: 1</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Gravity: 0<br/>Damp: 0.5</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Turbulence<br/>5-15 strength</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Path or sphere<br/>Emission material</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Bloom effect</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Troubleshooting Guide</h3>
+
+                    <div class="card">
+                        <h4>🔧 Common Problems and Solutions</h4>
+                        
+                        <p><strong>Particles not visible:</strong></p>
+                        <ul>
+                            <li>✓ Check Render As setting (not "None")</li>
+                            <li>✓ Instance Object assigned (if using Object/Collection)</li>
+                            <li>✓ Instance object has material</li>
+                            <li>✓ Emitter camera visibility enabled (unless intentionally hidden)</li>
+                            <li>✓ Particles within camera view</li>
+                            <li>✓ Check render layer settings</li>
+                        </ul>
+
+                        <p><strong>Particles not moving correctly:</strong></p>
+                        <ul>
+                            <li>✓ Physics Type = Newtonian (unless specific reason)</li>
+                            <li>✓ Gravity setting appropriate (1.0 for falling, -1.0 for rising, 0.0 for floating)</li>
+                            <li>✓ Velocity Normal not accidentally zero (if want motion)</li>
+                            <li>✓ Check Field Weights (forces enabled?)</li>
+                            <li>✓ Force field strength high enough</li>
+                            <li>✓ Animation playing (Spacebar), not just scrubbing timeline</li>
+                        </ul>
+
+                        <p><strong>Collision not working:</strong></p>
+                        <ul>
+                            <li>✓ Collision enabled on particles (Particle Properties → Physics → Collision)</li>
+                            <li>✓ Collision enabled on object (Physics Properties → Collision)</li>
+                            <li>✓ Both must be enabled</li>
+                            <li>✓ Particles actually reaching collision object</li>
+                            <li>✓ Integration timestep high enough (try 0.02 instead of 0.04)</li>
+                            <li>✓ Particles not passing through due to high speed (increase substeps)</li>
+                        </ul>
+
+                        <p><strong>Performance too slow:</strong></p>
+                        <ul>
+                            <li>✓ Reduce Viewport Display Amount (25-50%)</li>
+                            <li>✓ Reduce particle count (if quality acceptable)</li>
+                            <li>✓ Simplify instance object geometry (lower poly count)</li>
+                            <li>✓ Disable unnecessary forces</li>
+                            <li>✓ Hide particle system when not editing (<kbd>H</kbd>)</li>
+                            <li>✓ Bake simulation (Cache → Bake)</li>
+                            <li>✓ Disable collision if not needed</li>
+                        </ul>
+
+                        <p><strong>Particles look artificial/uniform:</strong></p>
+                        <ul>
+                            <li>✓ Add randomness: Velocity Random, Lifetime Random, Scale Random</li>
+                            <li>✓ Use Collection instead of Object (variation)</li>
+                            <li>✓ Add turbulence force field</li>
+                            <li>✓ Material randomness via Particle Info node</li>
+                            <li>✓ Random angular velocity (rotation variation)</li>
+                            <li>✓ Age-based effects (fade, color change)</li>
+                        </ul>
+
+                        <p><strong>Particles passing through objects:</strong></p>
+                        <ul>
+                            <li>✓ Increase Integration timestep quality (Physics → Integration)</li>
+                            <li>✓ Lower timestep value = more accurate (0.02 or 0.01)</li>
+                            <li>✓ Reduce particle velocity (slower = easier to calculate collision)</li>
+                            <li>✓ Simplify collision object geometry</li>
+                            <li>✓ Check collision object has proper collision type enabled</li>
+                        </ul>
+
+                        <p><strong>Render different from viewport:</strong></p>
+                        <ul>
+                            <li>✓ Viewport Display settings don't affect render</li>
+                            <li>✓ Display Amount only affects viewport</li>
+                            <li>✓ Check Render settings specifically</li>
+                            <li>✓ Bake simulation before rendering animation</li>
+                            <li>✓ Ensure render engine set correctly (Cycles/Eevee)</li>
+                        </ul>
+
+                        <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                            <h4>💡 Debugging Strategy</h4>
+                            <p><strong>Systematic troubleshooting approach:</strong></p>
+                            <ol>
+                                <li><strong>Isolate the problem:</strong> Which specific aspect isn't working?</li>
+                                <li><strong>Check basics first:</strong> Is system enabled? Playing animation?</li>
+                                <li><strong>Simplify:</strong> Reduce to minimal setup, add complexity back</li>
+                                <li><strong>Test in stages:</strong> Emission → Physics → Forces → Collision → Rendering</li>
+                                <li><strong>Compare to working example:</strong> What's different?</li>
+                                <li><strong>Read Blender messages:</strong> Console may show errors</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <h3>Key Takeaways</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">💡 Essential Lessons from This Module</h3>
+                        
+                        <ol style="color: white;">
+                            <li><strong>Particle systems simulate life and motion</strong>
+                                <ul style="color: white;">
+                                    <li>Transform static scenes into dynamic worlds</li>
+                                    <li>Represent chaos, randomness, organic unpredictability</li>
+                                    <li>Essential tool for atmospheric effects and VFX</li>
+                                </ul>
+                            </li>
+                            <li><strong>Emission is foundation, physics is behavior</strong>
+                                <ul style="color: white;">
+                                    <li>Where particles born determines pattern</li>
+                                    <li>How particles move determines realism</li>
+                                    <li>Get emission right and half the work is done</li>
+                                </ul>
+                            </li>
+                            <li><strong>Forces create natural motion</strong>
+                                <ul style="color: white;">
+                                    <li>Turbulence is essential for most atmospheric effects</li>
+                                    <li>Perfect motion looks artificial</li>
+                                    <li>Nature is chaotic—simulate that chaos</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rendering reveals or conceals</strong>
+                                <ul style="color: white;">
+                                    <li>Perfect physics with bad rendering = poor result</li>
+                                    <li>Materials, variation, age-based effects matter</li>
+                                    <li>Object instancing is most versatile approach</li>
+                                    <li>Collection instancing adds crucial variation</li>
+                                </ul>
+                            </li>
+                            <li><strong>Optimization is ongoing process</strong>
+                                <ul style="color: white;">
+                                    <li>Balance quality vs. performance always</li>
+                                    <li>Viewport display independent from render quality</li>
+                                    <li>Bake before rendering animations</li>
+                                    <li>Multiple smaller systems often better than one huge system</li>
+                                </ul>
+                            </li>
+                            <li><strong>Iteration builds quality</strong>
+                                <ul style="color: white;">
+                                    <li>First attempt rarely perfect</li>
+                                    <li>Test, adjust, refine repeatedly</li>
+                                    <li>Professional VFX is 90% iteration</li>
+                                    <li>Templates are starting points, not final answers</li>
+                                </ul>
+                            </li>
+                            <li><strong>Understanding principles beats memorizing settings</strong>
+                                <ul style="color: white;">
+                                    <li>Know why settings work, not just what they are</li>
+                                    <li>Transfer knowledge between effects</li>
+                                    <li>Adapt to new situations confidently</li>
+                                    <li>Build intuition through practice</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>What's Next?</h3>
+
+                    <div class="card">
+                        <h4>🚀 Continuing Your Particle Journey</h4>
+                        
+                        <p><strong>Upcoming lessons in Particles and Simulations module:</strong></p>
+                        <ul>
+                            <li><strong>Lesson 33: Hair and Fur</strong>
+                                <ul>
+                                    <li>Hair particle systems</li>
+                                    <li>Grooming tools and techniques</li>
+                                    <li>Strand dynamics and physics</li>
+                                    <li>Character hair and animal fur</li>
+                                    <li>Grass, vegetation, and surface coverage</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lesson 34: Cloth Simulation</strong>
+                                <ul>
+                                    <li>Cloth physics fundamentals</li>
+                                    <li>Fabric types and properties</li>
+                                    <li>Collision and self-collision</li>
+                                    <li>Pinning and constraints</li>
+                                    <li>Character clothing workflow</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lesson 35: Rigid Body Physics</strong>
+                                <ul>
+                                    <li>Rigid body dynamics</li>
+                                    <li>Active vs. passive objects</li>
+                                    <li>Constraints and connections</li>
+                                    <li>Destruction simulations</li>
+                                    <li>Domino effects and chains</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Practice recommendations:</strong></p>
+                        <ol>
+                            <li><strong>Recreate the common effects:</strong> Rain, snow, sparks, smoke, explosion—build each one</li>
+                            <li><strong>Experiment with variations:</strong> Heavy rain vs. light drizzle, gentle snow vs. blizzard</li>
+                            <li><strong>Combine systems:</strong> Rain + lightning + wind, explosion + smoke + debris + sparks</li>
+                            <li><strong>Add to existing scenes:</strong> Take previous projects, add atmospheric particles</li>
+                            <li><strong>Study references:</strong> Watch real rain, snow, explosions—understand motion</li>
+                            <li><strong>Push boundaries:</strong> Try fantasy effects, impossible physics, creative experiments</li>
+                        </ol>
+
+                        <p><strong>Advanced topics to explore (self-study):</strong></p>
+                        <ul>
+                            <li>Dynamic Paint for impact-triggered particles</li>
+                            <li>Animation Nodes for complex particle behaviors</li>
+                            <li>Fluid simulation (FLIP) for liquid particles</li>
+                            <li>Molecular script for advanced physics</li>
+                            <li>Particle instance modifier for emission control</li>
+                            <li>Geometry Nodes integration with particles</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; margin-top: 2rem;">
+                        <h3 style="color: white;">🎉 Congratulations!</h3>
+                        <p style="color: white; font-size: 1.1rem;"><strong>You've completed Lesson 32: Particle Systems Overview!</strong></p>
+                        <p style="color: white;">You now understand:</p>
+                        <ul style="color: white;">
+                            <li>✓ Particle system fundamentals and lifecycle</li>
+                            <li>✓ Emission settings and distribution methods</li>
+                            <li>✓ Physics types and force fields</li>
+                            <li>✓ Collision systems and interactions</li>
+                            <li>✓ Rendering approaches and materials</li>
+                            <li>✓ Common effect recipes and templates</li>
+                            <li>✓ Hands-on rain system development</li>
+                        </ul>
+                        <p style="color: white; margin-top: 1rem;">This is powerful knowledge. Particles bring scenes alive. Create atmosphere. Add drama. Enable effects impossible otherwise. You have foundation. Now build on it. Experiment. Iterate. Create. Every particle system you build teaches new lessons. Every effect you perfect adds to your skills. Keep practicing. Keep pushing. Keep creating amazing effects.</p>
+                        <p style="color: white; margin-top: 1rem;"><strong>Ready for the next challenge? Onward to Lesson 33!</strong></p>
+                    </div>
+
+                </section>
+
+                <!-- Navigation -->
+                <nav class="lesson-nav" aria-label="Lesson Navigation">
+                    <a href="lesson_31_advanced_modifier_stack.html" class="prev-lesson">← Previous: Lesson 31 - Advanced Modifier Stack</a>
+                    <a href="index.html" class="home-link">🏠 Course Home</a>
+                    <a href="lesson_33_hair_and_fur.html" class="next-lesson">Next: Lesson 33 - Hair and Fur →</a>
+                </nav>
+
+                <!-- Footer -->
+                <footer class="lesson-footer">
+                    <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+                </footer>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>
+
+<!-- ============================================
+     END OF PART 08 (FINAL PART)
+     This completes lesson_32_particle_systems_overview.html
+     
+     All 8 parts are now created and ready to be concatenated:
+     - lesson_32_particle_systems_overview_part_01.html
+     - lesson_32_particle_systems_overview_part_02.html
+     - lesson_32_particle_systems_overview_part_03.html
+     - lesson_32_particle_systems_overview_part_04.html
+     - lesson_32_particle_systems_overview_part_05.html
+     - lesson_32_part_06_common_effects.html (needs rename)
+     - lesson_32_particle_systems_overview_part_07.html
+     - lesson_32_particle_systems_overview_part_08.html
+     ============================================ -->

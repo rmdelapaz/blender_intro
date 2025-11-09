@@ -1,0 +1,288 @@
+<!-- ============================================
+     LESSON 35 - PART 02
+     File: lesson_35_rigid_body_physics_part_02.html
+     ============================================ -->
+
+            <section id="first-simulation">
+                <h3>🚀 Your First Rigid Body Simulation</h3>
+                
+                <p>Let's dive right in with the classic rigid body example—dropping a cube onto a floor. This simple setup will teach you the fundamental workflow that applies to all rigid body simulations.</p>
+
+                <h4>Setting Up the Scene</h4>
+                
+                <p>We need two things: an object that falls (active) and a surface to catch it (passive). Think of it like a ball and a floor—the ball falls, the floor stays put.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Quick Start: Falling Cube</h4>
+                    
+                    <p><strong>Step 1: Prepare Your Scene</strong></p>
+                    <ol>
+                        <li>Start with a new Blender file (or File → New → General)</li>
+                        <li>You should have the default cube in the center</li>
+                        <li>Move it up: Select cube, press G, then Z, then 5, then Enter</li>
+                        <li>This positions the cube 5 units above the origin</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 2: Create a Ground Plane</strong></p>
+                    <ol>
+                        <li>Add a plane: Shift + A → Mesh → Plane</li>
+                        <li>The plane should be at the origin (Z = 0)</li>
+                        <li>Scale it larger: Press S, then 5, then Enter</li>
+                        <li>This creates a large floor to catch the cube</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 3: Make the Cube Active (Falling)</strong></p>
+                    <ol>
+                        <li>Select the cube</li>
+                        <li>Look for Physics Properties tab (bouncing ball icon on the right)</li>
+                        <li>Click the <strong>"Rigid Body"</strong> button at the top</li>
+                        <li>Make sure Type is set to <strong>"Active"</strong> (should be default)</li>
+                        <li>That's it! The cube is now affected by physics</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 4: Make the Plane Passive (Floor)</strong></p>
+                    <ol>
+                        <li>Select the plane</li>
+                        <li>Go to Physics Properties</li>
+                        <li>Click the <strong>"Rigid Body"</strong> button</li>
+                        <li>Change Type to <strong>"Passive"</strong> in the dropdown</li>
+                        <li>The plane is now a solid surface but won't move</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Step 5: Run the Simulation!</strong></p>
+                    <ol>
+                        <li>Make sure you're at frame 1 (Shift + Left Arrow if needed)</li>
+                        <li>Press <strong>Spacebar</strong> to play the animation</li>
+                        <li>Watch your cube fall and bounce on the ground!</li>
+                        <li>Press Spacebar again to stop</li>
+                    </ol>
+                </div>
+
+                <div class="mermaid">
+                    graph LR
+                    A[Active Cube] --> B[Falls Under Gravity]
+                    B --> C[Hits Passive Plane]
+                    C --> D[Bounces]
+                    D --> E[Settles on Surface]
+                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style C fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
+                    style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <p>Congratulations! You just created your first rigid body simulation. That cube fell, bounced, and came to rest—all calculated by Blender's physics engine based on real-world physics!</p>
+
+                <blockquote>
+                    <p><strong>🎯 What Just Happened:</strong> Blender calculated gravity pulling the cube down, detected when it hit the plane, calculated the impact force, applied a bounce based on the object's bounciness (elasticity), and gradually slowed it down with friction and damping. All this happens automatically!</p>
+                </blockquote>
+
+                <h4>Understanding What You See</h4>
+                
+                <p>As you played the simulation, you witnessed several physics principles in action:</p>
+
+                <div class="card">
+                    <h4>📚 Physics in Action</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Phase</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">What's Happening</th>
+                                <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Physics Principle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Initial Fall</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Cube accelerates downward</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Gravity (9.8 m/s²)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Impact</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Cube hits plane, velocity reverses</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Collision detection & response</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Bounce</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Cube bounces back up (lower height)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Elasticity (energy loss)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Settling</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Multiple smaller bounces</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Damping & energy dissipation</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Rest</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Cube stops moving</td>
+                                <td style="padding: 0.75rem; border: 1px solid #ddd;">Friction & sleep threshold</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Exploring the Simulation</h4>
+                
+                <p>Now that you have a working simulation, let's explore what you can do with it:</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>🧪 Experiment with Your Simulation</h4>
+                    
+                    <p><strong>Try This: Scrubbing Through Time</strong></p>
+                    <ul>
+                        <li>After running the sim once, click and drag in the timeline</li>
+                        <li>You can move backward and forward through the animation</li>
+                        <li>The physics results are cached (stored in memory)</li>
+                        <li>Notice how smooth the movement is</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Try This: Change Starting Height</strong></p>
+                    <ol>
+                        <li>Go back to frame 1 (Shift + Left Arrow)</li>
+                        <li>Select the cube</li>
+                        <li>Move it higher: G, Z, 10, Enter</li>
+                        <li>Play the simulation again</li>
+                        <li>Notice: The cube falls faster and bounces higher!</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Try This: Add More Cubes</strong></p>
+                    <ol>
+                        <li>Go to frame 1</li>
+                        <li>Select your cube</li>
+                        <li>Duplicate it: Shift + D, then X (move along X), then 2, Enter</li>
+                        <li>The duplicate automatically has rigid body physics!</li>
+                        <li>Play the simulation—both cubes fall independently</li>
+                        <li>Duplicate more! Create 5-10 cubes at different positions</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Try This: Make Cubes Collide</strong></p>
+                    <ol>
+                        <li>Position some cubes so they'll hit each other during the fall</li>
+                        <li>Play the simulation</li>
+                        <li>Watch them bounce off each other!</li>
+                        <li>Each collision is calculated in real-time</li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ First-Time Simulation Notes</h4>
+                    <ul>
+                        <li><strong>Slow first playback is normal:</strong> Blender calculates physics in real-time on first play</li>
+                        <li><strong>Second playback is faster:</strong> Results are cached in memory</li>
+                        <li><strong>Changes reset the cache:</strong> Moving objects or changing settings requires recalculation</li>
+                        <li><strong>Can't edit during playback:</strong> Stop the animation to make changes</li>
+                    </ul>
+                </div>
+
+                <h4>The Physics Properties Panel</h4>
+                
+                <p>When you added rigid body physics, several settings appeared. Let's understand what they mean:</p>
+
+                <div class="card">
+                    <h4>⚙️ Basic Rigid Body Settings</h4>
+                    
+                    <p><strong>Type (Active vs. Passive):</strong></p>
+                    <ul>
+                        <li><strong>Active:</strong> Object affected by physics—falls, collides, bounces</li>
+                        <li><strong>Passive:</strong> Acts as obstacle but doesn't move—floors, walls, ramps</li>
+                        <li>You can change this anytime!</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Animated (Checkbox):</strong></p>
+                    <ul>
+                        <li>Only visible for Passive objects</li>
+                        <li>Allows passive objects to move with keyframe animation</li>
+                        <li>Example: Animated platform that active objects can stand on</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Dynamic (Checkbox):</strong></p>
+                    <ul>
+                        <li>Only for Active objects</li>
+                        <li>When unchecked, object won't be affected by forces but can still collide</li>
+                        <li>Rarely used, keep it checked normally</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mass (kg):</strong></p>
+                    <ul>
+                        <li>How heavy the object is (in kilograms)</li>
+                        <li>Default: 1.0 kg</li>
+                        <li>Heavier objects hit harder but are harder to move</li>
+                    </ul>
+                </div>
+
+                <h4>Quick Experiment: Mass Differences</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Seeing Mass in Action</h4>
+                    <ol>
+                        <li>Create two cubes at the same height, side by side</li>
+                        <li>Give both rigid body physics (Active)</li>
+                        <li>Select one cube, set Mass to 0.1 (light)</li>
+                        <li>Select other cube, set Mass to 10.0 (heavy)</li>
+                        <li>Play the simulation</li>
+                        <li><strong>Observation:</strong> Both fall at the same speed (gravity affects equally)</li>
+                        <li>But when they hit the ground, heavy cube settles faster (more momentum)</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Try This Next:</strong></p>
+                    <ol>
+                        <li>Stack the light cube on top of the heavy cube</li>
+                        <li>Let them fall together</li>
+                        <li>See how they interact on impact!</li>
+                    </ol>
+                </div>
+
+                <blockquote>
+                    <p><strong>💡 Real Physics Fact:</strong> In a vacuum, a feather and a bowling ball fall at the same speed! That's because gravity accelerates all objects equally regardless of mass. Mass matters for collisions, momentum, and how easily objects are moved by forces—but not for falling speed in gravity alone.</p>
+                </blockquote>
+
+                <h4>Common First-Time Issues</h4>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Troubleshooting Your First Simulation</h4>
+                    
+                    <p><strong>Problem: Nothing happens when I press play</strong></p>
+                    <ul>
+                        <li><strong>Check:</strong> Did you add Rigid Body physics to objects?</li>
+                        <li><strong>Check:</strong> Is at least one object set to Active?</li>
+                        <li><strong>Check:</strong> Is the timeline actually playing? (look for moving blue line)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Object falls through the floor</strong></p>
+                    <ul>
+                        <li><strong>Check:</strong> Is the floor set to Passive rigid body?</li>
+                        <li><strong>Check:</strong> Is the floor actually below the falling object?</li>
+                        <li><strong>Solution:</strong> Make sure floor has rigid body physics enabled</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Objects move in slow motion</strong></p>
+                    <ul>
+                        <li><strong>This is normal!</strong> First playback calculates physics in real-time</li>
+                        <li>Second playback will be smooth (cached results)</li>
+                        <li>Or: You might have low frame rate scene settings</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Objects explode or behave erratically</strong></p>
+                    <ul>
+                        <li><strong>Check:</strong> Objects aren't intersecting at frame 1</li>
+                        <li><strong>Check:</strong> Object scales are applied (Ctrl + A → Apply Scale)</li>
+                        <li><strong>Solution:</strong> Start with objects separated in space</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Pro Tip: The Ground Doesn't Have to Be a Plane</h4>
+                    <p>Any object can be passive! You can use:</p>
+                    <ul>
+                        <li>A bowl (objects roll inside it)</li>
+                        <li>A ramp (objects slide down)</li>
+                        <li>Complex terrain</li>
+                        <li>Architectural geometry</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">The passive object just needs to have Rigid Body physics with Type set to Passive. The shape determines how active objects interact with it!</p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_35_rigid_body_physics_part_03.html
+     ============================================ -->

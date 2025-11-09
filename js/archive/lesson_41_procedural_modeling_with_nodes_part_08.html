@@ -1,0 +1,520 @@
+<!-- ============================================
+     LESSON 41 - PART 08
+     File: lesson_41_procedural_modeling_with_nodes_part_08.html
+     ============================================ -->
+
+            <section id="project-building">
+                <h2>🏢 Project 3: Parametric Building Generator</h2>
+                
+                <p>For our final project, we'll create a parametric building generator—a system that creates complete buildings with windows, doors, and roofs from just a few parameters. This project demonstrates how to combine mesh operations, boolean techniques, and complex parameter systems into a practical architectural tool. By the end, you'll have a building generator that can create everything from small houses to multi-story towers with a few slider adjustments. This is the kind of tool used in production for rapid prototyping and background architecture. Let's build something architectural!</p>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎯 Project Goals</h3>
+                    <p style="color: white;"><strong>What We're Building:</strong></p>
+                    <ul style="color: white;">
+                        <li>Parametric building with controllable dimensions</li>
+                        <li>Automatic window grid generation</li>
+                        <li>Door placement at ground level</li>
+                        <li>Multiple roof style options</li>
+                        <li>Floor count control with proper scaling</li>
+                    </ul>
+                    <p style="color: white;"><strong>Skills Applied:</strong></p>
+                    <ul style="color: white;">
+                        <li>Mesh boolean operations</li>
+                        <li>Grid-based distribution</li>
+                        <li>Transform and scale control</li>
+                        <li>Conditional geometry (roof types)</li>
+                        <li>Modular system design</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0;"><strong>Time: 40-50 minutes • Most Complex Project</strong></p>
+                </div>
+
+                <h3>Phase 1: Base Building Structure</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Creating the Foundation</h4>
+                    
+                    <p><strong>1. Scene Setup:</strong></p>
+                    <ul>
+                        <li>New scene or clean slate</li>
+                        <li>Add Plane: <code>Shift + A</code> > Mesh > Plane</li>
+                        <li>Add Geometry Nodes modifier, create new tree</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Create Building Box:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Main building structure
+Add: Mesh > Cube
+
+# Set initial dimensions
+Add: Transform Geometry
+Connect: Cube → Transform Geometry
+
+Set Scale:
+  - X: 5.0 (10m wide)
+  - Y: 4.0 (8m deep)
+  - Z: 4.0 (8m tall - we'll multiply by floor count)
+
+Set Translation:
+  - X: 0
+  - Y: 0
+  - Z: 4.0 (raise so bottom at ground level)
+  
+# Result: Building-sized box centered above origin
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Expose Dimension Parameters:</strong></p>
+                    <ul>
+                        <li>Right-click Transform "Scale" → Expose as Input</li>
+                        <li>Rename: "Building Width", "Building Depth", "Floor Height"</li>
+                        <li>Right-click Transform "Translation" Z → Expose</li>
+                        <li>Rename: "Ground Offset"</li>
+                    </ul>
+                </div>
+
+                <h3>Phase 2: Floor Count System</h3>
+
+                <div class="card">
+                    <h4>📊 Parametric Height Control</h4>
+                    
+                    <p><strong>Challenge:</strong> Building height should scale with floor count.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Add Floor Count Parameter:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Create floor count input in Group Input node
+Add socket: "Floor Count" (Integer, default: 3)
+
+# Calculate total height
+Add: Math node (Multiply)
+Connect: Floor Count → Math "Value"
+Set: Multiply by Floor Height (from scale parameter)
+
+Output: Total building height
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Apply Height to Building:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Update Z scale with calculated height
+Connect: Total height → Transform Geometry "Scale" Z component
+
+# Adjust Z translation (half of height, so bottom at ground)
+Add: Math (Divide by 2)
+Connect: Total height → Divide
+Connect: Result → Transform "Translation" Z
+
+# Result: Building scales with floor count
+# 1 floor = short, 10 floors = tower
+</pre>
+                </div>
+
+                <h3>Phase 3: Window Grid Generation</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Automatic Window Placement</h4>
+                    
+                    <p><strong>Strategy:</strong> Create grid on building face, instance windows at grid points.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Create Window Template:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Simple window = small cube (we'll boolean subtract it)
+Add: Mesh > Cube
+Add: Transform Geometry
+Connect: Cube → Transform
+
+Set Scale: (0.8, 0.2, 1.0) 
+# 0.8m wide, 0.2m deep (cut depth), 1m tall
+
+# Window will be subtracted from wall, so depth = wall penetration
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Create Grid for Window Positions:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Grid on XZ plane (front face)
+Add: Mesh > Grid
+
+Set parameters:
+  - Size X: Building Width × 0.8 (80% of width, margins on sides)
+  - Size Y: Total Height × 0.9 (90% of height, margin top/bottom)
+  - Vertices X: Floor Count × 2 (2 windows per floor horizontally)
+  - Vertices Y: Floor Count (one row per floor)
+
+# Position grid on building face
+Add: Transform Geometry
+Connect: Grid → Transform
+
+Set Translation:
+  - X: 0
+  - Y: Building Depth / 2 + 0.1 (just outside front face)
+  - Z: Total Height / 2 (center vertically)
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Convert Grid to Points:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Grid vertices become window positions
+Add: Mesh > Mesh to Points
+Connect: Transformed Grid → Mesh to Points
+
+Output: Point at each grid vertex = window location
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Instance Windows at Points:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Add: Instances > Instance on Points
+Connect: Grid points → Instance on Points "Points"
+Connect: Window template → Instance on Points "Instance"
+
+# Result: Windows arrayed on building face
+</pre>
+                </div>
+
+                <h3>Phase 4: Boolean Operations (Window Cutouts)</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Subtracting Windows from Walls</h4>
+                    
+                    <p><strong>1. Realize Window Instances:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Boolean needs real geometry, not instances
+Add: Instances > Realize Instances
+Connect: Window instances → Realize Instances
+
+Output: Actual window meshes
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Join All Windows:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Boolean faster with single object than many
+Add: Geometry > Join Geometry
+Connect: Realized windows → Join Geometry
+
+Output: Single mesh containing all windows
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Apply Boolean Difference:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Add: Mesh > Mesh Boolean
+Connect: Building box → Mesh Boolean "Mesh 1"
+Connect: Joined windows → Mesh Boolean "Mesh 2"
+
+Set: Operation = Difference
+Set: Solver = Fast (usually sufficient)
+
+Output: Building with window holes cut out!
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Performance Note:</strong></p>
+                    <ul>
+                        <li>Boolean operations are expensive</li>
+                        <li>Limit window count for viewport performance</li>
+                        <li>Expose "Window Resolution" to control density</li>
+                        <li>Preview: Low resolution, Render: High resolution</li>
+                    </ul>
+                </div>
+
+                <h3>Phase 5: Door Addition</h3>
+
+                <div class="card">
+                    <h4>🚪 Ground-Level Entry</h4>
+                    
+                    <p><strong>1. Create Door Template:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Add: Mesh > Cube
+Add: Transform Geometry
+
+Set Scale: (1.2, 0.2, 2.0)
+# 1.2m wide, 2m tall (standard door), 0.2m depth
+
+Set Translation:
+  - X: 0 (centered)
+  - Y: Building Depth / 2 + 0.1 (at building face)
+  - Z: 1.0 (half door height, so bottom at ground)
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Boolean Door from Building:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Another boolean operation
+Add: Mesh Boolean
+Connect: Building with windows → Mesh Boolean "Mesh 1"
+Connect: Door template → Mesh Boolean "Mesh 2"
+
+Set: Operation = Difference
+
+Output: Building with windows and door
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Optional: Add Door Frame</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Slightly larger cube, different material
+Create door frame geometry (1.3m × 2.1m)
+Don't boolean, just Join Geometry with building
+Assign different material (wood, metal)
+
+# Result: Door opening with visible frame
+</pre>
+                </div>
+
+                <h3>Phase 6: Roof System</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Multiple Roof Types</h4>
+                    
+                    <p><strong>Option 1: Flat Roof (Simple)</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Just a scaled cube on top
+Add: Mesh > Cube
+Add: Transform Geometry
+
+Set Scale: 
+  - X: Building Width + 0.2 (slight overhang)
+  - Y: Building Depth + 0.2
+  - Z: 0.3 (30cm thick roof)
+
+Set Translation:
+  - Z: Total Height + 0.15 (on top of building)
+
+# Join with building
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Option 2: Peaked Roof</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Pyramid-like shape
+Add: Mesh > Cone
+
+Set parameters:
+  - Vertices: 4 (square base = pyramid)
+  - Radius 1: Building Width × 0.7 (base size)
+  - Radius 2: 0 (pointed top)
+  - Depth: 3.0 (roof height)
+
+Add: Transform Geometry
+Set Rotation: X = 0, Y = 0, Z = 45° (align to building)
+Set Translation: Z = Total Height + 1.5 (on top)
+
+# Join with building
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Option 3: Gabled Roof</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Angled roof (residential style)
+# Create with two rotated cubes forming peak
+
+# Left slope
+Add: Cube → Transform
+Scale: (Width/2, Depth+0.2, 0.2)
+Rotate: Y = 30° (slope angle)
+Translate: X = -Width/4, Z = Height + 2
+
+# Right slope  
+Mirror of left slope (X = Width/4, Y = -30°)
+
+# Join both slopes with building
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Roof Selection System:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Add integer parameter: "Roof Type" (0, 1, or 2)
+Group Input: Roof Type (Integer, default: 0)
+
+# Use Switch node to select roof type
+Add: Utilities > Switch (Geometry type)
+Connect: Roof Type → Switch "Switch"
+Connect: Flat roof → Input 0
+Connect: Peaked roof → Input 1
+Connect: Gabled roof → Input 2
+
+Switch output → Join with building
+</pre>
+                </div>
+
+                <h3>Phase 7: Material Zones</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Assigning Different Materials</h4>
+                    
+                    <p><strong>Create Materials:</strong></p>
+                    <ul>
+                        <li><strong>Material 1:</strong> "Wall" (brick/concrete color)</li>
+                        <li><strong>Material 2:</strong> "Roof" (darker, different texture)</li>
+                        <li><strong>Material 3:</strong> "Trim" (window frames, optional)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Assign to Geometry:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Building body = Wall material
+Add: Geometry > Set Material
+Connect: Building (after booleans) → Set Material
+Set: Material index = 0 (Wall)
+
+# Roof = Roof material
+Add: Geometry > Set Material
+Connect: Roof geometry → Set Material
+Set: Material index = 1 (Roof)
+
+# Join all parts
+Join Geometry → Final output
+</pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Advanced: Height-Based Material Zones</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+# Different material for ground floor vs upper floors
+Position.Z → Compare (Less Than) Floor Height → Ground floor mask
+
+Ground floor mask → Set Material (index 0)
+NOT ground floor → Set Material (index 2)
+
+# Result: Different colored floors
+</pre>
+                </div>
+
+                <h3>Phase 8: Parameter Organization</h3>
+
+                <div class="card">
+                    <h4>🎛️ User Interface Design</h4>
+                    
+                    <p><strong>Organized Parameter Groups:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Group 1: Basic Dimensions</strong></p>
+                    <ul>
+                        <li>Floor Count (Integer, 1-20, default: 3)</li>
+                        <li>Building Width (Float, 3-20, default: 10)</li>
+                        <li>Building Depth (Float, 3-20, default: 8)</li>
+                        <li>Floor Height (Float, 2.5-5, default: 4)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Group 2: Windows</strong></p>
+                    <ul>
+                        <li>Windows Per Floor (Integer, 1-10, default: 2)</li>
+                        <li>Window Width (Float, 0.5-2.0, default: 0.8)</li>
+                        <li>Window Height (Float, 0.5-2.0, default: 1.0)</li>
+                        <li>Window Margin (Float, 0.5-2.0, default: 1.0)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Group 3: Roof</strong></p>
+                    <ul>
+                        <li>Roof Type (Integer, 0-2, default: 0)
+                            <ul>
+                                <li>0 = Flat</li>
+                                <li>1 = Peaked</li>
+                                <li>2 = Gabled</li>
+                            </ul>
+                        </li>
+                        <li>Roof Height (Float, 1-5, default: 3)</li>
+                        <li>Roof Overhang (Float, 0-1, default: 0.2)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Group 4: Details</strong></p>
+                    <ul>
+                        <li>Door Width (Float, 0.8-2.0, default: 1.2)</li>
+                        <li>Door Height (Float, 1.5-3.0, default: 2.0)</li>
+                        <li>Include Balconies (Boolean, default: False)</li>
+                    </ul>
+                </div>
+
+                <h3>Testing and Variations</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Experimentation</h4>
+                    
+                    <p><strong>Test Configurations:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Small House:</strong></p>
+                    <ul>
+                        <li>Floors: 2</li>
+                        <li>Width: 6m, Depth: 5m</li>
+                        <li>Windows: 2 per floor</li>
+                        <li>Roof: Gabled</li>
+                        <li>Result: Cozy residential</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Office Tower:</strong></p>
+                    <ul>
+                        <li>Floors: 15</li>
+                        <li>Width: 12m, Depth: 10m</li>
+                        <li>Windows: 4 per floor</li>
+                        <li>Roof: Flat</li>
+                        <li>Result: Modern skyscraper</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Warehouse:</strong></p>
+                    <ul>
+                        <li>Floors: 1</li>
+                        <li>Width: 20m, Depth: 15m</li>
+                        <li>Floor Height: 6m</li>
+                        <li>Windows: Few, large</li>
+                        <li>Result: Industrial building</li>
+                    </ul>
+                </div>
+
+                <h3>Enhancement Ideas</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Taking It Further</h4>
+                    
+                    <p><strong>1. Balconies:</strong></p>
+                    <ul>
+                        <li>Add small protruding boxes on certain floors</li>
+                        <li>Instance railings at balcony edges</li>
+                        <li>Height-based: Only above ground floor</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Architectural Details:</strong></p>
+                    <ul>
+                        <li>Corner pillars (scaled cylinders)</li>
+                        <li>Window shutters (instanced on window grid)</li>
+                        <li>Entrance canopy above door</li>
+                        <li>Rooftop features (vents, antennas)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Multiple Facades:</strong></p>
+                    <ul>
+                        <li>Different window patterns per face</li>
+                        <li>Front vs side vs back</li>
+                        <li>Use position-based selection (X, Y coordinates)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Damage/Weathering:</strong></p>
+                    <ul>
+                        <li>Random window breaks (some windows boolean, some not)</li>
+                        <li>Noise-based material variation (wear patterns)</li>
+                        <li>Partial roof collapse (delete faces)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. City Block Generator:</strong></p>
+                    <ul>
+                        <li>Array this building system</li>
+                        <li>Randomize parameters per instance</li>
+                        <li>Create entire city blocks</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Parametric Design Philosophy:</strong> This building generator exemplifies parametric design thinking. Instead of modeling one building, you created a system that generates infinite building variations. Change a slider, get a house. Change it more, get a tower. This is how architectural visualization studios work—create flexible systems, rapidly iterate, deliver variety. The initial setup takes longer than modeling one building, but the payoff is immense. One system = unlimited buildings. That's the power of procedural modeling!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎉 Project 3 Complete!</h3>
+                    <p style="color: white;"><strong>What You Built:</strong></p>
+                    <ul style="color: white;">
+                        <li>Complete parametric building system</li>
+                        <li>Automatic window grid generation</li>
+                        <li>Boolean-based door/window cutouts</li>
+                        <li>Multiple roof styles with switching</li>
+                        <li>Organized parameter interface</li>
+                    </ul>
+                    <p style="color: white;"><strong>Skills Mastered:</strong></p>
+                    <ul style="color: white;">
+                        <li>Mesh Boolean operations</li>
+                        <li>Grid-based instance distribution</li>
+                        <li>Complex parameter systems</li>
+                        <li>Conditional geometry (switches)</li>
+                        <li>Modular procedural design</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0;"><strong>You've completed all three advanced projects!</strong></p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 08
+     Continue with lesson_41_procedural_modeling_with_nodes_part_09.html
+     ============================================ -->

@@ -1,0 +1,469 @@
+<!-- ============================================
+     LESSON 26 - PART 01
+     File: lesson_26_graph_editor_essentials_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master Blender's Graph Editor for precise animation control. Learn to read curves, adjust handles, perfect timing, and create professional-quality motion through F-Curve manipulation.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 26: Graph Editor Essentials - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#module6">Module 6: Introduction to Animation</a> &gt; 
+            <span>Lesson 26: Graph Editor Essentials</span>
+        </nav>
+
+        <header class="lesson-header">
+            <h1>📈 Lesson 26: Graph Editor Essentials</h1>
+            <p class="lead">The Graph Editor is where good animation becomes great. Those smooth Pixar movements, those perfectly-timed bounces, those natural character performances—they all live in the curves. Master the Graph Editor and you control not just where objects move, but how they move. This is where animation magic happens.</p>
+        </header>
+
+        <main>
+            <article class="lesson-content">
+
+                <section class="learning-objectives">
+                    <div class="card">
+                        <h2>🎯 Learning Objectives</h2>
+                        <p><strong>By the end of this lesson, you will be able to:</strong></p>
+                        <ul>
+                            <li>Navigate and understand the Graph Editor interface</li>
+                            <li>Read and interpret F-Curves (animation curves)</li>
+                            <li>Manipulate curve handles for precise timing control</li>
+                            <li>Use different handle types for various easing effects</li>
+                            <li>Apply F-Curve modifiers for complex motion</li>
+                            <li>Perfect animation timing through curve refinement</li>
+                            <li>Troubleshoot and fix common curve problems</li>
+                            <li>Apply professional curve-shaping techniques</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                        <h3>📋 What You'll Learn</h3>
+                        <ul>
+                            <li><strong>Time Required:</strong> 90-120 minutes</li>
+                            <li><strong>Difficulty:</strong> Intermediate</li>
+                            <li><strong>Prerequisites:</strong> Lessons 24-25 (Animation Fundamentals, Timeline/Keyframes)</li>
+                            <li><strong>Project:</strong> Refine bouncing ball animation using Graph Editor</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#what-is-graph-editor" class="toc-link">What is the Graph Editor</a></li>
+                            <li><a href="#interface" class="toc-link">Graph Editor Interface</a></li>
+                            <li><a href="#reading-curves" class="toc-link">Reading F-Curves</a></li>
+                            <li><a href="#curve-handles" class="toc-link">Understanding Handles</a></li>
+                            <li><a href="#editing-curves" class="toc-link">Editing Curves and Keyframes</a></li>
+                            <li><a href="#handle-types" class="toc-link">Handle Types Mastery</a></li>
+                            <li><a href="#curve-modifiers" class="toc-link">F-Curve Modifiers</a></li>
+                            <li><a href="#project" class="toc-link">Project: Perfect Bounce</a></li>
+                            <li><a href="#summary" class="toc-link">Summary and Next Steps</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="what-is-graph-editor" class="content-section">
+                    <h2>🎨 What is the Graph Editor</h2>
+
+                    <p>The Graph Editor visualizes animation as mathematical curves. Each curve represents how a property changes over time. Understanding these curves is the difference between amateur animation and professional work.</p>
+
+                    <h3>Why the Graph Editor Matters</h3>
+
+                    <div class="card">
+                        <h4>🔍 The Missing Piece</h4>
+                        <p><strong>What you've learned so far:</strong></p>
+                        <ul>
+                            <li><strong>Lesson 24:</strong> Principles—what makes animation work</li>
+                            <li><strong>Lesson 25:</strong> Keyframes—defining key poses and moments</li>
+                            <li><strong>Interpolation:</strong> Blender calculates values between keyframes</li>
+                            <li>But you haven't controlled HOW Blender interpolates</li>
+                        </ul>
+
+                        <p><strong>Graph Editor gives you control:</strong></p>
+                        <ul>
+                            <li>See exactly how values change frame-by-frame</li>
+                            <li>Adjust acceleration and deceleration precisely</li>
+                            <li>Perfect timing by reshaping curves</li>
+                            <li>This is where "slow in/slow out" actually happens</li>
+                        </ul>
+
+                        <p><strong>Timeline vs Dope Sheet vs Graph Editor:</strong></p>
+                        <ul>
+                            <li><strong>Timeline:</strong> "Animation exists" (diamonds show keyframes)</li>
+                            <li><strong>Dope Sheet:</strong> "When keyframes happen" (timing relationships)</li>
+                            <li><strong>Graph Editor:</strong> "How motion happens" (acceleration, easing, curves)</li>
+                            <li>All three views show same data, different perspectives</li>
+                        </ul>
+
+                        <p><strong>The professional difference:</strong></p>
+                        <ul>
+                            <li>Amateurs keyframe and hope interpolation looks good</li>
+                            <li>Professionals keyframe, then refine curves until perfect</li>
+                            <li>Graph Editor refinement is 50% of professional animation time</li>
+                            <li>This is where "good enough" becomes "amazing"</li>
+                        </ul>
+                    </div>
+
+                    <h3>F-Curves Explained</h3>
+
+                    <div class="card">
+                        <h4>📊 Understanding Animation Curves</h4>
+                        <p><strong>F-Curve = Function Curve:</strong></p>
+                        <ul>
+                            <li>Mathematical function describing value over time</li>
+                            <li>Horizontal axis = Time (frames)</li>
+                            <li>Vertical axis = Value (location, rotation, scale, etc.)</li>
+                            <li>Curve shape = How value changes</li>
+                        </ul>
+
+                        <p><strong>Example: Ball rising and falling</strong></p>
+                        <ul>
+                            <li>Frame 1: Ball at ground (Z = 0)</li>
+                            <li>Frame 24: Ball at peak (Z = 5)</li>
+                            <li>Frame 48: Ball at ground (Z = 0)</li>
+                            <li>F-Curve shows this as arc: up, then down</li>
+                        </ul>
+
+                        <p><strong>Curve shape reveals motion quality:</strong></p>
+                        <ul>
+                            <li><strong>Smooth curve:</strong> Natural, organic motion</li>
+                            <li><strong>Straight line:</strong> Constant speed (robotic)</li>
+                            <li><strong>Sharp angle:</strong> Sudden change (impact, instant direction change)</li>
+                            <li><strong>Wavy curve:</strong> Oscillating motion (vibration, wobble)</li>
+                        </ul>
+
+                        <p><strong>Every animated property has its own F-Curve:</strong></p>
+                        <ul>
+                            <li>Location X → one curve</li>
+                            <li>Location Y → separate curve</li>
+                            <li>Location Z → separate curve</li>
+                            <li>Same for Rotation and Scale</li>
+                            <li>Each curve editable independently</li>
+                        </ul>
+                    </div>
+
+                    <h3>What F-Curves Show You</h3>
+
+                    <div class="card">
+                        <h4>🔬 Reading Motion at a Glance</h4>
+                        <p><strong>Curve steepness = Speed:</strong></p>
+                        <ul>
+                            <li><strong>Steep slope:</strong> Fast change (object moving quickly)</li>
+                            <li><strong>Gentle slope:</strong> Slow change (object moving slowly)</li>
+                            <li><strong>Horizontal line:</strong> No change (object stationary)</li>
+                            <li><strong>Vertical line:</strong> Instant change (teleportation—rarely desired)</li>
+                        </ul>
+
+                        <p><strong>Curve direction = Motion direction:</strong></p>
+                        <ul>
+                            <li><strong>Upward slope:</strong> Value increasing (moving right/up/forward)</li>
+                            <li><strong>Downward slope:</strong> Value decreasing (moving left/down/backward)</li>
+                            <li><strong>Peak (top of arc):</strong> Maximum value, changing direction</li>
+                            <li><strong>Valley (bottom of arc):</strong> Minimum value, changing direction</li>
+                        </ul>
+
+                        <p><strong>Curve smoothness = Motion quality:</strong></p>
+                        <ul>
+                            <li><strong>Smooth Bezier curves:</strong> Natural, organic (what you want 90% of time)</li>
+                            <li><strong>Linear segments:</strong> Mechanical, constant speed</li>
+                            <li><strong>Jagged, bumpy:</strong> Jerky motion (usually a problem)</li>
+                            <li><strong>Sharp corners:</strong> Sudden impacts or direction changes</li>
+                        </ul>
+
+                        <p><strong>Visual example interpretation:</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Curve shape: S-curve (ease in/out)
+      5 ┤        ╭─────╮
+        │      ╱       ╲
+      0 ┤─────╯         ╰─────
+        └─────┬─────┬─────┬
+              1    24    48 (frames)
+
+Interpretation:
+- Frames 1-12: Gentle slope (slow start)
+- Frames 12-36: Steep slope (fast middle)
+- Frames 36-48: Gentle slope (slow end)
+= Natural ease in/out motion
+                        </pre>
+                    </div>
+
+                    <h3>When to Use Graph Editor</h3>
+
+                    <div class="card">
+                        <h4>🎯 Knowing When to Dive In</h4>
+                        <p><strong>Use Graph Editor when:</strong></p>
+                        <ul>
+                            <li><strong>Motion feels "off":</strong> Animation looks weird, need to diagnose</li>
+                            <li><strong>Timing needs perfection:</strong> Getting close but not quite right</li>
+                            <li><strong>Easing control:</strong> Need more or less ease in/out</li>
+                            <li><strong>Speed variation:</strong> Want object to accelerate/decelerate specifically</li>
+                            <li><strong>Subtle adjustments:</strong> Moving keyframes isn't enough</li>
+                            <li><strong>Professional polish:</strong> Final 10% of quality</li>
+                        </ul>
+
+                        <p><strong>Don't need Graph Editor when:</strong></p>
+                        <ul>
+                            <li>Blocking initial animation (keyframing major poses)</li>
+                            <li>Default Bezier interpolation already looks good</li>
+                            <li>Simple, forgiving animations (abstract shapes)</li>
+                            <li>Rough draft stage (refine later)</li>
+                        </ul>
+
+                        <p><strong>Professional workflow:</strong></p>
+                        <ol>
+                            <li><strong>Block:</strong> Set keyframes in Timeline/Dope Sheet</li>
+                            <li><strong>Time:</strong> Adjust keyframe positions until roughly right</li>
+                            <li><strong>Refine:</strong> Open Graph Editor, perfect curves</li>
+                            <li><strong>Polish:</strong> Final micro-adjustments in Graph Editor</li>
+                        </ol>
+
+                        <p><strong>The 80/20 rule:</strong></p>
+                        <ul>
+                            <li>80% of animation happens in Timeline/Dope Sheet (keyframing, timing)</li>
+                            <li>20% happens in Graph Editor (refinement, polish)</li>
+                            <li>But that 20% makes ALL the difference</li>
+                            <li>Separates good from great</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Curves Are Truth:</strong> Your animation might look smooth when you scrub through it. You might think it's done. Then you open the Graph Editor and see a jagged, chaotic mess of curves. The Graph Editor reveals what's really happening. It's like X-ray vision for animation—you can't lie to the curves. A bad curve always produces bad motion, even if you can't consciously identify why. This is why professionals obsessively check curves. They know: smooth curves = smooth motion. Always. No exceptions.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="interface" class="content-section">
+                    <h2>🖥️ Graph Editor Interface</h2>
+
+                    <p>The Graph Editor might look intimidating at first—lots of lines, numbers, and controls. But once you understand the layout, it becomes intuitive. Let's break it down piece by piece.</p>
+
+                    <h3>Opening the Graph Editor</h3>
+
+                    <div class="card">
+                        <h4>📂 Getting Started</h4>
+                        <p><strong>Method 1: Change editor type</strong></p>
+                        <ul>
+                            <li>Any editor window → Editor Type icon (top-left)</li>
+                            <li>Select "Graph Editor" from dropdown</li>
+                            <li>Timeline becomes Graph Editor</li>
+                        </ul>
+
+                        <p><strong>Method 2: Use Animation workspace</strong></p>
+                        <ul>
+                            <li>Top menu bar → Animation workspace</li>
+                            <li>Graph Editor usually visible by default</li>
+                            <li>Pre-configured animation layout</li>
+                        </ul>
+
+                        <p><strong>Method 3: Split window</strong></p>
+                        <ul>
+                            <li>Hover on editor corner → drag to split</li>
+                            <li>Keep Timeline at bottom, Graph Editor in middle</li>
+                            <li>Professional setup: see both simultaneously</li>
+                        </ul>
+
+                        <p><strong>First time setup:</strong></p>
+                        <ul>
+                            <li>Create simple animation (cube moving side to side)</li>
+                            <li>Frame 1: Cube at X=0, keyframe Location</li>
+                            <li>Frame 24: Cube at X=5, keyframe Location</li>
+                            <li>Open Graph Editor → You'll see your first curve!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Interface Layout</h3>
+
+                    <div class="card">
+                        <h4>🗺️ Navigation and Panels</h4>
+                        <p><strong>Left panel (Channel List):</strong></p>
+                        <ul>
+                            <li>Shows all animated objects and properties</li>
+                            <li>Similar to Dope Sheet hierarchy</li>
+                            <li>Expandable tree: Object → Transform → Individual channels</li>
+                            <li>Click channel name to isolate its curve</li>
+                            <li>Can hide/show, lock, mute channels</li>
+                        </ul>
+
+                        <p><strong>Main area (Graph View):</strong></p>
+                        <ul>
+                            <li>Horizontal axis: Time (frames)</li>
+                            <li>Vertical axis: Value (varies by property)</li>
+                            <li>Colored curves representing each channel</li>
+                            <li>Keyframes shown as dots/diamonds on curves</li>
+                            <li>Grid for reference</li>
+                        </ul>
+
+                        <p><strong>Header (top bar):</strong></p>
+                        <ul>
+                            <li><strong>View menu:</strong> Framing, navigation options</li>
+                            <li><strong>Select menu:</strong> Selection tools</li>
+                            <li><strong>Channel menu:</strong> Channel operations</li>
+                            <li><strong>Key menu:</strong> Keyframe operations</li>
+                            <li><strong>Marker menu:</strong> Frame markers</li>
+                            <li><strong>View options:</strong> Grid, handles visibility</li>
+                        </ul>
+
+                        <p><strong>Sidebar (N panel):</strong></p>
+                        <ul>
+                            <li>Press <code>N</code> to toggle</li>
+                            <li>Shows selected keyframe properties</li>
+                            <li>Frame number, value, interpolation type</li>
+                            <li>Handle positions for precision editing</li>
+                        </ul>
+                    </div>
+
+                    <h3>Navigation Controls</h3>
+
+                    <div class="card">
+                        <h4>🧭 Moving Around the Graph</h4>
+                        <p><strong>Essential shortcuts:</strong></p>
+                        <ul>
+                            <li><code>Middle Mouse Drag</code>: Pan view (move around)</li>
+                            <li><code>Scroll Wheel</code>: Zoom in/out</li>
+                            <li><code>Ctrl + Middle Mouse Drag</code>: Zoom (alternative)</li>
+                            <li><code>Home</code>: Frame all curves (fit everything in view)</li>
+                            <li><code>Numpad .</code>: Frame selected (zoom to selection)</li>
+                            <li><code>View → View All</code>: Same as Home key</li>
+                        </ul>
+
+                        <p><strong>Precise navigation:</strong></p>
+                        <ul>
+                            <li><code>Shift + Middle Mouse</code>: Pan vertically only</li>
+                            <li><code>Ctrl + Shift + Middle Mouse</code>: Zoom vertically only</li>
+                            <li>Useful when adjusting timing vs adjusting values</li>
+                        </ul>
+
+                        <p><strong>Playback in Graph Editor:</strong></p>
+                        <ul>
+                            <li><code>Spacebar</code>: Play animation (same as Timeline)</li>
+                            <li>Blue playhead scrubs across graph</li>
+                            <li>Watch curve and viewport simultaneously</li>
+                            <li>See relationship between curve shape and motion</li>
+                        </ul>
+
+                        <p><strong>View options:</strong></p>
+                        <ul>
+                            <li><strong>Normalize:</strong> Scales all curves to fit (Header → View)</li>
+                            <li><strong>Show handles:</strong> Display Bezier handles (default on)</li>
+                            <li><strong>Only selected:</strong> Hide non-selected curves (declutter)</li>
+                            <li><strong>Only errors:</strong> Show only problematic curves</li>
+                        </ul>
+                    </div>
+
+                    <h3>Channel List Organization</h3>
+
+                    <div class="card">
+                        <h4>📋 Understanding the Hierarchy</h4>
+                        <p><strong>Typical hierarchy structure:</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Cube (Object)
+  ├─ Location
+  │   ├─ X Location [Red curve]
+  │   ├─ Y Location [Green curve]
+  │   └─ Z Location [Blue curve]
+  ├─ Rotation Euler
+  │   ├─ X Euler Rotation [Red curve]
+  │   ├─ Y Euler Rotation [Green curve]
+  │   └─ Z Euler Rotation [Blue curve]
+  └─ Scale
+      ├─ X Scale [Red curve]
+      ├─ Y Scale [Green curve]
+      └─ Z Scale [Blue curve]
+                        </pre>
+
+                        <p><strong>Color coding:</strong></p>
+                        <ul>
+                            <li><strong>Red curves:</strong> X-axis properties</li>
+                            <li><strong>Green curves:</strong> Y-axis properties</li>
+                            <li><strong>Blue curves:</strong> Z-axis properties</li>
+                            <li>Consistent with Blender's transform gizmo colors</li>
+                            <li>Easy visual identification</li>
+                        </ul>
+
+                        <p><strong>Channel visibility controls:</strong></p>
+                        <ul>
+                            <li><strong>Eye icon:</strong> Show/hide curve in graph</li>
+                            <li><strong>Lock icon:</strong> Prevent editing (protect curve)</li>
+                            <li><strong>Speaker icon:</strong> Mute channel (temporarily disable)</li>
+                            <li>Click channel name: Toggle visibility</li>
+                        </ul>
+
+                        <p><strong>Isolating curves:</strong></p>
+                        <ul>
+                            <li>Select single channel → Only that curve visible</li>
+                            <li>Shift+Click channels → Multiple curves visible</li>
+                            <li>Essential for complex objects with many curves</li>
+                            <li>Can't edit what you can't see clearly</li>
+                        </ul>
+                    </div>
+
+                    <h3>Graph Customization</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Personalizing Your Workspace</h4>
+                        <p><strong>Grid and guides:</strong></p>
+                        <ul>
+                            <li>View → Show Grid: Toggle background grid</li>
+                            <li>Grid helps identify exact frame/value positions</li>
+                            <li>Adjustable spacing in preferences</li>
+                        </ul>
+
+                        <p><strong>Handle display:</strong></p>
+                        <ul>
+                            <li>View → Show Handles: Toggle Bezier handles</li>
+                            <li>Usually want ON (need to see handles to edit)</li>
+                            <li>Can turn off for cleaner view when just observing</li>
+                        </ul>
+
+                        <p><strong>Curve smoothness:</strong></p>
+                        <ul>
+                            <li>Curves drawn as smooth lines (interpolated)</li>
+                            <li>Not actual keyframe-by-keyframe values</li>
+                            <li>Visual representation of mathematical curve</li>
+                        </ul>
+
+                        <p><strong>Professional setup tips:</strong></p>
+                        <ul>
+                            <li>Keep Timeline visible below Graph Editor (see both)</li>
+                            <li>Use large Graph Editor window (details matter)</li>
+                            <li>Enable all view helpers (grid, handles, etc.)</li>
+                            <li>Learn to quickly isolate channels (less visual noise)</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Your New Animation Home:</strong> At first, the Graph Editor feels foreign—numbers, curves, axes. But after working here awhile, something clicks. You start seeing animation differently. You stop thinking "the ball moves here," and start thinking "the curve should ease out like this." You internalize curves as motion. When that happens, you've graduated from button-pusher to animator. The Graph Editor stops being a tool and becomes an extension of your creative vision. Every professional animator lives in this space. Make it your home too.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_26_graph_editor_essentials_part_02.html
+     ============================================ -->

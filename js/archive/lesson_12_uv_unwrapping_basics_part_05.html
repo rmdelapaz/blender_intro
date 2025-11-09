@@ -1,0 +1,545 @@
+<!-- ============================================
+     LESSON 12 - PART 05
+     File: lesson_12_uv_unwrapping_basics_part_05.html
+     ============================================ -->
+
+                <section id="manipulating-uv-islands" class="content-section">
+                    <h2>🎨 Manipulating UV Islands</h2>
+
+                    <p>Once you've unwrapped your model, you'll need to arrange, orient, and optimize the UV islands. This is where artistic judgment meets technical skill!</p>
+
+                    <h3>Packing UV Islands</h3>
+
+                    <p>UV packing is the process of arranging islands efficiently within the 0-1 UV space to maximize texture resolution:</p>
+
+                    <div class="card">
+                        <h4>📦 UV Packing Basics</h4>
+                        <p><strong>What is packing?</strong></p>
+                        <ul>
+                            <li>Arranging UV islands to fill UV space efficiently</li>
+                            <li>Minimizes wasted texture space</li>
+                            <li>Maximizes resolution for every surface</li>
+                            <li>Like playing Tetris with your UVs!</li>
+                        </ul>
+                        <p><strong>Manual packing method:</strong></p>
+                        <ol>
+                            <li>Select islands you want to pack</li>
+                            <li>Use <code>G</code>, <code>R</code>, <code>S</code> to move, rotate, scale</li>
+                            <li>Arrange to minimize gaps</li>
+                            <li>Leave small margin between islands (prevent texture bleeding)</li>
+                        </ol>
+                        <p><strong>Automatic packing:</strong></p>
+                        <ol>
+                            <li>Select all UVs (<code>A</code> in UV Editor)</li>
+                            <li>Go to UV menu → Pack Islands</li>
+                            <li>Or right-click → Pack Islands</li>
+                            <li>Blender automatically arranges for best fit</li>
+                        </ol>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Pack Islands Settings</h4>
+                        <p><strong>Key options (in operator panel after packing):</strong></p>
+                        <ul>
+                            <li><strong>Margin:</strong> Space between islands (default: 0.001)
+                                <ul>
+                                    <li>Too small = texture bleeding (colors leak between islands)</li>
+                                    <li>Too large = wasted space</li>
+                                    <li>Recommended: 0.001 to 0.005</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotate:</strong> Allow islands to rotate for better fit
+                                <ul>
+                                    <li>Can enable for maximum efficiency</li>
+                                    <li>Disable if you need specific orientations</li>
+                                </ul>
+                            </li>
+                            <li><strong>Shape Method:</strong>
+                                <ul>
+                                    <li><strong>AABB:</strong> Axis-aligned bounding box (fast, less precise)</li>
+                                    <li><strong>Convex Hull:</strong> Wraps tighter (slower, more efficient)</li>
+                                    <li><strong>Concave:</strong> Best fit (slowest, most efficient)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Texture Budget Concept:</strong> Think of UV space like a budget. Every pixel of your texture is valuable! If islands only use 50% of UV space, you're wasting 50% of your texture resolution. Good packing means getting the most detail possible from every pixel!</p>
+                    </blockquote>
+
+                    <h3>Scaling Islands Proportionally</h3>
+
+                    <p>One of the most important UV concepts: different islands should have appropriate relative sizes:</p>
+
+                    <div class="card">
+                        <h4>📏 Proportional Island Scaling</h4>
+                        <p><strong>Why it matters:</strong></p>
+                        <ul>
+                            <li>Islands should be sized relative to their 3D surface area</li>
+                            <li>Larger 3D surfaces → larger UV islands (more texture pixels)</li>
+                            <li>Smaller 3D surfaces → smaller UV islands (fewer pixels)</li>
+                            <li>Maintains consistent texture density across entire model</li>
+                        </ul>
+                        <p><strong>The problem with non-proportional scaling:</strong></p>
+                        <ul>
+                            <li>Small detail gets huge UV space = excessive resolution (wasted)</li>
+                            <li>Large surface gets tiny UV space = blurry texture (bad quality)</li>
+                            <li>Inconsistent texture sharpness across model</li>
+                        </ul>
+                        <p><strong>How to maintain proportions:</strong></p>
+                        <ul>
+                            <li>Blender's Unwrap usually creates proportional islands automatically</li>
+                            <li>Use Average Island Scale to normalize (UV menu → Average Island Scale)</li>
+                            <li>Visually compare island sizes to 3D surface areas</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ When to Break Proportionality</h4>
+                        <p>Sometimes you WANT disproportionate scaling:</p>
+                        <ul>
+                            <li><strong>Hero surfaces:</strong> Face, hands, logos get extra resolution</li>
+                            <li><strong>Detail areas:</strong> Parts that will be seen close-up</li>
+                            <li><strong>Hidden surfaces:</strong> Undersides, backs get less resolution</li>
+                        </ul>
+                        <p><strong>The rule:</strong> Start proportional, then strategically adjust for importance!</p>
+                    </div>
+
+                    <h3>Rotating Islands</h3>
+
+                    <p>Proper island orientation makes texturing easier and can improve packing:</p>
+
+                    <div class="card">
+                        <h4>🔄 Island Rotation Strategies</h4>
+                        <p><strong>Why rotate islands?</strong></p>
+                        <ul>
+                            <li>Align to texture features (wood grain, fabric weave)</li>
+                            <li>Improve packing efficiency (fit more in UV space)</li>
+                            <li>Orient for easier hand painting</li>
+                            <li>Standardize orientation across similar parts</li>
+                        </ul>
+                        <p><strong>How to rotate:</strong></p>
+                        <ul>
+                            <li>Select island (<code>L</code> over it)</li>
+                            <li>Press <code>R</code> to rotate</li>
+                            <li>Type angle (90, 180, etc.) for precise rotation</li>
+                            <li>Or rotate freely by moving mouse</li>
+                        </ul>
+                        <p><strong>Common rotation angles:</strong></p>
+                        <ul>
+                            <li><strong>90° increments:</strong> For architectural alignment</li>
+                            <li><strong>Arbitrary angles:</strong> For optimal packing</li>
+                            <li><strong>Aligned to grid:</strong> For tiled textures</li>
+                        </ul>
+                    </div>
+
+                    <h3>Straightening UV Islands</h3>
+
+                    <p>Sometimes unwrapped islands are slightly skewed or irregular. Straightening creates cleaner UVs:</p>
+
+                    <div class="card">
+                        <h4>📐 Straightening Techniques</h4>
+                        <p><strong>Align edges:</strong></p>
+                        <ol>
+                            <li>Switch to edge select mode (<code>2</code>)</li>
+                            <li>Select edge loop you want to straighten</li>
+                            <li><code>S</code> (scale), then <code>X</code> or <code>Y</code>, then <code>0</code></li>
+                            <li>Flattens selected edges to perfectly straight line</li>
+                        </ol>
+                        <p><strong>Follow Active Quads (grid-like unwrapping):</strong></p>
+                        <ol>
+                            <li>Select faces you want to straighten</li>
+                            <li>Make sure one quad is active (last selected)</li>
+                            <li>Press <code>U</code> → Follow Active Quads</li>
+                            <li>Creates perfectly rectangular UV layout based on active face</li>
+                            <li>Great for architectural surfaces, floors, walls</li>
+                        </ol>
+                        <p><strong>Use case:</strong> Straightening is especially useful for surfaces that should have perfectly aligned textures (tiles, bricks, panels)</p>
+                    </div>
+
+                    <h3>Pinning UVs</h3>
+
+                    <p>Pinning locks UV vertices in place during unwrapping operations:</p>
+
+                    <div class="card">
+                        <h4>📌 UV Pinning</h4>
+                        <p><strong>What is pinning?</strong></p>
+                        <ul>
+                            <li>Marks specific UV vertices as "locked"</li>
+                            <li>Pinned vertices won't move during unwrap operations</li>
+                            <li>Rest of island adjusts around pinned points</li>
+                            <li>Shown as red vertices in UV Editor</li>
+                        </ul>
+                        <p><strong>How to pin:</strong></p>
+                        <ol>
+                            <li>Select UV vertices you want to pin</li>
+                            <li>Press <code>P</code> → Pin</li>
+                            <li>Or UV menu → Pin</li>
+                            <li>To unpin: <code>Alt+P</code> or UV menu → Unpin</li>
+                        </ol>
+                        <p><strong>Use cases:</strong></p>
+                        <ul>
+                            <li><strong>Partial re-unwrap:</strong> Pin good areas, re-unwrap problematic areas</li>
+                            <li><strong>Manual UV shaping:</strong> Pin corners to specific locations, unwrap fills in between</li>
+                            <li><strong>Align to texture features:</strong> Pin specific points to match texture elements</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Advanced Pinning Workflow</h4>
+                        <p><strong>The "pin and refine" technique:</strong></p>
+                        <ol>
+                            <li>Do initial unwrap (creates base layout)</li>
+                            <li>Manually position corners or edges where you want them</li>
+                            <li>Pin those vertices (<code>P</code>)</li>
+                            <li>Select entire island and unwrap again</li>
+                            <li>Pinned vertices stay in place, rest adjusts with less distortion</li>
+                            <li>Iterate: move pins, unwrap, check result</li>
+                        </ol>
+                        <p>This gives you control over general layout while letting Blender optimize distortion!</p>
+                    </div>
+
+                    <h3>Welding and Stitching UVs</h3>
+
+                    <p>Sometimes you need to merge UV vertices or reconnect islands:</p>
+
+                    <div class="card">
+                        <h4>🔗 Welding UV Vertices</h4>
+                        <p><strong>What is welding?</strong></p>
+                        <ul>
+                            <li>Merges selected UV vertices to same location</li>
+                            <li>Like "Merge Vertices" but for UVs only</li>
+                            <li>Doesn't affect 3D geometry</li>
+                        </ul>
+                        <p><strong>How to weld:</strong></p>
+                        <ol>
+                            <li>Select UV vertices to weld (must be from same mesh)</li>
+                            <li>Press <code>W</code> → Weld</li>
+                            <li>Or right-click → Weld</li>
+                            <li>Vertices merge to average position</li>
+                        </ol>
+                        <p><strong>Stitch operation:</strong></p>
+                        <ol>
+                            <li>Select UV edges you want to join (from two islands)</li>
+                            <li>Press <code>V</code> → Stitch</li>
+                            <li>Bridges gap between islands, joining them</li>
+                            <li>Useful for fixing seam placement mistakes</li>
+                        </ol>
+                    </div>
+
+                    <h3>Copying and Pasting UVs</h3>
+
+                    <p>Transfer UV coordinates between different parts of your mesh:</p>
+
+                    <div class="card">
+                        <h4>📋 UV Copy/Paste</h4>
+                        <p><strong>Why copy UVs?</strong></p>
+                        <ul>
+                            <li>Reuse unwrapping work on similar geometry</li>
+                            <li>Create symmetrical UVs quickly</li>
+                            <li>Transfer good UVs to problematic areas</li>
+                        </ul>
+                        <p><strong>Copy/paste workflow:</strong></p>
+                        <ol>
+                            <li>Select faces with UVs you want to copy (in 3D Viewport)</li>
+                            <li>In UV Editor: UV menu → Copy UVs</li>
+                            <li>Select target faces (faces that will receive copied UVs)</li>
+                            <li>UV menu → Paste UVs</li>
+                            <li>UVs are transferred to new selection</li>
+                        </ol>
+                        <p><strong>Important:</strong> Target faces must have same topology (face count, edge flow) as source!</p>
+                    </div>
+
+                    <h3>Mirror UVs</h3>
+
+                    <p>Create perfectly symmetrical UV layouts for symmetrical models:</p>
+
+                    <div class="card">
+                        <h4>🪞 UV Mirroring</h4>
+                        <p><strong>The concept:</strong></p>
+                        <ul>
+                            <li>Left and right sides of model share same UV space</li>
+                            <li>One side's UVs are flipped copy of other side</li>
+                            <li>Saves 50% of texture space!</li>
+                            <li>Perfect for characters, vehicles, symmetrical objects</li>
+                        </ul>
+                        <p><strong>Setting up mirrored UVs:</strong></p>
+                        <ol>
+                            <li>Unwrap one half of model (with seam down middle)</li>
+                            <li>Select UVs for other half</li>
+                            <li>UV menu → Mirror → Mirror X (or Y)</li>
+                            <li>Or: Copy UVs from first half, paste to second half, then mirror</li>
+                        </ol>
+                        <p><strong>Trade-offs:</strong></p>
+                        <ul>
+                            <li><strong>Pro:</strong> Double the texture resolution per unique surface</li>
+                            <li><strong>Pro:</strong> Easier to maintain symmetry in texture painting</li>
+                            <li><strong>Con:</strong> Can't have asymmetrical details (scars, dirt on one side)</li>
+                            <li><strong>Con:</strong> Obvious mirror repetition if not handled carefully</li>
+                        </ul>
+                    </div>
+
+                    <div class="mermaid">
+                        graph LR
+                        A[Symmetrical Model] --> B[Unwrap Left Half]
+                        B --> C[Mirror UVs to Right]
+                        C --> D[Both Halves Share UV Space]
+                        D --> E[50% Texture Space Saved!]
+                        
+                        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                        style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    </mermaid>
+
+                </section>
+
+                <section id="optimizing-uvs" class="content-section">
+                    <h2>⚡ Optimizing UV Layouts</h2>
+
+                    <p>Creating a good UV layout isn't just about unwrapping—it's about optimizing for the best possible texture quality and workflow efficiency.</p>
+
+                    <h3>Texture Density</h3>
+
+                    <p>Texture density is the relationship between 3D surface area and UV space. Consistent density = consistent quality!</p>
+
+                    <div class="card">
+                        <h4>📊 Understanding Texture Density</h4>
+                        <p><strong>What is texture density?</strong></p>
+                        <ul>
+                            <li>How many texture pixels cover a given 3D surface area</li>
+                            <li>Measured in "pixels per unit" or "texels per unit"</li>
+                            <li>Higher density = sharper textures (more pixels per surface)</li>
+                            <li>Lower density = blurrier textures (fewer pixels per surface)</li>
+                        </ul>
+                        <p><strong>Why consistency matters:</strong></p>
+                        <ul>
+                            <li>Inconsistent density = some parts sharp, others blurry</li>
+                            <li>Looks unprofessional and breaks immersion</li>
+                            <li>Consistent density = uniform quality across model</li>
+                        </ul>
+                        <p><strong>Checking texture density:</strong></p>
+                        <ul>
+                            <li>Use UV Grid texture in 3D Viewport</li>
+                            <li>Checker squares should be roughly same size everywhere</li>
+                            <li>Large squares = low density (will be blurry)</li>
+                            <li>Small squares = high density (will be sharp)</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Achieving Consistent Texture Density</h4>
+                        <p><strong>Method 1: Average Island Scale</strong></p>
+                        <ol>
+                            <li>Select all UVs in UV Editor (<code>A</code>)</li>
+                            <li>UV menu → Average Island Scale</li>
+                            <li>Blender automatically scales islands proportionally</li>
+                            <li>All islands now have consistent density</li>
+                        </ol>
+                        <p><strong>Method 2: Manual visual matching</strong></p>
+                        <ol>
+                            <li>Apply UV Grid texture to model</li>
+                            <li>Look at checker pattern in 3D Viewport</li>
+                            <li>Scale islands in UV Editor until checkers match</li>
+                            <li>Use one "reference" area as standard</li>
+                        </ol>
+                    </div>
+
+                    <h3>UV Space Utilization</h3>
+
+                    <p>Getting the most out of your 0-1 UV square is crucial for maximum quality:</p>
+
+                    <div class="card">
+                        <h4>📦 Maximizing UV Space</h4>
+                        <p><strong>Key principle:</strong> Fill as much of the 0-1 square as possible!</p>
+                        <p><strong>Why it matters:</strong></p>
+                        <ul>
+                            <li>Unused UV space = wasted texture resolution</li>
+                            <li>If islands only fill 50% of space, you're only using 50% of texture</li>
+                            <li>Better packing = more pixels available = higher quality</li>
+                        </ul>
+                        <p><strong>Optimization techniques:</strong></p>
+                        <ul>
+                            <li><strong>Pack Islands:</strong> Use automatic packing with low margin</li>
+                            <li><strong>Scale up:</strong> After packing, scale all islands up to fill space</li>
+                            <li><strong>Rotate:</strong> Enable rotation in Pack Islands for tighter fit</li>
+                            <li><strong>Remove margins:</strong> Get rid of unnecessary padding</li>
+                            <li><strong>Stack identical islands:</strong> If you have mirrored or repeated geometry</li>
+                        </ul>
+                        <p><strong>The balance:</strong> Maximum coverage vs. practical margin (to prevent texture bleeding)</p>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ The Margin Trade-off</h4>
+                        <p><strong>Too little margin (< 0.001):</strong></p>
+                        <ul>
+                            <li>Texture bleeding—colors from one island leak to neighbors</li>
+                            <li>Visible seams and artifacts</li>
+                            <li>Mipmap issues (blurriness causes color mixing)</li>
+                        </ul>
+                        <p><strong>Too much margin (> 0.01):</strong></p>
+                        <ul>
+                            <li>Wasted texture space</li>
+                            <li>Lower effective resolution</li>
+                            <li>Inefficient use of texture budget</li>
+                        </ul>
+                        <p><strong>Sweet spot: 0.001 to 0.005</strong></p>
+                        <p>Larger textures (4K, 8K) can use smaller margins. Smaller textures (1K, 512px) need larger margins.</p>
+                    </div>
+
+                    <h3>Handling Overlapping UVs</h3>
+
+                    <p>Overlapping UVs can be intentional (good) or accidental (bad):</p>
+
+                    <div class="card">
+                        <h4>🔄 Overlapping UV Strategies</h4>
+                        <p><strong>Intentional overlapping (good uses):</strong></p>
+                        <ul>
+                            <li><strong>Symmetrical models:</strong> Mirror left/right to share UV space</li>
+                            <li><strong>Repeated elements:</strong> Multiple identical parts use same UVs</li>
+                            <li><strong>Texture reuse:</strong> Different objects sharing same texture regions</li>
+                            <li><strong>Result:</strong> More efficient texture use, higher resolution per unique surface</li>
+                        </ul>
+                        <p><strong>Accidental overlapping (problems):</strong></p>
+                        <ul>
+                            <li>Islands stacked on top of each other by mistake</li>
+                            <li>Causes texture painting issues (paint appears in multiple places)</li>
+                            <li>Baking problems (lighting bakes to multiple surfaces incorrectly)</li>
+                        </ul>
+                        <p><strong>Finding overlaps:</strong></p>
+                        <ul>
+                            <li>UV Editor: Select → Select Overlap</li>
+                            <li>Highlights all overlapping UV islands</li>
+                            <li>Fix by moving islands apart</li>
+                        </ul>
+                    </div>
+
+                    <h3>UV Channels (Advanced)</h3>
+
+                    <p>Blender supports multiple UV maps per object—each is a separate UV channel:</p>
+
+                    <div class="card">
+                        <h4>📺 Multiple UV Channels</h4>
+                        <p><strong>What are UV channels?</strong></p>
+                        <ul>
+                            <li>Same mesh can have multiple, completely different UV layouts</li>
+                            <li>Each UV map is independent</li>
+                            <li>Useful for different purposes per channel</li>
+                        </ul>
+                        <p><strong>Common multi-channel setups:</strong></p>
+                        <ul>
+                            <li><strong>UV Map 1:</strong> Main textures (color, roughness, normal)</li>
+                            <li><strong>UV Map 2:</strong> Lightmap (for baked lighting)</li>
+                            <li><strong>UV Map 3:</strong> Special effects (decals, wear patterns)</li>
+                        </ul>
+                        <p><strong>Managing UV maps:</strong></p>
+                        <ul>
+                            <li>Object Data Properties → UV Maps panel</li>
+                            <li>Add new UV map with + button</li>
+                            <li>Set active map (used for editing)</li>
+                            <li>Set render map (used by materials)</li>
+                        </ul>
+                        <p><strong>When to use multiple channels:</strong></p>
+                        <ul>
+                            <li>Game engines requiring separate lightmap UVs</li>
+                            <li>Different UV layouts for different texture purposes</li>
+                            <li>Combining tiled textures with unique textures</li>
+                        </ul>
+                    </div>
+
+                    <h3>UV Distortion Analysis</h3>
+
+                    <p>Understanding and minimizing distortion is key to high-quality UVs:</p>
+
+                    <div class="card">
+                        <h4>🔍 Analyzing UV Distortion</h4>
+                        <p><strong>Types of distortion:</strong></p>
+                        <ul>
+                            <li><strong>Stretching:</strong> UVs pulled apart (texture stretched on 3D surface)</li>
+                            <li><strong>Compression:</strong> UVs squeezed together (texture compressed)</li>
+                            <li><strong>Angular distortion:</strong> Angles don't match (squares become diamonds)</li>
+                            <li><strong>Area distortion:</strong> Relative sizes don't match 3D proportions</li>
+                        </ul>
+                        <p><strong>Visualizing distortion:</strong></p>
+                        <ul>
+                            <li><strong>Stretch overlay:</strong> In UV Editor, enable "Display Stretch"
+                                <ul>
+                                    <li>Blue/Green = Good (minimal distortion)</li>
+                                    <li>Yellow/Orange = Acceptable (some distortion)</li>
+                                    <li>Red = Bad (heavy distortion)</li>
+                                </ul>
+                            </li>
+                            <li><strong>UV Grid texture:</strong> Apply to model in 3D Viewport
+                                <ul>
+                                    <li>Checkers should be square and uniform</li>
+                                    <li>Stretched rectangles = stretching distortion</li>
+                                    <li>Size variation = inconsistent texture density</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Fixing distortion:</strong></p>
+                        <ul>
+                            <li>Add seams in highly distorted areas</li>
+                            <li>Unwrap again (more islands = less distortion per island)</li>
+                            <li>Use Minimize Stretch operator (UV menu)</li>
+                            <li>Relax UVs (UV menu → Relax)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Relaxing UVs</h3>
+
+                    <p>The Relax operator smooths out UV distortion iteratively:</p>
+
+                    <div class="card">
+                        <h4>🧘 UV Relaxation</h4>
+                        <p><strong>What does Relax do?</strong></p>
+                        <ul>
+                            <li>Iteratively moves UV vertices to minimize distortion</li>
+                            <li>Like "smoothing" the UV layout</li>
+                            <li>Reduces stretching and compression</li>
+                            <li>Makes UV spacing more even</li>
+                        </ul>
+                        <p><strong>How to use Relax:</strong></p>
+                        <ol>
+                            <li>Select UVs you want to relax (or select all for entire island)</li>
+                            <li>UV menu → Relax</li>
+                            <li>Or press <code>Alt+R</code> (may vary by keymap)</li>
+                            <li>Adjust iterations in operator panel (more = smoother)</li>
+                        </ol>
+                        <p><strong>Best practices:</strong></p>
+                        <ul>
+                            <li><strong>Pin border vertices first:</strong> Preserves island shape</li>
+                            <li><strong>Use lower iterations:</strong> Start with 5-10, increase if needed</li>
+                            <li><strong>Relax after manual adjustments:</strong> Smooths out manual positioning</li>
+                        </ul>
+                        <p><strong>Caveat:</strong> Relaxation can change island shape—use pinning to control!</p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The Professional UV Workflow:</strong> (1) Mark strategic seams, (2) Unwrap, (3) Check stretch overlay for red areas, (4) Add seams in red zones and unwrap again, (5) Use Relax to smooth remaining distortion, (6) Pack islands efficiently, (7) Scale to consistent texture density, (8) Final check with UV Grid. This iterative approach produces professional-quality UVs!</p>
+                    </blockquote>
+
+                    <h3>UV Layout Best Practices Summary</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>💎 Professional UV Layout Checklist</h3>
+                        <p style="color: white;"><strong>Before considering UVs "done," verify:</strong></p>
+                        <ul style="color: white;">
+                            <li>✅ <strong>Seams in logical locations</strong> (hidden, natural breaks, edges)</li>
+                            <li>✅ <strong>Minimal distortion</strong> (mostly blue/green in stretch overlay)</li>
+                            <li>✅ <strong>Consistent texture density</strong> (uniform checker sizes)</li>
+                            <li>✅ <strong>Efficient UV space usage</strong> (islands fill most of 0-1 square)</li>
+                            <li>✅ <strong>Proper margins</strong> (0.001-0.005 between islands)</li>
+                            <li>✅ <strong>No accidental overlaps</strong> (unless intentional mirroring)</li>
+                            <li>✅ <strong>Islands properly oriented</strong> (aligned for painting or packing)</li>
+                            <li>✅ <strong>Appropriate island count</strong> (not too many, not too few)</li>
+                            <li>✅ <strong>Strategic use of mirroring</strong> (if applicable)</li>
+                            <li>✅ <strong>Clean, straightened edges</strong> (where needed for tiling textures)</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_12_uv_unwrapping_basics_part_06.html
+     ============================================ -->

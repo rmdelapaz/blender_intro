@@ -1,0 +1,654 @@
+<!-- ============================================
+     LESSON 32 - PART 07
+     File: lesson_32_particle_systems_overview_part_07.html
+     ============================================ -->
+
+                <section id="project" class="content-section">
+                    <h2>🎯 Hands-On Project: Rain and Splash System</h2>
+
+                    <p>Time to apply everything you've learned. This project combines multiple particle systems, physics, collision, rendering, and materials to create a complete weather effect: realistic rain falling onto surfaces with splash particles on impact. You'll build a production-ready effect from scratch, making decisions about settings, troubleshooting issues, and iterating toward quality results.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">🎨 Project Goal</h3>
+                        <p style="color: white;"><strong>Create a rain system with:</strong></p>
+                        <ul style="color: white;">
+                            <li>Falling rain particles (streaked droplets)</li>
+                            <li>Ground collision detection</li>
+                            <li>Splash particles triggered on impact</li>
+                            <li>Wind effect for natural motion</li>
+                            <li>Proper materials and rendering</li>
+                            <li>Optional: Puddle accumulation areas</li>
+                        </ul>
+                        <p style="color: white; margin-top: 1rem;"><strong>Skills practiced:</strong> Emission, physics, collision, forces, rendering, materials, multi-system coordination</p>
+                    </div>
+
+                    <h3>Project Setup</h3>
+
+                    <div class="card">
+                        <h4>🏗️ Scene Preparation</h4>
+                        
+                        <p><strong>Step 1: Create base scene</strong></p>
+                        <ol>
+                            <li><strong>Start fresh:</strong>
+                                <ul>
+                                    <li>File → New → General</li>
+                                    <li>Delete default cube (X, confirm)</li>
+                                    <li>Keep default camera and light</li>
+                                </ul>
+                            </li>
+                            <li><strong>Create ground plane:</strong>
+                                <ul>
+                                    <li>Add → Mesh → Plane</li>
+                                    <li>Scale large: <kbd>S</kbd>, <kbd>15</kbd>, <kbd>Enter</kbd></li>
+                                    <li>This is your impact surface</li>
+                                    <li>Optionally add some height variation (subdivide, proportional editing)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add simple environment objects (optional):</strong>
+                                <ul>
+                                    <li>Cube as simple building</li>
+                                    <li>Sphere as boulder</li>
+                                    <li>Gives rain something interesting to fall around</li>
+                                    <li>Keep it simple—focus is on particles</li>
+                                </ul>
+                            </li>
+                            <li><strong>Position camera:</strong>
+                                <ul>
+                                    <li>Select camera</li>
+                                    <li>Move to good viewing angle: <kbd>G</kbd>, <kbd>Z</kbd>, <kbd>5</kbd>, <kbd>Enter</kbd></li>
+                                    <li>Rotate to look at ground: <kbd>R</kbd>, <kbd>X</kbd>, <kbd>70</kbd>, <kbd>Enter</kbd></li>
+                                    <li>Test view: <kbd>Numpad 0</kbd> (camera view)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Basic lighting:</strong>
+                                <ul>
+                                    <li>Default light is fine for now</li>
+                                    <li>Or add Area light above scene (rainy day = overcast)</li>
+                                    <li>Lower strength for moody atmosphere (50-100W)</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                            <h4>💡 Scene Scale Matters</h4>
+                            <p><strong>Particle behavior depends on scene scale:</strong></p>
+                            <ul>
+                                <li>Blender's default cube = 2m across</li>
+                                <li>Rain settings assume realistic scale (meters)</li>
+                                <li>If your scene is tiny or huge, adjust particle counts and velocities</li>
+                                <li>For this project: Treat 1 Blender unit = 1 meter</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Part 1: Main Rain System</h3>
+
+                    <div class="card">
+                        <h4>🌧️ Creating Falling Rain</h4>
+                        
+                        <p><strong>Step 2: Rain emitter</strong></p>
+                        <ol>
+                            <li><strong>Create emitter plane:</strong>
+                                <ul>
+                                    <li>Add → Mesh → Plane</li>
+                                    <li>Position above scene: <kbd>G</kbd>, <kbd>Z</kbd>, <kbd>10</kbd>, <kbd>Enter</kbd></li>
+                                    <li>Scale to cover area: <kbd>S</kbd>, <kbd>20</kbd>, <kbd>Enter</kbd></li>
+                                    <li>Rename: "Rain_Emitter"</li>
+                                </ul>
+                            </li>
+                            <li><strong>Hide emitter in render:</strong>
+                                <ul>
+                                    <li>Select Rain_Emitter</li>
+                                    <li>Object Properties (orange square icon)</li>
+                                    <li>Visibility → Camera → Uncheck</li>
+                                    <li>Emitter invisible in final render</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Step 3: Add particle system</strong></p>
+                        <ol>
+                            <li><strong>Create system:</strong>
+                                <ul>
+                                    <li>With Rain_Emitter selected</li>
+                                    <li>Particle Properties (icon: dot cluster)</li>
+                                    <li>Click "+" button</li>
+                                    <li>New particle system created</li>
+                                </ul>
+                            </li>
+                            <li><strong>Basic emission settings:</strong>
+                                <ul>
+                                    <li><strong>Number:</strong> 3000</li>
+                                    <li><strong>Frame Start:</strong> 1</li>
+                                    <li><strong>Frame End:</strong> 250</li>
+                                    <li><strong>Lifetime:</strong> 100</li>
+                                    <li><strong>Lifetime Random:</strong> 0.2</li>
+                                </ul>
+                            </li>
+                            <li><strong>Emission source:</strong>
+                                <ul>
+                                    <li><strong>Emit From:</strong> Faces</li>
+                                    <li><strong>Distribution:</strong> Random</li>
+                                    <li><strong>Use Modifier Stack:</strong> Leave unchecked</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Step 4: Configure velocity</strong></p>
+                        <ul>
+                            <li><strong>Velocity panel:</strong>
+                                <ul>
+                                    <li><strong>Normal:</strong> 0.0 (no sideways emission)</li>
+                                    <li><strong>Normal Random:</strong> 0.0</li>
+                                    <li><strong>Tangent:</strong> 0.0</li>
+                                    <li><strong>Random:</strong> 0.1 (subtle variation)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Step 5: Physics setup</strong></p>
+                        <ul>
+                            <li><strong>Physics panel:</strong>
+                                <ul>
+                                    <li><strong>Physics Type:</strong> Newtonian</li>
+                                    <li><strong>Integration:</strong> Verlet (default)</li>
+                                    <li><strong>Timestep:</strong> 0.04 (default)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Field Weights:</strong>
+                                <ul>
+                                    <li><strong>Gravity:</strong> 1.0</li>
+                                    <li><strong>All:</strong> 1.0</li>
+                                    <li>Other weights: Default values</li>
+                                </ul>
+                            </li>
+                            <li><strong>Damping:</strong>
+                                <ul>
+                                    <li><strong>Damping:</strong> 0.0 (rain doesn't slow)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Step 6: Test simulation</strong></p>
+                        <ul>
+                            <li>Press <kbd>Spacebar</kbd> to play animation</li>
+                            <li>Particles should fall straight down</li>
+                            <li>Check viewport display shows particles</li>
+                            <li>If too slow: Reduce Display Amount (25-50%)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Part 2: Rain Rendering</h3>
+
+                    <div class="card">
+                        <h4>💧 Making Rain Visible</h4>
+                        
+                        <p><strong>Step 7: Create raindrop object</strong></p>
+                        <ol>
+                            <li><strong>Add sphere:</strong>
+                                <ul>
+                                    <li>Add → Mesh → UV Sphere</li>
+                                    <li>Move away from origin: <kbd>G</kbd>, <kbd>X</kbd>, <kbd>5</kbd>, <kbd>Enter</kbd></li>
+                                    <li>Scale small: <kbd>S</kbd>, <kbd>0.05</kbd>, <kbd>Enter</kbd></li>
+                                </ul>
+                            </li>
+                            <li><strong>Stretch into raindrop shape:</strong>
+                                <ul>
+                                    <li><kbd>S</kbd>, <kbd>Z</kbd>, <kbd>3</kbd>, <kbd>Enter</kbd></li>
+                                    <li>Creates elongated droplet</li>
+                                    <li>Long axis = direction of fall</li>
+                                </ul>
+                            </li>
+                            <li><strong>Apply scale:</strong>
+                                <ul>
+                                    <li><kbd>Ctrl+A</kbd> → Scale</li>
+                                    <li>Important for proper instancing</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rename:</strong> "Raindrop"</li>
+                            <li><strong>Hide raindrop object:</strong>
+                                <ul>
+                                    <li>Object Properties → Visibility → Camera → Uncheck</li>
+                                    <li>Only instances visible, not original</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Step 8: Raindrop material</strong></p>
+                        <ol>
+                            <li><strong>Create material:</strong>
+                                <ul>
+                                    <li>Select Raindrop object</li>
+                                    <li>Material Properties (sphere icon)</li>
+                                    <li>Click "+" then "New"</li>
+                                    <li>Rename: "Rain_Material"</li>
+                                </ul>
+                            </li>
+                            <li><strong>Configure Principled BSDF:</strong>
+                                <ul>
+                                    <li><strong>Base Color:</strong> Light blue tint (RGB: 0.85, 0.92, 0.95)</li>
+                                    <li><strong>Metallic:</strong> 0.0</li>
+                                    <li><strong>Roughness:</strong> 0.05 (very shiny)</li>
+                                    <li><strong>IOR:</strong> 1.333 (water)</li>
+                                    <li><strong>Transmission:</strong> 0.9 (mostly transparent)</li>
+                                    <li><strong>Alpha:</strong> 0.5</li>
+                                </ul>
+                            </li>
+                            <li><strong>Enable transparency:</strong>
+                                <ul>
+                                    <li>Material Properties → Settings</li>
+                                    <li><strong>Blend Mode:</strong> Alpha Blend</li>
+                                    <li><strong>Shadow Mode:</strong> Alpha Clip or None</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Step 9: Assign instance object</strong></p>
+                        <ol>
+                            <li><strong>Select Rain_Emitter</strong></li>
+                            <li><strong>Particle Properties → Render:</strong>
+                                <ul>
+                                    <li><strong>Render As:</strong> Object</li>
+                                    <li><strong>Instance Object:</strong> Raindrop</li>
+                                    <li><strong>Scale:</strong> 1.0</li>
+                                    <li><strong>Scale Randomness:</strong> 0.2</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotation:</strong>
+                                <ul>
+                                    <li><strong>Orientation:</strong> Velocity / Hair</li>
+                                    <li>Raindrops point in direction of motion</li>
+                                    <li>Creates proper streaks</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test render:</strong>
+                                <ul>
+                                    <li>Press <kbd>F12</kbd> (or Z → Rendered view)</li>
+                                    <li>Rain should be visible as streaked droplets</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Part 3: Ground Collision</h3>
+
+                    <div class="card">
+                        <h4>💥 Rain Hits Ground</h4>
+                        
+                        <p><strong>Step 10: Enable collision on ground</strong></p>
+                        <ol>
+                            <li><strong>Select ground plane</strong></li>
+                            <li><strong>Physics Properties (icon: bouncing ball)</strong>
+                                <ul>
+                                    <li>Click "Collision" (adds collision modifier)</li>
+                                    <li>Checkbox should be enabled</li>
+                                </ul>
+                            </li>
+                            <li><strong>Collision settings:</strong>
+                                <ul>
+                                    <li><strong>Damping:</strong> 0.0 (doesn't matter, rain will die)</li>
+                                    <li><strong>Friction:</strong> 0.0</li>
+                                    <li><strong>Permeability:</strong> 0.0 (solid)</li>
+                                    <li>Defaults are fine</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Step 11: Enable collision on particles</strong></p>
+                        <ol>
+                            <li><strong>Select Rain_Emitter</strong></li>
+                            <li><strong>Particle Properties → Physics:</strong>
+                                <ul>
+                                    <li>Expand "Collision" section</li>
+                                    <li>Enable "Collision" checkbox</li>
+                                </ul>
+                            </li>
+                            <li><strong>Collision settings:</strong>
+                                <ul>
+                                    <li><strong>Permeability:</strong> 0.0</li>
+                                    <li><strong>Stickiness:</strong> 0.0</li>
+                                    <li><strong>Kill Particles:</strong> ✓ Enable this!</li>
+                                    <li>Rain disappears on ground contact</li>
+                                    <li><strong>Damping:</strong> 0.5 (not used since killing)</li>
+                                    <li><strong>Friction:</strong> 0.0</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test collision:</strong>
+                                <ul>
+                                    <li>Play animation</li>
+                                    <li>Rain should disappear when hitting ground</li>
+                                    <li>No bouncing (killed on contact)</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Part 4: Wind Force</h3>
+
+                    <div class="card">
+                        <h4>💨 Adding Natural Motion</h4>
+                        
+                        <p><strong>Step 12: Add wind field</strong></p>
+                        <ol>
+                            <li><strong>Add force field:</strong>
+                                <ul>
+                                    <li>Add → Force Field → Wind</li>
+                                    <li>Position: Doesn't matter much for wind (affects wide area)</li>
+                                    <li>Place to side of scene for organization</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotate wind direction:</strong>
+                                <ul>
+                                    <li><kbd>R</kbd>, <kbd>Y</kbd>, <kbd>-20</kbd>, <kbd>Enter</kbd></li>
+                                    <li>Tilts wind slightly</li>
+                                    <li>Rain falls at angle</li>
+                                    <li>More dramatic: -30 to -45 degrees</li>
+                                </ul>
+                            </li>
+                            <li><strong>Wind settings:</strong>
+                                <ul>
+                                    <li>Select wind field object</li>
+                                    <li>Physics Properties → Force Fields</li>
+                                    <li><strong>Strength:</strong> 1.5 (moderate wind)</li>
+                                    <li><strong>Flow:</strong> 0.0 (default)</li>
+                                    <li><strong>Noise:</strong> 0.0 (optional: add 0.5 for gusty wind)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test wind effect:</strong>
+                                <ul>
+                                    <li>Play animation</li>
+                                    <li>Rain should fall at angle</li>
+                                    <li>Adjust Strength to taste (0.5 = gentle, 3.0 = storm)</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Part 5: Splash Particles (Advanced)</h3>
+
+                    <div class="card">
+                        <h4>💦 Impact Splashes</h4>
+                        
+                        <p><strong>This is advanced technique - optional but impressive!</strong></p>
+
+                        <p><strong>Step 13: Create splash emitter</strong></p>
+                        <ol>
+                            <li><strong>Duplicate ground plane:</strong>
+                                <ul>
+                                    <li>Select ground plane</li>
+                                    <li><kbd>Shift+D</kbd>, <kbd>Enter</kbd> (duplicate in place)</li>
+                                    <li>Rename: "Splash_Emitter"</li>
+                                    <li>Move slightly up: <kbd>G</kbd>, <kbd>Z</kbd>, <kbd>0.01</kbd>, <kbd>Enter</kbd></li>
+                                </ul>
+                            </li>
+                            <li><strong>Add particle system to splash emitter:</strong>
+                                <ul>
+                                    <li>Particle Properties → "+"</li>
+                                    <li>This will emit splashes where rain hits</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Step 14: Configure splash emission</strong></p>
+                        <ul>
+                            <li><strong>Emission:</strong>
+                                <ul>
+                                    <li><strong>Number:</strong> 5000 (lots of small splashes)</li>
+                                    <li><strong>Frame Start:</strong> 1</li>
+                                    <li><strong>Frame End:</strong> 250</li>
+                                    <li><strong>Lifetime:</strong> 15 (very short—splashes disappear fast)</li>
+                                    <li><strong>Lifetime Random:</strong> 0.5</li>
+                                </ul>
+                            </li>
+                            <li><strong>Emit From:</strong> Faces, Random</li>
+                        </ul>
+
+                        <p><strong>Step 15: Splash velocity</strong></p>
+                        <ul>
+                            <li><strong>Velocity:</strong>
+                                <ul>
+                                    <li><strong>Normal:</strong> 2.0 (shoot up from surface)</li>
+                                    <li><strong>Random:</strong> 0.8 (very random)</li>
+                                    <li>Splashes scatter in all directions</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Step 16: Splash physics</strong></p>
+                        <ul>
+                            <li><strong>Physics:</strong>
+                                <ul>
+                                    <li><strong>Type:</strong> Newtonian</li>
+                                    <li><strong>Gravity:</strong> 1.0</li>
+                                    <li><strong>Damping:</strong> 0.2</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Step 17: Splash rendering</strong></p>
+                        <ul>
+                            <li><strong>Render:</strong>
+                                <ul>
+                                    <li><strong>Render As:</strong> Object</li>
+                                    <li><strong>Instance Object:</strong> Raindrop (reuse same object)</li>
+                                    <li><strong>Scale:</strong> 0.3 (smaller than main rain)</li>
+                                    <li><strong>Scale Random:</strong> 0.5</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Note:</strong> Basic splash setup emits continuously. For truly accurate splash-on-impact, you'd need to use particle instance modifier or dynamic paint (advanced topics). But continuous emission creates convincing effect when rain is steady.</p>
+
+                        <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                            <h4>⚠️ Splash System Simplification</h4>
+                            <p><strong>True impact-based splashes require advanced techniques:</strong></p>
+                            <ul>
+                                <li>Dynamic Paint to detect impacts</li>
+                                <li>Or particle instance modifier with collision detection</li>
+                                <li>Or animation nodes for per-particle events</li>
+                                <li>This project uses continuous splash emission as approximation</li>
+                                <li>Result looks good when rain is steady and dense</li>
+                                <li>Professional VFX uses more complex systems (future lessons)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Part 6: Polish and Refinement</h3>
+
+                    <div class="card">
+                        <h4>✨ Making It Beautiful</h4>
+                        
+                        <p><strong>Step 18: Optimize particle counts</strong></p>
+                        <ul>
+                            <li><strong>Test render quality:</strong>
+                                <ul>
+                                    <li>Render small region (<kbd>Ctrl+B</kbd> in camera view)</li>
+                                    <li>Is rain dense enough? Increase Number</li>
+                                    <li>Too dense/cluttered? Decrease Number</li>
+                                </ul>
+                            </li>
+                            <li><strong>Viewport performance:</strong>
+                                <ul>
+                                    <li>Particle Properties → Viewport Display</li>
+                                    <li><strong>Display Amount:</strong> 25-50% while working</li>
+                                    <li>Doesn't affect render</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Step 19: Motion blur (optional but recommended)</strong></p>
+                        <ol>
+                            <li><strong>Enable in render settings:</strong>
+                                <ul>
+                                    <li>Render Properties</li>
+                                    <li><strong>Motion Blur:</strong> ✓ Enable</li>
+                                    <li><strong>Shutter:</strong> 0.5 (default, good starting point)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Effect:</strong>
+                                <ul>
+                                    <li>Rain streaks blur naturally</li>
+                                    <li>More cinematic appearance</li>
+                                    <li>Increases render time significantly</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Step 20: Lighting adjustment</strong></p>
+                        <ul>
+                            <li><strong>Rainy day atmosphere:</strong>
+                                <ul>
+                                    <li>Cool color temperature (blue tint)</li>
+                                    <li>Overcast = soft, diffused lighting</li>
+                                    <li>Lower overall brightness</li>
+                                </ul>
+                            </li>
+                            <li><strong>Optional HDRI:</strong>
+                                <ul>
+                                    <li>Shading workspace → World</li>
+                                    <li>Add Environment Texture with overcast sky HDRI</li>
+                                    <li>Instant atmospheric lighting</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Step 21: Camera animation (optional)</strong></p>
+                        <ul>
+                            <li>Animate camera slowly moving through rain</li>
+                            <li>Reveals depth and motion</li>
+                            <li>Makes effect more dynamic</li>
+                            <li>Simple: <kbd>I</kbd> → Location at frame 1, move camera, <kbd>I</kbd> → Location at frame 250</li>
+                        </ul>
+
+                        <p><strong>Step 22: Final render</strong></p>
+                        <ol>
+                            <li><strong>Bake particle simulation:</strong>
+                                <ul>
+                                    <li>Particle Properties → Cache</li>
+                                    <li>Click "Bake All Dynamics"</li>
+                                    <li>Locks simulation for consistent render</li>
+                                    <li>Essential before animation render</li>
+                                </ul>
+                            </li>
+                            <li><strong>Render settings:</strong>
+                                <ul>
+                                    <li><strong>Engine:</strong> Cycles (for realism) or Eevee (for speed)</li>
+                                    <li><strong>Samples:</strong> Cycles: 128-256, Eevee: 64</li>
+                                    <li><strong>Resolution:</strong> 1920×1080 (Full HD)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Render image:</strong> <kbd>F12</kbd></li>
+                            <li><strong>Render animation:</strong> <kbd>Ctrl+F12</kbd> (if animated)</li>
+                        </ol>
+                    </div>
+
+                    <h3>Success Checklist</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Project Completion Checklist</h4>
+                        
+                        <p><strong>Your rain system should have:</strong></p>
+                        <ul>
+                            <li>☐ Rain falling from overhead emitter plane</li>
+                            <li>☐ 2000-5000 rain particles visible</li>
+                            <li>☐ Particles rendered as elongated droplets</li>
+                            <li>☐ Droplets oriented along velocity (streaks)</li>
+                            <li>☐ Rain affected by gravity (falls down)</li>
+                            <li>☐ Wind force creates angled fall</li>
+                            <li>☐ Ground collision enabled</li>
+                            <li>☐ Rain particles killed on ground impact</li>
+                            <li>☐ Transparent/translucent water material</li>
+                            <li>☐ Smooth animation playback (baked)</li>
+                            <li>☐ Optional: Splash particles on ground</li>
+                            <li>☐ Optional: Motion blur enabled</li>
+                            <li>☐ Optional: Atmospheric lighting</li>
+                        </ul>
+
+                        <p style="margin-top: 1rem;"><strong>If something isn't working:</strong></p>
+                        <ul>
+                            <li><strong>Particles not visible:</strong> Check Render As setting, instance object assigned?</li>
+                            <li><strong>Rain not falling:</strong> Check Gravity = 1.0, Normal velocity = 0.0</li>
+                            <li><strong>No collision:</strong> Both particle and ground collision enabled?</li>
+                            <li><strong>Slow viewport:</strong> Reduce Display Amount (25%)</li>
+                            <li><strong>Weird streaks:</strong> Check Orientation = Velocity/Hair</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bonus Challenges</h3>
+
+                    <div class="card">
+                        <h4>🚀 Take It Further</h4>
+                        
+                        <p><strong>If you completed the basic project, try these enhancements:</strong></p>
+
+                        <ol>
+                            <li><strong>Puddle accumulation:</strong>
+                                <ul>
+                                    <li>Add third particle system (hair type)</li>
+                                    <li>Emit from ground, very short length</li>
+                                    <li>Creates appearance of water gathering</li>
+                                    <li>Challenge: Make puddles grow over time</li>
+                                </ul>
+                            </li>
+                            <li><strong>Varied rain intensity:</strong>
+                                <ul>
+                                    <li>Animate particle emission rate (keyframe Number)</li>
+                                    <li>Start light, build to downpour</li>
+                                    <li>Or pulsing rain (lighter/heavier cycles)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lightning flash:</strong>
+                                <ul>
+                                    <li>Animate light strength (sudden bright spike)</li>
+                                    <li>Synchronized with particle emission burst</li>
+                                    <li>Creates storm atmosphere</li>
+                                </ul>
+                            </li>
+                            <li><strong>Multiple splash sizes:</strong>
+                                <ul>
+                                    <li>Create collection with 3-4 splash objects</li>
+                                    <li>Different sizes and shapes</li>
+                                    <li>More natural variation</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rain on objects:</strong>
+                                <ul>
+                                    <li>Enable collision on cube/sphere in scene</li>
+                                    <li>Rain collides with all surfaces</li>
+                                    <li>Add splash emitters to object tops</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mist/fog layer:</strong>
+                                <ul>
+                                    <li>Add volumetric fog (World → Volume)</li>
+                                    <li>Subtle atmospheric scattering</li>
+                                    <li>Rain visible in fog beams</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                            <h4>💡 Learning from This Project</h4>
+                            <p><strong>What you practiced:</strong></p>
+                            <ul>
+                                <li><strong>System coordination:</strong> Multiple particle systems working together</li>
+                                <li><strong>Physics thinking:</strong> Gravity, forces, collision behavior</li>
+                                <li><strong>Rendering decisions:</strong> Object instancing, materials, transparency</li>
+                                <li><strong>Optimization:</strong> Balancing quality and performance</li>
+                                <li><strong>Iteration:</strong> Testing, adjusting, refining settings</li>
+                                <li><strong>Production workflow:</strong> Setup → Test → Polish → Bake → Render</li>
+                            </ul>
+                            <p>These skills transfer to ANY particle effect. Rain, snow, sparks, smoke, explosions—all use same principles with different settings.</p>
+                        </div>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Projects Build Intuition:</strong> Reading about particles teaches concepts. Building rain system teaches particle systems. Different knowledge. Reading = understanding. Doing = intuition. When you adjusted wind strength and saw rain angle change—that became intuition. When collision didn't work and you troubleshooted—that became experience. When render looked wrong and you tweaked material—that became judgment. Can't get these from reading. Only from doing. That's why projects matter. Theory provides map. Practice builds skill. This project wasn't about perfect rain. It was about experiencing particle workflow. Making decisions. Seeing results. Iterating toward quality. Next time you need particles—any particles—you'll have framework. Emission thinking. Physics intuition. Rendering experience. Won't start from zero. Will start from here. From working system you built and understand. That's how mastery develops. Project by project. Effect by effect. Each one building on last. Each one teaching new lessons. Keep building. Keep experimenting. Keep pushing further.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 07
+     Continue with lesson_32_particle_systems_overview_part_08.html
+     ============================================ -->

@@ -1,0 +1,332 @@
+<!-- ============================================
+     LESSON 37 - PART 06
+     File: lesson_37_armature_and_bones_part_06.html
+     ============================================ -->
+
+            <section id="naming-conventions">
+                <h3>🏷️ Naming Conventions and Organization</h3>
+                
+                <p>Imagine trying to find a specific book in a library where every book is labeled "Book.001", "Book.002", "Book.003"... nightmare, right? Same with bones! Professional rigs have 50-200+ bones, and good naming is the difference between efficient rigging and endless frustration. Let's learn the naming conventions that make complex armatures manageable!</p>
+
+                <h4>Why Bone Naming Matters</h4>
+
+                <blockquote>
+                    <p><strong>🗂️ The Library Analogy:</strong> A well-organized library has sections (fiction, non-fiction), shelves (A-Z), and clear labels on every book. You can find anything in seconds. A poorly organized library is chaos. Your armature is a library of bones—organize it well, and rigging/animating is smooth sailing. Organize it poorly, and you'll waste hours hunting for "that one finger bone."</p>
+                </blockquote>
+
+                <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Problems with Poor Naming</h4>
+                    
+                    <p><strong>What Happens with Default Names:</strong></p>
+                    <ul>
+                        <li>Blender auto-names: "Bone", "Bone.001", "Bone.002", etc.</li>
+                        <li>Which is the left forearm? Is it Bone.017 or Bone.034?</li>
+                        <li>Need to test each bone to figure out what it controls</li>
+                        <li>Animation takes 3x longer (finding bones instead of animating)</li>
+                        <li>Impossible to share rig with others (they can't understand it)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Benefits of Good Naming:</strong></p>
+                    <ul>
+                        <li>Find any bone instantly by name</li>
+                        <li>Understand rig structure at a glance</li>
+                        <li>Automatic symmetry tools work (Blender recognizes .L and .R)</li>
+                        <li>Scripts and automation become possible</li>
+                        <li>Other people can use your rig without training</li>
+                    </ul>
+                </div>
+
+                <h4>Standard Bone Naming Convention</h4>
+
+                <p>The 3D industry has developed standard naming patterns. Follow these and your rigs will be professional-quality!</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Professional Naming Pattern</h4>
+                    
+                    <p><strong>Basic Format:</strong></p>
+                    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;">
+[description].[side_suffix]
+
+Examples:
+- upper_arm.L
+- forearm.R
+- spine_01
+- head
+                    </pre>
+                    
+                    <p style="margin-top: 1rem;"><strong>Component Breakdown:</strong></p>
+                    <ul>
+                        <li><strong>Description:</strong> Clear, descriptive name in lowercase</li>
+                        <li><strong>Use underscores:</strong> For multi-word names (lower_leg, not lowerleg)</li>
+                        <li><strong>Side suffix:</strong> .L (left), .R (right), or none (center)</li>
+                        <li><strong>Numbers:</strong> _01, _02 for sequences (spine_01, spine_02)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Why This Format?</strong></p>
+                    <ul>
+                        <li>Lowercase with underscores = Python-friendly (for scripting)</li>
+                        <li>.L and .R = Blender recognizes these for automatic mirroring</li>
+                        <li>Descriptive names = self-documenting (no need to remember codes)</li>
+                        <li>Standard across industry (same pattern in Maya, 3ds Max, etc.)</li>
+                    </ul>
+                </div>
+
+                <h4>Side Suffixes - Left and Right</h4>
+
+                <p>Blender has special recognition for left/right naming. Use it properly and get powerful automatic tools!</p>
+
+                <div class="card">
+                    <h4>🔀 Left/Right Naming Magic</h4>
+                    
+                    <p><strong>Blender's Recognized Suffixes:</strong></p>
+                    <ul>
+                        <li><strong>.L</strong> - Left side (Blender's convention)</li>
+                        <li><strong>.R</strong> - Right side</li>
+                        <li><strong>No suffix</strong> - Center/middle bones (spine, head, pelvis)</li>
+                        <li>Case sensitive: must be capital .L and .R</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Alternative Suffixes (Also Recognized):</strong></p>
+                    <ul>
+                        <li><strong>_L</strong> and <strong>_R</strong> (underscore instead of period)</li>
+                        <li><strong>.Left</strong> and <strong>.Right</strong> (full words)</li>
+                        <li><strong>_left</strong> and <strong>_right</strong> (lowercase)</li>
+                        <li>Stick with .L and .R—shortest and most standard</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>What Automatic Features You Get:</strong></p>
+                    <ul>
+                        <li><strong>X-Axis Mirror:</strong> Edit > Symmetrize (flips .L to create .R automatically)</li>
+                        <li><strong>Pose Mirroring:</strong> Copy pose from left side to right side instantly</li>
+                        <li><strong>Weight Paint Mirror:</strong> Paint weights on left, auto-copy to right</li>
+                        <li><strong>Animation Flipping:</strong> Flip walk cycle from left foot to right foot</li>
+                    </ul>
+                </div>
+
+                <h4>Naming Different Bone Types</h4>
+
+                <div class="card">
+                    <h4>🦴 Bone Type Naming Examples</h4>
+                    
+                    <p><strong>Spine/Torso Bones (Center, No Suffix):</strong></p>
+                    <ul>
+                        <li><code>pelvis</code> or <code>root</code> - Base of spine</li>
+                        <li><code>spine_01</code> - Lower back</li>
+                        <li><code>spine_02</code> - Mid back</li>
+                        <li><code>spine_03</code> - Upper back</li>
+                        <li><code>chest</code> - Ribcage (optional)</li>
+                        <li><code>neck</code> - Neck segment</li>
+                        <li><code>head</code> - Head bone</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Arm Bones (Left/Right):</strong></p>
+                    <ul>
+                        <li><code>shoulder.L</code> / <code>shoulder.R</code> - Clavicle/shoulder</li>
+                        <li><code>upper_arm.L</code> / <code>upper_arm.R</code> - Humerus</li>
+                        <li><code>forearm.L</code> / <code>forearm.R</code> - Radius/ulna</li>
+                        <li><code>hand.L</code> / <code>hand.R</code> - Palm/wrist</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Leg Bones (Left/Right):</strong></p>
+                    <ul>
+                        <li><code>upper_leg.L</code> / <code>upper_leg.R</code> - Thigh/femur</li>
+                        <li><code>lower_leg.L</code> / <code>lower_leg.R</code> - Calf/shin</li>
+                        <li><code>foot.L</code> / <code>foot.R</code> - Foot bone</li>
+                        <li><code>toe.L</code> / <code>toe.R</code> - Toe bones (if detailed)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Hand Bones (Left/Right):</strong></p>
+                    <ul>
+                        <li><code>thumb_01.L</code> - Thumb proximal</li>
+                        <li><code>thumb_02.L</code> - Thumb distal</li>
+                        <li><code>index_01.L</code> - Index finger proximal</li>
+                        <li><code>index_02.L</code> - Index finger middle</li>
+                        <li><code>index_03.L</code> - Index finger distal</li>
+                        <li>Same pattern for: middle, ring, pinky</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Alternative Finger Naming:</strong></p>
+                    <ul>
+                        <li><code>f_index.01.L</code> - Finger index, segment 01, left</li>
+                        <li><code>f_middle.02.R</code> - Finger middle, segment 02, right</li>
+                        <li>f_ prefix groups all fingers together in lists</li>
+                    </ul>
+                </div>
+
+                <h4>Prefixes for Organization</h4>
+
+                <p>Add prefixes to group similar bones together and indicate bone function!</p>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Organizational Prefixes</h4>
+                    
+                    <p><strong>Common Prefix Patterns:</strong></p>
+                    <ul>
+                        <li><strong>DEF-</strong> Deformation bones (actually bend the mesh)
+                            <ul>
+                                <li><code>DEF-upper_arm.L</code></li>
+                                <li>These are the bones that weight paint affects</li>
+                            </ul>
+                        </li>
+                        <li><strong>MCH-</strong> Mechanism bones (helper bones, usually hidden)
+                            <ul>
+                                <li><code>MCH-twist.L</code></li>
+                                <li>Used in complex rigs for automation</li>
+                            </ul>
+                        </li>
+                        <li><strong>ORG-</strong> Original bones (in Rigify workflow)
+                            <ul>
+                                <li><code>ORG-spine_01</code></li>
+                                <li>Template bones before rig generation</li>
+                            </ul>
+                        </li>
+                        <li><strong>CTRL-</strong> Control bones (what animators manipulate)
+                            <ul>
+                                <li><code>CTRL-hand_IK.L</code></li>
+                                <li>Typically have custom shapes, easy to select</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>When to Use Prefixes:</strong></p>
+                    <ul>
+                        <li><strong>Simple rigs:</strong> No prefixes needed (all bones are deform bones)</li>
+                        <li><strong>Complex rigs:</strong> Prefixes separate control from deformation</li>
+                        <li><strong>Rigify:</strong> Uses prefixes extensively (auto-generated)</li>
+                        <li><strong>Production:</strong> Studio pipelines often require specific prefixes</li>
+                    </ul>
+                </div>
+
+                <h4>Batch Renaming Techniques</h4>
+
+                <p>Renaming 50+ bones one at a time? No thanks! Learn the fast methods.</p>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Fast Renaming Methods</h4>
+                    
+                    <p><strong>Method 1: Individual Rename (F2 Key)</strong></p>
+                    <ul>
+                        <li>Select bone in Edit Mode or Pose Mode</li>
+                        <li>Press <code>F2</code></li>
+                        <li>Type new name, press <code>Enter</code></li>
+                        <li>Good for: Individual bones, fixing specific names</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Method 2: Batch Rename Tool</strong></p>
+                    <ol>
+                        <li>Select multiple bones</li>
+                        <li>Right-click > <strong>Batch Rename</strong></li>
+                        <li>Choose rename method:
+                            <ul>
+                                <li><strong>Find/Replace:</strong> Replace "Bone" with "finger" in all selected</li>
+                                <li><strong>Set Name:</strong> Give all bones same base name (adds .001, .002, etc.)</li>
+                                <li><strong>Strip Characters:</strong> Remove specific characters</li>
+                                <li><strong>Add Prefix/Suffix:</strong> Add .L to all selected bones</li>
+                            </ul>
+                        </li>
+                        <li>Good for: Multiple bones at once, adding suffixes</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Method 3: Auto-Naming with Symmetrize</strong></p>
+                    <ol>
+                        <li>Name bones on left side properly (upper_arm.L, etc.)</li>
+                        <li>Select all left-side bones</li>
+                        <li><strong>Edit > Symmetrize</strong> (Edit Mode)</li>
+                        <li>Blender duplicates bones to right side</li>
+                        <li>Automatically renames .L to .R</li>
+                        <li>Good for: Creating symmetrical armatures</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Method 4: Properties Panel</strong></p>
+                    <ul>
+                        <li>Select bone</li>
+                        <li>Bone Properties panel (right side)</li>
+                        <li>Change name in text field at top</li>
+                        <li>Can see full name (useful for long names)</li>
+                    </ul>
+                </div>
+
+                <h4>Naming Checklist and Best Practices</h4>
+
+                <div class="card">
+                    <h4>📋 Good Naming Habits</h4>
+                    
+                    <p><strong>DO:</strong></p>
+                    <ul>
+                        <li>✓ Use descriptive names: <code>upper_arm.L</code> not <code>bone_arm.L</code></li>
+                        <li>✓ Be consistent: If you use upper_leg, use upper_arm (not arm_upper)</li>
+                        <li>✓ Use .L and .R suffixes for symmetrical bones</li>
+                        <li>✓ Number sequential bones: spine_01, spine_02, spine_03</li>
+                        <li>✓ Use underscores for multi-word names: lower_leg not lowerleg</li>
+                        <li>✓ Keep names concise but clear</li>
+                        <li>✓ Name bones as you create them (don't procrastinate!)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>DON'T:</strong></p>
+                    <ul>
+                        <li>✗ Use spaces: "upper arm.L" breaks scripts</li>
+                        <li>✗ Use special characters: !@#$%^&* cause problems</li>
+                        <li>✗ Mix naming styles: upper_arm.L and ArmLower.R is confusing</li>
+                        <li>✗ Use cryptic abbreviations: UA_L (what does UA mean?)</li>
+                        <li>✗ Leave default names: Bone.001, Bone.002, etc.</li>
+                        <li>✗ Use left/right as prefix: left_arm not arm.L (breaks tools)</li>
+                    </ul>
+                </div>
+
+                <h4>Viewing and Managing Bone Names</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>👁️ Name Display Options</h4>
+                    
+                    <p><strong>Show Bone Names in Viewport:</strong></p>
+                    <ol>
+                        <li>Select armature</li>
+                        <li>Armature Properties > Viewport Display</li>
+                        <li>Enable <strong>"Names"</strong> checkbox</li>
+                        <li>Bone names appear in 3D viewport</li>
+                        <li>Useful for: Verifying names, finding bones visually</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Outliner Organization:</strong></p>
+                    <ul>
+                        <li>Outliner shows bones in alphabetical or hierarchy order</li>
+                        <li>Good names group logically: all fingers together, etc.</li>
+                        <li>Can search in outliner (magnifying glass icon)</li>
+                        <li>Type "arm" to filter to only arm bones</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Bone Collections (Blender 4.0+):</strong></p>
+                    <ul>
+                        <li>New organization system replacing bone layers</li>
+                        <li>Create named collections: "Fingers", "Spine", "Controls"</li>
+                        <li>Assign bones to collections for organization</li>
+                        <li>More intuitive than numbered layers</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>💭 Studio Standard:</strong> At Pixar, DreamWorks, and major game studios, rigs are reviewed before being approved for production. One of the first checks? Bone naming. If names aren't clear and consistent, the rig gets sent back. Good naming isn't optional in professional work—it's mandatory. Build the habit now!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎯 Naming Conventions Summary</h3>
+                    <ul style="color: white;">
+                        <li><strong>Format:</strong> description.L or description.R (center bones have no suffix)</li>
+                        <li><strong>Lowercase with underscores:</strong> upper_arm not UpperArm or upperarm</li>
+                        <li><strong>.L and .R suffixes:</strong> Enable automatic mirroring and symmetry tools</li>
+                        <li><strong>Numbered sequences:</strong> spine_01, spine_02 for sequential bones</li>
+                        <li><strong>Descriptive names:</strong> Self-documenting, no cryptic codes</li>
+                        <li><strong>Prefixes (advanced):</strong> DEF-, MCH-, CTRL- for complex rigs</li>
+                        <li><strong>Batch rename:</strong> Right-click > Batch Rename for multiple bones</li>
+                        <li><strong>Name as you go:</strong> Don't leave default names!</li>
+                        <li><strong>Consistency is key:</strong> Pick a style, stick to it throughout</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0; margin-top: 1rem;"><strong>Good names = professional rig!</strong></p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 06
+     Continue with lesson_37_armature_and_bones_part_07.html
+     ============================================ -->

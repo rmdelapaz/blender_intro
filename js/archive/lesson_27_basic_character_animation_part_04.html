@@ -1,0 +1,891 @@
+<!-- ============================================
+     LESSON 27 - PART 04
+     File: lesson_27_basic_character_animation_part_04.html
+     ============================================ -->
+
+                <section id="walk-cycle-project" class="content-section">
+                    <h2>🎯 Project: Your First Walk Cycle</h2>
+
+                    <p>Time to build a complete walk cycle from scratch. This project applies everything from the theory section while keeping complexity manageable. You'll create a looping walk cycle that demonstrates proper weight shift, timing, and all four key poses.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎯 Project Overview</h3>
+                        <p style="color: white;"><strong>Goal:</strong> Create a seamless 24-frame walk cycle</p>
+                        <p style="color: white;"><strong>What you'll demonstrate:</strong></p>
+                        <ul style="color: white;">
+                            <li><strong>Four key poses:</strong> Contact, down, passing, up</li>
+                            <li><strong>Weight shift:</strong> Body rocks side to side naturally</li>
+                            <li><strong>Proper timing:</strong> Rhythm feels human, not robotic</li>
+                            <li><strong>Oppositional movement:</strong> Arms and legs counter-rotate</li>
+                            <li><strong>Seamless loop:</strong> Frame 1 and 25 match perfectly</li>
+                        </ul>
+                        <p style="color: white; margin-top: 1rem;"><strong>Time estimate:</strong> 60-90 minutes</p>
+                        <p style="color: white;"><strong>Difficulty:</strong> Intermediate (requires patience and iteration)</p>
+                    </div>
+
+                    <h3>Setup and Preparation (10 min)</h3>
+
+                    <div class="card">
+                        <h4>🎭 Character and Scene Setup</h4>
+                        <p><strong>Use same character from wave project or fresh rig:</strong></p>
+                        <ul>
+                            <li>Humanoid rig with arms and legs</li>
+                            <li>IK controls for feet highly recommended</li>
+                            <li>FK or IK for arms (either works)</li>
+                            <li>Test rig works before starting</li>
+                        </ul>
+
+                        <p><strong>Scene configuration:</strong></p>
+                        <ul>
+                            <li>Character in center of scene</li>
+                            <li>Add ground plane (Shift+A → Mesh → Plane, scale up 10x)</li>
+                            <li>Position character feet on ground</li>
+                            <li>Camera at 3/4 view (see character from slight side angle)</li>
+                            <li>Good lighting so you can see forms clearly</li>
+                        </ul>
+
+                        <p><strong>Timeline setup:</strong></p>
+                        <ul>
+                            <li>Set end frame to 25</li>
+                            <li>Framerate: 24 fps (standard)</li>
+                            <li>Timeline visible at bottom</li>
+                            <li>Dope Sheet or Graph Editor in secondary panel</li>
+                        </ul>
+
+                        <p><strong>Pose Mode setup:</strong></p>
+                        <ul>
+                            <li>Select character armature</li>
+                            <li>Enter Pose Mode (<code>Ctrl+Tab</code>)</li>
+                            <li>Enable X-Ray mode to see bones through mesh</li>
+                            <li>Auto-Keying ON (helpful but optional)</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Before You Start</h4>
+                        <p><strong>Important reference:</strong></p>
+                        <ul>
+                            <li>Stand up and walk around your room</li>
+                            <li>Feel weight shift to each foot</li>
+                            <li>Notice hips sway side to side</li>
+                            <li>Notice opposite arm/leg pattern</li>
+                            <li>Watch yourself in mirror if possible</li>
+                        </ul>
+                        <p><strong>Best learning tool:</strong> Your own body. Use it!</p>
+                    </div>
+
+                    <h3>Phase 1: First Contact Pose (Frame 1)</h3>
+
+                    <div class="card">
+                        <h4>🔑 The Foundation Pose</h4>
+                        <p><strong>Go to frame 1:</strong></p>
+                        <ul>
+                            <li>Scrub timeline to frame 1</li>
+                            <li>This is your reference pose</li>
+                            <li>Everything else built from this</li>
+                        </ul>
+
+                        <p><strong>Position the legs:</strong></p>
+                        <ol>
+                            <li><strong>Right leg forward:</strong>
+                                <ul>
+                                    <li>Foot flat on ground</li>
+                                    <li>Heel slightly ahead of body center</li>
+                                    <li>Leg mostly straight (slight knee bend okay)</li>
+                                    <li>Foot pointing forward</li>
+                                </ul>
+                            </li>
+                            <li><strong>Left leg back:</strong>
+                                <ul>
+                                    <li>Foot flat on ground</li>
+                                    <li>Behind body center</li>
+                                    <li>Knee bent more than front leg</li>
+                                    <li>Creating wide stance</li>
+                                </ul>
+                            </li>
+                            <li><strong>Foot spacing:</strong>
+                                <ul>
+                                    <li>About shoulder-width apart side-to-side</li>
+                                    <li>About 2-3 feet apart front-to-back</li>
+                                    <li>Legs form spread "V" when viewed from front</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Position the hips:</strong></p>
+                        <ul>
+                            <li>Lower hips (body compressed)</li>
+                            <li>Both feet on ground = lowest point of walk</li>
+                            <li>Hips shift slightly toward left (over back foot)</li>
+                            <li>Pelvis/root bone between feet, centered</li>
+                        </ul>
+
+                        <p><strong>Position the torso:</strong></p>
+                        <ul>
+                            <li>Spine mostly upright (slight forward lean natural)</li>
+                            <li>Chest rotates slightly (right shoulder back, left forward)</li>
+                            <li>Sets up oppositional movement</li>
+                            <li>Not twisted too much (subtle)</li>
+                        </ul>
+
+                        <p><strong>Position the arms:</strong></p>
+                        <ul>
+                            <li><strong>Left arm forward:</strong> (opposite right leg)
+                                <ul>
+                                    <li>Swings naturally forward</li>
+                                    <li>Slight bend at elbow</li>
+                                    <li>Hand roughly at hip height</li>
+                                </ul>
+                            </li>
+                            <li><strong>Right arm back:</strong>
+                                <ul>
+                                    <li>Swings naturally behind</li>
+                                    <li>Straighter than forward arm</li>
+                                    <li>Hand behind hip</li>
+                                </ul>
+                            </li>
+                            <li>Hands relaxed, fingers gently curved</li>
+                        </ul>
+
+                        <p><strong>Head and neck:</strong></p>
+                        <ul>
+                            <li>Head upright, looking forward</li>
+                            <li>Slight tilt natural (toward raised shoulder)</li>
+                            <li>Neck follows torso rotation subtly</li>
+                        </ul>
+
+                        <p><strong>Keyframe everything:</strong></p>
+                        <ul>
+                            <li>Select all bones (<code>A</code>)</li>
+                            <li>Press <code>I</code> → LocRot</li>
+                            <li>Yellow diamonds appear in timeline</li>
+                            <li>Pose saved at frame 1</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 2: Passing Pose (Frame 7)</h3>
+
+                    <div class="card">
+                        <h4>🔑 The High Point</h4>
+                        <p><strong>Go to frame 7:</strong></p>
+                        <ul>
+                            <li>This is opposite of contact</li>
+                            <li>Body at highest point</li>
+                            <li>One foot on ground, other passing by</li>
+                        </ul>
+
+                        <p><strong>Position the legs:</strong></p>
+                        <ol>
+                            <li><strong>Left leg (support leg):</strong>
+                                <ul>
+                                    <li>Foot flat on ground, under body center</li>
+                                    <li>Leg extended/straight (locked knee)</li>
+                                    <li>Bears full weight of character</li>
+                                    <li>Slight hyperextension okay for pushed look</li>
+                                </ul>
+                            </li>
+                            <li><strong>Right leg (passing leg):</strong>
+                                <ul>
+                                    <li>Knee bent, lifted high</li>
+                                    <li>Foot passing by support leg at knee height</li>
+                                    <li>Thigh roughly horizontal</li>
+                                    <li>Foot dangling (toes point down slightly)</li>
+                                    <li>This leg swinging from back to front</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Position the hips:</strong></p>
+                        <ul>
+                            <li>Raise hips (body extended)</li>
+                            <li>Highest point of walk cycle</li>
+                            <li>Hips directly over left foot (support leg)</li>
+                            <li>Significant side-to-side shift from frame 1</li>
+                            <li>Pelvis/root bone centered over support foot</li>
+                        </ul>
+
+                        <p><strong>Position the torso:</strong></p>
+                        <ul>
+                            <li>Chest rotation reversed from frame 1</li>
+                            <li>Left shoulder back, right shoulder forward now</li>
+                            <li>Counter-rotation to legs</li>
+                            <li>Spine slightly stretched (character "tall")</li>
+                        </ul>
+
+                        <p><strong>Position the arms:</strong></p>
+                        <ul>
+                            <li><strong>Right arm forward:</strong> (opposite left support leg)
+                                <ul>
+                                    <li>Maximum forward swing</li>
+                                    <li>Hand at chest height</li>
+                                    <li>Elbow bent</li>
+                                </ul>
+                            </li>
+                            <li><strong>Left arm back:</strong>
+                                <ul>
+                                    <li>Maximum backward swing</li>
+                                    <li>Hand behind hip</li>
+                                    <li>Arm straighter</li>
+                                </ul>
+                            </li>
+                            <li>Arms at peak of swing arc</li>
+                        </ul>
+
+                        <p><strong>Check balance:</strong></p>
+                        <ul>
+                            <li>Viewport from front: COG should be over support foot</li>
+                            <li>If character looks like falling sideways, adjust hips</li>
+                            <li>Support leg should feel like bearing all weight</li>
+                        </ul>
+
+                        <p><strong>Keyframe everything:</strong></p>
+                        <ul>
+                            <li>Select all bones (<code>A</code>)</li>
+                            <li><code>I</code> → LocRot</li>
+                            <li>Pose saved at frame 7</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 3: Second Contact Pose (Frame 13)</h3>
+
+                    <div class="card">
+                        <h4>🔑 The Mirror Pose</h4>
+                        <p><strong>Go to frame 13:</strong></p>
+                        <ul>
+                            <li>This mirrors frame 1</li>
+                            <li>Opposite legs forward</li>
+                            <li>Same compressed, low position</li>
+                        </ul>
+
+                        <p><strong>Mirror the pose:</strong></p>
+                        <ul>
+                            <li><strong>Left leg forward now</strong> (was back at frame 1)</li>
+                            <li><strong>Right leg back now</strong> (was forward at frame 1)</li>
+                            <li>Everything else flipped</li>
+                            <li>Same spacing, same height, opposite sides</li>
+                        </ul>
+
+                        <p><strong>Quick method—Pose Library or Copy:</strong></p>
+                        <ol>
+                            <li>Go back to frame 1</li>
+                            <li>Select all bones (<code>A</code>)</li>
+                            <li><code>Ctrl+C</code> (copy pose)</li>
+                            <li>Go to frame 13</li>
+                            <li><code>Ctrl+Shift+V</code> (paste mirrored pose)</li>
+                            <li>May need to adjust based on rig</li>
+                            <li>Or manually recreate with opposite legs</li>
+                        </ol>
+
+                        <p><strong>Manual method:</strong></p>
+                        <ul>
+                            <li>Position left leg forward (same as right was at frame 1)</li>
+                            <li>Position right leg back (same as left was at frame 1)</li>
+                            <li>Lower hips (same height as frame 1)</li>
+                            <li>Shift hips toward right foot now (was left at frame 1)</li>
+                            <li>Right arm forward (was left at frame 1)</li>
+                            <li>Left arm back (was right at frame 1)</li>
+                            <li>Reverse chest rotation</li>
+                        </ul>
+
+                        <p><strong>Verify the pose:</strong></p>
+                        <ul>
+                            <li>Should look nearly identical to frame 1</li>
+                            <li>Just mirrored left/right</li>
+                            <li>Same low, compressed feeling</li>
+                            <li>Both feet on ground</li>
+                        </ul>
+
+                        <p><strong>Keyframe everything:</strong></p>
+                        <ul>
+                            <li>Select all bones (<code>A</code>)</li>
+                            <li><code>I</code> → LocRot</li>
+                            <li>Pose saved at frame 13</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 4: Second Passing Pose (Frame 19)</h3>
+
+                    <div class="card">
+                        <h4>🔑 The Second High Point</h4>
+                        <p><strong>Go to frame 19:</strong></p>
+                        <ul>
+                            <li>Mirrors frame 7</li>
+                            <li>Opposite leg as support</li>
+                            <li>Body high again</li>
+                        </ul>
+
+                        <p><strong>Mirror frame 7 pose:</strong></p>
+                        <ul>
+                            <li><strong>Right leg support now</strong> (was left at frame 7)</li>
+                            <li><strong>Left leg passing now</strong> (was right at frame 7)</li>
+                            <li>Hips over right foot (was left at frame 7)</li>
+                            <li>Left arm forward (was right at frame 7)</li>
+                            <li>Right arm back (was left at frame 7)</li>
+                        </ul>
+
+                        <p><strong>Quick copy method:</strong></p>
+                        <ol>
+                            <li>Go to frame 7</li>
+                            <li>Select all bones, <code>Ctrl+C</code></li>
+                            <li>Go to frame 19</li>
+                            <li><code>Ctrl+Shift+V</code> (paste mirrored)</li>
+                            <li>Adjust if needed</li>
+                        </ol>
+
+                        <p><strong>Keyframe everything:</strong></p>
+                        <ul>
+                            <li>Select all bones (<code>A</code>)</li>
+                            <li><code>I</code> → LocRot</li>
+                            <li>Pose saved at frame 19</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 5: Loop the Cycle (Frame 25)</h3>
+
+                    <div class="card">
+                        <h4>🔄 Creating Seamless Loop</h4>
+                        <p><strong>Go to frame 25:</strong></p>
+                        <ul>
+                            <li>This MUST match frame 1 exactly</li>
+                            <li>Creates seamless loop</li>
+                            <li>When animation repeats, no visible jump</li>
+                        </ul>
+
+                        <p><strong>Copy frame 1 to frame 25:</strong></p>
+                        <ol>
+                            <li>Go to frame 1</li>
+                            <li>Select all bones (<code>A</code>)</li>
+                            <li><code>Ctrl+C</code> (copy pose)</li>
+                            <li>Go to frame 25</li>
+                            <li><code>Ctrl+V</code> (paste pose—NOT mirrored this time)</li>
+                            <li><code>I</code> → LocRot (keyframe)</li>
+                        </ol>
+
+                        <p><strong>Why frame 25?</strong></p>
+                        <ul>
+                            <li>Walk cycle is 24 frames (frames 1-24)</li>
+                            <li>Frame 25 is first frame of next cycle</li>
+                            <li>Must match frame 1 for seamless transition</li>
+                            <li>When looped, viewer can't tell where cycle starts/ends</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 6: First Playback Test</h3>
+
+                    <div class="card">
+                        <h4>👀 Initial Review</h4>
+                        <p><strong>Enable looping:</strong></p>
+                        <ul>
+                            <li>Timeline → Animation menu → Cyclic</li>
+                            <li>Or set playback to Loop in Timeline header</li>
+                            <li>Animation repeats continuously</li>
+                        </ul>
+
+                        <p><strong>Press Spacebar and watch:</strong></p>
+                        <ul>
+                            <li>Does character appear to walk?</li>
+                            <li>Or just shuffling/sliding?</li>
+                            <li>Timing too fast? Too slow?</li>
+                            <li>Body movements visible?</li>
+                        </ul>
+
+                        <p><strong>Common first-pass issues (totally normal):</strong></p>
+                        <ul>
+                            <li><strong>Feet slide on ground:</strong> Need to add root motion (next phase)</li>
+                            <li><strong>Movement too floaty:</strong> Need breakdowns, adjust curves</li>
+                            <li><strong>Looks robotic:</strong> Need breakdowns, more natural curves</li>
+                            <li><strong>Arms look weird:</strong> Check oppositional movement</li>
+                            <li><strong>Body pops up and down:</strong> Good! That's correct (just check amount)</li>
+                        </ul>
+
+                        <p><strong>Don't panic:</strong></p>
+                        <ul>
+                            <li>First pass always looks rough</li>
+                            <li>Four key poses alone create basic walk</li>
+                            <li>But needs refinement (coming next)</li>
+                            <li>You've built the foundation</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Rough Pass Victory:</strong> If your character looks even vaguely like it's attempting to walk—congratulations! That's the hardest part done. Most beginning animators stare at those four key poses thinking "this will never look like walking." But you just proved them wrong. It's rough. It's probably sliding. The timing's probably off. But there's a walk in there. Everything from here is refinement. You've crossed the threshold from "I can't do this" to "I'm making this better." Huge difference.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="walk-cycle-refinement" class="content-section">
+                    <h2>✨ Refining Your Walk Cycle</h2>
+
+                    <p>Now we transform that rough walk into something believable. This phase is about adding breakdowns, fixing foot slide, and polishing motion curves. This is where the magic happens—where mechanical movement becomes natural human locomotion.</p>
+
+                    <h3>Adding Breakdown Poses</h3>
+
+                    <div class="card">
+                        <h4>🎨 The Missing Link Poses</h4>
+                        <p><strong>What are breakdowns?</strong></p>
+                        <ul>
+                            <li>Poses between key poses</li>
+                            <li>Guide interpolation for better results</li>
+                            <li>Prevent weird in-betweens</li>
+                            <li>Add control over motion</li>
+                        </ul>
+
+                        <p><strong>Where to add breakdowns:</strong></p>
+                        <ul>
+                            <li>Frame 4 (between contact and passing)</li>
+                            <li>Frame 10 (between passing and next contact)</li>
+                            <li>Frame 16 (between second contact and second passing)</li>
+                            <li>Frame 22 (between second passing and loop)</li>
+                        </ul>
+
+                        <p><strong>Down pose (Frame 4):</strong></p>
+                        <ul>
+                            <li>Body compressed, lowest point</li>
+                            <li>Left foot just lifting off ground</li>
+                            <li>Right foot (support) fully planted</li>
+                            <li>Weight transfer moment</li>
+                            <li>Hips slightly lower than contact pose</li>
+                            <li>Absorbing impact of step</li>
+                        </ul>
+
+                        <p><strong>Up pose (Frame 10):</strong></p>
+                        <ul>
+                            <li>Body extending upward</li>
+                            <li>Right foot about to land</li>
+                            <li>Left foot (support) pushing off</li>
+                            <li>Anticipating next contact</li>
+                            <li>Hips slightly higher than passing pose</li>
+                        </ul>
+
+                        <p><strong>Repeat for second half:</strong></p>
+                        <ul>
+                            <li>Frame 16: Down pose (mirror of frame 4)</li>
+                            <li>Frame 22: Up pose (mirror of frame 10)</li>
+                            <li>Same principles, opposite legs</li>
+                        </ul>
+
+                        <p><strong>How to create breakdowns:</strong></p>
+                        <ol>
+                            <li>Scrub to frame (e.g., frame 4)</li>
+                            <li>Look at current pose (Blender interpolated)</li>
+                            <li>Adjust pose as needed (usually small tweaks)</li>
+                            <li>Select modified bones only (not all bones)</li>
+                            <li><code>I</code> → LocRot</li>
+                            <li>New keyframe guides interpolation</li>
+                        </ol>
+                    </div>
+
+                    <h3>Fixing Foot Slide</h3>
+
+                    <div class="card">
+                        <h4>🚫 Eliminating the Float</h4>
+                        <p><strong>Why feet slide:</strong></p>
+                        <ul>
+                            <li>Character not moving forward in space</li>
+                            <li>Feet stay in place while body moves</li>
+                            <li>Creates treadmill effect</li>
+                            <li>Destroys believability</li>
+                        </ul>
+
+                        <p><strong>Solution: Root motion or manual translation</strong></p>
+                        <p><strong>Option 1: Move root bone forward</strong></p>
+                        <ul>
+                            <li>Select root bone (hips/pelvis/COG)</li>
+                            <li>At frame 1, keyframe location</li>
+                            <li>At frame 13, move root forward (amount = stride length)</li>
+                            <li>Keyframe location</li>
+                            <li>At frame 25, move root forward again (same amount)</li>
+                            <li>Keyframe location</li>
+                            <li>Character now walks forward</li>
+                        </ul>
+
+                        <p><strong>How much to move forward?</strong></p>
+                        <ul>
+                            <li>Depends on character size and stride</li>
+                            <li>Typical human: 2-3 feet per step</li>
+                            <li>In Blender units: about 0.6-1.0 units per step</li>
+                            <li>Eyeball it: foot should plant firmly then lift, not slide</li>
+                        </ul>
+
+                        <p><strong>Option 2: Foot locking (advanced)</strong></p>
+                        <ul>
+                            <li>Use constraints to lock foot in place when planted</li>
+                            <li>IK rigs often have this built-in</li>
+                            <li>Check rig documentation</li>
+                            <li>More complex but more control</li>
+                        </ul>
+
+                        <p><strong>Testing for foot slide:</strong></p>
+                        <ul>
+                            <li>Add grid floor to scene</li>
+                            <li>Play animation</li>
+                            <li>Watch contact foot—does it slide across grid?</li>
+                            <li>If yes: adjust root forward motion</li>
+                            <li>If no: foot is locked properly</li>
+                        </ul>
+
+                        <p><strong>Foot plants should feel sticky:</strong></p>
+                        <ul>
+                            <li>Imagine walking through thick mud</li>
+                            <li>Planted foot glued to ground</li>
+                            <li>Only lifts when weight fully transferred</li>
+                            <li>No sliding or shifting</li>
+                        </ul>
+                    </div>
+
+                    <h3>Graph Editor Polish</h3>
+
+                    <div class="card">
+                        <h4>📈 Curve Refinement</h4>
+                        <p><strong>Open Graph Editor:</strong></p>
+                        <ul>
+                            <li>Change one panel to Graph Editor</li>
+                            <li>Select character armature</li>
+                            <li>Select specific bone to see its curves</li>
+                        </ul>
+
+                        <p><strong>Vertical motion (hips Z-location):</strong></p>
+                        <ul>
+                            <li>Should see wave pattern</li>
+                            <li>Troughs at frames 1 and 13 (contact, low)</li>
+                            <li>Peaks at frames 7 and 19 (passing, high)</li>
+                            <li>Smooth sine wave = natural bounce</li>
+                            <li>If jagged: adjust handles to create smooth curve</li>
+                        </ul>
+
+                        <p><strong>Side-to-side motion (hips X-location):</strong></p>
+                        <ul>
+                            <li>Should see gentle oscillation</li>
+                            <li>Body rocks left, then right, then left</li>
+                            <li>Shifts occur at passing poses</li>
+                            <li>Smooth transitions, not sharp angles</li>
+                        </ul>
+
+                        <p><strong>Forward motion (root Y-location):</strong></p>
+                        <ul>
+                            <li>Should see straight diagonal line (constant speed)</li>
+                            <li>Or slight ease in/out at contacts</li>
+                            <li>NO sudden stops or speed changes</li>
+                            <li>Character glides forward smoothly</li>
+                        </ul>
+
+                        <p><strong>Rotation curves (chest, shoulders):</strong></p>
+                        <ul>
+                            <li>Should see counter-rotation</li>
+                            <li>Shoulders rotate opposite to hips</li>
+                            <li>Smooth curves, not linear</li>
+                            <li>Creates natural twist through spine</li>
+                        </ul>
+
+                        <p><strong>Adjusting curves:</strong></p>
+                        <ul>
+                            <li>Select keyframe point on curve</li>
+                            <li>Press <code>V</code> → choose handle type</li>
+                            <li>Auto Clamped: Safe default (no overshoot)</li>
+                            <li>Bezier: Full control (can create overshoot)</li>
+                            <li>Linear: Robotic (avoid unless specific effect)</li>
+                            <li>Drag handles to adjust curve shape</li>
+                        </ul>
+                    </div>
+
+                    <h3>Weight and Feel</h3>
+
+                    <div class="card">
+                        <h4>⚖️ Adding Heft</h4>
+                        <p><strong>Weight is in the timing:</strong></p>
+                        <ul>
+                            <li>Slow movements = heavy</li>
+                            <li>Fast movements = light</li>
+                            <li>Impact = momentary pause</li>
+                        </ul>
+
+                        <p><strong>Adding weight to walk:</strong></p>
+                        <ul>
+                            <li><strong>Slow down contact pose:</strong> Body pauses slightly when both feet down</li>
+                            <li><strong>Emphasize down pose:</strong> Compress body more at lowest point</li>
+                            <li><strong>Quick passing pose:</strong> Body extends rapidly at highest point</li>
+                            <li><strong>Offset timing:</strong> Hips move before feet (or vice versa)</li>
+                        </ul>
+
+                        <p><strong>Heavy character walk:</strong></p>
+                        <ul>
+                            <li>More time in contact poses</li>
+                            <li>Deeper squash at low points</li>
+                            <li>Minimal lift at passing (lower highest point)</li>
+                            <li>Slower overall timing (32 frames instead of 24)</li>
+                            <li>Feet stomp (sharp down, slow up)</li>
+                        </ul>
+
+                        <p><strong>Light character walk:</strong></p>
+                        <ul>
+                            <li>Less time in contact poses (quick transitions)</li>
+                            <li>Higher lift at passing pose (bouncy)</li>
+                            <li>Faster overall timing (16-20 frames)</li>
+                            <li>Springs off ground</li>
+                        </ul>
+
+                        <p><strong>Test and adjust:</strong></p>
+                        <ul>
+                            <li>Play animation at different speeds</li>
+                            <li>50% speed: See all details</li>
+                            <li>100% speed: Natural timing</li>
+                            <li>150% speed: Check if still readable</li>
+                            <li>Adjust based on feel</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common Walk Cycle Problems</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Troubleshooting Guide</h4>
+                        <p><strong>Problem: Character floating/sliding</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> No root forward motion or wrong amount</li>
+                            <li><strong>Fix:</strong> Add root motion; match stride length to leg extension</li>
+                        </ul>
+
+                        <p><strong>Problem: Walk looks robotic</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Linear interpolation or no breakdowns</li>
+                            <li><strong>Fix:</strong> Change to Bezier curves; add down/up breakdown poses</li>
+                        </ul>
+
+                        <p><strong>Problem: Legs too straight</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Knees locked at all times</li>
+                            <li><strong>Fix:</strong> Add slight knee bend even at passing pose; softer joints</li>
+                        </ul>
+
+                        <p><strong>Problem: Hips don't move enough</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Insufficient vertical or lateral movement</li>
+                            <li><strong>Fix:</strong> Increase hip height difference (1-2 inches); shift side-to-side more</li>
+                        </ul>
+
+                        <p><strong>Problem: Arms and legs same side</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Forgot oppositional movement</li>
+                            <li><strong>Fix:</strong> Right leg forward = left arm forward (always opposite)</li>
+                        </ul>
+
+                        <p><strong>Problem: Character falls forward/backward</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> COG not over feet</li>
+                            <li><strong>Fix:</strong> Adjust torso lean; check hips position over support foot</li>
+                        </ul>
+
+                        <p><strong>Problem: Walk doesn't loop smoothly</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Frame 25 doesn't match frame 1</li>
+                            <li><strong>Fix:</strong> Copy frame 1 pose to frame 25 exactly; check all bones</li>
+                        </ul>
+
+                        <p><strong>Problem: Timing feels off</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Wrong frame spacing for key poses</li>
+                            <li><strong>Fix:</strong> Adjust contact spacing; try 20-frame or 28-frame cycle</li>
+                        </ul>
+
+                        <p><strong>Problem: Too much bounce</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Vertical hip movement too extreme</li>
+                            <li><strong>Fix:</strong> Reduce difference between high/low points; subtle is better</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Walk Cycle Reality Check:</strong> Professional animators spend hours—sometimes days—on a single walk cycle. Why? Because walk is hard. It's mechanically complex, timing-dependent, and instantly reveals flaws. Your first walk cycle probably looks rough. Your tenth walk cycle might look rough. That's normal. Every walk cycle is practice. Every iteration teaches you something. Some animators have created literally hundreds of walk cycles over their careers and they still find new nuances. Don't expect perfection immediately. Expect progress. Each walk cycle you create will be better than the last. That's the goal.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="variations" class="content-section">
+                    <h2>🎭 Walk Cycle Variations</h2>
+
+                    <p>Once you have a basic walk cycle working, the real fun begins: personality. Every character walks differently. Age, mood, profession, personality—all revealed through walk. This is where animation becomes acting.</p>
+
+                    <h3>Personality Through Walk</h3>
+
+                    <div class="card">
+                        <h4>🎬 Character in Motion</h4>
+                        <p><strong>Happy/Confident walk:</strong></p>
+                        <ul>
+                            <li>Higher vertical bounce (light on feet)</li>
+                            <li>Chest up, shoulders back</li>
+                            <li>Bigger arm swing</li>
+                            <li>Quicker timing</li>
+                            <li>Springy quality</li>
+                            <li>Feels: energetic, positive</li>
+                        </ul>
+
+                        <p><strong>Sad/Depressed walk:</strong></p>
+                        <ul>
+                            <li>Minimal vertical bounce (heavy)</li>
+                            <li>Chest down, shoulders forward</li>
+                            <li>Tiny or no arm swing (arms hang)</li>
+                            <li>Slower timing</li>
+                            <li>Feet drag slightly</li>
+                            <li>Feels: burdened, tired</li>
+                        </ul>
+
+                        <p><strong>Sneaky/Cautious walk:</strong></p>
+                        <ul>
+                            <li>Low body position (crouched)</li>
+                            <li>Very slow, deliberate steps</li>
+                            <li>Arms close to body</li>
+                            <li>Knees bent at all times</li>
+                            <li>Toes first contact (not heel)</li>
+                            <li>Feels: careful, hidden</li>
+                        </ul>
+
+                        <p><strong>Angry/Aggressive walk:</strong></p>
+                        <ul>
+                            <li>Stomping feet (sharp down movement)</li>
+                            <li>Rigid posture</li>
+                            <li>Exaggerated arm swing</li>
+                            <li>Faster timing, sharp movements</li>
+                            <li>Chest forward (leading with chest)</li>
+                            <li>Feels: forceful, intense</li>
+                        </ul>
+
+                        <p><strong>Elderly walk:</strong></p>
+                        <ul>
+                            <li>Bent posture (hunched)</li>
+                            <li>Shorter stride length</li>
+                            <li>Slower timing</li>
+                            <li>Careful foot placement</li>
+                            <li>Minimal arm swing</li>
+                            <li>Possibly cane or walker</li>
+                            <li>Feels: fragile, cautious</li>
+                        </ul>
+
+                        <p><strong>Swagger walk:</strong></p>
+                        <ul>
+                            <li>Exaggerated hip swing</li>
+                            <li>Shoulders rock side-to-side</li>
+                            <li>Chest puffed out</li>
+                            <li>Slower, deliberate timing</li>
+                            <li>Feels: cocky, showing off</li>
+                        </ul>
+                    </div>
+
+                    <h3>Professional vs. Beginner Walk</h3>
+
+                    <div class="card">
+                        <h4>👔 Occupation Walks</h4>
+                        <p><strong>Business professional:</strong></p>
+                        <ul>
+                            <li>Upright posture</li>
+                            <li>Controlled arm swing</li>
+                            <li>Medium pace</li>
+                            <li>Purposeful stride</li>
+                            <li>Efficient, no wasted motion</li>
+                        </ul>
+
+                        <p><strong>Construction worker:</strong></p>
+                        <ul>
+                            <li>Wider stance</li>
+                            <li>Heavy footfalls</li>
+                            <li>Strong, capable feel</li>
+                            <li>May carry weight (affects posture)</li>
+                            <li>Practical, grounded</li>
+                        </ul>
+
+                        <p><strong>Dancer/Athlete:</strong></p>
+                        <ul>
+                            <li>Perfect balance</li>
+                            <li>Graceful arcs</li>
+                            <li>Light footfalls</li>
+                            <li>Controlled, precise</li>
+                            <li>Body awareness visible</li>
+                        </ul>
+
+                        <p><strong>Soldier/Guard:</strong></p>
+                        <ul>
+                            <li>March timing (rigid)</li>
+                            <li>Synchronized arm/leg swing</li>
+                            <li>Upright, chest out</li>
+                            <li>Disciplined, strong</li>
+                        </ul>
+                    </div>
+
+                    <h3>Speed Variations</h3>
+
+                    <div class="card">
+                        <h4>⚡ From Stroll to Sprint</h4>
+                        <p><strong>Slow walk (40-50 frames per cycle):</strong></p>
+                        <ul>
+                            <li>Leisurely pace</li>
+                            <li>Exaggerated weight shift (more time to see it)</li>
+                            <li>Very deliberate foot placement</li>
+                            <li>Relaxed, casual feel</li>
+                        </ul>
+
+                        <p><strong>Normal walk (24-28 frames per cycle):</strong></p>
+                        <ul>
+                            <li>Standard pedestrian pace</li>
+                            <li>Balanced motion</li>
+                            <li>Start here for most characters</li>
+                        </ul>
+
+                        <p><strong>Fast walk (16-20 frames per cycle):</strong></p>
+                        <ul>
+                            <li>Rushing, late for something</li>
+                            <li>Longer strides</li>
+                            <li>More aggressive arm swing</li>
+                            <li>Higher energy</li>
+                        </ul>
+
+                        <p><strong>Run (12-16 frames per cycle):</strong></p>
+                        <ul>
+                            <li>Both feet off ground (flight phase)</li>
+                            <li>No contact pose with both feet down</li>
+                            <li>Body leans forward</li>
+                            <li>Arms pump hard</li>
+                            <li>Different mechanics than walk</li>
+                        </ul>
+                    </div>
+
+                    <h3>Experimenting with Style</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✨ Make It Your Own</h4>
+                        <p><strong>Ways to explore variations:</strong></p>
+                        <ol>
+                            <li>Start with basic neutral walk (master this first)</li>
+                            <li>Pick one personality trait (happy, sad, sneaky, etc.)</li>
+                            <li>Adjust ONE element (timing, posture, arm swing, etc.)</li>
+                            <li>Preview and iterate</li>
+                            <li>Gradually add more personality</li>
+                            <li>Always maintain core walk mechanics</li>
+                        </ol>
+
+                        <p><strong>Reference is your friend:</strong></p>
+                        <ul>
+                            <li>Record yourself walking with different moods</li>
+                            <li>Watch people in public spaces</li>
+                            <li>Study walk cycles in animation (pause frame-by-frame)</li>
+                            <li>Film references (actors in different roles)</li>
+                            <li>Every walk tells a story</li>
+                        </ul>
+
+                        <p><strong>Build a walk library:</strong></p>
+                        <ul>
+                            <li>Save different walk cycles as separate files</li>
+                            <li>Build reusable pose libraries</li>
+                            <li>Create character-specific walk variations</li>
+                            <li>Reference your own past work</li>
+                            <li>Continuous improvement</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Walk Is Character:</strong> Animators say "if you can't see the character's face, you should still know who they are by how they move." Walk is the clearest expression of this principle. The exact same rig, same proportions, same everything—but change the walk, and you've changed the character completely. Confident business executive. Tired construction worker. Sneaky thief. Happy child. Elderly grandparent. All revealed through walk. Once you understand basic walk mechanics, you're no longer just creating motion. You're creating performance. You're acting through your character. This is where technical skill becomes art.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 04
+     Continue with lesson_27_basic_character_animation_part_05.html
+     ============================================ -->

@@ -1,0 +1,513 @@
+<!-- ============================================
+     LESSON 11 - PART 08
+     File: lesson_11_pbr_materials_explained_part_08.html
+     ============================================ -->
+
+                <section id="project" class="content-section">
+                    <h2>🎯 Project: Material Validation and Enhancement</h2>
+
+                    <p>Now that you understand the science behind PBR, it's time to put that knowledge into practice. In this project, you'll audit your existing material library from Lesson 10, validate each material against PBR principles, and enhance them with your newfound understanding.</p>
+
+                    <blockquote>
+                        <p><strong>💡 The Quality Control Analogy:</strong> You've built a material library, but now you have the quality inspector's expertise. Like a master craftsman checking each tool for accuracy, you'll examine each material through the lens of physics—energy conservation, proper albedo, correct Fresnel behavior. By the end, you'll have confidence that every material is not just "looks good," but "physically correct!"</p>
+                    </blockquote>
+
+                    <h3>Project Overview</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 2rem;">
+                        <h3>📋 Project Objectives</h3>
+                        <ul style="color: white;">
+                            <li><strong>Validate existing materials</strong> against PBR principles</li>
+                            <li><strong>Identify and fix</strong> common physical inaccuracies</li>
+                            <li><strong>Enhance materials</strong> with advanced parameters where appropriate</li>
+                            <li><strong>Create test scenes</strong> to verify materials under various conditions</li>
+                            <li><strong>Document improvements</strong> with before/after comparisons</li>
+                            <li><strong>Build confidence</strong> in creating physically accurate materials</li>
+                        </ul>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.3);">
+                            <p><strong>⏱️ Estimated Time:</strong> 60-75 minutes</p>
+                            <p><strong>💾 Deliverable:</strong> Validated and enhanced material library with test scene</p>
+                        </div>
+                    </div>
+
+                    <h3>Step 1: Set Up Validation Environment</h3>
+
+                    <div class="card">
+                        <h4>📝 Create Testing Scene</h4>
+                        <ol>
+                            <li><strong>Open your Material Library file</strong> from Lesson 10</li>
+                            <li><strong>Save a copy:</strong> File → Save As → "Material_Library_PBR_Validated.blend"</li>
+                            <li><strong>Create testing setup:</strong>
+                                <ul>
+                                    <li>Add 3 spheres in a row (better than cubes for seeing all angles)</li>
+                                    <li>Add HDRI lighting: Switch to World Properties</li>
+                                    <li>Add multiple HDRIs to test (we'll cycle through them)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Set up comparison cameras:</strong>
+                                <ul>
+                                    <li>Straight-on view (perpendicular)</li>
+                                    <li>45-degree angle</li>
+                                    <li>Grazing angle view</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 2: Create PBR Validation Checklist</h3>
+
+                    <p>For each material in your library, you'll check these critical aspects:</p>
+
+                    <div class="card">
+                        <h4>✅ PBR Validation Checklist</h4>
+                        <p><strong>Energy Conservation:</strong></p>
+                        <ul>
+                            <li>☐ Material doesn't appear brighter than light source</li>
+                            <li>☐ In white HDRI, material never exceeds white brightness</li>
+                            <li>☐ No suspicious glowing or over-bright areas</li>
+                        </ul>
+                        <p><strong>Metallic Value:</strong></p>
+                        <ul>
+                            <li>☐ Set to exactly 0.0 or 1.0 (no in-between values)</li>
+                            <li>☐ Metals show colored reflections, non-metals show white reflections</li>
+                            <li>☐ Metals have no visible diffuse in shadows</li>
+                        </ul>
+                        <p><strong>Roughness Accuracy:</strong></p>
+                        <ul>
+                            <li>☐ Value matches real-world material reference range</li>
+                            <li>☐ Not too extreme (avoid 0.0 and 1.0 unless intentional)</li>
+                            <li>☐ Highlights behave correctly at all viewing angles</li>
+                        </ul>
+                        <p><strong>Albedo/Base Color:</strong></p>
+                        <ul>
+                            <li>☐ Within physical range (0.02-0.95 for most materials)</li>
+                            <li>☐ Not pure black (0, 0, 0) or pure white (255, 255, 255)</li>
+                            <li>☐ Saturation appropriate for material brightness</li>
+                            <li>☐ Matches known albedo values for material type</li>
+                        </ul>
+                        <p><strong>Fresnel Behavior:</strong></p>
+                        <ul>
+                            <li>☐ Specular parameter at default 0.5 (unless special material)</li>
+                            <li>☐ Edge highlights appear correctly at grazing angles</li>
+                            <li>☐ Non-metals show dramatic Fresnel increase</li>
+                            <li>☐ Metals show subtle Fresnel increase</li>
+                        </ul>
+                        <p><strong>Lighting Independence:</strong></p>
+                        <ul>
+                            <li>☐ Material looks correct in bright HDRI</li>
+                            <li>☐ Material looks correct in dim HDRI</li>
+                            <li>☐ Material looks correct in colored lighting</li>
+                            <li>☐ No need to adjust parameters for different scenes</li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 3: Audit Each Material</h3>
+
+                    <p>Now, systematically check each of your 10 materials from Lesson 10. Let's walk through the process with examples:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Material 1: Chrome Metal - Audit Example</h4>
+                        <p><strong>Original values from Lesson 10:</strong></p>
+                        <ul>
+                            <li>Base Color: RGB (0.85, 0.85, 0.85)</li>
+                            <li>Metallic: 1.0 ✓</li>
+                            <li>Roughness: 0.05 ✓</li>
+                        </ul>
+                        <p><strong>PBR Validation:</strong></p>
+                        <ul>
+                            <li>☑ Metallic is binary (1.0) - Correct!</li>
+                            <li>☑ Metal base color in realistic range - Correct!</li>
+                            <li>☑ Very low roughness appropriate for chrome - Correct!</li>
+                            <li>☑ Shows no diffuse, only reflections - Correct!</li>
+                        </ul>
+                        <p><strong>Enhancement opportunity:</strong></p>
+                        <ul>
+                            <li>Consider slightly more accurate chrome: RGB (0.55, 0.55, 0.55) for neutral chrome</li>
+                            <li>Or keep brighter for "polished chrome" look</li>
+                            <li>Both are physically valid!</li>
+                        </ul>
+                        <p><strong>Result: Material PASSES ✅</strong></p>
+                    </div>
+
+                    <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Material 2: Glossy Red Plastic - Issues Found</h4>
+                        <p><strong>Original values from Lesson 10:</strong></p>
+                        <ul>
+                            <li>Base Color: RGB (0.8, 0.05, 0.05)</li>
+                            <li>Metallic: 0.0 ✓</li>
+                            <li>Roughness: 0.2 ✓</li>
+                        </ul>
+                        <p><strong>PBR Validation:</strong></p>
+                        <ul>
+                            <li>☑ Metallic correctly set to 0.0 for plastic</li>
+                            <li>☑ Roughness appropriate for glossy plastic</li>
+                            <li>⚠️ Base Color might be too saturated - Check albedo!</li>
+                        </ul>
+                        <p><strong>Albedo analysis:</strong></p>
+                        <ul>
+                            <li>RGB (0.8, 0.05, 0.05) is very saturated red</li>
+                            <li>Effective albedo: ~0.30 (only red light reflected)</li>
+                            <li>This is actually physically correct for bright red plastic!</li>
+                            <li>Saturated colors ARE darker—this is right!</li>
+                        </ul>
+                        <p><strong>Enhancement: Add slight desaturation for slightly brighter look (optional):</strong></p>
+                        <ul>
+                            <li>RGB (0.8, 0.1, 0.1) - Slightly less pure, slightly brighter</li>
+                            <li>Albedo: ~0.33</li>
+                        </ul>
+                        <p><strong>Result: Material PASSES with optional enhancement ✅</strong></p>
+                    </div>
+
+                    <h3>Step 4: Common Issues and Fixes</h3>
+
+                    <p>Based on typical mistakes, here are likely issues you'll find and how to fix them:</p>
+
+                    <div class="card">
+                        <h4>🔧 Common Validation Failures and Fixes</h4>
+                        <p><strong>Issue: Base Color is pure black or pure white</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> RGB (0, 0, 0) or RGB (255, 255, 255)</li>
+                            <li><strong>Fix:</strong> Adjust to physical ranges
+                                <ul>
+                                    <li>Pure black → RGB (5, 5, 5) or RGB (10, 10, 10)</li>
+                                    <li>Pure white → RGB (240, 240, 240) or RGB (245, 245, 245)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Issue: Metallic set to intermediate value (e.g., 0.5)</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Creates physically impossible material</li>
+                            <li><strong>Fix:</strong> Decide: Metal or not-metal?
+                                <ul>
+                                    <li>If should be shiny → Metallic 0.0, adjust Roughness</li>
+                                    <li>If actual metal → Metallic 1.0</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Issue: Specular adjusted from default 0.5</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Incorrect Fresnel behavior</li>
+                            <li><strong>Fix:</strong> Reset Specular to 0.5 (correct for 99% of materials)</li>
+                            <li>Exception: High-IOR materials like diamond can use 0.6-0.8</li>
+                        </ul>
+                        <p><strong>Issue: All roughness values too low (everything too shiny)</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Beginner tendency toward glossy materials</li>
+                            <li><strong>Fix:</strong> Increase roughness to realistic ranges
+                                <ul>
+                                    <li>Most plastics: 0.2-0.4</li>
+                                    <li>Most metals: 0.3-0.5</li>
+                                    <li>Most organic materials: 0.6-0.9</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 5: Add Advanced Parameters Where Appropriate</h3>
+
+                    <p>Now enhance materials that would benefit from advanced PBR parameters:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Enhancement Opportunities</h4>
+                        <p><strong>Add Clearcoat to car paint material:</strong></p>
+                        <ol>
+                            <li>Select your car paint material</li>
+                            <li>Set Clearcoat: 1.0</li>
+                            <li>Set Clearcoat Roughness: 0.1</li>
+                            <li>Leave base Roughness at 0.4</li>
+                            <li>Result: Realistic two-layer automotive finish!</li>
+                        </ol>
+                        <p><strong>Add Anisotropic to brushed metal:</strong></p>
+                        <ol>
+                            <li>Select your brushed aluminum material</li>
+                            <li>Set Anisotropic: 0.7</li>
+                            <li>Set Anisotropic Rotation: 0.0 (horizontal brushing)</li>
+                            <li>Result: Directional highlights matching brush direction!</li>
+                        </ol>
+                        <p><strong>Create enhanced glass with slight tint:</strong></p>
+                        <ol>
+                            <li>Duplicate clear glass material</li>
+                            <li>Rename to "Glass_Tinted_Green"</li>
+                            <li>Base Color: RGB (0.9, 1.0, 0.9) - Slight green tint</li>
+                            <li>Keep Transmission 1.0, Roughness 0.0</li>
+                            <li>Result: Subtle bottle-green glass!</li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 6: Create Test Renders</h3>
+
+                    <p>Validate your materials under different conditions:</p>
+
+                    <div class="card">
+                        <h4>🎬 Testing Protocol</h4>
+                        <ol>
+                            <li><strong>Test 1: Bright Outdoor HDRI</strong>
+                                <ul>
+                                    <li>Use forest.exr or outdoor HDRI</li>
+                                    <li>All materials should look correct and natural</li>
+                                    <li>Metals should show environment reflections clearly</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test 2: Dim Studio HDRI</strong>
+                                <ul>
+                                    <li>Use studio.exr with reduced strength (0.3)</li>
+                                    <li>Materials should still be recognizable</li>
+                                    <li>No materials should mysteriously glow</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test 3: Colored Lighting (Sunset HDRI)</strong>
+                                <ul>
+                                    <li>Use warm, orange-tinted HDRI</li>
+                                    <li>Materials should take on ambient color correctly</li>
+                                    <li>No unexpected color shifts</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test 4: Multiple Viewing Angles</strong>
+                                <ul>
+                                    <li>Render from perpendicular view</li>
+                                    <li>Render from 45-degree angle</li>
+                                    <li>Render from grazing angle</li>
+                                    <li>Fresnel effect should be visible and correct</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 7: Document Your Improvements</h3>
+
+                    <div class="card">
+                        <h4>📊 Create Before/After Documentation</h4>
+                        <ol>
+                            <li><strong>For each material you modified:</strong>
+                                <ul>
+                                    <li>Note original parameter values</li>
+                                    <li>Note validated/corrected parameter values</li>
+                                    <li>Explain WHY the change was necessary</li>
+                                    <li>Which PBR principle was violated or improved</li>
+                                </ul>
+                            </li>
+                            <li><strong>Create a simple text file:</strong> "PBR_Validation_Report.txt"
+                                <ul>
+                                    <li>List each material</li>
+                                    <li>Pass/Fail validation</li>
+                                    <li>Changes made</li>
+                                    <li>Lessons learned</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 8: Create 3 New PBR-Perfect Materials</h3>
+
+                    <p>Apply your knowledge by creating three brand-new materials from scratch using PBR principles:</p>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ New Material Challenges</h4>
+                        <p><strong>Challenge 1: Realistic Skin Material</strong></p>
+                        <ul>
+                            <li>Base Color: RGB (0.8, 0.6, 0.5) - Skin tone</li>
+                            <li>Metallic: 0.0 (skin is not metal!)</li>
+                            <li>Roughness: 0.4-0.5</li>
+                            <li>Subsurface: 0.2</li>
+                            <li>Subsurface Radius: RGB (1.0, 0.2, 0.1) - Red scatters more</li>
+                            <li>Subsurface Color: RGB (0.8, 0.5, 0.4) - Slightly reddish</li>
+                        </ul>
+                        <p><strong>Challenge 2: Wet Asphalt</strong></p>
+                        <ul>
+                            <li>Base Color: RGB (0.08, 0.08, 0.08) - Very dark gray</li>
+                            <li>Metallic: 0.0</li>
+                            <li>Roughness: 0.15 (wet = glossy)</li>
+                            <li>Note: Dry asphalt would be Roughness 0.9</li>
+                        </ul>
+                        <p><strong>Challenge 3: Copper with Verdigris Patina</strong></p>
+                        <ul>
+                            <li>For clean copper areas:
+                                <ul>
+                                    <li>Base Color: RGB (0.95, 0.64, 0.54)</li>
+                                    <li>Metallic: 1.0</li>
+                                    <li>Roughness: 0.3</li>
+                                </ul>
+                            </li>
+                            <li>For patina areas:
+                                <ul>
+                                    <li>Base Color: RGB (0.3, 0.5, 0.4) - Green-blue</li>
+                                    <li>Metallic: 0.0 (oxidation is not metallic!)</li>
+                                    <li>Roughness: 0.7</li>
+                                </ul>
+                            </li>
+                            <li>Mix with ColorRamp + noise texture</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bonus Challenge: Create a Material Test Sphere</h3>
+
+                    <div class="card">
+                        <h4>🌟 Professional Material Preview</h4>
+                        <p><strong>Create an industry-standard material preview ball:</strong></p>
+                        <ol>
+                            <li><strong>Setup:</strong>
+                                <ul>
+                                    <li>UV Sphere with high subdivision (smooth)</li>
+                                    <li>Studio HDRI lighting</li>
+                                    <li>Neutral gray background</li>
+                                    <li>Camera at 45-degree angle</li>
+                                </ul>
+                            </li>
+                            <li><strong>Render each material on the sphere</strong></li>
+                            <li><strong>Create contact sheet</strong> of all materials</li>
+                            <li><strong>This becomes your material catalog!</strong></li>
+                        </ol>
+                        <p>Professional studios use standardized sphere renders to preview materials consistently. Now you have your own!</p>
+                    </div>
+
+                    <h3>Project Success Criteria</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Project Completion Checklist</h4>
+                        <ul>
+                            <li>☐ All 10 original materials validated against PBR principles</li>
+                            <li>☐ Any violations identified and corrected</li>
+                            <li>☐ Albedo values within physical ranges (0.02-0.95)</li>
+                            <li>☐ Metallic values are binary (0.0 or 1.0)</li>
+                            <li>☐ Roughness values match real-world references</li>
+                            <li>☐ Advanced parameters added where appropriate</li>
+                            <li>☐ Materials tested in multiple HDRI environments</li>
+                            <li>☐ Materials tested from multiple viewing angles</li>
+                            <li>☐ Fresnel behavior verified as correct</li>
+                            <li>☐ Three new PBR-perfect materials created</li>
+                            <li>☐ Documentation created explaining changes</li>
+                            <li>☐ File saved as validated material library</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="summary" class="content-section">
+                    <h2>🎓 Lesson Summary</h2>
+
+                    <p>Congratulations! You've journeyed from material user to material scientist. You now understand not just <em>how</em> to create materials, but <em>why</em> they work—the physics, the mathematics, and the principles that make renders believable.</p>
+
+                    <div class="card">
+                        <h4>🌟 Key Principles Mastered</h4>
+                        <ul>
+                            <li><strong>PBR Foundation:</strong> Materials based on physics, not artistic guesswork</li>
+                            <li><strong>Energy Conservation:</strong> Light never creates more energy than it receives</li>
+                            <li><strong>Fresnel Effect:</strong> All materials become reflective at grazing angles</li>
+                            <li><strong>Microfacet Theory:</strong> Roughness models microscopic surface structure</li>
+                            <li><strong>Metallic Binary:</strong> Materials are conductors (1.0) or insulators (0.0)</li>
+                            <li><strong>Albedo Ranges:</strong> Physical constraints on material brightness (0.02-0.95)</li>
+                            <li><strong>Advanced Parameters:</strong> When and how to use SSS, clearcoat, anisotropy, etc.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>🎯 What You Can Now Do</h4>
+                        <ul>
+                            <li><strong>Validate materials scientifically</strong> instead of relying on "looks good"</li>
+                            <li><strong>Predict material behavior</strong> in any lighting condition</li>
+                            <li><strong>Identify physically incorrect materials</strong> immediately</li>
+                            <li><strong>Create materials that work everywhere</strong>—Blender, Unity, Unreal, everywhere</li>
+                            <li><strong>Communicate with technical artists</strong> using industry terminology</li>
+                            <li><strong>Achieve photorealism</strong> by following physical laws</li>
+                            <li><strong>Debug material issues</strong> by understanding underlying principles</li>
+                        </ul>
+                    </div>
+
+                    <h3>The PBR Mindset</h3>
+
+                    <p>The biggest transformation isn't in your technical skills—it's in how you think about materials:</p>
+
+                    <blockquote>
+                        <p><strong>Before PBR understanding:</strong> "I'll try different values until it looks right"</p>
+                        <p><strong>After PBR understanding:</strong> "This is plastic, so Metallic = 0.0. Glossy plastic has Roughness ~0.25. Bright red has albedo ~0.30 due to saturation. Done—it will look correct."</p>
+                    </blockquote>
+
+                    <p>You're no longer guessing—you're applying physics. And physics is always right!</p>
+
+                    <h3>What's Next: Your Material Journey Continues</h3>
+
+                    <div class="card">
+                        <h4>🗺️ The Path Forward</h4>
+                        <p><strong>Lesson 12: UV Unwrapping Basics</strong></p>
+                        <ul>
+                            <li>Control where textures appear on models</li>
+                            <li>Unwrap complex objects correctly</li>
+                            <li>Minimize distortion and optimize seams</li>
+                        </ul>
+                        <p><strong>Lesson 13: Texture Painting</strong></p>
+                        <ul>
+                            <li>Paint directly on 3D models</li>
+                            <li>Create custom albedo, roughness, and normal maps</li>
+                            <li>Hand-painted details and weathering</li>
+                        </ul>
+                        <p><strong>Lesson 14: Procedural Textures</strong></p>
+                        <ul>
+                            <li>Generate textures mathematically with nodes</li>
+                            <li>Noise, Voronoi, and pattern creation</li>
+                            <li>Resolution-independent, infinitely flexible materials</li>
+                        </ul>
+                    </div>
+
+                    <h3>Resources for Continued Learning</h3>
+
+                    <div class="card">
+                        <h4>📚 Recommended Deep Dives</h4>
+                        <ul>
+                            <li><strong>Material databases:</strong> Study measured albedo and roughness values for real materials</li>
+                            <li><strong>Reference photography:</strong> Build library of material close-ups with color checkers</li>
+                            <li><strong>Substance documentation:</strong> Excellent PBR theory and workflows</li>
+                            <li><strong>Disney PBR paper:</strong> The 2012 paper that revolutionized PBR workflows</li>
+                            <li><strong>Physically Based Rendering book:</strong> Pharr, Jakob, and Humphreys (advanced)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Final Thoughts</h3>
+
+                    <p>Understanding PBR transforms you from a button-pusher to a material engineer. You now speak the language of light, energy, and physics. This knowledge is permanent and transferable—it works in any 3D software, any render engine, any project.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">🎊 The PBR Advantage</h3>
+                        <p style="color: white;">Here's what sets you apart now:</p>
+                        <ul style="color: white;">
+                            <li><strong>Your materials work in any lighting</strong> without adjustment</li>
+                            <li><strong>Your materials look professional</strong> because they follow physics</li>
+                            <li><strong>Your materials export correctly</strong> to game engines and other software</li>
+                            <li><strong>Your workflow is efficient</strong> because you know exactly what to adjust</li>
+                            <li><strong>Your confidence is high</strong> because you understand the "why" behind the "how"</li>
+                        </ul>
+                        <p style="color: white; margin-bottom: 0;"><strong>You're not just making materials—you're simulating reality. And reality, when properly simulated, is always believable!</strong></p>
+                    </div>
+
+                </section>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-top: 3rem;">
+                    <h2 style="color: white; margin-top: 0;">🎉 Congratulations on Completing Lesson 11!</h2>
+                    <p style="color: white;">You've leveled up from material creator to material scientist. The physics of light and matter are now your tools, and physical accuracy is your standard. Every material you create from this point forward will benefit from this deep understanding.</p>
+                    <p style="color: white;"><strong>Remember:</strong> PBR isn't about memorizing values—it's about understanding principles. When in doubt, think physics. When confused, check energy conservation. When unsure, observe reality.</p>
+                    <p style="color: white; margin-bottom: 0;">Ready to add the final layer of realism with texture mapping? Lesson 12 awaits, where we'll learn to unwrap 3D models and apply these materials with precise control. See you there! 🚀</p>
+                </div>
+
+                <nav class="lesson-nav" aria-label="Lesson Navigation">
+                    <a href="lesson_10_introduction_to_shader_editor.html" class="prev-lesson">← Previous: Lesson 10 - Introduction to Shader Editor</a>
+                    <a href="index.html" class="home-link">🏠 Course Home</a>
+                    <a href="lesson_12_uv_unwrapping_basics.html" class="next-lesson">Next: Lesson 12 - UV Unwrapping Basics →</a>
+                </nav>
+            </article>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>
+
+<!-- ============================================
+     END OF PART 08
+     This is the final part of Lesson 11
+     ============================================ -->

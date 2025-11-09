@@ -1,0 +1,470 @@
+<!-- ============================================
+     LESSON 19 - PART 02
+     File: lesson_19_cycles_path_tracing_part_02.html
+     ============================================ -->
+
+                <section id="basic-settings" class="content-section">
+                    <h2>⚙️ Cycles Basic Settings</h2>
+
+                    <p>Let's configure Cycles for optimal results. Understanding these settings helps you balance quality and render time effectively.</p>
+
+                    <h3>Accessing Cycles Settings</h3>
+
+                    <div class="card">
+                        <h4>🎛️ Where to Find Controls</h4>
+                        <p><strong>Location:</strong></p>
+                        <ul>
+                            <li>Properties panel (right side) → Render Properties (camera icon)</li>
+                            <li>Top dropdown: Select "Cycles"</li>
+                            <li>Settings organized in collapsible sections</li>
+                        </ul>
+
+                        <p><strong>Key sections you'll use:</strong></p>
+                        <ul>
+                            <li><strong>Sampling:</strong> Quality control (samples, noise threshold)</li>
+                            <li><strong>Light Paths:</strong> Bounce limits and optimization</li>
+                            <li><strong>Film:</strong> Transparency and exposure</li>
+                            <li><strong>Performance:</strong> Tile size and memory</li>
+                            <li><strong>Curves:</strong> Render settings for hair/curves</li>
+                        </ul>
+                    </div>
+
+                    <h3>Switching to Cycles</h3>
+
+                    <div class="card">
+                        <h4>🔄 Activating Cycles Render Engine</h4>
+                        <p><strong>Step-by-step:</strong></p>
+                        <ol>
+                            <li>Properties panel → Render Properties (camera icon)</li>
+                            <li>Top dropdown shows current engine</li>
+                            <li>Click dropdown → Select "Cycles"</li>
+                            <li>Settings immediately change to Cycles options</li>
+                        </ol>
+
+                        <p><strong>Device selection:</strong></p>
+                        <ul>
+                            <li>Render Properties → Device dropdown</li>
+                            <li><strong>GPU Compute:</strong> Use graphics card (recommended)</li>
+                            <li><strong>CPU:</strong> Use processor (fallback option)</li>
+                            <li>Choose GPU for speed if available</li>
+                        </ul>
+
+                        <p><strong>Viewport rendering:</strong></p>
+                        <ul>
+                            <li>Press <code>Z</code> key → Select "Rendered"</li>
+                            <li>Viewport shows progressive Cycles rendering</li>
+                            <li>Updates continuously as samples increase</li>
+                            <li>Will be slower than Eevee (that's normal)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Render vs Viewport Settings</h3>
+
+                    <div class="card">
+                        <h4>🎯 Two Quality Modes</h4>
+                        <p><strong>Viewport rendering (interactive):</strong></p>
+                        <ul>
+                            <li>Lower quality for fast preview</li>
+                            <li>Separate sample count</li>
+                            <li>Use while working on scene</li>
+                            <li>Default: Much fewer samples than render</li>
+                        </ul>
+
+                        <p><strong>Final rendering (F12):</strong></p>
+                        <ul>
+                            <li>High quality for final output</li>
+                            <li>Higher sample count</li>
+                            <li>All effects enabled</li>
+                            <li>Use for final images</li>
+                        </ul>
+
+                        <p><strong>Why two modes:</strong></p>
+                        <ul>
+                            <li>Viewport: Fast feedback while working (32-128 samples)</li>
+                            <li>Render: Clean result for final output (256-4096 samples)</li>
+                            <li>Lets you work efficiently without waiting</li>
+                            <li>Switch to final settings only when ready</li>
+                        </ul>
+                    </div>
+
+                    <h3>Render Device Configuration</h3>
+
+                    <div class="card">
+                        <h4>🖥️ GPU and CPU Setup</h4>
+                        <p><strong>Preferences setup (one-time):</strong></p>
+                        <ol>
+                            <li>Edit menu → Preferences</li>
+                            <li>System tab</li>
+                            <li>Cycles Render Devices section</li>
+                            <li>Select available devices:
+                                <ul>
+                                    <li>Check your GPU(s)</li>
+                                    <li>Optionally check CPU</li>
+                                    <li>Save Preferences</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>GPU options by manufacturer:</strong></p>
+                        <ul>
+                            <li><strong>NVIDIA:</strong> OptiX (fastest, recommended), CUDA, or HIP</li>
+                            <li><strong>AMD:</strong> HIP</li>
+                            <li><strong>Intel:</strong> oneAPI</li>
+                            <li><strong>Apple Silicon:</strong> Metal (M1/M2/M3 Macs)</li>
+                        </ul>
+
+                        <p><strong>Per-scene device selection:</strong></p>
+                        <ul>
+                            <li>Render Properties → Device</li>
+                            <li>Choose GPU Compute or CPU per project</li>
+                            <li>Usually leave on GPU Compute</li>
+                        </ul>
+                    </div>
+
+                    <h3>Performance Settings</h3>
+
+                    <div class="card">
+                        <h4>⚡ Speed and Memory Controls</h4>
+                        <p><strong>Tile size:</strong></p>
+                        <ul>
+                            <li>Render Properties → Performance → Tiles</li>
+                            <li>Size of render tile squares</li>
+                            <li><strong>GPU:</strong> Large tiles (256x256 or 512x512)</li>
+                            <li><strong>CPU:</strong> Smaller tiles (32x32 or 64x64)</li>
+                            <li>Auto-detect usually works well</li>
+                        </ul>
+
+                        <p><strong>Acceleration structure:</strong></p>
+                        <ul>
+                            <li>Performance → Acceleration Structure</li>
+                            <li><strong>Embree:</strong> CPU optimization (faster)</li>
+                            <li><strong>BVH:</strong> Default option</li>
+                            <li>Leave on default unless issues</li>
+                        </ul>
+
+                        <p><strong>Memory usage:</strong></p>
+                        <ul>
+                            <li>Performance → Final Render → Use Tiling</li>
+                            <li>Renders in parts to save memory</li>
+                            <li>Enable if running out of VRAM</li>
+                            <li>Slight speed penalty but prevents crashes</li>
+                        </ul>
+                    </div>
+
+                    <h3>Film Settings</h3>
+
+                    <div class="card">
+                        <h4>🎬 Output Configuration</h4>
+                        <p><strong>Transparent background:</strong></p>
+                        <ul>
+                            <li>Render Properties → Film → Transparent</li>
+                            <li>Check to render background transparent</li>
+                            <li>Useful for compositing</li>
+                            <li>Save as PNG to preserve transparency</li>
+                        </ul>
+
+                        <p><strong>Exposure:</strong></p>
+                        <ul>
+                            <li>Film → Exposure</li>
+                            <li>Brightness multiplier (0.0 = normal)</li>
+                            <li>Positive values = brighter</li>
+                            <li>Negative values = darker</li>
+                            <li>Adjust for overall scene brightness</li>
+                        </ul>
+
+                        <p><strong>Pixel filter:</strong></p>
+                        <ul>
+                            <li>Film → Pixel Filter</li>
+                            <li>Type: Box, Gaussian, Blackman-Harris</li>
+                            <li>Controls anti-aliasing softness</li>
+                            <li>Gaussian (default) works well</li>
+                            <li>Width: 1.5px is good default</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Recommended Starting Settings</h4>
+                        <p><strong>For most projects, begin with:</strong></p>
+                        <ul>
+                            <li><strong>Device:</strong> GPU Compute (if available)</li>
+                            <li><strong>Render Samples:</strong> 256-512</li>
+                            <li><strong>Viewport Samples:</strong> 32-64</li>
+                            <li><strong>Max Bounces:</strong> 12 (default)</li>
+                            <li><strong>Denoising:</strong> Enabled (OptiX or OpenImageDenoise)</li>
+                            <li><strong>Tile Size:</strong> Auto</li>
+                            <li><strong>Transparent:</strong> Disabled (unless compositing)</li>
+                        </ul>
+                        <p><strong>Adjust from here based on specific needs!</strong></p>
+                    </div>
+
+                </section>
+
+                <section id="samples-denoising" class="content-section">
+                    <h2>🎲 Samples and Denoising</h2>
+
+                    <p>Samples are the heart of Cycles rendering. Understanding them—and how denoising revolutionizes the workflow—is essential for efficient, quality renders.</p>
+
+                    <h3>Understanding Samples</h3>
+
+                    <div class="card">
+                        <h4>💡 What Are Samples?</h4>
+                        <p><strong>Sample definition:</strong></p>
+                        <ul>
+                            <li>One light path traced through the scene per pixel</li>
+                            <li>Each sample is slightly different (random)</li>
+                            <li>More samples = more paths = better average</li>
+                            <li>Result converges to "correct" color</li>
+                        </ul>
+
+                        <p><strong>Why randomness creates noise:</strong></p>
+                        <ul>
+                            <li>Each sample takes a random path</li>
+                            <li>Some paths hit bright areas, some dark</li>
+                            <li>With few samples: High variation (noise/grain)</li>
+                            <li>With many samples: Average smooths out (clean)</li>
+                        </ul>
+
+                        <p><strong>Visual progression:</strong></p>
+                        <ul>
+                            <li><strong>1-16 samples:</strong> Extremely noisy, barely recognizable</li>
+                            <li><strong>32-64 samples:</strong> Very noisy, but scene visible</li>
+                            <li><strong>128-256 samples:</strong> Noisy but usable (with denoising)</li>
+                            <li><strong>512-1024 samples:</strong> Clean, minimal noise</li>
+                            <li><strong>2048-4096+ samples:</strong> Very clean, production quality</li>
+                        </ul>
+
+                        <p><strong>Real-world analogy:</strong></p>
+                        <ul>
+                            <li>Imagine polling people about favorite color</li>
+                            <li>Ask 10 people: Results vary wildly (noisy)</li>
+                            <li>Ask 1000 people: Clear trend emerges (clean)</li>
+                            <li>Samples work the same way—more = better average</li>
+                        </ul>
+                    </div>
+
+                    <h3>Sample Count Guidelines</h3>
+
+                    <div class="card">
+                        <h4>🎯 How Many Samples Do You Need?</h4>
+                        <p><strong>Without denoising (old workflow):</strong></p>
+                        <ul>
+                            <li><strong>Draft preview:</strong> 64-128</li>
+                            <li><strong>Clean result:</strong> 1024-2048</li>
+                            <li><strong>Production quality:</strong> 2048-4096</li>
+                            <li><strong>Glass/caustics:</strong> 4096-8192+</li>
+                        </ul>
+
+                        <p><strong>With denoising (modern workflow):</strong></p>
+                        <ul>
+                            <li><strong>Draft preview:</strong> 32-64</li>
+                            <li><strong>Good quality:</strong> 128-256</li>
+                            <li><strong>High quality:</strong> 512-1024</li>
+                            <li><strong>Maximum quality:</strong> 1024-2048</li>
+                            <li>Denoising reduces needed samples by 4-8x!</li>
+                        </ul>
+
+                        <p><strong>Scene complexity affects samples needed:</strong></p>
+                        <ul>
+                            <li><strong>Simple:</strong> Direct lighting, few bounces (lower samples)</li>
+                            <li><strong>Moderate:</strong> Indirect lighting, some glass (medium samples)</li>
+                            <li><strong>Complex:</strong> Lots of glass, caustics, volumes (higher samples)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Render Samples Setting</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Configuring Samples</h4>
+                        <p><strong>Location:</strong></p>
+                        <ul>
+                            <li>Render Properties → Sampling</li>
+                            <li>Two main settings: Render and Viewport</li>
+                        </ul>
+
+                        <p><strong>Render samples:</strong></p>
+                        <ul>
+                            <li>For final render (F12)</li>
+                            <li>Recommendation: 256-512 with denoising</li>
+                            <li>Higher for glass-heavy scenes</li>
+                            <li>Test render to see if enough</li>
+                        </ul>
+
+                        <p><strong>Viewport samples:</strong></p>
+                        <ul>
+                            <li>For interactive preview (Rendered mode)</li>
+                            <li>Recommendation: 32-128</li>
+                            <li>Lower = faster updates while working</li>
+                            <li>Doesn't affect final render</li>
+                        </ul>
+
+                        <p><strong>Time Limit (alternative):</strong></p>
+                        <ul>
+                            <li>Can set time instead of sample count</li>
+                            <li>Renders for specified minutes/seconds</li>
+                            <li>Useful when deadline matters more than sample count</li>
+                            <li>Automatically stops when time reached</li>
+                        </ul>
+                    </div>
+
+                    <h3>Denoising Technology</h3>
+
+                    <div class="card">
+                        <h4>🧹 AI-Powered Noise Removal</h4>
+                        <p><strong>What is denoising?</strong></p>
+                        <ul>
+                            <li>AI algorithm removes noise from render</li>
+                            <li>Trained on millions of renders</li>
+                            <li>Distinguishes detail from noise</li>
+                            <li>Preserves edges and important features</li>
+                        </ul>
+
+                        <p><strong>Why denoising is revolutionary:</strong></p>
+                        <ul>
+                            <li>256 samples + denoise ≈ 2048 samples clean</li>
+                            <li>Renders 8x faster for similar quality</li>
+                            <li>Changed professional workflows</li>
+                            <li>Now standard in production</li>
+                        </ul>
+
+                        <p><strong>Denoising options in Blender:</strong></p>
+                        <ul>
+                            <li><strong>OptiX (NVIDIA only):</strong>
+                                <ul>
+                                    <li>Fastest, highest quality</li>
+                                    <li>GPU-accelerated</li>
+                                    <li>Requires RTX graphics card</li>
+                                    <li><strong>Best choice if available</strong></li>
+                                </ul>
+                            </li>
+                            <li><strong>OpenImageDenoise (Intel):</strong>
+                                <ul>
+                                    <li>Excellent quality</li>
+                                    <li>Works on any hardware</li>
+                                    <li>Slightly slower than OptiX</li>
+                                    <li><strong>Best for AMD/non-NVIDIA</strong></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Enabling and Configuring Denoising</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Denoising Setup</h4>
+                        <p><strong>Enabling denoising:</strong></p>
+                        <ol>
+                            <li>Render Properties → Sampling → Denoising</li>
+                            <li>Check "Render" checkbox</li>
+                            <li>Select denoiser:
+                                <ul>
+                                    <li>OptiX (if NVIDIA RTX GPU)</li>
+                                    <li>OpenImageDenoise (all others)</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Viewport denoising:</strong></p>
+                        <ul>
+                            <li>Separate "Viewport" checkbox in same section</li>
+                            <li>Denoises interactive viewport rendering</li>
+                            <li>Helps see cleaner preview</li>
+                            <li>Slight performance cost</li>
+                            <li>Recommendation: Enable for cleaner preview</li>
+                        </ul>
+
+                        <p><strong>Denoising settings:</strong></p>
+                        <ul>
+                            <li><strong>Denoising Data:</strong>
+                                <ul>
+                                    <li>Passes used by denoiser</li>
+                                    <li>Default (Albedo + Normal) works well</li>
+                                    <li>More data = better quality, slightly slower</li>
+                                </ul>
+                            </li>
+                            <li><strong>Prefilter:</strong>
+                                <ul>
+                                    <li>Preprocessing before denoising</li>
+                                    <li>Options: None, Fast, Accurate</li>
+                                    <li>Accurate = best quality (slightly slower)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>When denoising struggles:</strong></p>
+                        <ul>
+                            <li>Very low samples (under 64) may look blurry</li>
+                            <li>Fine details might get smoothed</li>
+                            <li>Complex caustics may blur</li>
+                            <li>Solution: Increase samples if denoising not enough</li>
+                        </ul>
+                    </div>
+
+                    <h3>Adaptive Sampling</h3>
+
+                    <div class="card">
+                        <h4>🎯 Smart Sample Distribution</h4>
+                        <p><strong>What is adaptive sampling?</strong></p>
+                        <ul>
+                            <li>Cycles detects when pixels are clean enough</li>
+                            <li>Stops sampling those pixels early</li>
+                            <li>Focuses samples on noisy areas</li>
+                            <li>Automatic optimization</li>
+                        </ul>
+
+                        <p><strong>How it works:</strong></p>
+                        <ul>
+                            <li>Some pixels clean up faster (solid colors)</li>
+                            <li>Others need more samples (complex lighting)</li>
+                            <li>Adaptive sampling allocates efficiently</li>
+                            <li>Can save 20-40% render time</li>
+                        </ul>
+
+                        <p><strong>Enabling adaptive sampling:</strong></p>
+                        <ul>
+                            <li>Render Properties → Sampling → Adaptive Sampling</li>
+                            <li>Check "Use Adaptive Sampling"</li>
+                            <li>Usually enabled by default</li>
+                        </ul>
+
+                        <p><strong>Settings:</strong></p>
+                        <ul>
+                            <li><strong>Noise Threshold:</strong>
+                                <ul>
+                                    <li>How clean pixel must be to stop sampling</li>
+                                    <li>Default: 0.01 (good balance)</li>
+                                    <li>Lower = cleaner but slower (0.001)</li>
+                                    <li>Higher = faster but noisier (0.1)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Min Samples:</strong>
+                                <ul>
+                                    <li>Minimum samples every pixel gets</li>
+                                    <li>Default: 0 (start evaluating immediately)</li>
+                                    <li>Increase if seeing artifacts</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Modern Cycles Sampling Workflow</h4>
+                        <p><strong>The optimal setup for 2024+:</strong></p>
+                        <ol>
+                            <li><strong>Render Samples:</strong> 256-512</li>
+                            <li><strong>Denoising:</strong> Enabled (OptiX or OpenImageDenoise)</li>
+                            <li><strong>Adaptive Sampling:</strong> Enabled</li>
+                            <li><strong>Noise Threshold:</strong> 0.01</li>
+                        </ol>
+                        <p><strong>This gives clean results in reasonable time. Increase samples only if denoising isn't enough!</strong></p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Denoising Revolution:</strong> Before denoising became standard (around 2017), professional Cycles renders needed 2000-4000 samples for clean results. A single HD frame could take 30-60 minutes. Denoising changed everything—now 256 samples + denoising takes 5-10 minutes with comparable quality. This wasn't just an incremental improvement; it made Cycles practical for projects that were previously time-prohibitive. The entire industry shifted workflows. If you're still rendering without denoising, you're working 5-10x harder than necessary.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_19_cycles_path_tracing_part_03.html
+     ============================================ -->

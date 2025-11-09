@@ -1,0 +1,548 @@
+<!-- ============================================
+     LESSON 17 - PART 02
+     File: lesson_17_hdri_and_world_lighting_part_02.html
+     ============================================ -->
+
+                <section id="setting-up-hdri" class="content-section">
+                    <h2>🔧 Setting Up HDRI in Blender</h2>
+
+                    <p>Now let's get hands-on! You'll learn the exact workflow to load and use HDRI images in Blender. This is surprisingly simple but incredibly powerful.</p>
+
+                    <h3>Step-by-Step HDRI Setup</h3>
+
+                    <div class="card">
+                        <h4>📥 Loading Your First HDRI</h4>
+                        <p><strong>Complete workflow:</strong></p>
+                        <ol>
+                            <li><strong>Switch to Shading workspace:</strong>
+                                <ul>
+                                    <li>Top of Blender window: Click "Shading" tab</li>
+                                    <li>Sets up ideal layout with Shader Editor visible</li>
+                                </ul>
+                            </li>
+                            <li><strong>Switch Shader Editor to World:</strong>
+                                <ul>
+                                    <li>In Shader Editor (bottom panel)</li>
+                                    <li>Top dropdown shows "Object" by default</li>
+                                    <li>Change to "World"</li>
+                                    <li>Shows world shader nodes (Background + World Output)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add Environment Texture node:</strong>
+                                <ul>
+                                    <li>In Shader Editor: <code>Shift+A</code></li>
+                                    <li>Texture → Environment Texture</li>
+                                    <li>Place between Background and World Output nodes</li>
+                                </ul>
+                            </li>
+                            <li><strong>Load HDRI image:</strong>
+                                <ul>
+                                    <li>Click "Open" button in Environment Texture node</li>
+                                    <li>Navigate to your HDRI file (.hdr or .exr)</li>
+                                    <li>Select and click "Open Image"</li>
+                                </ul>
+                            </li>
+                            <li><strong>Connect the nodes:</strong>
+                                <ul>
+                                    <li>Environment Texture "Color" output → Background "Color" input</li>
+                                    <li>Blender may auto-connect; if not, drag connection</li>
+                                </ul>
+                            </li>
+                            <li><strong>See the result:</strong>
+                                <ul>
+                                    <li>3D Viewport (top): Switch to Material Preview or Rendered mode</li>
+                                    <li>Z key → Material Preview or Rendered</li>
+                                    <li>Or click sphere icons top-right of viewport</li>
+                                    <li>Scene now lit by HDRI!</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Quick Setup Summary</h4>
+                        <p><strong>The essential node setup:</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;">
+Environment Texture (HDRI) → Background → World Output
+        ↓
+    Color Output                Shader       Surface</pre>
+                        <p><strong>That's it! Three nodes, two connections, instant realism.</strong></p>
+                    </div>
+
+                    <h3>Testing Your HDRI Setup</h3>
+
+                    <div class="card">
+                        <h4>🧪 Verifying It Works</h4>
+                        <p><strong>Quick test workflow:</strong></p>
+                        <ol>
+                            <li><strong>Default scene test:</strong>
+                                <ul>
+                                    <li>Keep default cube (or any object)</li>
+                                    <li>Delete default light (X → Delete)</li>
+                                    <li>Add HDRI as described above</li>
+                                    <li>Switch to Rendered view</li>
+                                </ul>
+                            </li>
+                            <li><strong>What you should see:</strong>
+                                <ul>
+                                    <li>Object lit from HDRI (not pitch black)</li>
+                                    <li>HDRI visible in background</li>
+                                    <li>Realistic lighting with direction and color</li>
+                                    <li>If object is reflective: HDRI visible in reflections</li>
+                                </ul>
+                            </li>
+                            <li><strong>Troubleshooting if not working:</strong>
+                                <ul>
+                                    <li>Check nodes are connected properly</li>
+                                    <li>Verify HDRI file loaded (shows preview in node)</li>
+                                    <li>Ensure viewport in Material Preview or Rendered mode</li>
+                                    <li>Check Background Strength isn't 0</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>HDRI File Formats</h3>
+
+                    <div class="card">
+                        <h4>📁 Supported Formats</h4>
+                        <p><strong>.HDR format (Radiance HDR):</strong></p>
+                        <ul>
+                            <li>Most common HDRI format</li>
+                            <li>Good compression, smaller files</li>
+                            <li>32-bit floating point per channel</li>
+                            <li>Universal support across 3D apps</li>
+                            <li><strong>Recommended:</strong> Best for most use cases</li>
+                        </ul>
+
+                        <p><strong>.EXR format (OpenEXR):</strong></p>
+                        <ul>
+                            <li>Industry standard for VFX</li>
+                            <li>Can store additional data (layers, passes)</li>
+                            <li>16-bit or 32-bit per channel</li>
+                            <li>Larger files but more features</li>
+                            <li><strong>Use when:</strong> You need extra quality or data</li>
+                        </ul>
+
+                        <p><strong>Regular image formats (JPG, PNG):</strong></p>
+                        <ul>
+                            <li>Can be used but NOT true HDR</li>
+                            <li>Limited dynamic range (8-bit)</li>
+                            <li>Won't provide realistic lighting values</li>
+                            <li><strong>Avoid for lighting:</strong> Use only for low-priority backgrounds</li>
+                        </ul>
+
+                        <p><strong>Resolution considerations:</strong></p>
+                        <ul>
+                            <li><strong>2K (2048x1024):</strong> Decent quality, smaller file</li>
+                            <li><strong>4K (4096x2048):</strong> Good quality, balanced (recommended)</li>
+                            <li><strong>8K (8192x4096):</strong> High quality, sharp reflections</li>
+                            <li><strong>16K+:</strong> Extreme quality, very large files</li>
+                            <li>Higher resolution = sharper reflections and background details</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Setup Philosophy:</strong> HDRI setup in Blender is intentionally simple—add one node, load one image, done. This simplicity is deceptive; you're replacing dozens of potential manual lights with a single image that captures real-world lighting complexity. The power isn't in the complexity of the setup, but in the quality and appropriateness of the HDRI you choose.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="adjusting-hdri" class="content-section">
+                    <h2>🎛️ Adjusting HDRI Properties</h2>
+
+                    <p>Once your HDRI is loaded, you'll want to adjust it for your specific scene. Let's learn how to control strength, rotation, color, and visibility to get perfect results.</p>
+
+                    <h3>Strength (Brightness)</h3>
+
+                    <div class="card">
+                        <h4>💪 Controlling HDRI Intensity</h4>
+                        <p><strong>The Strength parameter:</strong></p>
+                        <ul>
+                            <li>Located in Background node (World shader)</li>
+                            <li>Slider or numeric input</li>
+                            <li>Multiplier for HDRI brightness</li>
+                            <li>Default: 1.0</li>
+                        </ul>
+
+                        <p><strong>Typical strength values:</strong></p>
+                        <ul>
+                            <li><strong>0.5-0.8:</strong> Subtle ambient (when using manual key lights)</li>
+                            <li><strong>1.0:</strong> Default, balanced (good starting point)</li>
+                            <li><strong>1.5-2.0:</strong> Bright outdoor/studio lighting</li>
+                            <li><strong>3.0-5.0:</strong> Very bright (intense sun/sky)</li>
+                            <li><strong>0.1-0.3:</strong> Dim ambient (moonlight, interior)</li>
+                        </ul>
+
+                        <p><strong>When to adjust strength:</strong></p>
+                        <ul>
+                            <li><strong>Scene too dark:</strong> Increase strength</li>
+                            <li><strong>Scene overexposed:</strong> Decrease strength</li>
+                            <li><strong>HDRI as primary light:</strong> Higher strength (1.5-3.0)</li>
+                            <li><strong>HDRI as ambient fill:</strong> Lower strength (0.3-0.7)</li>
+                            <li><strong>Combining with manual lights:</strong> Lower HDRI, stronger manual lights</li>
+                        </ul>
+
+                        <p><strong>Pro tip - separate background and lighting strength:</strong></p>
+                        <ul>
+                            <li>Sometimes you want bright lighting but dim background (or vice versa)</li>
+                            <li>We'll cover this advanced technique later!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Rotation</h3>
+
+                    <div class="card">
+                        <h4>🔄 Rotating the HDRI Environment</h4>
+                        <p><strong>Why rotate?</strong></p>
+                        <ul>
+                            <li>Position sun/bright areas where you want them</li>
+                            <li>Adjust lighting direction without moving camera</li>
+                            <li>Find best angle for reflections</li>
+                            <li>Match lighting direction of other scene elements</li>
+                        </ul>
+
+                        <p><strong>How to rotate HDRI:</strong></p>
+                        <ol>
+                            <li><strong>Add Mapping node:</strong>
+                                <ul>
+                                    <li>Shader Editor: <code>Shift+A</code> → Vector → Mapping</li>
+                                    <li>Place between Texture Coordinate and Environment Texture</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add Texture Coordinate node:</strong>
+                                <ul>
+                                    <li><code>Shift+A</code> → Input → Texture Coordinate</li>
+                                    <li>Provides coordinate system for texture</li>
+                                </ul>
+                            </li>
+                            <li><strong>Connect nodes:</strong>
+                                <ul>
+                                    <li>Texture Coordinate "Generated" → Mapping "Vector"</li>
+                                    <li>Mapping "Vector" → Environment Texture "Vector"</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotate using Mapping node:</strong>
+                                <ul>
+                                    <li>Rotation → Z axis value</li>
+                                    <li>Adjust to rotate HDRI around scene</li>
+                                    <li>Watch in viewport as it rotates!</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Rotation tips:</strong></p>
+                        <ul>
+                            <li><strong>Z-axis rotation:</strong> Most common (horizontal spin)</li>
+                            <li><strong>Interactive rotation:</strong> Drag value slider while watching viewport</li>
+                            <li><strong>Finding the sun:</strong> Look for brightest spot in HDRI, rotate until positioned well</li>
+                            <li><strong>Reflection check:</strong> Add reflective object to see environment in reflections</li>
+                        </ul>
+                    </div>
+
+                    <h3>Color Adjustment</h3>
+
+                    <div class="card">
+                        <h4>🎨 Tinting and Color Correction</h4>
+                        <p><strong>Why adjust color?</strong></p>
+                        <ul>
+                            <li>Match scene mood (warmer, cooler)</li>
+                            <li>Correct white balance</li>
+                            <li>Stylize for artistic effect</li>
+                            <li>Harmonize with other scene elements</li>
+                        </ul>
+
+                        <p><strong>Method 1: Background color tint (simple):</strong></p>
+                        <ul>
+                            <li>In Background node: Adjust Color value</li>
+                            <li>Click color swatch, choose tint</li>
+                            <li>Multiplies with HDRI color</li>
+                            <li><strong>Limitation:</strong> Affects entire HDRI uniformly</li>
+                        </ul>
+
+                        <p><strong>Method 2: Hue/Saturation/Value node (advanced):</strong></p>
+                        <ol>
+                            <li>Add HSV node: <code>Shift+A</code> → Color → Hue Saturation Value</li>
+                            <li>Place between Environment Texture and Background</li>
+                            <li>Connect: Environment Texture Color → HSV Color → Background Color</li>
+                            <li>Adjust:
+                                <ul>
+                                    <li><strong>Hue:</strong> Shift colors (e.g., more blue/orange)</li>
+                                    <li><strong>Saturation:</strong> More or less color intensity</li>
+                                    <li><strong>Value:</strong> Brightness (alternative to Strength)</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Common color adjustments:</strong></p>
+                        <ul>
+                            <li><strong>Warmer:</strong> Slight orange tint or positive Hue shift</li>
+                            <li><strong>Cooler:</strong> Slight blue tint or negative Hue shift</li>
+                            <li><strong>Desaturate:</strong> Lower Saturation for overcast/moody look</li>
+                            <li><strong>Boost colors:</strong> Increase Saturation for vibrant look</li>
+                        </ul>
+                    </div>
+
+                    <h3>Background Visibility Control</h3>
+
+                    <div class="card">
+                        <h4>👁️ Show or Hide HDRI Background</h4>
+                        <p><strong>The scenario:</strong></p>
+                        <ul>
+                            <li>Sometimes you want HDRI lighting BUT different background</li>
+                            <li>Example: HDRI lights scene, but render shows solid color background</li>
+                            <li>Solution: Separate lighting from background visibility</li>
+                        </ul>
+
+                        <p><strong>Method: Light Path node (advanced):</strong></p>
+                        <ol>
+                            <li><strong>Add Light Path node:</strong> <code>Shift+A</code> → Input → Light Path</li>
+                            <li><strong>Add Mix Shader:</strong> <code>Shift+A</code> → Shader → Mix Shader</li>
+                            <li><strong>Set up alternate background:</strong>
+                                <ul>
+                                    <li>Add second Background node with solid color</li>
+                                    <li>Or Transparent shader for no background</li>
+                                </ul>
+                            </li>
+                            <li><strong>Connect:</strong>
+                                <ul>
+                                    <li>Light Path "Is Camera Ray" → Mix Shader "Fac"</li>
+                                    <li>HDRI Background → Mix Shader input 1</li>
+                                    <li>Alternate Background → Mix Shader input 2</li>
+                                    <li>Mix Shader → World Output</li>
+                                </ul>
+                            </li>
+                            <li><strong>Result:</strong>
+                                <ul>
+                                    <li>Camera sees alternate background</li>
+                                    <li>Reflections and lighting still use HDRI</li>
+                                    <li>Best of both worlds!</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Simpler method (Eevee only):</strong></p>
+                        <ul>
+                            <li>Film Settings → Transparent (checkbox)</li>
+                            <li>Background becomes transparent</li>
+                            <li>HDRI still lights scene</li>
+                            <li>Composite over different background in post</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Essential HDRI Adjustments Checklist</h4>
+                        <p><strong>For every HDRI setup, consider:</strong></p>
+                        <ul>
+                            <li><strong>Strength:</strong> Is exposure correct? Too bright/dark?</li>
+                            <li><strong>Rotation:</strong> Is sun/main light in the right direction?</li>
+                            <li><strong>Color:</strong> Does color temperature match scene mood?</li>
+                            <li><strong>Background:</strong> Should HDRI be visible in renders or hidden?</li>
+                        </ul>
+                        <p><strong>Start with strength and rotation—these have the biggest impact.</strong></p>
+                    </div>
+
+                </section>
+
+                <section id="hdri-types" class="content-section">
+                    <h2>🏞️ Types of HDRIs</h2>
+
+                    <p>Not all HDRIs are created equal. Different HDRI types serve different purposes. Let's explore the main categories and when to use each.</p>
+
+                    <h3>Outdoor/Natural HDRIs</h3>
+
+                    <div class="card">
+                        <h4>🌄 Sky and Landscape HDRIs</h4>
+                        <p><strong>Characteristics:</strong></p>
+                        <ul>
+                            <li>Captured outdoors, shows sky and horizon</li>
+                            <li>Contains sun (very bright spot) and sky (ambient blue/gradient)</li>
+                            <li>Natural color temperature (warm sun, cool sky)</li>
+                            <li>Provides realistic outdoor lighting instantly</li>
+                        </ul>
+
+                        <p><strong>Subcategories:</strong></p>
+                        <ul>
+                            <li><strong>Clear sky:</strong> Bright sun, blue sky, high contrast
+                                <ul>
+                                    <li>Use for: Bright outdoor scenes, product showcases</li>
+                                    <li>Mood: Cheerful, vibrant, energetic</li>
+                                </ul>
+                            </li>
+                            <li><strong>Partly cloudy:</strong> Sun visible through clouds, mixed light
+                                <ul>
+                                    <li>Use for: Natural outdoor scenes, balanced lighting</li>
+                                    <li>Mood: Natural, realistic, versatile</li>
+                                </ul>
+                            </li>
+                            <li><strong>Overcast:</strong> No visible sun, even gray sky
+                                <ul>
+                                    <li>Use for: Soft, diffused lighting, product photography</li>
+                                    <li>Mood: Calm, soft, even (less dramatic)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Sunrise/Sunset (golden hour):</strong> Low sun angle, warm colors
+                                <ul>
+                                    <li>Use for: Dramatic lighting, warm atmospheric scenes</li>
+                                    <li>Mood: Romantic, dramatic, beautiful</li>
+                                </ul>
+                            </li>
+                            <li><strong>Night/Dusk:</strong> Dark sky, minimal light
+                                <ul>
+                                    <li>Use for: Night scenes, moonlight (add manual lights for drama)</li>
+                                    <li>Mood: Dark, mysterious, quiet</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>When to use outdoor HDRIs:</strong></p>
+                        <ul>
+                            <li>Architectural visualization exteriors</li>
+                            <li>Product shots with outdoor context</li>
+                            <li>Character renders in natural environments</li>
+                            <li>Vehicles, outdoor equipment</li>
+                            <li>Any time you want realistic outdoor lighting</li>
+                        </ul>
+                    </div>
+
+                    <h3>Studio HDRIs</h3>
+
+                    <div class="card">
+                        <h4>🎬 Professional Studio Lighting</h4>
+                        <p><strong>Characteristics:</strong></p>
+                        <ul>
+                            <li>Captured in photo studio with controlled lighting</li>
+                            <li>Multiple softboxes/lights in specific positions</li>
+                            <li>Clean, neutral backgrounds (usually gray or white)</li>
+                            <li>Professional product photography lighting instantly</li>
+                        </ul>
+
+                        <p><strong>Common studio setups:</strong></p>
+                        <ul>
+                            <li><strong>Three-point studio:</strong> Key, fill, rim lights visible in HDRI
+                                <ul>
+                                    <li>Pre-configured professional setup</li>
+                                    <li>Instant product lighting</li>
+                                </ul>
+                            </li>
+                            <li><strong>Softbox grid:</strong> Multiple even lights from all sides
+                                <ul>
+                                    <li>Very even, flat lighting</li>
+                                    <li>Good for technical/catalog photography</li>
+                                </ul>
+                            </li>
+                            <li><strong>Single key + ambient:</strong> One main light plus ambient
+                                <ul>
+                                    <li>Dimensional but controlled</li>
+                                    <li>Good starting point for further customization</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>When to use studio HDRIs:</strong></p>
+                        <ul>
+                            <li>Product visualization and e-commerce</li>
+                            <li>Small object renders</li>
+                            <li>When you want clean, professional lighting</li>
+                            <li>Jewelry, electronics, packaged goods</li>
+                            <li>Any product photography scenario</li>
+                        </ul>
+
+                        <p><strong>Benefits:</strong></p>
+                        <ul>
+                            <li>Instant professional lighting setup</li>
+                            <li>Clean, predictable results</li>
+                            <li>No unwanted background elements</li>
+                            <li>Optimized for product rendering</li>
+                        </ul>
+                    </div>
+
+                    <h3>Interior HDRIs</h3>
+
+                    <div class="card">
+                        <h4>🏠 Indoor Environment Lighting</h4>
+                        <p><strong>Characteristics:</strong></p>
+                        <ul>
+                            <li>Captured inside buildings/rooms</li>
+                            <li>Shows windows, artificial lights, interior architecture</li>
+                            <li>Mixed natural and artificial light</li>
+                            <li>More complex lighting with multiple sources</li>
+                        </ul>
+
+                        <p><strong>Types:</strong></p>
+                        <ul>
+                            <li><strong>Room with windows:</strong> Natural daylight streaming in
+                                <ul>
+                                    <li>Bright directional light from windows</li>
+                                    <li>Ambient interior bounce light</li>
+                                </ul>
+                            </li>
+                            <li><strong>Artificially lit interior:</strong> Lamps, overhead lights
+                                <ul>
+                                    <li>Warm artificial light sources visible</li>
+                                    <li>Lower overall brightness than outdoor</li>
+                                </ul>
+                            </li>
+                            <li><strong>Warehouse/industrial:</strong> Large spaces with mixed lighting
+                                <ul>
+                                    <li>High ceilings, interesting light patterns</li>
+                                    <li>Good for industrial/technical products</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>When to use interior HDRIs:</strong></p>
+                        <ul>
+                            <li>Products in context (shown in home/office)</li>
+                            <li>Interior architectural visualization</li>
+                            <li>Character portraits in indoor settings</li>
+                            <li>When outdoor or studio looks too artificial</li>
+                        </ul>
+
+                        <p><strong>Challenges:</strong></p>
+                        <ul>
+                            <li>Often darker than outdoor HDRIs (need higher strength)</li>
+                            <li>More complex reflections (walls, furniture visible)</li>
+                            <li>May need manual lights for better control</li>
+                        </ul>
+                    </div>
+
+                    <h3>Creative/Artistic HDRIs</h3>
+
+                    <div class="card">
+                        <h4>🎨 Stylized and Special Purpose</h4>
+                        <p><strong>Neon/urban night:</strong></p>
+                        <ul>
+                            <li>City lights, neon signs, colorful night lighting</li>
+                            <li>Use for: Cyberpunk, urban scenes, night city renders</li>
+                            <li>Provides colorful, dramatic night lighting</li>
+                        </ul>
+
+                        <p><strong>Space/sci-fi:</strong></p>
+                        <ul>
+                            <li>Stars, nebulae, alien skies</li>
+                            <li>Use for: Science fiction, space scenes, fantasy</li>
+                            <li>Creates otherworldly atmosphere</li>
+                        </ul>
+
+                        <p><strong>Abstract/gradient:</strong></p>
+                        <ul>
+                            <li>Artificial gradients, solid colors, abstract patterns</li>
+                            <li>Use for: Motion graphics, abstract art, controlled reflections</li>
+                            <li>Predictable, artistic lighting</li>
+                        </ul>
+
+                        <p><strong>Seasonal/weather:</strong></p>
+                        <ul>
+                            <li>Snow scenes, autumn colors, stormy skies</li>
+                            <li>Use for: Seasonal products, weather-specific scenes</li>
+                            <li>Provides specific atmospheric conditions</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_17_hdri_and_world_lighting_part_03.html
+     ============================================ -->

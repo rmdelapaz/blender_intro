@@ -1,0 +1,584 @@
+<!-- PART 03: Proportional Editing and Loop Tools -->
+
+<section id="proportional-editing">
+    <h2>🎯 Proportional Editing: The Sculptor's Touch</h2>
+    
+    <p>Imagine you're working with clay. When you push on one spot, the surrounding clay naturally moves with it, creating smooth, organic deformations. That's exactly what <strong>Proportional Editing</strong> does in Blender – it allows you to influence surrounding geometry when you transform selected elements, creating natural, flowing shapes instead of harsh, isolated changes.</p>
+
+    <p>This is one of those features that, once you start using it, you'll wonder how you ever modeled without it. It's absolutely essential for organic modeling, character work, and any time you need smooth, natural-looking deformations.</p>
+
+    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <h3>💡 When to Use Proportional Editing</h3>
+        <ul style="color: white;">
+            <li><strong>Organic shapes:</strong> Smoothing terrain, sculpting character features</li>
+            <li><strong>Smooth transitions:</strong> Creating natural bulges or dents</li>
+            <li><strong>Landscape modeling:</strong> Raising hills or creating valleys</li>
+            <li><strong>Character refinement:</strong> Adjusting muscle groups or facial features</li>
+            <li><strong>Avoiding hard edges:</strong> When you need gradual, natural falloff</li>
+        </ul>
+    </div>
+
+    <h3>Activating Proportional Editing</h3>
+    
+    <p>There are several ways to enable Proportional Editing:</p>
+
+    <div class="card">
+        <h4>🎛️ Activation Methods</h4>
+        <ul>
+            <li><strong>Keyboard shortcut:</strong> Press <kbd>O</kbd> to toggle on/off (you'll see a circle icon in the header)</li>
+            <li><strong>Header icon:</strong> Click the proportional editing icon in the 3D Viewport header (looks like a circle with gradient)</li>
+            <li><strong>Connected only:</strong> Press <kbd>Alt+O</kbd> for proportional editing that only affects connected geometry</li>
+        </ul>
+        <p><strong>Visual indicator:</strong> When active, you'll see a circle around your cursor when transforming – this shows the influence area!</p>
+    </div>
+
+    <h3>Falloff Types: Controlling the Influence</h3>
+
+    <p>The <strong>falloff</strong> determines how the influence decreases from the selected element to the outer edge. Think of it like different types of brushes in painting – some have soft edges, some are sharp, some are completely smooth.</p>
+
+    <div class="mermaid">
+        graph LR
+        A[Falloff Types] --> B[Smooth - Gradual curve]
+        A --> C[Sharp - Quick dropoff]
+        A --> D[Linear - Even gradient]
+        A --> E[Constant - No falloff]
+        A --> F[Sphere - 3D falloff]
+        A --> G[Random - Chaotic effect]
+        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+        style B fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+        style C fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Falloff Type</th>
+                <th>Description</th>
+                <th>Best For</th>
+                <th>Shortcut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Smooth</strong></td>
+                <td>Gradual, natural curve (default)</td>
+                <td>Organic shapes, character work</td>
+                <td><kbd>Shift+O</kbd> → Select</td>
+            </tr>
+            <tr>
+                <td><strong>Sphere</strong></td>
+                <td>3D spherical falloff</td>
+                <td>Bulges, bumps, uniform influence</td>
+                <td><kbd>Shift+O</kbd> → Select</td>
+            </tr>
+            <tr>
+                <td><strong>Sharp</strong></td>
+                <td>Quick dropoff, maintains more area</td>
+                <td>Mountains, spikes, focused edits</td>
+                <td><kbd>Shift+O</kbd> → Select</td>
+            </tr>
+            <tr>
+                <td><strong>Linear</strong></td>
+                <td>Even, straight gradient</td>
+                <td>Mechanical tapers, ramps</td>
+                <td><kbd>Shift+O</kbd> → Select</td>
+            </tr>
+            <tr>
+                <td><strong>Constant</strong></td>
+                <td>Same strength throughout (no falloff)</td>
+                <td>Uniform movement of area</td>
+                <td><kbd>Shift+O</kbd> → Select</td>
+            </tr>
+            <tr>
+                <td><strong>Random</strong></td>
+                <td>Chaotic, unpredictable influence</td>
+                <td>Rough terrain, noise effects</td>
+                <td><kbd>Shift+O</kbd> → Select</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>💡 Pro Tip: Adjusting Influence Size</h4>
+        <p>While transforming with proportional editing active:</p>
+        <ul>
+            <li><strong>Mouse wheel up/down:</strong> Increase or decrease the influence radius</li>
+            <li><strong>Page Up/Page Down:</strong> Alternative method to adjust radius</li>
+            <li><strong>Watch the circle:</strong> The circle shows you exactly what will be affected</li>
+        </ul>
+        <p><em>This is real-time adjustment – scroll during your move to fine-tune the effect!</em></p>
+    </div>
+
+    <h3>Proportional Editing Workflow</h3>
+
+    <div class="card">
+        <h4>📋 Step-by-Step Process</h4>
+        <ol>
+            <li><strong>Select</strong> the vertex, edge, or face you want to move</li>
+            <li><strong>Enable proportional editing</strong> by pressing <kbd>O</kbd></li>
+            <li><strong>Start your transform</strong> (G to move, R to rotate, S to scale)</li>
+            <li><strong>Adjust the influence radius</strong> using the mouse wheel</li>
+            <li><strong>Change falloff type</strong> if needed by pressing <kbd>Shift+O</kbd></li>
+            <li><strong>Complete the transform</strong> by clicking or pressing Enter</li>
+        </ol>
+    </div>
+
+    <blockquote>
+        <p><strong>Real-World Example:</strong> Imagine you're modeling a character's cheek. You select a single vertex where the cheekbone should protrude, enable proportional editing with smooth falloff, and pull it outward. Instead of just one vertex poking out unnaturally, the entire surrounding area moves smoothly with it, creating a natural, rounded cheekbone. That's the power of proportional editing!</p>
+    </blockquote>
+
+    <h3>Connected vs. Projected</h3>
+
+    <p>Blender offers two modes of proportional editing, and understanding the difference is crucial:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Mode</th>
+                <th>Behavior</th>
+                <th>Best For</th>
+                <th>Shortcut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Projected</strong></td>
+                <td>Affects all vertices within radius, even disconnected ones</td>
+                <td>Terrain, overlapping geometry, general modeling</td>
+                <td><kbd>O</kbd></td>
+            </tr>
+            <tr>
+                <td><strong>Connected</strong></td>
+                <td>Only affects vertices connected by edges</td>
+                <td>Isolated shapes, when you don't want to affect nearby disconnected geometry</td>
+                <td><kbd>Alt+O</kbd></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+        <h4>⚠️ Watch Out: Hidden Geometry</h4>
+        <p>Proportional editing affects geometry even if it's behind other faces in your view! If you're getting unexpected results, try:</p>
+        <ul>
+            <li>Switching to <strong>Connected mode</strong> (<kbd>Alt+O</kbd>)</li>
+            <li>Using <strong>X-ray mode</strong> to see what's being influenced</li>
+            <li>Hiding parts of your mesh you don't want to affect (<kbd>H</kbd>)</li>
+        </ul>
+    </div>
+
+    <h3>Practice Exercise: Creating a Hill</h3>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>🎯 Try It Now: Proportional Editing Practice</h4>
+        <ol>
+            <li>Add a plane (<kbd>Shift+A</kbd> → Mesh → Plane)</li>
+            <li>Subdivide it multiple times (Right-click → Subdivide, repeat 4-5 times)</li>
+            <li>Enter Edit Mode (<kbd>Tab</kbd>)</li>
+            <li>Select a vertex near the center (<kbd>Alt+A</kbd> to deselect all first)</li>
+            <li>Enable proportional editing (<kbd>O</kbd>)</li>
+            <li>Choose <strong>Smooth</strong> falloff (<kbd>Shift+O</kbd>)</li>
+            <li>Press <kbd>G Z</kbd> to move up on Z-axis</li>
+            <li>Use <strong>mouse wheel</strong> to adjust influence size</li>
+            <li>Click to confirm – you've created a hill!</li>
+        </ol>
+        <p><strong>Experiment:</strong> Try different falloff types to see how they affect the hill shape!</p>
+    </div>
+</section>
+
+<section id="loop-tools">
+    <h2>🔄 Loop Tools: The Precision Circle Makers</h2>
+
+    <p>Loop tools are like having a master geometric wizard at your fingertips. They take your edge loops and faces and perform magical transformations – creating perfect circles, smooth bridges, and elegant curves. These are absolutely essential for hard-surface modeling, mechanical parts, and any time you need geometrically precise shapes.</p>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>📦 What Are Loop Tools?</h4>
+        <p>Loop Tools is an add-on that ships with Blender but needs to be activated. It provides a collection of utilities specifically designed for working with edge loops and creating curved, circular, and interpolated geometry.</p>
+        <p><strong>Think of it as:</strong> A Swiss Army knife for loop-based modeling operations.</p>
+    </div>
+
+    <h3>Enabling Loop Tools Add-on</h3>
+
+    <div class="card">
+        <h4>🔌 Activation Steps</h4>
+        <ol>
+            <li>Go to <strong>Edit → Preferences</strong> (<kbd>F4</kbd> then type "preferences")</li>
+            <li>Click the <strong>Add-ons</strong> tab on the left</li>
+            <li>Search for <strong>"Loop Tools"</strong> in the search box</li>
+            <li>Check the checkbox next to <strong>"Mesh: Loop Tools"</strong></li>
+            <li>Close preferences – the add-on is now active!</li>
+        </ol>
+        <p><em>Once enabled, you'll find Loop Tools in the right-click menu when edges are selected, and in the Sidebar (<kbd>N</kbd> key) under the "Edit" tab.</em></p>
+    </div>
+
+    <h3>Essential Loop Tools Operations</h3>
+
+    <div class="mermaid">
+        graph TD
+        A[Loop Tools] --> B[Circle - Perfect rounds]
+        A --> C[Curve - Smooth bends]
+        A --> D[Flatten - Align to plane]
+        A --> E[Bridge - Connect loops]
+        A --> F[Space - Even distribution]
+        A --> G[Relax - Smooth geometry]
+        style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+        style B fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+        style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <h3>Circle: Creating Perfect Rounds</h3>
+
+    <p>The <strong>Circle</strong> tool transforms a selected edge loop into a perfect circle or ellipse. This is invaluable when you need precise circular geometry – think wheels, pipes, holes, or any mechanical component.</p>
+
+    <div class="card">
+        <h4>🎯 How to Use Circle</h4>
+        <ol>
+            <li>Select an edge loop (<kbd>Alt+Click</kbd> on an edge)</li>
+            <li>Right-click and choose <strong>Loop Tools → Circle</strong></li>
+            <li>Or press <kbd>N</kbd> for sidebar → Edit tab → Loop Tools → Circle</li>
+            <li>The loop instantly transforms into a perfect circle!</li>
+        </ol>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Circle Options</th>
+                <th>What It Does</th>
+                <th>When to Use</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Regular</strong></td>
+                <td>Creates a circle with vertices evenly spaced</td>
+                <td>Default for most circular shapes</td>
+            </tr>
+            <tr>
+                <td><strong>Fit</strong></td>
+                <td>Fits circle to the original selection bounds</td>
+                <td>When you want to maintain the general shape</td>
+            </tr>
+            <tr>
+                <td><strong>Influence</strong></td>
+                <td>Partial transformation (0-100%)</td>
+                <td>For subtle rounding, not full circles</td>
+            </tr>
+            <tr>
+                <td><strong>Lock X/Y/Z</strong></td>
+                <td>Prevents movement on specific axis</td>
+                <td>When you want to flatten in specific plane</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <blockquote>
+        <p><strong>Pro Modeling Tip:</strong> When modeling machinery or hard-surface objects, you'll often start with rough shapes and use Circle to perfect the round components. For example, model a rough wheel hub, select the outer edge loop, apply Circle, and boom – instant precision!</p>
+    </blockquote>
+
+    <h3>Curve: Smooth Flowing Lines</h3>
+
+    <p>The <strong>Curve</strong> tool creates a smooth, flowing curve between two selected vertices, based on the surrounding geometry. It's like asking Blender, "make this look naturally curvy."</p>
+
+    <div class="card">
+        <h4>📐 Curve Usage</h4>
+        <ol>
+            <li>Select a series of connected edges or vertices</li>
+            <li>Right-click → <strong>Loop Tools → Curve</strong></li>
+            <li>The middle vertices adjust to create a smooth curve</li>
+            <li>End vertices stay locked in place as curve handles</li>
+        </ol>
+    </div>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>✅ When to Use Curve</h4>
+        <ul>
+            <li><strong>Smooth transitions:</strong> Between two points on a surface</li>
+            <li><strong>Organic shapes:</strong> Creating natural flowing lines</li>
+            <li><strong>Edge flow cleanup:</strong> Fixing awkward edge paths</li>
+            <li><strong>Profile edges:</strong> Creating smooth silhouettes</li>
+        </ul>
+    </div>
+
+    <h3>Flatten: Aligning to a Plane</h3>
+
+    <p><strong>Flatten</strong> takes selected vertices and projects them onto a plane. Think of it like pressing geometry against an invisible flat surface – incredibly useful for creating flat faces or aligning vertices perfectly.</p>
+
+    <div class="card">
+        <h4>🎚️ Flatten Options</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mode</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Best Fit</strong></td>
+                    <td>Finds the best-fitting plane for your selection</td>
+                </tr>
+                <tr>
+                    <td><strong>View</strong></td>
+                    <td>Flattens based on your current viewport angle</td>
+                </tr>
+                <tr>
+                    <td><strong>X/Y/Z Axis</strong></td>
+                    <td>Flattens along a specific world axis</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Bridge: Connecting Edge Loops</h3>
+
+    <p>The <strong>Bridge</strong> tool connects two separate edge loops with new geometry, creating a smooth connection between them. It's like building a tunnel between two openings.</p>
+
+    <div class="card">
+        <h4>🌉 Bridge Workflow</h4>
+        <ol>
+            <li>Select two separate edge loops (both must have same number of edges for best results)</li>
+            <li>Right-click → <strong>Loop Tools → Bridge</strong></li>
+            <li>Blender creates connecting faces between the loops</li>
+        </ol>
+        <p><strong>Common uses:</strong> Connecting body parts, creating pipe connections, joining separate mesh sections, making handles or attachments.</p>
+    </div>
+
+    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+        <h4>⚠️ Bridge Requirements</h4>
+        <p>For Bridge to work properly:</p>
+        <ul>
+            <li>Both edge loops should have the <strong>same number of edges</strong> (or proportional numbers)</li>
+            <li>The loops should be <strong>separate</strong> (not connected)</li>
+            <li>Both loops must be <strong>boundary edges</strong> (edges with only one face)</li>
+        </ul>
+        <p><em>If Bridge isn't working, check these conditions first!</em></p>
+    </div>
+
+    <h3>Space: Even Distribution</h3>
+
+    <p><strong>Space</strong> redistributes selected vertices evenly along their existing path. It's like taking a string of beads and spacing them perfectly equal distances apart.</p>
+
+    <div class="card">
+        <h4>📏 Space Usage</h4>
+        <ul>
+            <li>Select a series of connected vertices or an edge loop</li>
+            <li>Apply <strong>Loop Tools → Space</strong></li>
+            <li>Vertices redistribute evenly while maintaining the overall curve</li>
+        </ul>
+        <p><strong>Perfect for:</strong> Cleaning up uneven topology, preparing geometry for subdivision, creating uniform edge loops.</p>
+    </div>
+
+    <h3>Relax: Smoothing Geometry</h3>
+
+    <p><strong>Relax</strong> averages vertex positions to create smoother, more even geometry. It's like gently massaging your mesh to relax tension and create better flow.</p>
+
+    <div class="card">
+        <h4>😌 Relax Features</h4>
+        <ul>
+            <li><strong>Iterations:</strong> How many times to apply smoothing (more = smoother)</li>
+            <li><strong>Non-destructive:</strong> Maintains your mesh's overall shape</li>
+            <li><strong>Improves topology:</strong> Evens out irregular vertex distribution</li>
+        </ul>
+    </div>
+
+    <h3>Loop Tools Practice Project</h3>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>🛠️ Build a Pipe Connection</h4>
+        <p>This exercise uses multiple Loop Tools to create a curved pipe:</p>
+        <ol>
+            <li><strong>Add a cylinder</strong> (<kbd>Shift+A</kbd> → Mesh → Cylinder)</li>
+            <li><strong>Delete the top cap</strong> (Select top face, <kbd>X</kbd> → Faces)</li>
+            <li><strong>Select the top edge loop</strong> (<kbd>Alt+Click</kbd>)</li>
+            <li><strong>Extrude up</strong> (<kbd>E</kbd>, then <kbd>Z</kbd>, move up)</li>
+            <li><strong>Scale slightly larger</strong> (<kbd>S</kbd>, scale out a bit)</li>
+            <li><strong>Apply Circle</strong> to ensure it's perfectly round (Right-click → Loop Tools → Circle)</li>
+            <li><strong>Extrude again</strong> and bend it (<kbd>E</kbd>, move to the side)</li>
+            <li><strong>Select the middle edge loop</strong> of your bend</li>
+            <li><strong>Apply Relax</strong> to smooth the curve (Loop Tools → Relax, set iterations to 3-5)</li>
+            <li><strong>Select all edge loops</strong> along the pipe</li>
+            <li><strong>Apply Space</strong> to even out the spacing (Loop Tools → Space)</li>
+        </ol>
+        <p><strong>Result:</strong> A smooth, perfectly circular pipe with even topology!</p>
+    </div>
+
+    <blockquote>
+        <p><strong>Industry Insight:</strong> Professional hard-surface modelers rely heavily on Loop Tools for mechanical modeling. Cars, robots, architecture, product design – anywhere you need precise curves and perfect circles, Loop Tools is your friend. Master these tools, and you'll model hard-surface objects like a pro!</p>
+    </blockquote>
+</section>
+
+<section id="advanced-selection">
+    <h2>🎯 Advanced Selection Techniques</h2>
+
+    <p>Now that you understand basic selection, let's level up your skills with advanced techniques that will make you lightning-fast and laser-precise. These methods separate beginners from professionals – not because they're hard to learn, but because they save enormous amounts of time and frustration.</p>
+
+    <h3>Selection by Similarity (Select Similar)</h3>
+
+    <p>Imagine you need to select all triangular faces in a complex mesh, or every edge with a specific angle. Doing this manually would take forever! That's where <strong>Select Similar</strong> comes in – it finds and selects all geometry that matches certain criteria.</p>
+
+    <div class="card">
+        <h4>🔍 How to Use Select Similar</h4>
+        <ol>
+            <li>Select one or more elements that have the property you're looking for</li>
+            <li>Press <kbd>Shift+G</kbd> (Think: "Shift-Gather similar")</li>
+            <li>Choose from the menu what similarity to look for</li>
+            <li>All matching geometry gets selected instantly!</li>
+        </ol>
+    </div>
+
+    <h3>Similar Selection Criteria</h3>
+
+    <p>Depending on whether you have vertices, edges, or faces selected, you'll see different options:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Element Type</th>
+                <th>Similarity Options</th>
+                <th>What It Finds</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="3"><strong>Vertices</strong></td>
+                <td>Amount of connecting edges</td>
+                <td>Vertices with same number of edges</td>
+            </tr>
+            <tr>
+                <td>Vertex groups</td>
+                <td>Vertices in the same groups</td>
+            </tr>
+            <tr>
+                <td>Amount of connecting faces</td>
+                <td>Vertices with same face count</td>
+            </tr>
+            <tr>
+                <td rowspan="5"><strong>Edges</strong></td>
+                <td>Length</td>
+                <td>Edges of similar length</td>
+            </tr>
+            <tr>
+                <td>Direction</td>
+                <td>Edges pointing same direction</td>
+            </tr>
+            <tr>
+                <td>Amount of faces</td>
+                <td>Edges with same face count (useful for finding boundary edges)</td>
+            </tr>
+            <tr>
+                <td>Face angles</td>
+                <td>Edges at similar angles to adjacent faces</td>
+            </tr>
+            <tr>
+                <td>Crease</td>
+                <td>Edges with similar crease values</td>
+            </tr>
+            <tr>
+                <td rowspan="6"><strong>Faces</strong></td>
+                <td>Material</td>
+                <td>Faces with same material</td>
+            </tr>
+            <tr>
+                <td>Area</td>
+                <td>Faces of similar size</td>
+            </tr>
+            <tr>
+                <td>Sides</td>
+                <td>Faces with same vertex count (find all triangles, quads, n-gons)</td>
+            </tr>
+            <tr>
+                <td>Perimeter</td>
+                <td>Faces with similar edge length total</td>
+            </tr>
+            <tr>
+                <td>Normal</td>
+                <td>Faces pointing in same direction</td>
+            </tr>
+            <tr>
+                <td>Co-planar</td>
+                <td>Faces on the same plane</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+        <h4>💡 Pro Tip: Finding Problem Geometry</h4>
+        <p>Select Similar is incredibly useful for quality control:</p>
+        <ul>
+            <li><strong>Find all triangles:</strong> Select one triangle, <kbd>Shift+G</kbd> → Sides</li>
+            <li><strong>Find boundary edges:</strong> Select one boundary edge, <kbd>Shift+G</kbd> → Amount of Faces → 1</li>
+            <li><strong>Find loose vertices:</strong> Select one lone vertex, <kbd>Shift+G</kbd> → Amount of connecting edges → 0</li>
+            <li><strong>Find n-gons:</strong> Select one n-gon (5+ sides), <kbd>Shift+G</kbd> → Sides</li>
+        </ul>
+    </div>
+
+    <h3>Select All by Trait</h3>
+
+    <p>While Select Similar finds elements matching your current selection, <strong>Select All by Trait</strong> (<kbd>Shift+Ctrl+Alt+M</kbd> or found in Select menu) selects problematic or specific geometry types directly without needing an example selected first.</p>
+
+    <div class="card">
+        <h4>🔧 Common Select All by Trait Options</h4>
+        <ul>
+            <li><strong>Non-Manifold:</strong> Finds problematic geometry (essential for 3D printing)</li>
+            <li><strong>Loose:</strong> Vertices or edges not connected to faces</li>
+            <li><strong>Interior Faces:</strong> Faces completely inside the mesh</li>
+            <li><strong>Faces by Sides:</strong> Select all triangles, quads, or n-gons directly</li>
+        </ul>
+    </div>
+
+    <blockquote>
+        <p><strong>3D Printing Gold:</strong> Before 3D printing any model, run "Select All by Trait → Non-Manifold" to find geometry errors that will cause printing failures. A manifold mesh (no non-manifold geometry) is watertight and printable!</p>
+    </blockquote>
+
+    <h3>Checker Deselect: The Pattern Master</h3>
+
+    <p><strong>Checker Deselect</strong> is like creating a checkerboard pattern in your selection. It deselects every other element, which is incredibly useful for creating even, alternating patterns.</p>
+
+    <div class="card">
+        <h4>♟️ Using Checker Deselect</h4>
+        <ol>
+            <li>Select a group of elements (faces, edges, or vertices)</li>
+            <li>Go to <strong>Select → Checker Deselect</strong></li>
+            <li>Every other element gets deselected in a pattern</li>
+            <li>You can adjust the pattern in the bottom-left operator panel</li>
+        </ol>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Checker Deselect Uses</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Creating patterns</strong></td>
+                <td>Alternating panels on a spaceship hull</td>
+            </tr>
+            <tr>
+                <td><strong>Reducing geometry</strong></td>
+                <td>Delete every other edge loop for lower poly version</td>
+            </tr>
+            <tr>
+                <td><strong>Texture variation</strong></td>
+                <td>Apply different materials in checkerboard pattern</td>
+            </tr>
+            <tr>
+                <td><strong>Testing deformations</strong></td>
+                <td>See how alternating faces behave under subdivision</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+        <h4>🎛️ Checker Deselect Options</h4>
+        <p>After running Checker Deselect, check the bottom-left corner for options:</p>
+        <ul>
+            <li><strong>Deselected:</strong> How many to deselect (e.g., 1 means every other)</li>
+            <li><strong>Selected:</strong> How many to keep selected (e.g., 2 means keep 2, skip 1, keep 2, skip 1...)</li>
+            <li><strong>Offset:</strong> Shift the pattern forward or backward</li>
+        </ul>
+        <p>Experiment with these to create various patterns!</p>
+    </div>
+</section>

@@ -1,0 +1,643 @@
+<!-- ============================================
+     LESSON 18 - PART 03
+     File: lesson_18_eevee_realtime_rendering_part_03.html
+     ============================================ -->
+
+                <section id="shadows" class="content-section">
+                    <h2>🌓 Shadow Settings</h2>
+
+                    <p>Shadows are critical for realism and depth. Eevee's shadow system is fast but requires some configuration to look its best.</p>
+
+                    <h3>Understanding Eevee Shadows</h3>
+
+                    <div class="card">
+                        <h4>💡 How Eevee Handles Shadows</h4>
+                        <p><strong>Shadow technique:</strong></p>
+                        <ul>
+                            <li>Eevee uses shadow maps (like games)</li>
+                            <li>Each light creates a shadow map (texture)</li>
+                            <li>Higher resolution = sharper shadows</li>
+                            <li>Trade-off: Quality vs performance</li>
+                        </ul>
+
+                        <p><strong>Key differences from Cycles:</strong></p>
+                        <ul>
+                            <li><strong>Cycles:</strong> Ray-traced shadows (perfect but slow)</li>
+                            <li><strong>Eevee:</strong> Shadow mapped (fast but need tuning)</li>
+                            <li>Eevee shadows can have artifacts if not configured well</li>
+                            <li>But with proper settings, look excellent</li>
+                        </ul>
+                    </div>
+
+                    <h3>Shadow Settings Overview</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Shadow Controls</h4>
+                        <p><strong>Location:</strong> Render Properties → Shadows</p>
+
+                        <p><strong>Main shadow settings:</strong></p>
+                        <ul>
+                            <li><strong>Cube Size:</strong>
+                                <ul>
+                                    <li>Shadow map resolution for Point/Area lights</li>
+                                    <li>Default: 512 pixels</li>
+                                    <li>Higher = sharper shadows, more memory</li>
+                                    <li>Options: 128, 256, 512, 1024, 2048, 4096</li>
+                                    <li><strong>Recommended:</strong> 1024-2048 for quality</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cascade Size:</strong>
+                                <ul>
+                                    <li>Shadow map resolution for Sun lights</li>
+                                    <li>Default: 1024 pixels</li>
+                                    <li>Sun lights cover large areas, need higher resolution</li>
+                                    <li><strong>Recommended:</strong> 2048-4096 for sun shadows</li>
+                                </ul>
+                            </li>
+                            <li><strong>High Bitdepth:</strong>
+                                <ul>
+                                    <li>More precise shadow calculations</li>
+                                    <li>Reduces shadow artifacts (peter panning, acne)</li>
+                                    <li>Slight performance cost</li>
+                                    <li><strong>Recommendation:</strong> Enable for quality</li>
+                                </ul>
+                            </li>
+                            <li><strong>Soft Shadows:</strong>
+                                <ul>
+                                    <li>Enables softer, more realistic shadow edges</li>
+                                    <li>Performance cost</li>
+                                    <li><strong>Recommendation:</strong> Almost always enable</li>
+                                </ul>
+                            </li>
+                            <li><strong>Light Threshold:</strong>
+                                <ul>
+                                    <li>Minimum light intensity to cast shadows</li>
+                                    <li>Dim lights below threshold won't cast shadows</li>
+                                    <li>Default: 0.01 (very low)</li>
+                                    <li>Performance optimization (fewer shadow maps)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Per-Light Shadow Settings</h3>
+
+                    <div class="card">
+                        <h4>💡 Individual Light Controls</h4>
+                        <p><strong>Each light has its own shadow settings:</strong></p>
+                        <ol>
+                            <li>Select light object</li>
+                            <li>Light Properties panel</li>
+                            <li>Shadow section</li>
+                        </ol>
+
+                        <p><strong>Per-light shadow options:</strong></p>
+                        <ul>
+                            <li><strong>Shadow (checkbox):</strong>
+                                <ul>
+                                    <li>Enable/disable shadows for this light</li>
+                                    <li>Disable to save performance if shadows not needed</li>
+                                </ul>
+                            </li>
+                            <li><strong>Clip Start:</strong>
+                                <ul>
+                                    <li>How close to light shadows start</li>
+                                    <li>Objects closer than this won't cast shadows</li>
+                                    <li>Increase if seeing shadow artifacts near light</li>
+                                </ul>
+                            </li>
+                            <li><strong>Bias:</strong>
+                                <ul>
+                                    <li>Offset to reduce shadow artifacts</li>
+                                    <li>Increase if seeing "shadow acne" (speckles)</li>
+                                    <li>Decrease if shadows seem detached from objects</li>
+                                    <li>Default usually works well</li>
+                                </ul>
+                            </li>
+                            <li><strong>Contact Shadows (Eevee only):</strong>
+                                <ul>
+                                    <li>Additional detail shadows at contact points</li>
+                                    <li>Enhances realism where objects touch</li>
+                                    <li>Performance cost</li>
+                                    <li>Optional but improves quality</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Shadow Quality Tips</h3>
+
+                    <div class="card">
+                        <h4>✨ Getting Better Shadows</h4>
+                        <p><strong>For sharp, clean shadows:</strong></p>
+                        <ul>
+                            <li>Increase Cube/Cascade Size (1024-4096)</li>
+                            <li>Enable High Bitdepth</li>
+                            <li>Enable Soft Shadows</li>
+                            <li>Use higher render samples (128-256)</li>
+                        </ul>
+
+                        <p><strong>For soft, natural shadows:</strong></p>
+                        <ul>
+                            <li>Increase light size (Area lights) or radius (Point lights)</li>
+                            <li>Larger lights = softer shadows naturally</li>
+                            <li>Enable Soft Shadows in render settings</li>
+                            <li>Sun light: Increase Angle for softer sun shadows</li>
+                        </ul>
+
+                        <p><strong>Fixing shadow artifacts:</strong></p>
+                        <ul>
+                            <li><strong>Shadow acne (speckles on surfaces):</strong>
+                                <ul>
+                                    <li>Increase light Bias slightly</li>
+                                    <li>Enable High Bitdepth</li>
+                                </ul>
+                            </li>
+                            <li><strong>Peter panning (floating shadows):</strong>
+                                <ul>
+                                    <li>Decrease light Bias</li>
+                                    <li>Adjust Clip Start</li>
+                                </ul>
+                            </li>
+                            <li><strong>Blocky/pixelated shadows:</strong>
+                                <ul>
+                                    <li>Increase shadow map size (Cube/Cascade Size)</li>
+                                    <li>Move light closer to subject</li>
+                                </ul>
+                            </li>
+                            <li><strong>Shadows cutting off at distance:</strong>
+                                <ul>
+                                    <li>Sun light: Increase Cascade Max Distance</li>
+                                    <li>Point/Spot: Light has distance limit (increase in light settings)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Recommended Shadow Settings</h4>
+                        <p><strong>For high-quality Eevee shadows, use these settings:</strong></p>
+                        <ul>
+                            <li><strong>Cube Size:</strong> 2048</li>
+                            <li><strong>Cascade Size:</strong> 4096</li>
+                            <li><strong>High Bitdepth:</strong> Enabled</li>
+                            <li><strong>Soft Shadows:</strong> Enabled</li>
+                            <li><strong>Render Samples:</strong> 128-256</li>
+                        </ul>
+                        <p><strong>This balances quality and performance for most scenes.</strong></p>
+                    </div>
+
+                    <h3>Contact Shadows</h3>
+
+                    <div class="card">
+                        <h4>🔍 Enhanced Detail Shadows</h4>
+                        <p><strong>What are contact shadows?</strong></p>
+                        <ul>
+                            <li>Additional shadow detail at contact points</li>
+                            <li>Where objects meet surfaces</li>
+                            <li>Adds fine detail regular shadow maps miss</li>
+                            <li>Screen-space effect (like SSR, SSAO)</li>
+                        </ul>
+
+                        <p><strong>Enabling contact shadows:</strong></p>
+                        <ol>
+                            <li>Select light → Light Properties</li>
+                            <li>Shadow section → Contact Shadows</li>
+                            <li>Check "Contact Shadows" box</li>
+                        </ol>
+
+                        <p><strong>Contact shadow settings:</strong></p>
+                        <ul>
+                            <li><strong>Distance:</strong>
+                                <ul>
+                                    <li>How far from contact point shadow extends</li>
+                                    <li>Smaller = tight detail</li>
+                                    <li>Larger = wider shadow reach</li>
+                                </ul>
+                            </li>
+                            <li><strong>Bias:</strong>
+                                <ul>
+                                    <li>Prevents self-shadowing artifacts</li>
+                                    <li>Usually leave at default</li>
+                                </ul>
+                            </li>
+                            <li><strong>Thickness:</strong>
+                                <ul>
+                                    <li>How thick surfaces are assumed to be</li>
+                                    <li>Affects shadow accuracy</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>When to use contact shadows:</strong></p>
+                        <ul>
+                            <li>Close-up shots needing fine detail</li>
+                            <li>Objects on tables/floors (contact points visible)</li>
+                            <li>Enhancing realism of shadow edges</li>
+                            <li>Performance allows (has cost)</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="indirect-lighting" class="content-section">
+                    <h2>🌈 Indirect Lighting Setup</h2>
+
+                    <p>Indirect lighting is light that bounces off surfaces. Cycles does this automatically, but Eevee needs help through light probes and irradiance volumes.</p>
+
+                    <h3>Understanding Indirect Lighting</h3>
+
+                    <div class="card">
+                        <h4>💡 What is Indirect Light?</h4>
+                        <p><strong>Direct vs Indirect lighting:</strong></p>
+                        <ul>
+                            <li><strong>Direct light:</strong> Light from source directly to surface</li>
+                            <li><strong>Indirect light:</strong> Light bounces off surfaces before reaching object</li>
+                            <li>Example: Red wall near white object → object tinted red (color bleed)</li>
+                            <li>Indirect light adds realism and depth</li>
+                        </ul>
+
+                        <p><strong>Why Eevee needs help:</strong></p>
+                        <ul>
+                            <li>Real-time engines can't calculate bounces on-the-fly</li>
+                            <li>Would be too slow</li>
+                            <li>Solution: Pre-calculate and store bounce light</li>
+                            <li>This is what light probes do</li>
+                        </ul>
+                    </div>
+
+                    <h3>Irradiance Volumes</h3>
+
+                    <div class="card">
+                        <h4>📦 Global Indirect Lighting</h4>
+                        <p><strong>What irradiance volumes do:</strong></p>
+                        <ul>
+                            <li>Capture indirect lighting throughout a volume of space</li>
+                            <li>Objects inside volume receive ambient bounce light</li>
+                            <li>Essential for realistic Eevee lighting</li>
+                        </ul>
+
+                        <p><strong>Adding an irradiance volume:</strong></p>
+                        <ol>
+                            <li><code>Shift+A</code> → Light Probe → Irradiance Volume</li>
+                            <li>Scale volume to encompass your scene
+                                <ul>
+                                    <li><code>S</code> key to scale</li>
+                                    <li>Should cover all objects needing indirect light</li>
+                                </ul>
+                            </li>
+                            <li>Adjust resolution in properties:
+                                <ul>
+                                    <li>Select irradiance volume</li>
+                                    <li>Object Data Properties (probe icon)</li>
+                                    <li>Resolution X, Y, Z</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Resolution guidelines:</strong></p>
+                        <ul>
+                            <li><strong>Low (4x4x4):</strong> Very fast, rough approximation</li>
+                            <li><strong>Medium (8x8x8):</strong> Balanced (good starting point)</li>
+                            <li><strong>High (16x16x16):</strong> Detailed but slower</li>
+                            <li>Higher resolution = more accurate but more memory</li>
+                            <li>Match resolution to scene size and detail needs</li>
+                        </ul>
+
+                        <p><strong>Baking the irradiance volume:</strong></p>
+                        <ol>
+                            <li>After placing and sizing volume</li>
+                            <li>Top viewport menu: Render → Bake Indirect Lighting</li>
+                            <li>Or: Select volume → Object Data Properties → Bake Indirect Lighting button</li>
+                            <li>Eevee calculates and stores indirect light</li>
+                            <li>Objects now receive bounce light!</li>
+                        </ol>
+
+                        <p><strong>When to re-bake:</strong></p>
+                        <ul>
+                            <li>After moving lights</li>
+                            <li>After changing light colors/strength</li>
+                            <li>After adding/removing objects</li>
+                            <li>After changing materials (especially emissive)</li>
+                            <li>Basically: Any lighting change</li>
+                        </ul>
+                    </div>
+
+                    <h3>Reflection Cubemap Probes</h3>
+
+                    <div class="card">
+                        <h4>🪞 Enhanced Reflections</h4>
+                        <p><strong>What reflection probes do:</strong></p>
+                        <ul>
+                            <li>Capture environment for reflections</li>
+                            <li>Supplement screen-space reflections</li>
+                            <li>Show reflections of off-screen objects</li>
+                            <li>Especially useful for reflective materials</li>
+                        </ul>
+
+                        <p><strong>Adding a reflection probe:</strong></p>
+                        <ol>
+                            <li><code>Shift+A</code> → Light Probe → Reflection Cubemap</li>
+                            <li>Position at center of reflective area
+                                <ul>
+                                    <li>Middle of room for interior</li>
+                                    <li>Center of object for product shot</li>
+                                </ul>
+                            </li>
+                            <li>Adjust influence distance
+                                <ul>
+                                    <li>Sphere showing probe's influence range</li>
+                                    <li>Scale with <code>S</code> key</li>
+                                    <li>Should cover reflective objects</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Reflection probe settings:</strong></p>
+                        <ul>
+                            <li><strong>Distance:</strong> How far probe influence extends</li>
+                            <li><strong>Falloff:</strong> How gradually influence fades</li>
+                            <li><strong>Clipping Start/End:</strong> What distance range to capture</li>
+                            <li><strong>Resolution:</strong> Cubemap quality (512-2048)</li>
+                        </ul>
+
+                        <p><strong>Using multiple probes:</strong></p>
+                        <ul>
+                            <li>Place probe in each major area</li>
+                            <li>Overlapping influence is fine</li>
+                            <li>Eevee blends between nearby probes</li>
+                            <li>Example: One per room in interior scene</li>
+                        </ul>
+
+                        <p><strong>Baking reflection probes:</strong></p>
+                        <ul>
+                            <li>Same as irradiance volume</li>
+                            <li>Render → Bake Indirect Lighting</li>
+                            <li>Re-bake when scene changes</li>
+                        </ul>
+                    </div>
+
+                    <h3>Reflection Plane Probes</h3>
+
+                    <div class="card">
+                        <h4>🪞 Planar Reflections</h4>
+                        <p><strong>What reflection planes do:</strong></p>
+                        <ul>
+                            <li>High-quality reflections for flat surfaces</li>
+                            <li>Mirrors, floors, water surfaces</li>
+                            <li>More accurate than screen-space for flat reflectors</li>
+                            <li>Performance cost higher than cubemaps</li>
+                        </ul>
+
+                        <p><strong>Adding a reflection plane:</strong></p>
+                        <ol>
+                            <li><code>Shift+A</code> → Light Probe → Reflection Plane</li>
+                            <li>Position on reflective surface
+                                <ul>
+                                    <li>Align with floor, mirror, water</li>
+                                    <li>Probe should match surface orientation</li>
+                                </ul>
+                            </li>
+                            <li>Scale to cover reflective area</li>
+                        </ol>
+
+                        <p><strong>When to use reflection planes:</strong></p>
+                        <ul>
+                            <li>Perfect mirrors or very reflective floors</li>
+                            <li>Water surfaces</li>
+                            <li>Any flat highly-reflective surface</li>
+                            <li>When SSR artifacts are visible</li>
+                        </ul>
+
+                        <p><strong>Performance note:</strong></p>
+                        <ul>
+                            <li>Reflection planes render scene again for each plane</li>
+                            <li>Use sparingly (1-3 max in scene)</li>
+                            <li>For most reflections, SSR + cubemaps sufficient</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Light Probe Workflow</h4>
+                        <p><strong>Standard setup for Eevee scenes:</strong></p>
+                        <ol>
+                            <li><strong>Add Irradiance Volume:</strong> Covers entire scene</li>
+                            <li><strong>Add Reflection Cubemap(s):</strong> One per major area</li>
+                            <li><strong>Position and scale probes</strong></li>
+                            <li><strong>Render → Bake Indirect Lighting</strong></li>
+                            <li><strong>Check result in Rendered view</strong></li>
+                            <li><strong>Adjust and re-bake as needed</strong></li>
+                        </ol>
+                        <p><strong>This gives you realistic bounce light and good reflections!</strong></p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Pre-baking Trade-off:</strong> Having to bake light probes is both Eevee's limitation and its strength. Yes, it's an extra step compared to Cycles' automatic global illumination. But this pre-baking is exactly what allows Eevee to be so fast—the complex lighting calculations are done once, then reused. It's like meal prep: spend time preparing once, then enjoy quick results all week. Professional Eevee users build probe baking into their workflow and barely think about it.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="material-considerations" class="content-section">
+                    <h2>🎨 Materials for Eevee</h2>
+
+                    <p>Most materials work in both Eevee and Cycles, but there are some important differences and optimizations to know.</p>
+
+                    <h3>Material Compatibility</h3>
+
+                    <div class="card">
+                        <h4>✅ What Works in Eevee</h4>
+                        <p><strong>Fully supported:</strong></p>
+                        <ul>
+                            <li>Principled BSDF (main shader)</li>
+                            <li>Image textures</li>
+                            <li>Procedural textures (Noise, Voronoi, etc.)</li>
+                            <li>Normal maps and bump maps</li>
+                            <li>Emission (glowing materials)</li>
+                            <li>Transparency and alpha</li>
+                            <li>Subsurface scattering (approximated)</li>
+                            <li>Most shader nodes</li>
+                        </ul>
+
+                        <p><strong>Limited support:</strong></p>
+                        <ul>
+                            <li>Volume shaders (smoke, fog) - slower, lower quality</li>
+                            <li>Complex node setups - some nodes may not work</li>
+                            <li>Raytracing-specific features</li>
+                        </ul>
+
+                        <p><strong>Not supported:</strong></p>
+                        <ul>
+                            <li>Caustics (light through glass patterns)</li>
+                            <li>True ray-traced reflections/refractions</li>
+                            <li>Some advanced shader nodes</li>
+                        </ul>
+                    </div>
+
+                    <h3>Eevee Material Settings</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Material-Specific Eevee Options</h4>
+                        <p><strong>Location:</strong> Material Properties → Settings (bottom section)</p>
+
+                        <p><strong>Key Eevee-specific settings:</strong></p>
+                        <ul>
+                            <li><strong>Blend Mode:</strong>
+                                <ul>
+                                    <li><strong>Opaque:</strong> Standard solid materials</li>
+                                    <li><strong>Alpha Clip:</strong> Sharp transparency (leaves, fences)</li>
+                                    <li><strong>Alpha Hashed:</strong> Noisy transparency (grass, hair)</li>
+                                    <li><strong>Alpha Blend:</strong> Smooth transparency (glass, water)</li>
+                                    <li>Choose based on material type</li>
+                                </ul>
+                            </li>
+                            <li><strong>Shadow Mode:</strong>
+                                <ul>
+                                    <li>How material casts shadows</li>
+                                    <li><strong>Opaque:</strong> Full shadow</li>
+                                    <li><strong>Clip:</strong> Sharp shadow cutout</li>
+                                    <li><strong>Hashed:</strong> Noisy shadow</li>
+                                    <li><strong>None:</strong> No shadow</li>
+                                    <li>Should usually match Blend Mode</li>
+                                </ul>
+                            </li>
+                            <li><strong>Clip Threshold:</strong>
+                                <ul>
+                                    <li>For Alpha Clip mode</li>
+                                    <li>Alpha value below threshold = fully transparent</li>
+                                    <li>Above = fully opaque</li>
+                                </ul>
+                            </li>
+                            <li><strong>Backface Culling:</strong>
+                                <ul>
+                                    <li>Don't render back faces of geometry</li>
+                                    <li>Performance optimization</li>
+                                    <li>Enable for single-sided objects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Screen Space Refraction:</strong>
+                                <ul>
+                                    <li>Enable for glass/transparent materials</li>
+                                    <li>Allows refraction effect in Eevee</li>
+                                    <li>Required for realistic glass</li>
+                                </ul>
+                            </li>
+                            <li><strong>Subsurface Translucency:</strong>
+                                <ul>
+                                    <li>For thin materials (leaves, paper)</li>
+                                    <li>Light passes through</li>
+                                    <li>Adds realism to thin objects</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Transparency Setup</h3>
+
+                    <div class="card">
+                        <h4>💎 Glass and Transparent Materials</h4>
+                        <p><strong>For realistic glass in Eevee:</strong></p>
+                        <ol>
+                            <li><strong>Principled BSDF settings:</strong>
+                                <ul>
+                                    <li>Transmission: 1.0</li>
+                                    <li>Roughness: 0.0-0.1 (clear glass)</li>
+                                    <li>IOR: 1.45 (glass)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Material Settings (bottom):</strong>
+                                <ul>
+                                    <li>Blend Mode: Alpha Blend</li>
+                                    <li>Enable: Screen Space Refraction</li>
+                                    <li>Shadow Mode: Alpha Blend or None</li>
+                                </ul>
+                            </li>
+                            <li><strong>Render Settings:</strong>
+                                <ul>
+                                    <li>Enable Screen Space Reflections</li>
+                                    <li>Enable Refraction in SSR settings</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>For semi-transparent materials (frosted glass, plastic):</strong></p>
+                        <ul>
+                            <li>Transmission: 0.5-0.95 (partial)</li>
+                            <li>Roughness: 0.2-0.5 (frosted)</li>
+                            <li>Same Blend Mode and SSR setup</li>
+                        </ul>
+                    </div>
+
+                    <h3>Emission and Glowing Materials</h3>
+
+                    <div class="card">
+                        <h4>💡 Making Objects Emit Light</h4>
+                        <p><strong>Emission setup:</strong></p>
+                        <ul>
+                            <li>Principled BSDF → Emission
+                                <ul>
+                                    <li>Emission Color: Glow color</li>
+                                    <li>Emission Strength: Brightness</li>
+                                </ul>
+                            </li>
+                            <li>No special Eevee settings needed</li>
+                            <li>Works automatically</li>
+                        </ul>
+
+                        <p><strong>Emission + Bloom:</strong></p>
+                        <ul>
+                            <li>Enable Bloom in render settings</li>
+                            <li>Emission Strength > bloom threshold = glow effect</li>
+                            <li>Perfect for:
+                                <ul>
+                                    <li>Neon signs</li>
+                                    <li>Sci-fi tech panels</li>
+                                    <li>Magic effects</li>
+                                    <li>Light bulbs</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Optimization Tips</h3>
+
+                    <div class="card">
+                        <h4>⚡ Material Performance</h4>
+                        <p><strong>Faster material practices:</strong></p>
+                        <ul>
+                            <li><strong>Texture resolution:</strong>
+                                <ul>
+                                    <li>Don't use 4K textures if 2K sufficient</li>
+                                    <li>Large textures = more GPU memory</li>
+                                    <li>Optimize texture sizes for viewport performance</li>
+                                </ul>
+                            </li>
+                            <li><strong>Node complexity:</strong>
+                                <ul>
+                                    <li>Simpler node trees render faster</li>
+                                    <li>Principled BSDF is already optimized</li>
+                                    <li>Avoid excessive layering/mixing</li>
+                                </ul>
+                            </li>
+                            <li><strong>Transparency:</strong>
+                                <ul>
+                                    <li>Use Alpha Clip instead of Blend when possible</li>
+                                    <li>Clip is faster than Blend</li>
+                                    <li>Reserve Blend for smooth gradients only</li>
+                                </ul>
+                            </li>
+                            <li><strong>Backface culling:</strong>
+                                <ul>
+                                    <li>Enable for single-sided objects</li>
+                                    <li>Reduces polygons rendered</li>
+                                    <li>Free performance boost</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 03
+     Continue with lesson_18_eevee_realtime_rendering_part_04.html
+     ============================================ -->

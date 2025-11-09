@@ -1,0 +1,378 @@
+<!-- ============================================
+     LESSON 17 - PART 01
+     File: lesson_17_hdri_and_world_lighting_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master HDRI and world lighting in Blender - learn image-based lighting, environment maps, and how to create realistic outdoor and studio lighting with HDRIs.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 17: HDRI and World Lighting - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="main-nav" aria-label="Main Navigation">
+            <a href="index.html" class="nav-logo">🎨 Blender Course</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#lessons">Lessons</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#lessons">Lessons</a> &gt; 
+            <span>Lesson 17: HDRI and World Lighting</span>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <article class="lesson-content">
+                <header class="lesson-header">
+                    <h1>🌍 Lesson 17: HDRI and World Lighting</h1>
+                    <p class="lesson-intro">Welcome to the world of image-based lighting! HDRI (High Dynamic Range Imaging) represents a quantum leap in realistic 3D lighting—it allows you to capture and use real-world lighting in your scenes. Imagine photographing the lighting at sunset in a park, then using that exact lighting to illuminate your 3D characters. That's the power of HDRI. In this lesson, you'll learn how to use environment maps to create stunningly realistic outdoor scenes, convincing studio setups, and everything in between. HDRIs provide instant realism, beautiful reflections, and natural lighting that would take hours to recreate manually.</p>
+                </header>
+
+                <!-- Learning Objectives -->
+                <div class="card">
+                    <h2>🎯 What You'll Learn</h2>
+                    <ul>
+                        <li>What HDRI is and why it's revolutionary for 3D lighting</li>
+                        <li>Understanding HDR vs. LDR images and dynamic range</li>
+                        <li>Setting up world lighting in Blender</li>
+                        <li>Loading and using HDRI environment maps</li>
+                        <li>Adjusting HDRI strength, rotation, and color</li>
+                        <li>Combining HDRIs with manual lights for best results</li>
+                        <li>Finding and downloading free HDRIs</li>
+                        <li>Creating your own HDRIs (overview)</li>
+                        <li>HDRI variations: outdoor, studio, interior environments</li>
+                        <li>Troubleshooting common HDRI issues</li>
+                        <li>Complete hands-on projects with different HDRI types</li>
+                    </ul>
+                    <p><strong>⏱️ Estimated Time:</strong> 55-70 minutes</p>
+                    <p><strong>🎯 Project:</strong> Create multiple scenes using different HDRI environments</p>
+                </div>
+
+                <!-- Table of Contents -->
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#what-is-hdri" class="toc-link">What is HDRI?</a></li>
+                            <li><a href="#world-lighting-basics" class="toc-link">World Lighting Basics</a></li>
+                            <li><a href="#setting-up-hdri" class="toc-link">Setting Up HDRI in Blender</a></li>
+                            <li><a href="#adjusting-hdri" class="toc-link">Adjusting HDRI Properties</a></li>
+                            <li><a href="#hdri-types" class="toc-link">Types of HDRIs</a></li>
+                            <li><a href="#combining-lights" class="toc-link">Combining HDRI with Manual Lights</a></li>
+                            <li><a href="#finding-hdris" class="toc-link">Finding and Using HDRIs</a></li>
+                            <li><a href="#advanced-techniques" class="toc-link">Advanced HDRI Techniques</a></li>
+                            <li><a href="#troubleshooting" class="toc-link">Troubleshooting HDRI Issues</a></li>
+                            <li><a href="#project" class="toc-link">Project: HDRI Environment Showcase</a></li>
+                            <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="what-is-hdri" class="content-section">
+                    <h2>🌅 What is HDRI?</h2>
+
+                    <p>HDRI is one of the most powerful tools in modern 3D rendering. Let's understand what it is, how it works, and why it's become essential for realistic lighting.</p>
+
+                    <h3>Understanding HDRI</h3>
+
+                    <div class="card">
+                        <h4>💡 High Dynamic Range Imaging</h4>
+                        <p><strong>HDRI stands for:</strong></p>
+                        <ul>
+                            <li><strong>High:</strong> Greater range of values than normal</li>
+                            <li><strong>Dynamic Range:</strong> Difference between darkest and brightest areas</li>
+                            <li><strong>Imaging:</strong> Photographic/image-based technique</li>
+                        </ul>
+
+                        <p><strong>What makes HDRI special:</strong></p>
+                        <ul>
+                            <li>Captures the full range of light in a scene (very dark to very bright)</li>
+                            <li>Regular photos (LDR - Low Dynamic Range) can't capture this full range</li>
+                            <li>Contains actual light information, not just colors</li>
+                            <li>Can be used as a light source in 3D scenes</li>
+                            <li>Provides both lighting and reflections simultaneously</li>
+                        </ul>
+
+                        <p><strong>Real-world analogy:</strong></p>
+                        <ul>
+                            <li>Normal photo: Like looking at the world with sunglasses—limited range</li>
+                            <li>HDRI photo: Like your actual eyes—sees detail in shadows AND bright areas</li>
+                            <li>Your eyes adjust; HDRI captures everything at once</li>
+                        </ul>
+                    </div>
+
+                    <h3>HDR vs. LDR Images</h3>
+
+                    <div class="card">
+                        <h4>📊 Dynamic Range Comparison</h4>
+                        <p><strong>LDR (Low Dynamic Range) - Normal images:</strong></p>
+                        <ul>
+                            <li><strong>Format:</strong> JPG, PNG (8-bit per channel)</li>
+                            <li><strong>Range:</strong> 0-255 values per color channel (256 levels)</li>
+                            <li><strong>Limitations:</strong>
+                                <ul>
+                                    <li>Bright areas blow out to pure white (no detail)</li>
+                                    <li>Dark areas crush to pure black (no detail)</li>
+                                    <li>Must choose: expose for highlights OR shadows</li>
+                                </ul>
+                            </li>
+                            <li><strong>Use as light source:</strong> Can work but not realistic (no true light data)</li>
+                        </ul>
+
+                        <p><strong>HDR (High Dynamic Range) - HDRI images:</strong></p>
+                        <ul>
+                            <li><strong>Format:</strong> .hdr, .exr (32-bit per channel or 16-bit)</li>
+                            <li><strong>Range:</strong> Unlimited values (can store values above 1.0)</li>
+                            <li><strong>Benefits:</strong>
+                                <ul>
+                                    <li>Detail in bright highlights (sun, sky, lights)</li>
+                                    <li>Detail in deep shadows</li>
+                                    <li>Contains actual light intensity information</li>
+                                    <li>Can expose render darker or brighter without losing detail</li>
+                                </ul>
+                            </li>
+                            <li><strong>Use as light source:</strong> Realistic, physically accurate lighting</li>
+                        </ul>
+
+                        <p><strong>Example scenario:</strong></p>
+                        <ul>
+                            <li>Take photo of sunset with phone (LDR):</li>
+                            <li>→ Expose for sky: Landscape goes black</li>
+                            <li>→ Expose for landscape: Sky blows out to white</li>
+                            <li>Take HDRI of same sunset:</li>
+                            <li>→ Detail in both bright sky AND dark landscape</li>
+                            <li>→ Can use as light source preserving sun's brightness</li>
+                        </ul>
+                    </div>
+
+                    <h3>How HDRIs Work as Lighting</h3>
+
+                    <div class="card">
+                        <h4>🎨 Image-Based Lighting (IBL)</h4>
+                        <p><strong>The concept:</strong></p>
+                        <ul>
+                            <li>HDRI wraps around your 3D scene like a sphere</li>
+                            <li>Each pixel in the HDRI acts as a tiny light source</li>
+                            <li>Bright pixels (sun, sky) emit strong light</li>
+                            <li>Dark pixels (shadows, ground) emit little/no light</li>
+                            <li>Scene receives lighting from all directions at once</li>
+                        </ul>
+
+                        <p><strong>What HDRI provides:</strong></p>
+                        <ul>
+                            <li><strong>Ambient lighting:</strong> Overall illumination from environment</li>
+                            <li><strong>Directional lighting:</strong> Strong light from sun/bright areas</li>
+                            <li><strong>Reflections:</strong> Objects reflect the environment realistically</li>
+                            <li><strong>Color influence:</strong> Blue sky tints shadows, warm sun tints highlights</li>
+                            <li><strong>Realism:</strong> Matches real-world lighting complexity instantly</li>
+                        </ul>
+
+                        <p><strong>Why it's revolutionary:</strong></p>
+                        <ul>
+                            <li>Recreating outdoor lighting manually = dozens of lights, hours of work</li>
+                            <li>HDRI of same scene = one image, instant realistic result</li>
+                            <li>Captures subtle variations impossible to recreate by hand</li>
+                            <li>Reflections automatically match lighting (perfect integration)</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The HDRI Revolution:</strong> Before HDRIs became common (early 2000s), lighting outdoor 3D scenes realistically required expert-level manual lighting setups. An experienced lighter might spend days positioning sun lights, sky lights, bounce lights, and color-grading everything to look natural. HDRI changed everything—now a single environment map captures that complexity in one image. It's like going from painting every pixel by hand to using a photograph. Both can create great results, but HDRI is dramatically faster and often more realistic.</p>
+                    </blockquote>
+
+                    <h3>Types of HDRI Maps</h3>
+
+                    <div class="card">
+                        <h4>🗺️ HDRI Projections</h4>
+                        <p><strong>Equirectangular (most common):</strong></p>
+                        <ul>
+                            <li>360° panoramic image (like world map projection)</li>
+                            <li>Entire sphere unwrapped to rectangular image</li>
+                            <li>Distorted at top and bottom (like map poles)</li>
+                            <li>Standard format for Blender and most 3D apps</li>
+                            <li>Aspect ratio: Usually 2:1 (twice as wide as tall)</li>
+                        </ul>
+
+                        <p><strong>Mirror ball / Light probe:</strong></p>
+                        <ul>
+                            <li>Circular image captured in reflective sphere</li>
+                            <li>Less common now (older method)</li>
+                            <li>Can be converted to equirectangular</li>
+                        </ul>
+
+                        <p><strong>Angular map:</strong></p>
+                        <ul>
+                            <li>Fisheye-style circular projection</li>
+                            <li>Less common, specific use cases</li>
+                        </ul>
+
+                        <p><strong>For Blender: Use equirectangular HDRIs</strong></p>
+                        <ul>
+                            <li>Native support, easiest to work with</li>
+                            <li>Most HDRI websites provide this format</li>
+                        </ul>
+                    </div>
+
+                    <h3>When to Use HDRI</h3>
+
+                    <div class="card">
+                        <h4>✅ Perfect Scenarios for HDRI</h4>
+                        <p><strong>Ideal for:</strong></p>
+                        <ul>
+                            <li><strong>Outdoor scenes:</strong> Instant realistic sky, sun, ambient light</li>
+                            <li><strong>Product visualization:</strong> Studio HDRI provides professional lighting instantly</li>
+                            <li><strong>Reflective objects:</strong> HDRI creates realistic environment reflections</li>
+                            <li><strong>Establishing base lighting:</strong> Start with HDRI, add manual lights for control</li>
+                            <li><strong>Quick iterations:</strong> Test different lighting moods rapidly</li>
+                            <li><strong>Realism priority:</strong> When photorealism is the goal</li>
+                        </ul>
+
+                        <p><strong>Less ideal for:</strong></p>
+                        <ul>
+                            <li><strong>Precise control:</strong> HDRI is "baked in"—can't easily adjust individual light positions</li>
+                            <li><strong>Stylized/artistic looks:</strong> May prefer manual lighting for full control</li>
+                            <li><strong>Interior scenes:</strong> Can work but often need manual lights for key lighting</li>
+                            <li><strong>Animated lighting:</strong> HDRI provides static lighting (though can be rotated)</li>
+                        </ul>
+
+                        <p><strong>Best practice:</strong></p>
+                        <ul>
+                            <li>Use HDRI as foundation</li>
+                            <li>Add manual lights for control where needed</li>
+                            <li>Combine the best of both approaches</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="world-lighting-basics" class="content-section">
+                    <h2>🌐 World Lighting Basics</h2>
+
+                    <p>Before we use HDRIs, let's understand Blender's World lighting system—the foundation upon which HDRI lighting is built.</p>
+
+                    <h3>What is World Lighting?</h3>
+
+                    <div class="card">
+                        <h4>🌍 The Environment System</h4>
+                        <p><strong>World lighting defined:</strong></p>
+                        <ul>
+                            <li>Lighting that comes from the environment/background</li>
+                            <li>Surrounds entire scene like a sphere</li>
+                            <li>Provides ambient illumination from all directions</li>
+                            <li>Also controls what you see in the background</li>
+                            <li>Separate from light objects (Point, Sun, Area, Spot)</li>
+                        </ul>
+
+                        <p><strong>Components of World lighting:</strong></p>
+                        <ul>
+                            <li><strong>Background color/image:</strong> What wraps around scene</li>
+                            <li><strong>Emission strength:</strong> How bright the environment is</li>
+                            <li><strong>Color:</strong> Tint of ambient lighting</li>
+                            <li><strong>Can be:</strong> Solid color, gradient, or HDRI image</li>
+                        </ul>
+
+                        <p><strong>Default World in Blender:</strong></p>
+                        <ul>
+                            <li>Gray color with strength 1.0</li>
+                            <li>Provides subtle ambient light</li>
+                            <li>Enough to see objects but not dramatic</li>
+                            <li>We'll replace this with HDRIs!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Accessing World Properties</h3>
+
+                    <div class="card">
+                        <h4>⚙️ The World Properties Panel</h4>
+                        <p><strong>Location:</strong></p>
+                        <ul>
+                            <li>Properties panel (right side) → World Properties icon</li>
+                            <li>Icon looks like a globe/sphere</li>
+                            <li>Located between Scene and Object properties icons</li>
+                        </ul>
+
+                        <p><strong>Key settings in World Properties:</strong></p>
+                        <ul>
+                            <li><strong>Surface:</strong>
+                                <ul>
+                                    <li>Background shader controls</li>
+                                    <li>Color picker (for solid color background)</li>
+                                    <li>Strength slider (brightness multiplier)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Volume:</strong> Atmosphere effects (fog, volumetrics)</li>
+                            <li><strong>Settings:</strong> Advanced ray tracing options</li>
+                        </ul>
+
+                        <p><strong>Using the Shader Editor for World:</strong></p>
+                        <ul>
+                            <li>Open Shader Editor (split viewport or use Shading workspace)</li>
+                            <li>Top dropdown: Select "World" instead of "Object"</li>
+                            <li>Shows node setup for world lighting</li>
+                            <li>This is where we'll add HDRI textures!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Default World Shader Setup</h3>
+
+                    <div class="card">
+                        <h4>🎨 Understanding the World Nodes</h4>
+                        <p><strong>Default setup (what you see initially):</strong></p>
+                        <ul>
+                            <li><strong>Background node:</strong>
+                                <ul>
+                                    <li>Shader that emits light from environment</li>
+                                    <li>Color input: What color/image to emit</li>
+                                    <li>Strength input: How bright (default 1.0)</li>
+                                </ul>
+                            </li>
+                            <li><strong>World Output node:</strong>
+                                <ul>
+                                    <li>Final output (like Material Output for objects)</li>
+                                    <li>Surface input: Connects to Background shader</li>
+                                    <li>Volume input: For atmospheric effects</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>The connection:</strong></p>
+                        <ul>
+                            <li>Background (Shader output) → World Output (Surface input)</li>
+                            <li>Simple! Just two nodes by default</li>
+                            <li>We'll add Environment Texture between them for HDRI</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_17_hdri_and_world_lighting_part_02.html
+     ============================================ -->

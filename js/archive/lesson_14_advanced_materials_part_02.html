@@ -1,0 +1,450 @@
+<!-- ============================================
+     LESSON 14 - PART 02
+     File: lesson_14_advanced_materials_part_02.html
+     ============================================ -->
+
+                <section id="principled-bsdf" class="content-section">
+                    <h2>💎 Mastering Principled BSDF</h2>
+
+                    <p>The Principled BSDF shader is the heart of modern material creation in Blender. It's an all-in-one shader that can create virtually any material type—from plastic to metal, glass to skin. Let's master every parameter and learn how to use them effectively.</p>
+
+                    <h3>What is Principled BSDF?</h3>
+
+                    <div class="card">
+                        <h4>🌟 The Universal Shader</h4>
+                        <p><strong>Principled BSDF overview:</strong></p>
+                        <ul>
+                            <li><strong>BSDF:</strong> Bidirectional Scattering Distribution Function (how light scatters)</li>
+                            <li><strong>Principled:</strong> Based on physically accurate principles</li>
+                            <li>All-in-one shader combining multiple material types</li>
+                            <li>Industry-standard PBR shader</li>
+                            <li>Can create 90% of materials you'll ever need</li>
+                        </ul>
+                        <p><strong>Why it's powerful:</strong></p>
+                        <ul>
+                            <li>One shader instead of many specialized shaders</li>
+                            <li>Consistent, predictable behavior</li>
+                            <li>Works in both Eevee and Cycles</li>
+                            <li>Energy-conserving (physically accurate)</li>
+                            <li>Easy to learn, hard to master (lots of depth!)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Core Parameters: Base Color</h3>
+
+                    <div class="card">
+                        <h4>🎨 Base Color Input</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>The fundamental color of the surface</li>
+                            <li>Also called "Albedo" or "Diffuse Color"</li>
+                            <li>The color you see when light hits the surface</li>
+                            <li>Can be solid color or texture</li>
+                        </ul>
+                        <p><strong>How to use it:</strong></p>
+                        <ul>
+                            <li>Click color swatch to open color picker</li>
+                            <li>Or plug in Image Texture node for painted/photo textures</li>
+                            <li>Or plug in Procedural Texture for generated patterns</li>
+                        </ul>
+                        <p><strong>Best practices:</strong></p>
+                        <ul>
+                            <li><strong>For metals:</strong> Use desaturated colors or grayscale
+                                <ul>
+                                    <li>Gold: Yellowish gray, not bright yellow</li>
+                                    <li>Copper: Orange-tinted gray, not pure orange</li>
+                                    <li>Steel: Medium gray values</li>
+                                </ul>
+                            </li>
+                            <li><strong>For non-metals:</strong> More color variety allowed
+                                <ul>
+                                    <li>But still avoid over-saturation</li>
+                                    <li>Real materials are rarely 100% saturated</li>
+                                </ul>
+                            </li>
+                            <li><strong>Avoid pure black (0,0,0) or pure white (1,1,1)</strong></li>
+                        </ul>
+                    </div>
+
+                    <h3>Metallic Parameter</h3>
+
+                    <div class="card">
+                        <h4>🏆 Metallic Input</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Defines whether surface behaves as metal or non-metal</li>
+                            <li>Binary choice in most cases (0.0 = non-metal, 1.0 = metal)</li>
+                            <li>Fundamentally changes how light interacts with surface</li>
+                            <li>Metals have colored reflections; non-metals don't</li>
+                        </ul>
+                        <p><strong>Values and effects:</strong></p>
+                        <ul>
+                            <li><strong>0.0 (Non-metallic):</strong>
+                                <ul>
+                                    <li>Plastic, wood, stone, fabric, skin</li>
+                                    <li>Colorless/white reflections</li>
+                                    <li>Base color shows through</li>
+                                </ul>
+                            </li>
+                            <li><strong>1.0 (Metallic):</strong>
+                                <ul>
+                                    <li>Gold, silver, copper, iron, chrome</li>
+                                    <li>Colored reflections matching base color</li>
+                                    <li>No diffuse component (all reflection)</li>
+                                </ul>
+                            </li>
+                            <li><strong>In-between values (0.1-0.9):</strong>
+                                <ul>
+                                    <li>Rarely used in PBR workflow</li>
+                                    <li>Can create artistic/stylized effects</li>
+                                    <li>Or represent oxidized/dirty metals</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Quick guide:</strong></p>
+                        <ul>
+                            <li>If real material conducts electricity → Metallic = 1.0</li>
+                            <li>Everything else → Metallic = 0.0</li>
+                            <li>When in doubt, set to 0.0 (most materials aren't metal)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Roughness Parameter</h3>
+
+                    <div class="card">
+                        <h4>✨ Roughness Input</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Controls microsurface smoothness</li>
+                            <li>Determines how sharp or blurry reflections are</li>
+                            <li>0.0 = perfectly smooth/mirror-like</li>
+                            <li>1.0 = completely rough/matte</li>
+                            <li>Most impactful parameter for realism!</li>
+                        </ul>
+                        <p><strong>Understanding roughness:</strong></p>
+                        <ul>
+                            <li>Imagine zooming into surface at microscopic level</li>
+                            <li>Smooth surfaces (low roughness): Tiny bumps are minimal
+                                <ul>
+                                    <li>Light reflects in consistent direction</li>
+                                    <li>Sharp, clear reflections</li>
+                                </ul>
+                            </li>
+                            <li>Rough surfaces (high roughness): Tiny bumps are pronounced
+                                <ul>
+                                    <li>Light scatters in random directions</li>
+                                    <li>Blurry, diffuse reflections</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Typical roughness values:</strong></p>
+                        <ul>
+                            <li><strong>0.0 - 0.1:</strong> Mirrors, polished chrome, water
+                                <ul>
+                                    <li>Perfect or near-perfect reflections</li>
+                                </ul>
+                            </li>
+                            <li><strong>0.1 - 0.3:</strong> Glossy plastic, polished wood, wet surfaces
+                                <ul>
+                                    <li>Clear but slightly soft reflections</li>
+                                </ul>
+                            </li>
+                            <li><strong>0.3 - 0.5:</strong> Satin finishes, worn metal, concrete
+                                <ul>
+                                    <li>Visible reflections with blur</li>
+                                </ul>
+                            </li>
+                            <li><strong>0.5 - 0.7:</strong> Rough plastic, unfinished wood, stone
+                                <ul>
+                                    <li>Matte with subtle sheen</li>
+                                </ul>
+                            </li>
+                            <li><strong>0.7 - 1.0:</strong> Fabric, clay, chalk, very rough surfaces
+                                <ul>
+                                    <li>Completely matte, no visible reflections</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Pro tip:</strong> Variation is key! Plug in a texture with subtle variation for most realistic results—real surfaces are never uniformly rough.</p>
+                    </div>
+
+                    <h3>IOR (Index of Refraction)</h3>
+
+                    <div class="card">
+                        <h4>🔮 IOR Parameter</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Controls how much light bends when passing through transparent materials</li>
+                            <li>Also affects reflection intensity at glancing angles (Fresnel effect)</li>
+                            <li>Higher IOR = stronger reflections and more bending</li>
+                            <li>Default: 1.45 (similar to plastic/glass)</li>
+                        </ul>
+                        <p><strong>Real-world IOR values:</strong></p>
+                        <ul>
+                            <li><strong>1.0:</strong> Vacuum, air (no refraction)</li>
+                            <li><strong>1.33:</strong> Water</li>
+                            <li><strong>1.45:</strong> Plastic, acrylic (Blender default)</li>
+                            <li><strong>1.5:</strong> Standard glass</li>
+                            <li><strong>1.55:</strong> Window glass</li>
+                            <li><strong>2.4:</strong> Diamond</li>
+                            <li><strong>Higher values:</strong> More dramatic light bending and reflections</li>
+                        </ul>
+                        <p><strong>When to adjust IOR:</strong></p>
+                        <ul>
+                            <li>Mostly important for transparent/translucent materials</li>
+                            <li>For opaque materials, affects edge reflections (Fresnel)</li>
+                            <li>Can often leave at default 1.45 for general use</li>
+                            <li>Adjust when creating specific materials (water, diamond, etc.)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Transmission (Transparency)</h3>
+
+                    <div class="card">
+                        <h4>🪟 Transmission Parameter</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Controls how much light passes through the surface</li>
+                            <li>0.0 = fully opaque (light blocked)</li>
+                            <li>1.0 = fully transparent (light passes through)</li>
+                            <li>Creates glass, water, and other see-through materials</li>
+                        </ul>
+                        <p><strong>How to use transmission:</strong></p>
+                        <ul>
+                            <li><strong>For glass:</strong> Transmission = 1.0, Roughness = 0.0</li>
+                            <li><strong>For frosted glass:</strong> Transmission = 1.0, Roughness = 0.1-0.3</li>
+                            <li><strong>For tinted glass:</strong> Transmission = 1.0, add color to Base Color</li>
+                        </ul>
+                        <p><strong>Transmission tips:</strong></p>
+                        <ul>
+                            <li>Works best in Cycles (Eevee has limitations)</li>
+                            <li>Enable "Screen Space Refraction" in Eevee for transparency</li>
+                            <li>Combine with IOR for realistic glass refraction</li>
+                            <li>Higher roughness = more blurred transparency</li>
+                        </ul>
+                    </div>
+
+                    <h3>Emission</h3>
+
+                    <div class="card">
+                        <h4>💡 Emission Parameters</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Makes surfaces emit light (self-illumination)</li>
+                            <li>Creates glowing objects</li>
+                            <li>Can be colored by Base Color or separate Emission Color</li>
+                            <li>Emission Strength controls brightness</li>
+                        </ul>
+                        <p><strong>Emission settings:</strong></p>
+                        <ul>
+                            <li><strong>Emission Strength = 0:</strong> No glow (default)</li>
+                            <li><strong>Emission Strength = 1-5:</strong> Subtle glow</li>
+                            <li><strong>Emission Strength = 10-50:</strong> Strong light source</li>
+                            <li><strong>Emission Strength = 100+:</strong> Very bright (sun, light bulb)</li>
+                        </ul>
+                        <p><strong>Use cases:</strong></p>
+                        <ul>
+                            <li>LED lights and displays</li>
+                            <li>Neon signs</li>
+                            <li>Glowing magical effects</li>
+                            <li>Light bulbs and lamps</li>
+                            <li>Emissive sci-fi elements</li>
+                            <li>Can even use as scene lighting!</li>
+                        </ul>
+                        <p><strong>Tips:</strong></p>
+                        <ul>
+                            <li>Can plug texture into Emission Color for patterns</li>
+                            <li>Animated emission strength = flickering light effect</li>
+                            <li>In Cycles, emission actually lights the scene</li>
+                            <li>In Eevee, use "Bloom" effect for glow appearance</li>
+                        </ul>
+                    </div>
+
+                    <h3>Subsurface Scattering</h3>
+
+                    <div class="card">
+                        <h4>🧴 Subsurface Parameters</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Simulates light penetrating surface and scattering inside</li>
+                            <li>Essential for organic materials (skin, wax, marble, jade)</li>
+                            <li>Creates soft, translucent appearance</li>
+                            <li>More realistic than pure surface shading</li>
+                        </ul>
+                        <p><strong>Key subsurface parameters:</strong></p>
+                        <ul>
+                            <li><strong>Subsurface Weight:</strong> How much SSS to apply (0.0 - 1.0)</li>
+                            <li><strong>Subsurface Radius:</strong> How far light travels inside (RGB values)
+                                <ul>
+                                    <li>Red typically travels farthest</li>
+                                    <li>Controls color of subsurface scattering</li>
+                                </ul>
+                            </li>
+                            <li><strong>Subsurface Scale:</strong> Overall distance multiplier</li>
+                        </ul>
+                        <p><strong>When to use subsurface:</strong></p>
+                        <ul>
+                            <li><strong>Skin:</strong> Essential for realistic skin
+                                <ul>
+                                    <li>Weight: 0.1-0.3</li>
+                                    <li>Radius: (1.0, 0.5, 0.3) for reddish skin tone</li>
+                                </ul>
+                            </li>
+                            <li><strong>Wax:</strong> Candles, translucent materials
+                                <ul>
+                                    <li>Weight: 0.5-1.0</li>
+                                    <li>Radius: Uniform values like (1.0, 1.0, 1.0)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Marble:</strong> Stone with light penetration
+                                <ul>
+                                    <li>Weight: 0.1-0.2</li>
+                                    <li>Subtle effect for realism</li>
+                                </ul>
+                            </li>
+                            <li><strong>Leaves, fruit:</strong> Natural translucency</li>
+                        </ul>
+                    </div>
+
+                    <h3>Alpha (Opacity)</h3>
+
+                    <div class="card">
+                        <h4>👻 Alpha Parameter</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Controls surface opacity (different from Transmission!)</li>
+                            <li>0.0 = invisible/transparent</li>
+                            <li>1.0 = fully opaque (default)</li>
+                            <li>Used for transparency masks, not glass</li>
+                        </ul>
+                        <p><strong>Alpha vs. Transmission:</strong></p>
+                        <ul>
+                            <li><strong>Alpha:</strong> Makes object disappear (no refraction)
+                                <ul>
+                                    <li>Use for: Cutouts, fading effects, alpha textures</li>
+                                    <li>Example: Leaf texture with transparent background</li>
+                                </ul>
+                            </li>
+                            <li><strong>Transmission:</strong> Light passes through and refracts
+                                <ul>
+                                    <li>Use for: Glass, water, translucent materials</li>
+                                    <li>Example: Glass bottle</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Using alpha textures:</strong></p>
+                        <ol>
+                            <li>Plug image texture (with alpha channel) into Alpha input</li>
+                            <li>Material Properties → Settings → Blend Mode: Alpha Clip or Alpha Blend</li>
+                            <li>Adjust Alpha Threshold if using Alpha Clip</li>
+                        </ol>
+                    </div>
+
+                    <h3>Normal (Bump/Normal Maps)</h3>
+
+                    <div class="card">
+                        <h4>⛰️ Normal Input</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Fakes surface detail without changing geometry</li>
+                            <li>Affects how light reflects off surface</li>
+                            <li>Makes flat surfaces appear to have bumps, scratches, texture</li>
+                            <li>Crucial for adding detail without heavy geometry</li>
+                        </ul>
+                        <p><strong>Types of detail maps:</strong></p>
+                        <ul>
+                            <li><strong>Normal Map:</strong> RGB image encoding surface angles
+                                <ul>
+                                    <li>Purple/blue-ish color typically</li>
+                                    <li>Most detailed, most common</li>
+                                    <li>Requires Normal Map node</li>
+                                </ul>
+                            </li>
+                            <li><strong>Bump Map:</strong> Grayscale height map
+                                <ul>
+                                    <li>Black = low, white = high</li>
+                                    <li>Requires Bump node</li>
+                                    <li>Simpler, but less precise</li>
+                                </ul>
+                            </li>
+                            <li><strong>Displacement Map:</strong> Actually moves geometry
+                                <ul>
+                                    <li>True 3D detail (not fake)</li>
+                                    <li>More expensive, more realistic</li>
+                                    <li>Requires subdivided geometry</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Using normal maps:</strong></p>
+                        <ol>
+                            <li>Add Image Texture node with normal map image</li>
+                            <li>Set Color Space to "Non-Color"</li>
+                            <li>Add Normal Map node (<code>Shift+A</code> → Vector → Normal Map)</li>
+                            <li>Connect Image Texture Color → Normal Map Color</li>
+                            <li>Connect Normal Map Normal → Principled BSDF Normal</li>
+                        </ol>
+                    </div>
+
+                    <h3>Other Principled BSDF Inputs</h3>
+
+                    <div class="card">
+                        <h4>🔧 Additional Parameters</h4>
+                        <p><strong>Specular:</strong></p>
+                        <ul>
+                            <li>Controls reflection intensity for non-metals</li>
+                            <li>Default: 0.5 (works for most materials)</li>
+                            <li>Range: 0.0 (no reflection) to 1.0 (strong reflection)</li>
+                            <li>Rarely needs adjustment in PBR workflow</li>
+                        </ul>
+                        <p><strong>Specular Tint:</strong></p>
+                        <ul>
+                            <li>Tints reflections with base color (for non-metals)</li>
+                            <li>0.0 = colorless reflections (physically accurate)</li>
+                            <li>1.0 = colored reflections</li>
+                            <li>Usually keep at 0.0 for realism</li>
+                        </ul>
+                        <p><strong>Anisotropic:</strong></p>
+                        <ul>
+                            <li>Stretches reflections in one direction</li>
+                            <li>Useful for brushed metal, hair, fabric</li>
+                            <li>0.0 = round highlights (default)</li>
+                            <li>1.0 = elongated highlights</li>
+                        </ul>
+                        <p><strong>Anisotropic Rotation:</strong></p>
+                        <ul>
+                            <li>Rotates anisotropic highlight direction</li>
+                            <li>0.0 - 1.0 (full 360° rotation)</li>
+                        </ul>
+                        <p><strong>Sheen:</strong></p>
+                        <ul>
+                            <li>Adds soft glow at grazing angles</li>
+                            <li>Perfect for fabric, velvet, carpet</li>
+                            <li>0.0 = no sheen, 1.0 = maximum sheen</li>
+                        </ul>
+                        <p><strong>Sheen Tint:</strong></p>
+                        <ul>
+                            <li>Colors the sheen effect</li>
+                            <li>0.0 = white sheen, 1.0 = base color sheen</li>
+                        </ul>
+                        <p><strong>Clearcoat:</strong></p>
+                        <ul>
+                            <li>Adds second reflective layer</li>
+                            <li>Simulates clear coating over base paint (car paint!)</li>
+                            <li>0.0 = no clearcoat, 1.0 = full clearcoat layer</li>
+                        </ul>
+                        <p><strong>Clearcoat Roughness:</strong></p>
+                        <ul>
+                            <li>Roughness of clearcoat layer (usually very smooth)</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>🎯 The 80/20 Rule for Principled BSDF:</strong> You can create 80% of materials using just these five inputs: Base Color, Metallic, Roughness, Normal, and occasionally Emission. Master these first before diving into the advanced parameters. Start simple, add complexity only when needed!</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_14_advanced_materials_part_03.html
+     ============================================ -->

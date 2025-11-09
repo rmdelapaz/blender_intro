@@ -1,0 +1,400 @@
+<!-- ============================================
+     LESSON 32 - PART 01
+     File: lesson_32_particle_systems_overview_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master Blender's particle systems. Learn to create dynamic effects like fire, smoke, rain, crowds, and more using particle emitters, forces, and modifiers.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 32: Particle Systems Overview - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Navigation -->
+        <nav class="main-nav" role="navigation" aria-label="Main Navigation">
+            <div class="nav-container">
+                <a href="index.html" class="nav-logo">🎨 Blender Mastery</a>
+                <button class="nav-toggle" aria-label="Toggle Navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="index.html">🏠 Home</a></li>
+                    <li><a href="index.html#modules">📚 Modules</a></li>
+                    <li><a href="index.html#about">ℹ️ About</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#module-8">Module 8: Particles and Simulations</a> &gt; 
+            <span>Lesson 32: Particle Systems Overview</span>
+        </nav>
+
+        <div class="content-wrapper">
+            <main>
+                <!-- Header -->
+                <header class="lesson-header">
+                    <h1>✨ Lesson 32: Particle Systems Overview</h1>
+                    <p class="lead">Enter the world of dynamic effects and simulations. Particle systems bring life and motion to your scenes—from gentle rain to roaring fires, from flocking birds to swarming crowds. Learn the fundamentals of particle emitters, behavior, and control that power visual effects in games, films, and animations.</p>
+                </header>
+
+                <!-- Learning Objectives -->
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 2rem;">
+                    <h2 style="color: white;">🎯 What You'll Learn</h2>
+                    <ul style="color: white;">
+                        <li><strong>Particle system fundamentals:</strong> Emitters, particles, and lifetime management</li>
+                        <li><strong>Emission types:</strong> Surface, volume, vertex, and hair emission modes</li>
+                        <li><strong>Particle behavior:</strong> Physics, forces, and collision systems</li>
+                        <li><strong>Rendering particles:</strong> Display types, materials, and object instancing</li>
+                        <li><strong>Common effects:</strong> Rain, snow, sparks, debris, crowds</li>
+                        <li><strong>Optimization:</strong> Managing performance with large particle counts</li>
+                        <li><strong>Project:</strong> Create realistic rain and splash system with particles</li>
+                    </ul>
+                    <p style="color: white; margin-top: 1rem;"><strong>⏱️ Estimated time:</strong> 90-120 minutes</p>
+                    <p style="color: white;"><strong>🎨 Project:</strong> Dynamic weather effect using particle systems</p>
+                </div>
+
+                <!-- Table of Contents -->
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#what-are-particles" class="toc-link">What Are Particle Systems?</a></li>
+                            <li><a href="#particle-basics" class="toc-link">Particle System Basics</a></li>
+                            <li><a href="#emission-settings" class="toc-link">Emission Settings and Types</a></li>
+                            <li><a href="#particle-physics" class="toc-link">Particle Physics and Forces</a></li>
+                            <li><a href="#rendering-particles" class="toc-link">Rendering and Display</a></li>
+                            <li><a href="#common-effects" class="toc-link">Common Particle Effects</a></li>
+                            <li><a href="#project" class="toc-link">Hands-On Project</a></li>
+                            <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <!-- Main Content Sections -->
+                <section id="what-are-particles" class="content-section">
+                    <h2>✨ What Are Particle Systems?</h2>
+
+                    <p>Particle systems are one of Blender's most powerful tools for creating dynamic, complex effects. They generate and manage thousands (or millions) of individual elements that behave according to physical rules, creating effects that would be impossible to animate manually. From subtle atmospheric details to explosive spectacles, particle systems bring scenes to life.</p>
+
+                    <h3>The Particle Concept</h3>
+
+                    <div class="card">
+                        <h4>🌟 Understanding Particles</h4>
+                        
+                        <p><strong>What particles are:</strong></p>
+                        <ul>
+                            <li><strong>Individual elements:</strong> Each particle is a separate entity
+                                <ul>
+                                    <li>Has position, velocity, rotation</li>
+                                    <li>Born at specific time</li>
+                                    <li>Lives for defined duration</li>
+                                    <li>Dies and disappears</li>
+                                </ul>
+                            </li>
+                            <li><strong>Managed collectively:</strong> System controls thousands simultaneously
+                                <ul>
+                                    <li>One emitter → many particles</li>
+                                    <li>Shared behaviors and rules</li>
+                                    <li>Physics applied to all</li>
+                                    <li>Efficient computation</li>
+                                </ul>
+                            </li>
+                            <li><strong>Physically simulated:</strong> Real-world physics
+                                <ul>
+                                    <li>Gravity, velocity, acceleration</li>
+                                    <li>Collision with objects</li>
+                                    <li>Forces and fields affect them</li>
+                                    <li>Natural, believable motion</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>The particle lifecycle:</strong></p>
+                        <ol>
+                            <li><strong>Birth:</strong> Particle emits from source (emitter object)</li>
+                            <li><strong>Life:</strong> Particle exists, moves, responds to forces</li>
+                            <li><strong>Death:</strong> Particle reaches lifetime end, disappears</li>
+                        </ol>
+
+                        <div class="mermaid">
+                            graph LR
+                            A[Emitter Object] --> B[Particle Birth]
+                            B --> C[Particle Lives]
+                            C --> D[Physics Applied]
+                            D --> E[Forces Affect Motion]
+                            E --> F[Particle Death]
+                            
+                            style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style F fill:#999,stroke:#333,stroke-width:2px,color:#fff
+                        </div>
+                    </div>
+
+                    <h3>Why Use Particle Systems?</h3>
+
+                    <div class="card">
+                        <h4>🎯 Use Cases and Applications</h4>
+                        
+                        <p><strong>Natural phenomena:</strong></p>
+                        <ul>
+                            <li><strong>Weather effects:</strong>
+                                <ul>
+                                    <li>Rain droplets falling</li>
+                                    <li>Snow flakes drifting</li>
+                                    <li>Dust clouds swirling</li>
+                                    <li>Fog particles floating</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fire and smoke:</strong>
+                                <ul>
+                                    <li>Flames licking upward</li>
+                                    <li>Smoke rising and dissipating</li>
+                                    <li>Embers flying from fire</li>
+                                    <li>Steam or mist effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Water effects:</strong>
+                                <ul>
+                                    <li>Splashes and droplets</li>
+                                    <li>Spray from fountains</li>
+                                    <li>Bubbles rising</li>
+                                    <li>Water mist</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Destruction and debris:</strong></p>
+                        <ul>
+                            <li>Exploding objects (fragments flying)</li>
+                            <li>Crumbling structures (dust and chunks)</li>
+                            <li>Breaking glass (shards)</li>
+                            <li>Sparks from impacts</li>
+                        </ul>
+
+                        <p><strong>Organic motion:</strong></p>
+                        <ul>
+                            <li><strong>Swarms and flocks:</strong>
+                                <ul>
+                                    <li>Birds flying in formation</li>
+                                    <li>Insects swarming</li>
+                                    <li>Fish schooling</li>
+                                    <li>Boids behavior (flocking AI)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Crowds:</strong>
+                                <ul>
+                                    <li>People walking in background</li>
+                                    <li>Crowd simulations</li>
+                                    <li>Each person as particle</li>
+                                    <li>Instanced characters</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Abstract and stylized:</strong></p>
+                        <ul>
+                            <li>Magic sparkles and trails</li>
+                            <li>Energy effects (electricity, lasers)</li>
+                            <li>Sci-fi particle beams</li>
+                            <li>Motion graphics patterns</li>
+                            <li>Abstract data visualization</li>
+                        </ul>
+
+                        <p><strong>Hair and fur (specialized particles):</strong></p>
+                        <ul>
+                            <li>Character hair systems</li>
+                            <li>Animal fur</li>
+                            <li>Grass and vegetation</li>
+                            <li>Covered in Lesson 33</li>
+                        </ul>
+                    </div>
+
+                    <h3>Particle Systems vs. Other Methods</h3>
+
+                    <div class="card">
+                        <h4>🔄 When to Use Particles</h4>
+                        
+                        <p><strong>Particles are best for:</strong></p>
+                        <ul>
+                            <li><strong>Many similar elements:</strong> Hundreds to millions of copies</li>
+                            <li><strong>Individual motion:</strong> Each element moves independently</li>
+                            <li><strong>Birth and death:</strong> Elements appear and disappear over time</li>
+                            <li><strong>Physical behavior:</strong> Gravity, collisions, forces matter</li>
+                            <li><strong>Randomization:</strong> Variation across elements needed</li>
+                        </ul>
+
+                        <p><strong>Alternatives to consider:</strong></p>
+                        <ul>
+                            <li><strong>Array modifier:</strong>
+                                <ul>
+                                    <li>Better for: Static repeated objects (no animation)</li>
+                                    <li>Example: Building windows, fence posts</li>
+                                </ul>
+                            </li>
+                            <li><strong>Geometry Nodes:</strong>
+                                <ul>
+                                    <li>Better for: Procedural scattering (grass, rocks)</li>
+                                    <li>More control, but no physics by default</li>
+                                    <li>Can combine with particles</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fluid simulation:</strong>
+                                <ul>
+                                    <li>Better for: Connected fluid volumes (water, lava)</li>
+                                    <li>Particles for spray/mist, fluid for main body</li>
+                                </ul>
+                            </li>
+                            <li><strong>Smoke/fire simulation:</strong>
+                                <ul>
+                                    <li>Better for: Volumetric smoke and flames</li>
+                                    <li>Particles for embers/sparks, simulation for flames</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                            <thead>
+                                <tr style="background-color: #f0f0f0;">
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Effect</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Best Method</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Why</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Rain</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Particles</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Thousands of individual droplets, gravity, collision</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Grass field</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Hair particles or Geometry Nodes</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Static placement, millions needed</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Smoke plume</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Smoke simulation</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Volumetric fluid behavior</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Sparks</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Particles</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Individual bright points, physics trails</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Building facade</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Array modifier</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Static, architectural pattern</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Bird flock</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Particles (Boids)</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Flocking AI, individual creatures</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Types of Particle Systems</h3>
+
+                    <div class="card">
+                        <h4>📊 Blender's Particle Modes</h4>
+                        
+                        <p><strong>Emitter particles:</strong></p>
+                        <ul>
+                            <li><strong>Purpose:</strong> Standard particle system for effects</li>
+                            <li><strong>Behavior:</strong> Particles emit, move, die</li>
+                            <li><strong>Use cases:</strong>
+                                <ul>
+                                    <li>Rain, snow, sparks</li>
+                                    <li>Debris, explosions</li>
+                                    <li>Magic effects</li>
+                                    <li>Most dynamic effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Default type:</strong> What you get when adding particle system</li>
+                        </ul>
+
+                        <p><strong>Hair particles:</strong></p>
+                        <ul>
+                            <li><strong>Purpose:</strong> Growing elements from surface</li>
+                            <li><strong>Behavior:</strong> Strands remain attached, don't move freely</li>
+                            <li><strong>Use cases:</strong>
+                                <ul>
+                                    <li>Character hair and fur</li>
+                                    <li>Grass, plants, feathers</li>
+                                    <li>Surface coverage effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Special feature:</strong> Grooming tools, styling, physics</li>
+                            <li><strong>Covered in:</strong> Lesson 33 (Hair and Fur)</li>
+                        </ul>
+
+                        <p><strong>Key differences:</strong></p>
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                            <thead>
+                                <tr style="background-color: #f0f0f0;">
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Feature</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Emitter</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Hair</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Movement</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Free-flying</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Attached to surface</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Lifetime</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Birth and death</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Persistent (always visible)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Physics</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Gravity, forces</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Strand dynamics</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Rendering</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Points, objects, etc.</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Strand-based</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Particles Are Life and Motion:</strong> Static scenes are dead. Objects sit motionless. Light doesn't change. Nothing breathes. But add particles and scenes come alive. Rain falls. Dust swirls. Sparks fly. Crowds move. Suddenly your scene isn't frozen moment—it's living world. Particles represent chaos. Randomness. Organic unpredictability. The things that make scenes feel real. Because real world is full of particles. Air has dust. Surfaces have imperfections. Motion creates trails. Life creates movement. Master particles and you master life and motion. Your scenes breathe. They move. They feel alive. That's the difference between render and experience. Between image and immersion. Particles bridge that gap.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_32_particle_systems_overview_part_02.html
+     ============================================ -->

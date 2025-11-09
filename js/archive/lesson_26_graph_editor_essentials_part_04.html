@@ -1,0 +1,629 @@
+<!-- ============================================
+     LESSON 26 - PART 04
+     File: lesson_26_graph_editor_essentials_part_04.html
+     ============================================ -->
+
+                <section id="curve-modifiers" class="content-section">
+                    <h2>🎚️ F-Curve Modifiers</h2>
+
+                    <p>F-Curve modifiers apply mathematical operations to your curves, creating complex motion without manually keyframing. Think of them as procedural animation—set parameters and let math do the work.</p>
+
+                    <h3>What Are F-Curve Modifiers?</h3>
+
+                    <div class="card">
+                        <h4>🔮 Procedural Curve Generation</h4>
+                        <p><strong>Modifier concept:</strong></p>
+                        <ul>
+                            <li>Applied to F-Curve, affects entire curve (not individual keyframes)</li>
+                            <li>Non-destructive—can disable or remove anytime</li>
+                            <li>Calculated in real-time based on parameters</li>
+                            <li>Creates complex motion from simple keyframes</li>
+                        </ul>
+
+                        <p><strong>When to use modifiers:</strong></p>
+                        <ul>
+                            <li><strong>Repetitive motion:</strong> Oscillation, cycles, waves</li>
+                            <li><strong>Random variation:</strong> Noise, camera shake, natural irregularity</li>
+                            <li><strong>Mathematical patterns:</strong> Sine waves, stepped motion</li>
+                            <li><strong>Extending animation:</strong> Loop short animation indefinitely</li>
+                        </ul>
+
+                        <p><strong>Modifier vs manual keyframing:</strong></p>
+                        <ul>
+                            <li><strong>Modifiers:</strong> Fast, adjustable, procedural (but less precise control)</li>
+                            <li><strong>Keyframes:</strong> Precise, intentional, controllable (but time-consuming)</li>
+                            <li>Often combine: Keyframe major motion, add modifier for detail</li>
+                        </ul>
+
+                        <p><strong>Accessing modifiers:</strong></p>
+                        <ul>
+                            <li>Graph Editor sidebar (<code>N</code> key) → Modifiers tab</li>
+                            <li>Or: Channel → Add Modifiers → Choose modifier</li>
+                            <li>Each curve can have multiple modifiers</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common F-Curve Modifiers</h3>
+
+                    <div class="card">
+                        <h4>🛠️ Essential Modifiers</h4>
+                        <p><strong>1. Cycles (Repeat Animation):</strong></p>
+                        <ul>
+                            <li><strong>Purpose:</strong> Loop animation indefinitely</li>
+                            <li><strong>Use case:</strong> Walk cycles, rotating wheels, flashing lights</li>
+                            <li><strong>Settings:</strong>
+                                <ul>
+                                    <li>Repeat: Loop exactly as animated</li>
+                                    <li>Repeat with Offset: Each loop offsets (walking forward)</li>
+                                    <li>Repeat Mirrored: Alternates forward/backward</li>
+                                </ul>
+                            </li>
+                            <li><strong>Example:</strong> Animate one wheel rotation (frames 1-24), Cycles makes it spin forever</li>
+                        </ul>
+
+                        <p><strong>2. Noise (Random Variation):</strong></p>
+                        <ul>
+                            <li><strong>Purpose:</strong> Add randomness/irregularity to motion</li>
+                            <li><strong>Use case:</strong> Camera shake, flickering lights, natural imperfection</li>
+                            <li><strong>Settings:</strong>
+                                <ul>
+                                    <li>Scale: Amount of noise (higher = more variation)</li>
+                                    <li>Strength: Intensity of effect</li>
+                                    <li>Phase: Offset pattern (different random seed)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Example:</strong> Smooth camera pan + Noise modifier = handheld camera feel</li>
+                        </ul>
+
+                        <p><strong>3. Limits (Clamp Values):</strong></p>
+                        <ul>
+                            <li><strong>Purpose:</strong> Restrict curve values to range</li>
+                            <li><strong>Use case:</strong> Prevent overshoot, enforce boundaries</li>
+                            <li><strong>Settings:</strong>
+                                <ul>
+                                    <li>Min/Max X: Limit frame range</li>
+                                    <li>Min/Max Y: Limit value range</li>
+                                </ul>
+                            </li>
+                            <li><strong>Example:</strong> Door rotation curve clamped 0-90° (can't open beyond 90°)</li>
+                        </ul>
+
+                        <p><strong>4. Stepped Interpolation:</strong></p>
+                        <ul>
+                            <li><strong>Purpose:</strong> Create stepped/discrete motion</li>
+                            <li><strong>Use case:</strong> Stop-motion effect, frame-by-frame animation look</li>
+                            <li><strong>Settings:</strong>
+                                <ul>
+                                    <li>Step Size: Frames per step (2 = hold every 2 frames)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Example:</strong> Smooth animation + Stepped(2) = LEGO movie style</li>
+                        </ul>
+
+                        <p><strong>5. Generator (Mathematical Functions):</strong></p>
+                        <ul>
+                            <li><strong>Purpose:</strong> Create curves from polynomial equations</li>
+                            <li><strong>Use case:</strong> Falling objects (gravity), mathematical motion</li>
+                            <li><strong>Settings:</strong>
+                                <ul>
+                                    <li>Polynomial order: Linear, quadratic, cubic, etc.</li>
+                                    <li>Coefficients: Fine-tune curve shape</li>
+                                </ul>
+                            </li>
+                            <li><strong>Example:</strong> Y = X² creates parabolic curve (projectile motion)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Using Modifiers Effectively</h3>
+
+                    <div class="card">
+                        <h4>💡 Practical Application</h4>
+                        <p><strong>Adding a modifier:</strong></p>
+                        <ol>
+                            <li>Select channel in Graph Editor (e.g., Location Z)</li>
+                            <li>Sidebar (<code>N</code>) → Modifiers tab</li>
+                            <li>Add Modifier → Choose type (e.g., Noise)</li>
+                            <li>Adjust parameters in panel</li>
+                            <li>See effect on curve in real-time</li>
+                        </ol>
+
+                        <p><strong>Stacking modifiers:</strong></p>
+                        <ul>
+                            <li>Can add multiple modifiers to one curve</li>
+                            <li>Execute in order from top to bottom</li>
+                            <li>Example: Cycles (loop) + Noise (variation) = looping with irregularity</li>
+                            <li>Drag to reorder, changes result</li>
+                        </ul>
+
+                        <p><strong>Restricting modifier range:</strong></p>
+                        <ul>
+                            <li>Modifier settings → Frame Range</li>
+                            <li>Start/End frames: Only affect specific frame range</li>
+                            <li>Useful for applying noise only during certain section</li>
+                        </ul>
+
+                        <p><strong>Baking modifiers to keyframes:</strong></p>
+                        <ul>
+                            <li>When satisfied with modifier result, can "freeze" it</li>
+                            <li>Key → Bake Curve (converts modifier to actual keyframes)</li>
+                            <li>Gives frame-by-frame control over previously procedural motion</li>
+                            <li>Can no longer adjust modifier parameters after baking</li>
+                        </ul>
+                    </div>
+
+                    <h3>Modifier Examples</h3>
+
+                    <div class="card">
+                        <h4>🎬 Real-World Scenarios</h4>
+                        <p><strong>Example 1: Looping walk cycle</strong></p>
+                        <ul>
+                            <li>Animate one step (frames 1-12)</li>
+                            <li>Location Z (up/down): Add Cycles modifier → Repeat</li>
+                            <li>Location X (forward): Add Cycles modifier → Repeat with Offset</li>
+                            <li>Result: Character walks forward indefinitely</li>
+                        </ul>
+
+                        <p><strong>Example 2: Handheld camera shake</strong></p>
+                        <ul>
+                            <li>Animate smooth camera move</li>
+                            <li>Camera Location X, Y, Z: Add Noise modifier</li>
+                            <li>Scale: 1.0, Strength: 0.02 (subtle shake)</li>
+                            <li>Result: Professional smooth camera with realistic handheld jitter</li>
+                        </ul>
+
+                        <p><strong>Example 3: Flickering candle light</strong></p>
+                        <ul>
+                            <li>Light Strength: Keyframe at 5.0</li>
+                            <li>Add Noise modifier</li>
+                            <li>Scale: 2.0, Strength: 1.0</li>
+                            <li>Result: Light randomly flickers around strength 5.0</li>
+                        </ul>
+
+                        <p><strong>Example 4: Bouncing ball that settles</strong></p>
+                        <ul>
+                            <li>Animate initial bounce (3 bounces, decreasing height)</li>
+                            <li>Add Limits modifier</li>
+                            <li>Min Y: 0 (ground level—prevent underground)</li>
+                            <li>Result: Ball guaranteed never goes below ground</li>
+                        </ul>
+                    </div>
+
+                    <h3>Modifier Limitations</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ When Not to Use Modifiers</h4>
+                        <p><strong>Modifiers don't work well for:</strong></p>
+                        <ul>
+                            <li><strong>Precise, choreographed motion:</strong> Character acting requires keyframe control</li>
+                            <li><strong>Unique, one-time actions:</strong> Hero moment should be keyframed precisely</li>
+                            <li><strong>Performance animation:</strong> Timing nuances need manual control</li>
+                            <li><strong>Complex narrative animation:</strong> Story beats need intentional placement</li>
+                        </ul>
+
+                        <p><strong>Use keyframes instead when:</strong></p>
+                        <ul>
+                            <li>Motion has specific meaning or emotional content</li>
+                            <li>Timing must be perfect (dialogue sync, music sync)</li>
+                            <li>Every frame matters to storytelling</li>
+                            <li>Client needs ability to approve specific poses</li>
+                        </ul>
+
+                        <p><strong>Best practice:</strong></p>
+                        <ul>
+                            <li>Use modifiers for secondary motion and texture</li>
+                            <li>Use keyframes for primary performance and storytelling</li>
+                            <li>Modifiers augment keyframes, don't replace them</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="project" class="content-section">
+                    <h2>🎯 Project: Perfect Bounce with Graph Editor</h2>
+
+                    <p>Let's take the bouncing ball from Lesson 24 and perfect it using Graph Editor techniques. You'll refine curves, adjust handles, and achieve professional motion quality. This project demonstrates real-world Graph Editor workflow.</p>
+
+                    <h3>Project Overview</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎯 Your Mission</h3>
+                        <p style="color: white;">Refine a bouncing ball animation to professional quality:</p>
+                        <ul style="color: white;">
+                            <li><strong>Perfect arcs:</strong> Smooth parabolic curves</li>
+                            <li><strong>Proper easing:</strong> Natural acceleration/deceleration</li>
+                            <li><strong>Realistic physics:</strong> Gravity-correct timing</li>
+                            <li><strong>Clean curves:</strong> No bumps, overshoots, or glitches</li>
+                            <li><strong>Handle mastery:</strong> Appropriate handle types for each keyframe</li>
+                        </ul>
+                        <p style="color: white; margin-top: 1rem;">Duration: 30-45 minutes of focused refinement</p>
+                    </div>
+
+                    <h3>Phase 1: Create Base Animation (10 min)</h3>
+
+                    <div class="card">
+                        <h4>🛠️ Foundation</h4>
+                        <p><strong>Setup scene:</strong></p>
+                        <ul>
+                            <li>UV Sphere (ball), position at X=0, Y=0, Z=5</li>
+                            <li>Plane (ground), scale large</li>
+                            <li>Camera positioned to see full bounce arc</li>
+                            <li>Frame range: 1-96 (4 seconds)</li>
+                        </ul>
+
+                        <p><strong>Create basic bounce (rough blocking):</strong></p>
+                        <ul>
+                            <li>Frame 1: Z=5, Scale 1,1,1 → Keyframe LocScale</li>
+                            <li>Frame 18: Z=0, Scale 1.4,1.4,0.6 → Keyframe LocScale</li>
+                            <li>Frame 30: Z=3.5, Scale 1,1,1 → Keyframe LocScale</li>
+                            <li>Frame 42: Z=0, Scale 1.3,1.3,0.7 → Keyframe LocScale</li>
+                            <li>Frame 52: Z=2, Scale 1,1,1 → Keyframe LocScale</li>
+                            <li>Frame 60: Z=0, Scale 1.2,1.2,0.8 → Keyframe LocScale</li>
+                            <li>Frame 66: Z=1, Scale 1,1,1 → Keyframe LocScale</li>
+                            <li>Frame 72: Z=0, Scale 1,1,1 → Keyframe LocScale (final settle)</li>
+                        </ul>
+
+                        <p><strong>Result:</strong> Rough bouncing ball with decreasing height</p>
+                    </div>
+
+                    <h3>Phase 2: Open Graph Editor and Analyze (5 min)</h3>
+
+                    <div class="card">
+                        <h4>🔍 Initial Assessment</h4>
+                        <p><strong>Open Graph Editor:</strong></p>
+                        <ul>
+                            <li>Split viewport or change Timeline to Graph Editor</li>
+                            <li>Ball selected → See Location and Scale curves</li>
+                            <li>Focus on Location Z (height curve)</li>
+                        </ul>
+
+                        <p><strong>What to look for:</strong></p>
+                        <ul>
+                            <li><strong>Curve shape:</strong> Should be parabolic arcs (bounces)</li>
+                            <li><strong>Peaks:</strong> Should get progressively lower (energy loss)</li>
+                            <li><strong>Valleys:</strong> Should be sharp at ground impact</li>
+                            <li><strong>Overall flow:</strong> Smooth or jagged?</li>
+                        </ul>
+
+                        <p><strong>Common issues at this stage:</strong></p>
+                        <ul>
+                            <li>Too much ease at ground (ball floats)</li>
+                            <li>Symmetrical up/down curves (unrealistic—gravity affects fall)</li>
+                            <li>Overshoot at peaks (ball goes higher than keyframe)</li>
+                            <li>Inconsistent handle types</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 3: Refine Location Z Curve (15 min)</h3>
+
+                    <div class="card">
+                        <h4>📈 Perfecting the Height Curve</h4>
+                        <p><strong>Fix ground impacts (frames 18, 42, 60, 72):</strong></p>
+                        <ol>
+                            <li>Select impact keyframes (ground level, Z=0)</li>
+                            <li>Press <code>V</code> → Vector handles</li>
+                            <li>Result: Sharp valleys (instant direction change at impact)</li>
+                            <li>Or: Keep Auto but manually make handles very short</li>
+                        </ol>
+
+                        <p><strong>Adjust apex keyframes (frames 1, 30, 52, 66):</strong></p>
+                        <ol>
+                            <li>Select apex keyframes (peaks of bounce)</li>
+                            <li>Ensure handles are horizontal or near-horizontal</li>
+                            <li>Creates "hang time" at top of arc</li>
+                            <li>Can manually rotate handles (<code>R</code>) to be more horizontal</li>
+                            <li>Should see flat plateau at each peak</li>
+                        </ol>
+
+                        <p><strong>Create asymmetric curves (gravity effect):</strong></p>
+                        <ol>
+                            <li>Rising (going up to apex): Gentler curve (slower rise)</li>
+                            <li>Falling (apex to ground): Steeper curve (faster fall)</li>
+                            <li>Select apex keyframe, adjust right handle to be steeper than left</li>
+                            <li>Gravity makes objects fall faster than they rise</li>
+                        </ol>
+
+                        <p><strong>Check for overshoot:</strong></p>
+                        <ul>
+                            <li>Scrub through animation watching curve</li>
+                            <li>Does curve go below Z=0 (underground)? Fix it!</li>
+                            <li>Does curve go above apex keyframe value? May need Auto Clamped</li>
+                            <li>Change problematic keyframes to Auto Clamped or adjust handles</li>
+                        </ul>
+
+                        <p><strong>Smooth overall flow:</strong></p>
+                        <ul>
+                            <li>Zoom out, view entire curve</li>
+                            <li>Should look like decreasing wave pattern</li>
+                            <li>No sudden bumps or irregularities</li>
+                            <li>If bumpy: Delete extra keyframes or adjust handles</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 4: Refine Scale Curves (10 min)</h3>
+
+                    <div class="card">
+                        <h4>⚖️ Squash and Stretch Refinement</h4>
+                        <p><strong>Isolate scale curves:</strong></p>
+                        <ul>
+                            <li>Channel list → Click "Scale" to show all three scale curves</li>
+                            <li>Should see synchronized curves (X, Y, Z together)</li>
+                        </ul>
+
+                        <p><strong>Check squash timing (ground impacts):</strong></p>
+                        <ul>
+                            <li>Squash should happen exactly at impact frames (18, 42, 60)</li>
+                            <li>Scale Z should dip, Scale X/Y should spike</li>
+                            <li>If timing off, move keyframes horizontally (<code>G</code> <code>X</code>)</li>
+                        </ul>
+
+                        <p><strong>Adjust squash transition speed:</strong></p>
+                        <ul>
+                            <li>Squash should be quick (short handles)</li>
+                            <li>Select squash keyframes</li>
+                            <li>Scale handles down (<code>S</code> <code>0.5</code>) for snappier squash</li>
+                            <li>Too much ease makes squash look sluggish</li>
+                        </ul>
+
+                        <p><strong>Ensure scale returns to neutral:</strong></p>
+                        <ul>
+                            <li>At apex and final rest, scale should be 1,1,1 (neutral)</li>
+                            <li>Check these keyframes are exactly 1.0</li>
+                            <li>Use <code>N</code> panel to verify exact values</li>
+                        </ul>
+
+                        <p><strong>Verify volume preservation:</strong></p>
+                        <ul>
+                            <li>When Scale Z decreases, Scale X/Y should increase proportionally</li>
+                            <li>All three curves should move together (synchronized)</li>
+                            <li>If one curve out of sync, adjust timing</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 5: Final Polish and Testing (5 min)</h3>
+
+                    <div class="card">
+                        <h4>✨ Quality Check</h4>
+                        <p><strong>Playback test:</strong></p>
+                        <ul>
+                            <li>Press <code>Spacebar</code> in Graph Editor</li>
+                            <li>Watch both viewport and curves simultaneously</li>
+                            <li>Motion should feel natural, physics-correct</li>
+                        </ul>
+
+                        <p><strong>Frame-by-frame check:</strong></p>
+                        <ul>
+                            <li>Scrub slowly through animation</li>
+                            <li>Watch curve closely—should be perfectly smooth</li>
+                            <li>No bumps, no sharp corners (except intentional impacts)</li>
+                        </ul>
+
+                        <p><strong>Curve aesthetics:</strong></p>
+                        <ul>
+                            <li>Zoom out, view entire curve</li>
+                            <li>Should look beautiful—clean, flowing, purposeful</li>
+                            <li>If curve looks messy, motion will feel messy</li>
+                        </ul>
+
+                        <p><strong>Common final adjustments:</strong></p>
+                        <ul>
+                            <li>Slightly increase hang time at apex (longer horizontal handles)</li>
+                            <li>Make ground impacts sharper (shorter handles at valleys)</li>
+                            <li>Ensure final bounce settles cleanly (smooth approach to rest)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Success Criteria</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Professional Quality Checklist</h4>
+                        <p><strong>Curve quality:</strong></p>
+                        <ul>
+                            <li>✓ Location Z curve shows clean parabolic arcs</li>
+                            <li>✓ Sharp valleys at ground impacts (Vector or short handles)</li>
+                            <li>✓ Flat plateaus at apex (horizontal handles)</li>
+                            <li>✓ Asymmetric curves (faster fall than rise)</li>
+                            <li>✓ No overshoot below ground or above peaks</li>
+                            <li>✓ Smooth overall flow, no unexpected bumps</li>
+                        </ul>
+
+                        <p><strong>Motion quality:</strong></p>
+                        <ul>
+                            <li>✓ Ball appears to have mass and weight</li>
+                            <li>✓ Bounces decrease in height realistically</li>
+                            <li>✓ Squash and stretch timed perfectly with impacts</li>
+                            <li>✓ Natural hang time at peak of each arc</li>
+                            <li>✓ No floating or hovering feeling</li>
+                        </ul>
+
+                        <p><strong>Technical execution:</strong></p>
+                        <ul>
+                            <li>✓ Appropriate handle types for each keyframe</li>
+                            <li>✓ Handle lengths match motion energy</li>
+                            <li>✓ Scale curves synchronized properly</li>
+                            <li>✓ Volume preserved during squash/stretch</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Before and After:</strong> When you started this project, you had a bouncing ball that technically worked—it went up and down. Now you have a bouncing ball with soul. The difference? Curves. Those hours spent adjusting handles, tweaking easing, perfecting arcs—that's where animation lives. Every Pixar animator, every game cinematics artist, every motion graphics designer spends time doing exactly what you just did. Perfecting curves. This isn't busy work. This is the craft. And you just did it at a professional level.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="summary" class="content-section">
+                    <h2>📝 Lesson Summary</h2>
+
+                    <p>Congratulations! You've mastered the Graph Editor—the most powerful tool in an animator's arsenal. You now have professional-level control over timing, easing, and motion quality.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎯 Key Takeaways</h3>
+                        <ul style="color: white;">
+                            <li><strong>Curves reveal truth:</strong> Motion quality lives in curve shape</li>
+                            <li><strong>Handles control feeling:</strong> Same timing, different handles = different motion</li>
+                            <li><strong>Smooth curves = smooth motion:</strong> Always, no exceptions</li>
+                            <li><strong>Handle types matter:</strong> Auto, Vector, Free each have purpose</li>
+                            <li><strong>Graph Editor is for refinement:</strong> Block in Timeline, perfect in Graph Editor</li>
+                            <li><strong>Modifiers add complexity:</strong> Procedural detail on top of keyframes</li>
+                            <li><strong>Professional polish happens here:</strong> This separates good from great</li>
+                        </ul>
+                    </div>
+
+                    <h3>Graph Editor Mastery Recap</h3>
+
+                    <div class="card">
+                        <h4>🎓 What You've Learned</h4>
+                        <p><strong>Reading curves:</strong></p>
+                        <ul>
+                            <li>Curve steepness = speed (steep = fast, gentle = slow)</li>
+                            <li>Curve direction = motion direction</li>
+                            <li>Curve smoothness = motion quality</li>
+                            <li>S-curves = natural ease in/out motion</li>
+                        </ul>
+
+                        <p><strong>Handle mastery:</strong></p>
+                        <ul>
+                            <li>Handle length controls ease strength</li>
+                            <li>Handle angle controls motion flow</li>
+                            <li>Six handle types: Auto, Vector, Free, Aligned, Auto Clamped, Constant</li>
+                            <li>Auto for 90% of animation, others for special cases</li>
+                        </ul>
+
+                        <p><strong>Editing techniques:</strong></p>
+                        <ul>
+                            <li>Move keyframes: <code>G</code> (timing and values)</li>
+                            <li>Scale keyframes: <code>S</code> (stretch timing or values)</li>
+                            <li>Change handle types: <code>V</code></li>
+                            <li>Smooth curves: Key → Smooth Keys</li>
+                            <li>Clean keyframes: Channel → Clean Channels</li>
+                        </ul>
+
+                        <p><strong>Professional workflow:</strong></p>
+                        <ol>
+                            <li>Block animation in Timeline (major poses)</li>
+                            <li>Time animation in Dope Sheet (keyframe placement)</li>
+                            <li>Refine in Graph Editor (curve perfection)</li>
+                            <li>Polish until curves are beautiful</li>
+                            <li>Result: Professional-quality motion</li>
+                        </ol>
+                    </div>
+
+                    <h3>Essential Keyboard Shortcuts</h3>
+
+                    <div class="card">
+                        <h4>⌨️ Speed and Efficiency</h4>
+                        <p><strong>Navigation:</strong></p>
+                        <ul>
+                            <li><code>Home</code>: Frame all curves</li>
+                            <li><code>Numpad .</code>: Frame selected</li>
+                            <li><code>Middle Mouse</code>: Pan view</li>
+                            <li><code>Scroll Wheel</code>: Zoom</li>
+                        </ul>
+
+                        <p><strong>Selection:</strong></p>
+                        <ul>
+                            <li><code>A</code>: Select all</li>
+                            <li><code>Alt+A</code>: Deselect all</li>
+                            <li><code>B</code>: Box select</li>
+                            <li><code>C</code>: Circle select</li>
+                        </ul>
+
+                        <p><strong>Editing:</strong></p>
+                        <ul>
+                            <li><code>G</code>: Move keyframes/handles</li>
+                            <li><code>S</code>: Scale keyframes/handles</li>
+                            <li><code>R</code>: Rotate handles</li>
+                            <li><code>V</code>: Change handle type</li>
+                            <li><code>Shift+D</code>: Duplicate</li>
+                            <li><code>X</code>: Delete</li>
+                        </ul>
+
+                        <p><strong>Interface:</strong></p>
+                        <ul>
+                            <li><code>N</code>: Toggle sidebar (properties)</li>
+                            <li><code>Spacebar</code>: Play animation</li>
+                        </ul>
+                    </div>
+
+                    <h3>Next Steps</h3>
+
+                    <div class="card">
+                        <h4>🚀 Continuing Your Journey</h4>
+                        <p><strong>Practice exercises:</strong></p>
+                        <ul>
+                            <li>Refine 5 different bouncing balls (heavy, light, energetic, tired, perfect)</li>
+                            <li>Create smooth camera push-in with perfect ease</li>
+                            <li>Animate pendulum swing with perfect arcs</li>
+                            <li>Make door open with custom easing (anticipation + settle)</li>
+                            <li>Create pulsing glow effect using only Graph Editor</li>
+                        </ul>
+
+                        <p><strong>Advanced challenges:</strong></p>
+                        <ul>
+                            <li>Recreate curve from reference video (match timing exactly)</li>
+                            <li>Design custom ease curves for different emotions (happy = bouncy, sad = sluggish)</li>
+                            <li>Use F-Curve modifiers to create looping animations</li>
+                            <li>Combine multiple modifiers for complex motion</li>
+                        </ul>
+
+                        <p><strong>Coming next:</strong></p>
+                        <ul>
+                            <li><strong>Lesson 27:</strong> Basic Character Animation—apply everything to armatures</li>
+                            <li>You now have the tools to create professional motion</li>
+                            <li>Next lesson: Apply these skills to character rigs</li>
+                        </ul>
+
+                        <p><strong>Study professional work:</strong></p>
+                        <ul>
+                            <li>Watch animations frame-by-frame</li>
+                            <li>Try to imagine what curves would look like</li>
+                            <li>Recreate shots you admire</li>
+                            <li>Learn from the masters by reverse-engineering their timing</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="final-encouragement" class="content-section">
+                    <div class="card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 2rem;">
+                        <h2 style="color: white; margin-top: 0;">📈 You're a Curve Master</h2>
+                        <p style="color: white; font-size: 1.1em; line-height: 1.6;">
+                            The Graph Editor is where animation transforms from mechanical motion to living performance. Every professional animator you admire has spent thousands of hours staring at curves, adjusting handles, perfecting easing. They've learned to see motion as mathematics, to feel curves as performance.
+                        </p>
+                        <p style="color: white; font-size: 1.1em; line-height: 1.6;">
+                            You now have that same capability. When you open the Graph Editor, you're not looking at confusing lines anymore—you're looking at motion itself, laid bare. That S-curve? That's ease in/out. That sharp valley? That's impact. Those smooth, flowing arcs? That's professional animation.
+                        </p>
+                        <p style="color: white; font-size: 1.1em; line-height: 1.6;">
+                            Here's the secret that took me years to learn: The best animators don't have better keyframes than you. They have better curves. Same poses, same timing, but refined curves make all the difference. Now you can refine curves too. The playing field just leveled.
+                        </p>
+                        <p style="color: white; font-size: 1.1em; line-height: 1.6;">
+                            Spend time in the Graph Editor. Make it your second home. Every hour you invest here compounds—understanding curves at an intuitive level is what separates animators who can work from those who can excel. You're now equipped to excel.
+                        </p>
+                        <p style="color: white; font-size: 1.2em; margin-top: 1.5rem; margin-bottom: 0;">
+                            <strong>Next: Apply these skills to character animation! 🎭</strong>
+                        </p>
+                    </div>
+                </section>
+
+            </article>
+        </main>
+
+        <nav class="lesson-nav" aria-label="Lesson Navigation">
+            <a href="lesson_25_timeline_and_keyframes.html" class="prev-lesson">← Previous: Timeline and Keyframes</a>
+            <a href="index.html" class="home-link">🏠 Course Home</a>
+            <a href="lesson_27_basic_character_animation.html" class="next-lesson">Next: Basic Character Animation →</a>
+        </nav>
+
+        <footer class="site-footer">
+            <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>
+
+<!-- ============================================
+     END OF PART 04
+     This completes Lesson 26: Graph Editor Essentials
+     ============================================ -->

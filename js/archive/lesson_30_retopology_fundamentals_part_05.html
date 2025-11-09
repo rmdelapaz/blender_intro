@@ -1,0 +1,968 @@
+<!-- ============================================
+     LESSON 30 - PART 05
+     File: lesson_30_retopology_fundamentals_part_05.html
+     ============================================ -->
+
+                <section id="detail-transfer" class="content-section">
+                    <h2>🎨 Baking and Detail Transfer</h2>
+
+                    <p>Retopology creates the low-poly structure, but baking transfers the high-poly detail onto that structure as textures. This is where the magic happens—where your 20,000 polygon mesh looks like a 5 million polygon sculpt. Baking is the essential final step that makes retopology worthwhile.</p>
+
+                    <h3>Understanding Texture Baking</h3>
+
+                    <div class="card">
+                        <h4>🔥 What Is Baking?</h4>
+                        
+                        <p><strong>The concept:</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Retopo mesh is simple (low poly)
+                                <ul>
+                                    <li>Lost all the sculpted detail</li>
+                                    <li>Surface is smooth and boring</li>
+                                    <li>Millions of polygons worth of detail gone</li>
+                                </ul>
+                            </li>
+                            <li><strong>Solution:</strong> "Photograph" the detail as textures
+                                <ul>
+                                    <li>Compare high-poly to low-poly</li>
+                                    <li>Calculate differences</li>
+                                    <li>Store differences in texture maps</li>
+                                    <li>Apply textures to low-poly</li>
+                                    <li>Illusion of high-poly detail restored</li>
+                                </ul>
+                            </li>
+                            <li><strong>Result:</strong> Low poly count with high-poly appearance
+                                <ul>
+                                    <li>Performance: thousands of polygons</li>
+                                    <li>Visual quality: millions of polygons</li>
+                                    <li>Best of both worlds</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Types of maps you can bake:</strong></p>
+                        <ul>
+                            <li><strong>Normal Map:</strong> Most important
+                                <ul>
+                                    <li>Stores surface direction information</li>
+                                    <li>Creates illusion of geometry</li>
+                                    <li>Purple/blue colored map</li>
+                                    <li>Essential for all retopo workflows</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ambient Occlusion (AO):</strong>
+                                <ul>
+                                    <li>Bakes shadows in crevices</li>
+                                    <li>Adds depth and definition</li>
+                                    <li>Black and white map</li>
+                                    <li>Multiplied over color for realism</li>
+                                </ul>
+                            </li>
+                            <li><strong>Curvature Map:</strong>
+                                <ul>
+                                    <li>Highlights edges and details</li>
+                                    <li>Useful for weathering/wear effects</li>
+                                    <li>Shows where edges would wear naturally</li>
+                                </ul>
+                            </li>
+                            <li><strong>Diffuse/Color:</strong>
+                                <ul>
+                                    <li>If high-poly has painted colors</li>
+                                    <li>Transfers color information</li>
+                                    <li>Less common in pure sculpt workflows</li>
+                                </ul>
+                            </li>
+                            <li><strong>Displacement Map:</strong>
+                                <ul>
+                                    <li>Actual geometry displacement data</li>
+                                    <li>Can add real geometry if needed</li>
+                                    <li>Usually normal maps sufficient</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                            <h4>💡 Normal Maps: The Hero of Baking</h4>
+                            <p>95% of the time, normal maps do the heavy lifting. They're the primary way detail transfers from high to low poly. Master normal map baking and you've mastered the essentials of detail transfer.</p>
+                            <p><strong>What normal maps do:</strong></p>
+                            <ul>
+                                <li>Change how light reflects off surface</li>
+                                <li>Flat polygon appears to have grooves, bumps, details</li>
+                                <li>Rendering engine thinks geometry is there</li>
+                                <li>But actual mesh is still simple</li>
+                                <li>Pure visual illusion—and it works brilliantly</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Preparing for Baking</h3>
+
+                    <div class="card">
+                        <h4>📋 Setup Requirements</h4>
+                        
+                        <p><strong>Before you can bake, you need:</strong></p>
+                        <ol>
+                            <li><strong>High-poly source mesh:</strong>
+                                <ul>
+                                    <li>Your original sculpt or detailed model</li>
+                                    <li>All the detail you want to preserve</li>
+                                    <li>Should be final version</li>
+                                </ul>
+                            </li>
+                            <li><strong>Low-poly retopo mesh:</strong>
+                                <ul>
+                                    <li>Completed retopology</li>
+                                    <li>Clean topology</li>
+                                    <li>Covers entire high-poly surface</li>
+                                </ul>
+                            </li>
+                            <li><strong>UV unwrapped low-poly:</strong>
+                                <ul>
+                                    <li>Critical: low-poly MUST have UVs</li>
+                                    <li>Baking writes to UV space</li>
+                                    <li>No UVs = can't bake</li>
+                                    <li>Clean UV layout = better bake quality</li>
+                                </ul>
+                            </li>
+                            <li><strong>Image texture (target for bake):</strong>
+                                <ul>
+                                    <li>Empty image to receive baked data</li>
+                                    <li>Create in Shader Editor or UV Editor</li>
+                                    <li>Resolution: 2048x2048 or 4096x4096 typical</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>UV unwrapping the retopo mesh:</strong></p>
+                        <ul>
+                            <li><strong>Why UVs matter for baking:</strong>
+                                <ul>
+                                    <li>Baking projects 3D detail onto 2D texture</li>
+                                    <li>UV map tells Blender where each face goes in texture</li>
+                                    <li>Bad UVs = distorted or wrong bake</li>
+                                    <li>Good UVs = clean, accurate bake</li>
+                                </ul>
+                            </li>
+                            <li><strong>Quick UV unwrap process:</strong>
+                                <ul>
+                                    <li>Select all faces of retopo mesh (<kbd>A</kbd> in Edit Mode)</li>
+                                    <li><kbd>U</kbd> → Smart UV Project (quick automatic method)</li>
+                                    <li>Or use seams and Unwrap for more control</li>
+                                    <li>Check UV Editor: islands should fill space efficiently</li>
+                                    <li>No overlapping islands (usually—exceptions exist)</li>
+                                </ul>
+                            </li>
+                            <li><strong>UV unwrapping best practices:</strong>
+                                <ul>
+                                    <li>Minimize seams in visible areas</li>
+                                    <li>Keep UV islands roughly proportional to 3D size</li>
+                                    <li>Face should get more UV space (it's important)</li>
+                                    <li>Pack islands efficiently (maximize texture usage)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                            <h4>⚠️ Critical: UVs Before Baking</h4>
+                            <p>Cannot stress this enough: <strong>UV unwrap your low-poly mesh BEFORE baking.</strong></p>
+                            <ul>
+                                <li>Baking without UVs = error messages or nothing happens</li>
+                                <li>Changing UVs after baking = have to rebake</li>
+                                <li>Get UVs right first, saves time later</li>
+                                <li>If bake looks wrong, check UVs first</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Baking Normal Maps in Blender</h3>
+
+                    <div class="card">
+                        <h4>🎯 Step-by-Step Baking Process</h4>
+                        
+                        <p><strong>Phase 1: Create target image texture</strong></p>
+                        <ol>
+                            <li><strong>Open Shader Editor:</strong>
+                                <ul>
+                                    <li>Select your low-poly retopo mesh</li>
+                                    <li>Switch to Shading workspace (top tabs)</li>
+                                    <li>Or add Shader Editor to any layout</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add Image Texture node:</strong>
+                                <ul>
+                                    <li>Shader Editor: <kbd>Shift+A</kbd> → Texture → Image Texture</li>
+                                    <li>Place it anywhere in node tree (doesn't need to be connected)</li>
+                                    <li>This node receives the bake</li>
+                                </ul>
+                            </li>
+                            <li><strong>Create new image:</strong>
+                                <ul>
+                                    <li>In Image Texture node: click "New" button</li>
+                                    <li><strong>Name:</strong> Something clear like "Character_Normal"</li>
+                                    <li><strong>Width/Height:</strong> 2048x2048 (or 4096x4096 for more detail)</li>
+                                    <li><strong>Color:</strong> Change to RGB (important for normal maps)</li>
+                                    <li><strong>Alpha:</strong> Uncheck (normal maps don't need alpha)</li>
+                                    <li>Click OK</li>
+                                </ul>
+                            </li>
+                            <li><strong>Select the image texture node:</strong>
+                                <ul>
+                                    <li>Click on the node to select it (white outline)</li>
+                                    <li>Blender bakes to the selected image texture node</li>
+                                    <li>This is critical—must be selected!</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Phase 2: Configure bake settings</strong></p>
+                        <ol>
+                            <li><strong>Open Render Properties panel:</strong>
+                                <ul>
+                                    <li>Right side: properties panel</li>
+                                    <li>Click camera icon (Render Properties)</li>
+                                    <li>Scroll down to "Bake" section</li>
+                                </ul>
+                            </li>
+                            <li><strong>Set bake type:</strong>
+                                <ul>
+                                    <li>Bake Type dropdown → <strong>Normal</strong></li>
+                                    <li>This tells Blender to bake normal map</li>
+                                </ul>
+                            </li>
+                            <li><strong>Enable "Selected to Active":</strong>
+                                <ul>
+                                    <li>Check the "Selected to Active" box</li>
+                                    <li>This means: bake FROM high-poly TO low-poly</li>
+                                    <li>Essential for retopology baking</li>
+                                </ul>
+                            </li>
+                            <li><strong>Configure Ray Distance:</strong>
+                                <ul>
+                                    <li><strong>Max Ray Distance:</strong> How far rays search for surface
+                                        <ul>
+                                            <li>Too small: misses detail, gaps in bake</li>
+                                            <li>Too large: captures wrong surfaces</li>
+                                            <li>Start with 0.1, adjust if needed</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Extrusion:</strong> Pushes rays out from surface
+                                        <ul>
+                                            <li>Prevents baking inside surfaces</li>
+                                            <li>Usually 0.01-0.02 works</li>
+                                            <li>Adjust if you see artifacts</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><strong>Set Normal Space (important):</strong>
+                                <ul>
+                                    <li>Normal Space → <strong>Tangent</strong></li>
+                                    <li>Tangent space normals work with any orientation</li>
+                                    <li>Standard for game engines and most uses</li>
+                                    <li>Object space rare (special cases only)</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Phase 3: Select objects and bake</strong></p>
+                        <ol>
+                            <li><strong>Selection order matters:</strong>
+                                <ul>
+                                    <li>First: Select high-poly source mesh(es)</li>
+                                    <li>Last: <kbd>Shift</kbd> select low-poly retopo mesh</li>
+                                    <li>Low-poly (active object) should be brighter orange</li>
+                                    <li>This tells Blender: bake FROM high-poly TO low-poly</li>
+                                </ul>
+                            </li>
+                            <li><strong>Verify Image Texture node selected:</strong>
+                                <ul>
+                                    <li>In Shader Editor (low-poly material)</li>
+                                    <li>Image Texture node with your new image</li>
+                                    <li>Must have white outline (selected)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Click Bake button:</strong>
+                                <ul>
+                                    <li>Render Properties → Bake section → "Bake" button</li>
+                                    <li>Blender processes (can take seconds to minutes)</li>
+                                    <li>Progress bar shows in header</li>
+                                </ul>
+                            </li>
+                            <li><strong>Check result:</strong>
+                                <ul>
+                                    <li>Switch to UV Editor or Shader Editor</li>
+                                    <li>View your image texture</li>
+                                    <li>Should see purple/blue normal map data</li>
+                                    <li>If it's blank or wrong, check settings</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Phase 4: Save the baked image</strong></p>
+                        <ol>
+                            <li><strong>CRITICAL: Save your texture:</strong>
+                                <ul>
+                                    <li>UV Editor or Image Editor: Image menu → Save As</li>
+                                    <li>Or <kbd>Alt+S</kbd> in image editor</li>
+                                    <li>Choose location and filename</li>
+                                    <li>Format: PNG (common) or OpenEXR (if 32-bit needed)</li>
+                                    <li><strong>If you don't save, image is lost when you close Blender!</strong></li>
+                                </ul>
+                            </li>
+                            <li><strong>Connect normal map to material:</strong>
+                                <ul>
+                                    <li>Shader Editor: Image Texture → Normal Map node → Principled BSDF Normal input</li>
+                                    <li>Add Normal Map node: <kbd>Shift+A</kbd> → Vector → Normal Map</li>
+                                    <li>Connect: Image Texture (Color) → Normal Map (Color) → Principled BSDF (Normal)</li>
+                                    <li>Set Image Texture Color Space to "Non-Color" (important!)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test the result:</strong>
+                                <ul>
+                                    <li>Switch to Material Preview or Rendered shading</li>
+                                    <li>Add lights to see effect</li>
+                                    <li>Low-poly mesh should show high-poly detail</li>
+                                    <li>Success!</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                            <h4>✅ Baking Quick Checklist</h4>
+                            <ul>
+                                <li>☐ Low-poly mesh has UVs</li>
+                                <li>☐ Image Texture node created in low-poly material</li>
+                                <li>☐ Image Texture node is selected (white outline)</li>
+                                <li>☐ Bake Type set to "Normal"</li>
+                                <li>☐ "Selected to Active" enabled</li>
+                                <li>☐ Ray Distance configured (start at 0.1)</li>
+                                <li>☐ Normal Space set to "Tangent"</li>
+                                <li>☐ High-poly selected first, low-poly selected last (active)</li>
+                                <li>☐ Click Bake</li>
+                                <li>☐ Save baked image (Alt+S in image editor)</li>
+                                <li>☐ Connect normal map to shader</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Baking Other Map Types</h3>
+
+                    <div class="card">
+                        <h4>🎨 Beyond Normal Maps</h4>
+                        
+                        <p><strong>Baking Ambient Occlusion:</strong></p>
+                        <ul>
+                            <li><strong>Purpose:</strong> Adds shadows in crevices and contact points</li>
+                            <li><strong>Process:</strong>
+                                <ul>
+                                    <li>Create new image texture (grayscale okay)</li>
+                                    <li>Bake Type → Ambient Occlusion</li>
+                                    <li>Same setup as normal map (Selected to Active)</li>
+                                    <li>Bake to image</li>
+                                </ul>
+                            </li>
+                            <li><strong>Using AO map:</strong>
+                                <ul>
+                                    <li>Multiply over base color</li>
+                                    <li>Or use in Roughness for variation</li>
+                                    <li>Adds subtle depth everywhere</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Baking Diffuse/Color:</strong></p>
+                        <ul>
+                            <li><strong>When to use:</strong> If high-poly has painted colors or materials</li>
+                            <li><strong>Process:</strong>
+                                <ul>
+                                    <li>Bake Type → Diffuse</li>
+                                    <li>Influence: Usually "Color" only</li>
+                                    <li>Transfers color information to texture</li>
+                                </ul>
+                            </li>
+                            <li><strong>Common in:</strong>
+                                <ul>
+                                    <li>Texture painting workflows</li>
+                                    <li>Painted sculpts (Polypaint from ZBrush)</li>
+                                    <li>When high-poly has applied materials</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Baking Curvature (requires node setup):</strong></p>
+                        <ul>
+                            <li><strong>Not built-in to Blender:</strong>
+                                <ul>
+                                    <li>Need to use Bevel shader trick or external tools</li>
+                                    <li>Or use Substance Painter for curvature maps</li>
+                                    <li>Beyond scope of basic baking</li>
+                                </ul>
+                            </li>
+                            <li><strong>Alternative:</strong> Generate in texture painting software</li>
+                        </ul>
+                    </div>
+
+                    <h3>Troubleshooting Baking Issues</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Common Baking Problems</h4>
+                        
+                        <p><strong>Problem: Baked texture is completely blank</strong></p>
+                        <ul>
+                            <li><strong>Cause 1:</strong> Image Texture node not selected
+                                <ul>
+                                    <li>Solution: Click the node (white outline appears)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cause 2:</strong> Low-poly has no UVs
+                                <ul>
+                                    <li>Solution: UV unwrap the retopo mesh first</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cause 3:</strong> Wrong object active
+                                <ul>
+                                    <li>Solution: Select high-poly first, low-poly last</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Problem: Bake has artifacts, strange colors, or wrong areas</strong></p>
+                        <ul>
+                            <li><strong>Cause 1:</strong> Ray Distance too large
+                                <ul>
+                                    <li>Rays hitting wrong parts of high-poly</li>
+                                    <li>Solution: Decrease Max Ray Distance (try 0.05 or lower)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cause 2:</strong> Ray Distance too small
+                                <ul>
+                                    <li>Rays not reaching high-poly surface</li>
+                                    <li>Gaps and missing detail in bake</li>
+                                    <li>Solution: Increase Max Ray Distance</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cause 3:</strong> Meshes not aligned
+                                <ul>
+                                    <li>Low-poly doesn't cover high-poly properly</li>
+                                    <li>Solution: Check that retopo matches source mesh position</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cause 4:</strong> Overlapping UVs
+                                <ul>
+                                    <li>Multiple faces write to same texture area</li>
+                                    <li>Solution: Fix UV layout, ensure no overlaps</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Problem: Normal map doesn't show in render</strong></p>
+                        <ul>
+                            <li><strong>Cause 1:</strong> Not connected to material
+                                <ul>
+                                    <li>Solution: Connect Image Texture → Normal Map node → Principled BSDF Normal</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cause 2:</strong> Wrong color space
+                                <ul>
+                                    <li>Image Texture should be "Non-Color"</li>
+                                    <li>Solution: In Image Texture node, set Color Space to Non-Color</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cause 3:</strong> Need better lighting
+                                <ul>
+                                    <li>Normal maps affect lighting interaction</li>
+                                    <li>Solution: Add lights or HDRI to see effect clearly</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Problem: Bake looks low quality or pixelated</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Texture resolution too low
+                                <ul>
+                                    <li>1024x1024 shows pixels on close-ups</li>
+                                    <li>Solution: Use 2048x2048 or 4096x4096</li>
+                                    <li>Balance quality vs. file size</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Problem: Seams visible in baked texture</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> UV seams create discontinuities
+                                <ul>
+                                    <li>Normal map has slight mismatch at seams</li>
+                                </ul>
+                            </li>
+                            <li><strong>Solution 1:</strong> Margin (padding)
+                                <ul>
+                                    <li>In Bake settings, increase Margin size</li>
+                                    <li>Fills texture beyond UV edges</li>
+                                    <li>Helps hide seams</li>
+                                </ul>
+                            </li>
+                            <li><strong>Solution 2:</strong> Better UV seam placement
+                                <ul>
+                                    <li>Put seams in hidden areas</li>
+                                    <li>Under arms, back of head, etc.</li>
+                                    <li>Minimize visible seams</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Using Baked Maps in Production</h3>
+
+                    <div class="card">
+                        <h4>🎮 Game Engine Integration</h4>
+                        
+                        <p><strong>Export workflow:</strong></p>
+                        <ul>
+                            <li><strong>Save your textures externally:</strong>
+                                <ul>
+                                    <li>Normal map, AO map, color map</li>
+                                    <li>PNG or TGA format common</li>
+                                    <li>Organize in textures folder</li>
+                                </ul>
+                            </li>
+                            <li><strong>Export low-poly mesh:</strong>
+                                <ul>
+                                    <li>File → Export → FBX (most common)</li>
+                                    <li>Or glTF/GLB for modern engines</li>
+                                    <li>Include UVs (should be automatic)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Import to game engine:</strong>
+                                <ul>
+                                    <li>Unity, Unreal, Godot, etc.</li>
+                                    <li>Import mesh and textures</li>
+                                    <li>Create material, assign textures to proper slots</li>
+                                    <li>Normal map goes in Normal Map slot (engine-specific)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Real-time rendering considerations:</strong></p>
+                        <ul>
+                            <li><strong>Normal maps are real-time friendly:</strong>
+                                <ul>
+                                    <li>Minimal performance cost</li>
+                                    <li>Huge visual improvement</li>
+                                    <li>Standard in all modern games</li>
+                                </ul>
+                            </li>
+                            <li><strong>Texture resolution impacts memory:</strong>
+                                <ul>
+                                    <li>4096x4096 = 64MB per texture (uncompressed)</li>
+                                    <li>Mobile games often use 1024x1024 or 2048x2048</li>
+                                    <li>PC/console can handle 4096x4096</li>
+                                    <li>Engines usually compress automatically</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mipmaps improve performance:</strong>
+                                <ul>
+                                    <li>Game engines generate smaller versions automatically</li>
+                                    <li>Distant objects use lower res textures</li>
+                                    <li>Saves memory and improves performance</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                            <h4>✅ Complete Retopo-to-Game Pipeline</h4>
+                            <ol>
+                                <li><strong>Sculpt high-poly:</strong> Millions of polygons, all the detail</li>
+                                <li><strong>Retopologize:</strong> Create clean low-poly mesh (5k-30k polys)</li>
+                                <li><strong>UV unwrap:</strong> Low-poly gets clean UV layout</li>
+                                <li><strong>Bake textures:</strong> Normal map (and others) capture detail</li>
+                                <li><strong>Export:</strong> FBX/glTF mesh + PNG textures</li>
+                                <li><strong>Import to engine:</strong> Set up material with baked maps</li>
+                                <li><strong>Result:</strong> Game-ready asset with high-quality appearance</li>
+                            </ol>
+                            <p>This is the standard professional workflow. Master this pipeline and you can create any game asset.</p>
+                        </div>
+                    </div>
+
+                    <h3>Advanced Baking Techniques</h3>
+
+                    <div class="card">
+                        <h4>🚀 Professional Workflows</h4>
+                        
+                        <p><strong>Cage-based baking (better control):</strong></p>
+                        <ul>
+                            <li><strong>What is a cage:</strong>
+                                <ul>
+                                    <li>Duplicate of low-poly, slightly enlarged</li>
+                                    <li>Defines exactly where to sample high-poly</li>
+                                    <li>Prevents wrong surfaces from being captured</li>
+                                </ul>
+                            </li>
+                            <li><strong>When to use cages:</strong>
+                                <ul>
+                                    <li>Complex models with separate pieces</li>
+                                    <li>When automatic ray distance fails</li>
+                                    <li>Professional production (more control)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Setup in Blender:</strong>
+                                <ul>
+                                    <li>Duplicate low-poly mesh</li>
+                                    <li>Scale slightly larger (covers high-poly)</li>
+                                    <li>In Bake settings: enable Cage, select cage object</li>
+                                    <li>Beyond basic tutorial scope, but important to know exists</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Baking in Substance Painter (industry standard):</strong></p>
+                        <ul>
+                            <li><strong>Why professionals use Substance:</strong>
+                                <ul>
+                                    <li>Better baking algorithm (fewer artifacts)</li>
+                                    <li>Automatic cage generation</li>
+                                    <li>Bakes multiple maps at once</li>
+                                    <li>Then texture painting in same software</li>
+                                </ul>
+                            </li>
+                            <li><strong>Workflow:</strong>
+                                <ul>
+                                    <li>Export high and low poly from Blender</li>
+                                    <li>Import to Substance Painter</li>
+                                    <li>Bake maps (one click, multiple outputs)</li>
+                                    <li>Paint textures using baked maps as foundation</li>
+                                    <li>Export final textures back to Blender/game engine</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cost:</strong> Subscription software, but industry standard</li>
+                        </ul>
+
+                        <p><strong>Multiple UV sets (advanced):</strong></p>
+                        <ul>
+                            <li><strong>Concept:</strong> Different UV layouts for different purposes
+                                <ul>
+                                    <li>UV Set 1: High-res bake (normal maps)</li>
+                                    <li>UV Set 2: Tiling textures (color, roughness)</li>
+                                    <li>Combines unique and tiling details</li>
+                                </ul>
+                            </li>
+                            <li><strong>Game engine support:</strong> Most modern engines support this</li>
+                            <li><strong>Benefit:</strong> Unique detail + tiling patterns = maximum quality</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Baking Completes The Circle:</strong> Retopology alone gives you clean geometry. But it looks simple. Basic. Boring. Baking restores the magic. Your low-poly mesh transforms. Sculpted details emerge. Surface complexity returns. Light plays across forms that aren't actually there. You've created an illusion—and it's perfect. Performance of a simple mesh. Appearance of a complex one. This is why retopology workflows exist. Not just to reduce polygons. But to reduce them WITHOUT losing quality. Baking is the trick. The sleight of hand. The professional secret. Master retopology AND baking together. That's when you become truly powerful. When you can make anything look like anything. At any performance cost. That's when you're not just making models. You're manufacturing illusions. And getting away with it.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="project" class="content-section">
+                    <h2>🎯 Hands-On Project: Retopologize a Sculpted Object</h2>
+
+                    <p>Time to apply everything you've learned! This project will guide you through the complete retopology workflow from start to finish. You'll take a high-poly sculpted mesh, create clean production topology, and bake the details to textures.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">📋 Project Brief</h3>
+                        <p style="color: white;"><strong>Goal:</strong> Create a game-ready retopologized version of a sculpted object with baked detail.</p>
+                        <p style="color: white;"><strong>Target specs:</strong></p>
+                        <ul style="color: white;">
+                            <li>Polygon budget: 5,000-10,000 triangles (2,500-5,000 quads)</li>
+                            <li>Clean quad topology (95%+ quads)</li>
+                            <li>Proper edge flow</li>
+                            <li>UV unwrapped</li>
+                            <li>Normal map baked at 2048x2048</li>
+                        </ul>
+                        <p style="color: white;"><strong>Time estimate:</strong> 2-4 hours (first time), 1-2 hours (with practice)</p>
+                    </div>
+
+                    <h3>Phase 1: Create or Import High-Poly Source</h3>
+
+                    <div class="card">
+                        <h4>🎨 Starting Point</h4>
+                        
+                        <p><strong>Option A: Use existing sculpt</strong></p>
+                        <ul>
+                            <li>If you have a sculpted mesh from Lesson 28, use that</li>
+                            <li>Or find a practice mesh online (free sculpts available)</li>
+                            <li>Import into Blender if external file</li>
+                        </ul>
+
+                        <p><strong>Option B: Quick sculpt practice object</strong></p>
+                        <ol>
+                            <li>Add UV Sphere (<kbd>Shift+A</kbd> → Mesh → UV Sphere)</li>
+                            <li>Enter Sculpt Mode, enable Dynamic Topology (top header)</li>
+                            <li>Sculpt some features: bumps, grooves, organic forms</li>
+                            <li>Remesh occasionally (<kbd>Ctrl+R</kbd>) to maintain density</li>
+                            <li>Spend 15-20 minutes creating interesting forms</li>
+                            <li>Goal: Create something with lots of surface detail</li>
+                        </ol>
+
+                        <p><strong>Verify your source mesh:</strong></p>
+                        <ul>
+                            <li>Should have at least 50,000+ faces (more is fine)</li>
+                            <li>Check in header: Shows tri/face count</li>
+                            <li>Surface should have visible detail to capture</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 2: Manual Retopology</h3>
+
+                    <div class="card">
+                        <h4>🔨 Build Clean Topology</h4>
+                        
+                        <ol>
+                            <li><strong>Prepare workspace:</strong>
+                                <ul>
+                                    <li>Select high-poly mesh</li>
+                                    <li>Object Properties → Viewport Display → Display As: Wire</li>
+                                    <li>Outliner: Click cursor icon to make unselectable</li>
+                                </ul>
+                            </li>
+                            <li><strong>Create retopo starting point:</strong>
+                                <ul>
+                                    <li><kbd>Shift+A</kbd> → Mesh → Plane</li>
+                                    <li>Enter Edit Mode (<kbd>Tab</kbd>)</li>
+                                    <li>Position plane on high-poly surface</li>
+                                </ul>
+                            </li>
+                            <li><strong>Configure snapping:</strong>
+                                <ul>
+                                    <li>Enable snapping (magnet icon or <kbd>Shift+Tab</kbd>)</li>
+                                    <li>Snap mode: Face</li>
+                                    <li>Enable "Project Individual Elements" (crosshair icon)</li>
+                                </ul>
+                            </li>
+                            <li><strong>OR use Shrinkwrap modifier:</strong>
+                                <ul>
+                                    <li>Add Modifier → Shrinkwrap</li>
+                                    <li>Target: Your high-poly mesh</li>
+                                    <li>Wrap Method: Project</li>
+                                    <li>Enable both axis directions</li>
+                                </ul>
+                            </li>
+                            <li><strong>Activate Poly Build tool:</strong>
+                                <ul>
+                                    <li>Toolbar: Click Poly Build icon</li>
+                                    <li>Or <kbd>Shift+Spacebar</kbd> → search "Poly Build"</li>
+                                </ul>
+                            </li>
+                            <li><strong>Build the topology:</strong>
+                                <ul>
+                                    <li>Click edges to extrude new quads</li>
+                                    <li>Work systematically, section by section</li>
+                                    <li>Keep faces roughly square-shaped</li>
+                                    <li>Think about edge flow continuously</li>
+                                    <li>Cover entire surface with quads</li>
+                                </ul>
+                            </li>
+                            <li><strong>Target polygon count:</strong>
+                                <ul>
+                                    <li>Watch face count in header</li>
+                                    <li>Aim for 2,500-5,000 quads</li>
+                                    <li>That's 5,000-10,000 triangles for game engines</li>
+                                </ul>
+                            </li>
+                            <li><strong>Quality check:</strong>
+                                <ul>
+                                    <li>Add Subdivision Surface modifier (don't apply)</li>
+                                    <li>Set to level 1 or 2</li>
+                                    <li>Does it look smooth and correct?</li>
+                                    <li>If pinching or artifacts, adjust vertices</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                            <h4>💡 Pro Tip: Start Simple, Refine Later</h4>
+                            <p>Don't aim for perfect density on first pass. Build basic coverage with lower poly count, then add edge loops (<kbd>Ctrl+R</kbd>) where you need more detail. Easier to add than remove.</p>
+                        </div>
+                    </div>
+
+                    <h3>Phase 3: UV Unwrapping</h3>
+
+                    <div class="card">
+                        <h4>📐 Prepare for Baking</h4>
+                        
+                        <ol>
+                            <li><strong>Select all faces of retopo mesh:</strong>
+                                <ul>
+                                    <li>Edit Mode, <kbd>A</kbd> to select all</li>
+                                </ul>
+                            </li>
+                            <li><strong>Quick unwrap:</strong>
+                                <ul>
+                                    <li><kbd>U</kbd> → Smart UV Project</li>
+                                    <li>Accept default settings (or adjust Island Margin to 0.02)</li>
+                                    <li>Click OK</li>
+                                </ul>
+                            </li>
+                            <li><strong>Check UV layout:</strong>
+                                <ul>
+                                    <li>Switch to UV Editing workspace (top tabs)</li>
+                                    <li>Or open UV Editor in any panel</li>
+                                    <li>Islands should fill space efficiently</li>
+                                    <li>No major overlaps (usually)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Optional refinement:</strong>
+                                <ul>
+                                    <li>If Smart UV created too many islands, manually mark seams and unwrap</li>
+                                    <li>For simple practice object, Smart UV is fine</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Phase 4: Bake Normal Map</h3>
+
+                    <div class="card">
+                        <h4>🔥 Transfer Detail to Texture</h4>
+                        
+                        <ol>
+                            <li><strong>Create target image:</strong>
+                                <ul>
+                                    <li>Select retopo mesh</li>
+                                    <li>Shading workspace</li>
+                                    <li>Shader Editor: <kbd>Shift+A</kbd> → Texture → Image Texture</li>
+                                    <li>New image: "Practice_Normal", 2048x2048, RGB, no alpha</li>
+                                    <li>Click on node to select it (white outline)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Configure bake settings:</strong>
+                                <ul>
+                                    <li>Render Properties panel → Bake section</li>
+                                    <li>Bake Type: Normal</li>
+                                    <li>Enable "Selected to Active"</li>
+                                    <li>Max Ray Distance: 0.1 (adjust if needed)</li>
+                                    <li>Extrusion: 0.01</li>
+                                    <li>Normal Space: Tangent</li>
+                                    <li>Margin: 16 pixels (helps with seams)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Select for baking:</strong>
+                                <ul>
+                                    <li>Object Mode</li>
+                                    <li>Click high-poly mesh (select)</li>
+                                    <li><kbd>Shift</kbd>+Click retopo mesh (add to selection, make active)</li>
+                                    <li>Retopo should be brighter orange (active object)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Bake:</strong>
+                                <ul>
+                                    <li>Click "Bake" button in Render Properties</li>
+                                    <li>Wait for progress bar to complete</li>
+                                    <li>Check UV Editor: should see purple/blue normal map</li>
+                                </ul>
+                            </li>
+                            <li><strong>Save texture:</strong>
+                                <ul>
+                                    <li>UV/Image Editor: Image → Save As</li>
+                                    <li>Or <kbd>Alt+S</kbd></li>
+                                    <li>Choose location, save as PNG</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Phase 5: Apply Normal Map</h3>
+
+                    <div class="card">
+                        <h4>✨ See the Results</h4>
+                        
+                        <ol>
+                            <li><strong>Setup material properly:</strong>
+                                <ul>
+                                    <li>Retopo mesh selected, Shading workspace</li>
+                                    <li>Add Normal Map node: <kbd>Shift+A</kbd> → Vector → Normal Map</li>
+                                    <li>Connect nodes:</li>
+                                    <li>Image Texture (Color) → Normal Map (Color)</li>
+                                    <li>Normal Map (Normal) → Principled BSDF (Normal)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Set correct color space:</strong>
+                                <ul>
+                                    <li>Image Texture node: Color Space → Non-Color</li>
+                                    <li>Critical for normal maps!</li>
+                                </ul>
+                            </li>
+                            <li><strong>View results:</strong>
+                                <ul>
+                                    <li>Viewport shading: Material Preview or Rendered</li>
+                                    <li>Add lights if needed (sun lamp or HDRI)</li>
+                                    <li>Your low-poly mesh should show high-poly detail!</li>
+                                </ul>
+                            </li>
+                            <li><strong>Compare:</strong>
+                                <ul>
+                                    <li>Toggle high-poly visibility (outliner eye icon)</li>
+                                    <li>See difference: low poly count, high-poly appearance</li>
+                                    <li>Success!</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Success Checklist</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Project Complete When...</h4>
+                        <ul>
+                            <li>☐ Retopo mesh has 2,500-5,000 quads (5,000-10,000 tris)</li>
+                            <li>☐ 95%+ quad topology (check with Select → Select All by Trait)</li>
+                            <li>☐ Retopo mesh covers entire high-poly surface</li>
+                            <li>☐ Silhouette matches original sculpt accurately</li>
+                            <li>☐ UV unwrapping complete, no major overlaps</li>
+                            <li>☐ Normal map baked at 2048x2048 or higher</li>
+                            <li>☐ Normal map properly connected in material</li>
+                            <li>☐ Detail visible in rendered view</li>
+                            <li>☐ Subdivision Surface creates smooth result (if added)</li>
+                            <li>☐ Texture files saved externally</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bonus Challenges</h3>
+
+                    <div class="card">
+                        <h4>🚀 Take It Further</h4>
+                        
+                        <p><strong>Challenge 1: Add Ambient Occlusion</strong></p>
+                        <ul>
+                            <li>Bake AO map from high to low poly</li>
+                            <li>Mix it with base color in material</li>
+                            <li>See how it adds depth</li>
+                        </ul>
+
+                        <p><strong>Challenge 2: Multiple UV sets</strong></p>
+                        <ul>
+                            <li>Create second UV map for tiling textures</li>
+                            <li>Combine unique baked details with tiling patterns</li>
+                            <li>More advanced material setup</li>
+                        </ul>
+
+                        <p><strong>Challenge 3: Game engine export</strong></p>
+                        <ul>
+                            <li>Export retopo mesh as FBX</li>
+                            <li>Import to game engine (Unity/Unreal/Godot)</li>
+                            <li>Set up material with normal map in engine</li>
+                            <li>See it running in real-time!</li>
+                        </ul>
+
+                        <p><strong>Challenge 4: Character head retopology</strong></p>
+                        <ul>
+                            <li>Find or sculpt a character head</li>
+                            <li>Retopologize with proper facial edge loops</li>
+                            <li>Focus on eyes, mouth, and deformation areas</li>
+                            <li>Much more challenging but great practice</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 You Just Learned a Superpower:</strong> What you just did—taking high-poly and making it game-ready—is a foundational professional skill. Every character in modern games went through this process. Every hero asset. Every creature. You're now capable of that workflow. Yes, your first attempts are rough. That's expected. But you understand the pipeline now. Sculpt, retopo, UV, bake. High detail to low poly. Texture capture. This skill opens doors. Game studios need this. Freelance clients need this. Your own projects need this. Keep practicing. Do more retopo projects. Speed increases. Quality increases. Soon it becomes second nature. And when you can retopologize anything, make it production-ready, export it working—you're not just a 3D artist anymore. You're a professional pipeline artist. And that's valuable.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_30_retopology_fundamentals_part_06.html
+     ============================================ -->

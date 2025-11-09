@@ -1,0 +1,504 @@
+<!-- ============================================
+     LESSON 39 - PART 07
+     File: lesson_39_rigging_essentials_part_07.html
+     ============================================ -->
+
+            <section id="leg-rig">
+                <h3>🦵 Rigging Legs with IK/FK</h3>
+                
+                <p>Leg rigs are similar to arm rigs in structure, but they have unique requirements—feet need to plant firmly on the ground, heels pivot, toes bend, and the entire leg supports the character's weight. While arms primarily swing freely (FK dominant), legs primarily plant and step (IK dominant). Let's build a professional leg rig with advanced foot controls that give animators precise control over every aspect of locomotion!</p>
+
+                <h4>Leg Rig Components</h4>
+
+                <div class="card">
+                    <h4>🏗️ Complete Leg Rig Architecture</h4>
+                    
+                    <p><strong>A professional leg rig includes:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Deformation Bones (DEF Layer)</strong></p>
+                    <ul>
+                        <li>DEF_thigh.L - Hip to knee (weighted to mesh)</li>
+                        <li>DEF_shin.L - Knee to ankle (weighted to mesh)</li>
+                        <li>DEF_foot.L - Ankle to ball of foot (weighted to mesh)</li>
+                        <li>DEF_toe.L - Ball to tip of toes (weighted to mesh)</li>
+                        <li>These deform the leg mesh</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. FK Control Bones (CTRL Layer)</strong></p>
+                    <ul>
+                        <li>FK_thigh.L - Circle control at hip</li>
+                        <li>FK_shin.L - Circle control at knee</li>
+                        <li>FK_foot.L - Circle control at ankle</li>
+                        <li>FK_toe.L - Small circle at ball of foot</li>
+                        <li>Parented chain for FK animation (swinging leg)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. IK Control Bones (CTRL Layer)</strong></p>
+                    <ul>
+                        <li>IK_foot.L - Foot-shaped control (main foot control)</li>
+                        <li>IK_knee_pole.L - Small sphere in front of knee</li>
+                        <li>IK_heel_pivot.L - Pivot point at heel (for foot roll)</li>
+                        <li>IK_toe_pivot.L - Pivot point at ball of foot (for toe bend)</li>
+                        <li>Complex hierarchy for realistic foot motion</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>4. Mechanism Bones (MCH Layer)</strong></p>
+                    <ul>
+                        <li>MCH_IK_thigh.L - Driven by IK constraint</li>
+                        <li>MCH_IK_shin.L - Driven by IK constraint</li>
+                        <li>These calculate IK solution for leg</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>5. Switch Property</strong></p>
+                    <ul>
+                        <li>Custom property: "leg_IK_FK.L" (0.0 to 1.0)</li>
+                        <li>Same principle as arm rig</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid">
+                    graph TB
+                    A[IK Foot Control] --> B[Heel Pivot]
+                    B --> C[Toe Pivot]
+                    C --> D[IK Target]
+                    D -.drives via IK.-> E[MCH Bones<br/>Thigh/Shin]
+                    E --> F[DEF Bones<br/>Deform Mesh]
+                    G[FK Controls] -.influence 0-1.-> F
+                    H[Knee Pole] -.controls.-> E
+                    style A fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <h4>Understanding Foot Controls</h4>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Why Leg Rigs Are More Complex</h4>
+                    
+                    <p><strong>The Foot Challenge:</strong></p>
+                    <ul>
+                        <li><strong>Multiple pivot points:</strong> Heel, ball, toe tip all rotate independently</li>
+                        <li><strong>Foot roll:</strong> Walk cycle requires smooth heel-to-toe rolling motion</li>
+                        <li><strong>Toe bend:</strong> Toes bend when pushing off ground</li>
+                        <li><strong>Planting:</strong> Foot must stay locked to ground while body moves</li>
+                        <li><strong>Complex hierarchy needed:</strong> Can't use simple IK like hand</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Professional Foot Control Hierarchy:</strong></p>
+                    <ul>
+                        <li><strong>IK_foot.L (master control):</strong>
+                            <ul>
+                                <li>What animator moves to position foot</li>
+                                <li>Parents entire foot control system</li>
+                                <li>Large, foot-shaped for easy selection</li>
+                            </ul>
+                        </li>
+                        <li><strong>IK_heel_pivot.L (child of IK_foot):</strong>
+                            <ul>
+                                <li>Pivot point at heel</li>
+                                <li>Rotating this tips foot back (heel down, toes up)</li>
+                                <li>Used for heel plant in walk cycle</li>
+                            </ul>
+                        </li>
+                        <li><strong>IK_toe_pivot.L (child of heel pivot):</strong>
+                            <ul>
+                                <li>Pivot point at ball of foot</li>
+                                <li>Rotating this tips foot forward (toes down, heel up)</li>
+                                <li>Used for toe push-off in walk cycle</li>
+                            </ul>
+                        </li>
+                        <li><strong>IK_leg_target (child of toe pivot):</strong>
+                            <ul>
+                                <li>Actual IK target for shin bone</li>
+                                <li>Hidden from animator (mechanism layer)</li>
+                                <li>Positioned at ankle</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>How This Hierarchy Works:</strong></p>
+                    <ul>
+                        <li>Move IK_foot.L → entire foot moves (simple positioning)</li>
+                        <li>Rotate IK_heel_pivot.L → foot tips on heel (heel-down pose)</li>
+                        <li>Rotate IK_toe_pivot.L → foot tips on ball (toe push-off)</li>
+                        <li>All rotations combined → smooth foot roll animation!</li>
+                    </ul>
+                </div>
+
+                <h4>Step-by-Step: Building the Leg Rig</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Phase 1: Setup Deformation Bones</h4>
+                    
+                    <ol>
+                        <li><strong>Rename deformation bones:</strong>
+                            <ul>
+                                <li>thigh.L → "DEF_thigh.L"</li>
+                                <li>shin.L → "DEF_shin.L"</li>
+                                <li>foot.L → "DEF_foot.L"</li>
+                                <li>toe.L → "DEF_toe.L" (if present)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Verify bone chain:</strong>
+                            <ul>
+                                <li>DEF_thigh.L → DEF_shin.L → DEF_foot.L → DEF_toe.L</li>
+                                <li>All connected in parent-child hierarchy</li>
+                                <li>DEF_thigh.L parents to pelvis/hip bone</li>
+                            </ul>
+                        </li>
+                        <li><strong>Organize to hidden layer:</strong>
+                            <ul>
+                                <li>Move all DEF bones to layer 31</li>
+                                <li>Lock transforms (prevent direct manipulation)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Phase 2: Create FK Control Chain</h4>
+                    
+                    <ol>
+                        <li><strong>Duplicate DEF bones for FK:</strong>
+                            <ul>
+                                <li>Edit Mode, select all DEF leg bones</li>
+                                <li><code>Shift+D</code>, <code>Enter</code></li>
+                                <li>Rename to FK_thigh.L, FK_shin.L, FK_foot.L, FK_toe.L</li>
+                            </ul>
+                        </li>
+                        <li><strong>Clear and re-parent FK chain:</strong>
+                            <ul>
+                                <li>Select all FK bones, <code>Alt+P</code> > Clear Parent (Keep Transform)</li>
+                                <li>Re-parent properly: toe → foot → shin → thigh</li>
+                                <li>Parent FK_thigh.L to pelvis/hip</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add custom shapes:</strong>
+                            <ul>
+                                <li>FK_thigh.L: Large circle</li>
+                                <li>FK_shin.L: Medium circle</li>
+                                <li>FK_foot.L: Small circle</li>
+                                <li>FK_toe.L: Tiny circle</li>
+                                <li>Decreasing size down chain</li>
+                            </ul>
+                        </li>
+                        <li><strong>Organize:</strong>
+                            <ul>
+                                <li>Layer 1, bone group "Left_FK" (blue)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Phase 3: Create IK System with Foot Controls</h4>
+                    
+                    <p><strong>This is the complex part—foot pivot hierarchy!</strong></p>
+                    
+                    <ol>
+                        <li><strong>Create mechanism IK bones:</strong>
+                            <ul>
+                                <li>Edit Mode, duplicate DEF_thigh.L and DEF_shin.L</li>
+                                <li>Rename to MCH_IK_thigh.L, MCH_IK_shin.L</li>
+                                <li>Clear parents</li>
+                                <li>Re-parent: MCH_IK_shin.L → MCH_IK_thigh.L</li>
+                            </ul>
+                        </li>
+                        <li><strong>Create IK leg target (hidden mechanism bone):</strong>
+                            <ul>
+                                <li>Duplicate DEF_foot.L</li>
+                                <li>Rename to "MCH_IK_leg_target.L"</li>
+                                <li>Clear parent</li>
+                                <li>Position at ankle (end of shin bone)</li>
+                                <li>This will be the actual IK target</li>
+                            </ul>
+                        </li>
+                        <li><strong>Create knee pole target:</strong>
+                            <ul>
+                                <li><code>Shift+A</code> > Single Bone</li>
+                                <li>Position in front of knee (about shin-length forward)</li>
+                                <li>Rename to "IK_knee_pole.L"</li>
+                                <li>Scale small (<code>S 0.3</code>)</li>
+                                <li>Clear parent (independent control)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Create toe pivot bone:</strong>
+                            <ul>
+                                <li>Add Single Bone</li>
+                                <li>Position at ball of foot (where toes bend)</li>
+                                <li>Rename to "IK_toe_pivot.L"</li>
+                                <li>Orient bone to point forward along foot</li>
+                                <li>Clear parent for now</li>
+                            </ul>
+                        </li>
+                        <li><strong>Create heel pivot bone:</strong>
+                            <ul>
+                                <li>Add Single Bone</li>
+                                <li>Position at heel (back of foot)</li>
+                                <li>Rename to "IK_heel_pivot.L"</li>
+                                <li>Orient bone to match foot direction</li>
+                                <li>Clear parent for now</li>
+                            </ul>
+                        </li>
+                        <li><strong>Create main foot control:</strong>
+                            <ul>
+                                <li>Add Single Bone</li>
+                                <li>Position at center/ankle of foot</li>
+                                <li>Rename to "IK_foot.L"</li>
+                                <li>Scale larger (this is main control animator grabs)</li>
+                                <li>Clear parent (independent control)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Setup foot control hierarchy (CRITICAL!):</strong>
+                            <ul>
+                                <li>Select MCH_IK_leg_target.L, Shift-select IK_toe_pivot.L</li>
+                                <li><code>Ctrl+P</code> > Keep Offset (target parents to toe pivot)</li>
+                                <li>Select IK_toe_pivot.L, Shift-select IK_heel_pivot.L</li>
+                                <li><code>Ctrl+P</code> > Keep Offset (toe pivot parents to heel pivot)</li>
+                                <li>Select IK_heel_pivot.L, Shift-select IK_foot.L</li>
+                                <li><code>Ctrl+P</code> > Keep Offset (heel pivot parents to foot control)</li>
+                                <li><strong>Final hierarchy:</strong> IK_foot → heel_pivot → toe_pivot → leg_target</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add IK constraint:</strong>
+                            <ul>
+                                <li>Pose Mode, select MCH_IK_shin.L</li>
+                                <li>Add Constraint > Inverse Kinematics</li>
+                                <li>Target: Armature, Bone: MCH_IK_leg_target.L</li>
+                                <li>Chain Length: 2 (thigh + shin)</li>
+                                <li>Pole Target: Armature, Bone: IK_knee_pole.L</li>
+                                <li>Pole Angle: Adjust (try 0°, 90°, -90° until knee points correctly)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Phase 4: Add Custom Shapes and Organization</h4>
+                    
+                    <ol>
+                        <li><strong>IK_foot.L shape:</strong>
+                            <ul>
+                                <li>Create foot-shaped mesh (rectangle scaled to foot proportions)</li>
+                                <li>Or use cube scaled flat and long</li>
+                                <li>Assign as custom shape</li>
+                                <li>Make it LARGE (easy to select, main control)</li>
+                            </ul>
+                        </li>
+                        <li><strong>IK_knee_pole.L shape:</strong>
+                            <ul>
+                                <li>Small sphere or diamond</li>
+                                <li>Should be visible but not overwhelming</li>
+                            </ul>
+                        </li>
+                        <li><strong>Pivot bones (optional):</strong>
+                            <ul>
+                                <li>Can add small custom shapes to heel/toe pivots</li>
+                                <li>Or hide them entirely (animator uses foot control only)</li>
+                                <li>Professional choice: Small arrow shapes to show pivot direction</li>
+                            </ul>
+                        </li>
+                        <li><strong>Organize layers:</strong>
+                            <ul>
+                                <li>IK_foot.L, IK_knee_pole.L: Layer 1 (main controls)</li>
+                                <li>Pivot bones: Layer 2 (secondary controls) or hidden</li>
+                                <li>MCH bones: Layer 30 (hidden mechanism)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Bone groups:</strong>
+                            <ul>
+                                <li>IK controls: "Left_IK" (cyan color)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Phase 5: Connect to Deformation Bones</h4>
+                    
+                    <ol>
+                        <li><strong>DEF bones get Copy Rotation from FK:</strong>
+                            <ul>
+                                <li>DEF_thigh.L: Copy Rotation from FK_thigh.L (influence 1.0)</li>
+                                <li>DEF_shin.L: Copy Rotation from FK_shin.L (influence 1.0)</li>
+                                <li>DEF_foot.L: Copy Rotation from FK_foot.L (influence 1.0)</li>
+                                <li>DEF_toe.L: Copy Rotation from FK_toe.L (influence 1.0)</li>
+                            </ul>
+                        </li>
+                        <li><strong>DEF bones get Copy Rotation from IK:</strong>
+                            <ul>
+                                <li>DEF_thigh.L: Add second Copy Rotation from MCH_IK_thigh.L (influence 0.0)</li>
+                                <li>DEF_shin.L: Add second Copy Rotation from MCH_IK_shin.L (influence 0.0)</li>
+                                <li>DEF_foot.L: Add second Copy Rotation from MCH_IK_leg_target.L (influence 0.0)</li>
+                                <li>DEF_toe.L: Add second Copy Rotation from IK_toe_pivot.L (influence 0.0)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Create switch property:</strong>
+                            <ul>
+                                <li>Custom property on armature: "leg_L_IKFK"</li>
+                                <li>Min 0.0, Max 1.0, Default 0.0</li>
+                            </ul>
+                        </li>
+                        <li><strong>Drive constraint influences:</strong>
+                            <ul>
+                                <li>FK constraints: Expression <code>1.0 - var</code> (inverse)</li>
+                                <li>IK constraints: Expression <code>var</code> (direct)</li>
+                                <li>All driven by "leg_L_IKFK" property</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <h4>Advanced Foot Features</h4>
+
+                <div class="card">
+                    <h4>🦶 Foot Roll and Toe Bend Controls</h4>
+                    
+                    <p><strong>Using the Foot Control System:</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>1. Basic Foot Positioning:</strong></p>
+                    <ul>
+                        <li>Move IK_foot.L (<code>G</code> to grab)</li>
+                        <li>Entire leg follows, foot plants where positioned</li>
+                        <li>This is 90% of leg animation</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Foot Roll (Heel to Toe):</strong></p>
+                    <ul>
+                        <li><strong>Heel down, toes up:</strong>
+                            <ul>
+                                <li>Select IK_heel_pivot.L</li>
+                                <li>Rotate on Y-axis (or whichever axis tips foot backward)</li>
+                                <li>Foot pivots on heel</li>
+                                <li>Used at beginning of walk cycle contact</li>
+                            </ul>
+                        </li>
+                        <li><strong>Toes down, heel up:</strong>
+                            <ul>
+                                <li>Select IK_toe_pivot.L</li>
+                                <li>Rotate on Y-axis (tips foot forward)</li>
+                                <li>Foot pivots on ball</li>
+                                <li>Used for push-off in walk cycle</li>
+                            </ul>
+                        </li>
+                        <li><strong>Smooth roll animation:</strong>
+                            <ul>
+                                <li>Start: Heel pivot rotated back (heel contact)</li>
+                                <li>Mid: Both pivots neutral (flat foot)</li>
+                                <li>End: Toe pivot rotated forward (push-off)</li>
+                                <li>Creates natural foot roll motion!</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Advanced: Rock Side to Side (Optional):</strong></p>
+                    <ul>
+                        <li>Some rigs add side pivot bones (inside/outside of foot)</li>
+                        <li>Allows foot to rock left/right (weight shift)</li>
+                        <li>Professional feature but more complex to setup</li>
+                        <li>Not essential for most character rigs</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h4>⚠️ Common Leg Rig Problems</h4>
+                    
+                    <p><strong>Problem: Foot Rotates When Moving IK_foot.L</strong></p>
+                    <ul>
+                        <li><strong>Cause:</strong> Foot control hierarchy wrong (foot should parent pivots, not be child)</li>
+                        <li><strong>Fix:</strong> Verify hierarchy: IK_foot → heel_pivot → toe_pivot → leg_target</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Knee Flips When Leg Straightens</strong></p>
+                    <ul>
+                        <li><strong>Cause:</strong> Pole target missing or positioned wrong</li>
+                        <li><strong>Fix:</strong> Add knee pole target in front of leg, adjust pole angle</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Foot Roll Doesn't Work (Pivots Don't Rotate Foot)</strong></p>
+                    <ul>
+                        <li><strong>Cause:</strong> Pivot bones positioned wrong (not at actual pivot points)</li>
+                        <li><strong>Fix:</strong> Heel pivot must be AT heel, toe pivot AT ball of foot (exact location matters!)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Leg Deformation Looks Wrong</strong></p>
+                    <ul>
+                        <li><strong>Cause:</strong> Weight painting issue, not rig issue</li>
+                        <li><strong>Fix:</strong> Return to Weight Paint Mode, refine knee and hip weights</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Problem: Toes Don't Bend</strong></p>
+                    <ul>
+                        <li><strong>Cause:</strong> DEF_toe.L not copying rotation from pivot or FK control</li>
+                        <li><strong>Fix:</strong> Add Copy Rotation constraint to DEF_toe.L from appropriate source</li>
+                    </ul>
+                </div>
+
+                <h4>Testing the Complete Leg Rig</h4>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Verification Checklist</h4>
+                    
+                    <p><strong>FK Mode Test (leg_L_IKFK = 0.0):</strong></p>
+                    <ul>
+                        <li>✓ Rotate FK_thigh.L → leg swings from hip</li>
+                        <li>✓ Rotate FK_shin.L → lower leg and foot rotate</li>
+                        <li>✓ Rotate FK_foot.L → foot tilts at ankle</li>
+                        <li>✓ Rotate FK_toe.L → toes bend</li>
+                        <li>✓ Natural swinging motion (for FK leg animation)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>IK Mode Test (leg_L_IKFK = 1.0):</strong></p>
+                    <ul>
+                        <li>✓ Move IK_foot.L → leg reaches toward foot position</li>
+                        <li>✓ Move IK_knee_pole.L → knee direction changes</li>
+                        <li>✓ Rotate IK_heel_pivot.L → foot tips on heel</li>
+                        <li>✓ Rotate IK_toe_pivot.L → foot tips on ball</li>
+                        <li>✓ Combined heel/toe rotation → smooth foot roll</li>
+                        <li>✓ Foot stays planted when moving body (IK planting works!)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Walk Cycle Test:</strong></p>
+                    <ul>
+                        <li>✓ Foot plants on ground (IK_foot.L positioned)</li>
+                        <li>✓ Heel contact (IK_heel_pivot.L rotated back)</li>
+                        <li>✓ Flat foot (pivots neutral)</li>
+                        <li>✓ Toe push-off (IK_toe_pivot.L rotated forward)</li>
+                        <li>✓ Foot lifts (IK_foot.L moves up and forward)</li>
+                        <li>✓ Leg swings (body moves, foot stays planted via IK)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Mesh Deformation Test:</strong></p>
+                    <ul>
+                        <li>✓ Leg mesh follows smoothly in both FK and IK</li>
+                        <li>✓ Knee bends naturally (no pinching)</li>
+                        <li>✓ Hip/buttock deformation looks natural</li>
+                        <li>✓ Ankle and foot deform properly</li>
+                        <li>✓ Toes bend when toe pivot rotates</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <p><strong>🎉 Professional Leg Rig Complete!</strong> Leg rigging with proper foot controls is considered one of the most challenging aspects of character rigging. The foot pivot hierarchy you just built is used in every professional animation studio—from Pixar to game studios. The ability to create smooth foot rolls, plant feet firmly, and switch between IK and FK gives animators the tools they need to create believable locomotion. Master this leg rig, and you can tackle any limb rigging challenge!</p>
+                </blockquote>
+
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 style="color: white;">🎯 Leg Rig Summary</h3>
+                    <ul style="color: white;">
+                        <li><strong>Complex foot hierarchy:</strong> IK_foot → heel_pivot → toe_pivot → leg_target</li>
+                        <li><strong>Foot roll capability:</strong> Heel and toe pivots create natural walking motion</li>
+                        <li><strong>IK dominant:</strong> Legs primarily use IK (planting), FK for swinging/relaxed poses</li>
+                        <li><strong>Knee pole target:</strong> Essential for preventing knee flipping</li>
+                        <li><strong>Same FK/IK switching:</strong> Uses identical system as arm rig</li>
+                        <li><strong>Pivot positioning critical:</strong> Must be at exact heel/ball locations</li>
+                        <li><strong>Walk cycle ready:</strong> Rig supports full locomotion animation</li>
+                        <li><strong>Mirror for right leg:</strong> Repeat process for leg.R with same structure</li>
+                    </ul>
+                    <p style="color: white; margin-bottom: 0;"><strong>Leg rigging complete! Next: Spine and torso controls!</strong></p>
+                </div>
+
+            </section>
+
+<!-- ============================================
+     END OF PART 07
+     Continue with lesson_39_rigging_essentials_part_08.html
+     ============================================ -->
