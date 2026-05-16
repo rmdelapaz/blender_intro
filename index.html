@@ -4,541 +4,582 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Blender Mastery Course - Complete beginner-friendly course for learning 3D modeling, animation, rendering, and more">
-    <meta name="author" content="Blender Course">
+    <meta name="author" content="PetalFawnStudio">
     <title>Blender Mastery Course - Complete 3D Creation Guide</title>
-    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="styles/main.css">
     <link rel="icon" type="image/png" href="/favicon.png">
+    <style>
+        /* ======= Index-specific styles ======= */
+
+        /* --- Site nav bar --- */
+        .site-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: var(--code-bg);
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+        }
+        .site-nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .site-nav a:hover { text-decoration: underline; }
+        .site-nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        #theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.3rem 0.6rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: var(--text-color);
+            line-height: 1;
+        }
+        #theme-toggle:hover {
+            background: var(--border-color);
+        }
+
+        /* --- Hero --- */
+        .hero {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            background: linear-gradient(135deg, #EA7600 0%, #F59E0B 50%, #EA7600 100%);
+            color: #fff;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .hero h1 {
+            background: none;
+            color: #fff;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
+            margin: 0 0 0.5rem;
+            padding: 0;
+            text-align: center;
+            border: none;
+        }
+        .hero .subtitle { font-size: 1.15rem; opacity: 0.95; margin: 0.25rem 0; }
+        .hero .tagline  { font-size: 0.95rem; opacity: 0.85; margin: 0; }
+
+        /* --- Welcome card --- */
+        .welcome-card {
+            background: linear-gradient(135deg, #EA7600 0%, #F59E0B 100%);
+            color: #fff;
+            border-radius: 10px;
+            padding: 1.75rem;
+            margin-bottom: 2rem;
+        }
+        .welcome-card h2 { color: #fff; border: none; margin-top: 0; }
+        .welcome-card p  { color: #fff; }
+
+        /* --- Feature grid --- */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin: 1.25rem 0 2rem;
+        }
+        .feature-card {
+            padding: 1.25rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            background: var(--code-bg);
+        }
+        .feature-card h3 { margin-top: 0; font-size: 1.15rem; }
+        .feature-card p  { margin-bottom: 0; font-size: 0.95rem; }
+
+        /* --- Module cards --- */
+        .module-card {
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+            background: var(--code-bg);
+        }
+        .module-card h3 { margin-top: 0; }
+        .module-card .module-desc {
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        /* --- Lesson links --- */
+        .lesson-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 0.5rem;
+        }
+        .lesson-list li a {
+            display: block;
+            padding: 0.65rem 0.9rem;
+            background: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-left: 3px solid transparent;
+            border-radius: 5px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: border-color 0.2s, transform 0.15s, background 0.2s;
+            font-size: 0.95rem;
+        }
+        .lesson-list li a:hover {
+            border-left-color: #EA7600;
+            transform: translateX(4px);
+            background: var(--code-bg);
+        }
+        .lesson-list li a strong { color: #EA7600; }
+
+        /* --- Course structure boxes --- */
+        .structure-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin: 1.25rem 0;
+        }
+        .structure-box {
+            padding: 1.25rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            background: var(--code-bg);
+        }
+        .structure-box h3 { margin-top: 0; font-size: 1.1rem; }
+
+        /* --- Info banners --- */
+        .info-banner {
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin-top: 0.75rem;
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+        .info-banner p { margin: 0; }
+
+        /* --- CTA section --- */
+        .cta-section {
+            background: linear-gradient(135deg, #EA7600 0%, #F59E0B 50%, #EA7600 100%);
+            color: #fff;
+            border-radius: 10px;
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            margin: 2rem 0;
+        }
+        .cta-section h2 { color: #fff; border: none; margin-top: 0; }
+        .cta-section p  { color: #fff; }
+        .cta-btn {
+            display: inline-block;
+            background: #fff;
+            color: #EA7600;
+            padding: 0.85rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-top: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.15s;
+        }
+        .cta-btn:hover { transform: translateY(-2px); color: #EA7600; }
+
+        /* --- Tips grid --- */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.25rem;
+            margin: 1.25rem 0 2rem;
+        }
+        .tip-card {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            background: var(--code-bg);
+        }
+        .tip-card h4 { margin-top: 0; font-size: 1.05rem; }
+        .tip-card p  { margin-bottom: 0; font-size: 0.93rem; }
+
+        /* --- Why grid --- */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin-top: 1rem;
+        }
+        .why-grid h3 { font-size: 1.05rem; margin-top: 0; }
+        .why-grid p  { margin-bottom: 0; font-size: 0.93rem; }
+
+        /* --- Requirements --- */
+        .req-card ul {
+            line-height: 1.8;
+        }
+        .req-highlight {
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin-top: 0.75rem;
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+        }
+        .req-highlight p { margin: 0.25rem 0; }
+
+        /* --- Footer --- */
+        .site-footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--code-bg);
+            border-top: 1px solid var(--border-color);
+            border-radius: 0 0 8px 8px;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .site-footer a { color: var(--primary-color); }
+
+        /* --- Responsive --- */
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 1.6rem; }
+            .hero { padding: 1.75rem 1rem; }
+            .structure-grid { grid-template-columns: 1fr; }
+            .cta-section { padding: 1.75rem 1rem; }
+            .site-nav { flex-direction: column; align-items: flex-start; }
+            .site-nav-links { width: 100%; justify-content: space-between; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Header -->
-    <header style="background: linear-gradient(135deg, #EA7600 0%, #F59E0B 50%, #EA7600 100%); color: white; padding: 3rem 2rem; text-align: center;">
-        <h1 style="margin: 0; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">🎨 Blender Mastery Course</h1>
-        <p style="font-size: 1.3rem; margin-top: 1rem; opacity: 0.95;">Complete 3D Creation from Beginner to Professional</p>
-        <p style="font-size: 1rem; margin-top: 0.5rem; opacity: 0.9;">Master Blender 4.0+ with Hands-On Projects</p>
+    <!-- Site Navigation -->
+    <nav class="site-nav" aria-label="Site Navigation">
+        <a href="https://rays-home.netlify.app/" style="font-size:1.05rem;">Ray's House of Fun</a>
+        <div class="site-nav-links">
+            <a href="index.html">Course Home</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <button id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero">
+        <h1>Blender Mastery Course</h1>
+        <p class="subtitle">Complete 3D Creation from Beginner to Professional</p>
+        <p class="tagline">Master Blender 4.0+ with Hands-On Projects</p>
     </header>
 
-    <main style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+    <main class="container">
 
-        <!-- Welcome Section -->
-        <section id="welcome" style="margin-bottom: 3rem;">
-            <div class="card" style="background: linear-gradient(135deg, #EA7600 0%, #F59E0B 100%); color: white; padding: 2rem;">
-                <h2 style="color: white; margin-top: 0;">👋 Welcome to Blender Mastery!</h2>
-                <p style="color: white; font-size: 1.1rem; line-height: 1.6;">Welcome to the most comprehensive Blender course for beginners! Whether you dream of creating stunning 3D art, animations, game assets, architectural visualizations, or visual effects, you're in the right place. This course takes you from absolute zero to professional competency, step by step.</p>
-                <p style="color: white; font-size: 1.1rem; line-height: 1.6;">Blender is the world's leading free and open-source 3D creation suite. It's used by hobbyists, freelancers, and major studios worldwide. Best of all? It's completely free. No subscriptions, no limitations—just pure creative power at your fingertips.</p>
-            </div>
+        <!-- Welcome -->
+        <section class="welcome-card">
+            <h2>Welcome to Blender Mastery!</h2>
+            <p>Whether you dream of creating stunning 3D art, animations, game assets, architectural visualizations, or visual effects — you're in the right place. This course takes you from absolute zero to professional competency, step by step.</p>
+            <p style="margin-bottom:0;">Blender is the world's leading free and open-source 3D creation suite, used by hobbyists, freelancers, and major studios worldwide. No subscriptions, no limitations — just pure creative power at your fingertips.</p>
         </section>
 
-        <!-- Course Overview -->
-        <section id="overview" style="margin-bottom: 3rem;">
-            <h2>📚 What You'll Master</h2>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
-                <div class="card" style="background: #FEF3C7; border-left: 4px solid #F59E0B;">
-                    <h3>🎯 3D Modeling</h3>
-                    <p>Master polygon modeling, sculpting, and hard surface techniques. Create anything from characters to props to environments.</p>
-                </div>
-                
-                <div class="card" style="background: #DBEAFE; border-left: 4px solid #3B82F6;">
-                    <h3>🎨 Materials & Texturing</h3>
-                    <p>Create photorealistic surfaces using PBR materials, UV mapping, and procedural textures in the Shader Editor.</p>
-                </div>
-                
-                <div class="card" style="background: #FCE7F3; border-left: 4px solid #EC4899;">
-                    <h3>💡 Lighting & Rendering</h3>
-                    <p>Master professional lighting techniques and both render engines (Eevee real-time and Cycles path tracing).</p>
-                </div>
-                
-                <div class="card" style="background: #E0E7FF; border-left: 4px solid #6366F1;">
-                    <h3>🎬 Animation</h3>
-                    <p>Bring your creations to life with keyframe animation, character rigging, and the Graph Editor.</p>
-                </div>
-                
-                <div class="card" style="background: #D1FAE5; border-left: 4px solid #10B981;">
-                    <h3>⚡ Simulations</h3>
-                    <p>Create dynamic effects with particle systems, cloth simulation, rigid body physics, and more.</p>
-                </div>
-                
-                <div class="card" style="background: #FEE2E2; border-left: 4px solid #EF4444;">
-                    <h3>🚀 Professional Workflows</h3>
-                    <p>Learn industry-standard practices, optimization techniques, and portfolio-ready project creation.</p>
-                </div>
+        <!-- What You'll Master -->
+        <section>
+            <h2>What You'll Master</h2>
+            <div class="feature-grid">
+                <div class="feature-card" style="border-left-color:#F59E0B;"><h3>3D Modeling</h3><p>Master polygon modeling, sculpting, and hard surface techniques. Create anything from characters to props to environments.</p></div>
+                <div class="feature-card" style="border-left-color:#3B82F6;"><h3>Materials &amp; Texturing</h3><p>Create photorealistic surfaces using PBR materials, UV mapping, and procedural textures in the Shader Editor.</p></div>
+                <div class="feature-card" style="border-left-color:#EC4899;"><h3>Lighting &amp; Rendering</h3><p>Master professional lighting techniques and both render engines (Eevee real-time and Cycles path tracing).</p></div>
+                <div class="feature-card" style="border-left-color:#6366F1;"><h3>Animation</h3><p>Bring your creations to life with keyframe animation, character rigging, and the Graph Editor.</p></div>
+                <div class="feature-card" style="border-left-color:#10B981;"><h3>Simulations</h3><p>Create dynamic effects with particle systems, cloth simulation, rigid body physics, and more.</p></div>
+                <div class="feature-card" style="border-left-color:#EF4444;"><h3>Professional Workflows</h3><p>Learn industry-standard practices, optimization techniques, and portfolio-ready project creation.</p></div>
             </div>
         </section>
 
         <!-- Course Structure -->
-        <section id="structure" style="margin-bottom: 3rem;">
-            <h2>🗺️ Course Structure</h2>
-            
+        <section>
+            <h2>Course Structure</h2>
             <div class="card">
-                <p style="font-size: 1.1rem; line-height: 1.6;">This comprehensive course consists of <strong>12 modules</strong> with <strong>51 detailed lessons</strong>. Each lesson includes clear explanations, visual demonstrations, practical exercises, and hands-on projects. The course is designed to be taken sequentially, with each lesson building naturally on previous knowledge.</p>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
-                    <div style="background: #FEF3C7; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #F59E0B;">
-                        <h3 style="margin-top: 0; color: #EA7600;">📖 Introduction Course</h3>
-                        <p><strong>Modules 1-6 (27 Lessons)</strong></p>
+                <p>This comprehensive course consists of <strong>12 modules</strong> with <strong>51 detailed lessons</strong>. Each lesson includes clear explanations, visual demonstrations, practical exercises, and hands-on projects. The course is designed to be taken sequentially, with each lesson building naturally on previous knowledge.</p>
+                <div class="structure-grid">
+                    <div class="structure-box" style="border-left-color:#F59E0B;">
+                        <h3 style="color:#EA7600;">Introduction Course</h3>
+                        <p><strong>Modules 1–6 (27 Lessons)</strong></p>
                         <p>Master the fundamentals: interface, modeling, materials, lighting, camera work, and basic animation.</p>
-                        <p><strong>Duration:</strong> 12-16 weeks</p>
+                        <p><strong>Duration:</strong> 12–16 weeks</p>
                     </div>
-                    
-                    <div style="background: #E0E7FF; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #6366F1;">
-                        <h3 style="margin-top: 0; color: #4338CA;">🎓 Advanced Course</h3>
-                        <p><strong>Modules 7-12 (24 Lessons)</strong></p>
+                    <div class="structure-box" style="border-left-color:#6366F1;">
+                        <h3 style="color:#4338CA;">Advanced Course</h3>
+                        <p><strong>Modules 7–12 (24 Lessons)</strong></p>
                         <p>Advanced techniques: sculpting, simulations, character creation, node systems, and professional workflows.</p>
-                        <p><strong>Duration:</strong> 8-12 weeks</p>
+                        <p><strong>Duration:</strong> 8–12 weeks</p>
                     </div>
                 </div>
-                
-                <div style="background: #D1FAE5; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
-                    <p style="margin: 0;"><strong>⏱️ Time Commitment:</strong> Each lesson takes 45-75 minutes. Work at your own pace—consistency matters more than speed!</p>
-                </div>
-                
-                <div style="background: #DBEAFE; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
-                    <p style="margin: 0;"><strong>🎯 Learning Approach:</strong> Hands-on, project-based learning with friendly instruction. No jargon without explanation. No prior 3D experience required.</p>
-                </div>
+                <div class="info-banner"><p><strong>Time Commitment:</strong> Each lesson takes 45–75 minutes. Work at your own pace — consistency matters more than speed!</p></div>
+                <div class="info-banner"><p><strong>Learning Approach:</strong> Hands-on, project-based learning with friendly instruction. No jargon without explanation. No prior 3D experience required.</p></div>
             </div>
         </section>
 
-        <!-- Module List - INTRO COURSE -->
-        <section id="modules-intro" style="margin-bottom: 3rem;">
-            <h2>📖 Introduction Course (Modules 1-6)</h2>
-            <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">Start here! These foundational modules teach you everything you need to create professional 3D artwork.</p>
+        <!-- Modules: Introduction Course -->
+        <section id="modules-intro">
+            <h2>Introduction Course (Modules 1–6)</h2>
+            <p style="color:var(--text-light); margin-bottom:1.5rem;">Start here! These foundational modules teach you everything you need to create professional 3D artwork.</p>
 
             <!-- Module 1 -->
-            <div class="card" style="margin-bottom: 2rem; border-left: 4px solid #EA7600;">
-                <h3 style="color: #EA7600; margin-top: 0;">Module 1: Getting Started with Blender</h3>
-                <p style="color: #666; margin-bottom: 1rem;">Begin your Blender journey. Learn the interface, navigation, and fundamental concepts that everything else builds upon.</p>
-                
-                <div style="display: grid; gap: 0.75rem;">
-                    <a href="lesson_01_welcome_to_blender.html" class="lesson-link">
-                        <strong>Lesson 1:</strong> Welcome to Blender
-                    </a>
-                    <a href="lesson_02_blender_interface.html" class="lesson-link">
-                        <strong>Lesson 2:</strong> The Blender Interface
-                    </a>
-                    <a href="lesson_03_navigation_viewport.html" class="lesson-link">
-                        <strong>Lesson 3:</strong> Navigation and Viewport Control
-                    </a>
-                    <a href="lesson_04_object_manipulation.html" class="lesson-link">
-                        <strong>Lesson 4:</strong> Basic Object Manipulation
-                    </a>
-                </div>
+            <div class="module-card" style="border-left-color:#EA7600;">
+                <h3 style="color:#EA7600;">Module 1: Getting Started with Blender</h3>
+                <p class="module-desc">Begin your Blender journey. Learn the interface, navigation, and fundamental concepts that everything else builds upon.</p>
+                <ul class="lesson-list">
+                    <li><a href="lesson_01_welcome_to_blender.html"><strong>Lesson 1:</strong> Welcome to Blender</a></li>
+                    <li><a href="lesson_02_the_blender_interface.html"><strong>Lesson 2:</strong> The Blender Interface</a></li>
+                    <li><a href="lesson_03_navigation_and_viewport_control.html"><strong>Lesson 3:</strong> Navigation and Viewport Control</a></li>
+                    <li><a href="lesson_04_basic_object_manipulation.html"><strong>Lesson 4:</strong> Basic Object Manipulation</a></li>
+                </ul>
             </div>
 
             <!-- Module 2 -->
-            <div class="card" style="margin-bottom: 2rem; border-left: 4px solid #F59E0B;">
-                <h3 style="color: #F59E0B; margin-top: 0;">Module 2: 3D Modeling Fundamentals</h3>
-                <p style="color: #666; margin-bottom: 1rem;">Master polygon modeling techniques. Learn to create any 3D object you can imagine through hands-on practice.</p>
-                
-                <div style="display: grid; gap: 0.75rem;">
-                    <a href="lesson_05_meshes_geometry.html" class="lesson-link">
-                        <strong>Lesson 5:</strong> Understanding Meshes and Geometry
-                    </a>
-                    <a href="lesson_06_edit_mode.html" class="lesson-link">
-                        <strong>Lesson 6:</strong> Edit Mode Essentials
-                    </a>
-                    <a href="lesson_07_first_model.html" class="lesson-link">
-                        <strong>Lesson 7:</strong> Modeling Your First Object
-                    </a>
-                    <a href="lesson_08_modifiers_intro.html" class="lesson-link">
-                        <strong>Lesson 8:</strong> Modifiers Introduction
-                    </a>
-                    <a href="lesson_09_precision_modeling.html" class="lesson-link">
-                        <strong>Lesson 9:</strong> Precision Modeling Techniques
-                    </a>
-                </div>
+            <div class="module-card" style="border-left-color:#F59E0B;">
+                <h3 style="color:#F59E0B;">Module 2: 3D Modeling Fundamentals</h3>
+                <p class="module-desc">Master polygon modeling techniques. Learn to create any 3D object you can imagine through hands-on practice.</p>
+                <ul class="lesson-list">
+                    <li><a href="lesson_05_understanding_meshes_and_geometry.html"><strong>Lesson 5:</strong> Understanding Meshes and Geometry</a></li>
+                    <li><a href="lesson_06_edit_mode_essentials.html"><strong>Lesson 6:</strong> Edit Mode Essentials</a></li>
+                    <li><a href="lesson_07_modeling_your_first_object.html"><strong>Lesson 7:</strong> Modeling Your First Object</a></li>
+                    <li><a href="lesson_08_modifiers_introduction.html"><strong>Lesson 8:</strong> Modifiers Introduction</a></li>
+                    <li><a href="lesson_09_precision_modeling_techniques.html"><strong>Lesson 9:</strong> Precision Modeling Techniques</a></li>
+                </ul>
             </div>
 
             <!-- Module 3 -->
-            <div class="card" style="margin-bottom: 2rem; border-left: 4px solid #3B82F6;">
-                <h3 style="color: #3B82F6; margin-top: 0;">Module 3: Materials and Texturing</h3>
-                <p style="color: #666; margin-bottom: 1rem;">Create realistic surfaces. Learn PBR materials, UV unwrapping, texture painting, and procedural textures.</p>
-                
-                <div style="display: grid; gap: 0.75rem;">
-                    <a href="lesson_10_shader_editor.html" class="lesson-link">
-                        <strong>Lesson 10:</strong> Introduction to Shader Editor
-                    </a>
-                    <a href="lesson_11_pbr_materials.html" class="lesson-link">
-                        <strong>Lesson 11:</strong> PBR Materials Explained
-                    </a>
-                    <a href="lesson_12_uv_unwrapping.html" class="lesson-link">
-                        <strong>Lesson 12:</strong> UV Unwrapping Basics
-                    </a>
-                    <a href="lesson_13_texture_painting.html" class="lesson-link">
-                        <strong>Lesson 13:</strong> Texture Painting
-                    </a>
-                    <a href="lesson_14_procedural_textures.html" class="lesson-link">
-                        <strong>Lesson 14:</strong> Procedural Textures
-                    </a>
-                </div>
+            <div class="module-card" style="border-left-color:#3B82F6;">
+                <h3 style="color:#3B82F6;">Module 3: Materials and Texturing</h3>
+                <p class="module-desc">Create realistic surfaces. Learn PBR materials, UV unwrapping, texture painting, and procedural textures.</p>
+                <ul class="lesson-list">
+                    <li><a href="lesson_10_shader_editor_introduction.html"><strong>Lesson 10:</strong> Introduction to Shader Editor</a></li>
+                    <li><a href="lesson_11_pbr_materials_explained.html"><strong>Lesson 11:</strong> PBR Materials Explained</a></li>
+                    <li><a href="lesson_12_uv_unwrapping_basics.html"><strong>Lesson 12:</strong> UV Unwrapping Basics</a></li>
+                    <li><a href="lesson_13_texture_painting_basics.html"><strong>Lesson 13:</strong> Texture Painting Basics</a></li>
+                    <li><a href="lesson_14_advanced_materials.html"><strong>Lesson 14:</strong> Advanced Materials</a></li>
+                </ul>
             </div>
 
             <!-- Module 4 -->
-            <div class="card" style="margin-bottom: 2rem; border-left: 4px solid #EC4899;">
-                <h3 style="color: #EC4899; margin-top: 0;">Module 4: Lighting and Rendering</h3>
-                <p style="color: #666; margin-bottom: 1rem;">Master the art of lighting. Learn professional techniques and both Eevee and Cycles render engines.</p>
-                
-                <div style="display: grid; gap: 0.75rem;">
-                    <a href="lesson_15_light_types.html" class="lesson-link">
-                        <strong>Lesson 15:</strong> Understanding Light Types
-                    </a>
-                    <a href="lesson_16_three_point_lighting.html" class="lesson-link">
-                        <strong>Lesson 16:</strong> Three-Point Lighting Setup
-                    </a>
-                    <a href="lesson_17_hdri_world.html" class="lesson-link">
-                        <strong>Lesson 17:</strong> HDRI and World Lighting
-                    </a>
-                    <a href="lesson_18_eevee_rendering.html" class="lesson-link">
-                        <strong>Lesson 18:</strong> Eevee Real-time Rendering
-                    </a>
-                    <a href="lesson_19_cycles_rendering.html" class="lesson-link">
-                        <strong>Lesson 19:</strong> Cycles Path Tracing
-                    </a>
-                </div>
+            <div class="module-card" style="border-left-color:#EC4899;">
+                <h3 style="color:#EC4899;">Module 4: Lighting and Rendering</h3>
+                <p class="module-desc">Master the art of lighting. Learn professional techniques and both Eevee and Cycles render engines.</p>
+                <ul class="lesson-list">
+                    <li><a href="lesson_15_understanding_light_types.html"><strong>Lesson 15:</strong> Understanding Light Types</a></li>
+                    <li><a href="lesson_16_three_point_lighting_setup.html"><strong>Lesson 16:</strong> Three-Point Lighting Setup</a></li>
+                    <li><a href="lesson_17_hdri_and_world_lighting.html"><strong>Lesson 17:</strong> HDRI and World Lighting</a></li>
+                    <li><a href="lesson_18_eevee_realtime_rendering.html"><strong>Lesson 18:</strong> Eevee Real-time Rendering</a></li>
+                    <li><a href="lesson_19_cycles_path_tracing.html"><strong>Lesson 19:</strong> Cycles Path Tracing</a></li>
+                </ul>
             </div>
 
             <!-- Module 5 -->
-            <div class="card" style="margin-bottom: 2rem; border-left: 4px solid #6366F1;">
-                <h3 style="color: #6366F1; margin-top: 0;">Module 5: Camera and Composition</h3>
-                <p style="color: #666; margin-bottom: 1rem;">Create compelling shots. Learn camera techniques, composition principles, and cinematic effects.</p>
-                
-                <div style="display: grid; gap: 0.75rem;">
-                    <a href="lesson_20_camera_basics.html" class="lesson-link">
-                        <strong>Lesson 20:</strong> Camera Basics
-                    </a>
-                    <a href="lesson_21_composition.html" class="lesson-link">
-                        <strong>Lesson 21:</strong> Composition Principles
-                    </a>
-                    <a href="lesson_22_depth_of_field.html" class="lesson-link">
-                        <strong>Lesson 22:</strong> Depth of Field and Focus
-                    </a>
-                    <a href="lesson_23_camera_animation.html" class="lesson-link">
-                        <strong>Lesson 23:</strong> Camera Animation
-                    </a>
-                </div>
+            <div class="module-card" style="border-left-color:#6366F1;">
+                <h3 style="color:#6366F1;">Module 5: Camera and Composition</h3>
+                <p class="module-desc">Create compelling shots. Learn camera techniques, composition principles, and cinematic effects.</p>
+                <ul class="lesson-list">
+                    <li><a href="lesson_20_camera_basics.html"><strong>Lesson 20:</strong> Camera Basics</a></li>
+                    <li><a href="lesson_21_composition_principles.html"><strong>Lesson 21:</strong> Composition Principles</a></li>
+                    <li><a href="lesson_22_depth_of_field_and_focus.html"><strong>Lesson 22:</strong> Depth of Field and Focus</a></li>
+                    <li><a href="lesson_23_camera_animation.html"><strong>Lesson 23:</strong> Camera Animation</a></li>
+                </ul>
             </div>
 
             <!-- Module 6 -->
-            <div class="card" style="margin-bottom: 2rem; border-left: 4px solid #10B981;">
-                <h3 style="color: #10B981; margin-top: 0;">Module 6: Introduction to Animation</h3>
-                <p style="color: #666; margin-bottom: 1rem;">Bring your creations to life. Learn keyframe animation, the Graph Editor, and basic character animation.</p>
-                
-                <div style="display: grid; gap: 0.75rem;">
-                    <a href="lesson_24_animation_fundamentals.html" class="lesson-link">
-                        <strong>Lesson 24:</strong> Animation Fundamentals
-                    </a>
-                    <a href="lesson_25_timeline_keyframes.html" class="lesson-link">
-                        <strong>Lesson 25:</strong> The Timeline and Keyframes
-                    </a>
-                    <a href="lesson_26_graph_editor.html" class="lesson-link">
-                        <strong>Lesson 26:</strong> Graph Editor Essentials
-                    </a>
-                    <a href="lesson_27_character_animation.html" class="lesson-link">
-                        <strong>Lesson 27:</strong> Basic Character Animation
-                    </a>
-                </div>
+            <div class="module-card" style="border-left-color:#10B981;">
+                <h3 style="color:#10B981;">Module 6: Introduction to Animation</h3>
+                <p class="module-desc">Bring your creations to life. Learn keyframe animation, the Graph Editor, and basic character animation.</p>
+                <ul class="lesson-list">
+                    <li><a href="lesson_24_animation_fundamentals.html"><strong>Lesson 24:</strong> Animation Fundamentals</a></li>
+                    <li><a href="lesson_25_timeline_and_keyframes.html"><strong>Lesson 25:</strong> Timeline and Keyframes</a></li>
+                    <li><a href="lesson_26_graph_editor_essentials.html"><strong>Lesson 26:</strong> Graph Editor Essentials</a></li>
+                    <li><a href="lesson_27_basic_character_animation.html"><strong>Lesson 27:</strong> Basic Character Animation</a></li>
+                </ul>
             </div>
-
         </section>
 
-        <!-- Module List - ADVANCED COURSE -->
-        <section id="modules-advanced" style="margin-bottom: 3rem;">
-            <h2>🎓 Advanced Course (Modules 7-12)</h2>
-            <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">Ready to level up? These advanced modules cover professional techniques and specialized workflows.</p>
+        <!-- CTA mid-page -->
+        <div class="cta-section">
+            <h2>Ready to Begin?</h2>
+            <p>Every professional was once exactly where you are now. The only difference? They started.</p>
+            <a href="lesson_01_welcome_to_blender.html" class="cta-btn">Start Lesson 1 &rarr;</a>
+        </div>
+
+        <!-- Modules: Advanced Course -->
+        <section id="modules-advanced">
+            <h2>Advanced Course (Modules 7–12)</h2>
+            <p style="color:var(--text-light); margin-bottom:1.5rem;">Ready to level up? These advanced modules cover professional techniques and specialized workflows.</p>
 
             <!-- Module 7 -->
-            <div class="card" style="margin-bottom: 2rem; border-left: 4px solid #8B5CF6;">
-                <h3 style="color: #8B5CF6; margin-top: 0;">Module 7: Advanced Modeling</h3>
-                <p style="color: #666; margin-bottom: 1rem;">Master advanced modeling techniques including sculpting, hard surface modeling, and retopology.</p>
-                
-                <div style="display: grid; gap: 0.75rem;">
-                    <a href="lesson_28_sculpting_basics.html" class="lesson-link">
-                        <strong>Lesson 28:</strong> Sculpting Basics
-                    </a>
-                    <a href="lesson_29_hard_surface_modeling.html" class="lesson-link">
-                        <strong>Lesson 29:</strong> Hard Surface Modeling
-                    </a>
-                    <a href="lesson_30_retopology_fundamentals.html" class="lesson-link">
-                        <strong>Lesson 30:</strong> Retopology Fundamentals
-                    </a>
-                    <a href="lesson_31_advanced_modifier_stack.html" class="lesson-link">
-                        <strong>Lesson 31:</strong> Advanced Modifier Stack
-                    </a>
-                </div>
+            <div class="module-card" style="border-left-color:#8B5CF6;">
+                <h3 style="color:#8B5CF6;">Module 7: Advanced Modeling</h3>
+                <p class="module-desc">Master advanced modeling techniques including sculpting, hard surface modeling, and retopology.</p>
+                <ul class="lesson-list">
+                    <li><a href="lesson_28_sculpting_basics.html"><strong>Lesson 28:</strong> Sculpting Basics</a></li>
+                    <li><a href="lesson_29_hard_surface_modeling.html"><strong>Lesson 29:</strong> Hard Surface Modeling</a></li>
+                    <li><a href="lesson_30_retopology_fundamentals.html"><strong>Lesson 30:</strong> Retopology Fundamentals</a></li>
+                    <li><a href="lesson_31_advanced_modifier_stack.html"><strong>Lesson 31:</strong> Advanced Modifier Stack</a></li>
+                </ul>
             </div>
 
             <!-- Module 8 -->
-            <div class="card" style="margin-bottom: 2rem; border-left: 4px solid #EF4444;">
-                <h3 style="color: #EF4444; margin-top: 0;">Module 8: Particles and Simulations</h3>
-                <p style="color: #666; margin-bottom: 1rem;">Create dynamic effects with particle systems, hair, cloth simulation, and rigid body physics.</p>
-                
-                <div style="display: grid; gap: 0.75rem;">
-                    <a href="lesson_32_particle_systems_overview.html" class="lesson-link">
-                        <strong>Lesson 32:</strong> Particle Systems Overview
-                    </a>
-                    <a href="lesson_33_hair_and_fur.html" class="lesson-link">
-                        <strong>Lesson 33:</strong> Hair and Fur
-                    </a>
-                    <a href="lesson_34_cloth_simulation.html" class="lesson-link">
-                        <strong>Lesson 34:</strong> Cloth Simulation
-                    </a>
-                    <a href="lesson_35_rigid_body_physics.html" class="lesson-link">
-                        <strong>Lesson 35:</strong> Rigid Body Physics
-                    </a>
-                </div>
+            <div class="module-card" style="border-left-color:#EF4444;">
+                <h3 style="color:#EF4444;">Module 8: Particles and Simulations</h3>
+                <p class="module-desc">Create dynamic effects with particle systems, hair, cloth simulation, and rigid body physics.</p>
+                <ul class="lesson-list">
+                    <li><a href="lesson_32_particle_systems_overview.html"><strong>Lesson 32:</strong> Particle Systems Overview</a></li>
+                    <li><a href="lesson_33_hair_and_fur.html"><strong>Lesson 33:</strong> Hair and Fur</a></li>
+                    <li><a href="lesson_34_cloth_simulation.html"><strong>Lesson 34:</strong> Cloth Simulation</a></li>
+                    <li><a href="lesson_35_rigid_body_physics.html"><strong>Lesson 35:</strong> Rigid Body Physics</a></li>
+                </ul>
             </div>
 
             <!-- Module 9 -->
-            <div class="card" style="margin-bottom: 2rem; border-left: 4px solid #14B8A6;">
-                <h3 style="color: #14B8A6; margin-top: 0;">Module 9: Character Creation</h3>
-                <p style="color: #666; margin-bottom: 1rem;">Build and rig characters for animation. Learn modeling, armatures, weight painting, and rigging.</p>
-                
-                <div style="display: grid; gap: 0.75rem;">
-                    <a href="lesson_36_character_modeling_workflow.html" class="lesson-link">
-                        <strong>Lesson 36:</strong> Character Modeling Workflow
-                    </a>
-                    <a href="lesson_37_armature_and_bones.html" class="lesson-link">
-                        <strong>Lesson 37:</strong> Armature and Bones
-                    </a>
-                    <a href="lesson_38_weight_painting.html" class="lesson-link">
-                        <strong>Lesson 38:</strong> Weight Painting
-                    </a>
-                    <a href="lesson_39_rigging_essentials.html" class="lesson-link">
-                        <strong>Lesson 39:</strong> Rigging Essentials
-                    </a>
-                </div>
+            <div class="module-card" style="border-left-color:#14B8A6;">
+                <h3 style="color:#14B8A6;">Module 9: Character Creation</h3>
+                <p class="module-desc">Build and rig characters for animation. Learn modeling, armatures, weight painting, and rigging.</p>
+                <ul class="lesson-list">
+                    <li><a href="lesson_36_character_modeling_workflow.html"><strong>Lesson 36:</strong> Character Modeling Workflow</a></li>
+                    <li><a href="lesson_37_armature_and_bones.html"><strong>Lesson 37:</strong> Armature and Bones</a></li>
+                    <li><a href="lesson_38_weight_painting.html"><strong>Lesson 38:</strong> Weight Painting</a></li>
+                    <li><a href="lesson_39_rigging_essentials.html"><strong>Lesson 39:</strong> Rigging Essentials</a></li>
+                </ul>
             </div>
 
             <!-- Module 10 -->
-            <div class="card" style="margin-bottom: 2rem; border-left: 4px solid #F97316;">
-                <h3 style="color: #F97316; margin-top: 0;">Module 10: Node Systems Mastery</h3>
-                <p style="color: #666; margin-bottom: 1rem;">Deep dive into Geometry Nodes, advanced shading, and the Compositor for professional results.</p>
-                
-                <div style="display: grid; gap: 0.75rem;">
-                    <a href="lesson_40_geometry_nodes_introduction.html" class="lesson-link">
-                        <strong>Lesson 40:</strong> Geometry Nodes Introduction
-                    </a>
-                    <a href="lesson_41_procedural_modeling_with_nodes.html" class="lesson-link">
-                        <strong>Lesson 41:</strong> Procedural Modeling with Nodes
-                    </a>
-                    <a href="lesson_42_advanced_shader_techniques.html" class="lesson-link">
-                        <strong>Lesson 42:</strong> Advanced Shader Techniques
-                    </a>
-                    <a href="lesson_43_compositor_basics.html" class="lesson-link">
-                        <strong>Lesson 43:</strong> Compositor Basics
-                    </a>
-                </div>
+            <div class="module-card" style="border-left-color:#F97316;">
+                <h3 style="color:#F97316;">Module 10: Node Systems Mastery</h3>
+                <p class="module-desc">Deep dive into Geometry Nodes, advanced shading, and the Compositor for professional results.</p>
+                <ul class="lesson-list">
+                    <li><a href="lesson_40_geometry_nodes_introduction.html"><strong>Lesson 40:</strong> Geometry Nodes Introduction</a></li>
+                    <li><a href="lesson_41_procedural_modeling_with_nodes.html"><strong>Lesson 41:</strong> Procedural Modeling with Nodes</a></li>
+                    <li><a href="lesson_42_advanced_shader_techniques.html"><strong>Lesson 42:</strong> Advanced Shader Techniques</a></li>
+                    <li><a href="lesson_43_compositor_basics.html"><strong>Lesson 43:</strong> Compositor Basics</a></li>
+                </ul>
             </div>
 
             <!-- Module 11 -->
-            <div class="card" style="margin-bottom: 2rem; border-left: 4px solid #06B6D4;">
-                <h3 style="color: #06B6D4; margin-top: 0;">Module 11: Professional Workflows</h3>
-                <p style="color: #666; margin-bottom: 1rem;">Learn industry-standard practices, optimization, rendering for production, and post-processing.</p>
-                
-                <div style="display: grid; gap: 0.75rem;">
-                    <a href="lesson_44_scene_organization.html" class="lesson-link">
-                        <strong>Lesson 44:</strong> Scene Organization
-                    </a>
-                    <a href="lesson_45_optimization_techniques.html" class="lesson-link">
-                        <strong>Lesson 45:</strong> Optimization Techniques
-                    </a>
-                    <a href="lesson_46_rendering_for_production.html" class="lesson-link">
-                        <strong>Lesson 46:</strong> Rendering for Production
-                    </a>
-                    <a href="lesson_47_post_processing.html" class="lesson-link">
-                        <strong>Lesson 47:</strong> Post-Processing
-                    </a>
-                </div>
+            <div class="module-card" style="border-left-color:#06B6D4;">
+                <h3 style="color:#06B6D4;">Module 11: Professional Workflows</h3>
+                <p class="module-desc">Learn industry-standard practices, optimization, rendering for production, and post-processing.</p>
+                <ul class="lesson-list">
+                    <li><a href="lesson_44_scene_organization.html"><strong>Lesson 44:</strong> Scene Organization</a></li>
+                    <li><a href="lesson_45_optimization_techniques.html"><strong>Lesson 45:</strong> Optimization Techniques</a></li>
+                    <li><a href="lesson_46_rendering_for_production.html"><strong>Lesson 46:</strong> Rendering for Production</a></li>
+                    <li><a href="lesson_47_post_processing.html"><strong>Lesson 47:</strong> Post-Processing</a></li>
+                </ul>
             </div>
 
             <!-- Module 12 -->
-            <div class="card" style="margin-bottom: 2rem; border-left: 4px solid #A855F7;">
-                <h3 style="color: #A855F7; margin-top: 0;">Module 12: Portfolio Projects</h3>
-                <p style="color: #666; margin-bottom: 1rem;">Create complete portfolio-ready projects showcasing all your skills. Build your professional portfolio.</p>
-                
-                <div style="display: grid; gap: 0.75rem;">
-                    <a href="lesson_48_product_visualization_project.html" class="lesson-link">
-                        <strong>Lesson 48:</strong> Product Visualization Project
-                    </a>
-                    <a href="lesson_49_architectural_visualization.html" class="lesson-link">
-                        <strong>Lesson 49:</strong> Architectural Visualization
-                    </a>
-                    <a href="lesson_50_character_animation_showcase.html" class="lesson-link">
-                        <strong>Lesson 50:</strong> Character Animation Showcase
-                    </a>
-                    <a href="lesson_51_your_portfolio_piece.html" class="lesson-link">
-                        <strong>Lesson 51:</strong> Your Portfolio Piece
-                    </a>
-                </div>
-            </div>
-
-        </section>
-
-        <!-- Getting Started -->
-        <section id="start" style="margin-bottom: 3rem;">
-            <h2>🚀 Ready to Begin Your Blender Journey?</h2>
-            
-            <div class="card" style="background: linear-gradient(135deg, #EA7600 0%, #F59E0B 100%); color: white;">
-                <h3 style="color: white; margin-top: 0;">Start Creating Today</h3>
-                <p style="color: white; font-size: 1.1rem; line-height: 1.6;">Blender is free and powerful—there's never been a better time to learn 3D creation. Whether you want to create art, build game assets, design products, or make animations, this course gives you the skills to make it happen.</p>
-                <p style="color: white; font-size: 1.1rem; line-height: 1.6;">Click below to start Lesson 1 and begin your transformation from beginner to 3D artist!</p>
-                <a href="lesson_01_welcome_to_blender.html" style="display: inline-block; background: white; color: #EA7600; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 1rem; font-size: 1.1rem;">
-                    Begin Lesson 1 →
-                </a>
+            <div class="module-card" style="border-left-color:#A855F7;">
+                <h3 style="color:#A855F7;">Module 12: Portfolio Projects</h3>
+                <p class="module-desc">Create complete portfolio-ready projects showcasing all your skills. Build your professional portfolio.</p>
+                <ul class="lesson-list">
+                    <li><a href="lesson_48_product_visualization_project.html"><strong>Lesson 48:</strong> Product Visualization Project</a></li>
+                    <li><a href="lesson_49_architectural_visualization.html"><strong>Lesson 49:</strong> Architectural Visualization</a></li>
+                    <li><a href="lesson_50_character_animation_showcase.html"><strong>Lesson 50:</strong> Character Animation Showcase</a></li>
+                    <li><a href="lesson_51_your_portfolio_piece.html"><strong>Lesson 51:</strong> Your Portfolio Piece</a></li>
+                </ul>
             </div>
         </section>
 
-        <!-- Prerequisites -->
-        <section id="prerequisites" style="margin-bottom: 3rem;">
-            <h2>💻 What You'll Need</h2>
-            
-            <div class="card">
+        <!-- What You'll Need -->
+        <section>
+            <h2>What You'll Need</h2>
+            <div class="card req-card">
                 <h3>Technical Requirements</h3>
-                <ul style="line-height: 1.8;">
-                    <li><strong>Blender 4.0+:</strong> Free download from <a href="https://www.blender.org" target="_blank">blender.org</a> (works on Windows, Mac, and Linux)</li>
+                <ul>
+                    <li><strong>Blender 4.0+:</strong> Free download from <a href="https://www.blender.org" target="_blank" rel="noopener">blender.org</a> (Windows, Mac, and Linux)</li>
                     <li><strong>Computer:</strong> Capable of running Blender (see system requirements below)</li>
-                    <li><strong>Mouse:</strong> A 3-button mouse is HIGHLY recommended (or trackpad with multi-touch)</li>
-                    <li><strong>Storage Space:</strong> 5-15GB for Blender, projects, and working files</li>
+                    <li><strong>Mouse:</strong> A 3-button mouse is highly recommended (or trackpad with multi-touch)</li>
+                    <li><strong>Storage Space:</strong> 5–15 GB for Blender, projects, and working files</li>
                     <li><strong>Image Editor (Optional):</strong> GIMP (free) or Photoshop for texture work</li>
                 </ul>
-                
-                <h3 style="margin-top: 1.5rem;">System Requirements</h3>
-                <div style="background: #FEF3C7; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
-                    <p style="margin: 0;"><strong>Minimum:</strong> 64-bit quad-core CPU, 8GB RAM, 1920x1080 display, mouse, OpenGL 4.3 compatible graphics with 2GB VRAM</p>
-                    <p style="margin: 0.5rem 0 0 0;"><strong>Recommended:</strong> 64-bit eight-core CPU, 32GB RAM, 2560x1440 display, 3-button mouse, OpenGL 4.5 compatible graphics with 8GB+ VRAM</p>
+                <h3>System Requirements</h3>
+                <div class="req-highlight">
+                    <p><strong>Minimum:</strong> 64-bit quad-core CPU, 8 GB RAM, 1920x1080 display, mouse, OpenGL 4.3 compatible graphics with 2 GB VRAM</p>
+                    <p><strong>Recommended:</strong> 64-bit eight-core CPU, 32 GB RAM, 2560x1440 display, 3-button mouse, OpenGL 4.5 compatible graphics with 8 GB+ VRAM</p>
                 </div>
-                
-                <h3 style="margin-top: 1.5rem;">Personal Requirements</h3>
-                <ul style="line-height: 1.8;">
+                <h3>Personal Requirements</h3>
+                <ul>
                     <li><strong>No Prior Experience Needed:</strong> This course starts from absolute zero</li>
-                    <li><strong>Patience and Practice:</strong> 3D is a journey—embrace the learning process</li>
+                    <li><strong>Patience and Practice:</strong> 3D is a journey — embrace the learning process</li>
                     <li><strong>Creative Mindset:</strong> Curiosity and willingness to experiment</li>
-                    <li><strong>Time Commitment:</strong> 45-75 minutes per lesson, at your own pace</li>
+                    <li><strong>Time Commitment:</strong> 45–75 minutes per lesson, at your own pace</li>
                 </ul>
             </div>
         </section>
 
-        <!-- Learning Tips -->
-        <section id="tips" style="margin-bottom: 3rem;">
-            <h2>💡 Tips for Success</h2>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-                <div class="card" style="background: #D1FAE5; border-left: 4px solid #10B981;">
-                    <h4>📝 Master the Shortcuts</h4>
-                    <p>Blender is keyboard-driven. Learning shortcuts makes you 10x faster. We'll teach them as we go!</p>
-                </div>
-                
-                <div class="card" style="background: #DBEAFE; border-left: 4px solid #3B82F6;">
-                    <h4>🎯 Do Every Project</h4>
-                    <p>Hands-on projects are where real learning happens. Don't skip them—they build your portfolio too!</p>
-                </div>
-                
-                <div class="card" style="background: #FEF3C7; border-left: 4px solid #F59E0B;">
-                    <h4>🔄 Practice Daily</h4>
-                    <p>30 minutes daily beats 4-hour weekend marathons. Consistency builds muscle memory and skills.</p>
-                </div>
-                
-                <div class="card" style="background: #FCE7F3; border-left: 4px solid #EC4899;">
-                    <h4>🎨 Experiment Freely</h4>
-                    <p>Break things! Try crazy ideas! Ctrl+Z is your friend. Discovery through play is powerful learning.</p>
-                </div>
-                
-                <div class="card" style="background: #E0E7FF; border-left: 4px solid #6366F1;">
-                    <h4>💾 Save Often (Ctrl+S)</h4>
-                    <p>Blender has auto-save, but develop the Ctrl+S habit. Save before experiments and major changes.</p>
-                </div>
-                
-                <div class="card" style="background: #FEE2E2; border-left: 4px solid #EF4444;">
-                    <h4>🌟 Celebrate Progress</h4>
-                    <p>Compare your work to last week's, not to pros' work. Every improvement is worth celebrating!</p>
-                </div>
+        <!-- Tips for Success -->
+        <section>
+            <h2>Tips for Success</h2>
+            <div class="tips-grid">
+                <div class="tip-card" style="border-left-color:#10B981;"><h4>Master the Shortcuts</h4><p>Blender is keyboard-driven. Learning shortcuts makes you 10x faster. We'll teach them as we go!</p></div>
+                <div class="tip-card" style="border-left-color:#3B82F6;"><h4>Do Every Project</h4><p>Hands-on projects are where real learning happens. Don't skip them — they build your portfolio too!</p></div>
+                <div class="tip-card" style="border-left-color:#F59E0B;"><h4>Practice Daily</h4><p>30 minutes daily beats 4-hour weekend marathons. Consistency builds muscle memory and skills.</p></div>
+                <div class="tip-card" style="border-left-color:#EC4899;"><h4>Experiment Freely</h4><p>Break things! Try crazy ideas! Ctrl+Z is your friend. Discovery through play is powerful learning.</p></div>
+                <div class="tip-card" style="border-left-color:#6366F1;"><h4>Save Often (Ctrl+S)</h4><p>Blender has auto-save, but develop the Ctrl+S habit. Save before experiments and major changes.</p></div>
+                <div class="tip-card" style="border-left-color:#EF4444;"><h4>Celebrate Progress</h4><p>Compare your work to last week's, not to pros' work. Every improvement is worth celebrating!</p></div>
             </div>
         </section>
 
         <!-- Why Blender -->
-        <section id="why" style="margin-bottom: 3rem;">
-            <h2>⭐ Why Learn Blender?</h2>
-            
+        <section>
+            <h2>Why Learn Blender?</h2>
             <div class="card">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-                    <div>
-                        <h3>💰 Completely Free</h3>
-                        <p>No subscriptions. No "lite" versions. No hidden costs. Professional-grade tools at zero cost, forever.</p>
-                    </div>
-                    
-                    <div>
-                        <h3>🏢 Industry Standard</h3>
-                        <p>Used by major studios (Disney, Netflix, Ubisoft). Skills transfer to professional work immediately.</p>
-                    </div>
-                    
-                    <div>
-                        <h3>🚀 Constantly Improving</h3>
-                        <p>New features every few months. Active development. Community-driven improvements.</p>
-                    </div>
-                    
-                    <div>
-                        <h3>🌍 Amazing Community</h3>
-                        <p>Millions of users worldwide. Free tutorials, assets, and help everywhere you look.</p>
-                    </div>
-                    
-                    <div>
-                        <h3>🎨 All-in-One</h3>
-                        <p>Modeling, sculpting, texturing, lighting, rendering, animation, VFX—everything in one package.</p>
-                    </div>
-                    
-                    <div>
-                        <h3>💼 Career Opportunities</h3>
-                        <p>Game studios, animation houses, architecture firms, and freelance clients all need Blender artists.</p>
-                    </div>
+                <div class="why-grid">
+                    <div><h3>Completely Free</h3><p>No subscriptions. No "lite" versions. No hidden costs. Professional-grade tools at zero cost, forever.</p></div>
+                    <div><h3>Industry Standard</h3><p>Used by major studios (Disney, Netflix, Ubisoft). Skills transfer to professional work immediately.</p></div>
+                    <div><h3>Constantly Improving</h3><p>New features every few months. Active development. Community-driven improvements.</p></div>
+                    <div><h3>Amazing Community</h3><p>Millions of users worldwide. Free tutorials, assets, and help everywhere you look.</p></div>
+                    <div><h3>All-in-One</h3><p>Modeling, sculpting, texturing, lighting, rendering, animation, VFX — everything in one package.</p></div>
+                    <div><h3>Career Opportunities</h3><p>Game studios, animation houses, architecture firms, and freelance clients all need Blender artists.</p></div>
                 </div>
             </div>
         </section>
 
         <!-- Final CTA -->
-        <section id="final-cta" style="margin-bottom: 3rem;">
-            <div class="card" style="background: linear-gradient(135deg, #EA7600 0%, #F59E0B 50%, #EA7600 100%); color: white; text-align: center; padding: 3rem 2rem;">
-                <h2 style="color: white; margin-top: 0; font-size: 2rem;">Your 3D Journey Begins Now</h2>
-                <p style="color: white; font-size: 1.2rem; line-height: 1.6; margin: 1.5rem 0;">Every professional was once exactly where you are now. The only difference? They started. Today is your day to begin.</p>
-                <p style="color: white; font-size: 1.1rem; line-height: 1.6; margin: 1.5rem 0;">Blender gives you the power to create anything you can imagine. This course gives you the knowledge to use that power. Let's do this!</p>
-                <a href="lesson_01_welcome_to_blender.html" style="display: inline-block; background: white; color: #EA7600; padding: 1.25rem 2.5rem; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.2rem; margin-top: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-                    🚀 Start Lesson 1 Now
-                </a>
-                <p style="color: white; margin-top: 2rem; font-size: 0.9rem; opacity: 0.9;">Free forever. No signup required. Just pure learning.</p>
-            </div>
-        </section>
+        <div class="cta-section">
+            <h2>Your 3D Journey Begins Now</h2>
+            <p>Blender gives you the power to create anything you can imagine. This course gives you the knowledge to use that power. Let's do this!</p>
+            <a href="lesson_01_welcome_to_blender.html" class="cta-btn">Start Lesson 1 Now &rarr;</a>
+            <p style="margin-top:1.25rem; font-size:0.9rem; opacity:0.85;">Free forever. No signup required. Just pure learning.</p>
+        </div>
 
     </main>
 
     <!-- Footer -->
-    <footer style="background: linear-gradient(135deg, #EA7600 0%, #F59E0B 100%); color: white; padding: 2rem; text-align: center;">
-        <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
-        <p style="margin-top: 0.5rem; opacity: 0.9;">Empowering artists to create amazing 3D art with Blender.</p>
+    <footer class="site-footer">
+        <p>&copy; 2025 Blender Mastery Course &mdash; <a href="https://rays-home.netlify.app/">Ray's House of Fun</a> &middot; <a href="https://rays-home.netlify.app/contact">Contact</a></p>
+        <p>Empowering artists to create amazing 3D art with Blender.</p>
     </footer>
 
-    <style>
-        .lesson-link {
-            display: block;
-            padding: 0.75rem 1rem;
-            background: #f8f9fa;
-            border-left: 3px solid transparent;
-            border-radius: 4px;
-            text-decoration: none;
-            color: #333;
-            transition: all 0.2s ease;
-        }
-        
-        .lesson-link:hover:not([style*="cursor: not-allowed"]) {
-            background: #e9ecef;
-            border-left-color: #EA7600;
-            transform: translateX(4px);
-        }
-        
-        .lesson-link strong {
-            color: #EA7600;
-        }
-    </style>
-
     <!-- Scripts -->
-    <script src="../course_template/js/clipboard.js"></script>
-    <script src="../course_template/js/course-enhancements.js"></script>
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+    <script>
+        // Initialize theme from localStorage on page load (before enhancements run)
+        (function() {
+            const saved = localStorage.getItem('theme');
+            if (saved) {
+                document.documentElement.setAttribute('data-theme', saved);
+            }
+            // Update toggle button text after DOM ready
+            document.addEventListener('DOMContentLoaded', function() {
+                const btn = document.getElementById('theme-toggle');
+                if (btn) {
+                    const current = document.documentElement.getAttribute('data-theme') || 
+                        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                    btn.textContent = current === 'dark' ? '☀️' : '🌙';
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
