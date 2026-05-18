@@ -4,6 +4,18 @@
 **Lesson:** lesson_02_the_blender_interface.html  
 **Purpose:** Identify and document all images needed to augment the lesson content  
 **Date:** Analysis completed  
+**Blender version notes added:** May 2026 during Wave 3 production
+
+---
+
+## Blender 5.1 Version Note
+
+This document was originally written against an older Blender version (4.x). Production for Blender 5.1 has revealed differences:
+
+- **Default workspaces: 11**, not 10. Blender 5.1 added Scripting as a default workspace. Image #8 was produced showing all 11 tabs.
+- **Editor types in the dropdown: 23**, not 22. Blender 5.1 added Asset Browser to the Data section. Image #3 was produced showing all 23 entries.
+
+Other section descriptions below may have similar minor drift. Cross-check with live Blender 5.1 before producing any remaining image with an enumerated UI list (especially #13 Preferences categories).
 
 ---
 
@@ -22,7 +34,7 @@
 ### **3. Editor Type Selector Close-up**
 - **Purpose:** Show where and how to change editor types
 - **Type:** Annotated close-up screenshot
-- **Shows:** Top-left corner of an area with editor type icon highlighted, dropdown menu visible with all editor options
+- **Shows:** Top-left corner of an area with editor type icon highlighted, dropdown menu visible with all 23 editor options grouped into 5 sections (Blender 5.1: General, Animation, Scripting, Data, Other)
 
 ### **4. Viewport Header Breakdown**
 - **Purpose:** Decode all the icons and sections in the 3D Viewport header
@@ -47,7 +59,7 @@
 ### **8. Workspace Tabs Screenshot**
 - **Purpose:** Show all default workspace tabs
 - **Type:** Clean screenshot of top bar
-- **Shows:** Full workspace tab bar with Layout, Modeling, Sculpting, UV Editing, Texture Paint, Shading, Animation, Rendering, Compositing, Geometry Nodes
+- **Shows:** Full workspace tab bar with Layout, Modeling, Sculpting, UV Editing, Texture Paint, Shading, Animation, Rendering, Compositing, Geometry Nodes, Scripting (Blender 5.1 adds Scripting as the 11th default workspace)
 
 ### **9. Outliner Anatomy**
 - **Purpose:** Explain Outliner structure and icons
@@ -105,7 +117,7 @@ Create an educational infographic explaining Blender's areas and editors concept
 
 ### **Prompt 3: Editor Type Selector Close-up**
 ```
-Create a detailed close-up screenshot showing the editor type selector in Blender. Focus on the top-left corner of an area (3D Viewport). Show the cube-with-arrows icon prominently. Display the dropdown menu open showing all editor options: 3D Viewport, Image Editor, UV Editor, Shader Editor, Compositor, Texture Node Editor, Geometry Node Editor, Video Sequencer, Movie Clip Editor, Dope Sheet, Timeline, Graph Editor, Drivers, Nonlinear Animation, Text Editor, Python Console, Info, Outliner, Properties, File Browser, Spreadsheet, Preferences. Highlight the current selection (3D Viewport) in orange. Clean, high-contrast screenshot with dark theme.
+Create a detailed close-up screenshot showing the editor type selector in Blender. Focus on the top-left corner of an area (3D Viewport). Show the cube-with-arrows icon prominently. Display the dropdown menu open showing all editor options grouped by section. General: 3D Viewport, Image Editor, UV Editor, Compositor, Texture Node Editor, Geometry Node Editor, Shader Editor. Animation: Video Sequencer, Movie Clip Editor, Dope Sheet, Timeline, Graph Editor, Drivers, Nonlinear Animation. Scripting: Text Editor, Python Console, Info. Data: Outliner, Properties, File Browser, Asset Browser, Spreadsheet. Other: Preferences. (23 editors total in Blender 5.1.) Highlight the current selection (3D Viewport) in orange. Clean, high-contrast screenshot with dark theme.
 ```
 
 ### **Prompt 4: Viewport Header Breakdown**
@@ -130,7 +142,7 @@ Create a step-by-step visual guide showing area splitting and joining. Top row l
 
 ### **Prompt 8: Workspace Tabs Screenshot**
 ```
-Create a clean screenshot of Blender's workspace tab bar at the top of the interface. Show all default workspace tabs in order from left to right: Layout (highlighted/active), Modeling, Sculpting, UV Editing, Texture Paint, Shading, Animation, Rendering, Compositing, Geometry Nodes, and the + button. Use Blender's dark theme. Tabs should be clearly readable. Show subtle hover/active state on Layout tab. Professional screenshot quality. Minimal context - just the tab bar area. Could include a small portion of the interface below to show context.
+Create a clean screenshot of Blender's workspace tab bar at the top of the interface. Show all default workspace tabs in order from left to right: Layout (highlighted/active), Modeling, Sculpting, UV Editing, Texture Paint, Shading, Animation, Rendering, Compositing, Geometry Nodes, Scripting (Blender 5.1+), and the + button. Use Blender's dark theme. Tabs should be clearly readable. Show subtle hover/active state on Layout tab. Professional screenshot quality. Minimal context - just the tab bar area. Could include a small portion of the interface below to show context.
 ```
 
 ### **Prompt 9: Outliner Anatomy**
