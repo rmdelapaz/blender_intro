@@ -1,9 +1,11 @@
 # Lesson 01 HTML Integration: Progress
 
-Tracks the integration of available images into `lesson_01_welcome_to_blender.html`. Image production for Lesson 01 is at 11 of 12 (the last missing image is #7 workspace_setup, documented below). Image #9 is produced but not yet integrated; image #3 was integrated this chat.
+Tracks the integration of available images into `lesson_01_welcome_to_blender.html`. Image production for Lesson 01 is at 12 of 12. All 12 images are integrated; image #7 was captured live from a Blender 5.1.1 session via MCP and integrated this chat.
 
 ## Status
 
+- Image #7 (`lesson_01_07_workspace_setup.png`) captured this chat via MCP from a live Blender 5.1.1 session and integrated. Capture used `bpy.ops.screen.screenshot(filepath=r"\\wsl$\Ubuntu\...")` against the default startup scene (Cube, Camera, Light at startup locations) with the active workspace set to Layout. Placement adjusted from the plan's original anchor inside the "Setting Up Your Workspace" subsection (which discusses physical workspace ergonomics) to between the "Version Note" info card and the `<h3>Setting Up Your Workspace</h3>`, because the screenshot depicts Blender's software workspace tabs rather than physical setup; this placement also continues the first-launch narrative started by image #12. Plain PNG figure pattern (`<figure>` + `<img loading="lazy">` + `<figcaption>`). Alt text lists the ten workspace tabs visible left to right (Scripting is clipped past the Scene and ViewLayer dropdowns and is not claimed). The N-panel was collapsed before capture so only the vertical tab strip remains visible (a small "BlenderMCP" label appears in that strip since the addon registers a tab category; the panel content itself is not shown). File size after integration: 121,110 bytes (was 120,187). Integrated count moves from 11 to 12 of 12; missing list is now empty. Lesson 01 image integration is complete.
+- Image #9 integrated this chat into `what-is-blender` after the 7-item "Who Uses Blender?" `<ul>` (the one ending with "3D printing enthusiasts") and before the "Real Talk" `<blockquote>`. Inline SVG, plain `<figure>` + `<figcaption>` wrapper, `color="#222"` stripped from the root `<svg>` tag per the locked dark-mode rule, body re-indented to 20-space content depth. File size after integration: 120,187 bytes (was 108,947). Integrated count moves from 10 to 11 of 11 produced images. Only #7 (workspace_setup PNG) remains missing from production; `lesson_01_image_prompts.md` still has the screenshot-capture path as the preferred sourcing route.
 - Image #3 produced (Adobe Firefly, 1536x1024 PNG, 2.3 MB) and integrated this chat. Renamed from `sixpanel.png` to `lesson_01_03_use_cases_showcase.png` and placed at the top of `what-can-you-create` after the section opening paragraph and before the "Character Art and Animation" h3. File size after integration: 108,947 bytes. Image production state moves from 10 of 12 to 11 of 12. Only #7 (workspace_setup) remains missing.
 - Image #9 produced this chat (`lesson_01_09_community_resources.svg`, 8,611 bytes); not yet integrated. AI-image-generator prompts for the remaining two missing PNGs (#3, #7) saved to `lesson_01_image_prompts.md`. Image production state moves from 9 of 12 to 10 of 12.
 - Version currency pass on `getting-ready`: minimum and recommended system requirement bullets updated to Blender 5.1 baseline (8 GB RAM minimum and 2 GB VRAM minimum with OpenGL 4.3 or Vulkan; 32 GB RAM and 8+ GB VRAM recommended; quad-core minimum, 8-core recommended). Version Note prose retargeted to Blender 5.1 specifically (current stable, March 2026).
@@ -18,7 +20,7 @@ Tracks the integration of available images into `lesson_01_welcome_to_blender.ht
 
 ## Images available and missing
 
-Available in `images/` (11 of 12):
+Available in `images/` (12 of 12):
 
 - #1 `lesson_01_01_blender_hero.png` (PNG)
 - #2 `lesson_01_02_capabilities.svg` (inline; on-disk filename differs from the requirements doc, which lists it as `_capabilities_infographic.svg`)
@@ -26,15 +28,14 @@ Available in `images/` (11 of 12):
 - #4 `lesson_01_04_learning_path.svg` (inline)
 - #5 `lesson_01_05_growth_mindset.svg` (inline)
 - #6 `lesson_01_06_learning_curve.svg` (inline)
+- #7 `lesson_01_07_workspace_setup.png` (PNG; captured live from Blender 5.1.1 via MCP)
 - #8 `lesson_01_08_folder_structure.svg` (inline)
-- #9 `lesson_01_09_community_resources.svg` (inline; produced but not yet integrated)
+- #9 `lesson_01_09_community_resources.svg` (inline)
 - #10 `lesson_01_10_mouse_diagram.svg` (inline)
 - #11 `lesson_01_11_system_requirements.svg` (inline)
 - #12 `lesson_01_12_first_launch.png` (PNG)
 
-Missing from production (1 of 12; placement is skipped for this; AI prompts available in `lesson_01_image_prompts.md`):
-
-- #7 `lesson_01_07_workspace_setup.png` (would have gone into "Setting Up Your Workspace" in `getting-ready`; real Blender screenshot strongly preferred over AI generation, see prompts file)
+Missing from production: none. All 12 images integrated.
 
 ## Locked approach (identical to Lesson 02)
 
@@ -57,12 +58,13 @@ Missing from production (1 of 12; placement is skipped for this; AI prompts avai
 | 2 | course-structure + learning-mindset | #4, #5, #6 | #4, #5, #6 | done |
 | 3 | getting-ready | #11, #12, #10, #8 | #8, #10, #11 | done |
 
-## Placement table (9 available images)
+## Placement table (11 available images)
 
 | # | File | Section | Insertion point | Status |
 |---|---|---|---|---|
 | 1 | `lesson_01_01_blender_hero.png` | what-is-blender | After opening "Imagine having..." paragraph, before "Blender is a free, open-source..." paragraph | done |
 | 2 | `lesson_01_02_capabilities.svg` | what-is-blender | After the Swiss Army Knife card's `</div>`, before the "A Brief History Worth Knowing" h3 | done (inline) |
+| 9 | `lesson_01_09_community_resources.svg` | what-is-blender | After the 7-item "Who Uses Blender?" `<ul>` ending with "3D printing enthusiasts", before the "Real Talk" `<blockquote>` | done (inline) |
 | 3 | `lesson_01_03_use_cases_showcase.png` | what-can-you-create | After the opening "This is where things get exciting..." paragraph, before the "Character Art and Animation" h3 | done |
 | 4 | `lesson_01_04_learning_path.svg` | course-structure | In "Course Structure Overview" subsection. Suggest placement: before or after the existing mermaid showing 12 modules. Read the SVG first to confirm orientation and dimensions; pick whichever flanking element gives a cleaner reading flow. | done (inline; placed after the 12-module mermaid) |
 | 5 | `lesson_01_05_growth_mindset.svg` | learning-mindset | In "Embrace the Beginner Stage" subsection. Suggest placement: after the "Growth Mindset in Action" card (the green-border card that lists fixed vs growth mindset statements), before the "Patience Is Your Superpower" h3. | done (inline) |
@@ -70,6 +72,7 @@ Missing from production (1 of 12; placement is skipped for this; AI prompts avai
 | 11 | `lesson_01_11_system_requirements.svg` | getting-ready | In "System Requirements" subsection. Suggest placement: after the "Recommended Requirements (Better Experience)" `<ul>` list, before the "About Your Mouse" info card. | done (inline) |
 | 10 | `lesson_01_10_mouse_diagram.svg` | getting-ready | In "Recommended Requirements" area near the "About Your Mouse" info card. Suggest placement: after that info card, before the "Downloading and Installing Blender" h3. | done (inline) |
 | 12 | `lesson_01_12_first_launch.png` | getting-ready | In "Downloading and Installing Blender" subsection. Suggest placement: after the 4-step numbered install list, before the "Version Note" info card. | done |
+| 7 | `lesson_01_07_workspace_setup.png` | getting-ready | After the "Version Note" info card, before the `<h3>Setting Up Your Workspace</h3>`. Adjusted from the plan's original anchor inside the "Setting Up Your Workspace" subsection, because the screenshot shows Blender's software workspace tabs rather than the physical-workspace ergonomics the subsection covers. | done |
 | 8 | `lesson_01_08_folder_structure.svg` | getting-ready | In "Creating Your Learning Environment" subsection. Suggest placement: after the existing `<pre><code>` ASCII folder tree block, before the "Save Early, Save Often" info card. | done (inline) |
 
 Phase 3 rows are listed in document order (System Requirements → Mouse callout → Downloading and Installing → Creating Your Learning Environment), which is also the recommended processing order.
@@ -105,13 +108,4 @@ Inline SVG figure (as used for image #2; preserve the SVG's `role`, `aria-labell
 
 ## How to start the next chat
 
-The next chat integrates image #9 into the HTML. One missing PNG (#7) still needs external sourcing; see `lesson_01_image_prompts.md` for the preferred real-screenshot path (AI generation is a poor fit for a Blender UI screenshot).
-
-```
-Project root: \\wsl$\Ubuntu\home\practicalace\projects\blender_course
-Today's task: Integrate image #9 (`lesson_01_09_community_resources.svg`) into `lesson_01_welcome_to_blender.html`. Read lesson_01_integration_progress.md first for plan, current state, and locked approach.
-Placement: in the `what-is-blender` section, after the "Who Uses Blender?" `<ul>` (the 7-item community list ending with "3D printing enthusiasts") and before the "Real Talk" blockquote. Match the locked approach: plain <figure> + <figcaption>, strip color="#222" from the root <svg> tag, re-indent SVG body to 20-space content depth.
-Standing rules: \\wsl$ paths, no new em-dashes in new content, Filesystem:edit_file with dryRun=true first then commit, verify with Filesystem:get_file_info. After integration, update the placement table and the available-images list in the progress doc.
-If image #7 has been sourced by the time this chat runs, integrate it too: #7 in "Setting Up Your Workspace" in `getting-ready`. PNG figure pattern only.
-Warn me if context starts getting tight rather than letting automatic compaction happen.
-```
+Lesson 01 image integration is complete (12 of 12). No further integration work remains in this lesson. See `status.md` for the next lesson's image-integration work or other open Phase 9 lint tasks across the broader project.

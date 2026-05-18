@@ -1,8 +1,8 @@
 # Blender Mastery Course — Project Status
 
 **Project Path:** `\\wsl$\Ubuntu\home\practicalace\projects\blender_course`  
-**Last Updated:** April 12, 2026  
-**Total Size:** ~12.4 MB (126 files, 7 directories)
+**Last Updated:** May 18, 2026  
+**Total Size:** ~13+ MB and growing (image integration has pushed Lesson 01 to ~118 KB and Lesson 02 to ~149 KB, plus ~36 produced image files in `images/`; precise total not measured this pass). Six Lesson 03 SVGs now shipped across two chats: planning chat added #1 `big_three_operations` and #2 `mouse_button_reference`; production chat 1 added #3 `orbit_operation`, #4 `pan_operation`, #5 `zoom_operation`, and #14 `navigation_workflow`. Lesson 03 HTML still unedited.
 
 ---
 
@@ -17,6 +17,8 @@
 | Mobile Responsive | ✅ Complete | Index fully responsive; lessons inherit mobile CSS from `main.css` |
 | Index Page Modernized | ✅ Complete | Full rewrite — CSS variable-based, responsive grids, correct lesson URLs |
 | Lesson URLs Corrected | ✅ Complete | All 51 hrefs in `index.html` match actual filenames |
+| Image Production and Integration | 🚧 In Progress | Lesson 01: complete (12 of 12). Lesson 02: complete (20 of 20). Lesson 03: in progress (6 of 18 produced, 0 of 18 integrated). Lessons 04 to 51: not yet started. See per-lesson `lesson_NN_integration_progress.md` files. |
+| Version Currency (Blender 5.1) | 🚧 Per-lesson | Project target is Blender 5.1 (current stable, March 2026). Audited per lesson as content is touched; Lesson 01 done. |
 
 ---
 
@@ -52,8 +54,8 @@ All lesson files confirmed to have: `js/course-enhancements.js` loaded, `<footer
 
 | # | Lesson | File | Size | Scripts | Prev/Next | Footer |
 |---|--------|------|------|---------|-----------|--------|
-| 1 | Welcome to Blender | `lesson_01_welcome_to_blender.html` | 49.4 KB | ✅ | ✅ | ✅ |
-| 2 | The Blender Interface | `lesson_02_the_blender_interface.html` | 69.6 KB | ✅ | ✅ | ✅ |
+| 1 | Welcome to Blender | `lesson_01_welcome_to_blender.html` | 118.3 KB | ✅ | ✅ | ✅ |
+| 2 | The Blender Interface | `lesson_02_the_blender_interface.html` | 148.8 KB | ✅ | ✅ | ✅ |
 | 3 | Navigation and Viewport Control | `lesson_03_navigation_and_viewport_control.html` | 103.5 KB | ✅ | ✅ | ✅ |
 | 4 | Basic Object Manipulation | `lesson_04_basic_object_manipulation.html` | 106.0 KB | ✅ | ✅ | ✅ |
 
@@ -161,6 +163,29 @@ All lesson files confirmed to have: `js/course-enhancements.js` loaded, `<footer
 
 ---
 
+## Image Integration Status
+
+Image production and integration runs as a separate pass per lesson. Tracked per lesson via `lesson_NN_integration_progress.md` and (when needed) `lesson_NN_image_prompts.md` files at project root. Image files live in `images/` (with style notes in `images/IMAGE_STYLE_GUIDE.md`).
+
+| Lesson | Images Produced | Images Integrated | State | Notes |
+|---|---|---|---|---|
+| 01 Welcome to Blender | 12 of 12 | 12 of 12 | ✅ Complete | 4 PNG plus 8 inline SVG, placed across `what-is-blender`, `what-can-you-create`, `course-structure`, `learning-mindset`, and `getting-ready`. Image #7 (workspace screenshot) captured live via MCP from a Blender 5.1.1 session on 2026-05-18 and integrated this pass between the Version Note card and the "Setting Up Your Workspace" h3. Final file size 118.3 KB. |
+| 02 The Blender Interface | 20 of 20 | 20 of 20 | ✅ Complete | 14 PNG plus 6 inline SVG, placed across 6 phases. Phase 4 structural cleanup verified 2026-05-17 (div balance and workspace card count both confirmed). Final file size 148.8 KB. |
+| 03 Navigation and Viewport Control | 6 of 18 | 0 of 18 | 🚧 In Progress | Phases 1 and 2 SVG production complete (6 of 12 SVGs shipped to `images/`). Phase 1 (the-big-three): #1, #3, #4, #5, #14 all produced. Phase 2 (mouse-navigation): #2 produced. Six SVGs remain for Phases 3, 4, 6: #7, #8 (numpad theme), #12, #13 (perspective-ortho theme), #17, #18 (close-out). Six PNGs (#6, #9, #10, #11, #15, #16) still need Blender screenshots; sourcing routes documented in `lesson_03_image_prompts.md` (real captures strongly preferred over AI generation). HTML file unchanged at 103.5 KB; integration pass not yet started. |
+| 04 to 51 | not started | n/a | ⏳ Pending | Image requirements docs exist for every lesson (`lesson_NN_image_requirements*.md`). |
+
+### Locked integration approach (applies to all lessons)
+
+- Plain `<figure>` + `<figcaption>` wrapper, no class. `styles/main.css` already styles both elements.
+- PNGs use `<img src="images/..." alt="..." loading="lazy">` with descriptive alt text.
+- Inline SVGs are re-indented to 20-space content depth, with the `color="#222"` attribute stripped from the root `<svg>` tag (it locks `currentColor` and breaks dark mode when inlined; standalone `.svg` files keep the attribute).
+- Edits use `Filesystem:edit_file` with `dryRun=true` first, then commit, then verify with `Filesystem:get_file_info`.
+- Path prefix is `\\wsl$\Ubuntu\` always (never `\\wsl.localhost\`).
+- No new em-dashes in any new captions, alt text, or markdown notes. Em-dashes in existing source content are preserved.
+- For raster images that need AI generation or real-world capture (screenshots, photos), a `lesson_NN_image_prompts.md` file documents the platform-specific prompts and acceptance criteria, or specifies the capture path when AI generation is a poor fit.
+
+---
+
 ## Supporting Files
 
 ### Image Requirements Docs
@@ -180,6 +205,15 @@ Every lesson has one or more `*_image_requirements*.md` files specifying the ima
 - `lesson_44_quick_reference.md` (16.3 KB) — Quick ref
 - `continue.md` (2.0 KB) — Session handoff notes
 - `continue_updated.md` (11.2 KB) — Earlier session handoff notes
+- `lesson_01_integration_progress.md`: Lesson 01 image integration plan, current state, and locked approach
+- `lesson_01_image_prompts.md`: AI generator prompts and screenshot capture spec for the lesson's raster images
+- `lesson_02_integration_progress.md`: Lesson 02 image integration plan and final state (complete)
+- `lesson_02_completion_handoff.md`: Lesson 02 image production handoff
+- `lesson_02_next_chat_handoff.md`: Mid-project Lesson 02 handoff note
+- `lesson_02_phase4_cleanup_handoff.md`: Lesson 02 Phase 4 cleanup handoff
+- `lesson_03_integration_progress.md`: Lesson 03 image integration plan, current state, and locked approach (in progress)
+- `lesson_03_image_prompts.md`: Capture instructions and AI-fallback prompts for Lesson 03's six PNGs (all Blender UI screenshots)
+- `wave3_continuation_prompt.md`: Wave 3 image production continuation prompt
 
 ### Archive
 - `parts/archive/` — Contains ~300 individual part files (`lesson_XX_*_part_NN.html`) used during the multi-part lesson assembly process. These are the source fragments that were concatenated into the final lesson files.
@@ -194,7 +228,7 @@ Every lesson has one or more `*_image_requirements*.md` files specifying the ima
 | Inconsistent nav structures | ℹ️ Low | Lesson files have varying HTML structures for their header nav (some use `.main-nav`, some use breadcrumbs, some use inline `<header><nav>`). The JS injection adds a uniform `.site-nav` bar to all pages regardless. |
 | Lesson footers have hardcoded styles | ℹ️ Low | Some footers (e.g., lesson 43) have inline `background: #f5f5f5`. The `injectSiteFooter()` JS function replaces these with CSS variable-based styles at runtime. |
 | Copyright dates | ℹ️ Low | `index.html` and `lesson_51` updated to 2025. Other 50 lesson footers show 2024, but the JS injection replaces footer content with 2025 at runtime. |
-| No actual images | ℹ️ Low | `images/` and `assets/` directories contain only `README.md` placeholders. Image requirement docs describe what's needed but images haven't been produced yet. |
+| Image production in progress | ℹ️ Tracking | `images/` contains produced images for Lessons 01 and 02 (see Image Integration Status section above). `assets/` still contains only `README.md` placeholder. Image requirements docs continue to spec what's needed for lessons not yet in production. |
 | `parts/archive/` cleanup | ℹ️ Low | ~300 part files are still in the archive. Could be removed once the merged lesson files are confirmed complete. |
 
 ---
