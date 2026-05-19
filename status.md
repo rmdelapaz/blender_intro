@@ -2,7 +2,7 @@
 
 **Project Path:** `\\wsl$\Ubuntu\home\practicalace\projects\blender_course`  
 **Last Updated:** May 18, 2026  
-**Total Size:** ~13+ MB and growing (image integration has pushed Lesson 01 to ~118 KB and Lesson 02 to ~149 KB, plus ~36 produced image files in `images/`; precise total not measured this pass). Six Lesson 03 SVGs now shipped across two chats: planning chat added #1 `big_three_operations` and #2 `mouse_button_reference`; production chat 1 added #3 `orbit_operation`, #4 `pan_operation`, #5 `zoom_operation`, and #14 `navigation_workflow`. Lesson 03 HTML still unedited.
+**Total Size:** ~13+ MB and growing (image integration has pushed Lesson 01 to ~118 KB and Lesson 02 to ~149 KB, plus ~42 produced image files in `images/`; precise total not measured this pass). Twelve Lesson 03 SVGs now shipped across three chats: planning chat added #1 `big_three_operations` and #2 `mouse_button_reference`; production chat 1 added #3 `orbit_operation`, #4 `pan_operation`, #5 `zoom_operation`, and #14 `navigation_workflow`; production chat 2 added #7 `standard_views_cube`, #8 `numpad_layout`, #12 `perspective_depth`, #13 `orthographic_parallels`, #17 `walk_fly_controls`, and #18 `navigation_shortcuts_reference`. Lesson 03 HTML integration is now complete: 18 figures (12 inline SVG plus 6 PNG) placed across all eight target sections (the-big-three, mouse-navigation, perspective-ortho, standard-views, focus-frame, camera-view, advanced-techniques, and summary) over six phases; HTML grew from 103.5 KB to 231.8 KB (237,410 bytes).
 
 ---
 
@@ -17,7 +17,7 @@
 | Mobile Responsive | ✅ Complete | Index fully responsive; lessons inherit mobile CSS from `main.css` |
 | Index Page Modernized | ✅ Complete | Full rewrite — CSS variable-based, responsive grids, correct lesson URLs |
 | Lesson URLs Corrected | ✅ Complete | All 51 hrefs in `index.html` match actual filenames |
-| Image Production and Integration | 🚧 In Progress | Lesson 01: complete (12 of 12). Lesson 02: complete (20 of 20). Lesson 03: in progress (6 of 18 produced, 0 of 18 integrated). Lessons 04 to 51: not yet started. See per-lesson `lesson_NN_integration_progress.md` files. |
+| Image Production and Integration | 🚧 In Progress | Lesson 01: complete (12 of 12). Lesson 02: complete (20 of 20). Lesson 03: complete (18 of 18 produced, 18 of 18 integrated). Lesson 04: in progress (2 of 14 produced, 2 of 14 integrated). Lessons 05 to 51: not yet started. See per-lesson `lesson_NN_integration_progress.md` files. |
 | Version Currency (Blender 5.1) | 🚧 Per-lesson | Project target is Blender 5.1 (current stable, March 2026). Audited per lesson as content is touched; Lesson 01 done. |
 
 ---
@@ -56,8 +56,8 @@ All lesson files confirmed to have: `js/course-enhancements.js` loaded, `<footer
 |---|--------|------|------|---------|-----------|--------|
 | 1 | Welcome to Blender | `lesson_01_welcome_to_blender.html` | 118.3 KB | ✅ | ✅ | ✅ |
 | 2 | The Blender Interface | `lesson_02_the_blender_interface.html` | 148.8 KB | ✅ | ✅ | ✅ |
-| 3 | Navigation and Viewport Control | `lesson_03_navigation_and_viewport_control.html` | 103.5 KB | ✅ | ✅ | ✅ |
-| 4 | Basic Object Manipulation | `lesson_04_basic_object_manipulation.html` | 106.0 KB | ✅ | ✅ | ✅ |
+| 3 | Navigation and Viewport Control | `lesson_03_navigation_and_viewport_control.html` | 231.8 KB | ✅ | ✅ | ✅ |
+| 4 | Basic Object Manipulation | `lesson_04_basic_object_manipulation.html` | 125.7 KB | ✅ | ✅ | ✅ |
 
 ### Module 2: 3D Modeling Fundamentals
 
@@ -171,8 +171,9 @@ Image production and integration runs as a separate pass per lesson. Tracked per
 |---|---|---|---|---|
 | 01 Welcome to Blender | 12 of 12 | 12 of 12 | ✅ Complete | 4 PNG plus 8 inline SVG, placed across `what-is-blender`, `what-can-you-create`, `course-structure`, `learning-mindset`, and `getting-ready`. Image #7 (workspace screenshot) captured live via MCP from a Blender 5.1.1 session on 2026-05-18 and integrated this pass between the Version Note card and the "Setting Up Your Workspace" h3. Final file size 118.3 KB. |
 | 02 The Blender Interface | 20 of 20 | 20 of 20 | ✅ Complete | 14 PNG plus 6 inline SVG, placed across 6 phases. Phase 4 structural cleanup verified 2026-05-17 (div balance and workspace card count both confirmed). Final file size 148.8 KB. |
-| 03 Navigation and Viewport Control | 6 of 18 | 0 of 18 | 🚧 In Progress | Phases 1 and 2 SVG production complete (6 of 12 SVGs shipped to `images/`). Phase 1 (the-big-three): #1, #3, #4, #5, #14 all produced. Phase 2 (mouse-navigation): #2 produced. Six SVGs remain for Phases 3, 4, 6: #7, #8 (numpad theme), #12, #13 (perspective-ortho theme), #17, #18 (close-out). Six PNGs (#6, #9, #10, #11, #15, #16) still need Blender screenshots; sourcing routes documented in `lesson_03_image_prompts.md` (real captures strongly preferred over AI generation). HTML file unchanged at 103.5 KB; integration pass not yet started. |
-| 04 to 51 | not started | n/a | ⏳ Pending | Image requirements docs exist for every lesson (`lesson_NN_image_requirements*.md`). |
+| 03 Navigation and Viewport Control | 18 of 18 | 18 of 18 | ✅ Complete | All 18 Lesson 03 image assets (12 SVGs and 6 PNGs) are produced and reside in `images/`. Integration complete across all six phases: 12 inline SVGs (#1, #2, #3, #4, #5, #7, #8, #12, #13, #14, #17, #18) plus 6 PNGs (#6, #9, #10, #11, #15, #16) inlined across the-big-three, mouse-navigation, perspective-ortho, standard-views, focus-frame, camera-view, advanced-techniques, and summary sections per the placement table in `lesson_03_integration_progress.md` using the locked inline pattern (plain `<figure>`/`<figcaption>` wrapper, `color="#222"` stripped from each root `<svg>`, 20-space content depth for SVGs; standard `<img>` with descriptive alt for PNGs). HTML grew from 103.5 KB to 231.8 KB (+128.3 KB across five integration chats covering six phases; Phases 3 and 4 ran in a single chat). Per-phase handoff files at `lesson_03_integration_phase2_handoff.md`, `lesson_03_integration_phase3_handoff.md`, `lesson_03_integration_phase5_handoff.md`, and `lesson_03_integration_phase6_handoff.md`. Lesson 03 close-out archive at `lesson_03_completion_handoff.md` (project root). |
+| 04 Basic Object Manipulation | 2 of 14 | 2 of 14 | 🚧 In Progress | Phase 1 of 6 complete. Both selection-basics SVGs produced and inlined: `lesson_04_01_selection_states.svg` (5578 bytes, id prefix `ss`) inserted in Understanding Selection States between the outline-states `<ul>` and the active-object `<p>`; `lesson_04_02_selection_tools.svg` (9540 bytes, id prefix `st`) inserted in Advanced Selection Techniques between the More Selection Tools card and the selection-methods mermaid block. Both inserts via `Filesystem:edit_file` with dry-run-before-commit, `color="#222"` stripped from each inlined root tag, content re-indented to 20-space depth, em-dash discipline preserved. HTML grew from 106.0 KB (108546 bytes) to 125.7 KB (128694 bytes), plus 20.1 KB across both inserts. See `lesson_04_integration_progress.md`, `lesson_04_integration_phase1_integration_handoff.md`, and `lesson_04_integration_phase2_handoff.md`. |
+| 05 to 51 | not started | n/a | ⏳ Pending | Image requirements docs exist for every lesson (`lesson_NN_image_requirements*.md`). |
 
 ### Locked integration approach (applies to all lessons)
 
@@ -211,8 +212,11 @@ Every lesson has one or more `*_image_requirements*.md` files specifying the ima
 - `lesson_02_completion_handoff.md`: Lesson 02 image production handoff
 - `lesson_02_next_chat_handoff.md`: Mid-project Lesson 02 handoff note
 - `lesson_02_phase4_cleanup_handoff.md`: Lesson 02 Phase 4 cleanup handoff
-- `lesson_03_integration_progress.md`: Lesson 03 image integration plan, current state, and locked approach (in progress)
+- `lesson_03_integration_progress.md`: Lesson 03 image integration plan and final state (complete)
 - `lesson_03_image_prompts.md`: Capture instructions and AI-fallback prompts for Lesson 03's six PNGs (all Blender UI screenshots)
+- `lesson_03_completion_handoff.md`: Lesson 03 image production and integration close-out handoff
+- `lesson_04_integration_progress.md`: Lesson 04 image integration plan, current state (Phase 1 complete; 2 of 14 SVGs produced and integrated; HTML at 125.7 KB), and locked approach
+- `lesson_04_image_prompts.md`: Capture instructions and Adobe Firefly plus Canva AI fallback prompts for Lesson 04's four PNGs (#8 3D cursor, #9 Shift+S snap pie menu, #12 N-panel Item tab, #13 finished table-scene render)
 - `wave3_continuation_prompt.md`: Wave 3 image production continuation prompt
 
 ### Archive
