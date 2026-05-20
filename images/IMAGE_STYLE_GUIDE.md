@@ -4,7 +4,7 @@
 
 **Project root:** `\\wsl$\Ubuntu\home\practicalace\projects\blender_course\`
 **Image output:** `images/` subfolder
-**Status:** v2 — locked. Pilot is `lesson_01_08_folder_structure.svg`.
+**Status:** v3 — locked. Pilot is `lesson_01_08_folder_structure.svg`. v3 adds axis color conventions, orange tie-break rule, and cheat-sheet badge variants.
 
 ---
 
@@ -54,15 +54,41 @@ Brand colors (orange, folder category colors) are fixed hex values because they 
 
 Use these consistently when the same concept appears across images.
 
-| Concept              | Hex       | Notes                                       |
-|----------------------|-----------|---------------------------------------------|
-| Blender brand        | `#FF6B00` | Roots, anchors, primary accents, top strip  |
-| Course / structure   | `#4A9EFF` | Course modules, navigation, "your work"     |
-| Course (darker)      | `#3a7fd1` | Sub-elements of course/structure            |
-| Practice / process   | `#B47EE8` | Experiments, exercises, practice            |
-| Reference / inspire  | `#FF7EA8` | Reference material, inspiration             |
-| Resources / external | `#4ADE80` | Tutorials, links, community resources       |
-| Portfolio / outcome  | `#F5C242` | Finished work, destination, success states  |
+| Concept                                  | Hex       | Notes                                                                                              |
+|------------------------------------------|-----------|----------------------------------------------------------------------------------------------------|
+| Blender brand / tie-break accent         | `#FF6B00` | Roots, anchors, primary accents, top strip. Also tie-break (see below).                            |
+| Course / structure / Z-axis              | `#4A9EFF` | Course modules, navigation, "your work". Also Z-axis in 3D diagrams.                               |
+| Course (darker)                          | `#3a7fd1` | Sub-elements of course/structure                                                                   |
+| Practice / process                       | `#B47EE8` | Experiments, exercises, practice                                                                   |
+| Reference / inspire                      | `#FF7EA8` | Reference material, inspiration                                                                    |
+| Resources / external / Y-axis / Normals  | `#4ADE80` | Tutorials, links, community resources. Also Y-axis. Also normals (Lesson 05+).                     |
+| Portfolio / outcome                      | `#F5C242` | Finished work, destination, success states                                                         |
+| X-axis / Warning                         | `#E63946` | X-axis in 3D diagrams. Also warning states (Lesson 05+: flipped normals, non-manifold edges, bad topology). |
+
+### Axis color conventions
+
+3D diagrams in lessons that show coordinate axes (Lesson 04 onward) use Blender's own axis colors so the diagrams match what learners see in the viewport:
+
+- **X-axis:** `#E63946` red
+- **Y-axis:** `#4ADE80` green
+- **Z-axis:** `#4A9EFF` blue
+
+These hex values match Blender's viewport gizmo colors closely enough that diagrams feel native without being literal pixel-matches. Because Y-axis green and Z-axis blue are reused from the resources and course palette roles, the dual purpose is documented in the brand colors table above. When the same diagram needs to show both an axis color AND its non-axis semantic role (e.g., a course-navigation arrow on the same canvas as a Z-axis line), prefer to recolor the non-axis element to avoid confusion. The typical fix is swapping it to brand orange or to a muted neutral.
+
+### Orange tie-break rule
+
+`#FF6B00` Blender brand orange has no axis role and no scarce-resource semantic role, which makes it ideal as a tie-breaker when two or more palette roles would otherwise compete for the same element on a single diagram. Use orange to highlight whichever element should "win" the reader's attention, then let the original color hierarchy carry the rest. Example: on a topology diagram that needs to highlight one vertex among many, the highlighted vertex takes `#FF6B00` regardless of whether other vertices use axis colors elsewhere on the canvas.
+
+This rule formalizes what already happens informally in Lesson 04 (gizmo center dot) and Lesson 05 (highlighted vertex in mesh-components SVG).
+
+### Cheat-sheet badge variants
+
+Lesson cheat-sheet cards and inline operation badges come in two visual variants:
+
+- **Filled:** solid fill at the brand color, white text. Bold, high-emphasis. Use for "primary" operations in a lesson's main cheat-sheet card (Lesson 03 navigation shortcuts, Lesson 04 keyboard shortcuts).
+- **Muted:** transparent fill (4-10% opacity of the brand color) with the brand color as border and text. Low-emphasis. Use for secondary or supplementary badges, or when many badges appear close together and full saturation would compete.
+
+Choose one variant per lesson and apply it consistently across that lesson's badges. Mixing filled and muted badges within a single lesson is allowed when the visual hierarchy actively benefits (e.g., primary operation filled, optional variants muted), but the default is "all filled" or "all muted" within a lesson.
 
 ### Text & line colors (via `currentColor` + opacity)
 
@@ -223,18 +249,20 @@ When SVGs need to reference real course content (module names, lesson titles, et
 
 ---
 
-## Locked decisions (v2)
+## Locked decisions (v3)
 
 1. **Theming:** Transparent / page-inheriting via `currentColor`. Fallback `color="#222"` on `<svg>` root. Inline embedding preferred for full dark/light support.
 2. **Right-column descriptions:** Always on for top-level items in hierarchical diagrams.
 3. **Footer tip callout:** Apply consistently across lesson images.
 4. **Real names:** Use real course content (module names, lesson titles) sourced from the course-specific data files above, not generic placeholders.
 5. **Brand orange top accent:** Always present (3px strip at y=0).
-6. **Color palette:** As listed. No swaps.
+6. **Color palette:** As listed. No swaps. Axis colors match Blender's viewport convention (X=red `#E63946`, Y=green `#4ADE80`, Z=blue `#4A9EFF`).
+7. **Tie-break and badge variants:** Use `#FF6B00` orange as the tie-break highlight color when palette roles compete on a single diagram. Choose one cheat-sheet badge variant (filled or muted) per lesson and apply consistently.
 
 ---
 
 ## Revision log
 
-- **v2 (current)** — Locked decisions per Ray's review of the v1 pilot. Switched from self-contained dark panel to transparent / page-inheriting using `currentColor`. Added course-specific data section with real module names from `curriculum_overview.md`. Pilot redone as `lesson_01_08_folder_structure.svg`.
+- **v3 (current, 2026-05-20).** Folded `#E63946` X-axis red into the canonical palette. Documented dual roles for `#4ADE80` (Y-axis + resources + Lesson 05 normals) and `#4A9EFF` (Z-axis + course/structure). Added the axis color convention subsection (X=red, Y=green, Z=blue matching Blender's viewport), the orange tie-break rule (reserve `#FF6B00` as the cross-palette highlight), and the cheat-sheet badge variant policy (filled vs muted, one per lesson). No SVGs need re-issue; existing Lesson 04 and Lesson 05 Phase 1 SVGs already follow the conventions informally. Locked decisions bumped to 7 entries.
+- **v2** — Locked decisions per Ray's review of the v1 pilot. Switched from self-contained dark panel to transparent / page-inheriting using `currentColor`. Added course-specific data section with real module names from `curriculum_overview.md`. Pilot redone as `lesson_01_08_folder_structure.svg`. Superseded by v3.
 - **v1** — Initial pilot with dark self-contained panel theme. Superseded.
