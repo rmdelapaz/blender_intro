@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560"
+     role="img" aria-labelledby="gl-title gl-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="#222">
+  <title id="gl-title">Global axes versus local axes</title>
+  <desc id="gl-desc">Two cubes shown side by side with axis arrows. The left panel shows the cube in its default orientation with red X, green Y, and blue Z arrows aligned to the world. The right panel shows the same cube rotated around the Z axis. The axis arrows in the right panel rotate with the cube so they now point along the object's own X, Y, and Z directions instead of the world's. A shared note below the panels explains that global axes stay fixed to the world while local axes rotate with the object. A footer tip explains that pressing the axis key twice after G, R, or S switches the constraint from global to local.</desc>
+
+  <!-- Top brand accent -->
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+  <!-- Heading -->
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">GLOBAL VS LOCAL AXES</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">The axis key constrains to the world. Press it twice to constrain to the object.</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <!-- Subhead -->
+  <text x="400" y="138" font-size="15" font-weight="700" fill="#FF6B00" text-anchor="middle" letter-spacing="2">WORLD SPACE VS OBJECT SPACE</text>
+
+  <!-- =============================================================== -->
+  <!-- TWO PANELS                                                       -->
+  <!-- Left  (Global): translate(40, 160)   340 x 260                   -->
+  <!-- Right (Local):  translate(420, 160)  340 x 260                   -->
+  <!-- Cube + gnomon centered at panel local (170, 130)                 -->
+  <!-- =============================================================== -->
+
+  <!-- ===== LEFT PANEL: GLOBAL AXES ===== -->
+  <g transform="translate(40, 160)">
+    <rect x="0" y="0" width="340" height="260" rx="8"
+          fill="currentColor" fill-opacity="0.04"
+          stroke="currentColor" stroke-width="1" stroke-opacity="0.2"/>
+
+    <!-- Panel header -->
+    <text x="170" y="26" font-size="16" font-weight="700" fill="#FF6B00" text-anchor="middle">Global Axes</text>
+    <text x="170" y="44" font-size="12" fill="currentColor" opacity="0.7" text-anchor="middle">World Space (default)</text>
+
+    <!-- Gnomon arrows from (170, 130), drawn first so cube can sit on top -->
+    <g>
+      <!-- X arrow: horizontal right, red -->
+      <line x1="170" y1="130" x2="245" y2="130" stroke="#E63946" stroke-width="3" stroke-linecap="round"/>
+      <polygon points="245,130 235,124 235,136" fill="#E63946"/>
+      <!-- Y arrow: upper right (depth direction), green -->
+      <line x1="170" y1="130" x2="220" y2="95" stroke="#4ADE80" stroke-width="3" stroke-linecap="round"/>
+      <polygon points="220,95 211,99 217,108" fill="#4ADE80"/>
+      <!-- Z arrow: straight up, blue -->
+      <line x1="170" y1="130" x2="170" y2="60" stroke="#4A9EFF" stroke-width="3" stroke-linecap="round"/>
+      <polygon points="170,60 163,72 177,72" fill="#4A9EFF"/>
+    </g>
+
+    <!-- Cube: 50 x 50, depth offset 18, 15. Centered around (130, 130) -->
+    <g opacity="0.10">
+      <rect x="105" y="105" width="50" height="50" fill="currentColor"/>
+      <polygon points="105,105 123,90 173,90 155,105" fill="currentColor"/>
+      <polygon points="155,105 173,90 173,140 155,155" fill="currentColor"/>
+    </g>
+    <g stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
+      <rect x="105" y="105" width="50" height="50"/>
+      <polygon points="105,105 123,90 173,90 155,105"/>
+      <polygon points="155,105 173,90 173,140 155,155"/>
+    </g>
+
+    <!-- Axis labels at arrowheads -->
+    <text x="252" y="135" font-size="14" font-weight="700" fill="#E63946">X</text>
+    <text x="227" y="92" font-size="14" font-weight="700" fill="#4ADE80">Y</text>
+    <text x="170" y="52" font-size="14" font-weight="700" fill="#4A9EFF" text-anchor="middle">Z</text>
+
+    <!-- Description -->
+    <text x="170" y="220" font-size="12" fill="currentColor" opacity="0.75" text-anchor="middle">Axes follow the world</text>
+    <text x="170" y="238" font-size="11" fill="currentColor" opacity="0.55" text-anchor="middle">G X locks the move along world X</text>
+  </g>
+
+  <!-- ===== RIGHT PANEL: LOCAL AXES ===== -->
+  <g transform="translate(420, 160)">
+    <rect x="0" y="0" width="340" height="260" rx="8"
+          fill="currentColor" fill-opacity="0.04"
+          stroke="currentColor" stroke-width="1" stroke-opacity="0.2"/>
+
+    <!-- Panel header -->
+    <text x="170" y="26" font-size="16" font-weight="700" fill="#FF6B00" text-anchor="middle">Local Axes</text>
+    <text x="170" y="44" font-size="12" fill="currentColor" opacity="0.7" text-anchor="middle">Object Space (after rotation)</text>
+
+    <!-- Faint dashed world-axis reference at (170, 130), unrotated, low opacity -->
+    <g opacity="0.20" stroke-dasharray="3 3">
+      <line x1="170" y1="130" x2="245" y2="130" stroke="#E63946" stroke-width="1.5"/>
+      <line x1="170" y1="130" x2="220" y2="95" stroke="#4ADE80" stroke-width="1.5"/>
+      <line x1="170" y1="130" x2="170" y2="60" stroke="#4A9EFF" stroke-width="1.5"/>
+    </g>
+    <text x="250" y="143" font-size="9" fill="currentColor" opacity="0.45" font-style="italic">world ref.</text>
+
+    <!-- Rotated composition: cube + gnomon arrows, rotated 30 degrees CCW around (170, 130) -->
+    <g transform="rotate(-30 170 130)">
+      <!-- Gnomon arrows from (170, 130) -->
+      <line x1="170" y1="130" x2="245" y2="130" stroke="#E63946" stroke-width="3" stroke-linecap="round"/>
+      <polygon points="245,130 235,124 235,136" fill="#E63946"/>
+      <line x1="170" y1="130" x2="220" y2="95" stroke="#4ADE80" stroke-width="3" stroke-linecap="round"/>
+      <polygon points="220,95 211,99 217,108" fill="#4ADE80"/>
+      <line x1="170" y1="130" x2="170" y2="60" stroke="#4A9EFF" stroke-width="3" stroke-linecap="round"/>
+      <polygon points="170,60 163,72 177,72" fill="#4A9EFF"/>
+
+      <!-- Cube: same 50 x 50 with depth offset 18, 15. Centered around (130, 130) -->
+      <g opacity="0.10">
+        <rect x="105" y="105" width="50" height="50" fill="currentColor"/>
+        <polygon points="105,105 123,90 173,90 155,105" fill="currentColor"/>
+        <polygon points="155,105 173,90 173,140 155,155" fill="currentColor"/>
+      </g>
+      <g stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
+        <rect x="105" y="105" width="50" height="50"/>
+        <polygon points="105,105 123,90 173,90 155,105"/>
+        <polygon points="155,105 173,90 173,140 155,155"/>
+      </g>
+    </g>
+
+    <!-- Upright axis labels positioned at the rotated arrowhead endpoints -->
+    <text x="243" y="92" font-size="14" font-weight="700" fill="#E63946">X</text>
+    <text x="201" y="65" font-size="14" font-weight="700" fill="#4ADE80">Y</text>
+    <text x="125" y="64" font-size="14" font-weight="700" fill="#4A9EFF" text-anchor="middle">Z</text>
+
+    <!-- Description -->
+    <text x="170" y="220" font-size="12" fill="currentColor" opacity="0.75" text-anchor="middle">Axes follow the object</text>
+    <text x="170" y="238" font-size="11" fill="currentColor" opacity="0.55" text-anchor="middle">G X X locks the move along object X</text>
+  </g>
+
+  <!-- ===== Shared "WORLD VS OBJECT" inset ===== -->
+  <g transform="translate(60, 438)">
+    <rect x="0" y="0" width="680" height="52" rx="6"
+          fill="currentColor" fill-opacity="0.04"
+          stroke="currentColor" stroke-width="1" stroke-opacity="0.2"/>
+    <text x="14" y="20" font-size="11" font-weight="700" fill="currentColor" opacity="0.75" letter-spacing="0.8">WORLD VS OBJECT</text>
+    <text x="14" y="40" font-size="12" fill="currentColor" opacity="0.8">Global axes stay fixed to the scene. Local axes rotate with the object, so they point along the object's own sides.</text>
+  </g>
+
+  <!-- Footer tip callout -->
+  <rect x="40" y="506" width="720" height="34" rx="6"
+        fill="#FF6B00" fill-opacity="0.10"
+        stroke="#FF6B00" stroke-opacity="0.4"/>
+  <text x="54" y="528" font-size="13" fill="currentColor">
+    <tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Press the axis key twice to switch to local. G X moves along world X, G X X moves along the object's own X.
+  </text>
+</svg>

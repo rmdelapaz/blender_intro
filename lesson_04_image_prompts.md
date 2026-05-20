@@ -19,6 +19,10 @@ For AI fallback when Blender capture is impossible:
 
 PNGs that fail acceptance criteria from AI generation should fall back to a manual screenshot by Ray on his Blender 5.1 install. Document any fallback path in this file as a new note when it happens.
 
+### Addon safety note (added 2026-05-19)
+
+Do NOT call `bpy.ops.wm.read_factory_settings(use_empty=False)` from MCP-executed code. That call reloads Blender's startup file, which forcibly unregisters all addons including BlenderMCP, killing the socket and ending the session mid-execution. Recovery requires restarting Blender and manually re-clicking Start MCP Server in the N-panel BlenderMCP tab. The four PNG state-setup snippets below have been patched to operate on the existing scene without resetting it. For a true factory-clean baseline, restart Blender manually before the capture chat begins; do not try to factory-reset from inside MCP-executed code. This was discovered during the 2026-05-19 Phase 4 production chat after `read_factory_settings` killed the bridge twice in a row before the addon-safe pattern was identified.
+
 ---
 
 ## Image #8: 3D Cursor Placement
@@ -34,8 +38,9 @@ PNGs that fail acceptance criteria from AI generation should fall back to a manu
 ```python
 import bpy
 
-# Reset to factory startup
-bpy.ops.wm.read_factory_settings(use_empty=False)
+# Assumes a fresh Blender session. Do NOT call read_factory_settings here;
+# it unregisters the BlenderMCP addon (see the Addon safety note above).
+# If extra objects exist from prior runs, delete them via the UI first.
 
 # Move the 3D cursor to a visible off-center location
 bpy.context.scene.cursor.location = (2.5, -1.5, 0.8)
@@ -127,8 +132,9 @@ Blender 3D viewport screenshot, training material style. Center: a red-and-white
 ```python
 import bpy
 
-# Reset to factory startup
-bpy.ops.wm.read_factory_settings(use_empty=False)
+# Assumes a fresh Blender session. Do NOT call read_factory_settings here;
+# it unregisters the BlenderMCP addon (see the Addon safety note above).
+# If extra objects exist from prior runs, delete them via the UI first.
 
 # Select the default cube so the pie menu has a valid selection context
 cube = bpy.data.objects.get("Cube")
@@ -209,8 +215,9 @@ Mockup of Blender's Shift+S radial pie menu. Eight options arranged in a circle 
 import bpy
 import math
 
-# Reset to factory startup
-bpy.ops.wm.read_factory_settings(use_empty=False)
+# Assumes a fresh Blender session. Do NOT call read_factory_settings here;
+# it unregisters the BlenderMCP addon (see the Addon safety note above).
+# If extra objects exist from prior runs, delete them via the UI first.
 
 # Set the default cube to interesting transform values so the N-panel
 # shows non-zero numbers (Location, Rotation, Scale)
@@ -298,8 +305,10 @@ The image is the finished outcome of the lesson's Step 1 through Step 7 project.
 ```python
 import bpy
 
-# Reset to factory startup, delete default cube
-bpy.ops.wm.read_factory_settings(use_empty=False)
+# Assumes a fresh Blender session. Do NOT call read_factory_settings here;
+# it unregisters the BlenderMCP addon (see the Addon safety note above).
+# This snippet deletes the default cube to start the scene build cleanly.
+# If extra objects exist from prior runs, delete them via the UI first too.
 bpy.ops.object.select_all(action='DESELECT')
 cube = bpy.data.objects.get("Cube")
 if cube:
