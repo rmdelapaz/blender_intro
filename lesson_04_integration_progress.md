@@ -1,6 +1,10 @@
 # Lesson 04 HTML Integration: Progress
 
-Tracks production and integration of the 14 Lesson 04 images into `lesson_04_basic_object_manipulation.html`. Image production starts fresh in this chat; no `lesson_04_*` assets exist in `images/` at chat start.
+**Current state:** COMPLETE 2026-05-19. All 14 Lesson 04 images produced or captured (10 SVGs + 4 PNGs) and inlined into `lesson_04_basic_object_manipulation.html` across 6 phases. 14 of 14 integrated. HTML grew from 106.0 KB (108,546 bytes) to 229.2 KB (234,730 bytes); total integration delta +123.2 KB (+126,184 bytes). Lesson close-out documented in `lesson_04_completion_handoff.md`.
+
+Running narrative log for Lesson 04 image production and integration. Status section bullets run newest at top, oldest at bottom; each bullet corresponds to one chat in the per-phase cadence (production-then-integration from Phase 4 onward; Phases 1, 2, and 3 combined production plus integration in single chats since they predated the cadence lock-in).
+
+The intermediate per-phase handoff files from Phases 1, 2, and 3 (six files total) were moved to `cleanup/` on 2026-05-20; they are superseded by this doc plus `lesson_04_completion_handoff.md`. See `cleanup/README.md` for the inventory. Phases 4, 5, and 6 did not generate dedicated handoff files (they used `session.md` overwrite instead).
 
 ## Status
 
@@ -177,32 +181,6 @@ These Lesson 04 SVGs adapt patterns proven in Lesson 03:
 - **#3 transform_gizmo**: detailed close-up of the Blender gizmo on a single cube with annotated arrows. Single-panel layout, like Lesson 02 #2 areas_editors_concept.
 - **#10 duplication_comparison**: two-column comparison. Left: Shift plus D showing independent copies. Right: Alt plus D showing linked copies with chain-link visual indicators.
 - **#11 origin_point**: single-panel illustration of a cube with the orange origin dot, plus three small annotation diagrams around it (rotation pivot, scale center, location reference). Adapts the Lesson 03 #1 (big_three_operations) composition: one hero visual with supporting callouts.
-
-## Phase 1 production notes (for the next chat to pick up)
-
-Phase 1 covers selection-basics: SVGs #1 (selection_states) and #2 (selection_tools). Both are diagrammatic and convert cleanly to the locked house style.
-
-Production order: #1 first (simpler, just outline states), then #2 (slightly more complex with three tool shapes). Both fit the 800px viewBox with a single hero row.
-
-#1 selection_states design notes:
-
-- Three identical cubes laid out horizontally at y around 250.
-- Each cube uses a simple isometric or front-three-quarter view (re-use the cube outline approach from Lesson 03 #7 standard_views_cube).
-- Outline state 1 (leftmost): bright Blender orange `#FF6B00` stroke at full opacity. Label below: "Active (Bright Orange)".
-- Outline state 2 (middle): lighter orange stroke. Use `#FF6B00` at opacity 0.5 or a hand-mixed lighter hex like `#FFB280`. Label below: "Selected, Not Active".
-- Outline state 3 (rightmost): no stroke, just the cube fill. Label below: "Unselected".
-- Footer tip callout: orange-on-orange-tint tip explaining that the active object is the last one you selected and is the one whose properties show in the Properties panel.
-
-#2 selection_tools design notes:
-
-- Three panels at y around 200. Each panel is roughly 240 wide.
-- Panel 1 (Box Select): dashed rectangle drawn around two small primitive icons. Tool indicator: a stylized B key in the corner.
-- Panel 2 (Circle Select): a circle brush hovering over a primitive. Tool indicator: a C key in the corner.
-- Panel 3 (Lasso Select): a freeform closed curve around two primitives. Tool indicator: Ctrl + left drag glyph in the corner.
-- Use `currentColor` opacity 0.4 for the dashed rectangle and the freeform curve so they read as "selection brushes" rather than solid graphics. The circle brush uses Blender orange at opacity 0.3 for the fill plus full-opacity stroke for the outline.
-- Footer tip callout: short reminder that all three tools live one key press apart and pair with `Alt + A` to deselect.
-
-End of Phase 1 production: 2 of 14 images produced. Phase 1 integration (the actual HTML insert) is a separate chat after both SVGs are written.
 
 ## Standing rules (carry forward from Lesson 03 completion handoff)
 

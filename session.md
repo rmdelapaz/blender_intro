@@ -6,44 +6,64 @@ Single-block snapshot per `INTERRUPTION_RECOVERY.md` pillar 2.2. Overwrite-every
 
 ## Chat / Date / Status
 
-**Lesson 05 Phase 3 PRODUCTION chat.** 2026-05-20. **CLOSED CLEAN (all 5 images on disk).**
+**Lesson 05 Phase 5 INTEGRATION partial close.** 2026-05-21. **PAUSED MID-PHASE before context compaction risk. 2 of 5 figures integrated and verified; 3 remaining + post-integration cleanup for the continuation chat.**
 
-Authored 2 SVGs and captured all 3 PNGs for the `#mesh-density` and `#normals` sections of `lesson_05_understanding_meshes_and_geometry.html`. SVG #8 `lesson_05_08_density_comparison_sphere.svg` (7,411 bytes, id prefix `ds`) authored with the locked trade-off framing: paired-panel low-poly vs high-poly with use-case footers (Games, VR, backgrounds, mobile vs Film, product viz, hero close-ups, sculpting). SVG #9 `lesson_05_09_smooth_vs_flat_shading.svg` (9,991 bytes, id prefix `sf`) authored as paired-panel: left FLAT shows 12 per-face normal arrows in `#4ADE80` (via a shared SVG marker for the arrowhead), right SMOOTH shows 12 per-vertex normal arrows over a radial gradient fill. Both SVGs use the locked `#4ADE80` Normals green and follow the locked house style (800x560 viewBox, top 3px orange accent, system-ui font, retain `color="#222"` on standalone files). BlenderMCP block 1 set up a fresh UV sphere named NormalSphere (segments=16, ring_count=8, 114 verts and 128 faces) at origin with view rotation set to Blender's default user perspective `Euler((radians(63.6), 0, radians(-46.7)), 'XYZ')` and `view_distance=5.0`, and rendered #10 `lesson_05_10_face_normals_visualization.png` (711,611 bytes) with face normals overlay at length 0.3 via the Phase 2 OpenGL temp_override pattern. Block 2 stayed in Edit Mode on the same sphere, switched overlays (face normals off, face orientation on), flipped 48 of 128 faces (top 1/3 cluster, `f.calc_center_median().z > 0.4`) via `bmesh.ops.reverse_faces`, and rendered #11 `lesson_05_11_flipped_normals_problem.png` (693,316 bytes) showing the red flipped cap on top and blue correctly-oriented faces below. PNG #28 `lesson_05_28_normals_overlay_toggle.png` (149,601 bytes) captured manually by Ray via Win+Shift+S of the Blender Overlays dropdown with the Normals section visible plus one section above and one below for context; initial save had a `.pn.png` filename typo which was renamed to `.png` via `Filesystem:move_file`. All five image files verified via `Filesystem:get_file_info`. Placement table rows in `lesson_05_integration_progress.md` flipped: #8 and #9 to `produced; not integrated`, #10 and #11 and #28 to `captured; not integrated`. Phase plan row 3 flipped to `PRODUCTION COMPLETE 2026-05-20`. Header Current state line, Available section (8 to 13 entries), and Missing section (22 to 17) all updated. HTML not modified this chat.
+Integrated and verified this chat: (1) plan-lock section `## Phase 5 INTEGRATION plan (locked 2026-05-21)` written to `lesson_05_integration_progress.md` (+16,169 B, growing the doc from 104,111 to 120,280 bytes); the section contains every anchor `oldText`, figcaption text, overlay spec, indentation rule, pre-existing em-dash inventory, per-figure HTML-size projection, and post-integration cleanup checklist for all 5 Phase 5 figures and is the canonical reference for the continuation chat. (2) PNG #29 `lesson_05_29_inset_ngon_creation.png` inlined inside the Exercise 6 card in `#mesh-project` (NOT `#topology` despite the placement-table Section column; the table's row 29 Section column will be corrected to `#mesh-project` during post-integration cleanup) with c29 overlay carrying three green badges centered at cx=640/1920/3200 above each panel labeled `SELECT CAP` / `INSET` / `EXTRUDE` (no highlights or leaders, per locked decision because the 2px `#FF6B00` vertical dividers baked into the PNG already carry panel boundaries); HTML 194,925 → 197,366 (+2,441 B); pre-existing em-dashes `square border—this is an n-gon` and `selects—it's an octagon!` in the Exercise 6 `<ol>` preserved verbatim through the edit; namespaced `c29-badge-1`/`c29-badge-2`/`c29-badge-3` rect + text ids and `c29-title`/`c29-desc` accessibility nodes; deeper indentation variant used (figure col 20 / inner div col 24 / img + overlay svg col 28 / overlay children col 32) matching the #16 inside-Try-It-Now-card precedent from Phase 4 INTEGRATION. (3) SVG #24 `lesson_05_24_topology_pole_types.svg` inlined between 🔷 Common Patterns card close and the `<div class="mermaid">` block in `#topology` (5-line anchor with the Flow Lines `<li>` as the uniqueness key); HTML 197,366 → 212,521 (+15,155 B); `color="#222"` stripped from root, multi-line root attribute declaration collapsed onto a single line, all structural comments preserved (`<!-- Top accent rail -->`, `<!-- Header band -->`, four `<!-- Panel N -->` markers, `<!-- Edges from center to 3 peripheral dots -->`, `<!-- Peripheral dots (2-layer) -->`, `<!-- Central vertex glyph (3-layer) -->`, `<!-- Panel label -->`, `<!-- Property pills row -->` with three `<!-- Pill N -->` markers, `<!-- Italic takeaway -->`, `<!-- Footer tip card -->`), subhead `POLE COUNT · ACCEPTABILITY` uses middle-dot per locked rule, `&gt;` encoding preserved in the footer tip text. Three remaining for the continuation chat: SVG #19 character edge flow (5,123 B standalone, ~7 KB inlined; anchor between Topology Patterns intro `<p>` and 🔷 Common Patterns card open), SVG #18 good vs bad topology (10,041 B standalone, ~12 KB inlined; anchor between 🎯 Topology Impact Areas card close and `<h3>Topology Patterns</h3>`), PNG #17 edge loop selection (709,325 B; c17 EDGE LOOP green ellipse + leader + badge overlay; anchor between Edge Flow and Edge Loops intro `<p>` and 🔄 Edge Loops card open). Plus post-integration progress doc cleanup (header `Current state` line flipped to `Phase 5 INTEGRATION COMPLETE 2026-05-21`, new dated 2026-05-21 Status bullet at top of Status section, all 5 placement-table rows flipped from `produced; not integrated` / `captured; not integrated` to `integrated`, row 29 Section column corrected from `#topology` to `#mesh-project`, Phase plan row 5 prepended with `**INTEGRATION COMPLETE 2026-05-21**` marker, Available section dropped from 5 to 0, Missing section unchanged at 6) and final `session.md` re-write to point at Phase 6 PRODUCTION.
 
-**Lesson 05 current state:** 8 of 30 integrated (4 SVGs + 4 PNGs, from Phases 1 and 2). 13 of 30 produced or captured. 17 of 30 still missing (9 SVGs plus 8 PNGs). HTML at 129.4 KB (132,484 bytes).
+**Lesson 05 current state:** 21 of 30 integrated (10 SVGs + 9 PNGs from Phases 1-4, plus PNG #29 + SVG #24 from this partial Phase 5 INTEGRATION chat). 3 produced but not integrated (SVG #19, SVG #18, PNG #17; all in the continuation queue). 6 of 30 still missing (3 SVGs: #20, #21, #23; 3 PNGs: #22, #25, #30; all in Phase 6). HTML at 212,521 bytes (207.5 KB), grown from 194,925 bytes (190.4 KB) at chat start. Phase 5 INTEGRATION cumulative delta at pause: 17.6 KB of 37-39 KB projected; ~20-22 KB remaining for the continuation chat.
 
 ---
 
 ## Current step (next chat)
 
-**Recommended next step: Lesson 05 Phase 3 INTEGRATION.**
+**Recommended next step: Lesson 05 Phase 5 INTEGRATION continuation (final 3 figures + post-integration cleanup).**
 
-Inline all 5 Phase 3 images into `lesson_05_understanding_meshes_and_geometry.html` at the locked placements documented in the progress doc placement table and Phase plan row 3 notes. Workflow: integrate bottom-up (highest line number first) so earlier line numbers stay stable across edits. Order: #9, then #11, then #28, then #10, then #8.
+Pure execution. Every anchor, oldText snippet, figcaption text, overlay spec, indentation rule, em-dash inventory, and cleanup checklist is locked in writing in the `## Phase 5 INTEGRATION plan (locked 2026-05-21)` section of `lesson_05_integration_progress.md`. No re-planning needed in the continuation chat.
 
-**Recommended kickoff for the next chat:**
+**Recommended kickoff for the continuation chat:**
 
 1. Read this `session.md`
-2. Read `lesson_05_integration_progress.md` (master planning doc) for full context, especially the Phase 3 PRODUCTION status bullet at the top of the Status section and the updated Next chat section
-3. Verify all 5 image files via `Filesystem:get_file_info`
-4. Integrate bottom-up: #9 then #11 then #28 then #10 then #8, using `Filesystem:edit_file` with `dryRun=true` first then commit with `dryRun=false` then `Filesystem:get_file_info` verify after every commit
-5. Design inline-stacked overlays for the three PNGs (#10, #11, #28): wrapper div `position: relative; display: inline-block; max-width: 100%`, overlay SVG with `pointer-events: none` and viewBox matching the PNG pixel dimensions (1280x720 for #10 and #11; native crop size for #28), namespaced ids (`c10-*`, `c11-*`, `c28-*`)
-6. At chat close, update `lesson_05_integration_progress.md` placement table rows for the integrated images (flip to `integrated`), Phase plan row 3 (flip to `INTEGRATION COMPLETE`), header Current state line, Available and Missing sections, and add a new dated Status bullet; overwrite this `session.md` to point at Phase 4 PRODUCTION (polygon-types) as the next pass
+2. Read the `## Phase 5 INTEGRATION plan (locked 2026-05-21)` section in `lesson_05_integration_progress.md` (sits between the Phase 5 PRODUCTION specs section and the Locked rules header; canonical detailed plan)
+3. Confirm continuation as the chat's goal
+4. For each remaining figure: read the relevant HTML region for the anchor (one tail or middle read of `#topology` covers all three since they sit in adjacent subsections), build the `newText` per the indentation rules in the plan-lock section, dry-run `Filesystem:edit_file`, commit (`dryRun=false`), verify with `Filesystem:get_file_info` for size delta
+5. Execute integrations bottom-up by line number for stability:
+   - **#19** SVG between Topology Patterns intro `<p>` and 🔷 Common Patterns card open (latest of the 3 remaining anchors in file)
+   - **#18** SVG between 🎯 Topology Impact Areas card close and `<h3>Topology Patterns</h3>`
+   - **#17** PNG with c17 EDGE LOOP overlay between Edge Flow and Edge Loops intro `<p>` and 🔄 Edge Loops card open (earliest of the 3 remaining anchors in file)
+6. Post-integration cleanup per the plan-lock section's "Post-integration cleanup task" subsection (4 specific edits to the progress doc)
+7. Overwrite this `session.md` to point at **Phase 6 PRODUCTION** as the natural next chat
 
-**Phase 3 integration specifics:**
+**Continuation image set (3 remaining; all on disk and verified):**
 
-- #8 `lesson_05_08_density_comparison_sphere.svg`: inline SVG, no overlay. Strip `color="#222"` from root. Re-indent figure col 16, svg root col 20, svg children col 24, deeper 28 or 32, figcaption col 20. Multi-line `<rect>` continuations collapsed onto single lines. Decorative comments pruned, short structural comments kept. Place after the "fewer polygons" list (end of trade-off discussion), before the Density Decision mermaid.
-- #9 `lesson_05_09_smooth_vs_flat_shading.svg`: inline SVG, no overlay. Same handling as #8. Notable: contains a `<defs>` block with one `<marker>` (id `sf-arrow`, arrowhead fill `#4ADE80`) and one `<radialGradient>` (id `sf-smooth-grad`). Place after the Smooth Shading card, before the "Try It Now: Smooth vs Flat" card.
-- #10 `lesson_05_10_face_normals_visualization.png`: `<img loading="lazy">` with descriptive alt text. Overlay candidate (decide during integration): single callout pointing at one face normal arrow as the focal point, with `c10-*` ids. Place after the Normal Analogy card, before the "Why Normals Matter" h3.
-- #11 `lesson_05_11_flipped_normals_problem.png`: `<img loading="lazy">`. Overlay candidate: two text labels ("FLIPPED" pointing at red top cap, "CORRECT" pointing at blue base) with `c11-*` ids, or a single legend block in the corner. Place after the "Flipped Normals: A Common Problem" list, before the "Fixing Flipped Normals" card.
-- #28 `lesson_05_28_normals_overlay_toggle.png`: `<img loading="lazy">`. Overlay candidate: UI callout circle around the Normals toggle row in the dropdown, especially the "Face Normals" sub-toggle since that is the subject of #10. Use `c28-*` ids. Native pixel dimensions of the snip are unknown to Claude (file is 149,601 bytes); first step in integration is to determine pixel dims (via `bash_tool` on Claude's computer with PIL after `Filesystem:copy_file_user_to_claude`, or by reading the figure rendered size in the browser) so the overlay viewBox can match. Place after the "Try It Now: See Face Normals" card, before the "Flipped Normals" h3.
+| # | Filename | Type | ID prefix | Standalone | Projected HTML delta |
+|---|---|---|---|---|---|
+| 17 | `lesson_05_17_edge_loop_selection.png` | PNG with overlay | `c17` | 709,325 B | ~2.5-3 KB |
+| 18 | `lesson_05_18_good_bad_topology.svg` | SVG | `gb` | 10,041 B | ~12 KB |
+| 19 | `lesson_05_19_character_edge_flow.svg` | SVG | `cf` | 5,123 B | ~7 KB |
 
-**HTML size projection:** Starting at 132,484 bytes (129.4 KB). Projected delta this chat 35 to 45 KB (SVG inlines roughly 10 to 15 KB each; PNGs with overlays roughly 3 to 5 KB each). Projected end of Phase 3 INTEGRATION: around 170 to 175 KB.
+**Pre-resolved decisions (all locked in plan-lock section; no need to re-confirm at chat start):**
 
-**Alternative next steps if Ray wants something other than Phase 3 INTEGRATION:**
+- #19 vs #24 anchor ordering: #19 sits BEFORE the 🔷 Common Patterns card (in the Topology Patterns intro paragraph region), #24 ALREADY done after the card. Different anchors, no conflict.
+- #17 overlay: one labeled green highlight ellipse around the visible portion of the 24-edge horizontal middle ring (`cx≈640, cy≈360, rx≈275, ry≈55` starting estimate; eyeball-nudge during execution if needed), with leader line and `EDGE LOOP` badge.
+- #29 overlay: DONE (three `SELECT CAP` / `INSET` / `EXTRUDE` badges; no highlights or leaders).
+- Figcaption text for all 5 figures: drafted em-dash-free in the plan-lock section, ready as-written for #19, #18, #17; no revisions needed unless something surprising appears in the rendered SVGs.
+- Pre-existing em-dashes in/near the 3 remaining anchors: documented in the plan-lock section; only relevant one is `globe—they wrap continuously` inside the 🔄 Edge Loops card body, but #17 anchors above the card open so it is not in the anchor region.
+
+**HTML size projection for continuation:**
+
+- Starting: 212,521 bytes (207.5 KB)
+- Per-figure: #19 ~7 KB, #18 ~12 KB, #17 ~2.5-3 KB
+- Projected continuation delta: 21-22 KB
+- Projected post-continuation HTML: ~233-235 KB (within original 232-234 KB projection, slightly over by ~1 KB due to #29 overlay being slightly leaner than projected)
+- Cumulative Phase 5 INTEGRATION delta: 38-40 KB
+
+**Alternative next steps if Ray wants something other than the Phase 5 INTEGRATION continuation:**
 
 - Lesson 04 docs cleanup pass (archive per-phase Lesson 04 handoff files into a subfolder or `status_archive.md`)
 - Lesson 04 browser QA pass (verify all 14 Lesson 04 images render correctly in light and dark mode at desktop and mobile widths)
-- Lesson 05 Phase 1+2 browser QA pass (verify the 8 already-inlined Phase 1+2 images render correctly in light and dark mode at desktop and mobile widths)
+- Lesson 05 full integrated set browser QA pass: open `lesson_05_understanding_meshes_and_geometry.html` and verify all 21 currently-integrated figures plus the 3 standalone still-pending files render correctly; defer until after the Phase 5 INTEGRATION continuation closes so the QA covers the full 24-of-30 set
+- Lesson 05 docs cleanup pass: prune the now-history `Phase 4 INTEGRATION plan (locked 2026-05-20)` section, the `Phase 5 PRODUCTION specs (locked 2026-05-20) — PRODUCTION COMPLETE 2026-05-21` section, and (after continuation closes) the new `Phase 5 INTEGRATION plan (locked 2026-05-21)` section from `lesson_05_integration_progress.md`; consider consolidating older Status bullets
+- Lesson 05 Phase 6 PRODUCTION (jump ahead; defer Phase 5 INTEGRATION continuation): possible but not recommended because the continuation is a small, well-scoped chat that closes the Phase 5 cycle cleanly at 24 of 30 integrated
 
 Ray to confirm the next step at the top of the next chat.
 
@@ -60,40 +80,52 @@ Ray to confirm the next step at the top of the next chat.
 - Tools are deferred; call `tool_search` before invoking; do not inherit "tool X is unavailable" assumptions from a compaction summary
 
 **Em-dash discipline:**
-- No new em-dashes anywhere in new content (figcaptions, alt text, status blocks, markdown notes, handoff docs)
+- No new em-dashes anywhere in new content (figcaptions, alt text, status blocks, markdown notes, handoff docs, SVG label / heading / subhead / pill / footer / takeaway text)
+- Use middle-dot (`·`, U+00B7) for dash-style separation in SVG labels where readability calls for it (precedent: `26 verts · 8 × 4` in #8 footer; Phase 4 SVG trio subheads `TRIANGLE · 3 SIDES`, `QUAD · 4 SIDES`, `N-GON · 5 OR MORE SIDES`; Phase 4 #15 subhead `PICK QUADS FOR DEFORMATION · TRIANGLES FOR EXPORT`; Phase 5 subheads `POLE COUNT · ACCEPTABILITY`, `QUAD GRIDS · IRREGULAR MIX`, `EYES · MOUTH · CHEEKS`)
 - Pre-existing em-dashes in source content are preserved verbatim through edits
-- Quoting pre-existing em-dashes inside backtick code spans in a status bullet is OK (Phase 1 INTEGRATION and Phase 2 INTEGRATION precedent)
-- Structural em-dash after a date in Status bullets (the "2026-MM-DD \u2014 Description" pattern) is grandfathered as a list-item separator; not new prose
+- Quoting pre-existing em-dashes inside backtick code spans in a status bullet is OK (Phase 1, 2, 3, 4, and 5 INTEGRATION precedent)
+- Structural em-dash after a date in Status bullets (the "2026-MM-DD — Description" pattern) is grandfathered as a list-item separator; not new prose
 
-**Inline image pattern (locked from Phase 1 and confirmed by Phase 2):**
+**Inline image pattern (locked from Phase 1, confirmed by Phases 2, 3, and 4):**
 - Plain `<figure>`/`<figcaption>` wrapper, no class
 - PNGs: `<img loading="lazy">` with descriptive alt text. Figure at col 16, img and figcaption at col 20.
 - Inline SVGs: figure at col 16, svg root at col 20, svg children at col 24, deeper nesting at 28/32, figcaption at col 20 (each 2-space orig level expands to 4 spaces); `color="#222"` stripped from inlined root `<svg>` (breaks dark mode); standalone `.svg` files in `images/` retain `color="#222"` for `<img>` fallback
-- Multi-line `<rect>` attribute continuations collapsed onto single lines during inlining
-- Decorative ASCII-divider author comments (`====== Block Title ======`) pruned during inlining; short structural comments (`<!-- Panel 1 -->`, `<!-- Cell: Plane -->`) kept
-- PNGs needing annotation callouts use the inline-stacked overlay pattern (wrapper div `position: relative; display: inline-block; max-width: 100%`, overlay SVG viewBox matches PNG pixel dimensions, `pointer-events: none`, namespaced `c{N}-*` ids)
+- Multi-line attribute continuations on `<text>`, `<line>`, `<polygon>`, `<rect>`, `<desc>` (and similar) collapsed onto single lines during inlining (Phase 4 INTEGRATION precedent)
+- Decorative ASCII-divider author comments (`====== Block Title ======`) pruned during inlining; short structural comments (`<!-- Panel 1 -->`, `<!-- Cell: Plane -->`, `<!-- Latitude ellipses -->`, `<!-- Hero polygon: ... -->`, `<!-- Vertex glyphs -->`, etc.) kept
+- PNGs needing annotation callouts use the inline-stacked overlay pattern (wrapper div `position: relative; display: inline-block; max-width: 100%`, overlay SVG viewBox matches PNG pixel dimensions, `pointer-events: none`, namespaced `c{N}-*` ids); for Phase 5 PNGs: `c17` overlay viewBox `0 0 1280 720`, `c29` overlay viewBox `0 0 3840 720`
 - No baked-in callouts on PNGs going forward
-- 2-to-3-line `oldText` anchors for unique insertion points
+- 2-to-3-line `oldText` anchors for unique insertion points (4-line anchors used in Phase 4 INTEGRATION where 3 lines were ambiguous; both patterns valid)
 
-**BlenderMCP capture (locked, confirmed Phase 2 and Phase 3):**
+**PNG overlay pattern (locked across Phase 3 and Phase 4 INTEGRATION):**
+- Highlight shape (ellipse or circle) fill `none`, stroke `#4ADE80` width 4 (positive label) or `#E63946` width 4 (warning label)
+- Leader line stroke matching the highlight color, stroke-width 3, stroke-linecap `round`
+- Small marker circle r=6 at one end of the leader (badge-side end per the c28 and c27 pattern when a highlight is present, target-side end per the c11 pattern when there is no separate highlight)
+- Badge rect rx=6, fill `#4ADE80` for "positive" labels (Face normal, Face Orientation, CORRECT, Faces by Sides) or `#E63946` for "warning" labels (FLIPPED)
+- Badge text font-family `system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif`, font-size 22, font-weight 700, text-anchor middle, fill `#0f1a14` on green or `#ffffff` on red
+- `c10-*`, `c11-*`, `c27-*`, `c28-*` namespaced ids already in use; new PNGs use `c{N}-*` per the lesson's id-prefix registry. Phase 5: `c17-*` and `c29-*` reserved.
+
+**BlenderMCP capture (locked, confirmed Phases 2, 3, 4, and 5):**
 - Lowercase `blender:execute_blender_code` (uppercase hangs)
 - NO `bpy.ops.wm.read_factory_settings(use_empty=False)` calls anywhere (kills BlenderMCP addon mid-execution; recovery requires restarting Blender)
 - Clean Blender state manually instead (`bpy.data.objects.remove(obj, do_unlink=True)`, etc.)
-- Render engine fallback path: try `BLENDER_EEVEE_NEXT` first; on `TypeError` or enum error, fall back to `BLENDER_EEVEE`. Both produce visually comparable output for lesson render needs. Phase 3 fallback triggered as expected.
-- Pie menus and other transient UI Blender's render API cannot reach: manual Win+Shift+S capture into `images/` directly. Phase 3 #28 confirmed this path.
-- OpenGL viewport render path (Phase 2 and Phase 3 verified): find the first `VIEW_3D` area and its `WINDOW` region, then `bpy.context.temp_override(window=window, screen=screen, area=area_3d, region=region_3d)` wrapping `bpy.ops.render.opengl(write_still=True, view_context=True)`
+- Render engine fallback path: try `BLENDER_EEVEE_NEXT` first; on `TypeError` or enum error, fall back to `BLENDER_EEVEE`. Both produce visually comparable output for lesson render needs.
+- Pie menus and other transient UI Blender's render API cannot reach: manual Win+Shift+S capture into `images/` directly (Phase 3 #28 precedent; Phase 4 #27 follows the same path)
+- OpenGL viewport render path (Phase 2, 3, 4, and 5 PNG verified): find the first `VIEW_3D` area and its `WINDOW` region, then `bpy.context.temp_override(window=window, screen=screen, area=area_3d, region=region_3d)` wrapping `bpy.ops.render.opengl(write_still=True, view_context=True)`. Note: `blender:execute_blender_code` calls preserve Blender state (scene, objects, selection, mode) across calls, but Python local variables do NOT persist; re-find the VIEW_3D area and region in each block.
 - UNC path `\\wsl$\Ubuntu\home\practicalace\projects\blender_course\images\...` works cleanly from Blender Python on Windows for file output; no need for Unix-style path
-- Default user-perspective view rotation: `Euler((radians(63.6), 0, radians(-46.7)), 'XYZ').to_quaternion()`. View distance scales with subject size: 7.0 for default cube (Phase 2), 5.0 for unit-radius UV sphere (Phase 3)
+- Default user-perspective view rotation: `Euler((radians(63.6), 0, radians(-46.7)), 'XYZ').to_quaternion()`. View distance scales with subject size: 7.0 for default cube (Phase 2), 5.0 for unit-radius UV sphere and small cylinders (Phases 3, 4 #16, and 5 #17/#29); pick the appropriate distance for the subject.
+- **PIL / Pillow availability:** Pillow 12.2.0 is installed in Blender 5.1's Python at `C:\Users\pract\AppData\Roaming\Blender Foundation\Blender\5.1\scripts\addons\modules\PIL` (a user-writable path already on `sys.path`). Verified working in production 2026-05-20 (Phase 4 #16 alternative) and confirmed in production 2026-05-21 (Phase 5 #29 composite: `from PIL import Image, ImageDraw`, `Image.new('RGBA', (3840, 720), (0, 0, 0, 0))`, paste, `draw.rectangle` for orange dividers, `composite.save(path, 'PNG')`, `os.remove` for temp cleanup). Survives Blender restarts. Note: Blender 5.1 hardcodes `site.ENABLE_USER_SITE = False`, so a normal `pip install Pillow` does not work; the `--target` install to the AppData modules path is the verified path forward. The numpy + Blender image API path used in Phase 4 #16 still works and remains a valid fallback.
+- **Blender 5.1.1 op-name discoveries (locked 2026-05-21):** `bpy.ops.mesh.inset_faces` does NOT exist in Blender 5.1.1; use `bpy.ops.mesh.inset` instead (region inset by default; individual-faces inset is the same op with `use_individual=True`). The locked-spec name in older planning docs may say `inset_faces`; substitute `inset` at production time. `bpy.ops.mesh.extrude_region_move(TRANSFORM_OT_translate={"value": (x, y, z)})` works as expected. The default `primitive_cylinder_add` has only top-cap and bottom-cap rings (no middle ring); if a middle ring is needed for edge-loop work, add it first via `bmesh.ops.subdivide_edges` on the vertical side-edges (filter: `(v0.co.z * v1.co.z) < 0`, cuts=1, use_grid_fill=False).
 
-**Brand palette (current as of Lesson 04 close; Phase 1, 2, and 3 carried forward unchanged):**
+**Brand palette (current as of Phase 5 PRODUCTION close; unchanged):**
 - Blender brand / Orange operation badge: `#FF6B00`
 - Course / structure / Z-axis blue: `#4A9EFF` (darker variant `#3a7fd1`)
 - Practice / process: `#B47EE8`
 - Reference / inspire: `#FF7EA8`
-- Resources / external / Y-axis green / Normals: `#4ADE80`
-- Portfolio / outcome / Caution (Lesson 05 proposed): `#F5C242`
-- X-axis red / Warning: `#E63946`
+- Resources / external / Y-axis green / Normals / positive glyph (`✓`, `✓✓`) / "OK/BEST" pole panels: `#4ADE80`
+- Portfolio / outcome / Caution / warning glyph (`⚠`) / "OK" 5-pole and 5-pole-marker dots: `#F5C242`
+- X-axis red / Warning / negative glyph (`✗`) / "AVOID" 6-pole panel and red-spoke edges: `#E63946`
 - Vertices in Lesson 05 mesh diagrams: `#FF6B00` (matches Blender's selection color)
+- Badge text dark on green: `#0f1a14`; badge text light on red: `#ffffff`
 
 **Documentation rhythm:**
 - Per-lesson `lesson_NN_integration_progress.md` is the running narrative log
@@ -102,7 +134,8 @@ Ray to confirm the next step at the top of the next chat.
 - This `session.md` is the resume pointer, overwritten every milestone
 
 **Cadence:**
-- One production chat plus one integration chat per phase (Lesson 04 cadence; carry forward unless a phase has only one image)
+- One production chat plus one integration chat per phase by default (Lesson 04 cadence; confirmed for Phase 5 PRODUCTION 2026-05-21)
+- Phase 4 PRODUCTION was split into two sub-chats (SVGs 2026-05-20 morning, PNGs 2026-05-20 evening) for context-budget reasons; Phase 4 INTEGRATION was split into two sub-chats (#16/#27/#15/#14 in session 1, #13/#12 in session 2) likewise; both now closed. Phase 5 PRODUCTION fit comfortably in 1 chat (this one, 2026-05-21).
 - Warn Ray before context gets tight rather than letting automatic compaction happen
 - Propose spec plus design plan before generating new images; lock plan in writing first, then build
 - Propose plan plus anchor choices plus grouping decisions before integration; lock plan in writing first, then edit
@@ -117,21 +150,21 @@ Ray to confirm the next step at the top of the next chat.
 
 ## Specifics (per next-chat plan)
 
-If next chat is **Lesson 05 Phase 3 INTEGRATION** (recommended default):
+If next chat is **Lesson 05 Phase 5 INTEGRATION continuation** (recommended default):
 
 - Project root: `\\wsl$\Ubuntu\home\practicalace\projects\blender_course`
-- Master planning doc: `lesson_05_integration_progress.md` (read first for full context after this session.md)
+- Master planning doc: `lesson_05_integration_progress.md` (120,280 B post-plan-lock; read first after this `session.md`); the canonical detailed plan is in the `## Phase 5 INTEGRATION plan (locked 2026-05-21)` section, between the Phase 5 PRODUCTION specs section and the Locked rules header
 - Image directory: `\\wsl$\Ubuntu\home\practicalace\projects\blender_course\images\`
-- Lesson HTML: `lesson_05_understanding_meshes_and_geometry.html` (132,484 bytes; 1853 lines pre-Phase-3-integration)
-- 5 images to inline:
-  - SVG #8 `lesson_05_08_density_comparison_sphere.svg` (id prefix `ds`)
-  - SVG #9 `lesson_05_09_smooth_vs_flat_shading.svg` (id prefix `sf`)
-  - PNG #10 `lesson_05_10_face_normals_visualization.png` (id prefix `c10`)
-  - PNG #11 `lesson_05_11_flipped_normals_problem.png` (id prefix `c11`)
-  - PNG #28 `lesson_05_28_normals_overlay_toggle.png` (id prefix `c28`)
-- Workflow: bottom-up integration order (#9, then #11, then #28, then #10, then #8); `Filesystem:edit_file` with dryRun first then commit; verify with `Filesystem:get_file_info` after every commit
-- Overlay design for the three PNGs is part of this chat (was deferred from production)
-- First step for #28: determine PNG pixel dimensions so the overlay viewBox can match (file is 149,601 bytes; native dims TBD)
+- Lesson HTML: `lesson_05_understanding_meshes_and_geometry.html` (212,521 bytes after this chat's 2 integrations; will grow by ~21-22 KB after the continuation, projecting ~233-235 KB final)
+- 3 images to inline (all on disk and verified):
+  - SVG #19 `lesson_05_19_character_edge_flow.svg` (5,123 B, id prefix `cf`, ~7 KB inlined)
+  - SVG #18 `lesson_05_18_good_bad_topology.svg` (10,041 B, id prefix `gb`, ~12 KB inlined)
+  - PNG #17 `lesson_05_17_edge_loop_selection.png` (709,325 B, 1280x720, id prefix `c17`, ~2.5-3 KB inlined with c17 overlay)
+- Bottom-up integration order: #19 → #18 → #17 (#19 latest in file by line position, #17 earliest)
+- All anchor `oldText` snippets, indentation rules (col 16 figure / col 20 svg root / col 24 svg children / col 28-32 nested / col 20 figcaption), figcaption text, c17 overlay spec, em-dash inventory: all in the plan-lock section. No re-planning.
+- Workflow per image (unchanged from locked rules): dry-run `Filesystem:edit_file`, review diff, commit (`dryRun=false`), verify with `Filesystem:get_file_info` for size delta. Update `lesson_05_integration_progress.md` ONCE at chat close with consolidated per-figure size progression in a new Status bullet (not after each image).
+- Post-integration cleanup checklist: in the plan-lock section's "Post-integration cleanup task" subsection (4 specific edits to the progress doc plus this `session.md` overwrite to point at Phase 6 PRODUCTION).
+- Already done in the original chat (2026-05-21): plan-lock section written (+16,169 B to progress doc), #29 PNG integrated with c29 overlay (+2,441 B to HTML), #24 SVG inlined (+15,155 B to HTML). 2 of 5 done; 3 remaining.
 
 If next chat is **Lesson 04 docs cleanup**:
 
@@ -146,14 +179,44 @@ If next chat is **Lesson 04 browser QA pass**:
 - Verify cheat-sheet card colors hold in both modes
 - No code edits expected; report any issues for a follow-up correction chat
 
-If next chat is **Lesson 05 Phase 1+2 browser QA pass**:
+If next chat is **Lesson 05 full integrated set browser QA pass**:
 
-- Open `lesson_05_understanding_meshes_and_geometry.html` in a browser at desktop and mobile widths, light and dark modes
-- Verify all 4 inlined Phase 1 SVGs render correctly: #1 mesh components (cube with vertex/edge/face annotation cards), #2 lowpoly to highpoly progression (4-panel sphere segments), #3 object vs mesh data (split panel), #4 primitive types grid (2x4 grid in 800x680 viewBox)
-- Verify all 4 inlined Phase 2 PNGs render correctly: #5 vertex selection mode, #6 edge selection mode, #7 face selection mode, #26 component count UI (stats overlay)
-- Confirm dark mode renders correctly for the SVGs now that `color="#222"` is stripped from inlined SVG roots (text and stroke should follow page text color, not stay locked to dark gray)
-- Confirm PNGs (which have no dark-mode dependency) render at full width within the figure wrapper
+- Open `lesson_05_understanding_meshes_and_geometry.html` in a browser at desktop and mobile widths, light and dark modes. Verify all 19 integrated figures render correctly:
+  - Phase 1 SVGs (inlined, `color="#222"` stripped): #1 mesh components, #2 lowpoly to highpoly progression, #3 object vs mesh data, #4 primitive types grid
+  - Phase 2 PNGs: #5 vertex selection mode, #6 edge selection mode, #7 face selection mode, #26 component count UI
+  - Phase 3 figures: #8 density comparison sphere, #9 smooth vs flat shading, #10 face normals with `c10` overlay, #11 flipped normals with `c11` overlay, #28 normals overlay toggle with `c28` overlay
+  - Phase 4 figures: #12 triangle, #13 quad, #14 n-gon hexagon, #15 polygon types comparison (all SVGs), #16 sphere topology composite (no overlay), #27 select-by-trait submenu with `c27` overlay
+- Separately, open the 5 Phase 5 standalone files directly in a browser to verify they render correctly with retained `color="#222"` (SVGs) or at full resolution (PNGs): `images/lesson_05_17_edge_loop_selection.png`, `images/lesson_05_18_good_bad_topology.svg`, `images/lesson_05_19_character_edge_flow.svg`, `images/lesson_05_24_topology_pole_types.svg`, `images/lesson_05_29_inset_ngon_creation.png`
+- Confirm dark mode renders correctly for all 10 inlined SVGs
+- Confirm all PNGs render at full width within the figure wrapper, and overlay SVGs scale in lockstep with the PNG underneath at all viewport widths
 - No code edits expected; report any issues for a follow-up correction chat
+
+If next chat is **Lesson 05 docs cleanup**:
+
+- Prune the now-history "Phase 4 INTEGRATION plan (locked 2026-05-20)" section from `lesson_05_integration_progress.md` (kept after Phase 4 INTEGRATION close as reference; the Phase 5 INTEGRATION planning chat can re-derive its own plan template from the Phase 3 or Phase 4 INTEGRATION status bullets)
+- Prune the "Phase 5 PRODUCTION specs (locked 2026-05-20) — PRODUCTION COMPLETE 2026-05-21" section from `lesson_05_integration_progress.md` (kept after Phase 5 PRODUCTION close as reference; figcaption drafts can be migrated into a Phase 5 INTEGRATION plan section, after which the production spec section is fully redundant)
+- Update the "Next chat" section at the bottom of `lesson_05_integration_progress.md` if it has drifted from session.md (session.md is the canonical pointer per locked rule, but the in-doc Next chat section should reflect current state to avoid future confusion)
+- Optional: consider whether to consolidate older Status bullets (Phase 1 production, Phase 2 production/integration, etc.) into a less verbose archive form; not urgent
+
+If next chat is **Lesson 05 Phase 6 PRODUCTION** (jump-ahead alternative; defers Phase 5 INTEGRATION):
+
+- Project root and image directory same as above
+- 6 images to author/capture: 3 SVGs (#20 manifold geometry, #21 non-manifold types grid, #23 density decision flowchart) plus 3 PNGs (#22 non-manifold example, #25 shade smooth/flat UI, #30 real-world topology examples)
+- All 6 currently missing on disk
+- Suggested production order: SVGs first (#20, #21, #23) since they are pure authoring work; then PNGs (#22 via BlenderMCP `select_non_manifold` workflow, #25 manual Win+Shift+S capture of the right-click menu, #30 either BlenderMCP for low-poly examples or manual capture)
+- Open decisions to resolve at chat start: #21 4-panel grid layout (boundary, triple, isolated, wire), #25 capture path (right-click menu is transient; manual capture likely), #30 subject choices (cup, chair, head triplet vs other 3-subject combinations)
+- Not recommended over Phase 5 INTEGRATION because Phase 5 INTEGRATION is a small, well-scoped chat that lifts the integrated count to 24 of 30 and closes the Phase 5 cycle cleanly
+
+---
+
+
+---
+
+
+---
+
+
+---
 
 
 ---
