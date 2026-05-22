@@ -4,7 +4,7 @@
 
 **Project root:** `\\wsl$\Ubuntu\home\practicalace\projects\blender_course\`
 **Image output:** `images/` subfolder
-**Status:** v3 — locked. Pilot is `lesson_01_08_folder_structure.svg`. v3 adds axis color conventions, orange tie-break rule, and cheat-sheet badge variants.
+**Status:** v4, locked. Pilot is `lesson_01_08_folder_structure.svg`. v4 adds the overlay badge colorway split (positive green, warning red), em-dash discipline, the inline-stacked PNG annotation overlay pattern, the 800x680 viewBox variant, HTML integration depth rules for figures inside cards, and the SVG inlining checklist (color attribute strip, content re-indent, multi-line attribute collapse, comment preservation policy).
 
 ---
 
@@ -41,10 +41,11 @@ Brand colors (orange, folder category colors) are fixed hex values because they 
 
 - **Format:** SVG, hand-written (not exported from a vector editor).
 - **Default viewBox:** `0 0 800 560`. Adjust height for content but keep width at 800 unless there's a strong reason.
-- **Display width target:** 600–900px when embedded in HTML.
+- **Dense-content variant:** `0 0 800 680`. Use when a single canvas needs to hold a deeper hierarchy or a wider mix of panel cards plus a footer tip and the 560 height crowds the layout. Lesson 05 precedents: #4 polygon-type panels, #15 polygon comparison grid, #23 density comparison panels.
+- **Display width target:** 600 to 900px when embedded in HTML.
 - **Background:** Transparent. A 3px Blender-orange accent strip runs along the very top of the SVG region as a brand anchor; no panel rect.
 - **No external dependencies:** No web fonts, no external images, no scripts. Pure inline SVG.
-- **Fallback color:** Set `color="#222"` as an attribute on the `<svg>` root for `<img>`-embedded fallback.
+- **Fallback color:** Set `color="#222"` as an attribute on the `<svg>` root for `<img>`-embedded fallback. Strip this attribute when the SVG is inlined directly in HTML (see the inlining checklist in *HTML integration patterns* below).
 
 ---
 
@@ -57,13 +58,15 @@ Use these consistently when the same concept appears across images.
 | Concept                                  | Hex       | Notes                                                                                              |
 |------------------------------------------|-----------|----------------------------------------------------------------------------------------------------|
 | Blender brand / tie-break accent         | `#FF6B00` | Roots, anchors, primary accents, top strip. Also tie-break (see below).                            |
-| Course / structure / Z-axis              | `#4A9EFF` | Course modules, navigation, "your work". Also Z-axis in 3D diagrams.                               |
+| Course / structure / Z-axis              | `#4A9EFF` | Course modules, navigation, "your work". Also Z-axis in 3D diagrams. Also Lesson 05 LOW density boxes. |
 | Course (darker)                          | `#3a7fd1` | Sub-elements of course/structure                                                                   |
 | Practice / process                       | `#B47EE8` | Experiments, exercises, practice                                                                   |
 | Reference / inspire                      | `#FF7EA8` | Reference material, inspiration                                                                    |
-| Resources / external / Y-axis / Normals  | `#4ADE80` | Tutorials, links, community resources. Also Y-axis. Also normals (Lesson 05+).                     |
-| Portfolio / outcome                      | `#F5C242` | Finished work, destination, success states                                                         |
-| X-axis / Warning                         | `#E63946` | X-axis in 3D diagrams. Also warning states (Lesson 05+: flipped normals, non-manifold edges, bad topology). |
+| Resources / external / Y-axis / Normals / Positive overlay | `#4ADE80` | Tutorials, links, community resources. Also Y-axis. Also normals (Lesson 05+). Also positive-label overlay badges (Lesson 05+: Face normal, Face Orientation, CORRECT, EDGE LOOP, SELECT CAP, INSET, EXTRUDE, SHADE SMOOTH/FLAT, CUP, CHAIR, BUST, etc.). |
+| Portfolio / outcome / Caution            | `#F5C242` | Finished work, destination, success states. Also OK 5-pole and Lesson 05 MEDIUM density boxes.     |
+| X-axis / Warning / Negative overlay      | `#E63946` | X-axis in 3D diagrams. Also warning states (Lesson 05+: flipped normals, non-manifold edges, bad topology). Also warning-label overlay badges (FLIPPED, NON-MANIFOLD, AVOID). |
+| Badge text on green                      | `#0f1a14` | Near-black dark text for positive overlay badges.                                                  |
+| Badge text on red                        | `#ffffff` | Pure white text for warning overlay badges.                                                        |
 
 ### Axis color conventions
 
@@ -81,6 +84,17 @@ These hex values match Blender's viewport gizmo colors closely enough that diagr
 
 This rule formalizes what already happens informally in Lesson 04 (gizmo center dot) and Lesson 05 (highlighted vertex in mesh-components SVG).
 
+### Overlay badge colorway split (new in v4)
+
+PNG annotation overlays in Lessons 03 through 05 settled on a two-color split for the badge rect plus its text fill, driven by whether the label is semantically positive or semantically warning:
+
+| Badge label semantic | Badge rect fill | Badge text fill | Used for                                                                                       |
+|----------------------|-----------------|-----------------|------------------------------------------------------------------------------------------------|
+| Positive             | `#4ADE80`       | `#0f1a14`       | Face normal, Face Orientation, CORRECT, Faces by Sides, EDGE LOOP, SELECT CAP, INSET, EXTRUDE, SHADE SMOOTH/FLAT, CUP, CHAIR, BUST, and similar affirmative labels |
+| Warning              | `#E63946`       | `#ffffff`       | FLIPPED, NON-MANIFOLD, AVOID, and similar cautionary labels                                    |
+
+Pick the colorway from the label's meaning, not from the panel's location or the surrounding image. Mixed colorways on a single PNG overlay are expected and correct (e.g., a face-orientation reference showing a CORRECT green badge on one face and a FLIPPED red badge on another). See the PNG annotation overlay component snippet below for the rest of the overlay geometry.
+
 ### Cheat-sheet badge variants
 
 Lesson cheat-sheet cards and inline operation badges come in two visual variants:
@@ -89,6 +103,8 @@ Lesson cheat-sheet cards and inline operation badges come in two visual variants
 - **Muted:** transparent fill (4-10% opacity of the brand color) with the brand color as border and text. Low-emphasis. Use for secondary or supplementary badges, or when many badges appear close together and full saturation would compete.
 
 Choose one variant per lesson and apply it consistently across that lesson's badges. Mixing filled and muted badges within a single lesson is allowed when the visual hierarchy actively benefits (e.g., primary operation filled, optional variants muted), but the default is "all filled" or "all muted" within a lesson.
+
+Note: cheat-sheet badges (above) sit inside SVG cards and use the brand-orange or palette role color for the rect fill. They are a different pattern from the overlay badge colorway split (positive green vs warning red) used on PNG annotation overlays. The two patterns coexist in a single lesson; choose the right one for the surface.
 
 ### Text & line colors (via `currentColor` + opacity)
 
@@ -105,10 +121,23 @@ Use full opacity for any text that conveys real information (folder names, modul
 
 ### Tip callout fills
 
+Two equivalent variants are in use. Pick one per SVG and stay consistent across that file.
+
+**Variant A: tinted fill (original).**
+
 - Background: `#FF6B00` at `fill-opacity="0.10"`
 - Border: `#FF6B00` at `stroke-opacity="0.4"`
 - "Tip:" label: `#FF6B00`, weight 700
 - Tip body: `currentColor`, weight 400
+
+**Variant B: left rail (matured, Lessons 03 to 05).**
+
+- Card rect: transparent fill, no full border
+- Left rail: 4px wide `#FF6B00` block flush along the card's left edge
+- "Tip:" label: `#FF6B00`, weight 700
+- Tip body: `currentColor`, weight 400
+
+Variant B is the newer style and reads cleaner against dark mode backgrounds; Variant A is grandfathered for SVGs that already use it. Both are correct.
 
 ---
 
@@ -123,6 +152,7 @@ Use full opacity for any text that conveys real information (folder names, modul
 |--------------------|------|------------|
 | Section title      | 24   | 700        |
 | Subtitle           | 14   | 400        |
+| Subhead (in body)  | 18   | 600        |
 | Root / hero label  | 16   | 600        |
 | Level-1 label      | 15   | 500        |
 | Level-2 label      | 14   | 400        |
@@ -130,6 +160,31 @@ Use full opacity for any text that conveys real information (folder names, modul
 | Inline comment     | 14   | 400 italic |
 | Tip body           | 13   | 400        |
 | Tip label ("Tip:") | 13   | 700        |
+
+The header reserves y=0 through y=108 for the orange accent strip, title, subtitle, and divider. The first body subhead sits at y=138. The footer tip card occupies y=506 through y=540 on the default 560 canvas, or y=625 through y=675 on the 800x680 dense-content variant.
+
+---
+
+## Em-dash discipline (new in v4)
+
+The project locks zero new em-dashes (U+2014) in any new content. This rule applies to:
+
+- New SVG `<text>`, `<title>`, `<desc>`, label, subhead, pill, footer tip, takeaway, and overlay badge text
+- New figcaption and alt-text prose written for HTML integration
+- New status bullets, handoff doc prose, archive doc headers, and this style guide
+
+Use one of these instead, picked for the surrounding rhythm:
+
+- Middle dot (`·`, U+00B7) as a label separator in SVG subheads, panel titles, and compact pill text. Example: `OK · 5-pole vertex`, `AVOID · 6-pole vertex`, `Cube · 8 verts · 12 edges · 6 faces`. This is the canonical separator for dash-style breaks in SVG visual text from Lesson 03 onward.
+- Sentence break (`.`) or comma (`,`) in figcaption and alt-text prose.
+- Parenthetical `( )` for true asides.
+- Colon (`:`) for introducing a list or expansion.
+
+Pre-existing em-dashes in source content (existing v3 prose, existing lesson HTML, existing SVG files written before this rule) are preserved verbatim through edits. Don't introduce new ones; don't strip the old ones either.
+
+Structural em-dash after a date in a status bullet (the date-then-separator-then-description pattern in status bullets) is grandfathered as a list-item separator, not new prose. That specific use is fine to continue.
+
+Quoting a pre-existing em-dash inside a backtick code span (when referencing an existing string by exact spelling) is fine.
 
 ---
 
@@ -153,13 +208,29 @@ Use full opacity for any text that conveys real information (folder names, modul
   <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">{SUBTITLE}</text>
   <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
 
-  <!-- body content starts here, y ≈ 140 -->
+  <!-- First body subhead at y=138, then body content below -->
 </svg>
 ```
 
-Use a unique `{id}` prefix per file (e.g., `fs` for folder-structure, `lp` for learning-path) so multiple SVGs can coexist on one HTML page without `id` collisions.
+Use a unique `{id}` prefix per file (e.g., `fs` for folder-structure, `lp` for learning-path) so multiple SVGs can coexist on one HTML page without `id` collisions. Per-lesson id-prefix registries live in each `lesson_NN_integration_progress.md`.
 
-### Footer tip callout
+For the 800x680 dense-content variant, swap `viewBox="0 0 800 560"` for `viewBox="0 0 800 680"`. The header geometry (y=0 to y=108) stays the same; the extra 120px lives in the body region.
+
+### Footer tip callout (Variant B, left rail)
+
+```xml
+<rect x="40" y="506" width="720" height="34" rx="0"
+      fill="none"/>
+<rect x="40" y="506" width="4" height="34"
+      fill="#FF6B00"/>
+<text x="58" y="528" font-size="13" fill="currentColor">
+  <tspan font-weight="700" fill="#FF6B00">Tip:</tspan> {TIP_TEXT}
+</text>
+```
+
+For the 800x680 variant, shift y=506 to y=641 and y=528 to y=663.
+
+### Footer tip callout (Variant A, tinted fill, legacy)
 
 ```xml
 <rect x="40" y="506" width="720" height="34" rx="6"
@@ -170,7 +241,7 @@ Use a unique `{id}` prefix per file (e.g., `fs` for folder-structure, `lp` for l
 </text>
 ```
 
-### Folder icon (32×28, rounded)
+### Folder icon (32x28, rounded)
 
 Change `fill` for category color.
 
@@ -189,6 +260,117 @@ Straight lines only, no curves. Stroke `currentColor` at opacity `0.3`, width `1
 
 Wrap connectors in a single `<g>` with the stroke/opacity attributes set once.
 
+### PNG annotation overlay (inline-stacked pattern, new in v4)
+
+PNGs that need callouts use a wrapper-div plus overlay-svg pattern. The base PNG and the overlay SVG stack inside a relative-positioned div so the overlay scales with the image at any HTML render width. No callouts get baked into the PNG itself; the overlay is always a separate SVG layer.
+
+**Wrapper div + base PNG + overlay SVG skeleton:**
+
+```html
+<figure>
+    <div style="position: relative; display: inline-block; max-width: 100%;">
+        <img src="images/lesson_NN_II_slug.png"
+             alt="..."
+             loading="lazy"
+             style="display: block; max-width: 100%; height: auto; margin: 0;">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 {PNG_WIDTH} {PNG_HEIGHT}"
+             preserveAspectRatio="xMidYMid meet"
+             style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+            <!-- highlight shape, leader line, marker, badge here -->
+        </svg>
+    </div>
+    <figcaption>...</figcaption>
+</figure>
+```
+
+Key requirements:
+
+- Overlay `viewBox` matches the PNG's pixel dimensions exactly so coordinates map 1:1 to the source image.
+- `preserveAspectRatio="xMidYMid meet"` keeps the overlay aligned when the wrapper scales below the PNG's natural width.
+- `inset: 0` shorthand replaces the older `top: 0; left: 0; right: 0; bottom: 0` form (about 30 bytes lighter per overlay).
+- `pointer-events: none` on the overlay so it never intercepts clicks intended for the image or surrounding content.
+- The `<img>` carries inline `style="display: block; max-width: 100%; height: auto; margin: 0;"` to override the global `img { margin: var(--spacing-md) auto; }` rule so the wrapper div sizes cleanly to the image content.
+- Overlay `id` values are namespaced per PNG with a `c{N}-*` prefix (e.g., `c28-marker`, `c17-badge`) so overlays on multiple PNGs in the same lesson don't collide. Per-lesson `c{N}-*` registries live in each lesson's progress doc.
+
+**Per-callout geometry (highlight + leader + marker + badge):**
+
+```xml
+<!-- Highlight shape: ellipse or circle around the target. Stroke matches colorway. -->
+<ellipse cx="{HX}" cy="{HY}" rx="{HRX}" ry="{HRY}"
+         fill="none" stroke="#4ADE80" stroke-width="4"/>
+<!-- Leader line from highlight edge to badge edge. -->
+<line x1="{LX1}" y1="{LY1}" x2="{LX2}" y2="{LY2}"
+      stroke="#4ADE80" stroke-width="3" stroke-linecap="round"/>
+<!-- Marker circle at the badge-side end of the leader, 7px from badge edge. -->
+<circle cx="{MX}" cy="{MY}" r="6" fill="#4ADE80"/>
+<!-- Badge rect + text. Colorway from positive (green) or warning (red) split. -->
+<rect x="{BX}" y="{BY}" width="{BW}" height="{BH}" rx="6" fill="#4ADE80"/>
+<text x="{BCX}" y="{BCY}" text-anchor="middle"
+      font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+      font-size="22" font-weight="700" fill="#0f1a14">{LABEL}</text>
+```
+
+Swap the four `#4ADE80` fills/strokes to `#E63946` and the badge text fill from `#0f1a14` to `#ffffff` for the warning colorway.
+
+Variants:
+
+- **Marker placement.** Default: marker sits at the badge-side end of the leader, 7px from the badge edge. Alternative: marker sits at the target-side end when there is no separate highlight shape (the `c11` precedent). Pick the badge-side end when a highlight is present so the marker visually anchors the badge rather than duplicating the highlight.
+- **Composite overlay variant (new in v4).** For horizontally-divided composite PNGs that already have baked-in 2px vertical dividers between panels (Lesson 05 #29 SELECT CAP/INSET/EXTRUDE and #30 CUP/CHAIR/BUST precedents), drop the highlight ellipses and the per-panel leader lines. Each panel gets a single centered badge near the bottom edge of the panel, no highlight, no leader. The baked-in dividers carry the panel-separation work that highlights would otherwise do.
+
+---
+
+## HTML integration patterns (new in v4)
+
+How figures land in lesson HTML files. Style decisions that affect markup, not the SVG itself.
+
+### Figure wrapper
+
+Plain `<figure>` plus `<figcaption>` wrapper, no class. `styles/main.css` already styles both elements. PNGs use `<img loading="lazy">` with descriptive alt text. Inline SVGs sit as a `<svg>` child of the figure.
+
+### Default-depth figure (most common)
+
+For figures placed directly in lesson sections (i.e., the parent container opens at col 12 or shallower), use 16-space indentation for the `<figure>` tag and 20-space indentation for `<img>`, the inlined `<svg>` root, and `<figcaption>`. SVG children sit at col 24, deeper SVG nesting at 28 or 32, and `<figcaption>` returns to col 20.
+
+```
+                <figure>
+                    <img src="images/lesson_NN_II_slug.png"
+                         alt="..."
+                         loading="lazy">
+                    <figcaption>...</figcaption>
+                </figure>
+```
+
+### Deeper-indent figure variant (figures inside cards)
+
+When a figure sits inside a card that opens at col 16 (such as a Try It Now card, Exercise card, Quick Reference Guide card, or similar pattern), shift the entire figure block one indentation level deeper. The figure tag moves to col 20, contents to col 24 / 28 / 32, figcaption to col 24, and the closing figure tag returns to col 20.
+
+```
+                    <figure>
+                        <img src="images/lesson_NN_II_slug.png"
+                             alt="..."
+                             loading="lazy">
+                        <figcaption>...</figcaption>
+                    </figure>
+```
+
+Precedents: Lesson 04 #16 inside Try It Now card; Lesson 05 #29 inside Exercise 6 card; Lesson 05 #25 inside Quick Reference Guide card; Lesson 05 #22 inside Finding Non-Manifold Elements card.
+
+### Inlining SVG: checklist
+
+Each rule below was confirmed across Lessons 03 through 05 integration passes.
+
+1. **Strip `color="#222"`** from the inlined root `<svg>` tag. The attribute blocks `currentColor` cascade and breaks dark mode. Standalone `.svg` files in `images/` keep the attribute so `<img>`-embedded fallback still works.
+2. **Re-indent contents** to the depth chosen above (default 20-space content, or 24-space for deeper-indent). Match the surrounding HTML indentation; do not paste the SVG with its on-disk indentation if that conflicts.
+3. **Collapse multi-line attribute continuations** onto single lines. `<text>`, `<line>`, `<polygon>`, `<rect>`, `<desc>` (and similar) elements that wrap attributes across multiple lines in the standalone file should collapse to a single line during inlining.
+4. **Prune decorative ASCII-divider author comments** (`<!-- ====== Block Title ====== -->`). These are useful in the standalone file for editor scanning; they add noise in the inlined HTML. Keep short structural comments (`<!-- Panel 1 -->`, `<!-- Cell: Plane -->`, `<!-- Latitude ellipses -->`, `<!-- Hero polygon: ... -->`, `<!-- Vertex glyphs -->`) for in-place navigation in the inlined block.
+5. **Preserve every `role`, `aria-labelledby`, `<title>`, `<desc>`, and `id`** verbatim. Per-file id prefixes (e.g., `mc-*`, `lp-*`) prevent collisions with other inline SVGs on the same page; do not rename them during integration.
+6. **Pre-existing em-dashes** in surrounding HTML prose (the anchor text used by `Filesystem:edit_file`) pass through verbatim. New content added during integration follows the em-dash discipline above.
+
+### Edit cadence
+
+Insertions use `Filesystem:edit_file` with `dryRun=true` first, then commit with `dryRun=false`, then verify with `Filesystem:get_file_info` after every commit. Anchor lengths default to 2 or 3 lines for unique insertion points; extend to 4 to 8 lines when needed (Lesson 04 INTEGRATION used 4-line anchors; Lesson 05 INTEGRATION extended to 7 and 8 lines for ambiguous spots).
+
 ---
 
 ## Accessibility requirements
@@ -201,12 +383,14 @@ Every SVG must include:
 - Color used as supplement, never sole carrier of meaning — labels and shapes carry semantics; color reinforces.
 - No flashing, no animation, no auto-playing motion in lesson images.
 
+PNG annotation overlays carry their accessibility via the parent `<figure>`'s `<figcaption>` and the `<img>`'s `alt` attribute. The overlay SVG itself does not need `role="img"` since it's decorative on top of an already-described raster image; the `aria-labelledby` chain stays on the figcaption-plus-alt-text pair.
+
 ---
 
 ## File conventions
 
 - **Location:** `\\wsl$\Ubuntu\home\practicalace\projects\blender_course\images\`
-- **Naming:** `lesson_{NN}_{II}_{slug}.svg`
+- **Naming:** `lesson_{NN}_{II}_{slug}.svg` or `.png`
   - `NN` = zero-padded lesson number (e.g., `01`)
   - `II` = zero-padded image number from the lesson's requirements doc (e.g., `08`)
   - `slug` = short descriptive name in snake_case
@@ -246,23 +430,31 @@ When SVGs need to reference real course content (module names, lesson titles, et
 - **Batching cadence:** 1 pilot SVG, then batches of 3, to balance review cycles against per-turn token overhead.
 - **Style pilot first:** When the style guide changes meaningfully, do one pilot SVG before batching to confirm the changes look right.
 - **One SVG per file:** Don't combine multiple diagrams into one SVG even if they're related.
+- **Plan-lock before build:** Propose spec plus design plan in writing first (locked in `lesson_NN_integration_progress.md` or its archive), then generate the SVG or capture the PNG. Same rule for integration: propose anchors and grouping decisions before editing.
 
 ---
 
-## Locked decisions (v3)
+## Locked decisions (v4)
 
-1. **Theming:** Transparent / page-inheriting via `currentColor`. Fallback `color="#222"` on `<svg>` root. Inline embedding preferred for full dark/light support.
+1. **Theming:** Transparent / page-inheriting via `currentColor`. Fallback `color="#222"` on `<svg>` root. Inline embedding preferred for full dark/light support. Strip the fallback attribute when inlining.
 2. **Right-column descriptions:** Always on for top-level items in hierarchical diagrams.
-3. **Footer tip callout:** Apply consistently across lesson images.
+3. **Footer tip callout:** Apply consistently across lesson images. Variant B (left rail) is the matured default; Variant A (tinted fill) is grandfathered.
 4. **Real names:** Use real course content (module names, lesson titles) sourced from the course-specific data files above, not generic placeholders.
 5. **Brand orange top accent:** Always present (3px strip at y=0).
 6. **Color palette:** As listed. No swaps. Axis colors match Blender's viewport convention (X=red `#E63946`, Y=green `#4ADE80`, Z=blue `#4A9EFF`).
-7. **Tie-break and badge variants:** Use `#FF6B00` orange as the tie-break highlight color when palette roles compete on a single diagram. Choose one cheat-sheet badge variant (filled or muted) per lesson and apply consistently.
+7. **Tie-break and cheat-sheet badge variants:** Use `#FF6B00` orange as the tie-break highlight color when palette roles compete on a single diagram. Choose one cheat-sheet badge variant (filled or muted) per lesson and apply consistently.
+8. **Overlay badge colorway split (new in v4):** Positive labels (Face normal, EDGE LOOP, CORRECT, etc.) use `#4ADE80` green badge with `#0f1a14` dark text. Warning labels (FLIPPED, NON-MANIFOLD, AVOID, etc.) use `#E63946` red badge with `#ffffff` white text. Pick from the label's semantic role; mixed colorways on a single PNG are expected.
+9. **Em-dash discipline (new in v4):** Zero new em-dashes in any new content (SVG text, figcaption prose, alt-text, status bullets, handoff doc prose, this style guide). Middle-dot (`·`, U+00B7) for separation in SVG subheads and compact labels. Pre-existing em-dashes preserved verbatim through edits.
+10. **Inline-stacked PNG annotation overlay (new in v4):** Wrapper div + overlay SVG with `viewBox` matching PNG pixel dimensions, `preserveAspectRatio="xMidYMid meet"`, and `position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none`. No baked-in callouts on PNGs. Overlay ids namespaced per PNG with a `c{N}-*` prefix.
+11. **Figure indentation depth (new in v4):** Default 16/20-space depth for figures placed directly in lesson sections; 20/24/28/32-space deeper-indent variant for figures inside cards opening at col 16. Pick from the parent container's depth, not from the figure's content.
+12. **SVG inlining checklist (new in v4):** Strip root `color="#222"`, re-indent to 20-space (or 24-space) content depth, collapse multi-line attribute continuations onto single lines, prune decorative ASCII-divider comments, keep structural comments, preserve every `role` / `aria-labelledby` / `<title>` / `<desc>` / `id` verbatim.
+13. **Dense-content viewBox variant (new in v4):** `0 0 800 680` for content density that overflows the default 560 height. Header geometry (y=0 to y=108) unchanged; footer tip card shifts to y=641 through y=675.
 
 ---
 
 ## Revision log
 
-- **v3 (current, 2026-05-20).** Folded `#E63946` X-axis red into the canonical palette. Documented dual roles for `#4ADE80` (Y-axis + resources + Lesson 05 normals) and `#4A9EFF` (Z-axis + course/structure). Added the axis color convention subsection (X=red, Y=green, Z=blue matching Blender's viewport), the orange tie-break rule (reserve `#FF6B00` as the cross-palette highlight), and the cheat-sheet badge variant policy (filled vs muted, one per lesson). No SVGs need re-issue; existing Lesson 04 and Lesson 05 Phase 1 SVGs already follow the conventions informally. Locked decisions bumped to 7 entries.
+- **v4 (current, 2026-05-21).** Folded the overlay badge colorway split (positive green `#4ADE80` with `#0f1a14` text, warning red `#E63946` with `#ffffff` text) into the palette as a separate subsection. Added the inline-stacked PNG annotation overlay pattern as a component snippet, including the composite overlay variant for horizontally-divided composites with baked-in dividers. Added the 800x680 dense-content viewBox variant for content density (Lesson 05 #4, #15, #23 precedents). Added em-dash discipline as a top-level section: zero new em-dashes anywhere, middle-dot for SVG label separation. Added HTML integration patterns section covering the plain figure wrapper, default vs deeper-indent depth, the SVG inlining checklist (color attribute strip, re-indent, multi-line attribute collapse, comment preservation), and the edit cadence (dry-run-then-commit-then-verify with `Filesystem:edit_file`). Added the footer tip callout left-rail variant (Variant B) alongside the original tinted-fill variant (Variant A). Added a Subhead row to the typography size hierarchy table and noted the y=138 first-body-subhead position. Locked decisions grew from 7 to 13 entries. No existing SVGs need re-issue; existing Lesson 03 to 05 SVGs and PNG overlays already follow the conventions in production.
+- **v3 (2026-05-20).** Folded `#E63946` X-axis red into the canonical palette. Documented dual roles for `#4ADE80` (Y-axis + resources + Lesson 05 normals) and `#4A9EFF` (Z-axis + course/structure). Added the axis color convention subsection (X=red, Y=green, Z=blue matching Blender's viewport), the orange tie-break rule (reserve `#FF6B00` as the cross-palette highlight), and the cheat-sheet badge variant policy (filled vs muted, one per lesson). Superseded by v4.
 - **v2** — Locked decisions per Ray's review of the v1 pilot. Switched from self-contained dark panel to transparent / page-inheriting using `currentColor`. Added course-specific data section with real module names from `curriculum_overview.md`. Pilot redone as `lesson_01_08_folder_structure.svg`. Superseded by v3.
 - **v1** — Initial pilot with dark self-contained panel theme. Superseded.
