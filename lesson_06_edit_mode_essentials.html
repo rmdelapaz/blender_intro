@@ -1527,6 +1527,11 @@
         </ol>
     </div>
 
+    <figure>
+        <img loading="lazy" src="images/lesson_06_17_inset_operation_progression.png" alt="Three-panel horizontal composite showing the inset operation on a cube. Left panel: cube in Edit Mode with face select active and the top face selected in orange, no inset applied yet. Middle panel: the same cube after pressing I and moving the mouse inward, with a new inner face inside an outer border ring of four fresh quad faces; the new inner face is still selected. Right panel: a deeper inset progression with a second inset stacked on the inner face, producing two concentric inset borders. 2 px Blender-orange vertical dividers separate the panels.">
+        <figcaption>Inset grows a fresh border of faces around any selected face without changing the silhouette. Press I and move the mouse inward · stack a second inset on top of the first whenever a deeper bevel-style frame is needed.</figcaption>
+    </figure>
+
     <div class="mermaid">
         graph LR
         A[Original Face] --> B[Press I]
@@ -1589,11 +1594,21 @@
         <p><strong>Quick test:</strong> Select two adjacent faces, press <kbd>I</kbd> and move. Then press <kbd>I</kbd> again while still insetting. See the difference? Each face now has its own border!</p>
     </div>
 
+    <figure>
+        <img loading="lazy" src="images/lesson_06_18_inset_individual_vs_group.png" alt="Two-panel horizontal composite showing the inset operation on a 4-by-4 subdivided plane. Left panel: all 16 grid faces selected and inset as a group, producing a single continuous outer border that frames the whole 4-by-4 region as one unit. Right panel: the same starting selection inset individually with the I-twice toggle, where each of the 16 faces carries its own independent border. A 2 px Blender-orange vertical divider separates the panels.">
+        <figcaption>Group inset frames the entire selection with a single border · individual inset gives every selected face its own border. Press I once for group · press I a second time while still insetting to toggle to individual mode.</figcaption>
+    </figure>
+
     <h3>Common Inset Patterns</h3>
 
     <blockquote>
         <p><strong>The "Double Inset" Technique:</strong> A professional modeling trick – select faces, inset once for a border, then inset again to create a second inner border. This creates beautiful panel detail with depth. Then extrude the innermost faces for 3D pop! This is used everywhere in hard-surface modeling.</p>
     </blockquote>
+
+    <figure>
+        <img loading="lazy" src="images/lesson_06_19_inset_double_technique.png" alt="Four-panel horizontal composite showing the double-inset sci-fi panel technique on a cube. Panel 1: cube with its top face selected in orange, no inset applied. Panel 2: first inset applied, creating an outer border ring of four quads with a smaller inner face still selected. Panel 3: second inset applied to the inner face, creating an inner border ring nested inside the outer one. Panel 4: the innermost face extruded downward to create a recessed sci-fi panel detail. 2 px Blender-orange vertical dividers separate every pair of panels.">
+        <figcaption>The double inset is a workhorse for hard-surface paneling. Inset once for the outer frame · inset again for the inner frame · extrude the innermost face inward to recess the panel · and the recipe is done. Push the depth a little further on each step for a chunkier sci-fi look.</figcaption>
+    </figure>
 
     <h3>Outset: The Reverse Inset</h3>
 
@@ -1681,6 +1696,22 @@
         <p><strong>Or:</strong> Mesh menu → Clean Up → Merge by Distance</p>
     </div>
 
+    <figure>
+        <div style="position: relative; display: inline-block; max-width: 100%;">
+            <img loading="lazy" src="images/lesson_06_20_merge_by_distance.png" alt="Blender 3D viewport in Edit Mode with the M Merge popup menu open. The menu lists six options stacked vertically · At Center · At Cursor · At First · At Last · Collapse Edges and Faces · By Distance. The By Distance row at the bottom of the list is hovered and shows the standard Blender hover highlight, with a floating tooltip to its right describing the operation. The X-axis red viewport guide line is visible behind the menu in the upper right." style="display: block; width: 100%; height: auto;">
+            <svg viewBox="0 0 819 405" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="c20-bydistance-title c20-bydistance-desc">
+                <title id="c20-bydistance-title">By Distance callout</title>
+                <desc id="c20-bydistance-desc">A green ellipse highlights the By Distance row at the bottom of the M Merge menu, with a leader line connecting up to a green badge labeled BY DISTANCE in the upper portion of the image.</desc>
+                <ellipse id="c20-bydistance" cx="210" cy="282" rx="200" ry="22" fill="none" stroke="#4ADE80" stroke-width="4"/>
+                <line x1="383" y1="271" x2="560" y2="110" stroke="#4ADE80" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="560" cy="110" r="6" fill="#4ADE80"/>
+                <rect x="460" y="57" width="200" height="46" rx="6" fill="#4ADE80"/>
+                <text x="560" y="89" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#0f1a14" letter-spacing="2">BY DISTANCE</text>
+            </svg>
+        </div>
+        <figcaption>Press M in Edit Mode and pick By Distance to fuse duplicate vertices that sit within a small radius of one another. Check the bottom-left of the viewport after running it · if it reports zero removed, the mesh was already clean.</figcaption>
+    </figure>
+
     <table>
         <thead>
             <tr>
@@ -1721,6 +1752,124 @@
     <h3>Dissolve vs. Delete</h3>
 
     <p>Understanding the difference between <strong>Delete</strong> and <strong>Dissolve</strong> is crucial for clean modeling. Both remove geometry, but they work very differently.</p>
+
+    <figure>
+        <svg viewBox="0 0 800 560" role="img" aria-labelledby="dd-title dd-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" xmlns="http://www.w3.org/2000/svg">
+            <title id="dd-title">Dissolve versus delete comparison</title>
+            <desc id="dd-desc">Two side by side panels comparing how Delete and Dissolve treat a removed face in a three by three face grid. The Delete panel leaves a visible hole bounded by four orange highlighted edges. The Dissolve panel shows the same starting mesh with the face dissolved and the surrounding plus shaped region reconnected as a single continuous larger face.</desc>
+
+            <!-- Top brand accent -->
+            <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+            <!-- Header block -->
+            <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">Dissolve vs Delete</text>
+            <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">WHEN A FACE GOES · WHAT STAYS BEHIND</text>
+            <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+            <!-- DELETE panel (left) -->
+            <g id="dd-delete-panel">
+                <rect x="40" y="138" width="350" height="342" fill="none" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+                <g id="dd-delete-header">
+                    <rect x="40" y="138" width="350" height="32" fill="#E63946"/>
+                    <text x="215" y="160" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="2">DELETE</text>
+                </g>
+                <g id="dd-delete-mesh">
+                    <rect x="130" y="225" width="55" height="55" fill="currentColor" opacity="0.08"/>
+                    <rect x="185" y="225" width="55" height="55" fill="currentColor" opacity="0.08"/>
+                    <rect x="240" y="225" width="55" height="55" fill="currentColor" opacity="0.08"/>
+                    <rect x="130" y="280" width="55" height="55" fill="currentColor" opacity="0.08"/>
+                    <rect x="240" y="280" width="55" height="55" fill="currentColor" opacity="0.08"/>
+                    <rect x="130" y="335" width="55" height="55" fill="currentColor" opacity="0.08"/>
+                    <rect x="185" y="335" width="55" height="55" fill="currentColor" opacity="0.08"/>
+                    <rect x="240" y="335" width="55" height="55" fill="currentColor" opacity="0.08"/>
+                    <line x1="130" y1="225" x2="295" y2="225" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="130" y1="280" x2="185" y2="280" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="240" y1="280" x2="295" y2="280" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="130" y1="335" x2="185" y2="335" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="240" y1="335" x2="295" y2="335" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="130" y1="390" x2="295" y2="390" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="130" y1="225" x2="130" y2="390" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="185" y1="225" x2="185" y2="280" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="185" y1="335" x2="185" y2="390" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="240" y1="225" x2="240" y2="280" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="240" y1="335" x2="240" y2="390" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="295" y1="225" x2="295" y2="390" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="185" y1="280" x2="240" y2="280" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="240" y1="280" x2="240" y2="335" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="185" y1="335" x2="240" y2="335" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="185" y1="280" x2="185" y2="335" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="130" cy="225" r="2.5" fill="currentColor"/>
+                    <circle cx="185" cy="225" r="2.5" fill="currentColor"/>
+                    <circle cx="240" cy="225" r="2.5" fill="currentColor"/>
+                    <circle cx="295" cy="225" r="2.5" fill="currentColor"/>
+                    <circle cx="130" cy="280" r="2.5" fill="currentColor"/>
+                    <circle cx="185" cy="280" r="2.5" fill="currentColor"/>
+                    <circle cx="240" cy="280" r="2.5" fill="currentColor"/>
+                    <circle cx="295" cy="280" r="2.5" fill="currentColor"/>
+                    <circle cx="130" cy="335" r="2.5" fill="currentColor"/>
+                    <circle cx="185" cy="335" r="2.5" fill="currentColor"/>
+                    <circle cx="240" cy="335" r="2.5" fill="currentColor"/>
+                    <circle cx="295" cy="335" r="2.5" fill="currentColor"/>
+                    <circle cx="130" cy="390" r="2.5" fill="currentColor"/>
+                    <circle cx="185" cy="390" r="2.5" fill="currentColor"/>
+                    <circle cx="240" cy="390" r="2.5" fill="currentColor"/>
+                    <circle cx="295" cy="390" r="2.5" fill="currentColor"/>
+                </g>
+                <text id="dd-delete-caption" x="215" y="460" font-size="14" font-weight="600" fill="currentColor" opacity="0.85" text-anchor="middle" letter-spacing="2">LEAVES HOLES</text>
+            </g>
+
+            <!-- DISSOLVE panel (right) -->
+            <g id="dd-dissolve-panel">
+                <rect x="410" y="138" width="350" height="342" fill="none" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+                <g id="dd-dissolve-header">
+                    <rect x="410" y="138" width="350" height="32" fill="#4ADE80"/>
+                    <text x="585" y="160" font-size="18" font-weight="700" fill="#0f1a14" text-anchor="middle" letter-spacing="2">DISSOLVE</text>
+                </g>
+                <g id="dd-dissolve-mesh">
+                    <rect x="500" y="225" width="55" height="55" fill="currentColor" opacity="0.08"/>
+                    <rect x="610" y="225" width="55" height="55" fill="currentColor" opacity="0.08"/>
+                    <rect x="500" y="335" width="55" height="55" fill="currentColor" opacity="0.08"/>
+                    <rect x="610" y="335" width="55" height="55" fill="currentColor" opacity="0.08"/>
+                    <path d="M 555,225 L 610,225 L 610,280 L 665,280 L 665,335 L 610,335 L 610,390 L 555,390 L 555,335 L 500,335 L 500,280 L 555,280 Z" fill="#4ADE80" opacity="0.14"/>
+                    <line x1="500" y1="225" x2="665" y2="225" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="500" y1="280" x2="555" y2="280" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="610" y1="280" x2="665" y2="280" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="500" y1="335" x2="555" y2="335" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="610" y1="335" x2="665" y2="335" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="500" y1="390" x2="665" y2="390" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="500" y1="225" x2="500" y2="390" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="555" y1="225" x2="555" y2="280" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="555" y1="335" x2="555" y2="390" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="610" y1="225" x2="610" y2="280" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="610" y1="335" x2="610" y2="390" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <line x1="665" y1="225" x2="665" y2="390" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+                    <circle cx="500" cy="225" r="2.5" fill="currentColor"/>
+                    <circle cx="555" cy="225" r="2.5" fill="currentColor"/>
+                    <circle cx="610" cy="225" r="2.5" fill="currentColor"/>
+                    <circle cx="665" cy="225" r="2.5" fill="currentColor"/>
+                    <circle cx="500" cy="280" r="2.5" fill="currentColor"/>
+                    <circle cx="555" cy="280" r="2.5" fill="currentColor"/>
+                    <circle cx="610" cy="280" r="2.5" fill="currentColor"/>
+                    <circle cx="665" cy="280" r="2.5" fill="currentColor"/>
+                    <circle cx="500" cy="335" r="2.5" fill="currentColor"/>
+                    <circle cx="555" cy="335" r="2.5" fill="currentColor"/>
+                    <circle cx="610" cy="335" r="2.5" fill="currentColor"/>
+                    <circle cx="665" cy="335" r="2.5" fill="currentColor"/>
+                    <circle cx="500" cy="390" r="2.5" fill="currentColor"/>
+                    <circle cx="555" cy="390" r="2.5" fill="currentColor"/>
+                    <circle cx="610" cy="390" r="2.5" fill="currentColor"/>
+                    <circle cx="665" cy="390" r="2.5" fill="currentColor"/>
+                </g>
+                <text id="dd-dissolve-caption" x="585" y="460" font-size="14" font-weight="600" fill="currentColor" opacity="0.85" text-anchor="middle" letter-spacing="2">RECONNECTS GEOMETRY</text>
+            </g>
+
+            <!-- Footer tip (Variant B 4px left rail) -->
+            <rect x="40" y="506" width="720" height="34" rx="0" fill="none"/>
+            <rect x="40" y="506" width="4" height="34" fill="#FF6B00"/>
+            <text x="58" y="521" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Reach for Dissolve when you want to simplify · reach for Delete when you want to open the mesh up<tspan x="58" dy="15">understanding the difference is core to clean editing</tspan></text>
+        </svg>
+        <figcaption>Delete and dissolve both remove geometry but the topology they leave behind is very different. Delete opens a hole bordered by raw boundary edges · dissolve reconnects the remaining geometry into a single continuous face. Reach for dissolve when the goal is to simplify the mesh while keeping it closed.</figcaption>
+    </figure>
 
     <div class="mermaid">
         graph TD
@@ -1830,6 +1979,11 @@
         <p><strong>Import Cleanup Trick:</strong> When you import models from other software (especially CAD), they often have way too many tiny flat faces. Select all, run Limited Dissolve at 5 degrees, and watch thousands of unnecessary edges vanish while the shape stays perfect!</p>
     </blockquote>
 
+    <figure>
+        <img loading="lazy" src="images/lesson_06_22_limited_dissolve_before_after.png" alt="Two-panel horizontal composite showing Limited Dissolve cleaning an over-subdivided cube. Left panel: a cube subdivided three times on every face producing a dense 4-by-4 quad grid on each of its six faces (96 quads total) with the full wireframe overlay enabled so the excessive edge density reads clearly. Right panel: the same cube after Limited Dissolve at a 5-degree angle limit, with all coplanar interior edges removed and the cube reduced back to its original six-quad form. The shape and silhouette are identical between the two panels. A 2 px Blender-orange vertical divider separates them.">
+        <figcaption>Limited Dissolve scans the mesh for edges between faces that sit within a small angle of each other and removes them. The over-subdivided cube on the left becomes a clean six-quad cube on the right · the shape is preserved while ninety unnecessary interior edges disappear in one step.</figcaption>
+    </figure>
+
     <h3>Fill and Grid Fill</h3>
 
     <p>Sometimes you need to fill holes in your mesh. Blender offers several intelligent fill options:</p>
@@ -1876,6 +2030,11 @@
         <p><strong>Requirement:</strong> The hole must have an even number of edges (4, 8, 12, etc.)</p>
     </div>
 
+    <figure>
+        <img loading="lazy" src="images/lesson_06_50_fill_operations_comparison.png" alt="Three-panel horizontal composite showing three different fill operations on the same square hole in a cube. Left panel: the hole filled with Simple Fill (F key), producing a single n-gon face spanning the boundary loop. Middle panel: the hole filled with Grid Fill, producing an organized grid of quad faces with clean topology. Right panel: the hole filled with Fill followed by Poke, fan-triangulating the result around a central vertex. The wireframe overlay is enabled across all three panels so the topology difference reads clearly. 2 px Blender-orange vertical dividers separate the panels.">
+        <figcaption>Blender offers several fill paths for the same square hole. Simple Fill drops a single face across the gap · Grid Fill builds a clean quad grid · a Poke after Fill fan-triangulates the result from a center vertex. Pick the fill that matches the topology the downstream tools (subdivision, baking, animation) want to see.</figcaption>
+    </figure>
+
     <h3>Recalculate Normals</h3>
 
     <p><strong>Normals</strong> are invisible arrows pointing outward from each face, telling Blender which side is the "outside." When normals are flipped, faces render as black or transparent. Recalculating fixes this instantly.</p>
@@ -1889,6 +2048,22 @@
             <li>All faces now point outward correctly!</li>
         </ol>
     </div>
+
+    <figure>
+        <div style="position: relative; display: inline-block; max-width: 100%;">
+            <img loading="lazy" src="images/lesson_06_23_face_orientation_overlay.png" alt="Suzanne monkey head in Blender Edit Mode with the Face Orientation overlay enabled and SOLID shading. The bulk of the mesh is tinted a translucent blue, indicating that the face normals are pointing outward as expected. A small cluster of three adjoining triangle faces on Suzanne's right temple is tinted translucent red, marking those faces as flipped relative to the surrounding mesh. Axis indicators and the world floor grid are visible in the background." style="display: block; width: 100%; height: auto;">
+            <svg viewBox="0 0 1280 720" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="c23-flipped-title c23-flipped-desc">
+                <title id="c23-flipped-title">Flipped face callout</title>
+                <desc id="c23-flipped-desc">A red ellipse highlights the three flipped triangle faces on Suzanne's right temple, with a leader line connecting to a red badge labeled FLIPPED in the upper right of the image.</desc>
+                <ellipse id="c23-flipped" cx="923" cy="309" rx="30" ry="22" fill="none" stroke="#E63946" stroke-width="4"/>
+                <line x1="944" y1="293" x2="1140" y2="140" stroke="#E63946" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="1140" cy="140" r="6" fill="#E63946"/>
+                <rect x="1065" y="87" width="150" height="46" rx="6" fill="#E63946"/>
+                <text x="1140" y="119" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#ffffff" letter-spacing="2">FLIPPED</text>
+            </svg>
+        </div>
+        <figcaption>The Face Orientation overlay paints front-facing faces translucent blue and back-facing faces translucent red. A red patch anywhere on a closed mesh signals a flipped normal · select all and press Shift N to recalculate outward, or flip a single face manually with Mesh menu, Normals, Flip.</figcaption>
+    </figure>
 
     <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
         <h4>💡 Seeing Normals</h4>
