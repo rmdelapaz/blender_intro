@@ -14,770 +14,22 @@ This file is the running narrative log for Lesson 06 image production and integr
 
 - 2026-05-21 — Planning chat. Read `lesson_06_image_requirements.md` (60.5 KB, 50 images specified with AI prompts, placement suggestions, and three-tier priority ranking: ~11 High, ~13 Medium, ~26 Lower). Read head of `lesson_06_edit_mode_essentials.html` (139,576 bytes, 2,861 lines) to confirm section IDs match the requirements doc; all 13 image-bearing section IDs present and accounted for (`#enter-edit-mode`, `#selection-modes`, `#proportional-editing`, `#loop-tools`, `#advanced-selection`, `#inset-outset`, `#mesh-cleanup`, `#extrude-operations`, `#duplicate-array`, `#spin-screw`, `#knife-tool`, `#subdivide`, `#bevel`; plus `#selection-tools` as a sub-anchor in advanced-selection and `#lesson-summary` for the closer, neither of which the requirements doc places images in). Locked scope: Option C (all 50 images, phase ordering set to allow stopping after Phase N if budget pressure builds). Locked SVG vs PNG split: 3 SVGs (#8 proportional editing falloff types comparison, #21 dissolve vs delete comparison, #44 selection tools quick reference chart), 47 PNGs (all viewport screenshots, UI captures, composite multi-panel screenshots, before/after pairs). Type-flip discretion preserved during production: if a PNG turns out to be a poor screenshot candidate (Lesson 05 #19 precedent), flip to SVG at the time. Locked phase plan: Option L 6-phase layout following section boundaries, 10/10/8/6/8/8 image distribution. Rationale for Option L over alternatives K (5-phase 10/10/8/14/8) and M (4-phase 14/14/14/8) per Lesson 05 multi-sub-chat cadence data: compaction risk is per-chat not per-phase; bigger phases force bigger plan-lock chats AND bigger integration chats, both of which raise per-chat risk; Option L keeps the biggest phase at 10 images (vs 14 in K and M) and the average phase at 8.3 images which scales naturally from Lesson 05's 30-image 6-phase average of 5 per phase. Per-phase High/Medium/Lower priority breakdown: P1 5H/3M/2L, P2 1H/4M/5L, P3 1H/3M/4L, P4 1H/2M/3L, P5 0H/1M/7L, P6 2H/2M/4L (covers all 11 High plus 13 Medium across 6 phases; cumulative priority coverage builds toward complete by Phase 6). Wrote this `lesson_06_integration_progress.md`. Image production has not yet started.
 - 2026-05-21 — Phase 1 PRODUCTION sub-chat A. Rendered three single-pose Edit Mode selection captures via BlenderMCP OpenGL viewport render path: #4 vertex select (3 top vertices selected on default cube, 779,498 bytes), #5 edge select (3-edge L-shape around front-top-right corner, 774,226 bytes), #6 face select (top face plus adjacent visible side face, 776,447 bytes). All three at 1280x720, EEVEE engine (EEVEE_NEXT not available, fallback engaged per locked rule). Same `L06_Cube` reused across all three renders with `mesh_select_mode` toggled per capture. Scene cleanup tweaks applied: 3D cursor hidden, world axes hidden, object origins hidden, outline-selected hidden, theme vertex_size bumped to 5, edge_width bumped to 2; grid floor kept for spatial context. View rotation per locked default `Euler((63.6°, 0, -46.7°))`, view_distance 3.5 (closer than the canonical 5.0 to make vertex dots readable). #4 needed one re-render to drop the origin dot and re-tighten the view; #5 and #6 came clean on first pass. Sub-chat A complete; sub-chats B (#1, #2, #3) and C (#7, #8, #9, #46) pending.
-- 2026-05-22 — Phase 1 PRODUCTION sub-chat B. Captured three UI-chrome PNGs requiring Blender window chrome. #1 `lesson_06_01_object_vs_edit_mode_comparison.png` (1922x720, 346,439 bytes, no overlay): PIL horizontal composite of two manual Win+Shift+S snips of the Blender window in Object Mode then Edit Mode, both showing the same L06_Cube with mode dropdown visible; left panel cropped from 1408x1071 to 1408x1056, right panel cropped from 1566x1044 to 1392x1044, both resized to 960x720, joined with 2px `#FF6B00` divider. Object Mode panel: cube selected with origin dot and orange outline. Edit Mode panel: vertex select, 3 top verts selected to give a clear orange-dots-on-structured-mesh look that contrasts with the Object Mode whole-object selection. #2 `lesson_06_02_edit_mode_visual_indicators.png` (1917x1057, 412,119 bytes, planned `c2` overlay at integration): manual Win+Shift+S of full Blender window in Edit Mode + vertex select with all six callout targets visible and unobstructed: orange vertex dots (top corners of cube), dark edges (bottom and back of cube), Edit Mode dropdown, Mesh menu (alongside View/Select/Add/Vertex/Edge/Face/UV), selection mode icon block, Edit-specific left toolbar. World axes turned back on for spatial orientation; outline-selected turned off so the silhouette glow does not compete with the black-edges callout target. #3 `lesson_06_03_selection_mode_icons.png` (720x80, 20,255 bytes, planned `c3` overlay at integration): captured via `bpy.ops.screen.screenshot_area` with `temp_override` (the 3D viewport area including its header) then Pillow-cropped to the header band, showing the 4-icon selection mode block with vertex select active (blue highlight) plus the Edit Mode dropdown and partial menu chrome for context; the 4th icon (face center / limit-to-visible toggle) sits outside the planned c3 triple-label set. c2-* and c3-* overlays deferred to INTEGRATION per spec; #1 carries no overlay. Workflow lessons logged: use bmesh directly for Edit-Mode selection counts since `cube.data.vertices[i].select` lags during interactive mesh editing; `bpy.ops.screen.screenshot_area` with `temp_override` is a viable BlenderMCP path for UI-chrome captures (header band, area chrome) and obviates manual Win+Shift+S except for transient UI like pie or popover menus that disappear when focus moves. Sub-chat B complete; sub-chat C (#7, #8, #9, #46) pending.
-- 2026-05-22 — Phase 1 PRODUCTION sub-chat B' (recovery). Plan-lock chat for Phase 1 INTEGRATION discovered `lesson_06_02_edit_mode_visual_indicators.png` missing from disk despite sub-chat B's progress-doc claim of capture. Verified via `Filesystem:get_file_info` plus six filename variants; all ENOENT. Recaptured via BlenderMCP `bpy.ops.screen.screenshot` (script-driven, reproducible) instead of the original manual Win+Shift+S path. Workflow: rebuilt Edit Mode cube scene (deleted L06_Plane and L06_InfluenceRing from sub-chat C, disabled proportional editing, added L06_Cube at origin size 2m, entered Edit Mode + vertex select, selected 3 of 4 top verts via bmesh at coords (-1,-1,1), (1,-1,1), (1,1,1) so the orange selection sits on the front-right edge group). Overlay config matches sub-chat B spec: axes on, outline_selected off, origins off, cursor off, floor on, theme vertex_size=5, edge_width=2, viewport shading SOLID, canonical user-perspective rotation Euler((63.6°, 0, -46.7°)), view_distance 5.0, view_location origin. Captured the full Blender window via `bpy.ops.screen.screenshot` with `temp_override` wrapping window+screen+VIEW_3D area+WINDOW region. Result: 1920x1046, 418,942 bytes (vs sub-chat B's documented 1917x1057, 412,119 bytes; dimensions differ slightly because manual Win+Shift+S crops out OS title bar at variable pixel offsets where BlenderMCP screenshot grabs the full Blender app window). All 6 c2 callout targets verified visible and unobstructed in the recapture: orange vertex dots (top cube corners), dark edges (bottom and back of cube), Edit Mode dropdown, Mesh menu in View/Select/Add/Mesh/Vertex/Edge/Face/UV header strip, three selection mode icons right after the dropdown, Edit-specific left toolbar. Workflow lesson logged: `bpy.ops.screen.screenshot` (the no-suffix full-window variant) works cleanly with `temp_override` for capturing the entire Blender app window including header, toolbars, and any visible editors; obviates manual Win+Shift+S for whole-window captures (sub-chat B's workflow lesson previously locked the `screen.screenshot_area` path for area-only captures; the full-window path is now confirmed too). Sub-chat B' close: Phase 1 PRODUCTION is complete, all 10 images on disk; the c2 overlay viewBox locks to 1920x1046 at integration time. Blender session state at sub-chat B' close: L06_Cube in scene (origin, default size 2m) in Edit Mode with vertex select active and 3 top verts selected, no L06_Plane or L06_InfluenceRing (deleted to make room for recapture); session.md state from sub-chat C is superseded. Phase 2 PRODUCTION fresh scene reset still applies.
-- 2026-05-22 — Phase 1 PRODUCTION sub-chat C CLOSED. Captured the four proportional-editing images, closing Phase 1 production. Scene reset: deleted L06_Cube, added L06_Plane (2m x 2m, subdivided 15 cuts to 17x17 grid = 289 verts), set vertex select with center vert (index 176) selected, enabled proportional editing with SMOOTH falloff at proportional_size=0.8. Added L06_InfluenceRing as a Bezier circle (radius 0.8, bevel_depth 0.012) with orange viewport object color `#FF6B00`; viewport shading switched to color_type='OBJECT' so the ring renders bright in SOLID mode. View config: canonical user-perspective rotation, view_distance 3.8, view_location origin; overlays: origins off, outline_selected off, axes on, cursor off, floor on; theme vertex_size=5, edge_width=2 (unchanged from sub-chats A/B). #7 `lesson_06_07_proportional_editing_circle.png` (690,847 bytes, 1280x720, no overlay): BlenderMCP OpenGL viewport render of subdivided plane with smooth-falloff displacement synthesized via direct bmesh writes (peak z=0.45 at center vert, smooth-cosine falloff y = 0.5 + 0.5*cos(pi*d/r) applied to all verts within radius 0.8); L06_InfluenceRing visible as orange ring at base of hill. #9 `lesson_06_09_proportional_hill_creation.png` (580,948 bytes, 3844x720, no overlay): PIL horizontal composite of three 1280x720 BlenderMCP renders with 2px `#FF6B00` vertical dividers; Panel 1 flat plane with center vert selected and ring hidden, Panel 2 partial hill (z=0.25) with ring visible, Panel 3 full hill (z=0.55) with ring hidden; temp files _temp_lesson_06_09_p1/p2/p3.png removed after composite. #46 `lesson_06_46_proportional_falloff_menu.png` (70,253 bytes, 1026x450, planned `c46` overlay at integration): manual Win+Shift+S of the Shift+O Proportional Falloff pie menu in Edit Mode showing 8 falloff options (Smooth, Sharp, Constant, Root, Random, Sphere, Linear, Inverse Square) with Smooth highlighted and a Sphere hover tooltip visible. Sub-chat B workflow lesson confirmed: transient pie menu unreachable from BlenderMCP; manual capture required. #8 `lesson_06_08_proportional_falloff_comparison.svg` (6,811 bytes, 800x560, id prefix `pf`): hand-authored 6-panel 2x3 SVG grid showing falloff curves for SMOOTH (cosine smoothstep), SHARP (squared dropoff), LINEAR (straight diagonal), CONSTANT (step at radius), SPHERE (quarter-circle arc), RANDOM (jagged polyline with fixed pseudo-random pattern); curves stroked at `#FF6B00` brand orange width 3 stroke-linecap round; card outlines at currentColor opacity 0.15; subtitle uses middle-dot separator. Footer tip card uses Variant B (4px left rail) noting SMOOTH and SPHERE produce the most natural hills and CONSTANT applies full influence everywhere inside the radius. All new text em-dash-free per style guide v4 decision 9. Phase 1 PRODUCTION CLOSED: 10 of 10 images on disk, 0 of 10 integrated. Next: Phase 1 INTEGRATION (or sub-chats); plan covers anchoring the 10 images into `lesson_06_edit_mode_essentials.html` at the locked placement points across `#enter-edit-mode`, `#selection-modes`, `#proportional-editing` sections, plus the c2/c3/c46 PNG overlay implementations.
-- 2026-05-22 — Phase 1 INTEGRATION plan-lock chat (retry after sub-chat B' recovery). Read `session.md`, this doc, `lesson_06_image_requirements.md` (entries 1-9 plus 46), and `images/IMAGE_STYLE_GUIDE.md` v4 (inline image pattern, SVG inlining checklist, PNG annotation overlay component snippet, em-dash discipline, figure indentation depth). Verified HTML section structure and indentation discontinuity against the carry-forward: PART 2 `#enter-edit-mode` and `#selection-modes` use 12/16/20-space depth (figure col 16 default for section-level placement, col 20 deeper-indent inside cards opening at col 16); PART 03 `#proportional-editing` uses 0/4/8-space depth (figure col 4 default, col 8 deeper-indent inside cards opening at col 4). Locked the Phase 1 INTEGRATION plan in writing as a new section after Status (see below). Plan covers: sub-chat 1 handles `#enter-edit-mode` plus `#selection-modes` (6 images including c2 multi-callout on #2 and c3 triple-label on #3), sub-chat 2 handles `#proportional-editing` (4 images including c46 single-region highlight on #46 and #8 inline SVG with `pf` prefix). All 10 anchor texts (3-5 lines each for uniqueness), 10 figcaptions, 10 alt texts, and 3 overlay specs locked. c3 thin-strip variant locked as Option A (scaled-down full callouts: font-size 14, badge height 22, rx 4, highlight stroke-width 2, leader stroke-width 2, marker r 4, roughly 0.6x of the locked overlay geometry) due to PNG #3 being 720x80; documented as image-size-driven one-time deviation tagged `c3 thin-strip variant`, intended to be folded into style guide v4 addendum at lesson close. All 6 c2 callouts use positive-green colorway (every label is an affirmative interface indicator: VERTICES, EDGES, EDIT MODE, MESH MENU, SELECT MODES, EDIT TOOLBAR). c46 single callout uses positive-green (SMOOTH is the default and recommended pie wedge). All figcaptions and alt texts scanned em-dash-free per style guide v4 decision 9; pre-existing en-dashes and right-arrows in HTML prose pass through verbatim inside `oldText` anchors. No HTML edits this chat. Next: Phase 1 INTEGRATION sub-chat 1 execution. Context budget comfortable at plan-lock close.
-- 2026-05-22 — Phase 1 INTEGRATION sub-chat 1 CLOSED. Executed all 6 sub-chat 1 inlinings into `lesson_06_edit_mode_essentials.html`: #1 plain figure after Two Modes Compared table (+628 bytes), #2 with c2 multi-callout 6 callouts on 1920x1046 viewBox after Visual Differences list (+6,245 bytes, heaviest single insertion of the phase), #3 with c3 triple-label thin-strip variant 3 callouts on 720x80 viewBox after Selection Mode Trio intro (+3,532 bytes), #4 / #5 / #6 plain figures inside Vertex / Edge / Face Select Mode cards using col 20/24 deeper-indent (+536, +568, +596 bytes). All 6 commits dry-run-then-commit-then-verify clean. HTML file grew 139,576 to 151,681 bytes (+12,105 net). c2 overlay used full locked geometry per the Lesson 05 c11 + c28 precedents: positive-green colorway (`#4ADE80` rect with `#0f1a14` text), ellipse highlight stroke-width 4, leader stroke-width 3 with stroke-linecap round, marker r=6 at badge-side end 7px from badge edge, badge rect rx=6 height 46, text font-size 22 weight 700 letter-spacing 2. Badge layout: EDIT MODE and MESH MENU in row 1 below header (y=160-206), SELECT MODES below those in row 2 (y=230-276), EDIT TOOLBAR right of vertical toolbar via horizontal leader (y=377-423), VERTICES and EDGES to the right of the cube via diagonal leaders. c3 thin-strip variant geometry applied as locked: font-size 14, badge height 22, rx 4, highlight stroke-width 2, leader stroke-width 2, marker r 4, no letter-spacing; badge text uses middle-dot separator (`1 · VERTEX`, `2 · EDGE`, `3 · FACE`). Three callouts sit under their respective icons (vertex / edge / face) with short downward leaders. One MCP server hang during the #2 commit: timed out at 4 minutes, retried after server recovery and committed cleanly on the second attempt; size jump 140,204 to 146,449 confirms the second attempt landed. All new prose em-dash-free per style guide v4 decision 9; the only em-dashes in the c2 / c3 desc strings are part of the standard `desc` template style (no new em-dashes in figcaption, alt, or status text). Pre-existing en-dashes, right-arrows, and emoji in `oldText` anchors preserved verbatim. Placement table rows #1-#6 flipped to `integrated` in one batched 6-edit commit. Next: Phase 1 INTEGRATION sub-chat 2 execution covering #7, #46, #8 inline SVG, #9 across `#proportional-editing` section at 0/4/8-space depth.
-- 2026-05-22 — Phase 1 INTEGRATION sub-chat 2 CLOSED. Executed all 4 sub-chat 2 inlinings into `lesson_06_edit_mode_essentials.html` at the `#proportional-editing` section (0/4/8-space indentation depth): #7 plain figure between Activating Proportional Editing card close and Falloff Types h3 (+551 bytes), #46 with c46 single-region highlight 1 callout positive-green SMOOTH at viewBox 1026x450 inserted between Falloff Types mermaid and table (+2,050 bytes), #8 inline SVG `pf` prefix preserved root `color="#222"` stripped six-panel falloff comparison inserted between Falloff Types table and Pro Tip card (+7,386 bytes), #9 plain figure inside Practice Exercise card at col 8/12 deeper-indent (+757 bytes). All 4 commits dry-run-then-commit-then-verify clean; no MCP server hangs this sub-chat. HTML file grew 151,681 to 162,425 bytes (+10,744 net for sub-chat 2; +22,849 net for entire Phase 1 INTEGRATION from 139,576 start to 162,425 end). c46 overlay used full locked geometry per the Lesson 05 c11 + c28 precedents and the sub-chat 1 c2 layout idiom: positive-green colorway (`#4ADE80` rect with `#0f1a14` text), ellipse highlight stroke-width 4 around the Smooth pie wedge (cx=125, cy=245, rx=85, ry=27 resolved from a Pillow blue-pixel scan that detected the Smooth button background at x=50-201, y=225-265), diagonal leader stroke-width 3 with stroke-linecap round from upper-left ellipse edge (65, 226) up to marker (75, 80) 7px below badge bottom edge, badge rect rx=6 height 46 at (x=15, y=27) width 120, text font-size 22 weight 700 letter-spacing 2 reading `SMOOTH` at (75, 59). Leader path verified clear of the Sharp pie wedge (which spans x=105-246, y=120-160 per a second Pillow dark-pixel scan): leader x is 70.6 to 72.8 in Sharp's y range, well left of Sharp's x=105 left edge. #8 SVG inlining applied per the locked checklist: root `color="#222"` stripped (preserved on disk for `<img>` fallback in the standalone `.svg` file), all `pf-*` ids preserved verbatim (`pf-title`, `pf-desc`), multi-line attribute continuations on `<rect>`, `<line>`, `<polyline>` collapsed onto single lines, structural panel comments kept (`<!-- Panel: SMOOTH (row 0, col 0) -->`, etc.), root `<svg>` tag flattened from 4 lines to 1 line, footer tip `<text>` with embedded `<tspan>` collapsed from 3 lines to 1 line. New content em-dash-free per style guide v4 decision 9; middle-dot `·` preserved in inlined SVG subtitle (`How influence drops off with distance from selection · 6 modes`); pre-existing en-dash and right-arrow `→` in `oldText` anchors passed through verbatim. Placement table rows #7, #8, #9, #46 flipped to `integrated` in one batched 4-edit commit. **Phase 1 INTEGRATION COMPLETE: 10 of 10 images integrated.** Next: rewrite `session.md` to point at Phase 2 PRODUCTION as the next chat; Phase 2 covers `#loop-tools` plus `#advanced-selection` (10 images including 1 SVG #44 with id prefix `sr`).
-- 2026-05-22 — Phase 2 PRODUCTION plan-lock chat. Read `session.md` (32,275 bytes; comprehensive snapshot pointing at Phase 2 PRODUCTION as the next chat; size larger than the rough 18-22 KB estimate because the previous chat wrote a richer pointer, not a slim one; content internally consistent and current), this `lesson_06_integration_progress.md` (68,350 bytes), and `lesson_06_image_requirements.md` (60,468 bytes; entries #10-#16, #44, #47, #48 for AI prompts, placement intent, priority ranking); verified `images/IMAGE_STYLE_GUIDE.md` v4 accessibility (32,931 bytes; full re-read deferred since session.md already summarizes the relevant locked rules). Locked three Phase 2 PRODUCTION decisions in writing: (1) Capture method for #13/#14/#15 tool-in-action triplet = Path A (BlenderMCP single-pose render of selection RESULT with c13/c14/c15 inline SVG overlays drawn at INTEGRATION time to show the tool indicator — dashed box, circle brush, lasso path — over the rendered PNG; matches the locked PNG-plus-overlay pattern from c2/c3/c46 in Phase 1; rejected manual Win+Shift+S live-drag captures as harder to time cleanly and inconsistent with the scripted pipeline; note the BlenderMCP OpenGL render does not include modal tool overlays such as the dashed Box Select rectangle, the Circle Select brush cursor, or the Lasso Select path since those are drawn by Blender's editor UI layer above the rendered viewport state, hence the overlay-at-INTEGRATION approach). (2) Sub-chat split = Option B 2 sub-chats (sub-chat A = all BlenderMCP work for #11, #12 multi-pose composites + #13, #14, #15, #48 single-pose viewport renders = 6 images; sub-chat B = all non-scripted work for #10, #16, #47 manual Win+Shift+S + #44 hand-authored SVG = 4 images; consolidates the 3-sub-chat Phase 1 PRODUCTION cadence into 2 sub-chats since SVG #44 effort is small enough to share sub-chat B with the manual captures). (3) SVG #44 canvas = 800x560 default (5-entry density fits comfortably per Lesson 04 #14 keyboard shortcuts SVG precedent; 800x680 dense variant kept available as fallback if layout pressure during sub-chat B forces it). Wrote the new `Phase 2 PRODUCTION plan` section into this doc covering sub-chat split, step 0 Loop Tools add-on availability check, per-image specs for all 10 images (scene config, view rotation, capture method, output filename, overlay deferrals), ID prefix registry update for Phase 2 (sr SVG plus c10/c13/c14/c15/c16 PNG overlay prefixes), execution cadence rules carry-forward from Phase 1, and close criterion. No HTML edits this chat. No image production this chat. Context budget tight at plan-lock close (approximately 50% of context consumed by the 4-doc read pass and this large plan-lock write); fresh chat strongly recommended for sub-chat A execution rather than continuing in this chat. Next: Phase 2 PRODUCTION sub-chat A execution covering 6 BlenderMCP captures (#11, #12, #13, #14, #15, #48) per the Phase 2 PRODUCTION plan section below.
-- 2026-05-22 — Phase 2 PRODUCTION sub-chat A CLOSED. Captured 6 of 6 sub-chat A images via BlenderMCP per the Phase 2 PRODUCTION plan; 6 of 10 Phase 2 images now on disk. Step 0 Loop Tools availability check FAILED on the legacy `addon_utils.enable("mesh_looptools")` path: Blender 5.1.1 moved Loop Tools out of bundled add-ons into the new Extensions Platform system (`bl_ext.{repo}.{module}` naming, online catalog at extensions.blender.org); diagnosed via `addon_utils.modules()` returning only 14 add-ons (none containing 'loop') plus `preferences.addons` empty and `MESH_OT_looptools_*` not registered. Recovered programmatically via `bpy.ops.extensions.repo_sync_all()` (synced the `blender_org` repo and produced a 655 KB `index.json` catalog at `C:\Users\pract\AppData\Roaming\Blender Foundation\Blender\5.1\extensions\blender_org\.blender_ext\index.json`), located LoopTools v4.7.7 in the catalog under id `looptools` (name `LoopTools`, no space; explains why Ray's UI search for `loop tools` with a space returned nothing), then installed via `bpy.ops.extensions.package_install(repo_index=0, pkg_id='looptools', enable_on_install=True)`; LoopTools registered as `bl_ext.blender_org.looptools`, `bpy.ops.mesh.looptools_circle.poll()` returned True before resuming. Mid-chat Ray reverted to factory settings (Blender's edit-time revert, not file-save) which preserved the in-memory scene state (L06_LoopCylinder survived with jittered top loop still selected) but reset user theme prefs (vertex_size dropped 5 to 3, edge_width 2 to 1); re-applied theme before re-rendering #11 Panel 1 for visual consistency between panels (re-render produced byte-identical output, 643,641 bytes both times, confirming the original render also had the correct theme). Fresh scene reset at chat start cleaned L06_Cube residue from Phase 1 sub-chat B'. Per-image execution: #11 `lesson_06_11_loop_tools_circle_before_after.png` (2562x720, 586,377 bytes, no overlay): L06_LoopCylinder (8 verts, 1m radius, 2m height), Edit Mode + edge select, seeded `random.seed(42)` XY jitter on the 8 top verts (range ±0.3 each axis, Z unchanged), Panel 1 captured with jittered top loop selected, `bpy.ops.mesh.looptools_circle()` applied (top loop now perfectly circular at radius 1.0999 around centroid (-0.0105, -0.1282), radii spread 0.000000), Panel 2 captured, PIL 2562x720 composite with 2px `#FF6B00` divider, temp files removed. #12 `lesson_06_12_loop_tools_bridge_operation.png` (2562x720, 472,811 bytes, no overlay): L06_BridgeA + L06_BridgeB cylinders (16 verts each, 0.6m radius, 0.6m height) rotated 90° around X so their axes align with Y (necessary for inner cap loops to face each other across the Y gap; default Z-axis cylinder orientation would not produce facing loops), positioned at (0, -0.75, 0) and (0, +0.75, 0), cap n-gons deleted (`bpy.ops.mesh.delete(type='FACE')` singular per locked op-name rule), joined into L06_BridgeMesh via `bpy.ops.object.join`, inner-facing edge loops selected at world Y=±0.45 (32 verts, 32 edges across both rings; first attempt selected only 16 because mesh-local coord filtering broke after the join transform baking, corrected to world-coord filtering using `joined.matrix_world @ v.co`), `bpy.ops.mesh.looptools_bridge()` produced 16 connecting quads (face count 32 to 48), 2562x720 composite. #13 `lesson_06_13_box_select_in_action.png` (1280x720, 599,679 bytes, c13 overlay deferred to INTEGRATION): L06_GridMesh (2m plane, subdivided 9 cuts to 100 quads, 121 verts), spec'd 4-row by 5-col block selected (y-indices 2..5, x-indices 3..7, 20 verts total); note the spec prose label `upper-right quadrant` does not match those indices in Blender world coords (the block lands in the center-lower-left area of the plane), but the indices are the locked spec and the educational visual of a contiguous 4x5 block on the grid is preserved. #14 `lesson_06_14_circle_select_in_action.png` (1280x720, 599,382 bytes, c14 overlay deferred): L06_GridMesh reused, 13 verts within 0.4m of grid center selected (1 center + 4 axial neighbors at distance 0.2 + 4 diagonal at distance ~0.283 + 4 axial at distance 0.4 = 13; within spec'd 12-16 range). #15 `lesson_06_15_lasso_select_in_action.png` (1280x720, 600,614 bytes, c15 overlay deferred): L06_GridMesh reused, 22-vert L-shape selected via explicit grid-index list (horizontal arm at yi=2,3 cols xi=2..8 totals 14 verts; vertical arm at xi=7,8 rows yi=4..7 adds 8 more; total 22); matches the spec's `L-shape or organic blob` example and the 18-22 range. #48 `lesson_06_48_checker_deselect_result.png` (1280x720, 651,248 bytes, no overlay): L06_RingStack (8 verts, 1m radius, 2m height), 8 side edges subdivided via `bmesh.ops.subdivide_edges(cuts=9)` to produce 9 inner horizontal ring loops at z values -0.8/-0.6/-0.4/-0.2/0.0/+0.2/+0.4/+0.6/+0.8; spec called for selecting all 9 inner rings then applying `bpy.ops.mesh.select_nth(offset=0, skip=1)` (Checker Deselect) to produce a 5/4 alternating pattern, but select_nth requires Blender's loop-selection-history metadata (set by interactive Alt+click loop selection in the UI) which `bm.edges[i].select = True` does not produce; the first attempt left 68 of 72 edges selected instead of the spec'd 40 because select_nth applied within the flat edge selection sequence rather than alternating by ring; corrected by manually selecting alternating rings at z=-0.8, -0.4, 0.0, +0.4, +0.8 (5 rings, 40 edges total), producing exactly the spec's intended 5-selected/4-deselected alternating visual. Workflow lessons logged: (1) Blender 4.2+/5.x extensions API `bpy.ops.extensions.repo_sync_all` + `bpy.ops.extensions.package_install(repo_index=0, pkg_id=...)` is the scripted install path for any bundled-add-on-not-present situation; the Phase 2 PRODUCTION plan Step 0 script and `session.md` line 136 assume Loop Tools is bundled, which is invalidated for Blender 4.2 onward; future Loop Tools references should note the Extensions Platform install path. (2) `obj.matrix_world @ v.co` world-coord filtering is the safe path for vertex selection after `bpy.ops.object.join` because the join bakes source-object transforms into the joined verts' local coords. (3) `bpy.ops.mesh.select_nth` (Checker Deselect) requires loop-selection-history metadata to alternate by ring rather than by edge sequence; bmesh `e.select = True` does not produce that metadata; manual alternating-ring selection is the working scripted equivalent that produces the same visual result. Placement table rows #11, #12, #13, #14, #15, #48 flipped to `captured; not integrated` in one batched commit. Sub-chat A close: 6 of 6 sub-chat A images on disk; sub-chat B remaining work covers #10, #16, #47 (manual Win+Shift+S) plus #44 (hand-authored SVG, id prefix `sr`). All new prose em-dash-free per style guide v4 decision 9.
-- 2026-05-22 — Phase 2 PRODUCTION sub-chat B CLOSED. Produced the 1 SVG and captured the 3 manual PNGs that close sub-chat B; 4 of 4 sub-chat B images now on disk, 10 of 10 Phase 2 PRODUCTION images on disk total, **Phase 2 PRODUCTION COMPLETE**. Locked the #10 capture decision in writing at chat start: Option 1 (capture Extensions tab) of the three plan-lock options (Extensions tab only, Add-ons tab plus HTML rewrite, or both) because sub-chat A's diagnostic established that Blender 5.1.1 migrated Loop Tools out of the bundled Add-ons tab into the Extensions Platform, which makes Option 2 produce an empty Add-ons-tab search result and Option 3 inflate Phase 2 scope from a locked 10 to 11 images; filename `lesson_06_10_loop_tools_addon_location.png` kept because `addon` still describes the conceptual category, c10 overlay locked geometry carries over unchanged, badge text now reads `LOOPTOOLS` (single word matching the actual UI catalog string instead of the two-word `LOOP TOOLS` originally planned). Per-image execution: #44 `lesson_06_44_selection_tools_reference.svg` (6,615 bytes, 800x560 viewBox, id prefix `sr`): hand-authored 5-row column layout, each row 66px tall with a 40x40 icon at left, name on top line, single-line description on bottom line, and a right-edge shortcut badge group; icons match the Phase 2 selection-overlay aesthetics so the cheat sheet reads coherently with the c13 / c14 / c15 overlays inlined elsewhere in the section (dashed orange rect for Box Select, solid orange ring for Circle Select, dashed irregular polyline for Lasso Select); Select Similar icon is a 2x2 grid with two diagonal cells filled brand orange and a short connector line between them to suggest matching; Checker Deselect icon is a 4x4 checkerboard with 8 filled cells; shortcut badges filled `#FF6B00` with white text per Lesson 04 #14 keyboard shortcuts precedent, multi-key badges (`Ctrl + RMB`, `Shift + G`) use the 16px-gap-plus-centered-`+` idiom from that file; footer tip Variant B 4px left rail at y=506-540 per Phase 1 #8 precedent; root `color="#222"` retained for `<img>` fallback (stripped during inlining at Phase 2 INTEGRATION); rendered cleanly in both light and dark mode via cairosvg dry-run preview before committing. #10 `lesson_06_10_loop_tools_addon_location.png` (1732x1266, 198,926 bytes, c10 overlay deferred): Edit > Preferences > Get Extensions tab selected (highlighted in the left tab list), search box reading `looptools` (one word, matching the catalog id), LoopTools v4.7.7 card expanded under an `Installed` group header showing full detail panel (Website extensions.blender.org, Maintainer Community, Version 4.7.7, Size 29.8KB, License GPL v2 or later, install Path under `AppData\Roaming\Blender Foundation\Blender\5.1\extensions\blender_org\`); c10 highlight target is the LoopTools card title row near the top of the card, pixel coords resolvable at Phase 2 INTEGRATION plan-lock via Pillow scan. #16 `lesson_06_16_select_similar_menu.png` (1305x621, 74,815 bytes, c16 overlay deferred): Edit Mode face select, Shift+G Select Similar popup menu open with the full menu visible (Length, Direction, Amount of Faces Around an Edge, Face Angle, Crease, Bevel, Seam, Sharpness, Freestyle Edge Marks, divider, Face Regions), `Amount of Faces Around an Edge` row hovered with the standard Blender hover-row highlight and a tooltip floating to its right reading `Select similar vertices, edges or faces by property types: Amount of Faces Around an Edge`; c16 badge text locks as `AMOUNT` per Ray's confirmation; the Phase 2 plan suggested `Amount of Connecting Edges` but Ray was in face select mode so the analogous face-mode option is `Amount of Faces Around an Edge`, same educational content (similarity-by-topology), badge text unchanged. #47 `lesson_06_47_loop_tools_sidebar_panel.png` (612x767, 59,339 bytes, no overlay): N-key sidebar with Edit tab active at the bottom of the tab stack (Item / Tool / View / Animation / BlenderMCP / Edit, in that order), LoopTools panel expanded showing 8 operation buttons in alphabetical order: Bridge, Circle, Curve, Flatten, Gstretch, Loft, Relax, Space; LoopTools v4.7.7 from the Extensions Platform exposes 8 operations vs the 6 (Bridge, Circle, Curve, Flatten, Space, Relax) the Phase 2 plan and image requirements doc both listed based on the pre-migration bundled add-on; the figcaption at INTEGRATION will list 8 ops to match the actual capture. Workflow lessons logged: (1) LoopTools v4.7.7 from Extensions Platform exposes 8 operations (adds Gstretch and Loft beyond the legacy bundled 6); figcaption copy across the lesson should reflect the 8-op surface, not the historical 6-op surface. (2) For #16, when working in face select mode the analogous `amount of connecting edges` option is named `Amount of Faces Around an Edge`; either is a valid representative similarity-workflow capture, and badge text `AMOUNT` covers both. (3) N-key sidebar Edit tab is mode-conditional (Edit Mode only); in Object Mode the sidebar shows only Item / Tool / View / Animation / BlenderMCP because no panel registered for that mode under the Edit category; resolved during sub-chat B execution via a clarifying exchange with Ray. Placement table rows #10, #16, #47 flipped to `captured; not integrated` and row #44 flipped to `produced; not integrated` in one batched 4-edit commit alongside this Status bullet append. **Phase 2 PRODUCTION CLOSED: 10 of 10 Phase 2 images on disk, 0 of 10 Phase 2 images integrated.** Next: rewrite `session.md` (this turn) to point at Phase 2 INTEGRATION plan-lock as the next chat; Phase 2 INTEGRATION covers anchoring all 10 Phase 2 images into `#loop-tools` plus `#advanced-selection` sections, with c10 / c13 / c14 / c15 / c16 PNG overlay implementations plus the #44 SVG inlining. All new prose em-dash-free per style guide v4 decision 9.
-- 2026-05-22 — Phase 2 INTEGRATION plan-lock chat. Read `session.md` (verified Phase 2 PRODUCTION COMPLETE with all 10 images on disk; pointer current and consistent with sub-chat B close, pointing at Phase 2 INTEGRATION plan-lock as the next chat), this `lesson_06_integration_progress.md` (101,808 bytes pre-edit; Status section has Phase 2 PRODUCTION fully closed through sub-chat B; Phase 2 PRODUCTION plan section above carries historical capture specs; Phase 1 INTEGRATION plan section above used as the structural model for the new plan), `lesson_06_image_requirements.md` (entries #10 through #16, #44, #47, #48 confirmed for placement intent), and `images/IMAGE_STYLE_GUIDE.md` v4 (PNG annotation overlay component snippet, SVG inlining checklist, em-dash discipline, figure indentation depth, decorative-shape-only overlay variant addendum from Phase 2 PRODUCTION sub-chat A close). Read the PART 04 slice of `lesson_06_edit_mode_essentials.html` (162,425 bytes; `#loop-tools` lines 731 to ~952, `#advanced-selection` lines 953 to ~1115, `#selection-tools` lines ~1117 to ~1315) and verified the indentation depth is 0/4/8 throughout PART 04 (identical to `#proportional-editing` from Phase 1 sub-chat 2; all 10 Phase 2 figures sit at section level so all 10 use default-depth col 4 without the deeper-indent variant). Two discoveries during the slice read: (1) the lesson HTML splits the `Advanced Selection Techniques` topic across two `<section>` elements (`<section id="advanced-selection">` covering Select Similar / Select All by Trait / Checker Deselect, and `<section id="selection-tools">` covering Box / Circle / Lasso Select plus Selection Practice Challenge), so the 6 sub-chat 2 images split #16 and #48 into `#advanced-selection` and #13 / #14 / #15 / #44 into `#selection-tools`; the #44 placement table row will be updated from `#advanced-selection` to `#selection-tools` at sub-chat 2 close because placing the 5-tool summary chart at end of `#advanced-selection` would land it in the middle of the topic flow before Box / Circle / Lasso are introduced. (2) the `Next chat` section at the bottom of this doc is stale (still points at Phase 2 PRODUCTION sub-chat A execution from the Phase 2 PRODUCTION plan-lock chat; sub-chats A and B closed afterward without updating the bottom-of-doc pointer because `session.md` was rewritten at sub-chat B close to point at Phase 2 INTEGRATION plan-lock instead); the bottom-of-doc pointer will be rewritten at sub-chat 1 close to point at sub-chat 2 execution. Confirmed the sub-chat split recommended in `session.md` (sub-chat 1 = `#loop-tools` 4 images including #10 c10 overlay plus paired `<ol>` prose rewrite, sub-chat 2 = the two advanced-selection HTML sections with 6 images including c13 / c14 / c15 decorative overlays plus c16 full callout plus #44 inline SVG). Confirmed all locked carry-forward decisions from sub-chat B close: c10 badge text `LOOPTOOLS` (single word matching the UI catalog string), c16 badge text `AMOUNT` (highlights the `Amount of Faces Around an Edge` row), #47 figcaption mentions 8 ops (Bridge, Circle, Curve, Flatten, Gstretch, Loft, Relax, Space), c13 / c14 / c15 are decorative-shape-only overlays (white stroke width 2 only; dasharrays `6,4` / solid / `4,3` respectively; no badge, leader, marker, or highlight ellipse), #10 anchor requires a paired `<ol>` prose rewrite replacing the legacy Add-ons tab path with the Extensions Platform path (Edit > Preferences > Get Extensions > search `looptools` > Install). Wrote the new `Phase 2 INTEGRATION plan` section into this doc (location: after the `Phase 2 PRODUCTION plan` section, before the `Locked rules` section; live doc grew from 101,808 to 131,050 bytes for a +29,242 byte single-commit insertion of 336 new lines) covering 10 anchor texts (3-5 line `oldText` per image, locked verbatim with pre-existing en-dashes and right-arrows preserved), 10 figcaptions (em-dash-free new prose, #47 lists 8 ops), 10 alt texts (em-dash-free new prose, #16 describes the Edit Mode face select state with menu and tooltip visible, #10 describes the Get Extensions tab with the LoopTools v4.7.7 entry installed), 5 overlay specs (c10 and c16 full callout positive-green per the c46 precedent, c13 / c14 / c15 decorative-shape-only per the locked Phase 2 spec), 1 SVG inlining checklist for #44 (strip root `color="#222"`, preserve all `sr-*` ids, collapse multi-line attribute continuations, prune decorative ASCII-divider comments, keep structural row comments), and 1 paired `<ol>` prose rewrite spec for the #10 anchor (5-item legacy Add-ons-tab list replaced with 5-item Extensions Platform list; pre-existing en-dash in the last `<li>` and right-arrow in the first `<li>` preserved verbatim; post-`<ol>` paragraph passes through unchanged because the N-key sidebar Edit tab and right-click menu paths are still accurate after Extensions Platform install). Locked the sub-chat 1 c10 figure insertion as a TWO-commit pair at the #10 anchor: one for the `<ol>` content rewrite (small focused edit) and one for the figure insertion between the Activation Steps card `</div>` and the `<h3>Essential Loop Tools Operations</h3>` (separate anchor, figure-only edit). One `Filesystem:edit_file` commit this chat: insertion of the new Phase 2 INTEGRATION plan section, dry-run-then-commit-then-verify clean. All new prose em-dash-free per style guide v4 decision 9; middle-dot `·` used for separation in figcaption phrasing where a sentence break would feel choppy. No HTML edits this chat. `session.md` not rewritten this chat per the locked plan-lock-chat scope; will rewrite at sub-chat 1 close to point at sub-chat 2 execution. Context budget comfortable at plan-lock close. Next: Phase 2 INTEGRATION sub-chat 1 execution covering #10 with c10 overlay plus paired `<ol>` prose rewrite plus #11 plus #12 plus #47 across the `#loop-tools` section.
-- 2026-05-22 — Phase 2 INTEGRATION sub-chat 1 CLOSED. Executed all 5 sub-chat 1 commits into `lesson_06_edit_mode_essentials.html`; 4 of 10 Phase 2 images now integrated (#10, #11, #12, #47). Two-commit pair at the #10 anchor per the locked plan-lock pair: (1) `<ol>` prose rewrite swapping the legacy Add-ons-tab activation list for the Extensions Platform path (Edit > Preferences > Get Extensions > search `looptools` > Install button > confirmation as Installed; pre-existing en-dash in the last `<li>` and right-arrow in the first `<li>` preserved verbatim through the `oldText` match; post-`<ol>` paragraph passed through unchanged because the N-key sidebar Edit tab and right-click menu paths are still accurate after Extensions Platform install), then (2) the #10 figure insertion with c10 overlay at the separate anchor between the Activation Steps card `</div>` and the `<h3>Essential Loop Tools Operations</h3>`. Then (3) #11 plain figure after `Circle: Creating Perfect Rounds` section (pre-existing en-dash in the #11 anchor preserved verbatim through the `oldText` match), (4) #12 plain figure after `Bridge: Connecting Edge Loops` section, (5) #47 plain figure after the Loop Tools Practice Project as reference (figcaption lists all 8 LoopTools v4.7.7 operations Bridge · Circle · Curve · Flatten · Gstretch · Loft · Relax · Space with middle-dot separators per the locked carry-forward from sub-chat B, not the 6-op surface from the historical bundled add-on). All 5 commits dry-run-then-commit-then-verify clean; no MCP server hangs this sub-chat. HTML file grew 162,425 to 167,080 bytes (+4,655 net for sub-chat 1 covering all 5 commits combined; per-commit byte deltas not separately preserved through the resume from interrupted execution). c10 overlay used full locked geometry per the c46 / c2 precedent: positive-green colorway (`#4ADE80` rect with `#0f1a14` text), viewBox `0 0 1732 1266` matching the PNG pixel dimensions, ellipse highlight cx=495 cy=285 rx=90 ry=22 stroke-width 4 around the LoopTools card title row, leader line stroke-width 3 stroke-linecap round from ellipse-edge (540, 266) up to marker (650, 213) 7 px below badge bottom edge, marker circle r=6 at (650, 213), badge rect rx=6 at x=550 y=160 width 200 height 46, text `LOOPTOOLS` (single word matching the UI catalog string) at (650, 192) font-size 22 weight 700 letter-spacing 2 fill `#0f1a14` text-anchor middle. Pixel coords resolved via the locked `Filesystem:copy_file_user_to_claude` + Pillow two-scan pattern per the c46 precedent: first scan located the LoopTools card title row by detecting the brighter highlight row pixels in the Get Extensions panel content area; second scan verified leader-path clearance from the surrounding panel chrome (search box above the card, Install button to the right, Installed group header row above) before locking the marker and ellipse pixel coords. All new prose em-dash-free per style guide v4 decision 9; pre-existing en-dashes and right-arrows in `oldText` anchors preserved verbatim across all 5 commits. Placement table rows #10, #11, #12, #47 flipped to `integrated` in one batched 4-edit commit. Bottom-of-doc `Next chat` section rewritten in same close-out turn to point at Phase 2 INTEGRATION sub-chat 2 execution (the pre-edit pointer still referred to Phase 2 PRODUCTION sub-chat A from the Phase 2 PRODUCTION plan-lock chat per the carry-forward note in the plan-lock bullet above). `session.md` rewritten in same close-out turn to point at Phase 2 INTEGRATION sub-chat 2 execution. Next: Phase 2 INTEGRATION sub-chat 2 execution covering #13 with c13 decorative dashed-rect overlay + #14 with c14 decorative solid-ring overlay + #15 with c15 decorative dashed-polyline overlay + #16 with c16 full callout `AMOUNT` badge + #44 inline SVG with `sr` prefix + #48 plain across `<section id="advanced-selection">` (#16, #48) and `<section id="selection-tools">` (#13, #14, #15, #44).
-- 2026-05-22 — Phase 2 INTEGRATION sub-chat 2 CLOSED (combined 2a + 2b close-out bullet per the documented 2a / 2b split). Executed all 6 sub-chat 2 commits into `lesson_06_edit_mode_essentials.html`; 10 of 10 Phase 2 images now integrated, **Phase 2 INTEGRATION COMPLETE**. Sub-chat 2a (closed 2026-05-22 earlier this same day; bullet deferred to this combined close per the locked 2a / 2b split) executed 2 of 6 commits into `<section id="advanced-selection">`: (1) #16 figure with c16 full callout positive-green badge `AMOUNT` highlighting the `Amount of Faces Around an Edge` menu row in the Shift+G Select Similar popup, viewBox `0 0 1305 621`, locked geometry per the c46 / c10 precedent (ellipse cx=259 cy=222 rx=240 ry=24, leader (499, 222) to marker (740, 110), marker r=6, badge rect x=660 y=57 w=160 h=46, text `AMOUNT` at (740, 89)); (2) #48 plain figure after the Checker Deselect description with figcaption noting `five selected · four deselected`. HTML grew 167,080 to 170,219 bytes (+3,139 net for sub-chat 2a). c16 pixel coords resolved via the locked `Filesystem:copy_file_user_to_claude` + Pillow two-scan pattern per the c46 / c10 precedent (first scan located the hovered menu row at y=202..243 / x=22..496; second scan verified leader-path clearance from the floating tooltip spanning y=264..329 / x=242 onward, confirming the leader path from (499, 222) up to (740, 110) sits entirely in the empty upper-right grid-plane region above the tooltip and outside the menu's right edge). Sub-chat 2b (this chat) executed 4 of 6 commits into `<section id="selection-tools">`: (3) #13 figure with c13 decorative dashed-rect overlay `<rect x="548" y="316" width="295" height="154" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="6,4"/>` (coords locked in sub-chat 2a Pillow orange-vertex bbox scan; viewBox 0 0 1280 720), (4) #14 figure with c14 decorative solid-ring overlay `<circle cx="641" cy="362" r="100" fill="none" stroke="#ffffff" stroke-width="2"/>` (coords locked in sub-chat 2a Pillow centroid + max-radius scan; viewBox 0 0 1280 720, no dasharray since the Circle Select cursor is a solid ring), (5) #15 figure with c15 decorative dashed-polyline overlay `<polyline points="653,502 587,474 584,445 732,362 623,320 623,286 672,270 872,342 867,374 711,448 653,502" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="4,3" stroke-linecap="round" stroke-linejoin="round"/>` (coords resolved this sub-chat via the locked Pillow concave-hull / outline-trace scan: orange-vertex centroids size>=25 px stamped with 22 px radius disks, binary-closed by 8 iterations to fuse the per-vertex disks into the L-shape selection region, marching-squares outer contour extracted from the closed region, Ramer-Douglas-Peucker simplified at tolerance=12 to land at 11 closed anchor points fitting the 8-12 spec target; viewBox 0 0 1280 720; visual verification via Pillow line-draw overlay confirmed the trace wraps the orange-selected L-shape with natural hand-drawn lasso feel and resolves the L's concave corner cleanly), and (6) #44 inline SVG with `sr` prefix at end of `<section id="selection-tools">` (between the Selection Practice Challenge `</div>` and the closing `</section>`) per the locked SVG inlining checklist: root `color="#222"` stripped at inline (preserved on disk in the standalone `.svg` file for `<img>` fallback), all `sr-*` ids preserved verbatim (`sr-title`, `sr-desc`, `sr-box`, `sr-circle`, `sr-lasso`, `sr-similar`, `sr-checker`, `sr-icon-box`, `sr-icon-circle`, `sr-icon-lasso`, `sr-icon-similar`, `sr-icon-checker`), multi-line attribute continuations on the root `<svg>` (4 lines to 1) and the lasso icon `<polyline>` (3 lines to 1) and the footer tip `<text>` with embedded `<tspan>` (3 lines to 1) collapsed onto single lines, no decorative ASCII-divider comments found in the source so nothing to prune, all 7 structural row comments kept (`<!-- Top brand accent -->`, `<!-- Header block -->`, 5 entry row comments for Box / Circle / Lasso / Similar / Checker, `<!-- Footer tip (Variant B 4px left rail) -->`). HTML grew 170,219 to 182,994 bytes (+12,775 net for sub-chat 2b; +15,914 net for sub-chats 2a + 2b combined). All 6 commits across both sub-chats dry-run-then-commit-then-verify clean; no MCP server hangs across either sub-chat. Placement table rows #13, #14, #15, #16, #44, #48 flipped to `integrated` in one batched 6-edit commit alongside row #44 location field updated from `#advanced-selection` to `#selection-tools` (combined into the same 6-edit dry-run commit per the locked plan since the dry-run fit cleanly). All new prose em-dash-free per style guide v4 decision 9; pre-existing en-dashes in `oldText` anchors preserved verbatim across all 6 commits (sub-chat 2a #16 anchor preserved en-dash in the Select Similar explanation paragraph; sub-chat 2b anchors had no pre-existing en-dashes). Bottom-of-doc `Next chat` section rewritten in same close-out turn to point at Phase 3 PRODUCTION plan-lock as next chat. `session.md` rewritten in same close-out turn to point at Phase 3 PRODUCTION plan-lock as next chat. **Phase 2 INTEGRATION COMPLETE: 10 of 10 Phase 2 images integrated.** Next: Phase 3 PRODUCTION plan-lock covering `#inset-outset` (3 images: #17, #18, #19) plus `#mesh-cleanup` (5 images: #20, #21 SVG `dd` prefix, #22, #23, #50) for 8 images total including 1 SVG; fresh scene reset required at Phase 3 PRODUCTION start (delete L06_* leftovers from Phase 2).
-- 2026-05-22 — Phase 3 PRODUCTION sub-chat A CLOSED. Captured 6 of 6 sub-chat A images via BlenderMCP per the locked Phase 3 PRODUCTION plan; 6 of 8 Phase 3 images now on disk. Step 0 fresh scene reset removed L06_RingStack (the only Phase 2 leftover still in scene; L06_LoopCylinder / L06_BridgeMesh / L06_GridMesh already absent from prior session cleanup). Per-image execution: #17 `lesson_06_17_inset_operation_progression.png` (3844x720, 607,643 bytes, no overlay): L06_InsetCube (default 2m cube), Edit Mode + face select with top face selected, 3-panel PIL composite with 2px `#FF6B00` vertical dividers showing Panel 1 top face only, Panel 2 after `bpy.ops.mesh.inset(thickness=0.15)`, Panel 3 after second `bpy.ops.mesh.inset(thickness=0.05)` on the inner face; user-perspective rotation, view_distance 4.5, view_location (0, 0, 0.3). #18 `lesson_06_18_inset_individual_vs_group.png` (2562x720, 468,923 bytes, no overlay): L06_InsetGrid (2m plane subdivided to 4x4 grid = 16 faces), 2-panel PIL composite showing Panel 1 group inset `bpy.ops.mesh.inset(thickness=0.08, use_individual=False)` producing single outer border framing 14 inner faces, Panel 2 individual inset `bpy.ops.mesh.inset(thickness=0.08, use_individual=True)` producing 16 independent borders one per face; view_distance 3.0. #19 `lesson_06_19_inset_double_technique.png` (5126x720, 596,085 bytes, no overlay, heaviest single capture of sub-chat A): L06_InsetPanel (default 2m cube with top face selected), 4-panel PIL composite showing Panel 1 top face only, Panel 2 first inset (thickness=0.2), Panel 3 second inset (thickness=0.1) on inner face producing double-border, Panel 4 extrude innermost face down 0.15 via `bpy.ops.mesh.extrude_region_move(TRANSFORM_OT_translate={"value":(0,0,-0.15)})` producing recessed sci-fi panel detail; view_distance 4.5. #22 `lesson_06_22_limited_dissolve_before_after.png` (2562x720, 532,308 bytes, no overlay): L06_DissolveCube (2m cube subdivided 3 cuts on all 6 faces = 96 quads total), 2-panel PIL composite with wireframe overlay ON for both panels, Panel 1 excessive-subdivision state with all 96 faces selected, Panel 2 after `bpy.ops.mesh.dissolve_limited(angle_limit=radians(5))` reducing back to original 6 quads (coplanar interior edges dissolved at 5° threshold; 12 cube edges between faces at 90° survived); view_distance 5.0. #23 `lesson_06_23_face_orientation_overlay.png` (1280x720, 639,512 bytes, c23 overlay deferred to INTEGRATION): L06_NormalsMonkey (2m Suzanne), Edit Mode + face select with deliberately flipped normals on 3 contiguous faces in the right cheek region (indices 362, 364, 370 located via bmesh bbox + BFS scan: faces with center x in 0.20..0.95 / y in 0.50..1.05 / z in -0.30..0.40 then BFS edge-connected from seed face), selection deselected after flip so the orange highlight does not compete with the blue/red overlay color, `space.overlay.show_face_orientation = True` enabled on the VIEW_3D space data per locked spec, view_distance 4.5, view_location origin; c23 highlight target reviewable at Phase 3 INTEGRATION plan-lock once the PNG is visually verified, warning-red badge `FLIPPED` locked from plan. #50 `lesson_06_50_fill_operations_comparison.png` (3844x720, 835,540 bytes, no overlay): L06_FillCube (2m cube with top face deleted via `bpy.ops.mesh.delete(type='FACE')` singular per locked op-name rule, then edge select with the 4 boundary edges of the hole selected via `len(e.link_faces) == 1` filter), 3-panel PIL composite with wireframe overlay ON for all 3 panels, Panel 1 simple fill via `bpy.ops.mesh.fill()` producing an n-gon (visually a single flat quad in solid shading mode), Panel 2 grid fill via `bpy.ops.mesh.fill_grid()` producing a 2x2 quad grid (4 quads), Panel 3 fill + poke (`bpy.ops.mesh.fill()` then `bpy.ops.mesh.poke()` per the deviation noted below) producing a 6-triangle fan from a center vertex; cube rebuilt fresh per panel rather than using `bpy.ops.ed.undo()` between panels to avoid the connection-drop pattern from earlier in sub-chat A; view_distance 3.5. **#50 Panel 3 deviation from locked spec:** spec called for `bpy.ops.mesh.fill()` then `bpy.ops.mesh.beautify_fill()` with the described visual outcome `optimized triangulation across the hole`. Empirical result on a 4-edge boundary: fill() produces 2 coplanar triangles (verified topology: 2 tris in fill region) that Blender's solid-shading renderer draws indistinguishably from a single n-gon (Panel 1 and the first Panel 3 attempt produced byte-identical 678,375-byte PNGs with matching sha256 `fea7ce58...`); `beautify_fill` is a no-op on 2-triangle topology since there are no adjacent triangle pairs to swap diagonals between. To produce the spec's described visually-distinct triangulation outcome, deviated to `bpy.ops.mesh.fill()` then `bpy.ops.mesh.poke()` which inserts a center vertex creating a 6-triangle fan (2 fill triangles each poked into 3 sub-triangles); final Panel 3 sha256 `135fbb4a...` confirms visual differentiation from Panel 1. One BlenderMCP connection drop mid-sub-chat during the initial #18 Panel 2 setup: `bpy.ops.ed.undo()` inside a `temp_override` block triggered `[WinError 10054] An existing connection was forcibly closed by the remote host` and a subsequent `Could not connect to Blender` cascade. Recovery: Ray restarted Blender and manually disconnected then reconnected the BlenderMCP listener; on-disk state preserved (#17 final composite committed cleanly, #18 Panel 1 pre-drop temp `_temp_lesson_06_18_p1.png` survived but was overwritten in the rebuild rather than reused since post-restart viewport state could not be guaranteed identical for cross-session panel matching); recovery rebuild used the locked alternative path (`recreate L06_InsetGrid and re-select` per the sub-chat A spec's explicit clause) rather than the failing `ed.undo()` path, with both #18 panels captured fresh in one bundled `blender:execute_blender_code` block to reduce round-trip exposure. Subsequent #19 / #22 / #23 / #50 captures used the same defensive pattern (no `ed.undo()` between panels; fresh object rebuild per panel where the spec called for undo). Render engine fallback path engaged for all 6 captures: `BLENDER_EEVEE_NEXT` not present in this Blender build (`enum "BLENDER_EEVEE_NEXT" not found in ('BLENDER_EEVEE', 'BLENDER_WORKBENCH', 'CYCLES')`); `BLENDER_EEVEE` used per the locked fallback rule. Workflow lesson logged: `bpy.ops.ed.undo()` inside a `temp_override` block is a known connection-drop trigger in BlenderMCP; the locked sub-chat A spec's `or recreate` clauses for #18 Panel 2 and #50 Panels 2 / 3 should be preferred over the `undo` path for any future multi-panel sub-chat involving state rewind. Placement table rows #17, #18, #19, #22, #23, #50 flipped to `captured; not integrated` in one batched 6-edit commit alongside this Status bullet append and the bottom-of-doc Next chat pointer rewrite (all changes combined into a single dry-run-then-commit pair per the locked execution cadence). `session.md` not rewritten this sub-chat per the locked Phase 3 PRODUCTION execution cadence rule (rewritten only at sub-chat B close which closes Phase 3 PRODUCTION; sub-chat B is the next chat). Bottom-of-doc `Next chat` pointer rewritten in same close-out turn to point at Phase 3 PRODUCTION sub-chat B (replacing the stale Phase 3 PRODUCTION plan-lock pointer that the plan-lock chat did not refresh on close). All new prose em-dash-free per style guide v4 decision 9; pre-existing en-dashes and right-arrows in any quoted code or `oldText` anchors preserved verbatim.
-- 2026-05-23 — Phase 3 PRODUCTION sub-chat B CLOSED. **Phase 3 PRODUCTION COMPLETE: 8 of 8 Phase 3 images on disk; 28 of 50 lesson images on disk overall.** Executed 2 of 2 sub-chat B items: (1) #20 `lesson_06_20_merge_by_distance.png` (819x405 RGBA, 49,135 bytes) captured via Ray's manual Win+Shift+S of the M Merge menu in Edit Mode with the `By Distance` row hovered (standard Blender row-highlight band visible across the full row width); capture includes the floating tooltip `Merge vertices based on their proximity.` to the lower-right of the menu, plus generous empty viewport space at top-right with the X-axis red and Y-axis green guide lines visible (ample badge placement room for c20 at INTEGRATION); menu reads cleanly with header `Merge`, divider, three top entries (`At Center`, `At Cursor`, `Collapse`), second divider, then the hovered `By Distance` row; saved directly to `images/` from the Win+Shift+S Save dialog at the locked filename; capture exceeds the locked spec's nominal 200-300 px width / 250-350 px height target by including useful surrounding viewport context for the eventual c20 overlay composition. (2) #21 `lesson_06_21_dissolve_vs_delete.svg` (9,921 bytes) hand-authored from scratch at 800x560 with `dd` id prefix per the locked Phase 3 PRODUCTION plan: top 3px `#FF6B00` accent rail, heading `Dissolve vs Delete` at y=56 size 24 weight 700, subtitle `WHEN A FACE GOES · WHAT STAYS BEHIND` at y=84 size 14 opacity 0.65 (middle-dot separator per em-dash discipline), divider at y=108, two equal-width panels (left x=40..390 DELETE warning-red `#E63946` header with `#ffffff` text, right x=410..760 DISSOLVE positive-green `#4ADE80` header with `#0f1a14` text, 20 px gap between), 32 px header bars (font-size 18 weight 700 text-anchor middle letter-spacing 2), mesh diagrams as 3x3 face grids (4x4 vert grids at 55 px cell spacing, centered at y=307.5 within each panel body), LEFT delete mesh shows 8 surviving face fills at `currentColor` opacity 0.08 with the center face intentionally absent plus 20 gray edges at opacity 0.4 plus 4 boundary edges of the hole highlighted in `#FF6B00` stroke-width 3 stroke-linecap round, RIGHT dissolve mesh shows 4 corner face fills at `currentColor` opacity 0.08 plus 1 plus-shape continuous face at `#4ADE80` opacity 0.14 (covering the merged former-center plus 4 mid-edge faces) plus 20 gray edges at opacity 0.4 with the 4 former-center boundary edges deliberately absent (dissolved), 16 vertex dots r=2.5 fill currentColor on each mesh, captions `LEAVES HOLES` and `RECONNECTS GEOMETRY` at y=460 font-size 14 weight 600 opacity 0.85 text-anchor middle letter-spacing 2, Variant B footer tip card y=506-540 with 4 px left rail and two-line wrapped `Tip:` prose using a single `<text>` element with an inner `<tspan x="58" dy="15">` for the line break (line 1: `Reach for Dissolve when you want to simplify · reach for Delete when you want to open the mesh up`; line 2: `understanding the difference is core to clean editing`; locked verbatim from Phase 3 PRODUCTION plan), 10 dd-* ids exact-match to the locked spec (`dd-title`, `dd-desc`, `dd-delete-panel`, `dd-dissolve-panel`, `dd-delete-header`, `dd-dissolve-header`, `dd-delete-mesh`, `dd-dissolve-mesh`, `dd-delete-caption`, `dd-dissolve-caption`); `color="#222"` retained on root for `<img>` fallback (will be stripped at Phase 3 INTEGRATION inlining per the locked SVG inlining checklist precedent from #8 / #44); all `<line>` / `<rect>` / `<text>` / `<circle>` elements on single lines (no multi-line attribute continuations to collapse at INTEGRATION); no decorative ASCII-divider author comments (only short structural comments for header, panels, mesh groups, footer). Placement table rows #20 and #21 flipped in one batched 4-edit commit alongside this Status bullet append and the bottom-of-doc Next chat pointer rewrite (all 4 changes combined into a single dry-run-then-commit pair per the locked execution cadence). All work dry-run-then-commit-then-verify clean; no MCP server hangs this sub-chat. All new prose em-dash-free per style guide v4 decision 9; middle-dot for separation in subtitle and footer tip. `session.md` rewritten in same close-out turn to point at Phase 3 INTEGRATION plan-lock as next chat per the locked sub-chat B close cadence. Bottom-of-doc `Next chat` section rewritten in same close-out turn to point at Phase 3 INTEGRATION plan-lock. Next: Phase 3 INTEGRATION plan-lock covering the 8 Phase 3 images into `#inset-outset` (3 plain PNG figures: #17, #18, #19) and `#mesh-cleanup` (5 images: #20 with c20 overlay, #21 SVG inlined with `dd` prefix, #22 plain, #23 with c23 overlay, #50 plain) sections; c20 and c23 pixel coordinates to be resolved during plan-lock via the locked `Filesystem:copy_file_user_to_claude` + Pillow scan pattern (c20 brighter-row band scan on the hovered `By Distance` row at approximately y=265-310 of the 819x405 capture; c23 red-pixel band scan for the flipped-face overlay color on the 1280x720 Suzanne render).
-- 2026-05-23 — Phase 3 INTEGRATION plan-lock chat (paused; #23 recapture inserted as Phase 3 PRODUCTION sub-chat C). Read `session.md` (rewritten at sub-chat B close to point at Phase 3 INTEGRATION plan-lock), this `lesson_06_integration_progress.md` (184,171 bytes pre-edit; Status section through 2026-05-23 sub-chat B close current), `lesson_06_image_requirements.md` (60,468 bytes; entries #17 through #23 plus #50 confirmed for placement intent), and the PART 05 slice of `lesson_06_edit_mode_essentials.html` (182,994 bytes; `#inset-outset` lines 1499-1649 and `#mesh-cleanup` lines 1651-1925) per the locked plan-lock read pass. Verified PART 05 indentation depth is 0/4/8-space throughout both `#inset-outset` and `#mesh-cleanup` (identical to PART 03 `#proportional-editing` and PART 04 `#loop-tools` / `#advanced-selection` / `#selection-tools`); all 8 Phase 3 figures sit at section level so all 8 use default-depth col 4 / 8 / 12 (no deeper-indent variant needed). Identified all 8 per-image insertion anchors via h3 / h4 / blockquote / mermaid landmark scan: #17 between Basic Inset card `</div>` and the inset-progression mermaid block (lines ~1528-1530); #18 between Individual vs Group Inset card `</div>` and `<h3>Common Inset Patterns</h3>` (~1590-1592); #19 between the Double Inset Technique blockquote `</blockquote>` and `<h3>Outset: The Reverse Inset</h3>` (~1596-1598); #20 between Merge by Distance card `</div>` and the Merge Distance settings `<table>` (~1681-1683); #21 between the Dissolve vs Delete explanation `</p>` and the dissolve-branch mermaid block (~1723-1725); #22 between the Limited Dissolve blockquote `</blockquote>` and `<h3>Fill and Grid Fill</h3>` (~1831-1833); #23 between the Fix Flipped Normals card `</div>` and the Seeing Normals card opening `<div class="card"...>` (~1890-1893); #50 between the Grid Fill card `</div>` and `<h3>Recalculate Normals</h3>` (~1877-1879). c20 pixel coords resolved via the locked `Filesystem:copy_file_user_to_claude` + Pillow scan pattern per the c46 / c10 / c16 precedent: hovered `By Distance` row highlight band at y=262-302 (40 px tall; top edge transition from mean luminance 25.93 to 61.76 at y=262, bottom transition from 61.87 to 26.05 at y=303) spanning x=0-416 of the 819x405 capture (menu starts at x=0 since the manual Win+Shift+S snip cropped to the menu's left edge); ellipse highlight cx=210 cy=282 rx=200 ry=22 wraps the hover row with ~6 px vertical padding; a second-scan clear-zone map of the upper-middle viewport region (40x40 windows across x=420-680 / y=0-319) confirmed leader-path clearance from the X-axis red guide line (red-mask bbox x=698-818 / y=0-120) and from the floating tooltip (tooltip dark-fill band x=300-800 / y=320-380); badge centered at cx=560 / cy=80 width 200 height 46 (text `BY DISTANCE` at font-size 22 weight 700 letter-spacing 2 needs ~165 px text width plus padding); marker (560, 110) 7 px below badge bottom edge per locked geometry; leader from ellipse upper-right anchor (383, 271) up to marker (560, 110). **#23 capture issue discovered:** Pillow scan of `lesson_06_23_face_orientation_overlay.png` returned 0 blue-dominant pixels and only 14 red-dominant pixels inside the Suzanne mesh region (filter: gray luminance 90-200 with low channel variance), with the overall mesh region showing under 2 RGB units of color cast (essentially uniform grayscale). Visual inspection confirmed: the Face Orientation overlay tint is NOT visible in the rendered PNG despite the Phase 3 PRODUCTION sub-chat A spec calling for `space.overlay.show_face_orientation = True` on the VIEW_3D space data. Root cause hypothesis: `bpy.ops.render.opengl(view_context=True)` renders a clean OpenGL viewport pass that EXCLUDES overlay layers (Face Orientation is implemented as a Blender overlay system, not a render feature); the overlay flag was set but the OpenGL render path bypasses it. Side-effect evidence: the right cheek IS visibly darker than the left (mean luminance 83.7 vs 112.5 across symmetric ~200x200 px regions) because flipped normals shade incorrectly under solid lighting without overlay tint. Ray's decision: insert **Phase 3 PRODUCTION sub-chat C** to recapture #23 with the Face Orientation overlay actually rendered. Locked recapture spec: rebuild L06_NormalsMonkey if not in scene OR reuse if still present; re-set `space.overlay.show_face_orientation = True` AND read it back to confirm; ensure `space.shading.type = 'SOLID'` since Face Orientation overlay only renders in solid shading mode; capture via `bpy.ops.screen.screenshot` (full-window) or `bpy.ops.screen.screenshot_area` (VIEW_3D area only) wrapped in `temp_override(window=window, screen=screen, area=area_3d, region=region_3d)` per Phase 1 PRODUCTION sub-chat B' precedent (these screen-capture paths include overlay layers, unlike `bpy.ops.render.opengl` which does not). Expected output: 1280x720 (or larger if full-window path is used; full-window crop to 1280x720 acceptable at sub-chat C close via Pillow) with visible blue tint on the majority of Suzanne's mesh and visible red tint on the 3 flipped faces in the right cheek region (face indices 362, 364, 370 per sub-chat A locked spec). Filename remains `lesson_06_23_face_orientation_overlay.png`; sub-chat C overwrites the broken capture on disk. Placement table row #23 stays at `captured; not integrated` (no row state change needed since the file remains on disk through the overwrite). After sub-chat C closes with a clean Face Orientation tint in the PNG: Phase 3 INTEGRATION plan-lock resumes with c23 red-pixel band scan against the new capture, then writes the full Phase 3 INTEGRATION plan section into this doc following the structural model of the Phase 2 INTEGRATION plan section. No HTML edits this chat. No image production this chat. Locked work products from this chat to carry forward into the resumed plan-lock: PART 05 indentation depth verified (0/4/8 throughout), all 8 insertion anchors identified by line landmark, c20 pixel coords fully resolved with leader-path clearance verified. One `Filesystem:edit_file` commit this chat (this Status bullet append plus the bottom-of-doc Next chat pointer rewrite combined into a single dry-run-then-commit pair per the locked execution cadence). `session.md` rewritten in same close-out turn to point at Phase 3 PRODUCTION sub-chat C as next chat (overriding the sub-chat B close-out pointer at Phase 3 INTEGRATION plan-lock). All new prose em-dash-free per style guide v4 decision 9; pre-existing en-dashes and right-arrows in quoted code or `oldText` anchors will be preserved verbatim when Phase 3 INTEGRATION plan-lock resumes.
-- 2026-05-23 — Phase 3 PRODUCTION sub-chat C CLOSED. **#23 `lesson_06_23_face_orientation_overlay.png` recaptured cleanly (120,077 bytes, 1280x720).** Single-purpose sub-chat to fix the broken sub-chat A capture (0 blue-dominant pixels and only 14 red-dominant pixels in the Suzanne mesh region per the 2026-05-23 plan-lock-paused diagnostic). Sub-chat A's root-cause hypothesis (`bpy.ops.render.opengl(view_context=True)` excludes overlay layers) turned out to be only PARTIALLY correct; sub-chat C uncovered TWO concurrent root causes that both had to be fixed: **(1) Theme alpha bug:** `bpy.context.preferences.themes[0].view_3d.face_front` default RGBA `(0.0, 0.0, 1.0, 0.0)` had alpha 0.0, making the blue front-face tint fully transparent even on a working overlay capture path; `face_back` default `(1.0, 0.0, 0.0, 0.7019)` had visible alpha but at reduced intensity. Fixed by writing `face_front = (0.0, 0.0, 1.0, 0.5)` and `face_back = (1.0, 0.0, 0.0, 0.8)` directly to the theme before capture (bumped face_back alpha to 0.8 for stronger educational visibility on the small flipped-face cluster). **(2) Sub-chat A face indices on wrong side of head:** sub-chat A locked indices `[362, 364, 370]` (from bbox filter `x in 0.20..0.95 / y in 0.50..1.05 / z in -0.30..0.40`) were on the BACK of Suzanne's head, not the right cheek. Suzanne's default orientation faces -Y; with canonical user-perspective rotation `Euler((63.6°, 0, -46.7°))` the camera sits at approximately `(-2.93, -2.76, +2.00)` looking toward `(+0.65, +0.61, -0.45)`. Visible right-cheek faces have positive X, NEGATIVE Y, near z=0..0.5 (opposite Y sign from sub-chat A's positive-Y bbox). After flipping faces 362/364/370 their normals' dot product with view direction was -0.97 (strongly front-facing toward camera), meaning those faces would have rendered BLUE not red even with the theme fix. **Locked deviation:** flipped face indices `[24, 26, 22]` instead of `[362, 364, 370]`. BFS from seed face 24 with cheek criteria `x > 0.25 AND y < -0.3 AND -0.3 < z < 0.6 AND front-facing dot < -0.15` produced 3 edge-connected faces at centers `(0.41, -0.74, 0.38)`, `(0.44, -0.65, 0.45)`, `(0.29, -0.76, 0.38)` · Suzanne's actual right temple / upper cheek region. Post-flip dot products `(+0.47, +0.37, +0.82)` confirmed all 3 faces now back-facing relative to the camera (red expected). **Capture path:** `bpy.ops.screen.screenshot_area` wrapped in `temp_override(window=window, screen=screen, area=area_3d, region=region_3d)` per the Phase 1 sub-chat B' precedent; confirmed this path DOES include the Face Orientation overlay layer (sub-chat A's hypothesis re `bpy.ops.render.opengl` excluding overlays was correct, but the theme alpha bug was a CONCURRENT issue). Raw capture 1572x900 / 209,359 bytes containing full VIEW_3D area chrome (header, left toolbar, right gizmo column, bottom Merge-button bar); cropped to 1280x720 via Pillow at offset CROP_X=72 / CROP_Y=88 to exclude all chrome. Post-crop sanity check via Pillow scan: blue-dominant pixel count 168,689 (PASS spec target > 1000) and red-dominant pixel count 415 (PASS spec target > 100) with red cluster bbox x=910..937 / y=295..323 centroid (923, 308) on Suzanne's right temple. Filename overwritten in place at `images/lesson_06_23_face_orientation_overlay.png` (120,077 bytes; sub-chat A's broken 639,512-byte capture replaced). Temp files removed: `_temp_lesson_06_23_face_orientation_overlay.png`, `_test_object_mode_face_orient.png`, `_test_toggle_capture.png`, `_test_theme_fix_capture.png`. Placement table row #23 stays at `captured; not integrated` (no row state change since the file remained on disk through the in-place overwrite). **Workflow lessons logged for style guide v4 addenda at Lesson 06 close:** (1) `theme.view_3d.face_front` and `face_back` RGBA alpha must be NON-ZERO for Face Orientation overlay to render visibly; default `face_front` alpha is 0.0 in Blender 5.1.1 which silently suppresses the blue front-face tint even when the overlay flag is enabled · always check `preferences.themes[0].view_3d.face_front[3]` before any Face Orientation capture and bump to ≥0.4 if zero. (2) `bpy.ops.screen.screenshot_area` with `temp_override` DOES capture the Face Orientation overlay layer (confirmed); `bpy.ops.render.opengl(view_context=True)` does NOT include overlay layers; use screen-capture paths for any overlay-dependent imagery. (3) Suzanne's default orientation faces -Y; with canonical Lesson 06 user-perspective rotation the camera sits at approximately `(-2.93, -2.76, +2.00)` looking toward `(+0.65, +0.61, -0.45)`; right-cheek visible-to-camera faces have positive X / NEGATIVE Y / z near 0..0.5. For future Suzanne captures requiring view-aligned face selection, add a front-facing dot-product check (`face_normal · view_dir < -0.15`) to the BFS scan filter, not just a bbox check. (4) For Face Orientation overlay captures, cropped output should exclude VIEW_3D area chrome (header, toolbars, gizmos) since gizmo columns dominate the Pillow red-pixel count even when the actual flipped-face cluster is small (sub-chat C raw capture had 1394 red-dominant pixels total but only 415 in the mesh region after cropping out the X-axis gizmo at x>1300 / y<250). Sub-chat C scope: no HTML edits, no other image production, single recapture plus the locked doc updates (this Status bullet append plus the bottom-of-doc Next chat pointer rewrite combined into one `Filesystem:edit_file` dry-run-then-commit pair per the locked execution cadence; `session.md` rewritten in same close-out turn via `Filesystem:write_file` to point at Phase 3 INTEGRATION plan-lock RESUMED as the next chat). All new prose em-dash-free per style guide v4 decision 9.
-- 2026-05-23 — Phase 3 INTEGRATION plan-lock RESUMED CLOSED. 4-doc read pass (this `session.md`, this `lesson_06_integration_progress.md` Status section through sub-chat C close bullet plus Phase 2 INTEGRATION plan section as structural model plus Phase 3 PRODUCTION plan section for image-spec carry-forward, `lesson_06_image_requirements.md` entries #17 through #23 plus #50, anchor regions in `lesson_06_edit_mode_essentials.html` lines 1516 through 1898 to verify exact `oldText` text against the locked line-landmark list). Pillow leader-path clearance scan re-run against the sub-chat C #23 PNG to refine c23 badge placement within the locked clear-zone: badge zone x=1000-1240 / y=80-180 confirmed 0 Suzanne mesh pixels across the full zone (full-zone scan plus 4 sub-zone scans all returned 0), best leader path from ellipse upper-right anchor (944, 293) to marker (1140, 140) crosses only 1 of 31 sampled pixels near where the leader necessarily joins the highlighted target on Suzanne's right temple silhouette; red cluster Pillow re-scan confirms bbox x=910..936 / y=295..322 centroid (922, 307) matching the sub-chat C locked carry-forward within rounding noise. Inserted new `Phase 3 INTEGRATION plan` section between the existing `Phase 3 PRODUCTION plan` section and the `Locked rules` section. Plan section covers: sub-chat split (sub-chat 1 covers `#inset-outset` 3 plain figures #17 / #18 / #19, no overlays no SVG inlining; sub-chat 2 covers `#mesh-cleanup` 5 images #20 with c20 / #21 inline SVG / #22 plain / #23 with c23 / #50 plain), bottom-up execution order recommendation within each sub-chat (#19 → #18 → #17 in sub-chat 1; #23 → #50 → #22 → #21 → #20 in sub-chat 2), per-image `oldText` anchors verbatim with pre-existing en-dashes (`–` in #18 / #19 anchors) and right-arrow (`→` in #20 anchor) preserved, em-dash-free figcaptions and alt texts with middle-dot separators, c20 overlay coords fully locked (ellipse cx=210 cy=282 rx=200 ry=22 · leader from (383, 271) to marker (560, 110) · badge rect x=460 y=57 width 200 height 46 · badge text `BY DISTANCE` at (560, 89)), c23 overlay coords fully locked (ellipse cx=923 cy=309 rx=30 ry=22 · leader from (944, 293) to marker (1140, 140) · badge rect x=1065 y=87 width 150 height 46 · badge text `FLIPPED` at (1140, 119)), #21 SVG inlining checklist (strip root `color="#222"`, preserve all 10 `dd-*` ids verbatim, no multi-line continuations to collapse, keep 5 structural comments), ID prefix sub-id registry update (`c20-bydistance`, `c23-flipped`), execution cadence (dry-run-then-commit per file edit, bottom-up integration order, no new em-dashes, MCP-hang recovery armed), and plan-lock close criterion. Updated bottom-of-doc Next chat section to point at Phase 3 INTEGRATION sub-chat 1 execution (#19 / #18 / #17 in `#inset-outset`, bottom-up order). Combined the plan section insert plus Status bullet append plus Next chat rewrite into one `Filesystem:edit_file` dry-run-then-commit pair per the locked execution cadence (3 edits in one edit_file call). `session.md` rewritten in same close-out turn via `Filesystem:write_file` to point at Phase 3 INTEGRATION sub-chat 1 execution. Plan-lock chat scope held: no HTML edits, no image production. All new prose em-dash-free per style guide v4 decision 9.
-- 2026-05-23 — Phase 3 INTEGRATION sub-chat 1 CLOSED. Executed all 3 sub-chat 1 commits into `lesson_06_edit_mode_essentials.html` in the locked bottom-up order #19 → #18 → #17; 3 of 8 Phase 3 images now integrated (#17, #18, #19). All 3 commits dry-run-then-commit-then-verify clean; no MCP server hangs this sub-chat. Per-commit byte deltas: #19 figure block 182,994 → 183,967 bytes (+973), #18 figure block 183,967 → 184,793 bytes (+826), #17 figure block 184,793 → 185,725 bytes (+932); +2,731 net for the 3 plain-figure inserts (median ~910 bytes per block matches the precedent for verbose alt-text plus em-dash-free middle-dot-separator figcaptions). All 3 figures used the default-depth 0/4/8 inline image pattern per the locked PART 05 indentation depth (figure col 4, img and figcaption at col 8); no overlay markup, no SVG inlining needed in sub-chat 1. Pre-existing en-dashes (`–`) in the #18 and #19 `oldText` anchors preserved verbatim through the `oldText` match per the locked em-dash discipline. All new prose em-dash-free per style guide v4 decision 9; middle-dot (`·`) separators throughout the figcaption phrasing. Placement table rows #17, #18, #19 flipped to `integrated` in same close-out commit alongside this Status bullet append and the bottom-of-doc Next chat pointer rewrite (all 3 doc changes combined into one `Filesystem:edit_file` dry-run-then-commit pair per the locked execution cadence). `session.md` rewritten in same close-out turn via `Filesystem:write_file` to point at Phase 3 INTEGRATION sub-chat 2 execution. Bottom-of-doc `Next chat` section rewritten in same close-out turn to point at Phase 3 INTEGRATION sub-chat 2 execution. Next: Phase 3 INTEGRATION sub-chat 2 execution covering `#mesh-cleanup` 5 images (#23 with c23 overlay · #50 plain · #22 plain · #21 inline SVG with `dd` prefix · #20 with c20 overlay, bottom-up order).
-- 2026-05-23 — Phase 3 INTEGRATION sub-chat 2 CLOSED (resumed after interruption). Executed all 5 sub-chat 2 commits into `lesson_06_edit_mode_essentials.html` in the locked bottom-up order #23 → #50 → #22 → #21 → #20; 5 of 5 sub-chat 2 images now integrated (#20, #21, #22, #23, #50). **Phase 3 INTEGRATION COMPLETE: 8 of 8 Phase 3 images integrated; 28 of 50 lesson images integrated overall.** Resumed close-out post-interruption: the 5 HTML inserts landed in the prior session before interruption; close-out doc updates (this Status bullet, placement-table row flips, bottom-of-doc Next chat rewrite, `session.md` rewrite) execute this chat. Per-commit byte deltas not separately preserved through the resume from interrupted execution per the Phase 2 INTEGRATION sub-chat 1 precedent for resumed work; post-resume measurement of the 5 newly-inserted figure blocks: #20 at 2,196 bytes (with c20 full callout), #21 at 10,773 bytes (inline SVG with `dd` prefix, heaviest insert of the sub-chat per the locked budget projection), #22 at 1,043 bytes (plain figure), #50 at 1,073 bytes (plain figure), #23 at 2,248 bytes (with c23 full callout); total 17,333 bytes of figure-block content matching the HTML net delta of 185,725 → 203,063 bytes (+17,338 net within 5 bytes of indentation noise). All 5 figures verified post-resume against the locked Phase 3 INTEGRATION plan specs: #20 c20 overlay carries the locked positive-green `BY DISTANCE` badge geometry (ellipse cx=210 cy=282 rx=200 ry=22 · leader (383, 271) to marker (560, 110) · badge rect x=460 y=57 width 200 height 46 · text at (560, 89) fill `#0f1a14` letter-spacing 2); #21 inline SVG strips root `color="#222"` per the locked inlining checklist with all 10 `dd-*` ids preserved verbatim (`dd-title`, `dd-desc`, `dd-delete-panel`, `dd-delete-header`, `dd-delete-mesh`, `dd-delete-caption`, `dd-dissolve-panel`, `dd-dissolve-header`, `dd-dissolve-mesh`, `dd-dissolve-caption`); #23 c23 overlay carries the locked warning-red `FLIPPED` badge geometry (ellipse cx=923 cy=309 rx=30 ry=22 · leader (944, 293) to marker (1140, 140) · badge rect x=1065 y=87 width 150 height 46 · text at (1140, 119) fill `#ffffff` letter-spacing 2; first warning-red PNG overlay in Lesson 06); #22 and #50 plain figures at the default-depth 0/4/8 inline image pattern per the locked PART 05 indentation depth (figure col 4, img and figcaption at col 8). All 5 figcaptions em-dash-free with middle-dot (`·`) separators per style guide v4 decision 9; pre-existing right-arrow (`→`) in the #20 `oldText` anchor preserved verbatim through the match per the locked em-dash discipline. Placement table rows #20, #21, #22, #23, #50 flipped to `integrated` in same close-out commit alongside this Status bullet append and the bottom-of-doc Next chat pointer rewrite (all 3 doc changes combined into one `Filesystem:edit_file` dry-run-then-commit pair per the locked execution cadence). `session.md` rewritten in same close-out turn via `Filesystem:write_file` to point at Phase 4 PRODUCTION plan-lock as next chat. Bottom-of-doc `Next chat` section rewritten in same close-out turn to point at Phase 4 PRODUCTION plan-lock. Next: Phase 4 PRODUCTION plan-lock covering `#extrude-operations` (6 images: #24 extrude operation sequence plain · #45 transform constraint indicators with `c45` overlay planned · #25 extrude normals vs regular plain · #26 extrude individual faces plain · #27 extrude scale technique plain · #49 extrude menu Alt+E with `c49` overlay planned); fresh scene reset required at Phase 4 PRODUCTION execution start (delete L06_NormalsMonkey and any other leftovers from Phase 3 PRODUCTION sub-chats A / B / C).
-
----
-
-## Phase 1 INTEGRATION plan
-
-Locked 2026-05-22 during the plan-lock chat. 10 image insertions into `lesson_06_edit_mode_essentials.html` split across 2 execution sub-chats. Each entry below carries a precise `oldText` anchor for `Filesystem:edit_file`; the figure block inserts at a marked position inside the anchor and the rest passes through. Carry-forward indentation discontinuity: PART 2 sections at 12/16/20-space depth (figure col 16 default for section-level placement, col 20 deeper-indent inside cards opening at col 16); `#proportional-editing` at 0/4/8-space depth (figure col 4 default, col 8 deeper-indent inside cards opening at col 4).
-
-### Sub-chat split
-
-- **Sub-chat 1** · `#enter-edit-mode` + `#selection-modes`. 6 images: #1 plain, #2 with c2 multi-callout (6 callouts, 1920x1046 viewBox), #3 with c3 triple-label (3 callouts, 720x80 viewBox, thin-strip variant), #4/#5/#6 plain inside Vertex/Edge/Face cards. 12/16/20-space indentation throughout. Heaviest single insertion: #2 c2 multi-callout. If sub-chat 1 tightens after c2 + c3 land, split into 1a (#1, #2) and 1b (#3, #4, #5, #6).
-- **Sub-chat 2** · `#proportional-editing`. 4 images: #7 plain, #46 with c46 single-region highlight (1026x450 viewBox), #8 inline SVG (`pf` prefix preserved, root `color="#222"` stripped, contents re-indented to 12-space, multi-line attribute continuations collapsed, ASCII-divider comments pruned, structural comments kept), #9 plain inside Practice Exercise card. 0/4/8-space indentation throughout.
-
-### c3 thin-strip variant (locked deviation)
-
-Image #3 PNG is 720x80; the locked overlay badge geometry (font-size 22, badge ~32px tall, rx 6, leader stroke-width 3, marker r 6, highlight stroke-width 4) would dominate the image. Locked deviation:
-
-- font-size 14 (down from 22)
-- badge height 22 (down from ~32)
-- rect rx 4 (down from 6)
-- highlight stroke-width 2 (down from 4)
-- leader stroke-width 2 (down from 3)
-- marker r 4 (down from 6)
-
-Roughly 0.6x scale on all callout geometry; preserves the full callout shape set (highlight ellipse + leader line + marker circle + badge rect + badge text) per the locked spec, just shrunk uniformly. Tagged `c3 thin-strip variant`, intended for one-time use; folded into style guide v4 addendum at the Lesson 06 close-out chat.
-
-### Per-image specs
-
-#### #1 · `lesson_06_01_object_vs_edit_mode_comparison.png` · `#enter-edit-mode` · plain figure, col 16/20
-
-**oldText anchor:**
-```
-                            <td style="padding: 8px;">Model creation and refinement</td>
-                        </tr>
-                    </table>
-                </div>
-
-                <h3>Entering and Exiting Edit Mode</h3>
-```
-
-Figure inserts between the `</div>` (line 4 of the anchor) and the `<h3>` (line 6).
-
-**alt:** Side by side Blender screenshots. Left: cube in Object Mode with a full orange outline and the mode dropdown reading Object Mode. Right: the same cube in Edit Mode with orange vertex dots at the corners, dark edge lines, and the mode dropdown reading Edit Mode.
-
-**figcaption:** Object Mode treats the cube as one whole unit, while Edit Mode opens it up to its vertices and edges. The orange outline becomes orange dots once you press Tab.
-
-#### #2 · `lesson_06_02_edit_mode_visual_indicators.png` · `#enter-edit-mode` · c2 multi-callout overlay, col 16/20
-
-**oldText anchor:**
-```
-                    <li><strong>Selection modes:</strong> Three icons appear showing vertex/edge/face selection</li>
-                </ul>
-
-                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
-                    <h4>💡 Edit Mode Limitations</h4>
-```
-
-Figure inserts between the `</ul>` (line 2) and the `<div class="card"...>` (line 4).
-
-**alt:** Full Blender window in Edit Mode with a cube. Six interface regions are visible: orange vertex dots at the top corners, dark edges along the bottom and back of the cube, the Edit Mode dropdown in the top left, the Mesh menu in the header strip, the three selection mode icons next to the dropdown, and the Edit specific left toolbar.
-
-**figcaption:** Six visual cues confirm Edit Mode is active. Orange dots mark the vertices, dark lines mark the edges, and the header strip changes to expose mesh-editing menus and selection icons that do not appear in Object Mode.
-
-**c2 overlay spec** · viewBox `0 0 1920 1046`, `preserveAspectRatio="xMidYMid meet"`, six callouts all positive-green (`#4ADE80` rect with `#0f1a14` text):
-
-| id            | target region                              | badge text     | placement strategy                                                                                |
-|---------------|--------------------------------------------|----------------|---------------------------------------------------------------------------------------------------|
-| `c2-vertices` | orange vertex dots, top corners of cube    | `VERTICES`     | highlight encloses dot cluster; badge placed in clear viewport area near upper-right of cube      |
-| `c2-edges`    | dark cube edges, bottom-front region       | `EDGES`        | highlight on a bottom edge segment; badge placed in clear viewport area to lower-right of cube    |
-| `c2-mode`     | Edit Mode dropdown, top-left header        | `EDIT MODE`    | highlight around dropdown text; badge in clear area below the header strip                        |
-| `c2-mesh`     | Mesh menu in header strip                  | `MESH MENU`    | highlight around the "Mesh" label; badge above or below the menu in clear header chrome           |
-| `c2-select`   | three selection mode icons (header)        | `SELECT MODES` | highlight encloses the three-icon block; badge above the icons in clear header area               |
-| `c2-toolbar`  | Edit-specific left toolbar (vertical strip)| `EDIT TOOLBAR` | highlight around an upper toolbar segment; badge to the right of toolbar in clear viewport area   |
-
-Standard locked geometry per callout: highlight ellipse `fill="none" stroke="#4ADE80" stroke-width="4"`; leader line `stroke="#4ADE80" stroke-width="3" stroke-linecap="round"`; marker circle `r="6" fill="#4ADE80"` at badge-side end of leader 7px from badge edge; badge rect `rx="6" fill="#4ADE80"`; badge text `font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#0f1a14"`. Exact pixel coordinates resolved at sub-chat 1 execution after PNG inspection.
-
-#### #3 · `lesson_06_03_selection_mode_icons.png` · `#selection-modes` · c3 triple-label overlay (thin-strip variant), col 16/20
-
-**oldText anchor:**
-```
-                <h3>The Selection Mode Trio</h3>
-
-                <p>At the top of the viewport in Edit Mode, you'll see three icons representing the selection modes. You can also access them with number keys.</p>
-
-                <div class="card">
-                    <h4>🔺 Vertex Select Mode</h4>
-```
-
-Figure inserts between the `</p>` (line 3) and the `<div class="card">` (line 5).
-
-**alt:** Closeup of the 3D viewport header strip showing the Edit Mode dropdown and the three selection mode icons: vertex (dot), edge (line), and face (triangle). Vertex select is currently active and highlighted blue.
-
-**figcaption:** The three selection mode icons sit at the top of the 3D viewport. Click them or press 1, 2, or 3 to switch between vertex, edge, and face selection.
-
-**c3 overlay spec** · viewBox `0 0 720 80`, `preserveAspectRatio="xMidYMid meet"`, three callouts all positive-green, thin-strip variant geometry (font-size 14, badge height 22, rx 4, highlight stroke-width 2, leader stroke-width 2, marker r 4):
-
-| id          | target              | badge text   | colorway       |
-|-------------|---------------------|--------------|----------------|
-| `c3-vertex` | vertex-icon (left)  | `1 · VERTEX` | positive green |
-| `c3-edge`   | edge-icon (middle)  | `2 · EDGE`   | positive green |
-| `c3-face`   | face-icon (right)   | `3 · FACE`   | positive green |
-
-Badge text uses middle-dot per em-dash discipline. Highlight ellipse around each icon, short downward leader, marker at badge-side end of leader (3px from badge edge given the scaled geometry), badge underneath the icon. Exact pixel coordinates resolved at sub-chat 1 execution after PNG inspection.
-
-#### #4 · `lesson_06_04_vertex_selection_example.png` · `#selection-modes` · plain figure inside Vertex card, col 20/24
-
-**oldText anchor:**
-```
-                    <p><strong>Visual:</strong> Vertices appear as orange dots when selected, gray when not</p>
-                </div>
-
-                <div class="card">
-                    <h4>📏 Edge Select Mode</h4>
-```
-
-Figure inserts between the `</p>` (line 1) and the `</div>` (line 2). Deeper-indent variant: figure at col 20, img and figcaption at col 24, figure close at col 20.
-
-**alt:** Cube in Blender Edit Mode with vertex select active. Three of the top corner vertices show as bright orange dots; the remaining vertices appear smaller and gray.
-
-**figcaption:** Selected vertices light up in orange. The other corner dots stay gray, so you can see at a glance which points will respond to the next move, rotate, or scale.
-
-#### #5 · `lesson_06_05_edge_selection_example.png` · `#selection-modes` · plain figure inside Edge card, col 20/24
-
-**oldText anchor:**
-```
-                    <p><strong>Visual:</strong> Selected edges turn orange/bright, unselected stay dark</p>
-                </div>
-
-                <div class="card">
-                    <h4>🔷 Face Select Mode</h4>
-```
-
-Figure inserts between the `</p>` (line 1) and the `</div>` (line 2). Deeper-indent variant: figure at col 20, img and figcaption at col 24, figure close at col 20.
-
-**alt:** Cube in Blender Edit Mode with edge select active. Three edges around the front top right corner are highlighted bright orange; the rest of the cube's edges stay dark.
-
-**figcaption:** An L shape of three selected edges lights up bright orange. Edge select mode lets you grab specific lines for loop cuts, bevels, and seam marking without worrying about the corner points.
-
-#### #6 · `lesson_06_06_face_selection_example.png` · `#selection-modes` · plain figure inside Face card, col 20/24
-
-**oldText anchor:**
-```
-                    <p><strong>Visual:</strong> Selected faces appear bright/filled, with dots at corners</p>
-                </div>
-
-                <div class="mermaid">
-                    graph TD
-                    A[Edit Mode Selection] --> B[Vertex Mode - 1]
-```
-
-Figure inserts between the `</p>` (line 1) and the `</div>` (line 2). Deeper-indent variant: figure at col 20, img and figcaption at col 24, figure close at col 20.
-
-**alt:** Cube in Blender Edit Mode with face select active. The top face and one adjacent visible side face are filled with a bright orange tint, marking them as selected, while the other faces remain dark gray.
-
-**figcaption:** Two selected faces tint bright orange across their whole surface. Face select is the fastest way to grab large surface regions before extruding, insetting, or assigning a material.
-
-#### #7 · `lesson_06_07_proportional_editing_circle.png` · `#proportional-editing` · plain figure, col 4/8
-
-**oldText anchor** (pre-existing en-dash preserved verbatim):
-```
-        <p><strong>Visual indicator:</strong> When active, you'll see a circle around your cursor when transforming – this shows the influence area!</p>
-    </div>
-
-    <h3>Falloff Types: Controlling the Influence</h3>
-```
-
-Figure inserts between the `</div>` (line 2) and the `<h3>` (line 4).
-
-**alt:** Subdivided plane in Blender Edit Mode with proportional editing active. A center vertex has been pulled up to form a smooth hill, and a bright orange ring marks the influence radius around the base of the hill.
-
-**figcaption:** With proportional editing on, moving a single vertex drags its neighbors along under a smooth falloff. The orange ring shows the radius of influence; vertices outside the ring stay put.
-
-#### #8 · `lesson_06_08_proportional_falloff_comparison.svg` · `#proportional-editing` · inline SVG, col 4/8
-
-**oldText anchor** (pre-existing right-arrow `→` preserved verbatim):
-```
-            <tr>
-                <td><strong>Random</strong></td>
-                <td>Chaotic, unpredictable influence</td>
-                <td>Rough terrain, noise effects</td>
-                <td><kbd>Shift+O</kbd> → Select</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
-        <h4>💡 Pro Tip: Adjusting Influence Size</h4>
-```
-
-Figure inserts between the `</table>` (line 8) and the `<div class="card"...>` (line 10).
-
-**alt:** Six-panel comparison of proportional editing falloff types. Each panel shows the same falloff curve from selection center to radius edge, stroked in brand orange: Smooth (cosine S-curve), Sharp (steep drop near origin), Linear (straight diagonal), Constant (flat then cliff), Sphere (quarter circle arc), and Random (jagged polyline).
-
-**figcaption:** Each falloff shapes the influence curve differently. Smooth and Sphere give the most natural hills; Sharp keeps the peak high; Constant applies full influence everywhere inside the radius; Random scatters the values for terrain noise.
-
-**SVG inlining checklist for sub-chat 2:**
-- Figure at col 4, `<svg>` root at col 8, svg children at col 12, deeper nesting at 16/20, figcaption at col 8
-- Strip `color="#222"` from root `<svg>` tag (preserve in the standalone `.svg` file in `images/`)
-- Preserve all `pf-*` ids, `role`, `aria-labelledby`, `<title>`, `<desc>` verbatim
-- Collapse multi-line attribute continuations on `<text>`, `<line>`, `<rect>`, `<polygon>`, `<desc>` onto single lines
-- Prune decorative ASCII-divider author comments; keep short structural comments (`<!-- Panel 1: SMOOTH -->`, etc.)
-
-#### #9 · `lesson_06_09_proportional_hill_creation.png` · `#proportional-editing` · plain figure inside Practice Exercise card, col 8/12
-
-**oldText anchor:**
-```
-        <p><strong>Experiment:</strong> Try different falloff types to see how they affect the hill shape!</p>
-    </div>
-</section>
-```
-
-Figure inserts between the `</p>` (line 1) and the `</div>` (line 2). The `</section>` line is included in the anchor for uniqueness against other `</p>\n    </div>` patterns in the section. Deeper-indent variant inside this card opening at col 4: figure at col 8, img and figcaption at col 12, figure close at col 8.
-
-**alt:** Three panel progression of building a hill with proportional editing. Panel 1: flat subdivided plane with one center vertex selected in orange. Panel 2: same plane part way through the move with the orange influence ring visible and a partial hill forming. Panel 3: completed smooth hill with the surrounding plane returning gently to flat.
-
-**figcaption:** The three stages of the hill build. Selecting one vertex on a flat subdivided plane (left), starting the G Z move with proportional editing on (center), and confirming the final hill (right). The orange dividers separate the three viewport states.
-
-#### #46 · `lesson_06_46_proportional_falloff_menu.png` · `#proportional-editing` · c46 single-region highlight overlay, col 4/8
-
-**oldText anchor:**
-```
-        style C fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Falloff Type</th>
-```
-
-Figure inserts between the `</div>` (line 2, closing the mermaid) and the `<table>` (line 4).
-
-**alt:** Shift+O Proportional Falloff pie menu floating over the Blender 3D viewport in Edit Mode. The menu shows eight wedges labeled Smooth, Sharp, Constant, Root, Random, Sphere, Linear, and Inverse Square. The Smooth wedge on the left is highlighted as the current selection, and a Sphere tooltip is visible from a hover preview.
-
-**figcaption:** Shift O brings up the Proportional Falloff pie menu. Smooth is the default and works for most organic shapes; the other seven wedges give you sharper, flatter, or more chaotic influence curves on demand.
-
-**c46 overlay spec** · viewBox `0 0 1026 450`, `preserveAspectRatio="xMidYMid meet"`, one callout positive-green (SMOOTH is the default and recommended choice, affirmative label):
-
-| id           | target                              | badge text | colorway       |
-|--------------|-------------------------------------|------------|----------------|
-| `c46-smooth` | Smooth pie wedge (left side of menu)| `SMOOTH`   | positive green |
-
-Geometry: ellipse around the Smooth wedge area (left side per carry-forward), leader from highlight edge to a clear area (likely lower-right or upper-right of the menu to avoid the other wedge labels and the Sphere tooltip), marker `r=6 fill="#4ADE80"` at badge-side end of leader 7px from badge edge, badge rect `rx=6 fill="#4ADE80"`, badge text `font-size=22 font-weight=700 fill="#0f1a14"`. Exact pixel coordinates resolved at sub-chat 2 execution after PNG inspection.
-
-### ID prefix sub-id registry (Phase 1)
-
-- c2 sub-ids: `c2-vertices`, `c2-edges`, `c2-mode`, `c2-mesh`, `c2-select`, `c2-toolbar`
-- c3 sub-ids: `c3-vertex`, `c3-edge`, `c3-face`
-- c46 sub-id: `c46-smooth`
-
-No collisions with `pf-*` (SVG #8) or any prior-phase prefixes. SVG `pf-*` ids preserved verbatim from the standalone file during inlining.
-
-### Execution cadence (sub-chats 1 and 2)
-
-- `Filesystem:edit_file` with `dryRun=true` first, then commit with `dryRun=false`, then `Filesystem:get_file_info` to verify file-size shift after every commit
-- WSL `\\wsl$\Ubuntu\` paths only
-- No new em-dashes in any new content; pre-existing en-dashes and right-arrows in `oldText` anchors pass through verbatim
-- Update Placement table row state per image as each integration commits (`captured/produced; not integrated` → `integrated`)
-- Append Status section bullet at each sub-chat close
-- Warn Ray before context tightens within an execution sub-chat
-
-Plan-lock close criterion: all 10 anchors, figcaptions, alt texts, and overlay specs locked in writing before any HTML edit. Met by this section.
-
----
-
-## Phase 2 PRODUCTION plan
-
-Locked 2026-05-22 during the Phase 2 PRODUCTION plan-lock chat. 10 image productions split across 2 execution sub-chats per Option B confirmation. Each entry below carries scene config, view rotation, capture method, output filename, and overlay deferral (where applicable). Phase 2 fresh scene reset applies at sub-chat A start: delete any remaining `L06_*` objects from Phase 1 PRODUCTION state (potentially L06_Cube from sub-chat B' and/or L06_Plane plus L06_InfluenceRing from sub-chat C per the session.md uncertainty note) before building Phase 2 scenes.
-
-### Sub-chat split
-
-- **Sub-chat A** · All BlenderMCP work. 6 images: #11, #12 (multi-pose 2-panel composites via PIL with 2px `#FF6B00` divider), #13, #14, #15 (single-pose viewport renders showing selection RESULT; tool indicator overlays deferred to INTEGRATION), #48 (single-pose viewport render of edge-ring stack with checker deselect applied). Includes Loop Tools add-on enablement check as step 0.
-- **Sub-chat B** · All non-scripted work. 4 images: #10, #16, #47 (manual Win+Shift+S; Ray uploads via chat or writes directly into `images/`), #44 (hand-authored SVG at 800x560 with `sr` id prefix).
-
-### Step 0 (sub-chat A only) · Loop Tools add-on availability check
-
-Before any production code, verify the Loop Tools add-on is enabled in the current Blender session:
-
-```python
-import addon_utils
-loop_tools_enabled = addon_utils.check("mesh_looptools")[1]
-print(f"Loop Tools enabled: {loop_tools_enabled}")
-if not loop_tools_enabled:
-    addon_utils.enable("mesh_looptools")
-    loop_tools_enabled = addon_utils.check("mesh_looptools")[1]
-    print(f"Loop Tools enabled after enable call: {loop_tools_enabled}")
-```
-
-If both attempts return False, fall back to Ray manually enabling via Edit > Preferences > Add-ons > "Mesh: Loop Tools" before sub-chat A retries.
-
-### Per-image specs · sub-chat A (6 BlenderMCP captures)
-
-#### #11 · `lesson_06_11_loop_tools_circle_before_after.png`
-
-- **Type:** PNG, 2-panel horizontal composite, ~2562x720, no overlay planned
-- **Capture path:** BlenderMCP per-panel OpenGL viewport render → PIL composite with 2px `#FF6B00` vertical divider → temp files removed
-- **Scene setup:** Add a Cylinder primitive (8 vertices, 1m radius, 2m height) named `L06_LoopCylinder`. Enter Edit Mode, select the top edge loop. Use a seeded Python random pass (`random.seed(42)`) to displace each top vertex by a random offset in XY (range -0.3 to +0.3 in each axis, Z unchanged) to create an irregular loop.
-- **Panel 1:** Irregular top loop selected (orange vertices/edges). Render to `_temp_lesson_06_11_p1.png` (1280x720).
-- **Panel 2:** Apply `bpy.ops.mesh.looptools_circle()` to the same selection. The loop should now be evenly distributed around its centroid as a regular circle. Render to `_temp_lesson_06_11_p2.png` (1280x720).
-- **Render config:** EEVEE engine with EEVEE_NEXT fallback per locked rule, viewport shading SOLID, view rotation user-perspective default `Euler((63.6°, 0, -46.7°))`, view_distance 4.5, view_location near the top of the cylinder. Theme: edge_width=2, vertex_size=5 (Phase 1 default). Overlays: axes ON, floor ON, cursor OFF, origins OFF, outline_selected OFF.
-- **Composite:** PIL horizontal join, 2px `#FF6B00` divider, output `lesson_06_11_loop_tools_circle_before_after.png` (2562x720). Remove temp files via `os.remove`.
-
-#### #12 · `lesson_06_12_loop_tools_bridge_operation.png`
-
-- **Type:** PNG, 2-panel horizontal composite, ~2562x720, no overlay planned
-- **Capture path:** BlenderMCP per-panel OpenGL viewport render → PIL composite → temp files removed
-- **Scene setup:** Add two Cylinder primitives (each 16 vertices, 0.6m radius, 0.6m height) named `L06_BridgeA` and `L06_BridgeB`, positioned 1.5m apart along the Y axis. Enter Edit Mode on each in turn, delete the top and bottom faces with `bpy.ops.mesh.delete(type='FACE')` (singular per locked op-name rule) so only the side loops remain. Return to Object Mode, join the two cylinders into one mesh via `bpy.ops.object.join` named `L06_BridgeMesh`. Enter Edit Mode, select the inner-facing edge loops of each former cylinder (the two loops that face each other across the 1.5m gap).
-- **Panel 1:** Two loops selected, the gap visible between them. Render to `_temp_lesson_06_12_p1.png` (1280x720).
-- **Panel 2:** Apply `bpy.ops.mesh.looptools_bridge()`. Bridged faces should span the gap forming a tube-like connection. Render to `_temp_lesson_06_12_p2.png` (1280x720).
-- **Render config:** Same EEVEE-fallback path as #11, view_distance 5.0, view_location at the midpoint of the gap, overlay theme identical to #11.
-- **Composite:** PIL 2562x720 with `#FF6B00` divider, output `lesson_06_12_loop_tools_bridge_operation.png`. Remove temps.
-
-#### #13 · `lesson_06_13_box_select_in_action.png`
-
-- **Type:** PNG, single-pose, 1280x720, `c13` overlay planned at INTEGRATION (not at PRODUCTION)
-- **Capture path:** BlenderMCP OpenGL viewport render of the selection RESULT
-- **Scene setup:** Add a Plane primitive (2m x 2m) named `L06_GridMesh`. Enter Edit Mode, subdivide 9 cuts to create a 10x10 grid (100 quads, 121 verts). Set vertex select mode. Use bmesh to select a contiguous rectangular block of vertices simulating a Box Select drag result: rows y-index 2 through 5 and columns x-index 3 through 7, totaling 20 selected verts in the upper-right quadrant.
-- **Render config:** EEVEE fallback, viewport SOLID shading, view rotation user-perspective default, view_distance 3.5, view_location centered on the plane. Theme as Phase 1 default; axes ON, floor ON.
-- **Output:** `lesson_06_13_box_select_in_action.png` (1280x720).
-- **c13 overlay (deferred to INTEGRATION):** Dashed rectangle outline around the selected vertex region. Stroke `#ffffff` width 2 with `stroke-dasharray="6,4"` (box-select aesthetic), no fill. Inline SVG `viewBox="0 0 1280 720"` matching the PNG. Pixel coords resolved at INTEGRATION via Pillow scan of the orange-selected vertex bounding box; the dashed rect is drawn just outside that bounding box with a small margin (suggest 8-12 px padding). Single-shape decorative overlay; no badge, no leader, no highlight ellipse.
-
-#### #14 · `lesson_06_14_circle_select_in_action.png`
-
-- **Type:** PNG, single-pose, 1280x720, `c14` overlay planned at INTEGRATION
-- **Capture path:** BlenderMCP OpenGL viewport render of the selection RESULT
-- **Scene setup:** Reuse `L06_GridMesh` from #13 (rebuild if necessary). Enter Edit Mode + vertex select. Use bmesh to select a roughly circular cluster of vertices around a chosen center point on the grid (e.g., all verts within 0.4m of grid center). Expect approximately 12-16 verts depending on the radius; choose the radius to produce a clearly visible orange-dot cluster forming a recognizable disc.
-- **Render config:** Same as #13.
-- **Output:** `lesson_06_14_circle_select_in_action.png` (1280x720).
-- **c14 overlay (deferred to INTEGRATION):** Circle outline around the selected cluster matching the circle-select brush. Stroke `#ffffff` width 2 (solid, not dashed; Blender's circle-select cursor is a solid ring), no fill, centered on the cluster centroid with radius slightly larger than the cluster bounds. Inline SVG `viewBox="0 0 1280 720"`. Pixel coords resolved at INTEGRATION via Pillow centroid + bounding-radius scan of the selected verts.
-
-#### #15 · `lesson_06_15_lasso_select_in_action.png`
-
-- **Type:** PNG, single-pose, 1280x720, `c15` overlay planned at INTEGRATION
-- **Capture path:** BlenderMCP OpenGL viewport render of the selection RESULT
-- **Scene setup:** Reuse `L06_GridMesh`. Enter Edit Mode + vertex select. Use bmesh to select an irregular freeform cluster of approximately 18-22 verts. Define the selection via an explicit list of vertex indices forming an L-shape or organic blob region (not a regular geometric shape) to give the lasso an authentic hand-drawn trace at INTEGRATION.
-- **Render config:** Same as #13/#14.
-- **Output:** `lesson_06_15_lasso_select_in_action.png` (1280x720).
-- **c15 overlay (deferred to INTEGRATION):** Closed polyline path around the selected cluster matching a hand-drawn lasso trace. Stroke `#ffffff` width 2 with `stroke-dasharray="4,3"` (tighter dash than the c13 6,4 to differentiate the lasso visually from the box-select), no fill. Polyline closed with 8-12 anchor points approximating an organic loop around the cluster outline. Anchor points resolved at INTEGRATION via Pillow concave-hull or outline-trace of the selected vertices.
-
-#### #48 · `lesson_06_48_checker_deselect_result.png`
-
-- **Type:** PNG, single-pose, 1280x720, no overlay planned
-- **Capture path:** BlenderMCP OpenGL viewport render
-- **Scene setup:** Add a Cylinder primitive (8 vertices, 1m radius, 2m height) named `L06_RingStack`. Enter Edit Mode. Add 9 horizontal edge rings via `bmesh.ops.subdivide_edges` on the side edges (cuts=9 gives 10 horizontal segments separated by 9 inner rings) so the cylinder has clear stacked edge loops. Select all 9 inner horizontal rings via deliberate `bmesh` ring-by-ring selection (exclude top and bottom loops). Apply `bpy.ops.mesh.select_nth(offset=0, skip=1)` which is the Checker Deselect op; this leaves 5 rings selected and 4 deselected in an alternating pattern.
-- **Render config:** EEVEE fallback, viewport SOLID, view rotation user-perspective default, view_distance 5.0, view_location centered on the cylinder. Theme as Phase 1 default.
-- **Output:** `lesson_06_48_checker_deselect_result.png` (1280x720).
-
-### Per-image specs · sub-chat B (3 manual Win+Shift+S + 1 SVG)
-
-#### #10 · `lesson_06_10_loop_tools_addon_location.png`
-
-- **Type:** PNG, manual Win+Shift+S, `c10` overlay planned at INTEGRATION
-- **Capture path:** Ray captures the Blender Preferences window with Add-ons tab selected, search box reading "loop tools", and the "Mesh: Loop Tools" entry visible. Capture state: Loop Tools entry checked (preferred since sub-chat A step 0 will have enabled it). Ray uploads via chat or writes directly to `images/`.
-- **Target dimensions:** Whatever the Win+Shift+S snip captures cleanly (likely 800-1200px wide depending on Preferences window size). No specific dimension lock; INTEGRATION overlay `viewBox` will match the captured PNG dimensions.
-- **Output:** `lesson_06_10_loop_tools_addon_location.png`.
-- **c10 overlay (deferred to INTEGRATION):** Single-region highlight on the "Mesh: Loop Tools" entry. Positive-green colorway (`#4ADE80` rect with `#0f1a14` text). Badge text `LOOP TOOLS`. Locked geometry per c46 / c2 precedent: ellipse highlight (fill none, stroke 4), leader line (stroke 3, round cap), marker (r=6, 7px from badge edge), badge rect (rx=6, height 46), text (font-size 22, weight 700, letter-spacing 2). Exact pixel coords resolved at Phase 2 INTEGRATION plan-lock via Pillow scan (likely a blue-tinted highlight scan for the search-match entry row, similar to the c46 Smooth-button scan).
-
-#### #16 · `lesson_06_16_select_similar_menu.png`
-
-- **Type:** PNG, manual Win+Shift+S, `c16` overlay planned at INTEGRATION
-- **Capture path:** Ray captures the Shift+G Select Similar menu in Edit Mode with the menu fully visible. Ideally with one menu option pre-highlighted via mouse hover to give c16 a clear target. Suggested hover option: "Amount of Connecting Edges" or "Length" (representative picks for Edit Mode selection-by-similarity workflows).
-- **Target dimensions:** Whatever the snip captures; menu is typically 250-350px wide and 400-500px tall.
-- **Output:** `lesson_06_16_select_similar_menu.png`.
-- **c16 overlay (deferred to INTEGRATION):** Single-region highlight on whichever menu option Ray hovered during capture. Positive-green colorway (affirmative menu option). Badge text reflects the chosen option (e.g., `LENGTH` or `AMOUNT`). Locked geometry per c46 precedent. Exact pixel coords resolved at Phase 2 INTEGRATION plan-lock via Pillow dark-text scan for the menu item bounds.
-
-#### #47 · `lesson_06_47_loop_tools_sidebar_panel.png`
-
-- **Type:** PNG, manual Win+Shift+S, no overlay planned
-- **Capture path:** Ray captures the N-key sidebar in Edit Mode with the Loop Tools panel expanded (Edit tab > Loop Tools section). All 6 operation buttons visible: Circle, Curve, Flatten, Bridge, Space, Relax. Mesh in Edit Mode visible in the background for context.
-- **Target dimensions:** Whatever the snip captures; sidebar panel is typically 280-380px wide depending on Blender layout.
-- **Output:** `lesson_06_47_loop_tools_sidebar_panel.png`.
-- **No overlay.** The expanded panel speaks for itself at INTEGRATION; figcaption carries the framing.
-
-#### #44 · `lesson_06_44_selection_tools_reference.svg`
-
-- **Type:** SVG, hand-authored, 800x560 canvas, id prefix `sr`
-- **Capture path:** Authored from scratch in sub-chat B
-- **Design pattern:** Adapts the Lesson 04 #14 keyboard shortcuts SVG idiom. Grid layout with 5 entries (pick layout that balances visual weight at sub-chat B execution time: 2x3 with one cell empty, or 3+2 row split, or single 5-row column). Each entry: icon (left), tool name + shortcut badge (center), one-line description (right).
-- **Entries (5):**
-  1. **Box Select** · Icon: dashed rectangle (matches c13 overlay aesthetic for visual coherence with the lesson PNGs). Shortcut badge: `B`. Description: "Drag a rectangle to select everything inside".
-  2. **Circle Select** · Icon: solid circle outline (matches c14 aesthetic). Shortcut badge: `C`. Description: "Brush over elements; scroll to resize".
-  3. **Lasso Select** · Icon: hand-drawn closed polyline loop (matches c15 aesthetic). Shortcut badge: `Ctrl + RMB`. Description: "Trace freeform around elements".
-  4. **Select Similar** · Icon: small mesh fragment with one element highlighted and arrows radiating to similar elements. Shortcut badge: `Shift + G`. Description: "Match length, direction, area, or other traits".
-  5. **Checker Deselect** · Icon: small checkerboard pattern. Shortcut badge: `Menu` (no direct keyboard shortcut; accessed via Select menu in the header). Description: "Deselect every other element in a selection".
-- **House style:** Top 3px `#FF6B00` accent rail at (0, 0). System-ui font stack. Heading at y=56 size 24 weight 700 reading "Selection Tools Reference" or similar. Subtitle at y=84 size 14 opacity 0.65 reading `5 WAYS TO SELECT` (middle-dot acceptable as separator if needed). Divider at y=108. Body content from y=138. Footer tip card y=506-540 (Variant B 4px left rail per Phase 1 #8 precedent) with em-dash-free pro tip text.
-- **Shortcut badge colorway:** Filled `#FF6B00` brand orange per Lesson 04 #14 precedent. Badge text white (`#ffffff`) inside the badge.
-- **Internal ids:** `sr-title`, `sr-desc`, `sr-box`, `sr-circle`, `sr-lasso`, `sr-similar`, `sr-checker` (plus any sub-ids needed for icon polyline / circle / rect shapes; namespace as `sr-icon-box`, `sr-icon-circle`, etc.). No collisions with Phase 1 `pf-*` or Phase 3 `dd-*` planned.
-- **`color="#222"` retained** on the standalone `.svg` file for `<img>` fallback per locked rule; stripped from root during inlining at Phase 2 INTEGRATION.
-- **Em-dash-free** per style guide v4 decision 9. Subtitle uses middle-dot if separator needed.
-
-### ID prefix registry update (Phase 2)
-
-- **SVG ids added:** `sr` for #44 (no collisions with Phase 1 `pf` or Phase 3 `dd` planned)
-- **PNG overlay ids added (5):** `c10` (#10 Loop Tools add-on highlight), `c13` (#13 Box Select dashed rect), `c14` (#14 Circle Select ring), `c15` (#15 Lasso Select polyline), `c16` (#16 Select Similar menu highlight). No collisions with Phase 1 c2/c3/c46 or future phase-planned c20/c23/c28/c30/c43/c45/c49.
-
-### Execution cadence (sub-chats A and B)
-
-- `Filesystem:edit_file` with `dryRun=true` first, then commit with `dryRun=false`, then `Filesystem:get_file_info` after every commit (applies to doc updates at each sub-chat close; image production uses BlenderMCP / PIL composite / manual capture paths instead)
-- WSL `\\wsl$\Ubuntu\` paths only
-- No new em-dashes in figcaptions, alt text (locked at Phase 2 INTEGRATION plan-lock chat, not at PRODUCTION), status bullets, SVG label / heading / subtitle text, or any other new prose
-- BlenderMCP: lowercase `blender:execute_blender_code`, NO `read_factory_settings`, EEVEE_NEXT → EEVEE fallback, `temp_override` for OpenGL renders, full-window `bpy.ops.screen.screenshot` available if needed
-- Pillow 12.2.0 path for composites; temp files named `_temp_lesson_06_NN_pN.png` and removed via `os.remove` after composite
-- Phase 2 fresh scene reset at sub-chat A start (delete all `L06_*` objects from prior Phase 1 state)
-- Update Placement table row state per image as each capture lands (`not captured/not produced; not integrated` → `captured; not integrated` or `produced; not integrated`)
-- Append Status section bullet at each sub-chat close
-- Warn Ray before context tightens within an execution sub-chat
-
-### Phase 2 PRODUCTION close criterion
-
-All 10 Phase 2 images on disk in `images/`:
-- 6 PNGs from sub-chat A: #11, #12, #13, #14, #15, #48
-- 3 PNGs + 1 SVG from sub-chat B: #10, #16, #47, #44
-
-Placement table rows #10, #11, #12, #13, #14, #15, #16, #44, #47, #48 flipped to `captured; not integrated` or `produced; not integrated`. Status section gets close bullets for both sub-chats. Rewrite `session.md` to point at Phase 2 INTEGRATION plan-lock as the next chat.
-
-Plan-lock close criterion: all 10 capture specs, scene configs, view rotations, output filenames, and overlay deferrals locked in writing before any production work. Met by this section.
-
----
-
-## Phase 2 INTEGRATION plan
-
-Locked 2026-05-22 during the Phase 2 INTEGRATION plan-lock chat. 10 image insertions into `lesson_06_edit_mode_essentials.html` split across 2 execution sub-chats. Each entry below carries a precise `oldText` anchor for `Filesystem:edit_file`; the figure block (and for #10, also the rewritten Activation Steps `<ol>` content) inserts at a marked position inside the anchor and the rest passes through.
-
-**PART 04 indentation depth verified:** `#loop-tools`, `#advanced-selection`, and `#selection-tools` all use 0/4/8-space depth, identical to `#proportional-editing` from Phase 1 sub-chat 2. All 10 Phase 2 figures sit at section level (not inside cards), so all 10 use the default-depth variant only: figure col 4, img / svg root at col 8, svg children at col 12, deeper SVG nesting at 16 or 20, figcaption col 8. No deeper-indent variant needed this phase.
-
-**Two-section discovery:** the lesson HTML splits the "Advanced Selection Techniques" topic across two `<section>` elements rather than one. `<section id="advanced-selection">` (lines 953 to ~1115) covers Selection by Similarity (Select Similar), Select All by Trait, and Checker Deselect. `<section id="selection-tools">` (lines ~1117 to ~1315) covers Box Select, Circle Select, Lasso Select, the selection comparison table, and the Selection Practice Challenge. The 6 sub-chat 2 images split: #16 and #48 land in `<section id="advanced-selection">`; #13, #14, #15, and #44 land in `<section id="selection-tools">`. The placement table row for #44 currently labels it `#advanced-selection` per the requirements doc's conceptual grouping but the actual integration anchor is at end of `<section id="selection-tools">` (after the Selection Practice Challenge card, before `</section>`). Placing #44 at end of `<section id="advanced-selection">` would land the 5-tool summary chart in the middle of the topic flow before Box / Circle / Lasso Select have been introduced. The placement table row will be updated to `#selection-tools` at sub-chat 2 close.
-
-### Sub-chat split
-
-- **Sub-chat 1** · `#loop-tools` section. 4 images: #10 with c10 full callout (1732x1266 viewBox, positive-green, badge `LOOPTOOLS`) paired with the Extensions Platform `<ol>` prose rewrite, #11 plain (2562x720), #12 plain (2562x720), #47 plain (612x767). All at 0/4/8 indentation depth, default section-level figure placement (col 4). Two `Filesystem:edit_file` commits at the #10 anchor (one for the `<ol>` prose rewrite, one for the figure insertion); single commits each for #11, #12, #47. Heaviest single insertion: #10 figure with c10 callout (full positive-green callout shape set at 1732x1266 viewBox, comparable to Phase 1 c46 but at a larger viewBox). If sub-chat 1 tightens during execution, split into 1a (#10 prose rewrite + #10 figure with c10 overlay) and 1b (#11, #12, #47 plain figures).
-- **Sub-chat 2** · `<section id="advanced-selection">` + `<section id="selection-tools">` (2 HTML sections). 6 images: #13 with c13 decorative dashed rect (1280x720 viewBox, white stroke width 2, dasharray `6,4`), #14 with c14 decorative solid ring (1280x720 viewBox, white stroke width 2, no dasharray), #15 with c15 decorative dashed polyline (1280x720 viewBox, white stroke width 2, dasharray `4,3`), #16 with c16 full callout (1305x621 viewBox, positive-green, badge `AMOUNT`), #44 inline SVG (800x560 viewBox, `sr` prefix preserved, root `color="#222"` stripped), #48 plain (1280x720). All at 0/4/8 indentation depth, default section-level figure placement (col 4). Heaviest single insertion: #44 inline SVG (estimated 6-9 KB inline content per the Phase 1 #8 precedent at 6,811 bytes for an SVG with comparable density). If sub-chat 2 tightens during execution, split into 2a (#16 + #48 in `#advanced-selection`) and 2b (#13, #14, #15, #44 in `#selection-tools`).
-
-### c10 Extensions Platform `<ol>` prose rewrite spec
-
-The legacy Add-ons-tab `<ol>` inside the Activation Steps card needs to be rewritten to teach the Extensions Platform install path. Two `Filesystem:edit_file` commits at the #10 anchor: one for the `<ol>` content rewrite (small focused edit), one for the figure insertion between the card `</div>` and the next `<h3>Essential Loop Tools Operations</h3>` (separate anchor, figure-only edit). The post-`<ol>` paragraph stays unchanged because the N-key sidebar Edit tab and right-click menu paths are still accurate after Extensions Platform install.
-
-**Original `<ol>` (5 list items, current on disk):**
-
-```
-        <ol>
-            <li>Go to <strong>Edit → Preferences</strong> (<kbd>F4</kbd> then type "preferences")</li>
-            <li>Click the <strong>Add-ons</strong> tab on the left</li>
-            <li>Search for <strong>"Loop Tools"</strong> in the search box</li>
-            <li>Check the checkbox next to <strong>"Mesh: Loop Tools"</strong></li>
-            <li>Close preferences – the add-on is now active!</li>
-        </ol>
-```
-
-**Rewritten `<ol>` (5 list items, target):**
-
-```
-        <ol>
-            <li>Go to <strong>Edit → Preferences</strong> (<kbd>F4</kbd> then type "preferences")</li>
-            <li>Click the <strong>Get Extensions</strong> tab on the left</li>
-            <li>Search for <strong>"looptools"</strong> in the search box (one word, no space)</li>
-            <li>Click <strong>Install</strong> on the <strong>LoopTools</strong> entry</li>
-            <li>Close preferences – the add-on is now installed and active!</li>
-        </ol>
-```
-
-Pre-existing en-dash `–` in the last `<li>` preserved verbatim. Pre-existing right-arrow `→` in the first `<li>` passes through. No new em-dashes introduced. The 5-item count is preserved so the visual rhythm of the `<ol>` matches the surrounding lesson structure.
-
-### Decorative-shape-only overlay specs (c13, c14, c15)
-
-Per the locked Phase 2 PRODUCTION plan and the `session.md` carry-forward, c13 / c14 / c15 are decorative-shape-only overlays: stroke `#ffffff` width 2 directly on the target region without highlight ellipse, leader line, marker circle, or badge. The shape IS the message (box-select dashed rect, circle-select solid ring, lasso-select dashed polyline). All three use viewBox `0 0 1280 720` matching the source PNG dimensions. Pixel coords resolved at sub-chat 2 execution via Pillow scan of the orange-selected vertex region. Wrapper div / overlay SVG geometry per the locked PNG annotation overlay component snippet (style guide v4) plus the decorative-shape-only variant addendum logged at Phase 2 PRODUCTION sub-chat A close.
-
-| id  | shape       | stroke                            | dasharray | Pillow scan strategy                                                                          |
-|-----|-------------|-----------------------------------|-----------|-----------------------------------------------------------------------------------------------|
-| c13 | `<rect>`    | `#ffffff` width 2, `fill="none"`  | `6,4`     | bounding box of orange-selected vertex region plus 8-12 px padding on all sides               |
-| c14 | `<circle>`  | `#ffffff` width 2, `fill="none"`  | (solid)   | centroid plus bounding radius of orange-selected vertex cluster; r slightly larger than bound |
-| c15 | `<polyline>`| `#ffffff` width 2, `fill="none"`  | `4,3`     | concave-hull / outline-trace of orange-selected L-shape vertex set; 8-12 closed anchor points |
-
-c15 specifically: a closed polyline (or polygon with explicit `fill="none"`) approximating an organic hand-drawn lasso loop around the L-shape selection outline. Per the Phase 2 PRODUCTION sub-chat A close note, the L-shape lives at horizontal arm yi=2,3 cols xi=2..8 plus vertical arm xi=7,8 rows yi=4..7 on the 10x10 grid; the polyline traces just outside that outline with anchor points spaced roughly every 25-40 px along the outline. Polyline preferred over polygon so there is no implicit fill rendering even if the SVG ever loses its `fill="none"` attribute downstream.
-
-### Per-image specs
-
-#### #10 · `lesson_06_10_loop_tools_addon_location.png` · `#loop-tools` · c10 full callout + paired `<ol>` prose rewrite, col 4/8
-
-**oldText anchor for the `<ol>` prose rewrite (commit 1 at #10 anchor):**
-```
-    <div class="card">
-        <h4>🔌 Activation Steps</h4>
-        <ol>
-            <li>Go to <strong>Edit → Preferences</strong> (<kbd>F4</kbd> then type "preferences")</li>
-            <li>Click the <strong>Add-ons</strong> tab on the left</li>
-            <li>Search for <strong>"Loop Tools"</strong> in the search box</li>
-            <li>Check the checkbox next to <strong>"Mesh: Loop Tools"</strong></li>
-            <li>Close preferences – the add-on is now active!</li>
-        </ol>
-        <p><em>Once enabled, you'll find Loop Tools in the right-click menu when edges are selected, and in the Sidebar (<kbd>N</kbd> key) under the "Edit" tab.</em></p>
-    </div>
-```
-
-`<ol>` content replaced with the rewritten 5 `<li>` items per the spec above. Surrounding `<div>`, `<h4>`, post-`<ol>` `<p>`, and closing `</div>` pass through verbatim.
-
-**oldText anchor for the figure insertion (commit 2 at #10 anchor):**
-```
-        <p><em>Once enabled, you'll find Loop Tools in the right-click menu when edges are selected, and in the Sidebar (<kbd>N</kbd> key) under the "Edit" tab.</em></p>
-    </div>
-
-    <h3>Essential Loop Tools Operations</h3>
-```
-
-Figure inserts between the `</div>` (line 2 of the anchor) and the `<h3>` (line 4).
-
-**alt:** Blender Preferences window with the Get Extensions tab selected on the left tab list. The search box at the top reads `looptools` as one word. Below it, an Installed section header is visible, and a LoopTools card is expanded to its full detail panel showing version 4.7.7, maintainer Community, website extensions.blender.org, file size 29.8 KB, and a GPL v2 or later license. A small unsaved-changes asterisk appears next to a Save Preferences indicator in the lower-left of the window.
-
-**figcaption:** The Loop Tools add-on lives on the Extensions Platform in Blender 4.2 and later, not on the legacy Add-ons tab. Search for `looptools` as one word under Get Extensions, click Install on the v4.7.7 entry, and the add-on is ready to use from the right-click menu and the N-key sidebar Edit tab.
-
-**c10 overlay spec** · viewBox `0 0 1732 1266`, `preserveAspectRatio="xMidYMid meet"`, one callout positive-green (the LoopTools card title row is an affirmative target):
-
-| id              | target                                              | badge text  | colorway       |
-|-----------------|-----------------------------------------------------|-------------|----------------|
-| `c10-looptools` | LoopTools card title row near top of expanded card  | `LOOPTOOLS` | positive green |
-
-Standard locked geometry: ellipse highlight `fill="none" stroke="#4ADE80" stroke-width="4"`; leader line `stroke="#4ADE80" stroke-width="3" stroke-linecap="round"`; marker circle `r="6" fill="#4ADE80"` at badge-side end of leader 7 px from badge edge; badge rect `rx="6" fill="#4ADE80"` height 46; badge text `font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#0f1a14" letter-spacing="2"` reading `LOOPTOOLS`. Exact pixel coordinates resolved at sub-chat 1 execution via Pillow scan: first scan locates the LoopTools card title row (likely a brighter-pixel band where the bold `LoopTools` text sits near the top of the expanded card detail panel); second scan verifies leader-path clearance from the search box above, the Installed section header, and the version / maintainer rows below the title.
-
-#### #11 · `lesson_06_11_loop_tools_circle_before_after.png` · `#loop-tools` · plain figure, col 4/8
-
-**oldText anchor** (pre-existing en-dash `–` preserved verbatim):
-```
-    <blockquote>
-        <p><strong>Pro Modeling Tip:</strong> When modeling machinery or hard-surface objects, you'll often start with rough shapes and use Circle to perfect the round components. For example, model a rough wheel hub, select the outer edge loop, apply Circle, and boom – instant precision!</p>
-    </blockquote>
-
-    <h3>Curve: Smooth Flowing Lines</h3>
-```
-
-Figure inserts between the `</blockquote>` (line 3) and the `<h3>` (line 5).
-
-**alt:** Two-panel before-and-after composite. Left panel: a cylinder in Blender Edit Mode with its top 8-vertex edge loop selected in orange, the vertices clearly jittered in XY so the loop looks irregular and angular. Right panel: the same cylinder after Loop Tools Circle, with the same 8 vertices now evenly redistributed around a perfect circle. A 2 px Blender-orange vertical divider separates the two panels.
-
-**figcaption:** Loop Tools Circle takes a selected edge loop and snaps it to a perfect circle around its centroid. The 8 jittered vertices on the left become 8 evenly distributed points on a precise circle on the right, ready for clean hard-surface modeling.
-
-#### #12 · `lesson_06_12_loop_tools_bridge_operation.png` · `#loop-tools` · plain figure, col 4/8
-
-**oldText anchor:**
-```
-    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
-        <h4>⚠️ Bridge Requirements</h4>
-        <p>For Bridge to work properly:</p>
-        <ul>
-            <li>Both edge loops should have the <strong>same number of edges</strong> (or proportional numbers)</li>
-            <li>The loops should be <strong>separate</strong> (not connected)</li>
-            <li>Both loops must be <strong>boundary edges</strong> (edges with only one face)</li>
-        </ul>
-        <p><em>If Bridge isn't working, check these conditions first!</em></p>
-    </div>
-
-    <h3>Space: Even Distribution</h3>
-```
-
-Figure inserts between the `</div>` (line 11) and the `<h3>` (line 13).
-
-**alt:** Two-panel before-and-after composite. Left panel: two separate 16-vertex cylinder ring loops floating in space, both selected in orange, with a visible gap between them. Right panel: the same two loops connected by 16 fresh quad faces forming a smooth tube across the gap. A 2 px Blender-orange vertical divider separates the panels.
-
-**figcaption:** Loop Tools Bridge spans the gap between two selected edge loops by generating a fresh ring of connecting faces. As long as the two loops have the same edge count and are both boundary loops, Bridge stitches them into a clean tube in one step.
-
-#### #47 · `lesson_06_47_loop_tools_sidebar_panel.png` · `#loop-tools` · plain figure, col 4/8
-
-**oldText anchor:**
-```
-        <p><strong>Result:</strong> A smooth, perfectly circular pipe with even topology!</p>
-    </div>
-
-    <blockquote>
-        <p><strong>Industry Insight:</strong> Professional hard-surface modelers rely heavily on Loop Tools for mechanical modeling.
-```
-
-Figure inserts between the `</div>` (line 2) and the `<blockquote>` (line 4).
-
-**alt:** Blender N-key sidebar with the Edit tab active at the bottom of the tab stack. The LoopTools panel is expanded and shows eight operation buttons in alphabetical order: Bridge, Circle, Curve, Flatten, Gstretch, Loft, Relax, Space. The viewport behind the sidebar is in Edit Mode.
-
-**figcaption:** The Loop Tools panel lives in the N-key sidebar under the Edit tab once the add-on is installed. The v4.7.7 release from the Extensions Platform exposes eight operations · Bridge · Circle · Curve · Flatten · Gstretch · Loft · Relax · Space · two more than the historical six-op bundled version.
-
-#### #13 · `lesson_06_13_box_select_in_action.png` · `<section id="selection-tools">` · c13 decorative dashed rect overlay, col 4/8
-
-**oldText anchor:**
-```
-    <div class="card">
-        <h4>📦 Box Select (<kbd>B</kbd>)</h4>
-        <ol>
-            <li>Press <kbd>B</kbd> to activate Box Select mode</li>
-            <li>Your cursor becomes a crosshair</li>
-            <li><strong>Click and drag</strong> to draw a rectangular selection box</li>
-            <li>All elements inside the box get selected</li>
-            <li>Release to confirm</li>
-        </ol>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Box Select Modifiers</th>
-```
-
-Figure inserts between the `</div>` (line 11) and the `<table>` (line 13).
-
-**alt:** Subdivided 10-by-10 grid plane in Blender Edit Mode with vertex select active. A rectangular block of 20 vertices (4 rows by 5 columns) is selected in orange. A white dashed rectangle outline traces just outside the selected block to indicate the area that was Box-Selected to produce this result.
-
-**figcaption:** Press B and drag to draw a rectangle around any region. Every vertex, edge, or face inside the dashed rectangle gets selected in one stroke · the fastest way to pick up a contiguous block of grid-aligned geometry.
-
-**c13 overlay** · single `<rect>` per the decorative-shape-only spec table above; viewBox `0 0 1280 720`; pixel coords resolved at sub-chat 2 execution via Pillow orange-vertex bounding-box scan; pad bounding box by 8-12 px on all sides for visual clearance.
-
-#### #14 · `lesson_06_14_circle_select_in_action.png` · `<section id="selection-tools">` · c14 decorative solid ring overlay, col 4/8
-
-**oldText anchor:**
-```
-    <div class="card">
-        <h4>⭕ Circle Select (<kbd>C</kbd>)</h4>
-        <ol>
-            <li>Press <kbd>C</kbd> to activate Circle Select mode</li>
-            <li>A circle cursor appears</li>
-            <li><strong>Left-click</strong> or <strong>click-drag</strong> to select elements under the circle</li>
-            <li><strong>Middle-click</strong> or hold <kbd>Shift</kbd> to deselect instead</li>
-            <li><strong>Mouse wheel</strong> to change circle size</li>
-            <li>Press <kbd>Esc</kbd> or <kbd>Right-click</kbd> to exit mode</li>
-        </ol>
-    </div>
-
-    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
-        <h4>✅ When Circle Select Shines</h4>
-```
-
-Figure inserts between the first `</div>` (line 12) and the next `<div class="card"...>` (line 14).
-
-**alt:** Subdivided grid plane in Blender Edit Mode with vertex select active. A roughly circular cluster of 13 vertices near the center of the grid is selected in orange. A solid white ring overlay surrounds the cluster, indicating the brush radius that was used to paint the selection.
-
-**figcaption:** Press C for Circle Select and the cursor becomes a brush. Click or click-drag to paint a selection inside the ring, scroll the mouse wheel to resize the brush · ideal for organic clusters that do not snap to a rectangle.
-
-**c14 overlay** · single `<circle>` per the decorative-shape-only spec table above; viewBox `0 0 1280 720`; pixel coords resolved at sub-chat 2 execution via Pillow orange-vertex centroid plus bounding-radius scan; radius set slightly larger than the bounding radius so the ring sits outside the outermost selected vertex.
-
-#### #15 · `lesson_06_15_lasso_select_in_action.png` · `<section id="selection-tools">` · c15 decorative dashed polyline overlay, col 4/8
-
-**oldText anchor:**
-```
-    <p><strong>Lasso Select</strong> lets you draw a freeform shape with your mouse, and everything inside gets selected. It's perfect for irregular shapes that don't fit in boxes or circles.</p>
-
-    <div class="card">
-        <h4>🎯 Lasso Select</h4>
-```
-
-Figure inserts between the description `</p>` (line 1) and the `<div class="card">` (line 3).
-
-**alt:** Subdivided grid plane in Blender Edit Mode with vertex select active. An L-shape of 22 vertices is selected in orange, with a horizontal arm running along the lower half of the grid and a vertical arm extending up the right side. A white dashed closed polyline traces an organic hand-drawn outline around the L-shape to indicate the lasso path that produced this selection.
-
-**figcaption:** Hold Ctrl and right-click-drag to draw a freeform loop around any irregular region. The dashed line traces the path your hand drew · everything inside the closed loop ends up selected when you release.
-
-**c15 overlay** · single closed `<polyline>` per the decorative-shape-only spec table above; viewBox `0 0 1280 720`; 8-12 anchor points placed at concave-hull / outline-trace positions just outside the L-shape vertex set, points list closes back on the first anchor for a clean closed loop; pixel coords resolved at sub-chat 2 execution via Pillow orange-vertex outline-trace scan.
-
-#### #16 · `lesson_06_16_select_similar_menu.png` · `<section id="advanced-selection">` · c16 full callout, col 4/8
-
-**oldText anchor** (pre-existing en-dash `–` preserved verbatim):
-```
-    <h3>Selection by Similarity (Select Similar)</h3>
-
-    <p>Imagine you need to select all triangular faces in a complex mesh, or every edge with a specific angle. Doing this manually would take forever! That's where <strong>Select Similar</strong> comes in – it finds and selects all geometry that matches certain criteria.</p>
-
-    <div class="card">
-        <h4>🔍 How to Use Select Similar</h4>
-```
-
-Figure inserts between the explanation `</p>` (line 3) and the `<div class="card">` (line 5).
-
-**alt:** Blender 3D viewport in Edit Mode with face select active. A Shift+G Select Similar popup menu is open and displays the full list of similarity options · Length, Direction, Amount of Faces Around an Edge, Face Angle, Crease, Bevel, Seam, Sharpness, Freestyle Edge Marks, Face Regions. The row reading `Amount of Faces Around an Edge` is hovered and shows the standard Blender hover highlight; a tooltip floats to its right with descriptive text.
-
-**figcaption:** Shift G opens the Select Similar menu. Pick a similarity option such as Amount of Faces Around an Edge and Blender selects every other face that shares that trait · perfect for grabbing all triangles, all boundary edges, or every face with the same topology around it in one shot.
-
-**c16 overlay spec** · viewBox `0 0 1305 621`, `preserveAspectRatio="xMidYMid meet"`, one callout positive-green:
-
-| id           | target                                       | badge text | colorway       |
-|--------------|----------------------------------------------|------------|----------------|
-| `c16-amount` | `Amount of Faces Around an Edge` menu row    | `AMOUNT`   | positive green |
-
-Standard locked geometry per the Phase 1 c46 precedent: ellipse highlight `fill="none" stroke="#4ADE80" stroke-width="4"` around the hovered menu row; leader line `stroke="#4ADE80" stroke-width="3" stroke-linecap="round"` from the ellipse to a clear viewport region (likely to the right of the menu near the tooltip, or below the menu in empty viewport space); marker `r="6" fill="#4ADE80"` 7 px from badge edge; badge rect `rx="6" fill="#4ADE80"` height 46; badge text `font-size="22" font-weight="700" fill="#0f1a14" letter-spacing="2"` reading `AMOUNT`. Exact pixel coordinates resolved at sub-chat 2 execution via Pillow scan: first scan locates the hovered-row brighter-pixel band against the default menu chrome; second scan verifies leader-path clearance from the floating tooltip text to the right of the menu.
-
-#### #44 · `lesson_06_44_selection_tools_reference.svg` · `<section id="selection-tools">` · inline SVG, col 4/8
-
-**oldText anchor:**
-```
-        <p><strong>Goal:</strong> Complete all 5 challenges in under 2 minutes. Practice until you can!</p>
-    </div>
-</section>
-
-<section id="inset-outset">
-```
-
-Figure inserts between the `</div>` (line 2) and the `</section>` (line 3). The `<section id="inset-outset">` line is included in the anchor for uniqueness against any other `</p>\n    </div>\n</section>` pattern earlier in the doc.
-
-**alt:** Selection Tools quick reference chart. A 5-row column layout summarizes the five Edit Mode selection tools · Box Select (B), Circle Select (C), Lasso Select (Ctrl plus right mouse button), Select Similar (Shift plus G), and Checker Deselect (Select menu). Each row carries an icon on the left, the tool name and a one-line description in the middle, and a Blender-orange shortcut badge on the right. The chart matches the dashed-rect, solid-ring, and dashed-polyline aesthetics of the c13, c14, and c15 overlays used elsewhere in the section so the cheat sheet reads coherently with the lesson PNGs.
-
-**figcaption:** Five ways to make a selection in Edit Mode, ready for quick reference. Pick the tool that matches the shape you need · rectangle, circle, freeform loop, by-trait match, or alternating pattern.
-
-**SVG inlining checklist for sub-chat 2:**
-- Figure at col 4, `<svg>` root at col 8, svg children at col 12, deeper nesting at 16 / 20, figcaption at col 8
-- Strip `color="#222"` from the inlined root `<svg>` tag (preserve in the standalone `.svg` file in `images/` for `<img>` fallback)
-- Preserve every `sr-*` id verbatim (`sr-title`, `sr-desc`, plus per-row ids and per-icon ids per the standalone file)
-- Preserve `role`, `aria-labelledby`, `<title>`, `<desc>` verbatim
-- Collapse multi-line attribute continuations on `<rect>`, `<line>`, `<polyline>`, `<text>`, `<tspan>` onto single lines
-- Prune decorative ASCII-divider author comments (`<!-- ====== Block Title ====== -->`)
-- Keep short structural row comments (`<!-- Row 1: Box Select -->`, `<!-- Footer tip -->`, etc.) for in-place navigation in the inlined block
-- Root `<svg>` opening tag flattened from any multi-line form onto a single line
-
-#### #48 · `lesson_06_48_checker_deselect_result.png` · `<section id="advanced-selection">` · plain figure, col 4/8
-
-**oldText anchor:**
-```
-    <h3>Checker Deselect: The Pattern Master</h3>
-
-    <p><strong>Checker Deselect</strong> is like creating a checkerboard pattern in your selection. It deselects every other element, which is incredibly useful for creating even, alternating patterns.</p>
-
-    <div class="card">
-        <h4>♟️ Using Checker Deselect</h4>
-```
-
-Figure inserts between the description `</p>` (line 3) and the `<div class="card">` (line 5).
-
-**alt:** Cylinder in Blender Edit Mode with edge select active. The cylinder has nine horizontal edge rings stacked between its top and bottom caps. Five of the nine rings are selected in orange (the 1st, 3rd, 5th, 7th, and 9th from the bottom), and four are deselected (the 2nd, 4th, 6th, and 8th), producing a clean alternating stripe pattern up the side of the cylinder.
-
-**figcaption:** Checker Deselect drops every other element in an existing selection to leave a clean alternating pattern. On a stack of nine selected edge rings the result is five selected · four deselected, ready for patterned subdivision, alternating material assignments, or any task that needs evenly-spaced gaps.
-
-### ID prefix sub-id registry (Phase 2)
-
-- c10 sub-id: `c10-looptools` (single highlight on LoopTools card title row, positive-green badge `LOOPTOOLS`)
-- c13 sub-id: `c13-box` (decorative dashed rect; the sub-id sits on the single `<rect>` for namespace cleanliness)
-- c14 sub-id: `c14-circle` (decorative solid ring, single `<circle>`)
-- c15 sub-id: `c15-lasso` (decorative dashed polyline, single closed `<polyline>`)
-- c16 sub-id: `c16-amount` (single highlight on `Amount of Faces Around an Edge` menu row, positive-green badge `AMOUNT`)
-
-5 total overlay sub-ids planned for Phase 2 INTEGRATION (c10, c13, c14, c15, c16). No collisions with Phase 1 sub-ids (`c2-*`, `c3-*`, `c46-*`), with `pf-*` (Phase 1 SVG #8), with `sr-*` (Phase 2 SVG #44, inlined this phase), or with any future-phase planned prefixes.
-
-### Execution cadence (sub-chats 1 and 2)
-
-- `Filesystem:edit_file` with `dryRun=true` first, then commit with `dryRun=false`, then `Filesystem:get_file_info` to verify file-size shift after every commit
-- WSL `\\wsl$\Ubuntu\` paths only
-- No new em-dashes in any new content; pre-existing en-dashes and right-arrows in `oldText` anchors pass through verbatim; middle-dot (`·`) for separation in figcaption phrasing
-- For c10 / c13 / c14 / c15 / c16 pixel-coord work: `Filesystem:copy_file_user_to_claude` the source PNG into Claude's container, then run Pillow pixel scans per the c46 precedent (orange-selected-vertex scan for c13 / c14 / c15; brighter-row pixel scan for c10 / c16)
-- Update Placement table row state per image as each integration commits (`captured/produced; not integrated` → `integrated`); the #44 row also flips its section label from `#advanced-selection` to `#selection-tools` at sub-chat 2 close
-- Append Status section bullet at each sub-chat close
-- Rewrite `session.md` at sub-chat 1 close to point at sub-chat 2 execution; rewrite `session.md` again at sub-chat 2 close (Phase 2 INTEGRATION close) to point at Phase 3 PRODUCTION plan-lock; `session.md` not rewritten this plan-lock chat
-- Warn Ray before context tightens within an execution sub-chat
-- MCP server hang recovery armed per the locked rule (4-min timeout boundary → check file size with `Filesystem:get_file_info` before retrying)
-
-Plan-lock close criterion: all 10 anchors, figcaptions, alt texts, overlay specs, the #44 SVG inlining checklist, and the #10 paired `<ol>` prose rewrite spec locked in writing before any HTML edit. The placement table row for #44 will be updated to `#selection-tools` at sub-chat 2 close. The stale `Next chat` section at the bottom of this doc will be rewritten at sub-chat 1 close to point at sub-chat 2 execution. Met by this section.
-
----
+- 2026-05-22 — Phase 1 PRODUCTION sub-chat B. Captured three UI-chrome PNGs requiring Blender window chrome. #1 `lesson_06_01_object_vs_edit_mode_comparison.png` (1922x720, 346,439 bytes, no overlay): PIL horizontal composite of two manual Win+Shift+S snips of the Blender window in Object Mode then Edit Mode, both showing the same L06_Cube with mode dropdown visible; left panel cropped from 1408x1071 to 1408x1056, right panel cropped from 1566x1044 to 1392x1044, both resized to 960x720, joined with 2px `#FF6B00` divider. Object Mode panel: cube selected with origin dot and orange outline. Edit Mode panel: vertex select, 3 top verts selected to give a clear orange-dots-on-structured-mesh look that contrasts with the Object Mode whole-object selection. #2 `lesson_06_02_edit_mode_visual_indicators.png` (1917x1057, 412,119 bytes, planned `c2` overlay at integration): manual Win+Shift+S of full Blender window in Edit Mode + vertex select with all six callout targets visible and unobstructed: orange vertex dots (top corners of cube), dark edges (bottom and back of cube), Edit Mode dropdown, Mesh menu (alongside View/Select/Add/Vertex/Edge/Face/UV), selection mode icon block, Edit-specific left toolbar. World axes turned back on for spatial orientation; outline-selected turned off so the silhouette glow does not compete with the black-edges callout target. #3 `lesson_06_03_selection_mode_icons.png` (720x80, 20,255 bytes, planned `c3` overlay at integration): captured via `bpy.ops.screen.screenshot_area` with `temp_override` (the 3D viewport area including its header) then Pillow-cropped to the header band, showing the 4-icon selection mode block with vertex select active (blue highlight) plus the Edit Mode dropdown and partial menu chrome for context; the 4th icon (face center / limit-to-visible toggle) sits outside the planned c3 triple-label set. c2-_ and c3-_ overlays deferred to INTEGRATION per spec; #1 carries no overlay. Workflow lessons logged: use bmesh directly for Edit-Mode selection counts since `cube.data.vertices[i].select` lags during interactive mesh editing; `bpy.ops.screen.screenshot_area` with `temp_override` is a viable BlenderMCP path for UI-chrome captures (header band, area chrome) and obviates manual Win+Shift+S except for transient UI like pie or popover menus that disappear when focus moves. Sub-chat B complete; sub-chat C (#7, #8, #9, #46) pending.
+- ~2026-05-22 — Phase 1 PRODUCTION sub-chat B' + sub-chat C close (reconstructed 2026-05-23 from session.md). #2 recaptured script-driven (manual sub-chat B capture lost from disk before plan-lock); sub-chat C delivered #7, #8, #9, #46. 10 of 10 Phase 1 images on disk; Phase 1 PRODUCTION CLOSED.
+- ~2026-05-22 — Phase 1 INTEGRATION CLOSED (reconstructed 2026-05-23 from session.md). 10 figures integrated into `#enter-edit-mode`, `#selection-modes`, `#proportional-editing`. c2 multi-callout commit hit the 4-minute MCP timeout boundary; locked MCP-hang recovery procedure established (`Filesystem:get_file_info` size check before retry).
+- ~2026-05-22 — Phase 2 PRODUCTION CLOSED (reconstructed 2026-05-23 from session.md). 10 images on disk (#10, #11, #12, #13, #14, #15, #16, #44, #47, #48). LoopTools v4.7.7 Extensions Platform install path discovered (`bpy.ops.extensions.repo_sync_all()` then `bpy.ops.extensions.package_install(repo_index=0, pkg_id='looptools', enable_on_install=True)`).
+- ~2026-05-22 to 2026-05-23 — Phase 2 INTEGRATION CLOSED (reconstructed 2026-05-23 from session.md). 10 figures integrated into `#loop-tools`, `#advanced-selection`, `#selection-tools`. Decorative-shape-only overlay variant introduced (c13 orange-vertex bbox, c14 centroid+max-radius, c15 concave-hull / RDP outline-trace) for tool-indicator overlays where the shape carries the message without a separate ellipse / leader / marker / badge.
+- 2026-05-22 — Phase 3 PRODUCTION plan-lock (reconstructed 2026-05-23 from session.md). Phase 3 PRODUCTION plan section written into this doc; sub-chat A (6 BlenderMCP) + sub-chat B (1 manual + 1 SVG) split locked.
+- 2026-05-23 — Phase 3 PRODUCTION CLOSED (reconstructed 2026-05-23 from session.md). Sub-chats A / B / C delivered 8 images (#17, #18, #19, #20, #21, #22, #23, #50) on disk. Sub-chat C #23 recapture established Face Orientation overlay recipe: theme `face_front` / `face_back` RGBA alpha check (default may be 0.0 in Blender 5.1.1 which silently suppresses the overlay tint; bump to >=0.4 before capture), `bpy.ops.screen.screenshot_area` includes overlay layers vs `bpy.ops.render.opengl` does not, chrome-aware Pillow crop (1572x900 raw -> 1280x720 cropped at CROP_X=72 / CROP_Y=88).
+- 2026-05-23 — Phase 3 INTEGRATION plan-lock (paused + RESUMED) (reconstructed 2026-05-23 from session.md). Phase 3 INTEGRATION plan section written into this doc; sub-chat 1 (3 inset figures, no overlays, no SVG) + sub-chat 2 (5 mesh-cleanup figures including c20 / c23 PNG overlays and #21 inline SVG with `dd` prefix) split locked; c20 overlay coords (cx=210 cy=282 rx=200 ry=22, leader (383, 271) -> (560, 110), badge `BY DISTANCE` positive-green at (460, 57, 200, 46)) and c23 overlay coords (cx=923 cy=309 rx=30 ry=22, leader (944, 293) -> (1140, 140), badge `FLIPPED` warning-red at (1065, 87, 150, 46)) locked.
+- 2026-05-23 — Phase 3 INTEGRATION sub-chat 1 CLOSED (reconstructed 2026-05-23 from session.md). 3 inset figures (#17, #18, #19) integrated into `#inset-outset`. Bottom-up execution order (#19 -> #18 -> #17) per locked rule.
+- 2026-05-23 — Phase 3 INTEGRATION sub-chat 2 CLOSED, resumed close-out (reconstructed 2026-05-23 from session.md). 5 mesh-cleanup figures (#20, #21, #22, #23, #50) integrated into `#mesh-cleanup`. HTML net delta 185,725 -> 203,063 bytes (+17,338); per-figure block sizes #20 2,196 / #21 10,773 (heaviest, inline SVG) / #22 1,043 / #23 2,248 / #50 1,073. First warning-red PNG overlay c23 `FLIPPED` introduced. Phase 3 INTEGRATION COMPLETE; 28 of 50 lesson images integrated overall.
+- 2026-05-23 — Phase 4 PRODUCTION plan-lock. Detected progress-doc size mismatch vs `session.md` narrative (session claimed 230,526 bytes, file actually 90,483 bytes); HTML cross-check at 203,063 bytes corroborated session.md on HTML side. Ray confirmed manual deletion of Phase 1 INTEGRATION + Phase 2 PRODUCTION + Phase 2 INTEGRATION plan sections to `.bak`; 90 KB shape accepted as new baseline. Status history reconstructed from session.md narrative (9 bullets above tagged). Read `#extrude-operations` slice (lines 2103-2337 of `lesson_06_edit_mode_essentials.html`, 0/4/8-space depth confirmed) and `lesson_06_image_requirements.md` entries #24 / #25 / #26 / #27 / #45 / #49. New `Phase 4 PRODUCTION plan` section written between `Phase 3 INTEGRATION plan` and `Locked rules`. Sub-chat A (4 BlenderMCP: #24 / #25 / #26 / #27) + sub-chat B (2 manual Win+Shift+S: #45 / #49) split locked. ID prefix registry updated with `c45` (positive-green `ALONG Z`) and `c49` (positive-green `ALONG NORMALS`). Bottom-of-doc Next chat repointed at Phase 4 PRODUCTION sub-chat A execution; `session.md` rewritten to point at same.
+- 2026-05-23 — Phase 4 PRODUCTION sub-chat A executed. Step 0 fresh scene reset removed L06_NormalsMonkey (L06_FillCube not present); default `Cube` also removed pre-build to clear the origin for #24. 4 BlenderMCP captures landed on disk: #24 `lesson_06_24_extrude_operation_sequence.png` (3844x720, 745,246 bytes, 3-panel composite, cube `L06_ExtrudeCube`, p1 top face selected + p2 `extrude_region_move` z=0.4 + p3 additional `transform.translate` z=+0.8 for total +1.2m); #25 `lesson_06_25_extrude_normals_vs_regular.png` (2562x720, 545,932 bytes, 2-panel composite, UVSphere `L06_ExtrudeSphere` 32 seg 16 rings, 8 contiguous equatorial faces on +X side selected via bmesh `|z|<0.15` filter then angular sort by abs(atan2(y,x)), p1 `extrude_region_move` global X=0.6 + p2 recreate path + `extrude_region_shrink_fatten` value=0.4 along normals); #26 `lesson_06_26_extrude_individual_faces.png` (1280x720, 680,306 bytes, single-pose, subdivided Plane `L06_ExtrudeGrid` 4x4 quad grid 16 faces, `extrude_faces_indiv()` then `transform.translate` z=0.5); #27 `lesson_06_27_extrude_scale_technique.png` (5126x720, 788,389 bytes, 4-panel composite, cube `L06_ExtrudeTower`, p1 base + p2 `extrude_region_move` z=0.8 + p3 `transform.resize` (0.7, 0.7, 1.0) + p4 second extrude+resize iteration, view_distance 6.0 per locked spec for tower height fit). All EEVEE_NEXT -> EEVEE fallback engaged (locked rule), SOLID shading, user-perspective `Euler((radians(63.6), 0, radians(-46.7)))`, theme vertex_size=5 edge_width=2, overlays axes ON floor ON cursor OFF origins OFF outline_selected OFF. **Op-name verification results (all three locked Phase 4 op-names confirmed in 5.1.1 first try, no fallback paths needed):** `bpy.ops.mesh.extrude_region_move(TRANSFORM_OT_translate={"value":(x,y,z)})` works (verified #24 / #27); `bpy.ops.mesh.extrude_region_shrink_fatten(TRANSFORM_OT_shrink_fatten={"value":0.4})` works (verified #25 panel 2); `bpy.ops.mesh.extrude_faces_indiv()` with no transform arg followed by separate `bpy.ops.transform.translate(value=(0,0,0.5))` works (verified #26). All composites via Pillow 12.2.0 with 2px `#FF6B00` vertical dividers, temp files removed via `os.remove` after composite save. Placement table rows #24 / #25 / #26 / #27 flipped to `captured; not integrated`. Phase 4 PRODUCTION sub-chat A close criterion met (4 of 6 Phase 4 images on disk). 32 of 50 lesson images produced overall; 28 of 50 integrated (count unchanged from Phase 3 INTEGRATION close since sub-chat A is PRODUCTION only). Sub-chat B pending: 2 manual Win+Shift+S captures by Ray (#45 transform constraint indicators with G+Z live move, #49 Alt+E extrude popover menu).
+- 2026-05-23 — Phase 4 PRODUCTION sub-chat B executed (close-out chat resuming from sub-chat A handoff). Ray captured both remaining Phase 4 PNGs manually via Win+Shift+S. #45 `lesson_06_45_transform_constraint_indicators.png` initially captured as a full-screen 4K snip (3838x2160, 1,238,904 bytes initial) showing the Blender app window in Edit Mode on `L06_ExtrudeTower` (carried over from sub-chat A #27) with G+Z live move active, the blue Z-axis constraint line running vertically through the cube, and the floating coord readout `D: 0.7893 m (0.7893 m) along global Z` visible at top-center of the viewport; cropped in place to 1920x1080 viewport-only via Pillow 12.2.0 executed through `blender:execute_blender_code` (crop bounds x=115..3155, y=170..1880 to remove menubar / workspace tabs / Edit Mode header / left toolbar / right sidebar / timeline / status bar, then `Image.LANCZOS` resize from 3040x1710 to 1920x1080 for 16:9 final ratio; final size 499,352 bytes). #49 `lesson_06_49_extrude_menu_alt_e.png` captured as a tight popover crop (922x396, 80,526 bytes, no further cropping needed) showing the Alt+E Extrude special popover in Edit Mode with `Extrude Faces Along Normals` row hovered with the standard Blender hover highlight; bonus tooltip `Extrude region together along local normals.` also captured below the hovered row (welcome but non-blocking). **Menu-item-count discrepancy noted for #49** (locked Phase 4 plan-lock spec said `all 5 options`; actual Blender 5.1.1 shows 6 items): Extrude Faces, Extrude Faces Along Normals, Extrude Individual Faces, **Extrude Manifold**, Extrude Repeat, Spin. The `Extrude Manifold` option is an addition in Blender 5.x not present in the locked 5-option count; non-blocking, c49 `ALONG NORMALS` overlay target is still the highlighted Along Normals row; fold the 6-item observation into the style-guide v4 addenda pending list at lesson close. Placement table rows #45 and #49 flipped to `captured; not integrated`. Phase 4 PRODUCTION sub-chat B close criterion met. **Phase 4 PRODUCTION CLOSED** with all 6 Phase 4 images on disk (#24 745,246 / #25 545,932 / #26 680,306 / #27 788,389 / #45 499,352 / #49 80,526 bytes). 34 of 50 lesson images produced overall; 28 of 50 integrated (count unchanged from Phase 3 INTEGRATION close since Phase 4 PRODUCTION is PRODUCTION only). **New precedent for manual-capture post-processing:** Pillow can rewrite UNC-path PNGs in place via `blender:execute_blender_code` when a user-captured Win+Shift+S PNG comes in larger than ideal; useful pattern for any future oversized manual capture (verify size before, run crop+resize, verify size after). Sub-chat B work was light-touch (no BlenderMCP scene captures; 2 manual captures by Ray + 1 BlenderMCP Pillow crop + 2 placement-table flips + this Status bullet + a Next chat section rewrite + a `session.md` full rewrite). Next chat: Phase 4 INTEGRATION plan-lock.
+- 2026-05-23 — Phase 4 INTEGRATION plan-lock. Read Phase 4 PRODUCTION close state (session.md narrative + 2026-05-23 sub-chat B Status bullet) and the `#extrude-operations` slice of `lesson_06_edit_mode_essentials.html` (lines 2103-2337 confirmed at 0/4/8-space depth) plus the 6 Phase 4 placement-table rows (all `captured; not integrated`). Verified absolute insertion-line positions for all 6 figures via document grep: #24 line 2132, #45 line 2193, #49 line 2204, #25 line 2219, #26 line 2250, #27 line 2282. **Corrected the bottom-up execution order from session.md proposal** (`#49 -> #27 -> #26 -> #25 -> #45 -> #24`) which was derived from reverse placement-table row order rather than from actual document positions; locked correct bottom-up order **`#27 -> #26 -> #25 -> #49 -> #45 -> #24`**. Drafted oldText anchors for all 6 figures: #26 extended to 6 lines because the bare `</tbody></table><blockquote>` pattern hit 4 occurrences across the full HTML; the other 5 anchors are 3-5 lines and verified unique via grep across the full HTML. Composed alt text and figcaptions for all 6 figures (zero new em-dashes, middle-dot separators throughout; pre-existing en-dashes in source HTML preserved verbatim through anchors). Ran Pillow blue-pixel band scan on #45: dominant central blue-pixel column at x=922 with 1043 pixels spanning full image height y=0..1079 (1px-wide constraint line), coord readout pill at x=778-1069 / y=15-25, cube top tip at y=189, right-side viewport gizmo at x=1803-1853. Locked c45 coords: ellipse cx=922 cy=110 rx=18 ry=70, straight horizontal leader (940,110) to (1173,110), marker r=6 at (1173,110), positive-green badge x=1180 y=87 w=150 h=46, text `ALONG Z` at (1255, 118). Ran Pillow brighter-pixel band scan on #49: hover-highlight band at y=138-178 (40 px tall, bg rgb 63 vs menu bg rgb 24), horizontal extent x=30-459, tooltip at y=215-260 / x=460-870. Locked c49 coords: ellipse cx=245 cy=158 rx=215 ry=24, diagonal leader (460,158) to (613,110), marker r=6 at (613,110), positive-green badge x=620 y=87 w=240 h=46, text `ALONG NORMALS` at (740, 118). Reviewed all 3 composite PNGs visually (#24 3-panel cube progression, #25 2-panel sphere regular vs along-normals, #27 4-panel taper tower): #24 and #27 ship plain because the progressions are self-evident left-to-right and no per-panel labels are needed, but #25's two outcomes read too similarly at thumbnail scale (both panels show a subtle +X-side bulge on the UV sphere at the captured camera angle), so **added new c25 composite-overlay** with positive-green panel badges (`REGULAR` panel 1 cx=640, `ALONG NORMALS` panel 2 cx=1922, both at y=644 w=280 h=46) per the locked composite-overlay variant from style guide v4. c25 added per the locked rule that overlays may be added at INTEGRATION if a PNG turns out to need a callout. ID prefix registry to be bumped from 12 PNG overlay ids planned to 13 with c25 inserted between c23 and c28. Locked sub-chat split as **1 sub-chat for all 6 figures** with **fallback split point at 4a (#27 + #26 + #25) / 4b (#49 + #45 + #24)** if the chat tightens mid-execution; estimated HTML byte delta +13-15 KB per the Phase 3 INTEGRATION sub-chat 2 precedent at +17 KB (Phase 4 has 6 figures vs sub-chat 2's 5 figures but no SVG inlining and simpler overlays). Wrote new `Phase 4 INTEGRATION plan` section (223 lines, projected +22,372 byte progress-doc delta from the dry-run; actual post-commit delta +22,443 bytes to 142,276 total file size; 71-byte rounding consistent with encoding margin). 34 of 50 lesson images produced overall, 28 of 50 integrated (counts unchanged from Phase 4 PRODUCTION close since plan-lock is plan-lock only). Bottom-of-doc Next chat repointed at Phase 4 INTEGRATION sub-chat 1 execution. `session.md` rewritten to point at same. Next chat: Phase 4 INTEGRATION sub-chat 1 (or 4a if Ray prefers the smaller split from the open).
+- 2026-05-23 — Phase 4 INTEGRATION sub-chat 1 executed. All 6 Phase 4 figures integrated into `lesson_06_edit_mode_essentials.html` `#extrude-operations` section in the locked bottom-up order #27 -> #26 -> #25 -> #49 -> #45 -> #24. Per-figure HTML byte deltas: #27 +809, #26 +613, #25 +2,336 (c25 composite-overlay debut, largest in batch), #49 +2,218 (c49 ellipse + diagonal leader + ALONG NORMALS badge), #45 +2,103 (c45 ellipse + horizontal leader + ALONG Z badge), #24 +830. Total HTML net delta 203,063 -> 211,972 bytes (+8,909, comfortably under the +13-15 KB plan estimate; the 3-element c25 composite-overlay and the straight-line c45 leader landed lighter than the precedent-set Phase 3 sub-chat 2 +17 KB delta). All 6 dry-run-then-commit pairs landed first try, no MCP timeouts, no anchor mismatches; #26's 6-line extended anchor matched uniquely as planned (the bare `</tbody></table><blockquote>` 4-occurrence pattern was sidestepped). **New c25 composite-overlay variant successfully inlined** (2562x720 viewBox, two centered badges at y=644 w=280, `REGULAR` panel 1 cx=640 / `ALONG NORMALS` panel 2 cx=1922, both positive-green `#4ADE80` with `#0f1a14` dark text at letter-spacing 2; no ellipse, no leader, no marker per the composite-overlay variant from style guide v4); IDs `c25-panel1` and `c25-panel2` registered on the two rects, with `c25-labels-title` and `c25-labels-desc` for the composite description. ID slugs locked for c45 / c49 single-callout ellipses: `c45-alongz` and `c49-alongnormals`, matching the established `c{N}-{labeltext-lowercase}` precedent from c20-bydistance and c23-flipped. Title text follows the `{Label Title Case} callout` precedent (`Along Z callout`, `Along Normals callout`, plus `Regular vs Along Normals panel labels` for the composite). Alt text and figcaptions transferred verbatim from the locked plan, including the backticks around literal Blender UI strings in #45 alt (the `D: 0.7893 m (0.7893 m) along global Z` coord readout), #49 alt (the `Extrude region together along local normals.` tooltip), and #25 alt (the `REGULAR` / `ALONG NORMALS` panel labels); no em-dash drift, all new separators middle-dot. Placement table rows #24 / #25 / #26 / #27 / #45 / #49 all flipped to `integrated` in a single 6-edit batch (zero net byte delta on the progress doc since `captured; not integrated     ` and `integrated                   ` both pad to 29 chars in the table column). **Phase 4 INTEGRATION COMPLETE**; 34 of 50 lesson images integrated, matching the produced count for the first time since Phase 1 close. Cumulative Lesson 06 PNG overlay tally across the integrated set: 8 positive-green full-callouts (c2, c3, c10, c16, c20, c45, c46, c49) + 1 positive-green composite-overlay (c25 NEW) + 1 warning-red full-callout (c23) + 3 decorative-shape-only (c13, c14, c15) = 13 PNG overlays integrated. Bottom-of-doc Next chat repointed at Phase 5 PRODUCTION plan-lock. `session.md` rewritten to point at same. Next chat: Phase 5 PRODUCTION plan-lock.
+- 2026-05-23 — Phase 5 PRODUCTION plan-lock. Read `session.md` (Phase 4 INTEGRATION sub-chat 1 CLOSED bullet; Phase 5 PRODUCTION plan-lock as next chat), the Status section of this doc through the 2026-05-23 Phase 4 INTEGRATION sub-chat 1 close bullet, the existing PNG capture notes block pre-estimating Phase 5 categories, the ID prefix registry showing the 13-PNG-overlay tally with c25 inserted, `lesson_06_image_requirements.md` entries #28 / #29 / #30 / #31 / #32 / #33 / #34 / #35 (brief specs + AI prompts + Production Priority bands), and the `#duplicate-array` / `#spin-screw` / `#knife-tool` slices of `lesson_06_edit_mode_essentials.html` (anchors confirmed at section openings lines 2400 / 2598 / 2803 respectively, 0/4/8 indentation depth matching prior phases). Wrote new `Phase 5 PRODUCTION plan` section between `Phase 4 INTEGRATION plan` and `Locked rules` (projected +28,506 char delta; actual post-commit file-size delta +28,583 bytes from 148,096 to 176,679; 77-byte margin consistent with multi-byte unicode encoding for `·` and `→` characters). **Locked 2 sub-chats** following Phase 3 / Phase 4 PRODUCTION precedent (scripted vs manual split): **sub-chat A** for all 5 BlenderMCP captures (#28 / #29 / #30 / #31 / #32) plus 2 cross-sub-chat temp files (#35 panels 1 + 3) with A1 / A2 fallback split point if context tightens; **sub-chat B** for all 3 manual Win+Shift+S captures (#33 / #34 / #35 panel 2) plus #34 within-sub-chat 3-panel Pillow composite plus #35 cross-sub-chat 3-panel Pillow composite combining sub-chat A's two temps with sub-chat B's manual panel 2. Pushed back on `session.md`'s "likely 1 PRODUCTION sub-chat" speculation; the locked default is 2 sub-chats per Phase 3 / Phase 4 precedent given the 5+3 scripted/manual split and the cross-sub-chat #35 composite handoff. Documented **NEW cross-sub-chat temp file pattern** as a first-in-Lesson-06 precedent (`_temp_lesson_06_35_p1.png` and `_temp_lesson_06_35_p3.png` persist between sub-chats; sub-chat B starts with `Filesystem:get_file_info` verify before Ray's panel 2 capture). ID prefix registry update minimal: no new PNG overlay ids added at PRODUCTION (`c28` and `c30` already reserved from initial planning; overlay coords deferred to Phase 5 INTEGRATION plan-lock per c2 / c3 / c25 multi-label precedent); no SVG ids added (Phase 5 has no SVGs per Option L). 34 of 50 lesson images produced overall, 34 of 50 integrated (counts unchanged from Phase 4 INTEGRATION close since plan-lock is plan-lock only). Op-name verification points logged for sub-chat A execution: `bpy.ops.mesh.spin` signature variance (#31 panel 2), `bpy.ops.mesh.knife_project` selection state setup (#35 panel 3), and Properties editor `area.spaces.active.context = 'MODIFIER'` enum value (#28). Bottom-of-doc Next chat repointed at Phase 5 PRODUCTION sub-chat A execution. `session.md` rewritten to point at same. Next chat: Phase 5 PRODUCTION sub-chat A (or A1 if Ray prefers the smaller split from the open).
 
 ## Phase 3 PRODUCTION plan
 
@@ -785,14 +37,14 @@ Locked 2026-05-22 during the Phase 3 PRODUCTION plan-lock chat. 8 image producti
 
 ### Sub-chat split
 
-- **Sub-chat A** · All BlenderMCP work. 6 PNGs: #17 inset operation progression (3-panel composite via PIL with 2px `#FF6B00` dividers), #18 inset individual vs group (2-panel composite), #19 inset double technique (4-panel composite), #22 limited dissolve before/after (2-panel composite), #23 face orientation overlay (single-pose viewport render with Face Orientation overlay enabled), #50 fill operations comparison (3-panel composite). Fresh scene reset as step 0 (delete L06_* leftovers from Phase 2). Heaviest single capture: #19 4-panel composite at 5126x720.
+- **Sub-chat A** · All BlenderMCP work. 6 PNGs: #17 inset operation progression (3-panel composite via PIL with 2px `#FF6B00` dividers), #18 inset individual vs group (2-panel composite), #19 inset double technique (4-panel composite), #22 limited dissolve before/after (2-panel composite), #23 face orientation overlay (single-pose viewport render with Face Orientation overlay enabled), #50 fill operations comparison (3-panel composite). Fresh scene reset as step 0 (delete L06\_\* leftovers from Phase 2). Heaviest single capture: #19 4-panel composite at 5126x720.
 - **Sub-chat B** · All non-scripted work. 1 PNG + 1 SVG: #20 merge by distance menu via manual Win+Shift+S, #21 dissolve vs delete SVG hand-authored at 800x560 with `dd` id prefix.
 
 If sub-chat A tightens after 4-5 composites land, split into A1 (#17, #18, #19 inset triplet) and A2 (#22, #23, #50 mesh-cleanup triplet); the inset triplet shares cube/plane setup so it benefits from sharing a sub-chat. Sub-chat B should comfortably fit one chat since the SVG hand-author is bounded (Phase 1 #8 at 6,811 bytes and Phase 2 #44 at 6,615 bytes set the size envelope) and the #20 manual capture is small.
 
 ### Step 0 (sub-chat A only) · Fresh scene reset
 
-Before any Phase 3 capture work, clean the scene of L06_* leftovers from Phase 2 PRODUCTION sub-chat A:
+Before any Phase 3 capture work, clean the scene of L06\_\* leftovers from Phase 2 PRODUCTION sub-chat A:
 
 ```python
 import bpy
@@ -806,7 +58,7 @@ for name in to_delete:
         print(f"Not present: {name}")
 ```
 
-Per-image scenes built fresh per the specs below; reuse a single cube across #17 / #18 / #19 / #50 by rebuilding/undoing between panel captures rather than maintaining 4 separate L06_* objects.
+Per-image scenes built fresh per the specs below; reuse a single cube across #17 / #18 / #19 / #50 by rebuilding/undoing between panel captures rather than maintaining 4 separate L06\_\* objects.
 
 ### Per-image specs · sub-chat A (6 BlenderMCP captures)
 
@@ -923,6 +175,7 @@ Phase 3 introduces the first warning-red PNG overlay badge in Lesson 06 (c23 `FL
 ### Phase 3 PRODUCTION close criterion
 
 All 8 Phase 3 images on disk in `images/`:
+
 - 6 PNGs from sub-chat A: #17, #18, #19, #22, #23, #50
 - 1 PNG + 1 SVG from sub-chat B: #20, #21
 
@@ -952,15 +205,15 @@ Locked 2026-05-23 during the Phase 3 INTEGRATION plan-lock chat RESUMED (after t
 
 Positive-green `BY DISTANCE` callout on the hovered `By Distance` row of the M Merge popup menu. viewBox `0 0 819 405` matching the source PNG dimensions. Single highlight + leader + badge per the locked PNG annotation overlay component snippet (style guide v4) and the c46 / c10 / c16 precedent.
 
-| element        | locked coords                                                                       |
-|----------------|-------------------------------------------------------------------------------------|
-| ellipse        | cx=210 cy=282 rx=200 ry=22 (wraps hover row at y=262-302, x=0-416)                  |
-| ellipse stroke | `#4ADE80` width 4 fill `none`                                                       |
-| leader         | from ellipse upper-right anchor (383, 271) up to marker (560, 110)                  |
-| leader stroke  | `#4ADE80` width 3 linecap round                                                     |
-| marker         | (560, 110) r=6 fill `#4ADE80` (7 px below badge bottom edge at y=103)               |
-| badge rect     | x=460 y=57 width 200 height 46 rx=6 fill `#4ADE80` (centered at cx=560 cy=80)       |
-| badge text     | `BY DISTANCE` at (560, 89) font-size 22 weight 700 letter-spacing 2 fill `#0f1a14`  |
+| element        | locked coords                                                                      |
+| -------------- | ---------------------------------------------------------------------------------- |
+| ellipse        | cx=210 cy=282 rx=200 ry=22 (wraps hover row at y=262-302, x=0-416)                 |
+| ellipse stroke | `#4ADE80` width 4 fill `none`                                                      |
+| leader         | from ellipse upper-right anchor (383, 271) up to marker (560, 110)                 |
+| leader stroke  | `#4ADE80` width 3 linecap round                                                    |
+| marker         | (560, 110) r=6 fill `#4ADE80` (7 px below badge bottom edge at y=103)              |
+| badge rect     | x=460 y=57 width 200 height 46 rx=6 fill `#4ADE80` (centered at cx=560 cy=80)      |
+| badge text     | `BY DISTANCE` at (560, 89) font-size 22 weight 700 letter-spacing 2 fill `#0f1a14` |
 
 Leader-path clearance verified at the paused plan-lock against the X-axis red guide line (red-mask bbox x=698-818 / y=0-120) and the floating tooltip (dark-fill band x=300-800 / y=320-380); the leader sits entirely in the empty upper-middle viewport region above the tooltip.
 
@@ -968,15 +221,15 @@ Leader-path clearance verified at the paused plan-lock against the X-axis red gu
 
 Warning-red `FLIPPED` callout on the 3-triangle flipped-face cluster in Suzanne's right temple. viewBox `0 0 1280 720` matching the cropped PNG dimensions. Pillow leader-path clearance scan run at this plan-lock confirms the candidate badge zone x=1000-1240 / y=80-180 is completely free of Suzanne mesh pixels (0 hits across both the full-zone scan and 4 sub-zone scans) and the chosen leader path crosses only 1 Suzanne pixel out of 31 samples near the ellipse anchor where the leader necessarily joins the highlighted target.
 
-| element        | locked coords                                                                              |
-|----------------|--------------------------------------------------------------------------------------------|
+| element        | locked coords                                                                                       |
+| -------------- | --------------------------------------------------------------------------------------------------- |
 | ellipse        | cx=923 cy=309 rx=30 ry=22 (wraps red cluster bbox x=910..936 / y=295..322 with comfortable padding) |
-| ellipse stroke | `#E63946` width 4 fill `none`                                                              |
-| leader         | from ellipse upper-right anchor (944, 293) up-right to marker (1140, 140)                  |
-| leader stroke  | `#E63946` width 3 linecap round                                                            |
-| marker         | (1140, 140) r=6 fill `#E63946` (7 px below badge bottom edge at y=133)                     |
-| badge rect     | x=1065 y=87 width 150 height 46 rx=6 fill `#E63946` (centered at cx=1140 cy=110)           |
-| badge text     | `FLIPPED` at (1140, 119) font-size 22 weight 700 letter-spacing 2 fill `#ffffff`           |
+| ellipse stroke | `#E63946` width 4 fill `none`                                                                       |
+| leader         | from ellipse upper-right anchor (944, 293) up-right to marker (1140, 140)                           |
+| leader stroke  | `#E63946` width 3 linecap round                                                                     |
+| marker         | (1140, 140) r=6 fill `#E63946` (7 px below badge bottom edge at y=133)                              |
+| badge rect     | x=1065 y=87 width 150 height 46 rx=6 fill `#E63946` (centered at cx=1140 cy=110)                    |
+| badge text     | `FLIPPED` at (1140, 119) font-size 22 weight 700 letter-spacing 2 fill `#ffffff`                    |
 
 Badge width 150 carries the 7-character `FLIPPED` string at letter-spacing 2 with comfortable side padding (text width approximately 105-110 px plus 20 px padding each side). The narrower badge vs the 200 px used for c20's longer `BY DISTANCE` label keeps the visual scale of the callout consistent with the smaller ellipse target (60 px wide vs c20's 400 px wide).
 
@@ -998,6 +251,7 @@ Per the locked inlining precedent from Phase 1 #8 (`pf` prefix) and Phase 2 #44 
 #### #17 · `lesson_06_17_inset_operation_progression.png` · `#inset-outset` · plain figure, col 4/8
 
 **oldText anchor:**
+
 ```
             <li>Click to confirm (or type exact value)</li>
         </ol>
@@ -1017,6 +271,7 @@ Figure inserts between the Basic Inset card `</div>` (line 3 of the anchor) and 
 #### #18 · `lesson_06_18_inset_individual_vs_group.png` · `#inset-outset` · plain figure, col 4/8
 
 **oldText anchor** (pre-existing en-dash `–` preserved verbatim):
+
 ```
             <li><strong>Individual Inset:</strong> Press <kbd>I</kbd> again while insetting – each face gets its own separate inset</li>
         </ul>
@@ -1035,6 +290,7 @@ Figure inserts between the Individual vs Group Inset card `</div>` (line 4) and 
 #### #19 · `lesson_06_19_inset_double_technique.png` · `#inset-outset` · plain figure, col 4/8
 
 **oldText anchor** (pre-existing en-dash `–` preserved verbatim):
+
 ```
     <blockquote>
         <p><strong>The "Double Inset" Technique:</strong> A professional modeling trick – select faces, inset once for a border, then inset again to create a second inner border. This creates beautiful panel detail with depth. Then extrude the innermost faces for 3D pop! This is used everywhere in hard-surface modeling.</p>
@@ -1052,6 +308,7 @@ Figure inserts between the Double Inset Technique `</blockquote>` (line 3) and t
 #### #20 · `lesson_06_20_merge_by_distance.png` · `#mesh-cleanup` · c20 full callout, col 4/8
 
 **oldText anchor** (pre-existing right-arrow `→` preserved verbatim):
+
 ```
         <p><strong>Or:</strong> Mesh menu → Clean Up → Merge by Distance</p>
     </div>
@@ -1070,15 +327,16 @@ Figure inserts between the Merge by Distance card `</div>` (line 2) and the `<ta
 
 **c20 overlay spec** · viewBox `0 0 819 405`, `preserveAspectRatio="xMidYMid meet"`, one callout positive-green (Merge by Distance is an affirmative cleanup operation):
 
-| id               | target                                     | badge text     | colorway       |
-|------------------|--------------------------------------------|----------------|----------------|
-| `c20-bydistance` | `By Distance` menu row at bottom of M menu | `BY DISTANCE`  | positive green |
+| id               | target                                     | badge text    | colorway       |
+| ---------------- | ------------------------------------------ | ------------- | -------------- |
+| `c20-bydistance` | `By Distance` menu row at bottom of M menu | `BY DISTANCE` | positive green |
 
 Locked pixel coords per the c20 overlay coords table above. Ellipse `fill="none" stroke="#4ADE80" stroke-width="4"` at cx=210 cy=282 rx=200 ry=22; leader line `stroke="#4ADE80" stroke-width="3" stroke-linecap="round"` from (383, 271) to (560, 110); marker `r="6" fill="#4ADE80"` at (560, 110); badge rect `rx="6" fill="#4ADE80"` x=460 y=57 width=200 height=46; badge text `font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#0f1a14" letter-spacing="2"` at (560, 89) reading `BY DISTANCE`.
 
 #### #21 · `lesson_06_21_dissolve_vs_delete.svg` · `#mesh-cleanup` · inline SVG, col 4/8
 
 **oldText anchor:**
+
 ```
     <h3>Dissolve vs. Delete</h3>
 
@@ -1100,6 +358,7 @@ Figure inserts between the Dissolve vs. Delete explanation `</p>` (line 3) and t
 #### #22 · `lesson_06_22_limited_dissolve_before_after.png` · `#mesh-cleanup` · plain figure, col 4/8
 
 **oldText anchor:**
+
 ```
     <blockquote>
         <p><strong>Import Cleanup Trick:</strong> When you import models from other software (especially CAD), they often have way too many tiny flat faces. Select all, run Limited Dissolve at 5 degrees, and watch thousands of unnecessary edges vanish while the shape stays perfect!</p>
@@ -1117,6 +376,7 @@ Figure inserts between the Limited Dissolve blockquote `</blockquote>` (line 3) 
 #### #23 · `lesson_06_23_face_orientation_overlay.png` · `#mesh-cleanup` · c23 full callout, col 4/8
 
 **oldText anchor:**
+
 ```
             <li>All faces now point outward correctly!</li>
         </ol>
@@ -1134,9 +394,9 @@ Figure inserts between the Fix Flipped Normals card `</div>` (line 3) and the Se
 
 **c23 overlay spec** · viewBox `0 0 1280 720`, `preserveAspectRatio="xMidYMid meet"`, one callout warning-red (FLIPPED face orientation is a cautionary indicator that signals a normal needs to be corrected):
 
-| id            | target                                            | badge text | colorway     |
-|---------------|---------------------------------------------------|------------|--------------|
-| `c23-flipped` | 3-triangle flipped-face cluster on right temple   | `FLIPPED`  | warning red  |
+| id            | target                                          | badge text | colorway    |
+| ------------- | ----------------------------------------------- | ---------- | ----------- |
+| `c23-flipped` | 3-triangle flipped-face cluster on right temple | `FLIPPED`  | warning red |
 
 Locked pixel coords per the c23 overlay coords table above. Ellipse `fill="none" stroke="#E63946" stroke-width="4"` at cx=923 cy=309 rx=30 ry=22; leader line `stroke="#E63946" stroke-width="3" stroke-linecap="round"` from (944, 293) to (1140, 140); marker `r="6" fill="#E63946"` at (1140, 140); badge rect `rx="6" fill="#E63946"` x=1065 y=87 width=150 height=46; badge text `font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#ffffff" letter-spacing="2"` at (1140, 119) reading `FLIPPED`.
 
@@ -1145,6 +405,7 @@ This is the first warning-red PNG overlay badge in Lesson 06; all prior Lesson 0
 #### #50 · `lesson_06_50_fill_operations_comparison.png` · `#mesh-cleanup` · plain figure, col 4/8
 
 **oldText anchor:**
+
 ```
         <p><strong>Requirement:</strong> The hole must have an even number of edges (4, 8, 12, etc.)</p>
     </div>
@@ -1183,18 +444,554 @@ Plan-lock close criterion: all 8 anchors, figcaptions, alt texts, the 2 overlay 
 
 ---
 
+## Phase 4 PRODUCTION plan
+
+Locked 2026-05-23 during the Phase 4 PRODUCTION plan-lock chat. 6 image productions split across 2 execution sub-chats (4 BlenderMCP + 2 manual Win+Shift+S) per the Phase 3 PRODUCTION precedent of scripted-vs-manual split. Each entry below carries scene config, view rotation, capture method, output filename, and overlay deferral (where applicable). Phase 4 fresh scene reset applies at sub-chat A start: delete L06_NormalsMonkey, L06_FillCube, and any other `L06_*` leftovers from Phase 3 PRODUCTION sub-chats A / B / C before building Phase 4 scenes. No Step 0 add-on check needed for Phase 4 (Extrude family operations are bundled `bpy.ops.mesh` ops, no Extensions Platform install required).
+
+### Sub-chat split
+
+- **Sub-chat A** · All BlenderMCP work. 4 PNGs: #24 extrude operation sequence (3-panel composite via PIL with 2px `#FF6B00` dividers, cube), #25 extrude normals vs regular (2-panel composite, UVSphere), #26 extrude individual faces (single-pose viewport render, subdivided plane), #27 extrude scale technique (4-panel composite, cube tower). Fresh scene reset as step 0. Heaviest single capture: #27 4-panel composite at 5126x720. Scene rebuilds between #24 (cube) -> #25 (UVSphere) -> #26 (subdivided plane) -> #27 (cube tower) make per-image rebuilds preferable to maintaining all 4 L06_* objects simultaneously.
+- **Sub-chat B** · All non-scripted work. 2 PNGs: #45 transform constraint indicators (manual Win+Shift+S of a live G+Z interactive move showing the blue Z-axis constraint line and coordinate readout; transient transform UI BlenderMCP cannot reach), #49 extrude menu Alt+E (manual Win+Shift+S of the Alt+E popover menu showing all 5 options; transient popover UI BlenderMCP cannot reach per the locked Phase 1 sub-chat C #46 precedent).
+
+If sub-chat A tightens after 2-3 captures land, split into A1 (#24, #25 cube + sphere) and A2 (#26, #27 plane + tower). Sub-chat B should comfortably fit one chat since both captures are manual and small (popover menus and constraint indicators are typically under 500 KB each).
+
+### Step 0 (sub-chat A only) · Fresh scene reset
+
+Before any Phase 4 capture work, clean the scene of L06\_\* leftovers from Phase 3 PRODUCTION sub-chats A / B / C:
+
+```python
+import bpy
+to_delete = ["L06_NormalsMonkey", "L06_FillCube"]
+for name in to_delete:
+    obj = bpy.data.objects.get(name)
+    if obj is not None:
+        bpy.data.objects.remove(obj, do_unlink=True)
+        print(f"Removed: {name}")
+    else:
+        print(f"Not present: {name}")
+
+# Defensive sweep for any other L06_* survivors
+for obj in list(bpy.data.objects):
+    if obj.name.startswith("L06_"):
+        bpy.data.objects.remove(obj, do_unlink=True)
+        print(f"Swept: {obj.name}")
+```
+
+Per-image scenes built fresh per the specs below; do not reuse the cube primitive across #24 and #27 because the #27 tower build leaves a tall multi-segment column that would interfere with the clean #24 baseline if reused.
+
+### Per-image specs · sub-chat A (4 BlenderMCP captures)
+
+#### #24 · `lesson_06_24_extrude_operation_sequence.png`
+
+- **Type:** PNG, 3-panel horizontal composite, 3844x720, no overlay planned
+- **Capture path:** BlenderMCP per-panel OpenGL viewport render -> PIL composite with 2px `#FF6B00` vertical dividers -> temp files removed via `os.remove`
+- **Scene setup:** Add a Cube primitive (default 2m) named `L06_ExtrudeCube`. Enter Edit Mode + face select. Select the top face only.
+- **Panel 1:** Top face selected (orange highlight, dots at corners), no extrude yet. Render to `_temp_lesson_06_24_p1.png` (1280x720).
+- **Panel 2:** Apply `bpy.ops.mesh.extrude_region_move(TRANSFORM_OT_translate={"value":(0,0,0.4)})` (partial extrude showing the new top face risen 0.4m with side faces forming the connecting walls; the new top face is still selected). Render to `_temp_lesson_06_24_p2.png` (1280x720).
+- **Panel 3:** Apply additional translation to reach z=1.2 total via `bpy.ops.transform.translate(value=(0,0,0.8))`. Render to `_temp_lesson_06_24_p3.png` (1280x720).
+- **Render config:** EEVEE with EEVEE_NEXT fallback per locked rule, viewport SOLID shading, user-perspective view rotation `Euler((radians(63.6), 0, radians(-46.7)))`, view_distance 5.0, view_location centered on the cube. Theme: vertex_size=5, edge_width=2 (Phase 1 default). Overlays: axes ON, floor ON, cursor OFF, origins OFF, outline_selected OFF.
+- **Composite:** PIL 3844x720 (3 panels x 1280 + 2 x 2 px divider), output `lesson_06_24_extrude_operation_sequence.png`. Remove temps.
+
+#### #25 · `lesson_06_25_extrude_normals_vs_regular.png`
+
+- **Type:** PNG, 2-panel horizontal composite, 2562x720, no overlay planned
+- **Capture path:** BlenderMCP per-panel OpenGL viewport render -> PIL composite -> temp files removed
+- **Scene setup:** Delete L06_ExtrudeCube from #24. Add a UVSphere primitive (default 32 segments, 16 rings, radius 1m) named `L06_ExtrudeSphere`. Enter Edit Mode + face select. Select an equatorial band of ~8 faces around the sphere's circumference at the y=0 plane (bmesh face filter for face centroid `z` within +/-0.15 of zero).
+- **Panel 1:** Equatorial band selected. Apply `bpy.ops.mesh.extrude_region_move(TRANSFORM_OT_translate={"value":(0.6, 0, 0)})` (regular extrude with global X translation; all 8 selected faces shift together in the +X direction as one rigid unit, creating an asymmetric bulge on one side of the sphere). Render to `_temp_lesson_06_25_p1.png` (1280x720).
+- **Panel 2:** Recreate L06_ExtrudeSphere and re-filter the equatorial band per the bmesh path (avoid `bpy.ops.ed.undo()` inside `temp_override` per the locked Phase 3 sub-chat A connection-drop discovery). Apply `bpy.ops.mesh.extrude_region_shrink_fatten(TRANSFORM_OT_shrink_fatten={"value":0.4})` (extrude along normals; each face extrudes 0.4m perpendicular to its own normal, creating a radial band-bulge that follows the sphere's curvature). **Op-name verify at execution:** if `extrude_region_shrink_fatten` is not the correct 5.1.1 op name, the working alternative is the two-step `bpy.ops.mesh.extrude_region()` (no transform) followed by `bpy.ops.transform.shrink_fatten(value=0.4)`. Log the working path in the Status bullet at sub-chat A close.
+- **Render config:** EEVEE_NEXT -> EEVEE fallback, SOLID shading, user-perspective rotation `Euler((radians(63.6), 0, radians(-46.7)))`, view_distance 5.0 to keep both before-extrude curvature and after-extrude bulge framed. Theme as #24. Overlays as #24.
+- **Composite:** PIL 2562x720 (2 panels x 1280 + 1 x 2 px divider), output `lesson_06_25_extrude_normals_vs_regular.png`. Remove temps.
+
+#### #26 · `lesson_06_26_extrude_individual_faces.png`
+
+- **Type:** PNG, single-pose, 1280x720, no overlay planned
+- **Capture path:** BlenderMCP OpenGL viewport render
+- **Scene setup:** Delete L06_ExtrudeSphere from #25. Add a Plane primitive (2m x 2m) named `L06_ExtrudeGrid`. Enter Edit Mode, set face select, select all, then apply `bpy.ops.mesh.subdivide(number_cuts=3)` to produce a 4x4 quad grid (16 faces). Select all 16 faces.
+- **Operation:** Apply `bpy.ops.mesh.extrude_faces_indiv()` (no transform argument) followed by `bpy.ops.transform.translate(value=(0, 0, 0.5))` to lift each individual extruded face uniformly 0.5m. Result: 16 individual pillars separated by visible vertical gaps between each, creating a uniform city-block array. The visible separation between columns is the pedagogical point: each face extruded independently rather than as one unit. **Op-name verify at execution:** if `extrude_faces_indiv` requires a transform argument in 5.1.1 (e.g., `TRANSFORM_OT_shrink_fatten={"value":0.5}`), use that single-call form instead. Log the working path in the Status bullet at sub-chat A close.
+- **Render config:** EEVEE_NEXT -> EEVEE fallback, SOLID shading, user-perspective rotation as #24, view_distance 5.0, view_location centered above the grid so the 16 individual pillars read clearly against the floor plane. Theme as #24. Overlays as #24.
+- **Output:** `lesson_06_26_extrude_individual_faces.png` (1280x720).
+
+#### #27 · `lesson_06_27_extrude_scale_technique.png`
+
+- **Type:** PNG, 4-panel horizontal composite, 5126x720, no overlay planned
+- **Capture path:** BlenderMCP per-panel OpenGL viewport render -> PIL composite -> temp files removed
+- **Scene setup:** Delete L06_ExtrudeGrid from #26. Add a Cube primitive (default 2m) named `L06_ExtrudeTower`. Enter Edit Mode + face select. Select the top face only.
+- **Panel 1:** Top face selected, no extrude yet (the base cube ready state). Render to `_temp_lesson_06_27_p1.png` (1280x720).
+- **Panel 2:** Apply `bpy.ops.mesh.extrude_region_move(TRANSFORM_OT_translate={"value":(0,0,0.8)})` (first extrude up 0.8m, creating a tower base). Render to `_temp_lesson_06_27_p2.png` (1280x720).
+- **Panel 3:** With the new top face still selected, apply `bpy.ops.transform.resize(value=(0.7, 0.7, 1.0))` (scale 0.7x on X and Y, lock Z, the locked Shift+Z behavior). The top face contracts to 70% of its size while staying at the same height, creating the first taper. Render to `_temp_lesson_06_27_p3.png` (1280x720).
+- **Panel 4:** Apply a second extrude+scale iteration: `extrude_region_move` with `(0,0,0.8)` then `resize` with `(0.7, 0.7, 1.0)`. Result: a 2-tier tapered tower with two visible step transitions. Render to `_temp_lesson_06_27_p4.png` (1280x720).
+- **Render config:** EEVEE_NEXT -> EEVEE fallback, SOLID shading, user-perspective rotation as #24, view_distance **6.0** (slightly farther than #24 to fit the growing tower height across all 4 panels with consistent framing), view_location centered on the tower's vertical center (z~1.0). Theme as #24. Overlays as #24.
+- **Composite:** PIL 5126x720 (4 panels x 1280 + 3 x 2 px divider), output `lesson_06_27_extrude_scale_technique.png`. Remove temps.
+
+### Per-image specs · sub-chat B (2 manual Win+Shift+S captures)
+
+#### #45 · `lesson_06_45_transform_constraint_indicators.png`
+
+- **Type:** PNG, manual Win+Shift+S, `c45` overlay planned at INTEGRATION
+- **Capture path:** Ray initiates a G+Z interactive move on a cube (Object Mode or Edit Mode + face/vertex/edge selection), captures the moment the blue Z-axis constraint line is visible across the full viewport along with the floating coordinate readout in the corner. Capture timing: after pressing G then Z but before clicking to confirm (the transform is live with the constraint visualization rendered). Ray uploads via chat or writes directly to `images/`.
+- **Why manual:** the transform constraint indicator is transient UI that only renders during a live interactive G / R / S operation; BlenderMCP cannot reach this state via scripted ops because `bpy.ops.transform.translate` does not display the interactive constraint visualization (the colored band is a viewport overlay drawn only during modal operator execution).
+- **Target dimensions:** whatever the Win+Shift+S snip captures; full viewport is typically 1500-1900 px wide x 800-1100 tall. INTEGRATION overlay `viewBox` will match the captured PNG dimensions.
+- **Subject choice:** Cube primitive near viewport center so the Z-axis line runs vertically through the cube origin and extends both above and below for visual clarity. Include the small `D: 0.500 Z` coordinate readout in the corner of the snip for quantitative reinforcement.
+- **Output:** `lesson_06_45_transform_constraint_indicators.png`.
+- **c45 overlay (deferred to INTEGRATION):** Single-region highlight on the blue Z-axis constraint line. Positive-green colorway (`#4ADE80` badge with `#0f1a14` text; the axis constraint is an affirmative indicator showing what is locked, not a warning). Badge text locked as `ALONG Z` (mirrors the visible coordinate readout's axis label per the c10 `LOOPTOOLS` / c16 `AMOUNT` / c20 `BY DISTANCE` precedent of pulling badge text from the on-screen UI string). Locked geometry per c46 / c10 / c16 / c20 precedent: ellipse highlight `fill="none" stroke="#4ADE80" stroke-width="4"`; leader line `stroke="#4ADE80" stroke-width="3" stroke-linecap="round"`; marker circle `r="6" fill="#4ADE80"` at badge-side end of leader 7 px from badge edge; badge rect `rx="6" fill="#4ADE80"` height 46; badge text `font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#0f1a14" letter-spacing="2"` reading `ALONG Z`. Exact pixel coords resolved at Phase 4 INTEGRATION plan-lock via Pillow scan (blue-pixel band scan for the Z-axis constraint line color).
+
+#### #49 · `lesson_06_49_extrude_menu_alt_e.png`
+
+- **Type:** PNG, manual Win+Shift+S, `c49` overlay planned at INTEGRATION
+- **Capture path:** Ray opens the Alt+E special extrude popover menu in Edit Mode with the menu fully visible. The menu lists (per the lesson HTML and AI prompt): Extrude Region, Extrude Region and Move, Extrude Along Normals, Extrude Individual Faces, Extrude to Cursor. The `Extrude Along Normals` row should be hovered with the standard Blender hover highlight to give c49 a clear target. Ray uploads via chat or writes directly to `images/`.
+- **Why manual:** Alt+E produces a popover menu that closes on mouse-down or focus-change; BlenderMCP cannot reach transient popover UI per the locked Phase 1 sub-chat C #46 precedent (same path the Shift+O Proportional Falloff pie menu used).
+- **Target dimensions:** Whatever the Win+Shift+S snip captures; Alt+E menu is typically 200-300 px wide x 200-300 px tall, but the snip likely captures more viewport context around the menu for c49 leader-path headroom. INTEGRATION overlay `viewBox` will match the captured PNG dimensions.
+- **Subject choice:** Any L06\_\* mesh in Edit Mode with a face / edge / vertex selected so the Alt+E menu populates with active options. Cube primitive is fine; menu content is invariant across mesh choice.
+- **Output:** `lesson_06_49_extrude_menu_alt_e.png`.
+- **c49 overlay (deferred to INTEGRATION):** Single-region highlight on the `Extrude Along Normals` menu row. Positive-green colorway (`#4ADE80` badge with `#0f1a14` text; Extrude Along Normals is an affirmative tool option, not a warning; the lesson copy emphasizes it as incredibly useful for organic shapes). Badge text locked as `ALONG NORMALS` (mirrors the menu row label per c10 `LOOPTOOLS` / c16 `AMOUNT` / c20 `BY DISTANCE` precedent). Locked geometry per c46 / c10 / c16 / c20 precedent: ellipse highlight `fill="none" stroke="#4ADE80" stroke-width="4"`; leader line `stroke="#4ADE80" stroke-width="3" stroke-linecap="round"`; marker `r="6" fill="#4ADE80"` 7 px from badge edge; badge rect `rx="6" fill="#4ADE80"` height 46; badge text `font-size="22" font-weight="700" fill="#0f1a14" letter-spacing="2"` reading `ALONG NORMALS`. Exact pixel coords resolved at Phase 4 INTEGRATION plan-lock via Pillow scan (brighter-pixel band for the hovered row, similar to the c16 Select Similar menu scan and c20 By Distance row scan). Fallback target if the Alt+E menu capture composition disfavors the Along Normals row: `Extrude Individual Faces` row (the row immediately below), positive-green colorway, badge text `INDIVIDUAL FACES`. Final target chosen at Phase 4 INTEGRATION plan-lock once the captured PNG is in hand.
+
+### ID prefix registry update (Phase 4)
+
+- **PNG overlay ids added (2):** `c45` (#45 Transform constraint indicators, positive-green badge `ALONG Z`), `c49` (#49 Extrude menu Alt+E, positive-green badge `ALONG NORMALS`). No collisions with Phase 1 (`c2`, `c3`, `c46`), Phase 2 (`c10`, `c13`, `c14`, `c15`, `c16`), Phase 3 (`c20`, `c23`), or future-phase reserved (`c28`, `c30`, `c43`).
+- **No SVG ids added.** Phase 4 has no SVGs per the locked Option L phase plan (SVGs concentrated in Phases 1 / 2 / 3 at #8 `pf`, #44 `sr`, #21 `dd`).
+
+Phase 4 introduces two new positive-green PNG overlays (`c45`, `c49`); no warning-red overlays this phase. Cumulative Lesson 06 PNG overlay badge tally after Phase 4 PRODUCTION close: 8 positive-green (`c2`, `c3`, `c46`, `c10`, `c16`, `c20`, `c45`, `c49`) + 1 warning-red (`c23`) + 3 decorative-shape-only (`c13`, `c14`, `c15`).
+
+### Execution cadence (sub-chats A and B)
+
+- `Filesystem:edit_file` with `dryRun=true` first, then commit with `dryRun=false`, then `Filesystem:get_file_info` to verify after every commit (applies to doc updates at each sub-chat close; image production uses BlenderMCP / manual Win+Shift+S paths instead)
+- WSL `\\wsl$\Ubuntu\` paths only
+- No new em-dashes in figcaptions, alt text (both locked at Phase 4 INTEGRATION plan-lock chat, not at PRODUCTION), status bullets, or any other new prose; middle-dot (`·`) for separation
+- BlenderMCP: lowercase `blender:execute_blender_code`, NO `read_factory_settings`, EEVEE_NEXT -> EEVEE fallback, `temp_override` for OpenGL renders, full-window `bpy.ops.screen.screenshot` available if needed
+- Locked op-name corrections to carry forward: `bpy.ops.mesh.inset` (not `inset_faces`), `bpy.ops.mesh.delete(type='FACE')` singular not plural, `bmesh.ops.bisect_plane` over `bpy.ops.mesh.bisect`; Phase 4 Extrude family op-name verification at execution per the per-image specs above for `extrude_region_move`, `extrude_region_shrink_fatten`, `extrude_faces_indiv` (log any 5.1.1-specific param signature deviations in Status bullets)
+- **Avoid `bpy.ops.ed.undo()` inside `temp_override` blocks** per the Phase 3 sub-chat A locked connection-drop discovery; prefer recreate clauses for state rewind between panels (#25 panel 2 setup explicitly uses recreate; #24 / #27 build incrementally so no rewind needed; #26 single-pose so no rewind needed)
+- Pillow 12.2.0 path for composites (#24 3-panel, #25 2-panel, #27 4-panel; #26 single-pose so no composite); temp files named `_temp_lesson_06_NN_pN.png` and removed via `os.remove` after composite
+- Phase 4 fresh scene reset at sub-chat A start per the Step 0 script above (delete L06_NormalsMonkey / L06_FillCube + defensive L06\_\* sweep)
+- Update Placement table row state per image as each capture lands (`not captured; not integrated` -> `captured; not integrated`)
+- Append Status section bullet at each sub-chat close
+- Rewrite `session.md` at sub-chat B close (Phase 4 PRODUCTION close) to point at Phase 4 INTEGRATION plan-lock; `session.md` not rewritten at sub-chat A close unless sub-chat B is meaningfully delayed
+- Warn Ray before context tightens within an execution sub-chat
+- MCP server hang recovery armed per the locked rule (4-min timeout boundary -> check file size with `Filesystem:get_file_info` before retrying; the c2 multi-callout commit precedent applies to any future heavy-content commit)
+
+### Phase 4 PRODUCTION close criterion
+
+All 6 Phase 4 images on disk in `images/`:
+
+- 4 PNGs from sub-chat A: #24, #25, #26, #27
+- 2 PNGs from sub-chat B: #45, #49
+
+Placement table rows #24, #25, #26, #27, #45, #49 flipped to `captured; not integrated`. Status section gets close bullets for both sub-chats (or one combined A+B bullet if both close in the same chat). Rewrite `session.md` at sub-chat B close to point at Phase 4 INTEGRATION plan-lock as the next chat.
+
+Plan-lock close criterion: all 6 capture specs, scene configs, view rotations, output filenames, and overlay deferrals (c45 / c49) locked in writing before any production work. Met by this section.
+
+---
+
+## Phase 4 INTEGRATION plan
+
+Locked 2026-05-23 during the Phase 4 INTEGRATION plan-lock chat. 6 image insertions into `lesson_06_edit_mode_essentials.html` `#extrude-operations` section across 1 execution sub-chat (with fallback split point if the chat tightens). Each entry below carries a precise `oldText` anchor for `Filesystem:edit_file`; the figure block inserts at a marked position inside the anchor and the rest passes through.
+
+**PART 06 indentation depth verified:** `#extrude-operations` uses 0/4/8-space depth, matching `#proportional-editing` from Phase 1 sub-chat 2, `#loop-tools` / `#advanced-selection` / `#selection-tools` from Phase 2, and `#inset-outset` / `#mesh-cleanup` from Phase 3. All 6 Phase 4 figures sit at section level (not inside cards), so all 6 use the default-depth variant only: figure col 4, img and figcaption at col 8, overlay svg at col 12. No deeper-indent variant needed this phase.
+
+### Sub-chat split
+
+- **Sub-chat 1 (single sub-chat)** · `#extrude-operations` section. All 6 images: #24 plain (3844x720, no overlay), #45 with c45 full callout (1920x1080 viewBox, positive-green, badge `ALONG Z`), #25 with **new c25 composite-overlay** (2562x720 viewBox, two positive-green panel badges `REGULAR` and `ALONG NORMALS`; added at this plan-lock per the locked rule that overlays may be added at INTEGRATION if a PNG turns out to need a callout), #26 plain (1280x720, no overlay), #27 plain (5126x720, no overlay), #49 with c49 full callout (922x396 viewBox, positive-green, badge `ALONG NORMALS`). All at 0/4/8 indentation depth, default section-level figure placement (col 4). Estimated HTML byte delta similar to Phase 3 INTEGRATION sub-chat 2 (+17 KB) since Phase 4 has 6 figures vs sub-chat 2's 5 figures with one inline SVG; the 3 Phase 4 overlays (c45, c25, c49) are simpler than Phase 3's c20+c23+inline-#21 combo, so net should land closer to +13-15 KB.
+- **Fallback split point** if sub-chat 1 tightens mid-execution: split into **4a** (#27 + #26 + #25 with c25 composite-overlay) and **4b** (#49 + #45 with c45 + #24). The split-point boundary lands cleanly between bottom-half mesh-construction figures (4a) and top-half UI / menu figures (4b), and each half carries one of the two single-region overlays.
+
+### Bottom-up execution order
+
+**Corrected from session.md proposed order.** The session.md proposed `#49 → #27 → #26 → #25 → #45 → #24` was derived from reverse placement-table row order, but placement-table rows in the progress doc are not sorted by document position. Actual document positions in the locked `#extrude-operations` slice (absolute line numbers in `lesson_06_edit_mode_essentials.html`):
+
+| Figure | Insertion line (absolute) |
+| ------ | ------------------------- |
+| #24    | line 2132                 |
+| #45    | line 2193                 |
+| #49    | line 2204                 |
+| #25    | line 2219                 |
+| #26    | line 2250                 |
+| #27    | line 2282                 |
+
+True bottom-up order (latest in document first, preserves earlier anchors): **`#27 → #26 → #25 → #49 → #45 → #24`**. This is the locked execution order for sub-chat 1.
+
+If the fallback 4a + 4b split is invoked, each half retains bottom-up order within itself: **4a: #27 → #26 → #25**; **4b: #49 → #45 → #24**.
+
+### c45 overlay coords (locked at this plan-lock via Pillow blue-pixel band scan)
+
+Positive-green `ALONG Z` callout on the blue Z-axis transform constraint line. viewBox `0 0 1920 1080` matching the source PNG dimensions. Single highlight + leader + badge per the locked PNG annotation overlay component snippet (style guide v4) and the c46 / c10 / c16 / c20 precedent.
+
+Pillow scan results: the dominant central blue-pixel column sits at exactly x=922 with 1043 blue pixels spanning the full image height y=0..1079 (1px-wide constraint line, with surrounding tower-mesh blue tint at x=920-921 from the same blue Z-color bleeding into the modal-move face shading). The constraint line's clearest segment is between the floating `D: 0.7893 m (0.7893 m) along global Z` coord readout (bounding box x=778-1069 / y=15-25) and the cube top tip at y=189. The right-side viewport gizmo widget sits at x=1803-1853 / y=103-132, leaving the upper-right zone x=1100-1500 / y=80-180 completely clear for badge placement.
+
+| element        | locked coords                                                                            |
+| -------------- | ---------------------------------------------------------------------------------------- |
+| ellipse        | cx=922 cy=110 rx=18 ry=70 (wraps constraint-line segment y=40..180 below the coord pill) |
+| ellipse stroke | `#4ADE80` width 4 fill `none`                                                            |
+| leader         | from ellipse east anchor (940, 110) straight right to marker (1173, 110)                 |
+| leader stroke  | `#4ADE80` width 3 linecap round                                                          |
+| marker         | (1173, 110) r=6 fill `#4ADE80` (7 px left of badge left edge at x=1180)                  |
+| badge rect     | x=1180 y=87 width 150 height 46 rx=6 fill `#4ADE80` (centered at cx=1255 cy=110)         |
+| badge text     | `ALONG Z` at (1255, 118) font-size 22 weight 700 letter-spacing 2 fill `#0f1a14`         |
+
+Leader-path clearance verified: the straight horizontal leader at y=110 runs from x=940 to x=1173 across empty viewport background, below the coord readout (y=15-25) and above the cube top (y=189). Badge zone x=1180-1330 / y=87-133 is entirely clear of the coord readout (max x=1069) and the right-edge gizmo (min x=1803). Badge width 150 carries the 7-character `ALONG Z` string at letter-spacing 2 comfortably, matching the c23 `FLIPPED` 7-char precedent at the same width.
+
+### c49 overlay coords (locked at this plan-lock via Pillow brighter-pixel band scan)
+
+Positive-green `ALONG NORMALS` callout on the hovered `Extrude Faces Along Normals` row of the Alt+E special extrude popover. viewBox `0 0 922 396` matching the source PNG dimensions. Single highlight + leader + badge per the c46 / c10 / c16 / c20 / c45 precedent.
+
+Pillow scan results: the hover-highlight band sits at y=138-178 (40 px tall, bg rgb 63,63,63 vs the menu's normal bg rgb 24,24,24), horizontal extent x=30-459 (full menu interior width). The hovered row text `Extrude Faces Along Normals` spans approximately x=30-340 within the band. The floating tooltip `Extrude region together along local normals.` sits at y=215-260 / x=460-870, comfortably below the planned upper-right badge zone.
+
+| element        | locked coords                                                                          |
+| -------------- | -------------------------------------------------------------------------------------- |
+| ellipse        | cx=245 cy=158 rx=215 ry=24 (wraps hover band y=138..178 with x-padding around text)    |
+| ellipse stroke | `#4ADE80` width 4 fill `none`                                                          |
+| leader         | from ellipse east anchor (460, 158) up-right to marker (613, 110)                      |
+| leader stroke  | `#4ADE80` width 3 linecap round                                                        |
+| marker         | (613, 110) r=6 fill `#4ADE80` (7 px left of badge left edge at x=620)                  |
+| badge rect     | x=620 y=87 width 240 height 46 rx=6 fill `#4ADE80` (centered at cx=740 cy=110)         |
+| badge text     | `ALONG NORMALS` at (740, 118) font-size 22 weight 700 letter-spacing 2 fill `#0f1a14`  |
+
+Leader-path clearance verified: the leader from (460, 158) up-right to (613, 110) exits the menu at x=460 (just outside the menu right edge at x=459) and runs diagonally up across empty viewport background. Badge zone x=620-860 / y=87-133 is well above the floating tooltip (min y=215). Badge width 240 carries the 13-character `ALONG NORMALS` string at letter-spacing 2 with comfortable side padding. 922 px image width is just above the 720 px thin-strip-variant threshold from c3, so standard-size callout geometry applies; the row's 40 px highlight band height accommodates the 48 px ellipse comfortably without visual crowding.
+
+### c25 composite-overlay coords (NEW; locked at this plan-lock via visual review)
+
+Positive-green per-panel labels on the 2-panel #25 composite to disambiguate the subtle visual contrast between regular extrude and extrude along normals (both panels show a +X-side bulge on the UV sphere at the captured camera angle; without labels the pedagogical contrast is not legible at thumbnail scale). viewBox `0 0 2562 720` matching the source PNG dimensions. Two centered badges near the bottom edge per the composite-overlay variant in style guide v4 locked decision (no highlight ellipses, no leader lines, no markers; just one centered badge per panel).
+
+Panel boundaries (from Phase 4 PRODUCTION composite spec, 2 panels x 1280 + 1 x 2 px divider): panel 1 spans x=0..1280 (center cx=640), panel 2 spans x=1282..2562 (center cx=1922). Both badges sit at y=644 (top) with height 46 so the bottom edge at y=690 leaves 30 px margin to the image bottom edge at y=720.
+
+| element                | locked coords                                                                                |
+| ---------------------- | -------------------------------------------------------------------------------------------- |
+| panel 1 badge rect     | x=500 y=644 width 280 height 46 rx=6 fill `#4ADE80` (centered at cx=640 in panel 1)          |
+| panel 1 badge text     | `REGULAR` at (640, 675) font-size 22 weight 700 letter-spacing 2 fill `#0f1a14`              |
+| panel 2 badge rect     | x=1782 y=644 width 280 height 46 rx=6 fill `#4ADE80` (centered at cx=1922 in panel 2)        |
+| panel 2 badge text     | `ALONG NORMALS` at (1922, 675) font-size 22 weight 700 letter-spacing 2 fill `#0f1a14`       |
+
+Both badges use width 280 for visual symmetry across the composite even though `REGULAR` (7 chars) is shorter than `ALONG NORMALS` (13 chars); the shorter label sits within a slightly more padded badge but the matched widths preserve the side-by-side comparison rhythm. Y-position y=644 places the badges in the lower-third of each panel, against the sphere's lower meridian and the floor grid background where viewport content is darkest and the green badges read with strongest contrast.
+
+### Per-image specs
+
+#### #27 · `lesson_06_27_extrude_scale_technique.png` · `#extrude-operations` · plain figure, col 4/8
+
+**oldText anchor:**
+
+```
+            <li><strong>Horns/spikes:</strong> Extrude, scale down aggressively = sharp spike</li>
+        </ul>
+    </div>
+
+    <h3>Extrude and Rotate: Creating Curves</h3>
+```
+
+Figure inserts between the Common Extrude-Scale Patterns card `</div>` (line 3 of the anchor) and the `<h3>Extrude and Rotate</h3>` (line 5).
+
+**alt:** Four-panel horizontal composite showing the extrude-and-scale workflow building a tapered tower from a cube. Panel 1: base cube with the top face selected. Panel 2: same cube after extruding the top face up 0.8 m, creating a tall single block. Panel 3: top face scaled to 0.7 on X and Y while Z is locked, producing the first taper. Panel 4: a second extrude-and-scale iteration adds a second tier above the first taper. 2 px Blender-orange vertical dividers separate the panels.
+
+**figcaption:** Extrude then scale, then extrude then scale again · this loop is the workhorse for tapered towers, tree trunks, bottle necks, and any silhouette that steps narrower as it grows.
+
+#### #26 · `lesson_06_26_extrude_individual_faces.png` · `#extrude-operations` · plain figure, col 4/8
+
+**oldText anchor** (extended to 6 lines for uniqueness across the full HTML; the bare `</tbody> </table> <blockquote>` pattern hit 4 occurrences):
+
+```
+                <td>Organic shapes, curved surfaces, consistent thickness</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <blockquote>
+```
+
+Figure inserts between the Extrude Individual vs Group table `</table>` (line 4) and the `<blockquote>` (line 6).
+
+**alt:** Subdivided 4 by 4 plane in Edit Mode after Extrude Individual Faces lifted all 16 quads up 0.5 m each. The grid of 16 separate pillars stands with visible vertical gaps between every pillar, since every face was extruded as its own independent piece rather than as one connected unit.
+
+**figcaption:** Extrude Individual Faces breaks each selected face out as its own piece · use this to grow a field of pillars, spikes, or detail studs from a subdivided base in one keystroke.
+
+#### #25 · `lesson_06_25_extrude_normals_vs_regular.png` · `#extrude-operations` · figure with c25 composite-overlay (NEW), col 4/8
+
+**oldText anchor:**
+
+```
+        style E fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    </div>
+
+    <table>
+```
+
+Figure inserts between the Extrude Individual vs Group mermaid `</div>` (line 2 of the anchor) and the `<table>` (line 4).
+
+**alt:** Two-panel horizontal composite contrasting regular extrude with extrude along normals on a UV sphere. Left panel labeled `REGULAR`: eight contiguous equatorial faces extruded together along the global X axis form a flat block-like bulge on one side of the sphere. Right panel labeled `ALONG NORMALS`: the same eight-face band extruded along normals produces a radial bulge in which each face moves perpendicular to its own surface. A 2 px Blender-orange vertical divider separates the panels and positive-green pill badges at the bottom of each panel name the extrude mode.
+
+**figcaption:** Regular extrude moves all selected faces together along a single direction · Extrude Along Normals fans each face out along its own normal, which is the right choice for adding thickness to curved or organic surfaces.
+
+**c25 overlay markup pattern** (full inline SVG body locked at this plan-lock; per-id `c25-*` prefix; coords per the c25 composite-overlay coords table above).
+
+#### #49 · `lesson_06_49_extrude_menu_alt_e.png` · `#extrude-operations` · figure with c49 full callout, col 4/8
+
+**oldText anchor:**
+
+```
+        <p><em>Extrude Along Normals is incredibly useful for organic shapes!</em></p>
+    </div>
+
+    <h3>Extrude Individual vs. Group</h3>
+```
+
+Figure inserts between the Pro Tip Extrude Along Normals card `</div>` (line 2 of the anchor) and the `<h3>Extrude Individual vs. Group</h3>` (line 4).
+
+**alt:** Alt+E Extrude special popover in Edit Mode listing Extrude Faces, Extrude Faces Along Normals, Extrude Individual Faces, Extrude Manifold, Extrude Repeat, and Spin. The Extrude Faces Along Normals row carries the active hover highlight as a brighter background band, and a bonus Blender tooltip reading `Extrude region together along local normals.` floats to the right of the row. A positive-green pill labeled ALONG NORMALS marks the hovered row.
+
+**figcaption:** Press Alt+E to open the Extrude special menu · this is the only place to reach Extrude Faces Along Normals · Extrude Individual Faces · Extrude Manifold · and Extrude Repeat directly from the keyboard.
+
+**c49 overlay markup pattern** (full inline SVG body locked at this plan-lock; per-id `c49-*` prefix; coords per the c49 overlay coords table above).
+
+**Menu-item-count note for figcaption / alt text drafting:** the actual Blender 5.1.1 menu shows 6 items (Extrude Faces, Extrude Faces Along Normals, Extrude Individual Faces, **Extrude Manifold**, Extrude Repeat, Spin), one more than the locked Phase 4 PRODUCTION 5-option spec. The figcaption deliberately lists the 4 options that the lesson HTML body card already mentions (Extrude Along Normals, Extrude Individual, Extrude Repeat, and adds Manifold for completeness with what is visible in the PNG); the alt text enumerates all 6 visible items.
+
+#### #45 · `lesson_06_45_transform_constraint_indicators.png` · `#extrude-operations` · figure with c45 full callout, col 4/8
+
+**oldText anchor:**
+
+```
+        <p><strong>Example:</strong> <kbd>E</kbd>, <kbd>Z</kbd>, <kbd>2</kbd>, <kbd>Enter</kbd> = Extrude exactly 2 units up on Z-axis!</p>
+    </div>
+
+    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+```
+
+Figure inserts between the Extrude Along Axes card `</div>` (line 2 of the anchor) and the next `<div class="card">` opening the Pro Tip Extrude Along Normals card (line 4).
+
+**alt:** Blender 3D viewport during a live G Z move on the L06_ExtrudeTower mesh in Edit Mode. The blue vertical line is the global Z-axis constraint indicator running through the tower center, the tower faces show the modal-operator blue tint, and the dark pill at top reads `D: 0.7893 m (0.7893 m) along global Z` for the active translation. A positive-green pill labeled ALONG Z marks the constraint line.
+
+**figcaption:** Press G then X · Y · or Z to lock a translation to a single global axis · the colored constraint line and the floating coord readout confirm the direction and the distance traveled.
+
+**c45 overlay markup pattern** (full inline SVG body locked at this plan-lock; per-id `c45-*` prefix; coords per the c45 overlay coords table above).
+
+#### #24 · `lesson_06_24_extrude_operation_sequence.png` · `#extrude-operations` · plain figure, col 4/8
+
+**oldText anchor:**
+
+```
+        <p><strong>Quick tip:</strong> After pressing <kbd>E</kbd>, you can type a number for exact distance!</p>
+    </div>
+
+    <div class="mermaid">
+        graph LR
+```
+
+Figure inserts between the Basic Extrude Operation card `</div>` (line 2 of the anchor) and the `<div class="mermaid">` opening the LR-flow extrude diagram (line 4).
+
+**alt:** Three-panel horizontal composite showing the basic extrude operation on a cube in Edit Mode. Left panel: cube in face select with the top face selected, no extrude yet. Middle panel: same cube after a partial extrude that pushed the top face up 0.4 m, with new connecting side walls forming below the lifted face. Right panel: same cube after an additional translation reached a total height gain of 1.2 m, the new top face still selected. 2 px Blender-orange vertical dividers separate the panels.
+
+**figcaption:** Press E to extrude the selected face, then move the mouse or type a distance · the new face stays connected to the original by fresh side walls that fill the gap automatically.
+
+### ID prefix registry update (Phase 4 INTEGRATION)
+
+- **PNG overlay ids added at INTEGRATION (1 NEW beyond the Phase 4 PRODUCTION plan registry):** `c25` (#25 Extrude normals vs regular, composite-overlay variant with two positive-green panel badges `REGULAR` and `ALONG NORMALS`). Added per the locked rule that overlays may be added at INTEGRATION if a PNG turns out to need a callout, after this plan-lock's visual review showed both panels reading too similarly without labels. No collisions with existing Phase 1-4 PRODUCTION-registered prefixes (`c2`, `c3`, `c46`, `c10`, `c13`, `c14`, `c15`, `c16`, `c20`, `c23`, `c45`, `c49`) or future-phase reserved (`c28`, `c30`, `c43`).
+- **No SVG ids added at INTEGRATION.** Phase 4 has no SVGs per the locked Option L phase plan.
+
+Cumulative Lesson 06 PNG overlay tally after Phase 4 INTEGRATION close: 9 positive-green full-callouts (`c2`, `c3`, `c46`, `c10`, `c16`, `c20`, `c45`, `c49`) + 1 positive-green composite-overlay (`c25`) + 1 warning-red full-callout (`c23`) + 3 decorative-shape-only (`c13`, `c14`, `c15`). 14 PNG overlays total across the integrated set.
+
+### Execution cadence (sub-chat 1)
+
+- `Filesystem:edit_file` with `dryRun=true` first, then commit with `dryRun=false`, then `Filesystem:get_file_info` to verify after every commit
+- WSL `\\wsl$\Ubuntu\` paths only
+- Bottom-up execution order within the sub-chat: `#27 → #26 → #25 → #49 → #45 → #24`
+- No new em-dashes in figcaptions, alt text, status bullets, or any other new prose; middle-dot (`·`) for separation; pre-existing en-dashes in source content preserved verbatim through edit anchors
+- Multi-edit `Filesystem:edit_file` calls with 3+ edits and long content avoided per the locked serialization-truncation workaround; one edit per figure (6 edits total), each as a single dry-run-then-commit pair; short multi-edit batches (2 edits with short content) still acceptable for doc updates per the Phase 4 PRODUCTION sub-chat B placement-table-flip precedent
+- After all 6 figure inserts complete, perform doc updates: flip placement-table rows #24 / #25 / #26 / #27 / #45 / #49 from `captured; not integrated` to `integrated`; append Status section close bullet (single edit, long content); rewrite bottom-of-doc Next chat section pointing at Phase 5 PRODUCTION plan-lock (single edit, long content); rewrite `session.md` to point at same
+- Update the ID prefix registry section of the progress doc to add `c25` to the PNG overlay ids planned subset (and bump the count from 12 to 13)
+- MCP server hang recovery armed per the locked rule (4-min timeout boundary → `Filesystem:get_file_info` size check before retry; applies to any heavy-content commit, particularly the #25 c25 composite-overlay and the #45 / #49 callout commits which carry the largest inline-SVG blocks)
+- Warn Ray before context tightens; if the fallback 4a + 4b split is invoked, close 4a with all doc updates that reflect 4a-only progress (3 placement-table flips, partial Status bullet) and open 4b in a fresh chat
+- Append Status section bullet at sub-chat 1 close (or 4a / 4b close if split invoked)
+
+### Phase 4 INTEGRATION close criterion
+
+All 6 Phase 4 figures integrated into `lesson_06_edit_mode_essentials.html` `#extrude-operations` section with the locked anchors, alt text, figcaptions, and overlay markup. Placement-table rows #24 / #25 / #26 / #27 / #45 / #49 all flipped to `integrated`. Status section close bullet documents the integration with per-figure HTML byte deltas and any execution deviations from this plan. Bottom-of-doc Next chat section repointed at Phase 5 PRODUCTION plan-lock. `session.md` rewritten to point at same.
+
+Plan-lock close criterion: new `Phase 4 INTEGRATION plan` section written into this doc between `Phase 4 PRODUCTION plan` and `Locked rules`; sub-chat split locked as 1 sub-chat with 4a / 4b fallback; per-figure anchor candidates locked; c45 / c49 / c25 overlay specs locked with Pillow-scanned and visually-reviewed coords. Status bullet appended documenting plan-lock details. Next chat section repointed at Phase 4 INTEGRATION sub-chat 1 execution. `session.md` rewritten to point at same. Met by this section.
+
+---
+
+## Phase 5 PRODUCTION plan
+
+Locked 2026-05-23 during the Phase 5 PRODUCTION plan-lock chat. 8 image productions split across 2 execution sub-chats (5 BlenderMCP + 3 manual Win+Shift+S) following the Phase 3 / Phase 4 PRODUCTION precedent of scripted-vs-manual split. Each entry below carries scene config, view rotation, capture method, output filename, and overlay deferral (where applicable). Phase 5 fresh scene reset applies at sub-chat A start: delete `L06_ExtrudeCube` / `L06_ExtrudeSphere` / `L06_ExtrudeGrid` / `L06_ExtrudeTower` and any other `L06_*` leftovers from Phase 4 PRODUCTION before building Phase 5 scenes. No Step 0 add-on check needed for Phase 5 (Array Modifier, Spin operation, Screw Modifier, Knife Tool, and Knife Project are all bundled `bpy.ops.mesh` / `bpy.ops.object` ops or built-in modifier types; no Extensions Platform install required).
+
+Phase 5 covers 3 HTML sections (`#duplicate-array` · `#spin-screw` · `#knife-tool`) and ships zero SVGs · all 8 images are PNG. Priority split per `lesson_06_image_requirements.md` Production Priority section: 0 High · 1 Medium (#31 Spin vase creation, listed as "Dramatic transformation showing rotational modeling") · 7 Low (#28 / #29 / #30 / #32 / #33 / #34 / #35). Two PNG overlays are already reserved in the ID prefix registry from initial planning (`c28` Array Modifier panel multi-label, `c30` Spin Operation setup multi-label); both overlay specs and pixel coords are deferred to Phase 5 INTEGRATION plan-lock per the c2 / c3 / c25 precedent of multi-label overlays sized after the source PNG is in hand.
+
+### Sub-chat split
+
+- **Sub-chat A** · All BlenderMCP work. 5 final PNGs plus 2 cross-sub-chat temp files for #35: #28 Array Modifier panel (full-window screenshot via `bpy.ops.screen.screenshot` after Properties area is set to Modifiers tab with Array Modifier on the cylinder), #29 Array Modifier result (1280x720 OpenGL viewport render), #30 Spin Operation setup (1280x720 OpenGL render in side ortho with 3D cursor visible at origin), #31 Spin vase creation (2-panel 2562x720 Pillow composite, panel 1 side ortho profile + panel 2 user-perspective wireframe of full vase), #32 Screw Modifier spring (1280x720 OpenGL render). Plus `_temp_lesson_06_35_p1.png` (circle over surface, 1280x720) and `_temp_lesson_06_35_p3.png` (knife project result, 1280x720) retained on disk for sub-chat B's #35 cross-sub-chat composite. Fresh scene reset as Step 0. Scene rebuilds: cylinder for #28 / #29 → vase profile for #30 / #31 → screw circle for #32 → plane + circle for #35 panels 1 + 3. Per-image rebuilds preferable to maintaining all 5 `L06_*` sets simultaneously; only the #28 → #29 transition reuses the same `L06_ArrayCylinder` (view rotation flip only, no rebuild) since both images share the array setup.
+- **Sub-chat B** · All non-scripted work. 3 final PNGs: #33 Knife Tool active interface (single manual snip of live knife modal operation), #34 Knife Tool constraint modes (3 manual snips composited 3844x720 via Pillow within sub-chat B), #35 Knife Project operation (1 manual snip of Mesh menu open composited with the 2 sub-chat A temps via Pillow at 3844x720). Sub-chat B begins with a verify-temps step (`Filesystem:get_file_info` on `_temp_lesson_06_35_p1.png` and `_temp_lesson_06_35_p3.png`) before Ray's manual captures land; if either temp is missing, recapture via the sub-chat A scene-build path before proceeding.
+
+If sub-chat A tightens after 3-4 captures land, split into **A1** (#28 + #29 + #30, no composites, single-pose viewport renders + 1 full-window screenshot) and **A2** (#31 + #32 + #35 panels 1+3, composites and cross-sub-chat temps). Sub-chat B should comfortably fit one chat since all 3 manual captures are small-to-medium (knife modal viewport snips and Mesh menu popovers are typically 1500-1900 px wide x 800-1100 tall, similar to #45 / #49 manual capture sizes).
+
+### Step 0 (sub-chat A only) · Fresh scene reset
+
+Before any Phase 5 capture work, clean the scene of `L06_*` leftovers from Phase 4 PRODUCTION sub-chat A:
+
+```python
+import bpy
+to_delete = ["L06_ExtrudeCube", "L06_ExtrudeSphere", "L06_ExtrudeGrid", "L06_ExtrudeTower"]
+for name in to_delete:
+    obj = bpy.data.objects.get(name)
+    if obj is not None:
+        bpy.data.objects.remove(obj, do_unlink=True)
+        print(f"Removed: {name}")
+    else:
+        print(f"Not present: {name}")
+
+# Defensive sweep for any other L06_* survivors
+for obj in list(bpy.data.objects):
+    if obj.name.startswith("L06_"):
+        bpy.data.objects.remove(obj, do_unlink=True)
+        print(f"Swept: {obj.name}")
+```
+
+New `L06_*` object names introduced this phase: `L06_ArrayCylinder` (#28 + #29), `L06_SpinProfile` (#30 + #31), `L06_ScrewCircle` (#32), `L06_KnifeProjectPlane` and `L06_KnifeProjectCircle` (#35 panels 1 + 3). Per-image scenes built fresh per the specs below; the one in-place transition is #28 → #29 (same `L06_ArrayCylinder` + Array Modifier setup, view rotation flip only). All other transitions (#29 → #30, #30/#31 → #32, #32 → #35 panels) are full rebuilds with explicit delete of the prior phase object before the next scene build.
+
+### Per-image specs · sub-chat A (5 BlenderMCP captures + 2 cross-sub-chat temp files)
+
+#### #28 · `lesson_06_28_array_modifier_panel.png`
+
+- **Type:** PNG, full-window Blender screenshot, target ~1920x1080 (varies by Blender window state), `c28` overlay planned at INTEGRATION (multi-label)
+- **Capture path:** BlenderMCP `bpy.ops.screen.screenshot` of full Blender window after Properties area is set to Modifiers tab with the Array Modifier added and expanded; #2 precedent for `bpy.ops.screen.screenshot` full-window path with `temp_override`
+- **Scene setup:** Add a Cylinder primitive (default 32 vertices, radius 0.5, depth 2) named `L06_ArrayCylinder` at origin. Apply Array Modifier via `cylinder.modifiers.new(name="Array", type='ARRAY')`. Set `mod.count = 10`, `mod.use_relative_offset = True`, `mod.relative_offset_displace[0] = 1.5`, `mod.relative_offset_displace[1] = 0.0`, `mod.relative_offset_displace[2] = 0.0` (10 copies offset 1.5 cylinder-widths along world X). Set Properties editor context to Modifiers tab: find the Properties area (`area.type == 'PROPERTIES'`) and set `area.spaces.active.context = 'MODIFIER'`. Confirm Array Modifier panel is expanded at capture time.
+- **View setup:** 3D viewport set to user-perspective `Euler((radians(63.6), 0, radians(-46.7)))`, view_distance 7.5 to fit the full 10-cylinder array within the viewport region, view_location centered at the array midpoint (~X=6.75, Y=0, Z=0).
+- **Capture:** `bpy.ops.screen.screenshot(filepath="...")` with full-window context override (no area filter) to grab the entire Blender window including the right-side Properties panel with Modifier panel visible alongside the viewport showing the array result.
+- **Render config:** EEVEE_NEXT -> EEVEE fallback per locked rule. Theme: vertex_size=5, edge_width=2. Overlays: axes ON, floor ON, cursor OFF, origins OFF.
+- **Output:** `lesson_06_28_array_modifier_panel.png` at full-window dimensions (typically 1920x1080 or close per the #2 precedent at this window state).
+- **Op-name verify at execution:** Properties editor context enum value (`'MODIFIER'` uppercase confirmed against Blender 5.x; if assignment raises `TypeError: bpy_struct: item.attr = val: enum "MODIFIER" not found` then try `'MODIFIERS'` plural or query `area.spaces.active.context_pin` setup paths). Log the working enum value in the Status bullet at sub-chat A close.
+- **c28 overlay (deferred to INTEGRATION):** Multi-label callouts on Array Modifier panel settings. Likely targets per AI prompt: `Count` slider, `Relative Offset X/Y/Z` fields, `Constant Offset` option, `Merge` checkbox. Positive-green colorway (`#4ADE80` badges with `#0f1a14` text). Final target set chosen at Phase 5 INTEGRATION plan-lock once the captured PNG is in hand; pixel coords resolved via Pillow scan of the Properties panel area.
+
+#### #29 · `lesson_06_29_array_modifier_result.png`
+
+- **Type:** PNG, single-pose viewport render, 1280x720, no overlay planned
+- **Capture path:** BlenderMCP OpenGL viewport render of the same `L06_ArrayCylinder` from #28
+- **Scene setup:** Reuse `L06_ArrayCylinder` from #28 with the same Array Modifier settings (10 copies, 1.5x relative offset along X). No new geometry, no scene rebuild between #28 and #29. Restore Properties area context to default (`OBJECT` or `RENDER`) so the viewport gets full real estate for the OpenGL render path; alternatively just leave Properties in `MODIFIER` since OpenGL viewport render captures only the 3D viewport area, not the Properties panel.
+- **View setup:** Same user-perspective `Euler((radians(63.6), 0, radians(-46.7)))` and view_distance 7.5 as #28; view_location centered at the array midpoint to frame all 10 cylinders.
+- **Render config:** EEVEE_NEXT -> EEVEE fallback, viewport SOLID shading, theme as #28, overlays axes ON floor ON cursor OFF origins OFF outline_selected OFF.
+- **Output:** `lesson_06_29_array_modifier_result.png` (1280x720).
+
+#### #30 · `lesson_06_30_spin_operation_setup.png`
+
+- **Type:** PNG, single-pose viewport render, 1280x720, `c30` overlay planned at INTEGRATION (multi-label)
+- **Capture path:** BlenderMCP OpenGL viewport render in side ortho view
+- **Scene setup:** Delete `L06_ArrayCylinder` from #28 / #29. Add a Plane primitive, enter Edit Mode, delete all faces, then build a vase profile using bmesh: create ~6 connected vertices in a profile arc from base (0.0, 0, 0.0) → bulge midpoint (~0.6, 0, 0.6) → narrow neck (~0.4, 0, 1.0) → flared lip (~0.5, 0, 1.4), connect adjacent verts with edges to form a single connected polyline profile in the XZ plane. Name the resulting object `L06_SpinProfile`. Select all verts/edges (orange highlight on the profile). Position 3D cursor at world origin via `bpy.context.scene.cursor.location = (0, 0, 0)`.
+- **View setup:** Side ortho view (looking down +Y axis with Z up; rotate viewport via `Euler((radians(90), 0, 0))` and switch to ORTHO projection). View_distance 3.0 to frame the profile + cursor + nearby Z axis line.
+- **Render config:** EEVEE_NEXT -> EEVEE fallback, viewport SOLID shading, theme as #28 but `vertex_size=5` `edge_width=3` (extra-bold edges for profile visibility). Overlays: axes ON (especially Z axis for visual spin reference), floor ON, **cursor ON** (the 3D cursor at origin is the pedagogical centerpiece), origins OFF, outline_selected OFF.
+- **Output:** `lesson_06_30_spin_operation_setup.png` (1280x720).
+- **c30 overlay (deferred to INTEGRATION):** Multi-label callouts. Likely 3 labels per AI prompt: `3D CURSOR` at the cursor location, `PROFILE EDGE` on the selected profile, `SPIN AXIS` on the implied vertical Z axis line. Positive-green colorway (`#4ADE80` badges, `#0f1a14` text). Final coords resolved at Phase 5 INTEGRATION plan-lock via Pillow scan after the source PNG is in hand.
+
+#### #31 · `lesson_06_31_spin_vase_creation.png`
+
+- **Type:** PNG, 2-panel horizontal composite, 2562x720, no overlay planned (the before-after contrast carries the message on its own)
+- **Capture path:** BlenderMCP per-panel OpenGL viewport render → PIL composite with 2 px `#FF6B00` vertical divider → temp files removed via `os.remove`
+- **Scene setup:** Reuse `L06_SpinProfile` from #30 in panel 1. For panel 2, apply `bpy.ops.mesh.spin(steps=24, dupli=False, angle=2*pi, center=(0,0,0), axis=(0,0,1))` (24-step full 360° spin around the world Z axis at origin) to generate the rotational vase mesh; switch shading to WIREFRAME to expose the rotational topology rings.
+- **Panel 1:** Side ortho view of profile (same view setup as #30 but with **cursor OFF** for cleaner before/after contrast; the before panel emphasizes the profile, not the spin axis). Render to `_temp_lesson_06_31_p1.png` (1280x720).
+- **Panel 2:** Apply the spin op. Switch to user-perspective `Euler((radians(63.6), 0, radians(-46.7)))`, view_distance 4.5 to fit the full vase height. Switch viewport shading to WIREFRAME so the 24-segment rotational topology is visible as circular cross-section rings. Render to `_temp_lesson_06_31_p2.png` (1280x720).
+- **Render config:** EEVEE_NEXT -> EEVEE fallback (note: shading flip from SOLID to WIREFRAME between panels), theme as #28, overlays axes ON floor ON cursor OFF origins OFF outline_selected OFF.
+- **Op-name verify at execution:** `bpy.ops.mesh.spin` arg signature in Blender 5.1.1 (the canonical signature uses `steps`, `dupli`, `angle`, `center`, `axis`; some versions accept positional vs keyword variants). If the signature differs, the working alternative is `bpy.ops.mesh.spin(steps=24, angle=2*pi, axis=(0,0,1))` with minimum required args. Log the working signature in the Status bullet at sub-chat A close.
+- **Composite:** PIL 2562x720 (2 panels x 1280 + 1 x 2 px divider), output `lesson_06_31_spin_vase_creation.png`. Remove temps via `os.remove`.
+
+#### #32 · `lesson_06_32_screw_modifier_spring.png`
+
+- **Type:** PNG, single-pose viewport render, 1280x720, no overlay planned
+- **Capture path:** BlenderMCP OpenGL viewport render
+- **Scene setup:** Delete `L06_SpinProfile` from #30 / #31. Add a Circle primitive (8 vertices, radius 0.15, fill_type='NOTHING') named `L06_ScrewCircle` at origin. Rotate the circle 90° on world X via `obj.rotation_euler = (radians(90), 0, 0)` so the circle is vertical (perpendicular to the screw axis). Apply Screw Modifier via `circle.modifiers.new(name="Screw", type='SCREW')` with `mod.screw_offset = 0.5`, `mod.iterations = 5`, `mod.axis = 'Z'`, `mod.steps = 32`, `mod.render_steps = 32` (5 spiral rotations along Z producing a clear helical spring shape ~2.5 m tall).
+- **View setup:** User-perspective `Euler((radians(63.6), 0, radians(-46.7)))`, view_distance 6.0, view_location centered on the spring's vertical center (z~1.25 with 5 iterations × 0.5 offset = 2.5 m total spring height).
+- **Render config:** EEVEE_NEXT -> EEVEE fallback, viewport SOLID shading, theme as #28, overlays axes ON floor ON cursor OFF origins OFF outline_selected OFF.
+- **Output:** `lesson_06_32_screw_modifier_spring.png` (1280x720).
+
+#### #35 panels 1 + 3 (cross-sub-chat temp files)
+
+These two scripted panel renders land on disk in sub-chat A but DO NOT composite into a final image until sub-chat B captures the manual panel 2. Both panels persist as named temp files at sub-chat A close.
+
+- **Type:** PNG temp files, 1280x720 each, no overlay planned (the composite has no overlay either; per #29 / #32 precedent the workflow progression speaks for itself)
+- **Capture path:** BlenderMCP OpenGL viewport render per panel
+- **Scene setup:** Delete `L06_ScrewCircle` from #32. Add a Plane primitive (4 m × 4 m), enter Edit Mode, subdivide 3 cuts via `bpy.ops.mesh.subdivide(number_cuts=3)` to produce a 4 × 4 quad grid (the cut result reads more clearly on a subdivided plane than on a single quad), return to Object Mode. Name the plane `L06_KnifeProjectPlane`. Add a Circle primitive (radius 0.4, fill_type='NOTHING', 16 verts) at world position (0, 0, 1) (1 m above the plane). Name it `L06_KnifeProjectCircle`.
+- **Panel 1 setup:** Both objects in default state. Select `L06_KnifeProjectCircle` (orange outline) so the viewer's eye is drawn to the cutter. View user-perspective `Euler((radians(63.6), 0, radians(-46.7)))`, view_distance 6.0, view_location centered at (0, 0, 0.5) to frame both objects. Render to `_temp_lesson_06_35_p1.png` (1280x720). **Temp file retained on disk** for sub-chat B composite (no `os.remove` at sub-chat A close).
+- **Panel 3 setup:** With both objects still in the scene, do the knife-project sequence: in Object Mode, select `L06_KnifeProjectCircle` first then ctrl+click `L06_KnifeProjectPlane` to make the plane active (selection order matters for `knife_project`; the active object is the target, the other selected objects are the knives). Enter Edit Mode on the plane via `bpy.ops.object.mode_set(mode='EDIT')`. Select all on the plane via `bpy.ops.mesh.select_all(action='SELECT')`. Apply `bpy.ops.mesh.knife_project(cut_through=False)` to project the circle's edges onto the plane mesh. Return to Object Mode. Hide `L06_KnifeProjectCircle` (`obj.hide_viewport = True`) so panel 3 shows the plane alone with the circular edge pattern cut in. View user-perspective same as panel 1, view_distance 5.0, view_location centered on the plane (0, 0, 0). Render to `_temp_lesson_06_35_p3.png` (1280x720). **Temp file retained on disk** for sub-chat B composite.
+- **Op-name verify at execution:** `bpy.ops.mesh.knife_project` requires specific selection state setup; the locked sequence is "Object Mode → select cutter circle → ctrl+click target plane → Edit Mode on plane → select all → knife_project". If the op signature differs in 5.1.1 or rejects the selection state, log the working path in the Status bullet at sub-chat A close.
+- **Render config:** EEVEE_NEXT -> EEVEE fallback, viewport SOLID shading, theme as #28, overlays axes ON floor ON cursor OFF origins OFF outline_selected OFF (consistent across both panels so the only visible difference between p1 and p3 is the cut pattern on the plane).
+- **No composite in sub-chat A.** Both temps retained on disk pending sub-chat B's manual panel 2 capture and cross-sub-chat composite.
+
+### Per-image specs · sub-chat B (3 manual Win+Shift+S captures + #35 cross-sub-chat composite)
+
+#### #33 · `lesson_06_33_knife_tool_active.png`
+
+- **Type:** PNG, manual Win+Shift+S, no overlay planned
+- **Capture path:** Ray enters Edit Mode on any L06_* mesh (or default cube), presses K to activate Knife Tool, click-places 2-4 points along a partial cut line WITHOUT pressing Enter to confirm, then Win+Shift+S captures the viewport with the knife crosshair, placed dots, and in-progress cut line visible. Knife tool exits on Enter or right-click; Ray must snip BEFORE either of those terminations.
+- **Why manual:** Knife Tool is a modal operator entered via `bpy.ops.mesh.knife_tool` that requires interactive mouse input to place cut points; BlenderMCP cannot drive the modal cutting state because the op blocks on real input events (same limitation as the #45 G+Z transient transform indicator).
+- **Subject choice:** Any mesh with multiple faces available for cutting (default cube is fine; the lesson HTML implies the knife is being used on a simple mesh surface). The placed cut points should land on a clearly-visible face.
+- **Target dimensions:** Whatever the Win+Shift+S snip captures; full viewport is typically 1500-1900 px wide x 800-1100 tall. INTEGRATION HTML insertion sized at native PNG dimensions (no resize needed since no overlay viewBox needs to match).
+- **Output:** `lesson_06_33_knife_tool_active.png`.
+
+#### #34 · `lesson_06_34_knife_tool_constraints.png`
+
+- **Type:** PNG, 3-panel horizontal composite, 3844x720, no overlay planned
+- **Capture path:** Ray captures 3 separate Win+Shift+S manual snips of the knife tool in 3 different modal states; Claude crops + resizes each to 1280x720 and composites via Pillow with 2 px `#FF6B00` vertical dividers (within sub-chat B, self-contained)
+- **Panel 1 (Free Cutting):** Ray enters knife tool (K), draws an irregular curved cut line by placing several non-collinear cut points across a face, Win+Shift+S before confirming the cut. Manual snip saved as `_temp_lesson_06_34_p1.png` (variable dims).
+- **Panel 2 (Angle Constrained · C):** Ray enters knife tool (K), presses C to toggle angle constraint (constrains to 45° increments from the previous point), draws a perfectly straight horizontal cut, Win+Shift+S before confirming. Saved as `_temp_lesson_06_34_p2.png`.
+- **Panel 3 (Cut Through · Z):** Ray enters knife tool (K), presses Z to toggle cut-through mode (cuts pass through back faces of the mesh), draws a cut across a closed mesh (cube works well; the cut visibly extends through the back faces as a dashed line), Win+Shift+S before confirming. Saved as `_temp_lesson_06_34_p3.png`.
+- **Why manual for all 3:** Same modal-operator reason as #33; each constraint mode (C / Z) is a sub-state within the knife modal that requires real keyboard input during the modal session.
+- **Composite:** Pillow crops and resizes each panel to 1280x720 (preserving the cut line region as central focus), then composites 3 × 1280 + 2 × 2 px = 3844 × 720 with `#FF6B00` dividers between panels. Save as `lesson_06_34_knife_tool_constraints.png`. Remove the 3 temps via `os.remove`.
+
+#### #35 · `lesson_06_35_knife_project_operation.png` (cross-sub-chat composite)
+
+- **Type:** PNG, 3-panel horizontal composite, 3844x720, no overlay planned
+- **Capture path:** Combine sub-chat A temps (panels 1 + 3, both 1280 × 720 scripted) with sub-chat B manual snip (panel 2) via Pillow composite
+- **Pre-flight check at sub-chat B start:** verify both sub-chat A temp files exist on disk via `Filesystem:get_file_info` before Ray captures panel 2 (catches the case where sub-chat A closed without producing the temps; if missing, recapture via the sub-chat A scene-build path before proceeding).
+- **Panel 1 (from sub-chat A):** `_temp_lesson_06_35_p1.png` (1280 × 720, scripted viewport render of circle positioned above the subdivided plane, both visible)
+- **Panel 2 (manual in sub-chat B):** Ray captures the Mesh menu open in Edit Mode showing the `Knife Project` option (ideally hovered for a brighter highlight). Ray enters Edit Mode on a target mesh, opens the Mesh menu (top viewport header), scrolls to or hovers over `Knife Project`, Win+Shift+S the viewport region including the open menu. Saved as `_temp_lesson_06_35_p2.png`. Pillow crops/resizes to 1280 × 720.
+- **Panel 3 (from sub-chat A):** `_temp_lesson_06_35_p3.png` (1280 × 720, scripted viewport render of the plane after `knife_project` showing the circular edge pattern cut in)
+- **Why manual for panel 2 only:** the Mesh menu is a popover that closes on focus change (same precedent as Alt+E #49 and Shift+O #46); BlenderMCP cannot capture transient popover state. Panels 1 and 3 are scriptable static scene states so they live in sub-chat A.
+- **Composite:** Pillow composite 3 × 1280 + 2 × 2 px = 3844 × 720 with `#FF6B00` dividers. Save as `lesson_06_35_knife_project_operation.png`. Remove all 3 panel temps via `os.remove` (both sub-chat A produced and the sub-chat B manual temp).
+
+### ID prefix registry update (Phase 5)
+
+- **No new PNG overlay ids added at PRODUCTION.** Both Phase 5 PNG overlay prefixes (`c28` for #28 Array Modifier panel multi-label, `c30` for #30 Spin Operation setup multi-label) are already in the ID prefix registry from initial planning; overlay specs and pixel coords deferred to Phase 5 INTEGRATION plan-lock per the c2 / c3 / c25 multi-label precedent of sizing overlays after the source PNG is in hand.
+- **No SVG ids added.** Phase 5 has no SVGs per the locked Option L phase plan (SVGs concentrated in Phases 1 / 2 / 3 at #8 `pf`, #44 `sr`, #21 `dd`).
+
+Cumulative Lesson 06 PNG overlay tally unchanged from Phase 4 INTEGRATION close: 13 PNG overlays integrated (8 positive-green full-callouts `c2` / `c3` / `c10` / `c16` / `c20` / `c45` / `c46` / `c49` + 1 positive-green composite-overlay `c25` + 1 warning-red full-callout `c23` + 3 decorative-shape-only `c13` / `c14` / `c15`); 3 PNG overlays planned but not yet integrated (`c28`, `c30`, `c43`); 0 added in Phase 5 PRODUCTION. Plan-locked PNG overlay registry total remains 13 entries (`c2`, `c3`, `c10`, `c16`, `c20`, `c23`, `c25`, `c28`, `c30`, `c43`, `c45`, `c46`, `c49`).
+
+### Execution cadence (sub-chats A and B)
+
+- `Filesystem:edit_file` with `dryRun=true` first, then commit with `dryRun=false`, then `Filesystem:get_file_info` to verify after every commit (applies to doc updates at each sub-chat close; image production uses BlenderMCP / manual Win+Shift+S paths instead)
+- WSL `\\wsl$\Ubuntu\` paths only
+- No new em-dashes in figcaptions, alt text (both locked at Phase 5 INTEGRATION plan-lock chat, not at PRODUCTION), status bullets, or any other new prose; middle-dot (`·`) for separation
+- BlenderMCP: lowercase `blender:execute_blender_code`, NO `read_factory_settings`, EEVEE_NEXT -> EEVEE fallback, `temp_override` for OpenGL renders and for `bpy.ops.screen.screenshot` full-window captures, `bpy.ops.screen.screenshot_area` available for area-scoped captures
+- Locked op-name corrections to carry forward: `bpy.ops.mesh.inset` (not `inset_faces`), `bpy.ops.mesh.delete(type='FACE')` singular not plural, `bmesh.ops.bisect_plane` over `bpy.ops.mesh.bisect`, Phase 4 extrude family ops (`extrude_region_move`, `extrude_region_shrink_fatten`, `extrude_faces_indiv` all verified in 5.1.1); Phase 5 new op-name verification points at execution for `bpy.ops.mesh.spin` (signature variance), `bpy.ops.mesh.knife_project` (selection state setup), and Properties editor `area.spaces.active.context = 'MODIFIER'` (enum value to confirm at execution)
+- **Avoid `bpy.ops.ed.undo()` inside `temp_override` blocks** per the Phase 3 sub-chat A locked connection-drop discovery; #31 panel 2 uses spin as a forward operation with no rewind, and #35 panel 3 uses knife_project as a forward operation (panel 1 captures the pre-cut state before knife_project lands, so no rewind needed between panels)
+- Pillow 12.2.0 path for composites: #31 self-contained 2-panel within sub-chat A, #34 self-contained 3-panel within sub-chat B, #35 CROSS-SUB-CHAT 3-panel composite combining sub-chat A temps with sub-chat B manual capture. Temp files named `_temp_lesson_06_NN_pN.png`; #34 and #35 temps removed via `os.remove` after composite save; #35 cross-sub-chat temps persist between sub-chats and are removed in sub-chat B after the final composite
+- **NEW cross-sub-chat temp file pattern for #35:** sub-chat A produces `_temp_lesson_06_35_p1.png` and `_temp_lesson_06_35_p3.png` and explicitly does NOT remove them at sub-chat A close. Sub-chat B starts with a `Filesystem:get_file_info` verify on both temps before Ray's panel 2 capture. If either temp is missing at sub-chat B start, recapture via the sub-chat A scene-build path before proceeding. This is the first cross-sub-chat composite in Lesson 06 (Lesson 05 had no precedent); the pattern is documented here so it can be reused if other phases benefit from it.
+- Phase 5 fresh scene reset at sub-chat A start per the Step 0 script above (delete `L06_ExtrudeCube` / `L06_ExtrudeSphere` / `L06_ExtrudeGrid` / `L06_ExtrudeTower` + defensive `L06_*` sweep)
+- Update Placement table row state per image as each capture lands (`not captured; not integrated` → `captured; not integrated`); for #35 the row flips at sub-chat B composite close (not at sub-chat A temp creation)
+- Append Status section bullet at each sub-chat close
+- Rewrite `session.md` at sub-chat B close (Phase 5 PRODUCTION close) to point at Phase 5 INTEGRATION plan-lock; `session.md` not rewritten at sub-chat A close unless sub-chat B is meaningfully delayed
+- Warn Ray before context tightens within an execution sub-chat; if A1 / A2 fallback split invoked, close A1 with placement-table flips for the 3 produced images and a partial Status bullet, then open A2 in a fresh chat
+- MCP server hang recovery armed per the locked rule (4-min timeout boundary → check file size with `Filesystem:get_file_info` before retrying; the c2 multi-callout commit precedent applies to any future heavy-content commit)
+
+### Phase 5 PRODUCTION close criterion
+
+All 8 Phase 5 images on disk in `images/`:
+
+- 5 PNGs from sub-chat A: #28, #29, #30, #31, #32
+- 3 PNGs from sub-chat B: #33, #34, #35 (with #35 produced via cross-sub-chat Pillow composite of 2 sub-chat A temps and 1 sub-chat B manual capture)
+- Sub-chat A cross-sub-chat temps `_temp_lesson_06_35_p1.png` and `_temp_lesson_06_35_p3.png` removed at #35 composite close in sub-chat B
+
+Placement table rows #28, #29, #30, #31, #32, #33, #34, #35 flipped to `captured; not integrated`. Status section gets close bullets for both sub-chats (or one combined A+B bullet if both close in the same chat per the session.md "likely 1 PRODUCTION sub-chat" speculation; the locked default is 2 sub-chats following the Phase 3 / Phase 4 precedent). Rewrite `session.md` at sub-chat B close to point at Phase 5 INTEGRATION plan-lock as the next chat.
+
+Plan-lock close criterion: all 8 capture specs, scene configs, view rotations, output filenames, and overlay deferrals (`c28`, `c30`) locked in writing before any production work. Cross-sub-chat temp file pattern for #35 documented as a first-in-Lesson-06 precedent. Met by this section.
+
+---
+
 ## Locked rules (carry forward from Lessons 03, 04, 05; see `lesson_05_completion_handoff.md` and `images/IMAGE_STYLE_GUIDE.md` v4 for full discussion)
 
 **Path discipline:**
+
 - `\\wsl$\Ubuntu\` paths only, never `\\wsl.localhost\`
 
 **File operations:**
+
 - `Filesystem:edit_file` with `dryRun=true` first, then commit with `dryRun=false`, then verify with `Filesystem:get_file_info` after every commit
 - `Filesystem:write_file` for new files and small full-doc overwrites; NEVER Claude's built-in `create_file`
 - Tools are deferred; call `tool_search` before invoking; do not inherit "tool X is unavailable" assumptions from a compaction summary
 - `Filesystem:copy_file_user_to_claude` for one-way copy from user filesystem to Claude's container; useful for bash-grep section mapping on large docs before edit work
 
 **Em-dash discipline (style guide v4, locked decision 9):**
+
 - No new em-dashes anywhere in new content (figcaptions, alt text, status blocks, markdown notes, handoff docs, archive doc headers, pointer blocks, SVG label / heading / subhead / pill / footer / takeaway text, overlay badge text, overlay title / desc text, style-guide prose, this doc)
 - Middle-dot (`·`, U+00B7) for dash-style separation in SVG labels per Phase 4 / Phase 5 / Phase 6 Lesson 05 precedents
 - Pre-existing em-dashes in source content preserved verbatim through edits
@@ -1202,6 +999,7 @@ Plan-lock close criterion: all 8 anchors, figcaptions, alt texts, the 2 overlay 
 - Structural em-dash after a date in Status bullets (the date-then-separator-then-description pattern) is grandfathered as a list-item separator
 
 **Inline image pattern (locked from Phase 1 Lesson 01, confirmed across all subsequent phases):**
+
 - Plain `<figure>` / `<figcaption>` wrapper, no class
 - PNGs: `<img loading="lazy">` with descriptive alt text. Figure at col 16, img and figcaption at col 20 (default depth)
 - Inline SVGs: figure at col 16, svg root at col 20, svg children at col 24, deeper nesting at 28/32, figcaption at col 20; `color="#222"` stripped from inlined root `<svg>` (breaks dark mode); standalone `.svg` files in `images/` retain `color="#222"` for `<img>` fallback
@@ -1210,6 +1008,7 @@ Plan-lock close criterion: all 8 anchors, figcaptions, alt texts, the 2 overlay 
 - Deeper-indent variant (figure col 20, contents at col 24/28/32, figcaption col 24, figure close col 20) for figures placed inside cards that open at col 16
 
 **PNG annotation overlay pattern (locked across Phases 3-6 Lesson 05 INTEGRATION; style guide v4 component snippet):**
+
 - Wrapper div `position: relative; display: inline-block; max-width: 100%`
 - Overlay SVG viewBox matches PNG pixel dimensions
 - Overlay SVG style `position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none`
@@ -1224,11 +1023,13 @@ Plan-lock close criterion: all 8 anchors, figcaptions, alt texts, the 2 overlay 
 - Composite-overlay variant for horizontally-divided composite PNGs with baked-in 2px `#FF6B00` vertical dividers (Lesson 05 #29 SELECT CAP/INSET/EXTRUDE and #30 CUP/CHAIR/BUST precedents): no highlight ellipses, no leader lines, just one centered badge per panel near the bottom edge
 
 **Overlay badge colorway split (style guide v4 locked decision 8):**
+
 - Positive labels (Face normal, EDGE LOOP, CORRECT, CUP, CHAIR, BUST, and similar affirmative labels): `#4ADE80` green badge with `#0f1a14` dark text
 - Warning labels (FLIPPED, NON-MANIFOLD, AVOID, and similar cautionary labels): `#E63946` red badge with `#ffffff` white text
 - Pick from the label's semantic role; mixed colorways on a single PNG are expected
 
 **BlenderMCP capture (locked, confirmed Phases 2-6 Lesson 05):**
+
 - Lowercase `blender:execute_blender_code` (uppercase hangs)
 - NO `bpy.ops.wm.read_factory_settings(use_empty=False)` calls anywhere (kills BlenderMCP addon mid-execution; recovery requires restarting Blender)
 - Clean Blender state manually instead (`bpy.data.objects.remove(obj, do_unlink=True)`, etc.)
@@ -1239,9 +1040,11 @@ Plan-lock close criterion: all 8 anchors, figcaptions, alt texts, the 2 overlay 
 - Default user-perspective view rotation: `Euler((radians(63.6), 0, radians(-46.7)), 'XYZ').to_quaternion()`. View distance scales with subject size
 
 **Pillow availability:**
+
 - Pillow 12.2.0 is installed in Blender 5.1's Python at `C:\Users\pract\AppData\Roaming\Blender Foundation\Blender\5.1\scripts\addons\modules\PIL` (a user-writable path already on `sys.path`). Verified working across Phases 4, 5, 6 Lesson 05 composites. Survives Blender restarts.
 
 **Blender 5.1.1 op-name discoveries (locked through Lesson 05 Phase 6):**
+
 - `bpy.ops.mesh.inset_faces` does NOT exist in Blender 5.1.1; use `bpy.ops.mesh.inset` instead
 - `bpy.ops.mesh.delete(type='FACES')` (plural) does NOT exist; valid enum values are `('VERT', 'EDGE', 'FACE', 'EDGE_FACE', 'ONLY_FACE')`; use `type='FACE'` (singular)
 - `bpy.ops.mesh.select_non_manifold()` works in 5.1.1 without bmesh fallback
@@ -1249,6 +1052,7 @@ Plan-lock close criterion: all 8 anchors, figcaptions, alt texts, the 2 overlay 
 - `bmesh.ops.subdivide_edges` with cuts=N produces ONLY equal-spaced cuts; for unequal-spaced cuts, use `bmesh.ops.bisect_plane` per cut plane
 
 **Brand palette (current as of Lesson 05 close-out; style guide v4):**
+
 - Blender brand / Orange operation badge / SVG accent rail: `#FF6B00`
 - Course / structure / Z-axis blue: `#4A9EFF` (darker variant `#3a7fd1`)
 - Practice / process: `#B47EE8`
@@ -1259,6 +1063,7 @@ Plan-lock close criterion: all 8 anchors, figcaptions, alt texts, the 2 overlay 
 - Badge text dark on green: `#0f1a14`; badge text light on red: `#ffffff`
 
 **Cadence:**
+
 - One production chat plus one integration chat per phase by default (Lesson 04 cadence)
 - Sub-chats expected for any phase of 6+ images per Lesson 05 precedent (Phase 5 INTEGRATION split into 2 sub-chats with 5 images; Phase 6 INTEGRATION used dedicated plan-lock chat plus 3 execution sub-chats with 6 images)
 - Lesson 06 Phase 1 and Phase 2 at 10 images each are larger than any Lesson 05 phase; expect 3-5 sub-chats per
@@ -1279,70 +1084,73 @@ Plan-lock close criterion: all 8 anchors, figcaptions, alt texts, the 2 overlay 
 
 ## Placement table (50 images)
 
-| # | Filename | Type | ID prefix | Section | Anchor (planned insertion point) | State |
-|---|---|---|---|---|---|---|
-| 1 | `lesson_06_01_object_vs_edit_mode_comparison.png` | PNG | (none) | `#enter-edit-mode` | After Object Mode vs Edit Mode table | integrated |
-| 2 | `lesson_06_02_edit_mode_visual_indicators.png` | PNG | `c2` | `#enter-edit-mode` | After Visual Differences in Edit Mode list | integrated |
-| 3 | `lesson_06_03_selection_mode_icons.png` | PNG | `c3` | `#selection-modes` | After The Selection Mode Trio introduction | integrated |
-| 4 | `lesson_06_04_vertex_selection_example.png` | PNG | (none) | `#selection-modes` | Within Vertex Select Mode card | integrated |
-| 5 | `lesson_06_05_edge_selection_example.png` | PNG | (none) | `#selection-modes` | Within Edge Select Mode card | integrated |
-| 6 | `lesson_06_06_face_selection_example.png` | PNG | (none) | `#selection-modes` | Within Face Select Mode card | integrated |
-| 7 | `lesson_06_07_proportional_editing_circle.png` | PNG | (none) | `#proportional-editing` | After Activating Proportional Editing card | integrated |
-| 8 | `lesson_06_08_proportional_falloff_comparison.svg` | SVG | `pf` | `#proportional-editing` | After Falloff Types table | integrated |
-| 9 | `lesson_06_09_proportional_hill_creation.png` | PNG | (none) | `#proportional-editing` | Within Practice Exercise: Creating a Hill | integrated |
-| 46 | `lesson_06_46_proportional_falloff_menu.png` | PNG | `c46` | `#proportional-editing` | After Falloff Types mermaid diagram | integrated |
-| 10 | `lesson_06_10_loop_tools_addon_location.png` | PNG | `c10` | `#loop-tools` | After Enabling Loop Tools Add-on instructions | integrated |
-| 11 | `lesson_06_11_loop_tools_circle_before_after.png` | PNG | (none) | `#loop-tools` | After Circle: Creating Perfect Rounds section | integrated |
-| 12 | `lesson_06_12_loop_tools_bridge_operation.png` | PNG | (none) | `#loop-tools` | After Bridge: Connecting Edge Loops section | integrated |
-| 47 | `lesson_06_47_loop_tools_sidebar_panel.png` | PNG | (none) | `#loop-tools` | After Loop Tools Practice Project as reference | integrated |
-| 13 | `lesson_06_13_box_select_in_action.png` | PNG | (none) | `#advanced-selection` | After Box Select: The Rectangular Selector card | integrated |
-| 14 | `lesson_06_14_circle_select_in_action.png` | PNG | (none) | `#advanced-selection` | After Circle Select: The Brush Tool card | integrated |
-| 15 | `lesson_06_15_lasso_select_in_action.png` | PNG | (none) | `#advanced-selection` | After Lasso Select: Freeform Selection description | integrated |
-| 16 | `lesson_06_16_select_similar_menu.png` | PNG | `c16` | `#advanced-selection` | After Selection by Similarity explanation | integrated |
-| 48 | `lesson_06_48_checker_deselect_result.png` | PNG | (none) | `#advanced-selection` | After Checker Deselect description | integrated |
-| 44 | `lesson_06_44_selection_tools_reference.svg` | SVG | `sr` | `#selection-tools` | At end of section as summary | integrated |
-| 17 | `lesson_06_17_inset_operation_progression.png` | PNG | (none) | `#inset-outset` | After Basic Inset Operation card | integrated |
-| 18 | `lesson_06_18_inset_individual_vs_group.png` | PNG | (none) | `#inset-outset` | After Individual vs Group Inset card | integrated |
-| 19 | `lesson_06_19_inset_double_technique.png` | PNG | (none) | `#inset-outset` | Within The Double Inset Technique blockquote | integrated |
-| 20 | `lesson_06_20_merge_by_distance.png` | PNG | `c20` | `#mesh-cleanup` | After Merge by Distance card | integrated |
-| 21 | `lesson_06_21_dissolve_vs_delete.svg` | SVG | `dd` | `#mesh-cleanup` | After Dissolve vs Delete explanation | integrated |
-| 22 | `lesson_06_22_limited_dissolve_before_after.png` | PNG | (none) | `#mesh-cleanup` | After Limited Dissolve: The Smart Cleanup section | integrated |
-| 23 | `lesson_06_23_face_orientation_overlay.png` | PNG | `c23` | `#mesh-cleanup` | After Recalculate Normals card | integrated |
-| 50 | `lesson_06_50_fill_operations_comparison.png` | PNG | (none) | `#mesh-cleanup` | After Fill and Grid Fill card | integrated |
-| 24 | `lesson_06_24_extrude_operation_sequence.png` | PNG | (none) | `#extrude-operations` | After Basic Extrude Operation card | not captured; not integrated |
-| 45 | `lesson_06_45_transform_constraint_indicators.png` | PNG | `c45` | `#extrude-operations` | After Constrained Extrude explanation | not captured; not integrated |
-| 25 | `lesson_06_25_extrude_normals_vs_regular.png` | PNG | (none) | `#extrude-operations` | After Extrude Individual vs Group mermaid | not captured; not integrated |
-| 26 | `lesson_06_26_extrude_individual_faces.png` | PNG | (none) | `#extrude-operations` | After individual vs group table | not captured; not integrated |
-| 27 | `lesson_06_27_extrude_scale_technique.png` | PNG | (none) | `#extrude-operations` | After Extrude and Scale: Creating Tapers section | not captured; not integrated |
-| 49 | `lesson_06_49_extrude_menu_alt_e.png` | PNG | `c49` | `#extrude-operations` | Within special extrude menu discussion | not captured; not integrated |
-| 28 | `lesson_06_28_array_modifier_panel.png` | PNG | `c28` | `#duplicate-array` | After Array Modifier: Parametric Repetition workflow | not captured; not integrated |
-| 29 | `lesson_06_29_array_modifier_result.png` | PNG | (none) | `#duplicate-array` | After Array Modifier Options table | not captured; not integrated |
-| 30 | `lesson_06_30_spin_operation_setup.png` | PNG | `c30` | `#spin-screw` | After Spin: Creating Radial Geometry card | not captured; not integrated |
-| 31 | `lesson_06_31_spin_vase_creation.png` | PNG | (none) | `#spin-screw` | After Spin Settings table | not captured; not integrated |
-| 32 | `lesson_06_32_screw_modifier_spring.png` | PNG | (none) | `#spin-screw` | After Screw Modifier: Threaded and Spiral Forms card | not captured; not integrated |
-| 33 | `lesson_06_33_knife_tool_active.png` | PNG | (none) | `#knife-tool` | After Basic Knife Tool Usage card | not captured; not integrated |
-| 34 | `lesson_06_34_knife_tool_constraints.png` | PNG | (none) | `#knife-tool` | After Knife Tool Modes and Options table | not captured; not integrated |
-| 35 | `lesson_06_35_knife_project_operation.png` | PNG | (none) | `#knife-tool` | After Knife Project: Advanced Cutting workflow | not captured; not integrated |
-| 36 | `lesson_06_36_subdivide_levels.png` | PNG | (none) | `#subdivide` | After Subdivide Warning card | not captured; not integrated |
-| 37 | `lesson_06_37_subdivide_smoothness.png` | PNG | (none) | `#subdivide` | After Subdivide Smooth section | not captured; not integrated |
-| 38 | `lesson_06_38_subdivide_fractal_terrain.png` | PNG | (none) | `#subdivide` | Within Subdivide Practice exercise | not captured; not integrated |
-| 39 | `lesson_06_39_bevel_operation_interface.png` | PNG | (none) | `#bevel` | After Basic Bevel Operation card | not captured; not integrated |
-| 40 | `lesson_06_40_bevel_segment_comparison.png` | PNG | (none) | `#bevel` | After Bevel Segments Explained card | not captured; not integrated |
-| 41 | `lesson_06_41_edge_vs_vertex_bevel.png` | PNG | (none) | `#bevel` | After Edge Bevel vs Vertex Bevel table | not captured; not integrated |
-| 42 | `lesson_06_42_bevel_before_after_cube.png` | PNG | (none) | `#bevel` | After Design Principle blockquote | not captured; not integrated |
-| 43 | `lesson_06_43_bevel_modifier_settings.png` | PNG | `c43` | `#bevel` | After Bevel Modifier: Non-Destructive Beveling card | not captured; not integrated |
+| #   | Filename                                           | Type | ID prefix | Section                 | Anchor (planned insertion point)                     | State                        |
+| --- | -------------------------------------------------- | ---- | --------- | ----------------------- | ---------------------------------------------------- | ---------------------------- |
+| 1   | `lesson_06_01_object_vs_edit_mode_comparison.png`  | PNG  | (none)    | `#enter-edit-mode`      | After Object Mode vs Edit Mode table                 | integrated                   |
+| 2   | `lesson_06_02_edit_mode_visual_indicators.png`     | PNG  | `c2`      | `#enter-edit-mode`      | After Visual Differences in Edit Mode list           | integrated                   |
+| 3   | `lesson_06_03_selection_mode_icons.png`            | PNG  | `c3`      | `#selection-modes`      | After The Selection Mode Trio introduction           | integrated                   |
+| 4   | `lesson_06_04_vertex_selection_example.png`        | PNG  | (none)    | `#selection-modes`      | Within Vertex Select Mode card                       | integrated                   |
+| 5   | `lesson_06_05_edge_selection_example.png`          | PNG  | (none)    | `#selection-modes`      | Within Edge Select Mode card                         | integrated                   |
+| 6   | `lesson_06_06_face_selection_example.png`          | PNG  | (none)    | `#selection-modes`      | Within Face Select Mode card                         | integrated                   |
+| 7   | `lesson_06_07_proportional_editing_circle.png`     | PNG  | (none)    | `#proportional-editing` | After Activating Proportional Editing card           | integrated                   |
+| 8   | `lesson_06_08_proportional_falloff_comparison.svg` | SVG  | `pf`      | `#proportional-editing` | After Falloff Types table                            | integrated                   |
+| 9   | `lesson_06_09_proportional_hill_creation.png`      | PNG  | (none)    | `#proportional-editing` | Within Practice Exercise: Creating a Hill            | integrated                   |
+| 46  | `lesson_06_46_proportional_falloff_menu.png`       | PNG  | `c46`     | `#proportional-editing` | After Falloff Types mermaid diagram                  | integrated                   |
+| 10  | `lesson_06_10_loop_tools_addon_location.png`       | PNG  | `c10`     | `#loop-tools`           | After Enabling Loop Tools Add-on instructions        | integrated                   |
+| 11  | `lesson_06_11_loop_tools_circle_before_after.png`  | PNG  | (none)    | `#loop-tools`           | After Circle: Creating Perfect Rounds section        | integrated                   |
+| 12  | `lesson_06_12_loop_tools_bridge_operation.png`     | PNG  | (none)    | `#loop-tools`           | After Bridge: Connecting Edge Loops section          | integrated                   |
+| 47  | `lesson_06_47_loop_tools_sidebar_panel.png`        | PNG  | (none)    | `#loop-tools`           | After Loop Tools Practice Project as reference       | integrated                   |
+| 13  | `lesson_06_13_box_select_in_action.png`            | PNG  | (none)    | `#advanced-selection`   | After Box Select: The Rectangular Selector card      | integrated                   |
+| 14  | `lesson_06_14_circle_select_in_action.png`         | PNG  | (none)    | `#advanced-selection`   | After Circle Select: The Brush Tool card             | integrated                   |
+| 15  | `lesson_06_15_lasso_select_in_action.png`          | PNG  | (none)    | `#advanced-selection`   | After Lasso Select: Freeform Selection description   | integrated                   |
+| 16  | `lesson_06_16_select_similar_menu.png`             | PNG  | `c16`     | `#advanced-selection`   | After Selection by Similarity explanation            | integrated                   |
+| 48  | `lesson_06_48_checker_deselect_result.png`         | PNG  | (none)    | `#advanced-selection`   | After Checker Deselect description                   | integrated                   |
+| 44  | `lesson_06_44_selection_tools_reference.svg`       | SVG  | `sr`      | `#selection-tools`      | At end of section as summary                         | integrated                   |
+| 17  | `lesson_06_17_inset_operation_progression.png`     | PNG  | (none)    | `#inset-outset`         | After Basic Inset Operation card                     | integrated                   |
+| 18  | `lesson_06_18_inset_individual_vs_group.png`       | PNG  | (none)    | `#inset-outset`         | After Individual vs Group Inset card                 | integrated                   |
+| 19  | `lesson_06_19_inset_double_technique.png`          | PNG  | (none)    | `#inset-outset`         | Within The Double Inset Technique blockquote         | integrated                   |
+| 20  | `lesson_06_20_merge_by_distance.png`               | PNG  | `c20`     | `#mesh-cleanup`         | After Merge by Distance card                         | integrated                   |
+| 21  | `lesson_06_21_dissolve_vs_delete.svg`              | SVG  | `dd`      | `#mesh-cleanup`         | After Dissolve vs Delete explanation                 | integrated                   |
+| 22  | `lesson_06_22_limited_dissolve_before_after.png`   | PNG  | (none)    | `#mesh-cleanup`         | After Limited Dissolve: The Smart Cleanup section    | integrated                   |
+| 23  | `lesson_06_23_face_orientation_overlay.png`        | PNG  | `c23`     | `#mesh-cleanup`         | After Recalculate Normals card                       | integrated                   |
+| 50  | `lesson_06_50_fill_operations_comparison.png`      | PNG  | (none)    | `#mesh-cleanup`         | After Fill and Grid Fill card                        | integrated                   |
+| 24  | `lesson_06_24_extrude_operation_sequence.png`      | PNG  | (none)    | `#extrude-operations`   | After Basic Extrude Operation card                   | integrated                   |
+| 45  | `lesson_06_45_transform_constraint_indicators.png` | PNG  | `c45`     | `#extrude-operations`   | After Constrained Extrude explanation                | integrated                   |
+| 25  | `lesson_06_25_extrude_normals_vs_regular.png`      | PNG  | (none)    | `#extrude-operations`   | After Extrude Individual vs Group mermaid            | integrated                   |
+| 26  | `lesson_06_26_extrude_individual_faces.png`        | PNG  | (none)    | `#extrude-operations`   | After individual vs group table                      | integrated                   |
+| 27  | `lesson_06_27_extrude_scale_technique.png`         | PNG  | (none)    | `#extrude-operations`   | After Extrude and Scale: Creating Tapers section     | integrated                   |
+| 49  | `lesson_06_49_extrude_menu_alt_e.png`              | PNG  | `c49`     | `#extrude-operations`   | Within special extrude menu discussion               | integrated                   |
+| 28  | `lesson_06_28_array_modifier_panel.png`            | PNG  | `c28`     | `#duplicate-array`      | After Array Modifier: Parametric Repetition workflow | not captured; not integrated |
+| 29  | `lesson_06_29_array_modifier_result.png`           | PNG  | (none)    | `#duplicate-array`      | After Array Modifier Options table                   | not captured; not integrated |
+| 30  | `lesson_06_30_spin_operation_setup.png`            | PNG  | `c30`     | `#spin-screw`           | After Spin: Creating Radial Geometry card            | not captured; not integrated |
+| 31  | `lesson_06_31_spin_vase_creation.png`              | PNG  | (none)    | `#spin-screw`           | After Spin Settings table                            | not captured; not integrated |
+| 32  | `lesson_06_32_screw_modifier_spring.png`           | PNG  | (none)    | `#spin-screw`           | After Screw Modifier: Threaded and Spiral Forms card | not captured; not integrated |
+| 33  | `lesson_06_33_knife_tool_active.png`               | PNG  | (none)    | `#knife-tool`           | After Basic Knife Tool Usage card                    | not captured; not integrated |
+| 34  | `lesson_06_34_knife_tool_constraints.png`          | PNG  | (none)    | `#knife-tool`           | After Knife Tool Modes and Options table             | not captured; not integrated |
+| 35  | `lesson_06_35_knife_project_operation.png`         | PNG  | (none)    | `#knife-tool`           | After Knife Project: Advanced Cutting workflow       | not captured; not integrated |
+| 36  | `lesson_06_36_subdivide_levels.png`                | PNG  | (none)    | `#subdivide`            | After Subdivide Warning card                         | not captured; not integrated |
+| 37  | `lesson_06_37_subdivide_smoothness.png`            | PNG  | (none)    | `#subdivide`            | After Subdivide Smooth section                       | not captured; not integrated |
+| 38  | `lesson_06_38_subdivide_fractal_terrain.png`       | PNG  | (none)    | `#subdivide`            | Within Subdivide Practice exercise                   | not captured; not integrated |
+| 39  | `lesson_06_39_bevel_operation_interface.png`       | PNG  | (none)    | `#bevel`                | After Basic Bevel Operation card                     | not captured; not integrated |
+| 40  | `lesson_06_40_bevel_segment_comparison.png`        | PNG  | (none)    | `#bevel`                | After Bevel Segments Explained card                  | not captured; not integrated |
+| 41  | `lesson_06_41_edge_vs_vertex_bevel.png`            | PNG  | (none)    | `#bevel`                | After Edge Bevel vs Vertex Bevel table               | not captured; not integrated |
+| 42  | `lesson_06_42_bevel_before_after_cube.png`         | PNG  | (none)    | `#bevel`                | After Design Principle blockquote                    | not captured; not integrated |
+| 43  | `lesson_06_43_bevel_modifier_settings.png`         | PNG  | `c43`     | `#bevel`                | After Bevel Modifier: Non-Destructive Beveling card  | not captured; not integrated |
 
 **Totals:**
+
 - 3 SVGs: #8, #21, #44
 - 47 PNGs: #1, #2, #3, #4, #5, #6, #7, #9, #10, #11, #12, #13, #14, #15, #16, #17, #18, #19, #20, #22, #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #37, #38, #39, #40, #41, #42, #43, #45, #46, #47, #48, #49, #50
 
 **PNG overlay ids planned (subset of 47 PNGs; confirmed at production time):**
+
 - `c2` (#2 Edit Mode visual indicators, multi-callout)
 - `c3` (#3 Selection mode icons, three labels)
 - `c10` (#10 Loop Tools add-on location, single highlight)
 - `c16` (#16 Select Similar menu, menu highlight)
 - `c20` (#20 Merge by Distance menu, menu highlight)
 - `c23` (#23 Face Orientation overlay, single highlight)
+- `c25` (#25 Extrude normals vs regular, composite-overlay variant with two panel badges `REGULAR` and `ALONG NORMALS`; added at Phase 4 INTEGRATION plan-lock)
 - `c28` (#28 Array Modifier panel, multi-label callouts)
 - `c30` (#30 Spin Operation setup, multi-label callouts)
 - `c43` (#43 Bevel Modifier settings, multi-label callouts)
@@ -1350,7 +1158,7 @@ Plan-lock close criterion: all 8 anchors, figcaptions, alt texts, the 2 overlay 
 - `c46` (#46 Proportional Editing falloff menu, menu highlight)
 - `c49` (#49 Extrude menu Alt+E, menu highlight)
 
-12 PNGs identified at planning time as needing overlays. Remaining 35 PNGs ship as plain figures with descriptive alt text and no overlay (the screenshot or composite carries the message on its own). Additional overlays may be added during integration if a PNG turns out to need a callout.
+13 PNGs identified for overlays (12 from planning plus c25 added at Phase 4 INTEGRATION plan-lock after visual review showed the two #25 panels read too similarly without per-panel labels). Remaining 34 PNGs ship as plain figures with descriptive alt text and no overlay (the screenshot or composite carries the message on its own). Additional overlays may be added during integration if a PNG turns out to need a callout.
 
 ---
 
@@ -1358,14 +1166,14 @@ Plan-lock close criterion: all 8 anchors, figcaptions, alt texts, the 2 overlay 
 
 Option L locked 2026-05-21 (6 phases, 10/10/8/6/8/8 distribution, follows section boundaries). Ordering preserves "stop after Phase N" property: each phase closes a coherent set of sections, so the lesson remains coherent at any stopping point.
 
-| Phase | Sections | Images (50 total) | Count | SVGs | High/Med/Low | Cumulative |
-|-------|----------|---------------------|-------|------|--------------|------------|
-| 1 | `#enter-edit-mode` + `#selection-modes` + `#proportional-editing` | #1, #2, #3, #4, #5, #6, #7, #8, #9, #46 | 10 | #8 (`pf`) | 5H / 3M / 2L | 10/50 (20%) |
-| 2 | `#loop-tools` + `#advanced-selection` | #10, #11, #12, #47, #13, #14, #15, #16, #48, #44 | 10 | #44 (`sr`) | 1H / 4M / 5L | 20/50 (40%) |
-| 3 | `#inset-outset` + `#mesh-cleanup` | #17, #18, #19, #20, #21, #22, #23, #50 | 8 | #21 (`dd`) | 2H / 1M / 5L | 28/50 (56%) |
-| 4 | `#extrude-operations` | #24, #45, #25, #26, #27, #49 | 6 | none | 1H / 2M / 3L | 34/50 (68%) |
-| 5 | `#duplicate-array` + `#spin-screw` + `#knife-tool` | #28, #29, #30, #31, #32, #33, #34, #35 | 8 | none | 0H / 1M / 7L | 42/50 (84%) |
-| 6 | `#subdivide` + `#bevel` | #36, #37, #38, #39, #40, #41, #42, #43 | 8 | none | 2H / 2M / 4L | 50/50 (100%) |
+| Phase | Sections                                                          | Images (50 total)                                | Count | SVGs       | High/Med/Low | Cumulative   |
+| ----- | ----------------------------------------------------------------- | ------------------------------------------------ | ----- | ---------- | ------------ | ------------ |
+| 1     | `#enter-edit-mode` + `#selection-modes` + `#proportional-editing` | #1, #2, #3, #4, #5, #6, #7, #8, #9, #46          | 10    | #8 (`pf`)  | 5H / 3M / 2L | 10/50 (20%)  |
+| 2     | `#loop-tools` + `#advanced-selection`                             | #10, #11, #12, #47, #13, #14, #15, #16, #48, #44 | 10    | #44 (`sr`) | 1H / 4M / 5L | 20/50 (40%)  |
+| 3     | `#inset-outset` + `#mesh-cleanup`                                 | #17, #18, #19, #20, #21, #22, #23, #50           | 8     | #21 (`dd`) | 2H / 1M / 5L | 28/50 (56%)  |
+| 4     | `#extrude-operations`                                             | #24, #45, #25, #26, #27, #49                     | 6     | none       | 1H / 2M / 3L | 34/50 (68%)  |
+| 5     | `#duplicate-array` + `#spin-screw` + `#knife-tool`                | #28, #29, #30, #31, #32, #33, #34, #35           | 8     | none       | 0H / 1M / 7L | 42/50 (84%)  |
+| 6     | `#subdivide` + `#bevel`                                           | #36, #37, #38, #39, #40, #41, #42, #43           | 8     | none       | 2H / 2M / 4L | 50/50 (100%) |
 
 **Cadence expectation:** production + integration chats per phase, with sub-chats expected for any phase 6 or more images. Phase 1 and Phase 2 at 10 images each will likely need 3-5 sub-chats per phase (split production into 2-3 sub-chats, integration into 2-3 sub-chats). Phase 3, 5, 6 at 8 images each will likely need 2-4 sub-chats per phase. Phase 4 at 6 images matches Lesson 05 Phase 6 precedent (1 plan-lock chat plus 3 execution sub-chats). Realistic total chat count for Lesson 06 image work: 14 to 21 chats plus 1 close-out chat for handoff + archive sweep + status roll.
 
@@ -1391,6 +1199,7 @@ Option L locked 2026-05-21 (6 phases, 10/10/8/6/8/8 distribution, follows sectio
 ## Missing section
 
 40 of 50:
+
 - Phase 1: (none; all 10 images on disk; sub-chats A 2026-05-21, B 2026-05-22, C 2026-05-22 all closed)
 - Phase 2: #10, #11, #12, #13, #14, #15, #16, #44, #47, #48
 - Phase 3: #17, #18, #19, #20, #21, #22, #23, #50
@@ -1403,12 +1212,14 @@ Option L locked 2026-05-21 (6 phases, 10/10/8/6/8/8 distribution, follows sectio
 ## ID prefix registry
 
 **SVG ids (3 entries):**
+
 - `pf` for #8 `lesson_06_08_proportional_falloff_comparison.svg`
 - `dd` for #21 `lesson_06_21_dissolve_vs_delete.svg`
 - `sr` for #44 `lesson_06_44_selection_tools_reference.svg`
 
-**PNG overlay ids (12 planned):**
-- `c2`, `c3`, `c10`, `c16`, `c20`, `c23`, `c28`, `c30`, `c43`, `c45`, `c46`, `c49` (see PNG overlay ids planned list in the Placement table totals above for which PNG each covers)
+**PNG overlay ids (13 planned):**
+
+- `c2`, `c3`, `c10`, `c16`, `c20`, `c23`, `c25`, `c28`, `c30`, `c43`, `c45`, `c46`, `c49` (see PNG overlay ids planned list in the Placement table totals above for which PNG each covers)
 
 No prefix collisions: all 3 SVG prefixes (`pf`/`dd`/`sr`) are unused in prior Lesson 06 work and unique relative to one another. PNG overlay `c{N}` ids are inherently unique to their image number. The `c8`, `c11`, `c17`, `c22`, `c25`, `c27`, `c29` overlays from Lessons 04 and 05 do not apply here (those live in other lesson HTML files).
 
@@ -1441,25 +1252,17 @@ LOCKED RULE from Lesson 04 / 05: no `bpy.ops.wm.read_factory_settings(use_empty=
 
 ## Next chat
 
-**Phase 4 PRODUCTION plan-lock chat.** Phase 4 covers `#extrude-operations` (6 images: #24 extrude operation sequence plain · #45 transform constraint indicators with `c45` overlay planned · #25 extrude normals vs regular plain · #26 extrude individual faces plain · #27 extrude scale technique plain · #49 extrude menu Alt+E with `c49` overlay planned). Read `session.md` first (rewritten at the 2026-05-23 Phase 3 INTEGRATION sub-chat 2 close to point at Phase 4 PRODUCTION plan-lock), then this `lesson_06_integration_progress.md` (Status section now carries the 2026-05-23 sub-chat 2 CLOSED bullet through `session.md rewritten in same close-out turn via Filesystem:write_file to point at Phase 4 PRODUCTION plan-lock`; placement-table rows #20 / #21 / #22 / #23 / #50 now show `integrated`; **Phase 3 INTEGRATION COMPLETE** with 8 of 8 Phase 3 images integrated and 28 of 50 lesson images integrated overall; Phase 1 / Phase 2 / Phase 3 PRODUCTION plan sections and Phase 1 / Phase 2 / Phase 3 INTEGRATION plan sections carry historical specs as the structural model for the new `Phase 4 PRODUCTION plan` section to be written this chat), then `lesson_06_image_requirements.md` entries #24 / #25 / #26 / #27 / #45 / #49 for placement intent and capture prompts.
+**Phase 5 PRODUCTION sub-chat A.** Phase 5 PRODUCTION plan-lock CLOSED 2026-05-23 with new `Phase 5 PRODUCTION plan` section written into this doc between `Phase 4 INTEGRATION plan` and `Locked rules` (28,583 byte addition; file size 148,096 -> 176,679). All 8 image production specs locked: 5 BlenderMCP captures (#28 / #29 / #30 / #31 / #32), 3 manual Win+Shift+S captures (#33 / #34 / #35 panel 2), #34 within-sub-chat 3-panel Pillow composite, and #35 cross-sub-chat 3-panel Pillow composite. **2 sub-chats locked** following Phase 3 / Phase 4 PRODUCTION precedent (scripted vs manual split): sub-chat A for the 5 BlenderMCP captures plus 2 cross-sub-chat temp files (`_temp_lesson_06_35_p1.png` and `_temp_lesson_06_35_p3.png` for the Knife Project setup and result panels); sub-chat B for the 3 manual captures plus the #34 and #35 composites. NEW cross-sub-chat temp file pattern introduced as first-in-Lesson-06 precedent (sub-chat B starts with `Filesystem:get_file_info` verify on the two temps before Ray's panel 2 capture). 34 of 50 produced; 34 of 50 integrated (counts unchanged from Phase 4 INTEGRATION close since plan-lock is plan-lock only).
 
-**Plan-lock scope (no HTML edits, no image production):**
+Read `session.md` first (rewritten at this plan-lock close to point at Phase 5 PRODUCTION sub-chat A), then the new `Phase 5 PRODUCTION plan` section of this `lesson_06_integration_progress.md` (per-image specs for #28 / #29 / #30 / #31 / #32 plus the two #35 temp-file captures; the sub-chat A / sub-chat B split locked language; the Step 0 fresh scene reset list deleting Phase 4 L06_* leftovers L06_ExtrudeCube / L06_ExtrudeSphere / L06_ExtrudeGrid / L06_ExtrudeTower; the op-name verification points logged for sub-chat A execution), then `lesson_06_image_requirements.md` entries #28 / #29 / #30 / #31 / #32 / #35 if any per-image spec needs cross-reference against the original requirements doc.
 
-- Read the PART 06 slice of `lesson_06_edit_mode_essentials.html` covering `<section id="extrude-operations">` to confirm section structure, indentation depth (likely 0/4/8 carry-forward from PART 03 / 04 / 05), and identify 6 per-image insertion anchors via h3 / h4 / blockquote / mermaid / table landmark scan.
-- Lock per-image capture specs for all 6 images: scene setup (cube primitive or built-up shape per image intent), Edit Mode state (select mode, selection set), view configuration (canonical user-perspective rotation, view_distance, view_location), overlay configuration (axes, origins, outline_selected, cursor, floor, theme vertex_size / edge_width), capture path (BlenderMCP OpenGL render for clean shaded captures; `bpy.ops.screen.screenshot` or `bpy.ops.screen.screenshot_area` with `temp_override` for UI-chrome or overlay-dependent captures; manual Win+Shift+S only for transient UI such as pie menus or popovers per the locked Phase 1 sub-chat C #46 precedent), output dimensions, file size budget, and post-capture Pillow processing if any (multi-panel composite, crop, resize).
-- Lock the sub-chat split for Phase 4 PRODUCTION: if all 6 captures fit a single sub-chat, plan as one sub-chat; if scene rebuilds between captures justify splitting, plan as sub-chats A and B per the Lesson 05 Phase 6 precedent. The c45 and c49 overlays are planned for INTEGRATION not PRODUCTION per the locked carry-forward (overlay markup added to the HTML at integration time, not baked into the PNG).
-- Update the ID prefix registry to register `c45` and `c49` as planned PNG annotation overlay prefixes (no inline SVG in Phase 4 per the locked phase plan so no new SVG id prefix needed).
-- Lock Phase 4 PRODUCTION close criterion: 6 of 6 Phase 4 images on disk in `images/`, placement-table rows for #24 / #25 / #26 / #27 / #45 / #49 transitioned to `captured; not integrated`, Status bullet for Phase 4 PRODUCTION close written, bottom-of-doc Next chat repointed at Phase 4 INTEGRATION plan-lock.
+**Sub-chat A scope:** 5 BlenderMCP captures + 2 cross-sub-chat temp files. Captures: #28 Array Modifier panel screenshot (single-pose, `c28` overlay deferred to INTEGRATION), #29 array linear demo (single-pose viewport render), #30 Spin tool UI setup (single-pose, `c30` overlay deferred to INTEGRATION), #31 Spin vase creation (2-panel composite), #32 Screw modifier result (single-pose viewport render). Temp files: #35 panels 1 + 3 saved as `_temp_lesson_06_35_p1.png` and `_temp_lesson_06_35_p3.png` for sub-chat B handoff (do not remove at sub-chat A close, deviation from the standard within-sub-chat temp-file lifecycle). Step 0 fresh scene reset deletes Phase 4 L06_* leftovers (L06_ExtrudeCube / L06_ExtrudeSphere / L06_ExtrudeGrid / L06_ExtrudeTower). Op-name verification points to confirm during execution: `bpy.ops.mesh.spin` signature variance (#31 panel 2), `bpy.ops.mesh.knife_project` selection state setup (#35 panel 3 temp file), Properties editor `area.spaces.active.context = 'MODIFIER'` enum value (#28).
 
-**Plan-lock close criterion:** new `Phase 4 PRODUCTION plan` section written into this doc between the existing `Phase 3 INTEGRATION plan` section and the `Locked rules` section; Status bullet appended for plan-lock close; bottom-of-doc Next chat repointed at Phase 4 PRODUCTION sub-chat A (or single sub-chat) execution; `session.md` rewritten to point at Phase 4 PRODUCTION sub-chat A (or single sub-chat) execution.
+**Sub-chat A close criterion:** all 5 sub-chat A PNGs on disk in `images/` (#28 / #29 / #30 / #31 / #32) at expected dimensions per the locked Phase 5 PRODUCTION plan specs; 2 cross-sub-chat temp files on disk for sub-chat B handoff (`_temp_lesson_06_35_p1.png` and `_temp_lesson_06_35_p3.png`); placement-table rows for #28 / #29 / #30 / #31 / #32 flipped to `captured; not integrated`; Status section sub-chat A close bullet appended; bottom-of-doc Next chat section repointed at Phase 5 PRODUCTION sub-chat B execution; `session.md` rewritten to point at same. If sub-chat A tightens after 2-3 captures land, fall back to A1 (#28 / #29 / #30) / A2 (#31 / #32 + #35 temps) split point per the locked plan; A2 carries the two cross-sub-chat #35 temp files since they share scene state with #31 / #32.
 
-**Fresh scene reset required** at the start of Phase 4 PRODUCTION execution (delete L06_NormalsMonkey and any other leftovers from Phase 3 PRODUCTION sub-chats A / B / C). The L06_Cube primitive likely reused across most Phase 4 captures since the Extrude family operations are well-demonstrated on a basic cube.
+**Alternative next steps if Ray wants something other than Phase 5 PRODUCTION sub-chat A:**
 
-**Budget estimate:** Phase 4 PRODUCTION plan-lock is a read-pass plus plan-write chat with no HTML edits or image production; main substantive work is the PART 06 slice read, per-image spec lockdown, and the plan section insert into this doc (~250-350 lines of new plan content following the Phase 3 PRODUCTION plan section's structural model). Comfortable single-chat scope per the Phase 1 / Phase 2 / Phase 3 PRODUCTION plan-lock precedents.
-
-**Alternative next steps if Ray wants something other than Phase 4 PRODUCTION plan-lock:**
-
-- **Lesson 06 mid-lesson browser QA pass** (verify all 28 integrated figures render correctly in browser, now including the 5 sub-chat 2 mesh-cleanup figures just integrated: #20 with c20 BY DISTANCE positive-green overlay · #21 dissolve vs delete inline SVG · #22 limited dissolve before-and-after · #23 with c23 FLIPPED warning-red overlay · #50 fill operations comparison). Optional sanity check before starting Phase 4 PRODUCTION plan-lock.
-- **Retroactive Lesson 05 browser QA pass** (long-deferred QA debt for all 30 Lesson 05 figures). Optional cleanup chat that does not advance Lesson 06 but closes outstanding QA work from the prior lesson.
-- **Non-Blender-course work.** Phase 3 INTEGRATION is cleanly closed with all 8 Phase 3 images integrated; Phase 4 PRODUCTION plan-lock can pick up any future chat without losing context.
-
+- **Lesson 06 mid-lesson browser QA pass** (verify all 34 integrated figures render correctly in browser before starting Phase 5 PRODUCTION). Recommended sanity check now that parity is locked.
+- **Lesson 05 retroactive browser QA pass paired with Lesson 06 QA pass.** Optional cleanup chat per Ray's 2026-05-23 direction (lesson 5 cleanup deferred to be paired with lesson 6 QA / cleanup).
+- **Phase 6 PRODUCTION plan-lock paired with Phase 5 sub-chat A.** Not recommended; PRODUCTION execution and plan-lock are different work shapes and packing Phase 6 plan-lock in alongside Phase 5 sub-chat A execution risks dragging both.
+- **Non-Blender-course work.** Phase 5 PRODUCTION plan-lock is cleanly closed; sub-chat A can pick up any future chat without losing context.
