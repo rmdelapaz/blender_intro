@@ -1,7 +1,7 @@
 # Lesson 06 Session State
 
-**Last updated:** 2026-05-23 (Phase 5 PRODUCTION plan-lock CLOSED)
-**Next chat:** Phase 5 PRODUCTION sub-chat A
+**Last updated:** 2026-05-24 (Phase 5 PRODUCTION sub-chat A CLOSED)
+**Next chat:** Phase 5 PRODUCTION sub-chat B
 **Lesson:** `lesson_06_edit_mode_essentials.html`
 **Project root:** `\\wsl$\Ubuntu\home\practicalace\projects\blender_course`
 
@@ -9,67 +9,49 @@
 
 ## Current state
 
-**Phase 5 PRODUCTION plan-lock CLOSED** 2026-05-23. New `Phase 5 PRODUCTION plan` section written into `lesson_06_integration_progress.md` between `Phase 4 INTEGRATION plan` and `Locked rules` (28,583 byte addition; file size 148,096 -> 176,679 at plan-section commit). All 8 image production specs locked: 5 BlenderMCP captures (#28 / #29 / #30 / #31 / #32), 3 manual Win+Shift+S captures (#33 / #34 / #35 panel 2), #34 within-sub-chat 3-panel Pillow composite, and #35 cross-sub-chat 3-panel Pillow composite. **2 sub-chats locked** following Phase 3 / Phase 4 PRODUCTION precedent (scripted vs manual split): sub-chat A for the 5 BlenderMCP captures plus 2 cross-sub-chat temp files; sub-chat B for the 3 manual captures plus the #34 and #35 composites. Pushed back on this `session.md`'s prior "likely 1 PRODUCTION sub-chat" speculation; the locked default is 2 sub-chats per Phase 3 / Phase 4 precedent given the 5+3 scripted/manual split and the cross-sub-chat #35 composite handoff. NEW cross-sub-chat temp file pattern introduced as first-in-Lesson-06 precedent. Status section close bullet appended at plan-lock close. Bottom-of-doc Next chat section repointed at Phase 5 PRODUCTION sub-chat A.
+**Phase 5 PRODUCTION sub-chat A CLOSED** 2026-05-24 across A1 / A2 / A3 (locked A1 / A2 fallback invoked mid-run; A3 added to close out the #35 p3 rebuild and the doc-update / handoff work A2 left open). 5 BlenderMCP captures on disk: #28 (524,731 bytes), #29 (781,875), #30 (522,254), #31 (562,813), #32 (673,993). Both cross-sub-chat #35 temp files retained on disk for sub-chat B handoff: `_temp_lesson_06_35_p1.png` (730,851 bytes) and `_temp_lesson_06_35_p3.png` (674,108 bytes). Placement-table rows #28 / #29 / #30 / #31 / #32 flipped to `captured; not integrated`. Status section sub-chat A close bullet appended to `lesson_06_integration_progress.md` (file 180,376 -> 187,291 -> 186,930 across the 3 edit batches: 5-row placement-table flip zero-delta, +6,915 byte Status bullet, -361 byte Next chat section rewrite). 4 Phase 5 PRODUCTION discoveries documented in the Status bullet for carry-forward to locked rules / style-guide v4 addenda at lesson close (Screw Modifier rotation_euler / subdivide temp_override / multi-object Edit breaks knife_project / show_wire required for cut readability in SOLID).
 
-**Counts:** 34 of 50 produced, 34 of 50 integrated. Parity holds (unchanged from Phase 4 INTEGRATION close since plan-lock is plan-lock only).
-
----
-
-## Next chat scope: Phase 5 PRODUCTION sub-chat A
-
-**5 BlenderMCP captures to land:** #28 Array Modifier panel screenshot (single-pose, `c28` overlay deferred to INTEGRATION) · #29 array linear demo (single-pose viewport render) · #30 Spin tool UI setup (single-pose, `c30` overlay deferred to INTEGRATION) · #31 Spin vase creation (2-panel composite) · #32 Screw modifier result (single-pose viewport render).
-
-**2 cross-sub-chat temp files to save** (NEW first-in-Lesson-06 pattern): `_temp_lesson_06_35_p1.png` (Knife Project setup panel) and `_temp_lesson_06_35_p3.png` (Knife Project result panel). These persist past sub-chat A close for sub-chat B handoff; do not remove at sub-chat A close (deviation from the standard within-sub-chat temp-file lifecycle).
-
-**HTML sections involved:** `#duplicate-array` (#28, #29) + `#spin-screw` (#30, #31, #32) + `#knife-tool` (#35 temps only; #33, #34, and #35 composite all happen in sub-chat B).
-
-**Step 0 fresh scene reset:** delete Phase 4 sub-chat A L06_* leftovers (L06_ExtrudeCube / L06_ExtrudeSphere / L06_ExtrudeGrid / L06_ExtrudeTower) before any Phase 5 capture work.
-
-**Op-name verification points to confirm during execution:**
-
-- `bpy.ops.mesh.spin` signature variance (#31 panel 2). The operator's `angle` / `steps` / `center` / `axis` arg names have varied across Blender versions; verify the 5.1.1 signature against the locked plan before relying on it.
-- `bpy.ops.mesh.knife_project` selection state setup (#35 panel 3 temp file). Requires a 2D cutter Object + target mesh in Edit Mode; verify the 5.1.1 selection-state expectation (Object Mode active object as cutter vs Edit Mode selection vs scene selection).
-- Properties editor `area.spaces.active.context = 'MODIFIER'` enum value (#28). Confirm the wrench-icon Modifiers tab enum string in 5.1.1 (likely `'MODIFIER'` but may differ from earlier Blender versions).
-
-**Sub-chat A overlays:** none authored at PRODUCTION. `c28` and `c30` are reserved overlay prefixes (already in the ID prefix registry) but the overlay markup itself is integration-time work and not part of sub-chat A.
+**Counts:** 39 of 50 produced (34 prior + #28 / #29 / #30 / #31 / #32), 34 of 50 integrated (count unchanged from Phase 4 INTEGRATION close since sub-chat A is PRODUCTION only).
 
 ---
 
-## Sub-chat A chat path
+## Next chat scope: Phase 5 PRODUCTION sub-chat B
 
-1. Read this `session.md` and the new `Phase 5 PRODUCTION plan` section of `lesson_06_integration_progress.md` (per-image specs for #28 / #29 / #30 / #31 / #32 and the two #35 temp-file captures; the Step 0 fresh scene reset list; the op-name verification points; the sub-chat A / sub-chat B split locked language). Spot-check the 2026-05-23 Phase 5 PRODUCTION plan-lock Status bullet for any cross-reference detail.
-2. Spot-check `lesson_06_image_requirements.md` entries #28 / #29 / #30 / #31 / #32 / #35 only if any per-image spec needs cross-reference against the original requirements doc; otherwise rely on the plan section as the authoritative spec.
-3. Execute Step 0 fresh scene reset (delete L06_ExtrudeCube / L06_ExtrudeSphere / L06_ExtrudeGrid / L06_ExtrudeTower if present).
-4. Execute the 5 BlenderMCP captures in the order locked by the Phase 5 PRODUCTION plan section, verifying op-names against the logged verification points as they come up. Per-figure Pillow composite for #31 (2-panel) executed within the per-figure block; temp files for #31 panels removed at composite save per the standard within-sub-chat temp-file lifecycle.
-5. Save the 2 cross-sub-chat temp files (`_temp_lesson_06_35_p1.png`, `_temp_lesson_06_35_p3.png`) for sub-chat B handoff. Do **not** remove them at sub-chat A close.
-6. Flip placement-table rows for #28 / #29 / #30 / #31 / #32 from `not captured` to `captured; not integrated`.
-7. Append Status section sub-chat A close bullet (per-figure byte sizes, op-name verification results, any scene-build deviations from plan).
-8. Rewrite bottom-of-doc Next chat section to point at Phase 5 PRODUCTION sub-chat B execution.
-9. Rewrite this `session.md` to point at Phase 5 PRODUCTION sub-chat B execution as the new next chat.
+3 manual Win+Shift+S captures by Ray + 1 within-sub-chat 3-panel composite (#34) + 1 cross-sub-chat 3-panel composite (#35). Per-image specs in the `Per-image specs · sub-chat B` block of the `Phase 5 PRODUCTION plan` section of `lesson_06_integration_progress.md`.
 
-If sub-chat A tightens after 2-3 captures land, fall back to the locked A1 / A2 split point: A1 lands #28 / #29 / #30 (which share the `#duplicate-array` / `#spin-screw` setup); A2 lands #31 / #32 + the two #35 temp files (which share the spin/screw/knife scene state and naturally pair with the cross-sub-chat #35 handoff). In that case steps 6-9 apply to whichever subset landed in this chat and the next chat becomes A2 (or sub-chat B if A2 landed in this chat).
+**Pre-flight check at sub-chat B start (NEW first-in-Lesson-06 cross-sub-chat pattern):** `Filesystem:get_file_info` on both `_temp_lesson_06_35_p1.png` (730,851 bytes expected) and `_temp_lesson_06_35_p3.png` (674,108 bytes expected) before Ray's panel 2 capture. If either temp is missing, recapture via the A2 / A3 scene-build sequence from the 2026-05-24 Status bullet (bmesh-rebuilt subdivided plane with `plane.show_wire=True`; corrected knife_project via single-object Edit Mode + `cutter.select_set(True)` inside Edit + `bpy.ops.view3d.view_axis(type='TOP')` before knife_project for straight-down projection; then `circle.hide_viewport=True` for p3; then user-perspective render at view_distance 5.0 / view_location (0, 0, 0)).
+
+---
+
+## Sub-chat B chat path
+
+1. Read this `session.md` and the `Per-image specs · sub-chat B` block of the `Phase 5 PRODUCTION plan` section of `lesson_06_integration_progress.md` (per-image specs for #33 / #34 / #35 panel 2 plus the #35 cross-sub-chat composite recipe). Spot-check `lesson_06_image_requirements.md` entries #33 / #34 / #35 only if any per-image spec needs cross-reference.
+2. Pre-flight check: `Filesystem:get_file_info` on both `_temp_lesson_06_35_p*.png` temps per the bytes above.
+3. Ray captures #33 (1 manual snip of K-active modal state).
+4. Ray captures 3 panels for #34 (free / C-angle / Z-cut-through modal states). Pillow 3-panel composite within sub-chat B to 3844x720 with 2px `#FF6B00` dividers; remove the 3 panel temps via `os.remove` after composite save.
+5. Ray captures #35 panel 2 (Mesh menu open with Knife Project hovered). Pillow 3-panel cross-sub-chat composite combining `_temp_lesson_06_35_p1.png` + Ray's manual panel 2 + `_temp_lesson_06_35_p3.png` to 3844x720 with 2px `#FF6B00` dividers; remove all 3 temps via `os.remove` after composite save.
+6. Flip placement-table rows for #33 / #34 / #35 from `not captured; not integrated` to `captured; not integrated`.
+7. Append Status section sub-chat B close bullet (per-figure byte sizes; will become **Phase 5 PRODUCTION CLOSED** if all 3 land in this chat).
+8. Rewrite bottom-of-doc Next chat section to point at Phase 5 INTEGRATION plan-lock.
+9. Rewrite this `session.md` to point at Phase 5 INTEGRATION plan-lock as the new next chat.
 
 ---
 
 ## Locked rules carrying forward
 
+Full list in the `Locked rules` section of `lesson_06_integration_progress.md`. Sub-chat B specific:
+
 - WSL `\\wsl$\Ubuntu\` paths only
-- `Filesystem:edit_file` with `dryRun=true` then commit with `dryRun=false` then `Filesystem:get_file_info` verify per edit
-- NO new em-dashes in any new prose; middle-dot (`·`) for separation; date-prefix em-dash in Status bullets is the only established exception
-- BlenderMCP capture conventions: 1280x720 default, `BLENDER_EEVEE_NEXT` with `BLENDER_EEVEE` fallback per locked rule, no `bpy.ops.wm.read_factory_settings(use_empty=False)` calls, manual scene cleanup only
-- Blender 5.1.1 op-name corrections from Lesson 05 Phase 4 carry forward (no `inset_faces`, no `delete(type='FACES')` plural); Phase 4 sub-chat A confirmed `extrude_region_move` / `extrude_region_shrink_fatten` / `extrude_faces_indiv` all work first try in 5.1.1
-- Pillow 12.2.0 composite path confirmed working for multi-pose figures across Lesson 05 and Lesson 06 Phase 1-4
+- `Filesystem:edit_file` with `dryRun=true` then commit with `dryRun=false` then `Filesystem:get_file_info` verify per edit; long-content edits get their own dry-run-then-commit pair
+- NO new em-dashes in any new prose; middle-dot (`·`) for separation; date-prefix em-dash in Status bullets grandfathered
+- Pillow 12.2.0 composite path confirmed working from Blender's bundled Python at `C:\Users\pract\AppData\Roaming\Blender Foundation\Blender\5.1\scripts\addons\modules\PIL`
 - Composite divider: 2px `#FF6B00` vertical bar between panels
-- Theme convention: vertex_size=5, edge_width=2; overlays axes ON, floor ON, cursor OFF, origins OFF, outline_selected OFF (Phase 1 default)
-- View rotation: `Euler((radians(63.6), 0, radians(-46.7)))` user-perspective default; view_distance scaled to subject per the plan section per-figure specs
-- NEW Phase 5 precedent: cross-sub-chat temp files persist across sub-chats (`_temp_lesson_06_35_p1.png` and `_temp_lesson_06_35_p3.png` survive sub-chat A close so sub-chat B can read them via `Filesystem:get_file_info` before adding the manual panel 2 and compositing)
-- Manual-capture post-processing precedent from Phase 4 sub-chat B: oversized Win+Shift+S PNGs can be cropped/resized in place via Pillow through `blender:execute_blender_code`; verify before, run crop+resize, verify after
+- Manual-capture post-processing precedent from Phase 4 sub-chat B: oversized Win+Shift+S PNGs can be cropped / resized in place via Pillow through `blender:execute_blender_code`; verify before, run crop + resize, verify after
 - Short multi-edit batches (2 short edits) acceptable for doc updates; long-content edits get their own dry-run-then-commit pair per the locked serialization-truncation rule
+- 4 Phase 5 PRODUCTION discoveries documented in the 2026-05-24 Status bullet apply to any future knife-tool / Screw-Modifier / subdivide work
 
 ---
 
-## Sub-chat A close criterion
+## Sub-chat B close criterion
 
-5 sub-chat A PNGs on disk in `images/` (#28 / #29 / #30 / #31 / #32) at expected dimensions per the locked Phase 5 PRODUCTION plan specs. 2 cross-sub-chat temp files on disk for sub-chat B handoff (`_temp_lesson_06_35_p1.png` and `_temp_lesson_06_35_p3.png`); do not remove at sub-chat A close. Placement-table rows for #28 / #29 / #30 / #31 / #32 flipped to `captured; not integrated`. Status section sub-chat A close bullet appended. Bottom-of-doc Next chat section repointed at Phase 5 PRODUCTION sub-chat B execution. This `session.md` rewritten to point at same. Phase 5 PRODUCTION sub-chat A COMPLETE.
-
-If the fallback A1 / A2 split is invoked mid-chat, swap "sub-chat A" for the subset landed (A1 or A2) in the close steps and write the appropriate Status bullet; the next chat then becomes A2 (or sub-chat B if A2 landed in this chat).
+All 3 sub-chat B PNGs on disk in `images/` (#33 / #34 / #35) at expected dimensions per the locked Phase 5 PRODUCTION plan specs. All 3 #35 temp files (the 2 A-produced + the 1 B-manual panel 2) removed via `os.remove` at #35 composite close. Placement-table rows for #33 / #34 / #35 flipped to `captured; not integrated`. Status section sub-chat B close bullet appended (becomes **Phase 5 PRODUCTION CLOSED** if all 3 land in this chat; 42 of 50 produced overall). Bottom-of-doc Next chat section repointed at Phase 5 INTEGRATION plan-lock execution. This `session.md` rewritten to point at same.
