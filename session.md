@@ -1,7 +1,7 @@
 # Lesson 06 Session State
 
-**Last updated:** 2026-05-24 (Phase 5 PRODUCTION sub-chat A CLOSED)
-**Next chat:** Phase 5 PRODUCTION sub-chat B
+**Last updated:** 2026-05-25 (Phase 6 PRODUCTION plan-lock CLOSED)
+**Next chat:** Phase 6 PRODUCTION sub-chat A
 **Lesson:** `lesson_06_edit_mode_essentials.html`
 **Project root:** `\\wsl$\Ubuntu\home\practicalace\projects\blender_course`
 
@@ -9,49 +9,29 @@
 
 ## Current state
 
-**Phase 5 PRODUCTION sub-chat A CLOSED** 2026-05-24 across A1 / A2 / A3 (locked A1 / A2 fallback invoked mid-run; A3 added to close out the #35 p3 rebuild and the doc-update / handoff work A2 left open). 5 BlenderMCP captures on disk: #28 (524,731 bytes), #29 (781,875), #30 (522,254), #31 (562,813), #32 (673,993). Both cross-sub-chat #35 temp files retained on disk for sub-chat B handoff: `_temp_lesson_06_35_p1.png` (730,851 bytes) and `_temp_lesson_06_35_p3.png` (674,108 bytes). Placement-table rows #28 / #29 / #30 / #31 / #32 flipped to `captured; not integrated`. Status section sub-chat A close bullet appended to `lesson_06_integration_progress.md` (file 180,376 -> 187,291 -> 186,930 across the 3 edit batches: 5-row placement-table flip zero-delta, +6,915 byte Status bullet, -361 byte Next chat section rewrite). 4 Phase 5 PRODUCTION discoveries documented in the Status bullet for carry-forward to locked rules / style-guide v4 addenda at lesson close (Screw Modifier rotation_euler / subdivide temp_override / multi-object Edit breaks knife_project / show_wire required for cut readability in SOLID).
+**Phase 6 PRODUCTION plan-lock CLOSED** 2026-05-25. New `Phase 6 PRODUCTION plan` section written into `lesson_06_integration_progress.md` between `Phase 5 INTEGRATION plan` and `Locked rules` (progress doc 227,997 → 262,243 bytes; +34,246 plan-section delta), then Status bullet appended (→ 267,199 bytes; +4,956 Status-bullet delta), then bottom-of-doc Next chat section rewritten to point at Phase 6 PRODUCTION sub-chat A execution (final progress doc size 269,089 bytes). 2 sub-chats locked following Phase 3 / 4 / 5 PRODUCTION precedent (scripted vs manual split): sub-chat A = 7 BlenderMCP captures (#36 / #37 / #38 / #40 / #41 / #42 / #43) + 5 Pillow composites with A1 / A2 fallback split on the section + geometry boundary (A1 = #36 + #37 + #38 subdivide trio with plane geometry; A2 = #40 + #41 + #42 + #43 bevel quartet with cube geometry); sub-chat B = 1 manual Win+Shift+S capture (#39 Ctrl+B bevel modal active state, smallest manual sub-chat in Lesson 06 to date vs Phase 4 sub-chat B at 2 manual + Phase 5 sub-chat B at 3 manual + 2 composite runs). Sub-chat A is the largest scripted PRODUCTION sub-chat in Lesson 06 to date; A1 / A2 fallback likelihood correspondingly higher. 4 key spec deviations from Phase 5 default config locked (TOP ortho via `view3d.view_axis(type='TOP')` for #36, WIREFRAME OVERLAY ON for #36 / #38, MATCAP viewport shading for #42, full-window `bpy.ops.screen.screenshot` with Properties editor in MODIFIER context for #43 reusing the verified #28 recipe). 4 op-name verification points logged for sub-chat A execution to log working values in the sub-chat A close Status bullet (subdivide `fractal` / `fractal_along_normal` / `seed` signature, bevel `offset` / `segments` / `affect` signature, Bevel Modifier attribute names `width` / `segments` / `angle_limit` / `limit_method` / `use_clamp_overlap`, MATCAP `studio_light` enum). 5 new `L06_*` object names introduced (`L06_SubdivPlane` / `L06_SmoothEdge` / `L06_FractalPlane` / `L06_BevelCube` / `L06_BevelModCube`); Step 0 fresh scene reset clears the 5 Phase 5 `L06_*` leftovers (`L06_ArrayCylinder` / `L06_SpinProfile` / `L06_ScrewCircle` / `L06_KnifeProjectPlane` / `L06_KnifeProjectCircle`) plus defensive `L06_*` sweep. ID prefix registry update minimal (`c43` already reserved from initial planning; multi-label overlay specs and pixel coords deferred to Phase 6 INTEGRATION plan-lock per the c2 / c3 / c25 / c28 / c30 multi-label precedent; no SVG ids added since Phase 6 has no SVGs per Option L). Phase 6 closes ALL of Lesson 06 PRODUCTION work at sub-chat B close (50 of 50 produced); only Phase 6 INTEGRATION remains for full Lesson 06 image-work closeout. Read the 2026-05-25 Phase 6 PRODUCTION plan-lock Status bullet of `lesson_06_integration_progress.md` for full detail rather than restating here.
 
-**Counts:** 39 of 50 produced (34 prior + #28 / #29 / #30 / #31 / #32), 34 of 50 integrated (count unchanged from Phase 4 INTEGRATION close since sub-chat A is PRODUCTION only).
-
----
-
-## Next chat scope: Phase 5 PRODUCTION sub-chat B
-
-3 manual Win+Shift+S captures by Ray + 1 within-sub-chat 3-panel composite (#34) + 1 cross-sub-chat 3-panel composite (#35). Per-image specs in the `Per-image specs · sub-chat B` block of the `Phase 5 PRODUCTION plan` section of `lesson_06_integration_progress.md`.
-
-**Pre-flight check at sub-chat B start (NEW first-in-Lesson-06 cross-sub-chat pattern):** `Filesystem:get_file_info` on both `_temp_lesson_06_35_p1.png` (730,851 bytes expected) and `_temp_lesson_06_35_p3.png` (674,108 bytes expected) before Ray's panel 2 capture. If either temp is missing, recapture via the A2 / A3 scene-build sequence from the 2026-05-24 Status bullet (bmesh-rebuilt subdivided plane with `plane.show_wire=True`; corrected knife_project via single-object Edit Mode + `cutter.select_set(True)` inside Edit + `bpy.ops.view3d.view_axis(type='TOP')` before knife_project for straight-down projection; then `circle.hide_viewport=True` for p3; then user-perspective render at view_distance 5.0 / view_location (0, 0, 0)).
+**Counts:** 42 of 50 produced; 42 of 50 integrated (unchanged from Phase 5 INTEGRATION close since plan-lock is plan-lock only). Cumulative Lesson 06 PNG overlay tally unchanged at 15 integrated + 1 planned (`c43`); plan-locked PNG overlay registry total remains 13 entries.
 
 ---
 
-## Sub-chat B chat path
+## Next chat: Phase 6 PRODUCTION sub-chat A
 
-1. Read this `session.md` and the `Per-image specs · sub-chat B` block of the `Phase 5 PRODUCTION plan` section of `lesson_06_integration_progress.md` (per-image specs for #33 / #34 / #35 panel 2 plus the #35 cross-sub-chat composite recipe). Spot-check `lesson_06_image_requirements.md` entries #33 / #34 / #35 only if any per-image spec needs cross-reference.
-2. Pre-flight check: `Filesystem:get_file_info` on both `_temp_lesson_06_35_p*.png` temps per the bytes above.
-3. Ray captures #33 (1 manual snip of K-active modal state).
-4. Ray captures 3 panels for #34 (free / C-angle / Z-cut-through modal states). Pillow 3-panel composite within sub-chat B to 3844x720 with 2px `#FF6B00` dividers; remove the 3 panel temps via `os.remove` after composite save.
-5. Ray captures #35 panel 2 (Mesh menu open with Knife Project hovered). Pillow 3-panel cross-sub-chat composite combining `_temp_lesson_06_35_p1.png` + Ray's manual panel 2 + `_temp_lesson_06_35_p3.png` to 3844x720 with 2px `#FF6B00` dividers; remove all 3 temps via `os.remove` after composite save.
-6. Flip placement-table rows for #33 / #34 / #35 from `not captured; not integrated` to `captured; not integrated`.
-7. Append Status section sub-chat B close bullet (per-figure byte sizes; will become **Phase 5 PRODUCTION CLOSED** if all 3 land in this chat).
-8. Rewrite bottom-of-doc Next chat section to point at Phase 5 INTEGRATION plan-lock.
-9. Rewrite this `session.md` to point at Phase 5 INTEGRATION plan-lock as the new next chat.
+Read this `session.md`, then the 2026-05-25 Phase 6 PRODUCTION plan-lock Status bullet in the Status section of `lesson_06_integration_progress.md`, then the new `Phase 6 PRODUCTION plan` section of the progress doc (per-image scene + capture specs, op-name verification points, sub-chat A / B split + A1 / A2 fallback boundary, 5 new `L06_*` object names, Step 0 fresh scene reset spec). The locked specs in the `Phase 6 PRODUCTION plan` section are authoritative; do not re-derive from `lesson_06_image_requirements.md`. See the bottom-of-doc Next chat section of the progress doc for full Phase 6 PRODUCTION sub-chat A execution scope, the A1 / A2 fallback split point, and alternative next steps.
 
 ---
 
 ## Locked rules carrying forward
 
-Full list in the `Locked rules` section of `lesson_06_integration_progress.md`. Sub-chat B specific:
+Full list in the `Locked rules` section of `lesson_06_integration_progress.md`. Phase 6 PRODUCTION sub-chat A specific:
 
 - WSL `\\wsl$\Ubuntu\` paths only
-- `Filesystem:edit_file` with `dryRun=true` then commit with `dryRun=false` then `Filesystem:get_file_info` verify per edit; long-content edits get their own dry-run-then-commit pair
+- `Filesystem:edit_file` with `dryRun=true` then commit with `dryRun=false` then `Filesystem:get_file_info` verify per edit
+- `Filesystem:write_file` for new files and small full-doc overwrites; NEVER Claude's built-in `create_file`
 - NO new em-dashes in any new prose; middle-dot (`·`) for separation; date-prefix em-dash in Status bullets grandfathered
-- Pillow 12.2.0 composite path confirmed working from Blender's bundled Python at `C:\Users\pract\AppData\Roaming\Blender Foundation\Blender\5.1\scripts\addons\modules\PIL`
-- Composite divider: 2px `#FF6B00` vertical bar between panels
-- Manual-capture post-processing precedent from Phase 4 sub-chat B: oversized Win+Shift+S PNGs can be cropped / resized in place via Pillow through `blender:execute_blender_code`; verify before, run crop + resize, verify after
-- Short multi-edit batches (2 short edits) acceptable for doc updates; long-content edits get their own dry-run-then-commit pair per the locked serialization-truncation rule
-- 4 Phase 5 PRODUCTION discoveries documented in the 2026-05-24 Status bullet apply to any future knife-tool / Screw-Modifier / subdivide work
-
----
-
-## Sub-chat B close criterion
-
-All 3 sub-chat B PNGs on disk in `images/` (#33 / #34 / #35) at expected dimensions per the locked Phase 5 PRODUCTION plan specs. All 3 #35 temp files (the 2 A-produced + the 1 B-manual panel 2) removed via `os.remove` at #35 composite close. Placement-table rows for #33 / #34 / #35 flipped to `captured; not integrated`. Status section sub-chat B close bullet appended (becomes **Phase 5 PRODUCTION CLOSED** if all 3 land in this chat; 42 of 50 produced overall). Bottom-of-doc Next chat section repointed at Phase 5 INTEGRATION plan-lock execution. This `session.md` rewritten to point at same.
+- NO `bpy.ops.wm.read_factory_settings(use_empty=False)` calls anywhere (kills BlenderMCP addon mid-execution); manual scene cleanup only
+- Render engine fallback: try `BLENDER_EEVEE_NEXT` first, fall back to `BLENDER_EEVEE` on enum error
+- Pillow 12.2.0 confirmed available in Blender 5.1's Python; survives restarts
+- Phase 5 PRODUCTION sub-chat A discoveries (4) and sub-chat B discoveries (6) apply to any future BlenderMCP / modal-capture / popover-capture / cross-sub-chat composite / Screw Modifier / subdivide / knife_project / show_wire work; see the 2026-05-24 sub-chat A and 2026-05-25 sub-chat B Status bullets of the progress doc for the discovery details
+- Phase 5 INTEGRATION sub-chat 1 precedent: 8-row placement-table flip with 29-char column-padding for any future multi-row table flip; c28 / c30 multi-callout overlay markup pattern (per-overlay aria-labelledby title+desc pair, per-callout ellipse ids, structural author comments before each callout group) carries forward to any future multi-callout overlay (likely c43 in Phase 6 INTEGRATION)
+- Phase 6 PRODUCTION plan-lock specific (this chat): 4 key spec deviations from Phase 5 default config locked (TOP ortho via `view3d.view_axis(type='TOP')` for #36, WIREFRAME OVERLAY ON for #36 / #38, MATCAP shading for #42, full-window screenshot with Properties editor in MODIFIER context for #43); 4 op-name verification points to log in sub-chat A close Status bullet
