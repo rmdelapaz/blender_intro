@@ -3148,6 +3148,11 @@
         <p><strong>Be cautious:</strong> Too many subdivisions can make your mesh unmanageable and slow down Blender!</p>
     </div>
 
+    <figure>
+        <img loading="lazy" src="images/lesson_06_36_subdivide_levels.png" alt="Four-panel TOP ortho composite of a square plane subdivided progressively. Panel 1: the plane after one Subdivide call, a 2x2 grid of four faces. Panel 2: after a second Subdivide, a 4x4 grid of sixteen faces. Panel 3: after a third Subdivide, an 8x8 grid of sixty-four faces. Panel 4: after a fourth Subdivide, a 16x16 grid of two hundred and fifty-six faces. WIREFRAME OVERLAY is on so the subdivision lines read clearly against the face fill. 2 px Blender-orange vertical dividers separate the panels.">
+        <figcaption>Subdivide multiplies face count by four with each pass · 4 then 16 then 64 then 256 · matches the lesson body table above · the exponential growth is why over-subdividing slows Blender down quickly.</figcaption>
+    </figure>
+
     <h3>Subdivide vs. Subdivision Surface</h3>
 
     <p>This confuses many beginners, so let's clarify:</p>
@@ -3192,6 +3197,11 @@
         <p><strong>Access:</strong> After subdividing, check the Adjust Last Operation panel (bottom-left) and adjust the Smoothness slider</p>
     </div>
 
+    <figure>
+        <img loading="lazy" src="images/lesson_06_37_subdivide_smoothness.png" alt="Two-panel side-angle composite of a V-shaped polyline mesh subdivided with the Smoothness slider set to two different values. Left panel: Smoothness 0.0, the subdivided V keeps its angular geometry, the new midpoint vertex landing exactly on the original line between the V's two endpoints, so the V remains a sharp angle. Right panel: Smoothness 1.0, the same V with Smoothness pushed to maximum, the new midpoint vertex bulging outward from the original line into a rounded arc that softens the V into a curve. A 2 px Blender-orange vertical divider separates the panels.">
+        <figcaption>The Adjust Last Operation panel's Smoothness slider controls how far new vertices are pulled away from the original surface · 0.0 keeps subdivision faithful to existing geometry · 1.0 maximizes curvature for an organic rounded result · intermediate values blend the two effects.</figcaption>
+    </figure>
+
     <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
         <h4>💡 Strategic Subdivision</h4>
         <p>Don't just subdivide everything! Strategic subdivision is key:</p>
@@ -3232,6 +3242,10 @@
             <li><strong>Create hills:</strong> Select random vertices, <kbd>G</kbd>, <kbd>Z</kbd>, move up, adjust influence with mouse wheel</li>
             <li><strong>Result:</strong> Rough, natural-looking terrain!</li>
         </ol>
+        <figure>
+            <img loading="lazy" src="images/lesson_06_38_subdivide_fractal_terrain.png" alt="Two-panel side-angle perspective composite of a 5-cut subdivided plane shown flat and then with the Fractal setting applied. Left panel: the plane sits flat on the world grid, the 5-cut subdivision visible as a regular grid of small faces but with zero vertical displacement. Right panel: the same 5-cut subdivision with Fractal set to 5.0 and Along Normal at 1.0, the previously-flat vertices now displaced upward and downward by procedural noise into a rough rocky terrain. WIREFRAME OVERLAY is on so the subdivision topology reads against the face fill in both panels. A 2 px Blender-orange vertical divider separates the panels.">
+            <figcaption>Fractal subdivision adds procedural noise displacement on top of a regular subdivide pass · a flat 5-cut plane becomes a rough terrain mesh in one step · combine with Proportional Editing to sculpt the noisy result into hills and valleys.</figcaption>
+        </figure>
         <p><strong>Bonus:</strong> Add Subdivision Surface Modifier for smoother terrain!</p>
     </div>
 </section>
@@ -3264,6 +3278,11 @@
             <li>Click or press <kbd>Enter</kbd> to confirm</li>
         </ol>
     </div>
+
+    <figure>
+        <img loading="lazy" src="images/lesson_06_39_bevel_operation_interface.png" alt="Full Blender window in Edit Mode on the bevel test cube with the Bevel modal operator active. A single front-top edge is selected and the bevel preview spreads across three segment bands highlighted in Blender-orange. Top-center floating text reads `Offset: 0.1735 m, Segments: 3, Profile Shape: 0.5` and the bottom modal hints bar lists the available adjustments (`Confirm` · `Esc Cancel` · `Ctrl Snap` · `M Width` · `A Width` · `S Segments` · `P Profile Shape`). The Bevel Modifier panel from the next figure remains visible in the Properties editor as bonus context.">
+        <figcaption>The interactive Bevel operator drives the bevel width with mouse motion and the segment count with the mouse wheel · the floating readout at top-center confirms the live values · the bottom hints bar names the available in-modal adjustments · commit with click or cancel with Escape to drop the preview.</figcaption>
+    </figure>
 
     <div class="mermaid">
         graph LR
@@ -3331,6 +3350,11 @@
         <p>Scroll mouse wheel while beveling to adjust in real-time!</p>
     </div>
 
+    <figure>
+        <img loading="lazy" src="images/lesson_06_40_bevel_segment_comparison.png" alt="Four-panel user-perspective closeup composite of a single cube edge beveled at increasing segment counts. Panel 1: 1 segment, the chamfered edge reads as a single flat angled face. Panel 2: 2 segments, the bevel reads as a two-face arc with a single internal edge. Panel 3: 4 segments, a noticeably smoother rounded edge with three internal edges. Panel 4: 8 segments, the bevel reads as a nearly-perfect cylinder section. 2 px Blender-orange vertical dividers separate the panels.">
+        <figcaption>Segment count drives how round the bevel reads · `Panels: 1 segment · 2 segments · 4 segments · 8 segments` · 2 to 3 segments suit most hard surfaces · 4 to 6 are realistic for metal and plastic · 8 or more are reserved for hero details where edge silhouette matters most.</figcaption>
+    </figure>
+
     <h3>Edge Bevel vs. Vertex Bevel</h3>
 
     <table>
@@ -3358,9 +3382,29 @@
         </tbody>
     </table>
 
+    <figure>
+        <div style="position: relative; display: inline-block; max-width: 100%;">
+            <img loading="lazy" src="images/lesson_06_41_edge_vs_vertex_bevel.png" alt="Two-panel composite contrasting Edge Bevel with Vertex Bevel on the same starting cube. Left panel labeled `EDGE BEVEL`: the cube's front-top-right edge has been beveled with `affect='EDGES'` at offset 0.3 and segments 4, producing a smooth rounded chamfer that runs the full length of the selected edge. Right panel labeled `VERTEX BEVEL`: the same cube's front-top-right corner vertex has been beveled with `affect='VERTICES'` at the same offset and segments, producing a triangular faceted cut that affects only the single corner. A 2 px Blender-orange vertical divider separates the panels and positive-green pill badges at the bottom of each panel name the bevel mode." style="display: block; width: 100%; height: auto;">
+            <svg viewBox="0 0 2562 720" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="c41-labels-title c41-labels-desc">
+                <title id="c41-labels-title">Edge Bevel vs Vertex Bevel panel labels</title>
+                <desc id="c41-labels-desc">Two centered positive-green badges sit near the bottom of the composite, one per panel · the left panel carries an EDGE BEVEL badge and the right panel carries a VERTEX BEVEL badge.</desc>
+                <rect id="c41-panel1" x="500" y="644" width="280" height="46" rx="6" fill="#4ADE80"/>
+                <text x="640" y="675" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#0f1a14" letter-spacing="2">EDGE BEVEL</text>
+                <rect id="c41-panel2" x="1782" y="644" width="280" height="46" rx="6" fill="#4ADE80"/>
+                <text x="1922" y="675" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#0f1a14" letter-spacing="2">VERTEX BEVEL</text>
+            </svg>
+        </div>
+        <figcaption>Edge Bevel chamfers the full length of a selected edge · Vertex Bevel cuts a single corner only · use Edge Bevel for hard-surface filleting and Vertex Bevel for chamfering a sharp corner without softening the edges that meet there.</figcaption>
+    </figure>
+
     <blockquote>
         <p><strong>Design Principle:</strong> In industrial design and product modeling, there's a rule: "Everything has at least a 0.5mm bevel." Even tiny bevels make enormous differences in realism. Look at any manufactured object – even "sharp" edges have microscopic bevels that catch light. Model accordingly!</p>
     </blockquote>
+
+    <figure>
+        <img loading="lazy" src="images/lesson_06_42_bevel_before_after_cube.png" alt="Two-panel MATCAP-shaded composite contrasting a sharp cube with a fully beveled cube. Left panel: the source cube with Shade Flat and zero bevel, rendered under the `basic_grey.exr` matcap, with hard edges that read as obvious CG geometry. Right panel: the same cube with all edges beveled at offset 0.05 and segments 3 and Shade Smooth applied, the bevels picking up specular highlights from the matcap and making the cube read as a physically plausible manufactured object. A 2 px Blender-orange vertical divider separates the panels.">
+        <figcaption>MATCAP shading reveals what bevels do for realism · the sharp cube on the left has the unmistakable hard-edge silhouette of untreated CG geometry · the beveled cube on the right catches light along every edge the way a real manufactured object does · the rule of thumb in industrial design is that everything has at least a tiny bevel.</figcaption>
+    </figure>
 
     <h3>Bevel Profiles: Custom Shapes</h3>
 
@@ -3390,6 +3434,41 @@
         </ul>
         <p><strong>Setup:</strong> Add Modifier → Bevel, adjust Amount and Segments</p>
     </div>
+
+    <figure>
+        <div style="position: relative; display: inline-block; max-width: 100%;">
+            <img loading="lazy" src="images/lesson_06_43_bevel_modifier_settings.png" alt="Full Blender window in Object Mode with the Properties editor open to the Modifiers tab on the bevel modifier test cube. The right panel shows the Bevel Modifier added to `L06_BevelModCube` with Amount set to 0.1 m, Segments set to 3, Limit Method set to Angle with the Angle threshold at 30 degrees, and Shade Smooth applied to the cube; the 3D viewport on the left shows the resulting all-edge bevel on the cube under user-perspective view. Four positive-green pill badges mark the Amount field, the Segments field, the Limit Method dropdown, and the Angle threshold value." style="display: block; width: 100%; height: auto;">
+            <svg viewBox="0 0 1920 1054" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="c43-title c43-desc">
+                <title id="c43-title">Four Bevel Modifier panel callouts</title>
+                <desc id="c43-desc">Four positive-green pill badges mark the key Bevel Modifier settings on the right-side Properties panel · AMOUNT highlights the Amount slider · SEGMENTS highlights the Segments integer field · LIMIT METHOD highlights the Limit Method dropdown · ANGLE highlights the Angle threshold value.</desc>
+                <!-- AMOUNT callout pointing at the Amount slider -->
+                <ellipse id="c43-amount" cx="1810" cy="428" rx="80" ry="16" fill="none" stroke="#4ADE80" stroke-width="4"/>
+                <line x1="1730" y1="428" x2="387" y2="110" stroke="#4ADE80" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="387" cy="110" r="6" fill="#4ADE80"/>
+                <rect x="240" y="87" width="140" height="46" rx="6" fill="#4ADE80"/>
+                <text x="310" y="118" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#0f1a14" letter-spacing="2">AMOUNT</text>
+                <!-- SEGMENTS callout pointing at the Segments integer field -->
+                <ellipse id="c43-segments" cx="1805" cy="456" rx="80" ry="16" fill="none" stroke="#4ADE80" stroke-width="4"/>
+                <line x1="1725" y1="456" x2="627" y2="110" stroke="#4ADE80" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="627" cy="110" r="6" fill="#4ADE80"/>
+                <rect x="440" y="87" width="180" height="46" rx="6" fill="#4ADE80"/>
+                <text x="530" y="118" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#0f1a14" letter-spacing="2">SEGMENTS</text>
+                <!-- LIMIT METHOD callout pointing at the Limit Method enum dropdown -->
+                <ellipse id="c43-limitmethod" cx="1805" cy="498" rx="80" ry="16" fill="none" stroke="#4ADE80" stroke-width="4"/>
+                <line x1="1725" y1="498" x2="927" y2="110" stroke="#4ADE80" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="927" cy="110" r="6" fill="#4ADE80"/>
+                <rect x="680" y="87" width="240" height="46" rx="6" fill="#4ADE80"/>
+                <text x="800" y="118" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#0f1a14" letter-spacing="2">LIMIT METHOD</text>
+                <!-- ANGLE callout pointing at the Angle threshold value field -->
+                <ellipse id="c43-angle" cx="1810" cy="521" rx="80" ry="16" fill="none" stroke="#4ADE80" stroke-width="4"/>
+                <line x1="1730" y1="521" x2="1127" y2="110" stroke="#4ADE80" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="1127" cy="110" r="6" fill="#4ADE80"/>
+                <rect x="980" y="87" width="140" height="46" rx="6" fill="#4ADE80"/>
+                <text x="1050" y="118" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#0f1a14" letter-spacing="2">ANGLE</text>
+            </svg>
+        </div>
+        <figcaption>The Bevel Modifier offers the same width and segment controls as the interactive bevel operator plus a few advantages · the Limit Method dropdown lets the modifier auto-detect which edges to bevel based on their angle · the Angle threshold sets the cut-off · this combination delivers consistent automatic bevels across an entire model without manual edge selection.</figcaption>
+    </figure>
 
     <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
         <h4>✅ Bevel Best Practices</h4>
