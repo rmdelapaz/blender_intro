@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680"
+     role="img" aria-labelledby="sl-title sl-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="#222">
+  <title id="sl-title">sRGB versus linear color space diagram</title>
+  <desc id="sl-desc">A comparison of sRGB and linear color spaces. Two gradient bars at the top show that an sRGB gradient looks perceptually even while a mathematically linear gradient looks darker through its middle. A gamma curve graph in the center plots the sRGB to linear transfer function, and example values show that sRGB 128 maps to about linear 0.22 while linear 0.5 maps to about sRGB 188.</desc>
+
+  <!-- Top brand accent -->
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+  <!-- Heading block -->
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">sRGB VS LINEAR</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">What the screen shows versus what the renderer computes</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <!-- ===== Two gradient bars ===== -->
+  <defs>
+    <!-- sRGB gradient: perceptually even, mid stop near 0.5 perceived -->
+    <linearGradient id="sl-srgb" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#000000"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+    <!-- Linear gradient: mid appears darker. Approximate linear-light ramp by placing
+         a dark mid stop (linear 0.5 displays as sRGB ~188 only after encode; the raw
+         linear ramp viewed directly looks dark through the middle) -->
+    <linearGradient id="sl-lin" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#000000"/>
+      <stop offset="0.25" stop-color="#0d0d0d"/>
+      <stop offset="0.5" stop-color="#242424"/>
+      <stop offset="0.75" stop-color="#5c5c5c"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+  </defs>
+
+  <text x="40" y="138" font-size="18" font-weight="600" fill="currentColor">Same endpoints, different middle</text>
+
+  <!-- sRGB bar -->
+  <text x="40" y="166" font-size="13" font-weight="600" fill="currentColor">sRGB gradient</text>
+  <text x="200" y="166" font-size="12" fill="currentColor" opacity="0.6">what you see on screen, display-encoded</text>
+  <rect x="40" y="174" width="720" height="44" fill="url(#sl-srgb)" stroke="currentColor" stroke-width="1" opacity="1"/>
+  <rect x="40" y="174" width="720" height="44" fill="none" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+  <line x1="400" y1="174" x2="400" y2="218" stroke="#FF6B00" stroke-width="1.5" opacity="0.8"/>
+  <text x="394" y="190" font-size="11" fill="#FF6B00" font-weight="600" text-anchor="end">mid reads middle-gray</text>
+
+  <!-- Linear bar -->
+  <text x="40" y="248" font-size="13" font-weight="600" fill="currentColor">Linear gradient</text>
+  <text x="200" y="248" font-size="12" fill="currentColor" opacity="0.6">what the renderer computes, physically even light steps</text>
+  <rect x="40" y="256" width="720" height="44" fill="url(#sl-lin)" stroke="currentColor" stroke-width="1" opacity="1"/>
+  <rect x="40" y="256" width="720" height="44" fill="none" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+  <line x1="400" y1="256" x2="400" y2="300" stroke="#FF6B00" stroke-width="1.5" opacity="0.8"/>
+  <text x="406" y="272" font-size="11" fill="#FF6B00" font-weight="600">mid appears darker</text>
+
+  <!-- ===== Gamma curve graph ===== -->
+  <!-- Plot area: x 120..420, y 340..540 (200 tall, 300 wide). Origin bottom-left (120,540). -->
+  <text x="40" y="332" font-size="18" font-weight="600" fill="currentColor">Transfer curve</text>
+
+  <!-- Axes -->
+  <line x1="120" y1="540" x2="420" y2="540" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+  <line x1="120" y1="540" x2="120" y2="340" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+  <!-- Identity reference line (y = x) -->
+  <line x1="120" y1="540" x2="420" y2="340" stroke="currentColor" stroke-width="1" opacity="0.25" stroke-dasharray="4 4"/>
+  <text x="372" y="356" font-size="10" fill="currentColor" opacity="0.4">y = x</text>
+
+  <!-- Gamma decode curve: linear = sRGB^2.2, sampled. x in [0,1] across 300px, y up 200px. -->
+  <!-- points precomputed: x_px = 120 + s*300 ; y_px = 540 - (s^2.2)*200 -->
+  <polyline fill="none" stroke="#4A9EFF" stroke-width="3" stroke-linejoin="round" points="120,540.0 150,538.7 180,534.2 210,525.9 240,513.4 270,496.5 300,475.0 330,448.7 360,417.6 390,381.4 420,340.0"/>
+  <text x="300" y="470" font-size="11" font-weight="600" fill="#4A9EFF">linear = sRGB ^ 2.2</text>
+
+  <!-- Axis labels -->
+  <text x="270" y="562" font-size="12" text-anchor="middle" fill="currentColor" opacity="0.7">sRGB value (display)</text>
+  <text x="104" y="440" font-size="12" text-anchor="middle" fill="currentColor" opacity="0.7" transform="rotate(-90 104 440)">Linear value (light)</text>
+  <text x="120" y="556" font-size="10" text-anchor="middle" fill="currentColor" opacity="0.6">0</text>
+  <text x="420" y="556" font-size="10" text-anchor="middle" fill="currentColor" opacity="0.6">1</text>
+
+  <!-- ===== Example value boxes ===== -->
+  <!-- Right column x 460..760 -->
+  <text x="460" y="356" font-size="13" font-weight="600" fill="currentColor">Worked mappings</text>
+
+  <g font-family="ui-monospace, 'Consolas', 'Courier New', monospace" font-size="13">
+    <!-- Box 1 -->
+    <rect x="460" y="370" width="300" height="56" rx="6" fill="#4A9EFF" fill-opacity="0.08" stroke="#4A9EFF" stroke-opacity="0.4"/>
+    <text x="474" y="394" fill="currentColor" font-weight="700">sRGB 128</text>
+    <text x="474" y="414" fill="currentColor" opacity="0.7">&#8594; linear 0.22 &#183; appears mid-gray</text>
+
+    <!-- Box 2 -->
+    <rect x="460" y="436" width="300" height="56" rx="6" fill="#4ADE80" fill-opacity="0.08" stroke="#4ADE80" stroke-opacity="0.4"/>
+    <text x="474" y="460" fill="currentColor" font-weight="700">linear 0.5</text>
+    <text x="474" y="480" fill="currentColor" opacity="0.7">&#8594; sRGB 188 &#183; brighter than mid</text>
+  </g>
+
+  <!-- Explanatory line under graph -->
+  <text x="40" y="586" font-size="12" fill="currentColor" opacity="0.6">Lighting math must run in linear space; the display converts to sRGB so the result looks right to the eye.</text>
+
+  <!-- Footer tip (Variant B, left rail), dense variant y=641 -->
+  <rect x="40" y="641" width="720" height="34" fill="none"/>
+  <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="663" font-size="13" fill="currentColor">
+    <tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Set color-picker base colors as sRGB; Blender decodes them to linear for the render automatically.
+  </text>
+</svg>
