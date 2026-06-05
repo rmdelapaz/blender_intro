@@ -1,29 +1,7 @@
-RESUME Lesson 11 Phase 6 INTEGRATION (`#albedo-values`) — finish the last 3 figures.
-HTML-edit only: no BlenderMCP, scene clean, nothing to produce or RESTORE.
+L12 P5 INTEGRATION — integrate all 5 P5 figures (#17/#18/#19/#20/#21) inline into #manipulating-uv-islands (blender_course · #project). Read first:
 
-Read first, in order:
-1. \\wsl$\Ubuntu\home\practicalace\projects\blender_course\session.md
-   (full resume state + the "Next step: RESUME Lesson 11 Phase 6 INTEGRATION"
-    block — it has the 3 pending anchors, build order, figcaption/alt text,
-    the inline recipe, and the final-QA checklist)
-2. \\wsl$\Ubuntu\home\practicalace\projects\blender_course\lesson_11_integration_progress.md
-   (phase plan, SVG/PNG split, id-prefix + c{N} registries, Status log)
-3. \\wsl$\Ubuntu\home\practicalace\projects\blender_course\images\IMAGE_STYLE_GUIDE.md
-   (v6, LD1–21)
-4. \\wsl$\Ubuntu\home\practicalace\projects\blender_course\lesson_06_completion_handoff.md
-   (locked rules)
+\\wsl$\Ubuntu\home\practicalace\projects\blender_course\session.md
+\\wsl$\Ubuntu\home\practicalace\projects\blender_course\lesson_12_integration_progress.md
 
-State at resume: L11 P6 PRODUCTION COMPLETE + #21 INTEGRATED — 24/30 produced /
-21/30 integrated; HTML 323,139 B. All 4 P6 figures are on disk and verified; #21
-`sl` is already in the HTML. Remaining: integrate #19, #20, #18 — all inline, all
-self-labeling so c19/c20 are SKIPPED (no overlays to build/pixel-verify). #18/#21
-are inline SVGs (`ar`/`sl`); #19/#20 are plain PNG <figure> blocks. Do NOT re-produce
-anything.
-
-Do: refresh the live HTML, confirm 323,139 B, re-verify the 3 remaining anchors
-GLOBALLY UNIQUE, then insert bottom-up #19 → #20 → #18 (edit_file dryRun → commit →
-get_file_info per insert) per the session.md Next-step block. Then final QA, update
-the progress doc (→ PHASE 6 COMPLETE / 24-30 / 24-30), and repoint session.md to P7.
-
-Carry forward all locked rules (v6 LD1–21 + the L11 progress-doc Locked-rules block).
-Warn before context tightens.
+All 5 P5 figures are PRODUCED + on disk (images/), overlays NOT yet built — c17 Move(G)/Rotate(R)/Scale(S) · c18 BEFORE/AFTER + Pack Islands arrow · c19 Inconsistent/Normalized OR self-labeling (reserved-default-SKIP, decide against pixels) · c20 Pinned/Unpinned vertices · c21 Symmetrical Model/Mirrored UVs + 50% Space Saved. Build each against the actual produced PNG pixels per v6 LD19, cairosvg-composite + view before commit. No BlenderMCP needed (scene already at clean base).
+Watch at INTEGRATION: refresh the working copy first and re-verify every anchor GLOBALLY UNIQUE on the fresh copy. The "Mirror UVs" placement string is non-unique (3×) and "UV Islands"/"Pack Islands" are heavily non-unique — extend to multi-line anchors until count=1 (the L11 #7/#10 precedent). This is the borderline-5 phase: rides inline unless context tightens, then break INTEGRATION out to its own chat. Close-out updates progress-doc rows/Current state/Status + session.md pointer first, then this is done.
