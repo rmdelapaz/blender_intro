@@ -89,8 +89,9 @@
                             <li><a href="#mixing-shaders" class="toc-link">Mixing Shaders and Materials</a></li>
                             <li><a href="#realistic-materials" class="toc-link">Creating Realistic Materials</a></li>
                             <li><a href="#advanced-techniques" class="toc-link">Advanced Shading Techniques</a></li>
-                            <li><a href="#hands-on-projects" class="toc-link">Hands-On Material Projects</a></li>
-                            <li><a href="#optimization" class="toc-link">Material Optimization</a></li>
+                            <li><a href="#material-optimization" class="toc-link">Material Optimization</a></li>
+                            <li><a href="#troubleshooting" class="toc-link">Troubleshooting Materials</a></li>
+                            <li><a href="#project-advanced-materials" class="toc-link">Hands-On Material Projects</a></li>
                             <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
                         </ol>
                     </nav>
@@ -130,6 +131,30 @@
                             <li><strong>Subsurface:</strong> Light penetrating surface (skin, wax, marble)</li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_14_01_material_properties_comparison.png"
+                                 alt="Three identical spheres rendered side by side showing distinct material types: a soft matte diffuse sphere on the left, a reflective gold metallic sphere in the center, and a transparent refractive glass sphere on the right."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <line x1="386" y1="255" x2="386" y2="299" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="386" cy="305" r="6" fill="#FF6B00"/>
+                                <rect x="332" y="219" width="108" height="36" rx="6" fill="#1a1a1a"/>
+                                <text x="386" y="243" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Diffuse</text>
+                                <line x1="800" y1="255" x2="800" y2="299" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="800" cy="305" r="6" fill="#FF6B00"/>
+                                <rect x="741" y="219" width="118" height="36" rx="6" fill="#1a1a1a"/>
+                                <text x="800" y="243" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Metallic</text>
+                                <line x1="1214" y1="255" x2="1214" y2="299" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="1214" cy="305" r="6" fill="#FF6B00"/>
+                                <rect x="1171" y="219" width="86" height="36" rx="6" fill="#1a1a1a"/>
+                                <text x="1214" y="243" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Glass</text>
+                            </svg>
+                        </div>
+                        <figcaption>Three core material behaviors compared on identical spheres. The diffuse surface scatters light evenly for a flat matte look, the metallic surface reflects its surroundings with a tinted sheen, and the glass surface transmits and refracts light to appear transparent.</figcaption>
+                    </figure>
 
                     <blockquote>
                         <p><strong>💡 The Light Interaction Analogy:</strong> Think of materials as instructions for how light should behave when it hits a surface. Imagine light as water hitting different surfaces—metal reflects it like a mirror, cloth absorbs most of it, glass lets it pass through while bending it. Materials are the rules that describe these behaviors mathematically.</p>
@@ -324,6 +349,41 @@ graph LR
                         </ul>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_14_02_shader_editor_interface.png" alt="The Blender Shader Editor workspace: the node area fills the center, the header with the Add menu runs across the top, the toolbar opened with T is on the left and the sidebar opened with N is on the right, and a default Principled BSDF node is wired into Material Output by a green shader connection." style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1573 972" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" aria-labelledby="c2-title c2-desc">
+                                <title id="c2-title">Shader Editor interface regions</title>
+                                <desc id="c2-desc">Callouts label the six main parts of the Shader Editor: the node workspace, the header with the Add menu, the toolbar opened with T, the sidebar opened with N, the Principled BSDF node, and the Material Output node.</desc>
+                                <line x1="362" y1="19" x2="431" y2="120" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="362" cy="19" r="6" fill="#FF6B00"/>
+                                <rect x="300" y="128" width="262" height="34" rx="6" fill="#1a1a1a"/>
+                                <text x="431" y="151" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Header + Add menu</text>
+                                <line x1="865" y1="169" x2="865" y2="230" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="865" cy="169" r="6" fill="#FF6B00"/>
+                                <rect x="771" y="238" width="188" height="34" rx="6" fill="#1a1a1a"/>
+                                <text x="865" y="261" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Node Workspace</text>
+                                <line x1="1556" y1="169" x2="1390" y2="580" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="1556" cy="169" r="6" fill="#FF6B00"/>
+                                <rect x="1312" y="588" width="156" height="34" rx="6" fill="#1a1a1a"/>
+                                <text x="1390" y="611" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Sidebar (N)</text>
+                                <line x1="42" y1="185" x2="150" y2="552" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="42" cy="185" r="6" fill="#FF6B00"/>
+                                <rect x="72" y="560" width="156" height="34" rx="6" fill="#1a1a1a"/>
+                                <text x="150" y="583" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Toolbar (T)</text>
+                                <line x1="382" y1="265" x2="765" y2="860" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="382" cy="265" r="6" fill="#FF6B00"/>
+                                <rect x="649" y="868" width="232" height="34" rx="6" fill="#1a1a1a"/>
+                                <text x="765" y="891" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Principled BSDF</text>
+                                <line x1="1275" y1="410" x2="1180" y2="860" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="1275" cy="410" r="6" fill="#FF6B00"/>
+                                <rect x="1064" y="868" width="232" height="34" rx="6" fill="#1a1a1a"/>
+                                <text x="1180" y="891" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Material Output</text>
+                            </svg>
+                        </div>
+                        <figcaption>The Shader Editor workspace, with the node area in the center, the header and Add menu on top, the toolbar (T) at left and the sidebar (N) at right &#183; every new material starts with a Principled BSDF feeding the Material Output node.</figcaption>
+                    </figure>
+
                     <h3>Shader Editor Interface Overview</h3>
 
                     <div class="card">
@@ -362,6 +422,86 @@ graph LR
                     </div>
 
                     <h3>Understanding Nodes</h3>
+
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680" role="img" aria-labelledby="na-title na-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                            <title id="na-title">Anatomy of a Blender shader node</title>
+                            <desc id="na-desc">A Principled BSDF node with its parts labeled: the node header at top, the column of input sockets on the left, the single BSDF output socket on the right, the interior parameter fields and sliders, and the color-coded sockets whose hue indicates the data type they accept.</desc>
+                            <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+                            <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">Anatomy of a Shader Node</text>
+                            <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">The Principled BSDF, part by part</text>
+                            <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+                            <rect x="250" y="150" width="260" height="32" rx="6" fill="#2c4a33"/>
+                            <rect x="250" y="166" width="260" height="16" fill="#2c4a33"/>
+                            <text x="266" y="172" font-size="14" font-weight="600" fill="#ffffff">Principled BSDF</text>
+                            <rect x="250" y="178" width="260" height="292" rx="6" fill="#3a3a3a"/>
+                            <rect x="250" y="178" width="260" height="8" fill="#3a3a3a"/>
+                            <text x="498" y="206" font-size="13" fill="#e6e6e6" text-anchor="end">BSDF</text>
+                            <circle cx="510" cy="202" r="7" fill="#63C763" stroke="#0f1a14" stroke-width="1"/>
+                            <circle cx="250" cy="232" r="6" fill="#C7C729" stroke="#0f1a14" stroke-width="1"/>
+                            <text x="266" y="237" font-size="13" fill="#e6e6e6">Base Color</text>
+                            <rect x="372" y="224" width="126" height="16" rx="3" fill="#d9d4c4"/>
+                            <circle cx="250" cy="262" r="6" fill="#A1A1A1" stroke="#0f1a14" stroke-width="1"/>
+                            <rect x="328" y="254" width="170" height="16" rx="3" fill="#545454"/>
+                            <text x="338" y="267" font-size="12" fill="#e6e6e6">Metallic</text>
+                            <text x="490" y="267" font-size="12" fill="#e6e6e6" text-anchor="end">0.000</text>
+                            <circle cx="250" cy="292" r="6" fill="#A1A1A1" stroke="#0f1a14" stroke-width="1"/>
+                            <rect x="328" y="284" width="170" height="16" rx="3" fill="#545454"/>
+                            <text x="338" y="297" font-size="12" fill="#e6e6e6">Roughness</text>
+                            <text x="490" y="297" font-size="12" fill="#e6e6e6" text-anchor="end">0.500</text>
+                            <circle cx="250" cy="322" r="6" fill="#A1A1A1" stroke="#0f1a14" stroke-width="1"/>
+                            <rect x="328" y="314" width="170" height="16" rx="3" fill="#545454"/>
+                            <text x="338" y="327" font-size="12" fill="#e6e6e6">IOR</text>
+                            <text x="490" y="327" font-size="12" fill="#e6e6e6" text-anchor="end">1.450</text>
+                            <circle cx="250" cy="352" r="6" fill="#6363C7" stroke="#0f1a14" stroke-width="1"/>
+                            <text x="266" y="357" font-size="13" fill="#e6e6e6">Normal</text>
+                            <rect x="266" y="378" width="232" height="14" rx="3" fill="#4a4a4a"/>
+                            <text x="276" y="389" font-size="11" fill="#cfcfcf">Subsurface</text>
+                            <rect x="266" y="398" width="232" height="14" rx="3" fill="#4a4a4a"/>
+                            <text x="276" y="409" font-size="11" fill="#cfcfcf">Specular</text>
+                            <rect x="266" y="418" width="232" height="14" rx="3" fill="#4a4a4a"/>
+                            <text x="276" y="429" font-size="11" fill="#cfcfcf">Transmission</text>
+                            <rect x="266" y="438" width="232" height="14" rx="3" fill="#4a4a4a"/>
+                            <text x="276" y="449" font-size="11" fill="#cfcfcf">Emission</text>
+                            <g stroke="#FF6B00" stroke-width="2" fill="none" stroke-linecap="round">
+                                <line x1="240" y1="166" x2="150" y2="150"/>
+                                <line x1="240" y1="292" x2="150" y2="300"/>
+                                <line x1="520" y1="202" x2="620" y2="190"/>
+                                <line x1="520" y1="408" x2="612" y2="408"/>
+                                <line x1="240" y1="232" x2="150" y2="232"/>
+                            </g>
+                            <g fill="#FF6B00">
+                                <circle cx="150" cy="150" r="4"/>
+                                <circle cx="150" cy="300" r="4"/>
+                                <circle cx="620" cy="190" r="4"/>
+                                <circle cx="612" cy="408" r="4"/>
+                                <circle cx="150" cy="232" r="4"/>
+                            </g>
+                            <text x="142" y="142" font-size="13" font-weight="600" fill="currentColor" text-anchor="end">Node Header</text>
+                            <text x="142" y="296" font-size="13" font-weight="600" fill="currentColor" text-anchor="end">Input Sockets</text>
+                            <text x="142" y="308" font-size="11" fill="currentColor" opacity="0.6" text-anchor="end">(left side)</text>
+                            <text x="630" y="186" font-size="13" font-weight="600" fill="currentColor">Output Socket</text>
+                            <text x="630" y="200" font-size="11" fill="currentColor" opacity="0.6">(right side)</text>
+                            <text x="622" y="404" font-size="13" font-weight="600" fill="currentColor">Parameters</text>
+                            <text x="622" y="418" font-size="11" fill="currentColor" opacity="0.6">&amp; settings</text>
+                            <text x="142" y="224" font-size="13" font-weight="600" fill="currentColor" text-anchor="end">Socket Colors</text>
+                            <text x="142" y="248" font-size="11" fill="currentColor" opacity="0.6" text-anchor="end">show data type</text>
+                            <text x="40" y="512" font-size="18" font-weight="600" fill="currentColor">Socket color = data type</text>
+                            <g font-size="13" fill="currentColor">
+                                <circle cx="56" cy="538" r="8" fill="#63C763" stroke="#0f1a14" stroke-width="1"/>
+                                <text x="74" y="543">Green: Shader</text>
+                                <circle cx="236" cy="538" r="8" fill="#C7C729" stroke="#0f1a14" stroke-width="1"/>
+                                <text x="254" y="543">Yellow: Color</text>
+                                <circle cx="416" cy="538" r="8" fill="#A1A1A1" stroke="#0f1a14" stroke-width="1"/>
+                                <text x="434" y="543">Grey: Value</text>
+                                <circle cx="596" cy="538" r="8" fill="#6363C7" stroke="#0f1a14" stroke-width="1"/>
+                                <text x="614" y="543">Blue: Vector</text>
+                            </g>
+                            <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+                            <text x="58" y="663" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> You can only connect sockets of matching color. Green goes to green, yellow to yellow.</text>
+                        </svg>
+                        <figcaption>Anatomy of a Principled BSDF node: the header sits on top, input sockets run down the left, the BSDF output socket is on the right, and parameters fill the body &#183; each socket color signals the data type that connection carries.</figcaption>
+                    </figure>
 
                     <div class="card">
                         <h4>🔲 Node Basics</h4>
@@ -425,6 +565,52 @@ graph LR
                             <li>One input can only have one connection (new replaces old)</li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" role="img" aria-labelledby="sc-title sc-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                            <title id="sc-title">Blender shader node socket color reference</title>
+                            <desc id="sc-desc">A four-row reference chart of Blender node socket colors and the data type each one carries: green sockets are shader data, yellow sockets are color or RGB data, grey sockets are single numeric values, and blue sockets are vector data such as coordinates and normals.</desc>
+                            <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+                            <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">Node Socket Color Guide</text>
+                            <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">What each socket color tells you to connect</text>
+                            <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+                            <g>
+                                <circle cx="92" cy="166" r="22" fill="#63C763" stroke="#0f1a14" stroke-width="1.5"/>
+                                <text x="140" y="160" font-size="17" font-weight="700" fill="currentColor">GREEN</text>
+                                <text x="140" y="182" font-size="15" font-weight="500" fill="currentColor">Shader Data</text>
+                                <text x="404" y="172" font-size="13" fill="currentColor" opacity="0.6">Material results: BSDF, Mix Shader, Surface input</text>
+                            </g>
+                            <line x1="40" y1="206" x2="760" y2="206" stroke="currentColor" stroke-width="1" opacity="0.12"/>
+                            <g>
+                                <circle cx="92" cy="262" r="22" fill="#C7C729" stroke="#0f1a14" stroke-width="1.5"/>
+                                <text x="140" y="256" font-size="17" font-weight="700" fill="currentColor">YELLOW</text>
+                                <text x="140" y="278" font-size="15" font-weight="500" fill="currentColor">Color / RGB Data</text>
+                                <text x="404" y="268" font-size="13" fill="currentColor" opacity="0.6">Colors and textures: Base Color, image textures</text>
+                            </g>
+                            <line x1="40" y1="302" x2="760" y2="302" stroke="currentColor" stroke-width="1" opacity="0.12"/>
+                            <g>
+                                <circle cx="92" cy="358" r="22" fill="#A1A1A1" stroke="#0f1a14" stroke-width="1.5"/>
+                                <text x="140" y="352" font-size="17" font-weight="700" fill="currentColor">GREY</text>
+                                <text x="140" y="374" font-size="15" font-weight="500" fill="currentColor">Value / Number</text>
+                                <text x="404" y="364" font-size="13" fill="currentColor" opacity="0.6">Single numbers: Roughness, Metallic, IOR, factors</text>
+                            </g>
+                            <line x1="40" y1="398" x2="760" y2="398" stroke="currentColor" stroke-width="1" opacity="0.12"/>
+                            <g>
+                                <circle cx="92" cy="454" r="22" fill="#6363C7" stroke="#0f1a14" stroke-width="1.5"/>
+                                <text x="140" y="448" font-size="17" font-weight="700" fill="currentColor">BLUE</text>
+                                <text x="140" y="470" font-size="15" font-weight="500" fill="currentColor">Vector Data</text>
+                                <text x="404" y="460" font-size="13" fill="currentColor" opacity="0.6">Directions and coordinates: Normal, Mapping</text>
+                            </g>
+                            <rect x="40" y="506" width="4" height="34" fill="#FF6B00"/>
+                            <text x="58" y="528" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Sockets only connect to matching colors. If a noodle refuses to attach, the data types do not match.</text>
+                        </svg>
+                        <figcaption>Blender node socket color reference, where green carries shader data, yellow carries color and RGB, grey carries single values, and blue carries vector data &#183; matching colors connect to each other.</figcaption>
+                    </figure>
+
+                    <figure>
+                        <img src="images/lesson_14_05_basic_node_connection.png" alt="A basic node connection in the Shader Editor: the green BSDF output socket of a Principled BSDF node on the left is wired by a green shader noodle into the Surface input of the Material Output node on the right." style="display: block; max-width: 100%; height: auto; margin: 0;">
+                        <figcaption>The simplest material graph: the Principled BSDF output connects to the Surface input of Material Output &#183; the green noodle marks a shader-to-shader connection.</figcaption>
+                    </figure>
 
                     <h3>Adding Nodes</h3>
 
@@ -512,6 +698,45 @@ graph LR
                     <h2>💎 Mastering Principled BSDF</h2>
 
                     <p>The Principled BSDF shader is the heart of modern material creation in Blender. It's an all-in-one shader that can create virtually any material type—from plastic to metal, glass to skin. Let's master every parameter and learn how to use them effectively.</p>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_14_06_principled_bsdf_overview.png" alt="Principled BSDF node connected to Material Output, with its key input sockets labeled" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1190 590" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" aria-labelledby="c6-title c6-desc">
+                                <title id="c6-title">Principled BSDF key inputs</title>
+                                <desc id="c6-desc">Callouts label seven key Principled BSDF inputs: Base Color, Metallic, Roughness, IOR, Transmission, Emission, and Normal.</desc>
+                                <line x1="58" y1="146" x2="470" y2="146" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="58" cy="146" r="6" fill="#FF6B00"/>
+                                <rect x="470" y="131" width="124" height="30" rx="6" fill="#1a1a1a"/>
+                                <text x="532" y="152" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#ffffff">Base Color</text>
+                                <line x1="58" y1="180" x2="470" y2="182" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="58" cy="180" r="6" fill="#FF6B00"/>
+                                <rect x="470" y="167" width="104" height="30" rx="6" fill="#1a1a1a"/>
+                                <text x="522" y="188" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#ffffff">Metallic</text>
+                                <line x1="58" y1="214" x2="470" y2="218" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="58" cy="214" r="6" fill="#FF6B00"/>
+                                <rect x="470" y="203" width="114" height="30" rx="6" fill="#1a1a1a"/>
+                                <text x="527" y="224" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#ffffff">Roughness</text>
+                                <line x1="58" y1="248" x2="470" y2="254" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="58" cy="248" r="6" fill="#FF6B00"/>
+                                <rect x="470" y="239" width="56" height="30" rx="6" fill="#1a1a1a"/>
+                                <text x="498" y="260" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#ffffff">IOR</text>
+                                <line x1="58" y1="315" x2="470" y2="315" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="58" cy="315" r="6" fill="#FF6B00"/>
+                                <rect x="470" y="300" width="85" height="30" rx="6" fill="#1a1a1a"/>
+                                <text x="512" y="321" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#ffffff">Normal</text>
+                                <line x1="88" y1="440" x2="470" y2="440" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="88" cy="440" r="6" fill="#FF6B00"/>
+                                <rect x="470" y="425" width="143" height="30" rx="6" fill="#1a1a1a"/>
+                                <text x="541" y="446" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#ffffff">Transmission</text>
+                                <line x1="88" y1="532" x2="470" y2="532" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="88" cy="532" r="6" fill="#FF6B00"/>
+                                <rect x="470" y="517" width="104" height="30" rx="6" fill="#1a1a1a"/>
+                                <text x="522" y="538" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#ffffff">Emission</text>
+                            </svg>
+                        </div>
+                        <figcaption>The Principled BSDF node with its key inputs labeled. &#183; Base Color, Metallic, Roughness, IOR, Transmission, Emission, and Normal are the parameters you will reach for most.</figcaption>
+                    </figure>
 
                     <h3>What is Principled BSDF?</h3>
 
@@ -614,6 +839,25 @@ graph LR
                         </ul>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_14_08_metallic_workflow_comparison.png" alt="Two spheres comparing a non-metallic surface at 0.0 with a metallic surface at 1.0" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" aria-labelledby="c8-title c8-desc">
+                                <title id="c8-title">Metallic versus non-metallic reflections</title>
+                                <desc id="c8-desc">The left sphere is non-metallic at 0.0 with colorless reflections; the right sphere is metallic at 1.0 with reflections tinted by its base color.</desc>
+                                <line x1="390" y1="410" x2="390" y2="270" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="390" cy="410" r="7" fill="#FF6B00"/>
+                                <rect x="292" y="230" width="197" height="40" rx="6" fill="#1a1a1a"/>
+                                <text x="390" y="256" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Non-Metallic 0.0</text>
+                                <line x1="1065" y1="425" x2="1065" y2="270" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="1065" cy="425" r="7" fill="#FF6B00"/>
+                                <rect x="988" y="230" width="155" height="40" rx="6" fill="#1a1a1a"/>
+                                <text x="1065" y="256" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Metallic 1.0</text>
+                            </svg>
+                        </div>
+                        <figcaption>Metallic at 0.0 keeps colorless reflections over a visible base color, while Metallic at 1.0 tints the reflections with the base color and drops the diffuse component. &#183; This is the core of the PBR metallic workflow.</figcaption>
+                    </figure>
+
                     <h3>Roughness Parameter</h3>
 
                     <div class="card">
@@ -673,6 +917,45 @@ graph LR
                         <p><strong>Pro tip:</strong> Variation is key! Plug in a texture with subtle variation for most realistic results—real surfaces are never uniformly rough.</p>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_14_09_roughness_scale_guide.png" alt="Seven identical spheres showing roughness increasing from 0.0 at the left to 1.0 at the right" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 600" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" aria-labelledby="c9-title c9-desc">
+                                <title id="c9-title">Roughness scale from smooth to rough</title>
+                                <desc id="c9-desc">Seven identical spheres with roughness rising evenly from 0.0 at the left, a sharp mirror highlight, to 1.0 at the right, a fully matte surface.</desc>
+                                <line x1="311" y1="355" x2="311" y2="172" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="311" cy="355" r="7" fill="#FF6B00"/>
+                                <rect x="278" y="128" width="66" height="44" rx="6" fill="#1a1a1a"/>
+                                <text x="311" y="158" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="#ffffff">0.0</text>
+                                <line x1="525" y1="355" x2="525" y2="172" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="525" cy="355" r="7" fill="#FF6B00"/>
+                                <rect x="485" y="128" width="80" height="44" rx="6" fill="#1a1a1a"/>
+                                <text x="525" y="158" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="#ffffff">0.17</text>
+                                <line x1="741" y1="355" x2="741" y2="172" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="741" cy="355" r="7" fill="#FF6B00"/>
+                                <rect x="701" y="128" width="80" height="44" rx="6" fill="#1a1a1a"/>
+                                <text x="741" y="158" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="#ffffff">0.33</text>
+                                <line x1="957" y1="355" x2="957" y2="172" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="957" cy="355" r="7" fill="#FF6B00"/>
+                                <rect x="924" y="128" width="66" height="44" rx="6" fill="#1a1a1a"/>
+                                <text x="957" y="158" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="#ffffff">0.5</text>
+                                <line x1="1173" y1="355" x2="1173" y2="172" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="1173" cy="355" r="7" fill="#FF6B00"/>
+                                <rect x="1133" y="128" width="80" height="44" rx="6" fill="#1a1a1a"/>
+                                <text x="1173" y="158" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="#ffffff">0.67</text>
+                                <line x1="1390" y1="355" x2="1390" y2="172" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="1390" cy="355" r="7" fill="#FF6B00"/>
+                                <rect x="1350" y="128" width="80" height="44" rx="6" fill="#1a1a1a"/>
+                                <text x="1390" y="158" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="#ffffff">0.83</text>
+                                <line x1="1603" y1="355" x2="1603" y2="172" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="1603" cy="355" r="7" fill="#FF6B00"/>
+                                <rect x="1570" y="128" width="66" height="44" rx="6" fill="#1a1a1a"/>
+                                <text x="1603" y="158" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="#ffffff">1.0</text>
+                            </svg>
+                        </div>
+                        <figcaption>Roughness rising evenly from 0.0 to 1.0 across seven identical spheres. &#183; Low values give sharp mirror reflections, high values give a soft matte surface.</figcaption>
+                    </figure>
+
                     <h3>IOR (Index of Refraction)</h3>
 
                     <div class="card">
@@ -703,6 +986,65 @@ graph LR
                         </ul>
                     </div>
 
+                    <figure aria-label="Index of Refraction reference table for common materials">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680" role="img" aria-labelledby="io-title io-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                            <title id="io-title">Index of Refraction (IOR) Reference</title>
+                            <desc id="io-desc">A two-column reference table of Index of Refraction values for common real-world materials, ordered from air at 1.0 up to diamond at 2.4. The Blender default value of 1.45 for plastic and acrylic is highlighted in orange. Higher IOR means light bends more strongly as it passes through the material.</desc>
+                            <!-- Top brand accent -->
+                            <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+                            <!-- Heading block -->
+                            <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">Index of Refraction (IOR) Reference</text>
+                            <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Common real-world values for the Principled BSDF IOR input</text>
+                            <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+                            <!-- Column header row -->
+                            <text x="58" y="150" font-size="13" font-weight="700" fill="currentColor" opacity="0.6" letter-spacing="0.5">MATERIAL</text>
+                            <text x="742" y="150" font-size="13" font-weight="700" fill="currentColor" opacity="0.6" letter-spacing="0.5" text-anchor="end">IOR</text>
+                            <line x1="40" y1="164" x2="760" y2="164" stroke="currentColor" stroke-width="1.5" opacity="0.25"/>
+                            <!-- Table rows: y centers stepped by 46, starting at 196 -->
+                            <!-- Row 1: Air -->
+                            <text x="58" y="201" font-size="16" fill="currentColor">Vacuum / Air</text>
+                            <text x="742" y="201" font-size="17" font-weight="600" fill="currentColor" text-anchor="end" font-family="'Roboto Mono', ui-monospace, monospace">1.00</text>
+                            <line x1="40" y1="219" x2="760" y2="219" stroke="currentColor" stroke-width="1" opacity="0.1"/>
+                            <!-- Row 2: Water -->
+                            <text x="58" y="247" font-size="16" fill="currentColor">Water</text>
+                            <text x="742" y="247" font-size="17" font-weight="600" fill="currentColor" text-anchor="end" font-family="'Roboto Mono', ui-monospace, monospace">1.33</text>
+                            <line x1="40" y1="265" x2="760" y2="265" stroke="currentColor" stroke-width="1" opacity="0.1"/>
+                            <!-- Row 3: Plastic / Acrylic (Blender default, highlighted) -->
+                            <rect x="40" y="266" width="720" height="46" rx="6" fill="#FF6B00" fill-opacity="0.1"/>
+                            <rect x="40" y="266" width="4" height="46" fill="#FF6B00"/>
+                            <text x="58" y="293" font-size="16" font-weight="600" fill="currentColor">Plastic / Acrylic</text>
+                            <text x="58" y="306" font-size="11" font-weight="700" fill="#FF6B00" letter-spacing="0.3">BLENDER DEFAULT</text>
+                            <text x="742" y="298" font-size="17" font-weight="700" fill="#FF6B00" text-anchor="end" font-family="'Roboto Mono', ui-monospace, monospace">1.45</text>
+                            <!-- Row 4: Glass (standard) -->
+                            <text x="58" y="339" font-size="16" fill="currentColor">Glass (standard)</text>
+                            <text x="742" y="339" font-size="17" font-weight="600" fill="currentColor" text-anchor="end" font-family="'Roboto Mono', ui-monospace, monospace">1.50</text>
+                            <line x1="40" y1="357" x2="760" y2="357" stroke="currentColor" stroke-width="1" opacity="0.1"/>
+                            <!-- Row 5: Glass (window) / Quartz -->
+                            <text x="58" y="385" font-size="16" fill="currentColor">Glass (window), Quartz</text>
+                            <text x="742" y="385" font-size="17" font-weight="600" fill="currentColor" text-anchor="end" font-family="'Roboto Mono', ui-monospace, monospace">1.55</text>
+                            <line x1="40" y1="403" x2="760" y2="403" stroke="currentColor" stroke-width="1" opacity="0.1"/>
+                            <!-- Row 6: Emerald -->
+                            <text x="58" y="431" font-size="16" fill="currentColor">Emerald</text>
+                            <text x="742" y="431" font-size="17" font-weight="600" fill="currentColor" text-anchor="end" font-family="'Roboto Mono', ui-monospace, monospace">1.58</text>
+                            <line x1="40" y1="449" x2="760" y2="449" stroke="currentColor" stroke-width="1" opacity="0.1"/>
+                            <!-- Row 7: Ruby -->
+                            <text x="58" y="477" font-size="16" fill="currentColor">Ruby</text>
+                            <text x="742" y="477" font-size="17" font-weight="600" fill="currentColor" text-anchor="end" font-family="'Roboto Mono', ui-monospace, monospace">1.76</text>
+                            <line x1="40" y1="495" x2="760" y2="495" stroke="currentColor" stroke-width="1" opacity="0.1"/>
+                            <!-- Row 8: Diamond -->
+                            <text x="58" y="523" font-size="16" font-weight="600" fill="currentColor">Diamond</text>
+                            <text x="742" y="523" font-size="17" font-weight="700" fill="currentColor" text-anchor="end" font-family="'Roboto Mono', ui-monospace, monospace">2.40</text>
+                            <line x1="40" y1="541" x2="760" y2="541" stroke="currentColor" stroke-width="1" opacity="0.1"/>
+                            <!-- Scale note -->
+                            <text x="40" y="585" font-size="13" fill="currentColor" opacity="0.6">Higher IOR bends light more strongly. Air is the 1.0 baseline; most solids fall between 1.3 and 1.6.</text>
+                            <!-- Footer tip (Variant B, left rail) at dense-variant y=641 -->
+                            <rect x="40" y="641" width="720" height="34" fill="none"/>
+                            <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+                            <text x="58" y="663" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Match IOR to the real material for believable glass and gems; 1.45 suits most everyday plastics.</text>
+                        </svg>
+                        <figcaption>Index of Refraction values for common materials, from air at 1.0 up to diamond at 2.4. &#183; Blender defaults to 1.45, which suits most everyday plastics.</figcaption>
+                    </figure>
+
                     <h3>Transmission (Transparency)</h3>
 
                     <div class="card">
@@ -728,6 +1070,29 @@ graph LR
                             <li>Higher roughness = more blurred transparency</li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_14_11_transmission_vs_alpha.png" alt="Two cubes over a checker background comparing transmission refraction with alpha transparency" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" aria-labelledby="c11-title c11-desc">
+                                <title id="c11-title">Transmission versus alpha transparency</title>
+                                <desc id="c11-desc">The left cube uses Transmission 1.0 and refracts the checker pattern behind it like glass; the right cube uses a low Alpha and simply fades from view without bending the background.</desc>
+                                <line x1="355" y1="235" x2="355" y2="174" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="355" cy="235" r="7" fill="#FF6B00"/>
+                                <rect x="236" y="86" width="238" height="88" rx="8" fill="#1a1a1a"/>
+                                <text x="355" y="112" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Transmission 1.0</text>
+                                <text x="355" y="136" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="400" fill="#cfcfcf">Light refracts through</text>
+                                <text x="355" y="160" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="400" fill="#cfcfcf">Use for: glass, water</text>
+                                <line x1="1075" y1="245" x2="1075" y2="184" stroke="#FF6B00" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="1075" cy="245" r="7" fill="#FF6B00"/>
+                                <rect x="952" y="96" width="247" height="88" rx="8" fill="#1a1a1a"/>
+                                <text x="1075" y="122" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Alpha 0.32</text>
+                                <text x="1075" y="146" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="400" fill="#cfcfcf">Material disappears</text>
+                                <text x="1075" y="170" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="400" fill="#cfcfcf">Use for: cutouts, fades</text>
+                            </svg>
+                        </div>
+                        <figcaption>Transmission bends light through the cube and refracts the checker pattern behind it, while a low Alpha simply fades the cube from view without bending the background. &#183; Use Transmission for glass and water, Alpha for cutouts and fades.</figcaption>
+                    </figure>
 
                     <h3>Emission</h3>
 
@@ -811,6 +1176,29 @@ graph LR
                         </ul>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_14_13_subsurface_example.png" alt="Two peachy spheres comparing subsurface scattering off and on under back lighting" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" aria-labelledby="c13-title c13-desc">
+                                <title id="c13-title">Subsurface scattering off versus on</title>
+                                <desc id="c13-desc">The left sphere has Subsurface off and looks opaque like painted plastic; the right sphere has Subsurface on and glows warmly as light scatters through its surface.</desc>
+                                <g>
+                                <line x1="314" y1="78" x2="314" y2="145" stroke="#FF6B00" stroke-width="3"/>
+                                <circle cx="314" cy="145" r="6" fill="#FF6B00"/>
+                                <rect x="218" y="50" width="192" height="36" rx="8" fill="#1a1a1a"/>
+                                <text x="314" y="74" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">Subsurface OFF</text>
+                                </g>
+                                <g>
+                                <line x1="1285" y1="78" x2="1285" y2="145" stroke="#FF6B00" stroke-width="3"/>
+                                <circle cx="1285" cy="145" r="6" fill="#FF6B00"/>
+                                <rect x="1189" y="50" width="192" height="36" rx="8" fill="#1a1a1a"/>
+                                <text x="1285" y="74" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">Subsurface ON</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <figcaption>Subsurface off looks opaque like painted plastic, while Subsurface on lets light scatter through the surface for a warm organic glow. &#183; Use it for skin, wax, and marble.</figcaption>
+                    </figure>
+
                     <h3>Alpha (Opacity)</h3>
 
                     <div class="card">
@@ -889,6 +1277,35 @@ graph LR
                             <li>Connect Normal Map Normal → Principled BSDF Normal</li>
                         </ol>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_14_12_normal_map_setup.png" alt="Shader node tree: Image Texture set to Non-Color through a Normal Map node into the Principled BSDF Normal input" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1573 938" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" aria-labelledby="c12-title c12-desc">
+                                <title id="c12-title">Normal map node setup callouts</title>
+                                <desc id="c12-desc">Callouts highlight the three keys to a working normal map: set the Image Texture color space to Non-Color, route it through a Normal Map node, and connect that node to the Principled BSDF Normal input.</desc>
+                                <g>
+                                <line x1="170" y1="745" x2="330" y2="626" stroke="#E63946" stroke-width="3"/>
+                                <circle cx="330" cy="626" r="6" fill="#E63946"/>
+                                <rect x="60" y="715" width="220" height="40" rx="8" fill="#E63946"/>
+                                <text x="170" y="741" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">Set to Non-Color!</text>
+                                </g>
+                                <g>
+                                <line x1="575" y1="294" x2="575" y2="477" stroke="#FF6B00" stroke-width="3"/>
+                                <circle cx="575" cy="477" r="6" fill="#FF6B00"/>
+                                <rect x="487" y="268" width="176" height="34" rx="8" fill="#1a1a1a"/>
+                                <text x="575" y="291" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">Normal Map node</text>
+                                </g>
+                                <g>
+                                <line x1="1040" y1="411" x2="812" y2="410" stroke="#FF6B00" stroke-width="3"/>
+                                <circle cx="812" cy="410" r="6" fill="#FF6B00"/>
+                                <rect x="1040" y="394" width="150" height="34" rx="8" fill="#1a1a1a"/>
+                                <text x="1115" y="417" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">Normal input</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <figcaption>The correct normal map chain: an Image Texture set to Non-Color feeds a Normal Map node, which connects to the Principled BSDF Normal input. &#183; The Non-Color color space is the setting beginners most often miss.</figcaption>
+                    </figure>
 
                     <h3>Other Principled BSDF Inputs</h3>
 
