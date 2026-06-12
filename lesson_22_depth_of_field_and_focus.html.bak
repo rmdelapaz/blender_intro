@@ -1,0 +1,3079 @@
+<!-- ============================================
+     LESSON 22 - PART 01
+     File: lesson_22_depth_of_field_and_focus_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master depth of field and focus in Blender - learn how to create cinematic blur effects, control focus, simulate camera optics, and separate subjects from backgrounds for professional 3D renders.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 22: Depth of Field and Focus - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="main-nav" aria-label="Main Navigation">
+            <a href="index.html" class="nav-logo">🎨 Blender Course</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#lessons">Lessons</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#lessons">Lessons</a> &gt; 
+            <span>Lesson 22: Depth of Field and Focus</span>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <article class="lesson-content">
+                <header class="lesson-header">
+                    <h1>📸 Lesson 22: Depth of Field and Focus</h1>
+                    <p class="lesson-intro">Welcome to one of the most powerful cinematic techniques available to 3D artists! Depth of field (DoF) is that beautiful blur you see in professional photography and film where the subject is sharp while foreground and background fade into soft bokeh. It's not just a pretty effect—it's a fundamental tool for directing attention, creating depth, and making 3D renders feel photorealistic. Real cameras can't keep everything in focus simultaneously; they must choose what matters. This limitation became an artistic strength that cinematographers exploit masterfully. In 3D, everything is infinitely sharp by default—technically perfect but visually unnatural. Adding depth of field transforms your renders from "obviously CG" to "could this be real?" It separates subjects from backgrounds, guides viewer attention, and adds that professional polish that distinguishes amateur work from pro. In this lesson, you'll learn the physics behind focus, how to control it in Blender, and most importantly, when and how to use depth of field for maximum artistic impact.</p>
+                </header>
+
+                <!-- Learning Objectives -->
+                <div class="card">
+                    <h2>🎯 What You'll Learn</h2>
+                    <ul>
+                        <li>Understanding depth of field fundamentals and optics</li>
+                        <li>How aperture (f-stop) controls blur amount</li>
+                        <li>Focus distance and focal plane</li>
+                        <li>Bokeh shapes and quality</li>
+                        <li>Enabling and configuring DoF in Blender</li>
+                        <li>Using focus objects and Empty targets</li>
+                        <li>Viewport vs render DoF differences</li>
+                        <li>Shallow vs deep depth of field choices</li>
+                        <li>DoF for composition and storytelling</li>
+                        <li>Common DoF mistakes and solutions</li>
+                        <li>Rack focus techniques</li>
+                        <li>Hands-on DoF project</li>
+                    </ul>
+                    <p><strong>⏱️ Estimated Time:</strong> 50-65 minutes</p>
+                    <p><strong>🎯 Project:</strong> Create multiple DoF studies</p>
+                </div>
+
+                <!-- Table of Contents -->
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#dof-fundamentals" class="toc-link">Depth of Field Fundamentals</a></li>
+                            <li><a href="#aperture-fstop" class="toc-link">Aperture and F-Stop</a></li>
+                            <li><a href="#focus-distance" class="toc-link">Focus Distance and Focal Plane</a></li>
+                            <li><a href="#bokeh" class="toc-link">Bokeh and Blur Quality</a></li>
+                            <li><a href="#blender-setup" class="toc-link">Setting Up DoF in Blender</a></li>
+                            <li><a href="#artistic-choices" class="toc-link">Artistic DoF Decisions</a></li>
+                            <li><a href="#advanced-techniques" class="toc-link">Advanced Focus Techniques</a></li>
+                            <li><a href="#troubleshooting" class="toc-link">Common Issues and Solutions</a></li>
+                            <li><a href="#project" class="toc-link">Project: DoF Study Series</a></li>
+                            <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="dof-fundamentals" class="content-section">
+                    <h2>📸 Depth of Field Fundamentals</h2>
+
+                    <p>Before diving into Blender's technical settings, let's understand what depth of field is, why it exists, and how it became one of cinematography's most powerful tools.</p>
+
+                    <h3>What is Depth of Field?</h3>
+
+                    <div class="card">
+                        <h4>🔍 The Zone of Sharpness</h4>
+                        <p><strong>Depth of field defined:</strong></p>
+                        <ul>
+                            <li>The distance range within which objects appear acceptably sharp</li>
+                            <li>Everything in this zone is in focus</li>
+                            <li>Everything outside this zone is blurred</li>
+                            <li>A physical limitation of camera optics</li>
+                        </ul>
+
+                        <p><strong>Real-world analogy:</strong></p>
+                        <ul>
+                            <li>Hold your finger 6 inches from your face</li>
+                            <li>Focus on your finger—background blurs</li>
+                            <li>Focus on the background—finger blurs</li>
+                            <li>You can't see both sharp simultaneously</li>
+                            <li>This is depth of field in action</li>
+                        </ul>
+
+                        <p><strong>The three zones:</strong></p>
+                        <ul>
+                            <li><strong>Foreground blur:</strong> Objects closer than focus distance</li>
+                            <li><strong>Focal plane:</strong> The distance that's perfectly sharp</li>
+                            <li><strong>Background blur:</strong> Objects farther than focus distance</li>
+                        </ul>
+
+                        <p><strong>Why DoF exists:</strong></p>
+                        <ul>
+                            <li>Light passes through lens opening (aperture)</li>
+                            <li>Lens focuses light to a point (focal plane)</li>
+                            <li>Light from other distances doesn't focus to point—spreads out</li>
+                            <li>This spread creates blur (circles of confusion)</li>
+                            <li>Physics of optics, not a flaw—now used artistically</li>
+                        </ul>
+                    </div>
+
+                    <h3>Shallow vs Deep Depth of Field</h3>
+
+                    <div class="card">
+                        <h4>📏 The DoF Spectrum</h4>
+                        <p><strong>Shallow depth of field (narrow zone):</strong></p>
+                        <ul>
+                            <li>Small range of acceptable sharpness</li>
+                            <li>Subject sharp, everything else blurred</li>
+                            <li>Strong foreground and background blur</li>
+                            <li>Isolates subject dramatically</li>
+                            <li><strong>Visual characteristics:</strong>
+                                <ul>
+                                    <li>Beautiful bokeh (out-of-focus blur)</li>
+                                    <li>Strong subject separation</li>
+                                    <li>Dreamy, romantic, cinematic quality</li>
+                                    <li>Professional photography look</li>
+                                </ul>
+                            </li>
+                            <li><strong>Use for:</strong>
+                                <ul>
+                                    <li>Portraits (isolate person from background)</li>
+                                    <li>Product shots (focus on product only)</li>
+                                    <li>Close-ups (emphasize details)</li>
+                                    <li>Romantic or intimate scenes</li>
+                                    <li>Directing attention to specific element</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Deep depth of field (wide zone):</strong></p>
+                        <ul>
+                            <li>Large range of acceptable sharpness</li>
+                            <li>Foreground and background both sharp</li>
+                            <li>Minimal or no blur</li>
+                            <li>Everything visible and clear</li>
+                            <li><strong>Visual characteristics:</strong>
+                                <ul>
+                                    <li>Documentary or journalistic feel</li>
+                                    <li>Information-dense compositions</li>
+                                    <li>Realistic, objective quality</li>
+                                    <li>Maximum detail visible</li>
+                                </ul>
+                            </li>
+                            <li><strong>Use for:</strong>
+                                <ul>
+                                    <li>Landscapes (everything sharp horizon to foreground)</li>
+                                    <li>Architecture (show full detail)</li>
+                                    <li>Group shots (everyone in focus)</li>
+                                    <li>Action scenes (see all movement)</li>
+                                    <li>Technical/informational imagery</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Medium depth of field:</strong></p>
+                        <ul>
+                            <li>Moderate range of sharpness</li>
+                            <li>Subject sharp, gradual blur beyond</li>
+                            <li>Natural, balanced look</li>
+                            <li>Most common in general cinematography</li>
+                        </ul>
+                    </div>
+
+                    <h3>Why Depth of Field Matters</h3>
+
+                    <div class="card">
+                        <h4>🎨 Artistic and Technical Benefits</h4>
+                        <p><strong>Directs attention:</strong></p>
+                        <ul>
+                            <li>Blur removes distracting details</li>
+                            <li>Eye naturally drawn to sharp areas</li>
+                            <li>Creates clear focal point</li>
+                            <li>Guides viewer to what matters</li>
+                        </ul>
+
+                        <p><strong>Creates depth separation:</strong></p>
+                        <ul>
+                            <li>Sharp subject vs blurred background = clear depth</li>
+                            <li>Enhances three-dimensionality</li>
+                            <li>Prevents subject merging with background</li>
+                            <li>Professional compositional technique</li>
+                        </ul>
+
+                        <p><strong>Adds realism:</strong></p>
+                        <ul>
+                            <li>Real cameras have DoF—no DoF looks artificial</li>
+                            <li>Mimics how human vision works (selective focus)</li>
+                            <li>Bridges "uncanny valley" in 3D</li>
+                            <li>Makes CG indistinguishable from photography</li>
+                        </ul>
+
+                        <p><strong>Simplifies compositions:</strong></p>
+                        <ul>
+                            <li>Blur hides imperfect background modeling</li>
+                            <li>Reduces visual clutter</li>
+                            <li>Focuses on hero assets</li>
+                            <li>Artistic way to handle complex scenes</li>
+                        </ul>
+
+                        <p><strong>Evokes emotion:</strong></p>
+                        <ul>
+                            <li>Shallow DoF = intimate, romantic, delicate</li>
+                            <li>Deep DoF = objective, informational, epic</li>
+                            <li>Rack focus (changing focus) = narrative shift</li>
+                            <li>Emotional language of cinematography</li>
+                        </ul>
+                    </div>
+
+                    <h3>DoF in 3D vs Real Cameras</h3>
+
+                    <div class="card">
+                        <h4>🎬 The Fundamental Difference</h4>
+                        <p><strong>Real cameras (physical limitation):</strong></p>
+                        <ul>
+                            <li>DoF is unavoidable physical result of optics</li>
+                            <li>Cannot have infinite DoF (except with tricks)</li>
+                            <li>Always present to some degree</li>
+                            <li>Varies with aperture, focal length, distance</li>
+                        </ul>
+
+                        <p><strong>3D cameras (perfect by default):</strong></p>
+                        <ul>
+                            <li>Everything infinitely sharp by default</li>
+                            <li>No physical optics—mathematical projection</li>
+                            <li>DoF is added effect, not inherent</li>
+                            <li>Must be enabled intentionally</li>
+                        </ul>
+
+                        <p><strong>The advantage:</strong></p>
+                        <ul>
+                            <li>Complete control—enable or disable at will</li>
+                            <li>Adjust DoF in post without re-shooting</li>
+                            <li>No physics limitations</li>
+                            <li>Can have impossible combinations of settings</li>
+                        </ul>
+
+                        <p><strong>The challenge:</strong></p>
+                        <ul>
+                            <li>Must understand real camera behavior</li>
+                            <li>Easy to overdo or misuse DoF</li>
+                            <li>Render time increases with DoF</li>
+                            <li>Need to match real camera for photorealism</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Cinematographer's Secret Weapon:</strong> Depth of field is how cinematographers sculpt space and attention. Watch any professional film and notice how shallow DoF isolates actors during emotional moments, while deep DoF shows scope during epic scenes. It's invisible storytelling—viewers feel the effect without consciously noticing the technique. As a 3D artist, you have an advantage: you can dial in perfect DoF without the constraints of physical optics, test different settings instantly, and even change it after rendering. But with great power comes responsibility—you need to understand real camera behavior to make choices that feel natural. The goal isn't to show off DoF; it's to use it so skillfully that viewers never think about it, they just feel more immersed in your world.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_22_depth_of_field_and_focus_part_02.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 22 - PART 02
+     File: lesson_22_depth_of_field_and_focus_part_02.html
+     ============================================ -->
+
+                <section id="aperture-fstop" class="content-section">
+                    <h2>🔘 Aperture and F-Stop</h2>
+
+                    <p>Aperture is the single most important control for depth of field. Understanding f-stops—the confusing numbers that control aperture—unlocks precise control over blur in your renders.</p>
+
+                    <h3>Understanding Aperture</h3>
+
+                    <div class="card">
+                        <h4>⭕ The Lens Opening</h4>
+                        <p><strong>What is aperture?</strong></p>
+                        <ul>
+                            <li>The adjustable opening in a lens that controls light</li>
+                            <li>Like the pupil of an eye—expands and contracts</li>
+                            <li>Circular diaphragm with adjustable blades</li>
+                            <li>Measured in f-stops (f/1.4, f/2.8, f/5.6, etc.)</li>
+                        </ul>
+
+                        <p><strong>Aperture's dual role:</strong></p>
+                        <ul>
+                            <li><strong>Exposure control:</strong>
+                                <ul>
+                                    <li>Larger opening = more light enters</li>
+                                    <li>Smaller opening = less light enters</li>
+                                    <li>Affects brightness (handled automatically in 3D)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Depth of field control:</strong>
+                                <ul>
+                                    <li>Larger opening = shallower DoF (more blur)</li>
+                                    <li>Smaller opening = deeper DoF (less blur)</li>
+                                    <li>Primary creative control for focus effects</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Physical mechanism:</strong></p>
+                        <ul>
+                            <li>Blades inside lens form adjustable circle</li>
+                            <li>Photographer adjusts aperture size</li>
+                            <li>Changes how light cone converges</li>
+                            <li>Directly affects circles of confusion (blur circles)</li>
+                        </ul>
+                    </div>
+
+                    <h3>The F-Stop System</h3>
+
+                    <div class="card">
+                        <h4>🔢 Decoding the Numbers</h4>
+                        <p><strong>What is an f-stop?</strong></p>
+                        <ul>
+                            <li>Ratio of focal length to aperture diameter</li>
+                            <li>Formula: f-stop = focal length ÷ aperture diameter</li>
+                            <li>Example: 50mm lens with 25mm opening = f/2</li>
+                            <li>Written as f/2, f/2.8, f/4, f/5.6, etc.</li>
+                        </ul>
+
+                        <p><strong>The confusing inverse relationship:</strong></p>
+                        <ul>
+                            <li><strong>Lower f-number = LARGER aperture = MORE blur (shallow DoF)</strong></li>
+                            <li><strong>Higher f-number = SMALLER aperture = LESS blur (deep DoF)</strong></li>
+                            <li>This backwards relationship confuses everyone at first</li>
+                            <li>Think: f/1.4 is a large opening (f divided by small number = large result)</li>
+                            <li>f/16 is a small opening (f divided by large number = small result)</li>
+                        </ul>
+
+                        <p><strong>Common f-stop values:</strong></p>
+                        <ul>
+                            <li><strong>f/1.4, f/1.8, f/2:</strong> Very wide aperture
+                                <ul>
+                                    <li>Maximum light gathering</li>
+                                    <li>Extremely shallow DoF</li>
+                                    <li>Beautiful subject isolation</li>
+                                    <li>Professional portrait lenses</li>
+                                </ul>
+                            </li>
+                            <li><strong>f/2.8, f/4:</strong> Wide aperture
+                                <ul>
+                                    <li>Good light gathering</li>
+                                    <li>Shallow DoF</li>
+                                    <li>Common for general photography</li>
+                                    <li>Good subject separation</li>
+                                </ul>
+                            </li>
+                            <li><strong>f/5.6, f/8:</strong> Medium aperture
+                                <ul>
+                                    <li>Moderate light</li>
+                                    <li>Moderate DoF</li>
+                                    <li>"Sweet spot" for sharpness</li>
+                                    <li>Balanced look</li>
+                                </ul>
+                            </li>
+                            <li><strong>f/11, f/16:</strong> Narrow aperture
+                                <ul>
+                                    <li>Less light</li>
+                                    <li>Deep DoF</li>
+                                    <li>Landscape photography standard</li>
+                                    <li>Everything sharp</li>
+                                </ul>
+                            </li>
+                            <li><strong>f/22, f/32+:</strong> Very narrow aperture
+                                <ul>
+                                    <li>Minimal light</li>
+                                    <li>Maximum DoF</li>
+                                    <li>Architectural and technical work</li>
+                                    <li>Sharpness degradation (diffraction)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>F-stop scale pattern:</strong></p>
+                        <ul>
+                            <li>Standard stops: f/1.4, f/2, f/2.8, f/4, f/5.6, f/8, f/11, f/16, f/22</li>
+                            <li>Each stop is √2 (about 1.4) times the previous</li>
+                            <li>Each stop doubles or halves light</li>
+                            <li>You can use intermediate values (f/3.5, f/6.3, etc.)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Aperture and DoF Relationship</h3>
+
+                    <div class="card">
+                        <h4>🎯 How Aperture Controls Blur</h4>
+                        <p><strong>The physics:</strong></p>
+                        <ul>
+                            <li>Light from out-of-focus points spreads into circles</li>
+                            <li>Circle size depends on aperture diameter</li>
+                            <li>Larger aperture = larger circles = more blur</li>
+                            <li>Smaller aperture = smaller circles = less blur</li>
+                        </ul>
+
+                        <p><strong>Practical DoF by f-stop:</strong></p>
+                        <ul>
+                            <li><strong>f/1.4 - f/2.0:</strong> Paper-thin DoF
+                                <ul>
+                                    <li>Only a few inches sharp</li>
+                                    <li>Extreme background blur</li>
+                                    <li>Difficult to keep subject in focus</li>
+                                    <li>Dramatic, dreamy effect</li>
+                                    <li>Use for: Artistic portraits, macro, product hero shots</li>
+                                </ul>
+                            </li>
+                            <li><strong>f/2.8 - f/4:</strong> Shallow DoF
+                                <ul>
+                                    <li>Subject sharp, background softly blurred</li>
+                                    <li>Still good separation</li>
+                                    <li>More practical than f/1.4</li>
+                                    <li>Professional portrait standard</li>
+                                    <li>Use for: Portraits, character close-ups, products</li>
+                                </ul>
+                            </li>
+                            <li><strong>f/5.6 - f/8:</strong> Moderate DoF
+                                <ul>
+                                    <li>Subject and near surroundings sharp</li>
+                                    <li>Distant background gently blurred</li>
+                                    <li>Natural, balanced look</li>
+                                    <li>Most versatile range</li>
+                                    <li>Use for: General scenes, environmental portraits, medium shots</li>
+                                </ul>
+                            </li>
+                            <li><strong>f/11 - f/16:</strong> Deep DoF
+                                <ul>
+                                    <li>Foreground through background sharp</li>
+                                    <li>Minimal blur</li>
+                                    <li>Maximum detail visible</li>
+                                    <li>Documentary feel</li>
+                                    <li>Use for: Landscapes, architecture, groups, wide shots</li>
+                                </ul>
+                            </li>
+                            <li><strong>f/22+:</strong> Maximum DoF
+                                <ul>
+                                    <li>Everything sharp (nearly infinite DoF)</li>
+                                    <li>No visible blur</li>
+                                    <li>Technical/scientific</li>
+                                    <li>Use for: Maximum sharpness needs (rare in cinematography)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Choosing the Right F-Stop</h3>
+
+                    <div class="card">
+                        <h4>🤔 Creative Decision Making</h4>
+                        <p><strong>Ask yourself:</strong></p>
+                        <ul>
+                            <li><strong>What's the subject?</strong>
+                                <ul>
+                                    <li>Person/character → f/1.4 - f/4 (shallow)</li>
+                                    <li>Product → f/2.8 - f/8 (moderate to shallow)</li>
+                                    <li>Architecture → f/8 - f/16 (deep)</li>
+                                    <li>Landscape → f/11 - f/16 (deep)</li>
+                                </ul>
+                            </li>
+                            <li><strong>How much separation needed?</strong>
+                                <ul>
+                                    <li>Isolate from background → Lower f-stop</li>
+                                    <li>Show context → Higher f-stop</li>
+                                    <li>Balance both → Middle f-stops</li>
+                                </ul>
+                            </li>
+                            <li><strong>What's the mood?</strong>
+                                <ul>
+                                    <li>Intimate, romantic → Shallow DoF (f/1.4-2.8)</li>
+                                    <li>Epic, grand → Deep DoF (f/11-16)</li>
+                                    <li>Natural, documentary → Moderate DoF (f/5.6-8)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Is background important?</strong>
+                                <ul>
+                                    <li>Irrelevant/distracting → Blur it (low f-stop)</li>
+                                    <li>Important context → Keep sharp (high f-stop)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Starting recommendations:</strong></p>
+                        <ul>
+                            <li><strong>Portraits:</strong> Start at f/2.8, adjust if needed</li>
+                            <li><strong>Products:</strong> Start at f/4, adjust for detail vs separation</li>
+                            <li><strong>Interiors:</strong> Start at f/5.6, adjust for desired sharpness</li>
+                            <li><strong>Exteriors:</strong> Start at f/8, adjust for depth needs</li>
+                            <li><strong>When in doubt:</strong> f/5.6 is safe middle ground</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common F-Stop Mistakes</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Aperture Pitfalls</h4>
+                        <p><strong>Mistake 1: Always using extreme shallow DoF</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> f/1.4 for everything—looks overdone</li>
+                            <li><strong>Fix:</strong> Match f-stop to content—not everything needs f/1.4</li>
+                            <li>Shallow DoF is tool, not universal requirement</li>
+                        </ul>
+
+                        <p><strong>Mistake 2: Subject not fully in focus</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> DoF so shallow subject's face partially blurred</li>
+                            <li><strong>Fix:</strong> Increase f-stop or adjust focus distance</li>
+                            <li>Eyes should always be sharp in portraits</li>
+                        </ul>
+
+                        <p><strong>Mistake 3: No DoF at all</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Everything infinitely sharp—looks CG</li>
+                            <li><strong>Fix:</strong> Add at least subtle DoF for realism</li>
+                            <li>Even f/8-11 adds photorealistic quality</li>
+                        </ul>
+
+                        <p><strong>Mistake 4: Wrong f-stop for focal length</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> f/1.4 with wide-angle = too much in focus</li>
+                            <li><strong>Fix:</strong> Consider focal length affects DoF (more on this later)</li>
+                            <li>Telephoto needs higher f-stops, wide-angle can use lower</li>
+                        </ul>
+
+                        <p><strong>Mistake 5: Inconsistent f-stops in sequence</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Shot 1 at f/2.8, shot 2 at f/11—jarring</li>
+                            <li><strong>Fix:</strong> Maintain consistent DoF within scene/sequence</li>
+                            <li>Changes should be motivated by story, not random</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ F-Stop Quick Reference</h4>
+                        <p><strong>Remember the inverse relationship:</strong></p>
+                        <ul>
+                            <li>💡 <strong>Lower number = MORE blur</strong> (f/1.4, f/2)</li>
+                            <li>💡 <strong>Higher number = LESS blur</strong> (f/11, f/16)</li>
+                        </ul>
+                        
+                        <p><strong>Common uses:</strong></p>
+                        <ul>
+                            <li><strong>f/1.4-2:</strong> Extreme isolation, artistic portraits</li>
+                            <li><strong>f/2.8:</strong> Portrait standard, shallow DoF</li>
+                            <li><strong>f/4:</strong> Product shots, moderate separation</li>
+                            <li><strong>f/5.6:</strong> Safe all-purpose, balanced</li>
+                            <li><strong>f/8:</strong> Landscape standard, good sharpness</li>
+                            <li><strong>f/11-16:</strong> Maximum sharpness, architecture</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The F-Stop Confusion:</strong> Every photographer remembers the moment they understood f-stops—it's confusing because it's counterintuitive. Lower numbers = more blur? How does that make sense? Think of it as fractions: f/2 is actually "focal length divided by 2" which is a larger opening than "focal length divided by 16" (f/16). Or memorize this: "Lower f-stop number, lower depth of field." Once it clicks, you'll never forget. And here's the best part—in Blender, you can preview DoF in real-time and adjust the f-stop slider while watching the effect. Unlike real photographers who must memorize DoF for every lens, you can experiment instantly. Use this advantage to build intuition about which f-stops create which effects.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_22_depth_of_field_and_focus_part_03.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 22 - PART 03
+     File: lesson_22_depth_of_field_and_focus_part_03.html
+     ============================================ -->
+
+                <section id="focus-distance" class="content-section">
+                    <h2>🎯 Focus Distance and Focal Plane</h2>
+
+                    <p>Aperture controls how much blur you get, but focus distance determines where that sharpness is. Understanding the focal plane is crucial for directing attention exactly where you want it.</p>
+
+                    <h3>Understanding Focus Distance</h3>
+
+                    <div class="card">
+                        <h4>📏 Where Sharpness Lives</h4>
+                        <p><strong>What is focus distance?</strong></p>
+                        <ul>
+                            <li>The distance from camera to the plane of perfect sharpness</li>
+                            <li>Measured in Blender units (or meters/feet in real cameras)</li>
+                            <li>Everything at this exact distance is maximally sharp</li>
+                            <li>Objects closer or farther gradually blur</li>
+                        </ul>
+
+                        <p><strong>The focal plane:</strong></p>
+                        <ul>
+                            <li>Imaginary plane perpendicular to camera direction</li>
+                            <li>At the focus distance from camera</li>
+                            <li>Everything on this plane is in focus</li>
+                            <li>Parallel to the camera sensor/film plane</li>
+                        </ul>
+
+                        <p><strong>How focus works:</strong></p>
+                        <ul>
+                            <li>Lens adjusts to focus light from specific distance</li>
+                            <li>Light from that distance converges to sharp point</li>
+                            <li>Light from other distances doesn't converge—creates blur</li>
+                            <li>Changing focus changes which distance is sharp</li>
+                        </ul>
+
+                        <p><strong>The acceptable sharpness zone:</strong></p>
+                        <ul>
+                            <li>DoF extends in front of and behind focal plane</li>
+                            <li>Not perfectly sharp, but "acceptably sharp"</li>
+                            <li>Typically 1/3 in front, 2/3 behind focal plane</li>
+                            <li>This is your depth of field range</li>
+                        </ul>
+                    </div>
+
+                    <h3>Setting Focus Distance in Blender</h3>
+
+                    <div class="card">
+                        <h4>🔧 Practical Focus Control</h4>
+                        <p><strong>Method 1: Manual distance entry</strong></p>
+                        <ul>
+                            <li>Select camera</li>
+                            <li>Camera Properties → Depth of Field → Focus Distance</li>
+                            <li>Enter distance value directly</li>
+                            <li>Precise but requires knowing exact distance</li>
+                        </ul>
+
+                        <p><strong>Method 2: Focus Object (recommended)</strong></p>
+                        <ul>
+                            <li>Create Empty at subject location (<code>Shift+A</code> → Empty)</li>
+                            <li>Camera Properties → Depth of Field → Focus Object</li>
+                            <li>Select the Empty (or your subject object)</li>
+                            <li>Camera automatically focuses on that object</li>
+                            <li><strong>Benefits:</strong>
+                                <ul>
+                                    <li>Move object = focus follows automatically</li>
+                                    <li>No manual distance calculation needed</li>
+                                    <li>Can animate Empty for rack focus</li>
+                                    <li>Most intuitive method</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Method 3: Eyedropper tool (quick)</strong></p>
+                        <ul>
+                            <li>In viewport, press <code>Shift+Right-Click</code> on subject</li>
+                            <li>Focus distance automatically set to that point</li>
+                            <li>Quick but not animated</li>
+                            <li>Good for still renders</li>
+                        </ul>
+
+                        <p><strong>Viewing focus in viewport:</strong></p>
+                        <ul>
+                            <li>Enable Camera Properties → Viewport Display → Limits</li>
+                            <li>Yellow cross appears showing focus plane location</li>
+                            <li>Helps visualize where focus is</li>
+                            <li>Adjust until cross aligns with subject</li>
+                        </ul>
+                    </div>
+
+                    <h3>Focus and Subject Placement</h3>
+
+                    <div class="card">
+                        <h4>🎯 Strategic Focus Decisions</h4>
+                        <p><strong>What to focus on:</strong></p>
+                        <ul>
+                            <li><strong>Portraits/characters:</strong>
+                                <ul>
+                                    <li>Always focus on eyes (closest eye if angled)</li>
+                                    <li>Eyes are primary point of connection</li>
+                                    <li>If eyes aren't sharp, portrait fails</li>
+                                    <li>Can have tip of nose slightly soft if needed</li>
+                                </ul>
+                            </li>
+                            <li><strong>Products:</strong>
+                                <ul>
+                                    <li>Focus on brand name or key feature</li>
+                                    <li>Whatever viewer should notice first</li>
+                                    <li>Usually front-most part of product</li>
+                                </ul>
+                            </li>
+                            <li><strong>Scenes with multiple subjects:</strong>
+                                <ul>
+                                    <li>Focus on primary subject (main character, hero object)</li>
+                                    <li>Let secondary elements blur appropriately</li>
+                                    <li>Establishes clear hierarchy</li>
+                                </ul>
+                            </li>
+                            <li><strong>Landscapes:</strong>
+                                <ul>
+                                    <li>Focus 1/3 into scene (hyperfocal distance)</li>
+                                    <li>Maximizes sharpness throughout</li>
+                                    <li>Or focus on specific landmark</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Creative focus choices:</strong></p>
+                        <ul>
+                            <li><strong>Focus on foreground:</strong>
+                                <ul>
+                                    <li>Subject blurred, foreground sharp</li>
+                                    <li>Creates mystery, anticipation</li>
+                                    <li>Viewer wants to see what's blurred</li>
+                                </ul>
+                            </li>
+                            <li><strong>Focus on background:</strong>
+                                <ul>
+                                    <li>Subject blurred, background sharp</li>
+                                    <li>Emphasizes context over subject</li>
+                                    <li>Can show character's perspective (looking at background)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Soft focus throughout:</strong>
+                                <ul>
+                                    <li>Nothing perfectly sharp</li>
+                                    <li>Dreamy, ethereal quality</li>
+                                    <li>Nostalgic or romantic mood</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Multiple Focal Planes and DoF Depth</h3>
+
+                    <div class="card">
+                        <h4>📐 Understanding the Sharp Zone</h4>
+                        <p><strong>The DoF distribution:</strong></p>
+                        <ul>
+                            <li>Depth of field extends in front and behind focal plane</li>
+                            <li>NOT equally distributed:
+                                <ul>
+                                    <li>Approximately 1/3 of DoF in front of focal plane</li>
+                                    <li>Approximately 2/3 of DoF behind focal plane</li>
+                                </ul>
+                            </li>
+                            <li>This is why "focus 1/3 into scene" works for landscapes</li>
+                        </ul>
+
+                        <p><strong>Calculating acceptable sharpness:</strong></p>
+                        <ul>
+                            <li>Depends on:
+                                <ul>
+                                    <li>Aperture (f-stop) - smaller aperture = larger DoF</li>
+                                    <li>Focus distance - closer focus = shallower DoF</li>
+                                    <li>Focal length - longer lens = shallower DoF</li>
+                                    <li>Sensor size - larger sensor = shallower DoF</li>
+                                </ul>
+                            </li>
+                            <li>Blender calculates this automatically</li>
+                        </ul>
+
+                        <p><strong>Hyperfocal distance:</strong></p>
+                        <ul>
+                            <li>Special focus distance where DoF extends to infinity</li>
+                            <li>Everything from half hyperfocal distance to infinity is sharp</li>
+                            <li>Maximizes depth of field</li>
+                            <li>Used in landscape photography</li>
+                            <li>Calculation: Hyperfocal = (Focal Length²) / (Aperture × CoC)</li>
+                            <li>(Advanced topic—Blender doesn't calculate automatically)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Focus Distance and Camera Movement</h3>
+
+                    <div class="card">
+                        <h4>🎬 Maintaining Focus</h4>
+                        <p><strong>Static camera:</strong></p>
+                        <ul>
+                            <li>Set focus once, leave it</li>
+                            <li>Simple and straightforward</li>
+                            <li>Most common scenario</li>
+                        </ul>
+
+                        <p><strong>Moving camera (camera moves toward/away from subject):</strong></p>
+                        <ul>
+                            <li><strong>If using Focus Object:</strong>
+                                <ul>
+                                    <li>Focus automatically maintained on object</li>
+                                    <li>Camera follows subject perfectly</li>
+                                    <li>Works for dolly, crane, orbit moves</li>
+                                </ul>
+                            </li>
+                            <li><strong>If using manual focus distance:</strong>
+                                <ul>
+                                    <li>Must keyframe focus distance changes</li>
+                                    <li>Distance to subject changes as camera moves</li>
+                                    <li>More work but allows creative focus shifts</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Moving subject (subject moves toward/away from camera):</strong></p>
+                        <ul>
+                            <li><strong>If using Focus Object:</strong>
+                                <ul>
+                                    <li>Focus tracks subject automatically</li>
+                                    <li>Like camera auto-focus</li>
+                                    <li>Ideal for character animation</li>
+                                </ul>
+                            </li>
+                            <li><strong>Creative choice—maintain focus or let it drift:</strong>
+                                <ul>
+                                    <li>Keep focus on moving subject (track)</li>
+                                    <li>Or keep focus on original plane (subject goes out of focus)</li>
+                                    <li>Depends on narrative intent</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Focus: The Art of Selective Sharpness:</strong> Where you place focus is one of the most powerful storytelling tools available. In every shot, you're making a decision: "This is what matters right now." Focus on the character's face, and you're emphasizing their emotion. Focus on the gun in their hand, and you're building tension. Focus on the wedding ring, and you're telling a story about relationships. Professional cinematographers obsess over focus because it's literally guiding the viewer's attention—it's a spotlight for the eye. In 3D, you have perfect control over focus without the mechanical limitations of real cameras. Use the Focus Object method and you can choreograph attention with precision that would make cinema focus pullers jealous.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="bokeh" class="content-section">
+                    <h2>✨ Bokeh and Blur Quality</h2>
+
+                    <p>Bokeh—the aesthetic quality of out-of-focus blur—is what separates beautiful DoF from merely acceptable blur. Understanding bokeh lets you create that premium, cinematic look.</p>
+
+                    <h3>Understanding Bokeh</h3>
+
+                    <div class="card">
+                        <h4>💫 The Art of Beautiful Blur</h4>
+                        <p><strong>What is bokeh?</strong></p>
+                        <ul>
+                            <li>Japanese word meaning "blur" or "haze"</li>
+                            <li>The aesthetic quality of out-of-focus areas</li>
+                            <li>How highlights and textures render when blurred</li>
+                            <li>Subjective—"good" vs "bad" bokeh</li>
+                        </ul>
+
+                        <p><strong>What creates bokeh:</strong></p>
+                        <ul>
+                            <li>Out-of-focus point lights become circles</li>
+                            <li>Circle shape determined by aperture blade shape</li>
+                            <li>Specular highlights (shiny surfaces, lights) most visible</li>
+                            <li>Can be circular, hexagonal, octagonal, etc.</li>
+                        </ul>
+
+                        <p><strong>Good vs bad bokeh:</strong></p>
+                        <ul>
+                            <li><strong>"Good" bokeh (smooth, creamy):</strong>
+                                <ul>
+                                    <li>Soft, circular blur circles</li>
+                                    <li>Gentle gradients, no harsh edges</li>
+                                    <li>Pleasant, non-distracting background</li>
+                                    <li>Expensive lenses aim for this</li>
+                                </ul>
+                            </li>
+                            <li><strong>"Bad" bokeh (harsh, busy):</strong>
+                                <ul>
+                                    <li>Harsh-edged polygonal shapes</li>
+                                    <li>Double-line circles (cat's eye)</li>
+                                    <li>Distracting or unpleasant background</li>
+                                    <li>Cheap lenses often have this</li>
+                                </ul>
+                            </li>
+                            <li>Note: "Bad" bokeh can be stylistic choice</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bokeh Shape (Aperture Blades)</h3>
+
+                    <div class="card">
+                        <h4>⭕ Blade Count and Shape</h4>
+                        <p><strong>How aperture blades affect bokeh:</strong></p>
+                        <ul>
+                            <li>Aperture iris made of overlapping blades</li>
+                            <li>Blades form polygon when closed (not perfect circle)</li>
+                            <li>Number of blades = number of sides on bokeh polygon</li>
+                        </ul>
+
+                        <p><strong>Common blade counts:</strong></p>
+                        <ul>
+                            <li><strong>5-6 blades:</strong>
+                                <ul>
+                                    <li>Budget lenses</li>
+                                    <li>Pentagonal or hexagonal bokeh</li>
+                                    <li>Visible polygon shape</li>
+                                    <li>Can be distracting</li>
+                                </ul>
+                            </li>
+                            <li><strong>7-8 blades:</strong>
+                                <ul>
+                                    <li>Mid-range lenses</li>
+                                    <li>Heptagonal or octagonal bokeh</li>
+                                    <li>Approaching circular</li>
+                                    <li>Generally pleasant</li>
+                                </ul>
+                            </li>
+                            <li><strong>9+ blades:</strong>
+                                <ul>
+                                    <li>Professional lenses</li>
+                                    <li>Nearly circular bokeh</li>
+                                    <li>Smooth, creamy</li>
+                                    <li>"Premium" look</li>
+                                </ul>
+                            </li>
+                            <li><strong>Perfect circle:</strong>
+                                <ul>
+                                    <li>Wide-open aperture (f/1.4, f/2)</li>
+                                    <li>Blades fully retracted</li>
+                                    <li>Natural circular opening</li>
+                                    <li>Best bokeh quality</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Rounded vs straight blades:</strong></p>
+                        <ul>
+                            <li>Rounded blades create rounder bokeh even when closed</li>
+                            <li>Straight blades create more polygonal bokeh</li>
+                            <li>Premium lenses use rounded blades</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bokeh in Blender</h3>
+
+                    <div class="card">
+                        <h4>🔧 Controlling Blur Aesthetics</h4>
+                        <p><strong>Camera Properties → Depth of Field:</strong></p>
+                        <ul>
+                            <li><strong>Aperture:</strong>
+                                <ul>
+                                    <li>Blades count (3-16 typically)</li>
+                                    <li>More blades = rounder bokeh</li>
+                                    <li>Default: usually 6 or 8</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotation:</strong>
+                                <ul>
+                                    <li>Rotates the bokeh polygon</li>
+                                    <li>Aesthetic choice</li>
+                                    <li>0° vs 45° creates different feel</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ratio:</strong>
+                                <ul>
+                                    <li>Aspect ratio of bokeh shape</li>
+                                    <li>1.0 = circular</li>
+                                    <li>&lt;1.0 = horizontally stretched (anamorphic look)</li>
+                                    <li>&gt;1.0 = vertically stretched (rare)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Achieving "premium" bokeh:</strong></p>
+                        <ul>
+                            <li>Use 9-12 blades for nearly circular bokeh</li>
+                            <li>Or use very wide aperture (f/1.4-2) for perfect circles</li>
+                            <li>Add specular highlights in scene (small bright lights)</li>
+                            <li>These become visible bokeh balls</li>
+                        </ul>
+
+                        <p><strong>Cycles vs Eevee bokeh:</strong></p>
+                        <ul>
+                            <li><strong>Cycles:</strong>
+                                <ul>
+                                    <li>Physically accurate bokeh</li>
+                                    <li>Respects blade count and shape</li>
+                                    <li>Slower but realistic</li>
+                                </ul>
+                            </li>
+                            <li><strong>Eevee:</strong>
+                                <ul>
+                                    <li>Approximated bokeh</li>
+                                    <li>Faster but less accurate</li>
+                                    <li>May not show polygon shapes as clearly</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Creating Bokeh Highlights</h3>
+
+                    <div class="card">
+                        <h4>💡 Making Bokeh Visible</h4>
+                        <p><strong>Bokeh is most visible with:</strong></p>
+                        <ul>
+                            <li>Point light sources (small, bright)</li>
+                            <li>Specular highlights on objects</li>
+                            <li>Backlit particles or foliage</li>
+                            <li>City lights at night</li>
+                            <li>Christmas lights, fairy lights</li>
+                        </ul>
+
+                        <p><strong>Creating beautiful bokeh scenes:</strong></p>
+                        <ul>
+                            <li><strong>Add small bright lights in background:</strong>
+                                <ul>
+                                    <li>Array of point lights</li>
+                                    <li>Emissive spheres</li>
+                                    <li>Glowing particles</li>
+                                </ul>
+                            </li>
+                            <li><strong>Use glossy materials:</strong>
+                                <ul>
+                                    <li>Shiny surfaces create specular highlights</li>
+                                    <li>When blurred, these become bokeh</li>
+                                    <li>Water droplets, metal, glass</li>
+                                </ul>
+                            </li>
+                            <li><strong>Backlight translucent objects:</strong>
+                                <ul>
+                                    <li>Leaves with sun behind</li>
+                                    <li>Fabric with light shining through</li>
+                                    <li>Creates glowing bokeh</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Classic bokeh setups:</strong></p>
+                        <ul>
+                            <li><strong>Portrait with Christmas lights:</strong> Subject sharp, twinkling lights bokeh background</li>
+                            <li><strong>Product with rain:</strong> Glossy product sharp, rain drops on window blurred bokeh</li>
+                            <li><strong>Night city:</strong> Subject sharp, city lights create bokeh carpet</li>
+                            <li><strong>Forest bokeh:</strong> Subject sharp, sun through leaves creates golden bokeh</li>
+                        </ul>
+                    </div>
+
+                    <h3>Special Bokeh Effects</h3>
+
+                    <div class="card">
+                        <h4>🎨 Creative Bokeh Techniques</h4>
+                        <p><strong>Anamorphic bokeh (oval/stretched):</strong></p>
+                        <ul>
+                            <li>Horizontally stretched bokeh ovals</li>
+                            <li>Cinematic "film" look</li>
+                            <li>Set Ratio &lt; 1.0 (e.g., 0.5 for 2:1 stretch)</li>
+                            <li>Combined with anamorphic aspect ratio</li>
+                            <li>Premium cinema aesthetic</li>
+                        </ul>
+
+                        <p><strong>Shaped bokeh (creative filters):</strong></p>
+                        <ul>
+                            <li>In real photography: shaped aperture filters</li>
+                            <li>Hearts, stars, custom shapes</li>
+                            <li>In Blender: requires post-processing or custom shader work</li>
+                            <li>Novelty effect, use sparingly</li>
+                        </ul>
+
+                        <p><strong>Swirly bokeh:</strong></p>
+                        <ul>
+                            <li>Bokeh with curved, swirling quality</li>
+                            <li>Vintage lens characteristic</li>
+                            <li>Artistic but can be distracting</li>
+                            <li>Advanced: requires lens distortion simulation</li>
+                        </ul>
+
+                        <p><strong>Cat's eye bokeh:</strong></p>
+                        <ul>
+                            <li>Bokeh circles with dark centers</li>
+                            <li>Or bokeh that's round in center, oval at edges</li>
+                            <li>Lens vignetting effect</li>
+                            <li>Can be artifact or aesthetic choice</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Bokeh Best Practices</h4>
+                        <p><strong>For premium cinematic look:</strong></p>
+                        <ul>
+                            <li>✓ Use 9-12 aperture blades for smooth bokeh</li>
+                            <li>✓ Add small bright lights in background for visible bokeh</li>
+                            <li>✓ Wide aperture (f/1.4-2.8) creates rounder bokeh</li>
+                            <li>✓ Consider anamorphic ratio (0.5) for film look</li>
+                            <li>✓ Test with Cycles for accurate bokeh rendering</li>
+                            <li>✓ Use glossy materials to create specular bokeh</li>
+                        </ul>
+                        
+                        <p><strong>When bokeh doesn't matter:</strong></p>
+                        <ul>
+                            <li>Deep DoF (f/11+) - minimal blur anyway</li>
+                            <li>No bright background elements</li>
+                            <li>Matte/diffuse backgrounds</li>
+                            <li>Can use default settings</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Bokeh: The Signature of Quality:</strong> Photography enthusiasts can identify expensive lenses by their bokeh alone. Smooth, creamy, circular bokeh with gentle falloff screams "professional glass." Harsh, polygonal bokeh with hard edges says "kit lens." As a 3D artist, you get to choose which signature you want—free of charge. That $5000 lens look? Just set your blade count to 12. Want the vintage film aesthetic? Use anamorphic bokeh. The beautiful part is that good bokeh isn't just pretty—it's functional. Smooth bokeh doesn't distract from your subject. It melts away backgrounds while maintaining visual interest. It's the difference between blur that looks like a mistake and blur that looks intentional, controlled, and cinematic.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 03
+     Continue with lesson_22_depth_of_field_and_focus_part_04.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 22 - PART 04
+     File: lesson_22_depth_of_field_and_focus_part_04.html
+     ============================================ -->
+
+                <section id="rack-focus" class="content-section">
+                    <h2>🎬 Rack Focus and Focus Pulling</h2>
+
+                    <p>Rack focus—also called "pulling focus"—is one of the most powerful cinematic techniques for directing attention and revealing information. It's the art of smoothly shifting focus from one subject to another during a shot.</p>
+
+                    <h3>Understanding Rack Focus</h3>
+
+                    <div class="card">
+                        <h4>🎯 The Focus Transition</h4>
+                        <p><strong>What is rack focus?</strong></p>
+                        <ul>
+                            <li>Changing focus distance during a shot</li>
+                            <li>One subject starts sharp, another ends sharp</li>
+                            <li>Smooth transition between the two</li>
+                            <li>Guides viewer's attention deliberately</li>
+                        </ul>
+
+                        <p><strong>Why rack focus is powerful:</strong></p>
+                        <ul>
+                            <li><strong>Reveals information progressively:</strong> Start on character's face, rack to what they're looking at</li>
+                            <li><strong>Shifts attention:</strong> From background to foreground or vice versa</li>
+                            <li><strong>Creates suspense:</strong> "What are they looking at?" (rack to reveal it)</li>
+                            <li><strong>Shows relationships:</strong> Between characters or between character and object</li>
+                            <li><strong>Adds dynamism:</strong> Static shot becomes dynamic with focus shift</li>
+                        </ul>
+
+                        <p><strong>Real-world context:</strong></p>
+                        <ul>
+                            <li>In cinema, focus pullers manually adjust lens during take</li>
+                            <li>Requires precise timing and rehearsal</li>
+                            <li>Mark positions on lens with tape</li>
+                            <li>One of the most skilled jobs in camera department</li>
+                            <li>In 3D: we get perfect control with keyframes!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Classic Rack Focus Scenarios</h3>
+
+                    <div class="card">
+                        <h4>📽️ Common Focus Transitions</h4>
+                        <p><strong>Foreground to background:</strong></p>
+                        <ul>
+                            <li><strong>Setup:</strong> Character in foreground, subject of interest in background</li>
+                            <li><strong>Start:</strong> Focus on character's face (background blurred)</li>
+                            <li><strong>Rack:</strong> Pull focus to background subject</li>
+                            <li><strong>Effect:</strong> Reveals what character sees or is thinking about</li>
+                            <li><strong>Example:</strong> Detective sharp, rack to crime scene evidence behind them</li>
+                        </ul>
+
+                        <p><strong>Background to foreground:</strong></p>
+                        <ul>
+                            <li><strong>Setup:</strong> Blurred figure in foreground, clear background</li>
+                            <li><strong>Start:</strong> Focus on background (establishing environment)</li>
+                            <li><strong>Rack:</strong> Pull focus to foreground character</li>
+                            <li><strong>Effect:</strong> Dramatic reveal of who's in scene</li>
+                            <li><strong>Example:</strong> Museum display sharp, rack to reveal thief in foreground</li>
+                        </ul>
+
+                        <p><strong>Character to character:</strong></p>
+                        <ul>
+                            <li><strong>Setup:</strong> Two characters at different distances</li>
+                            <li><strong>Start:</strong> Focus on character speaking</li>
+                            <li><strong>Rack:</strong> Pull focus to other character for their reaction</li>
+                            <li><strong>Effect:</strong> Shows conversation dynamics, reaction shots</li>
+                            <li><strong>Example:</strong> Focus on person delivering news, rack to recipient's shock</li>
+                        </ul>
+
+                        <p><strong>Object to character:</strong></p>
+                        <ul>
+                            <li><strong>Setup:</strong> Important object in foreground, character behind</li>
+                            <li><strong>Start:</strong> Focus on object (gun, letter, ring)</li>
+                            <li><strong>Rack:</strong> Pull to character's reaction</li>
+                            <li><strong>Effect:</strong> Establishes object importance, then emotional impact</li>
+                            <li><strong>Example:</strong> Focus on pregnancy test, rack to woman's face</li>
+                        </ul>
+
+                        <p><strong>Discovery rack focus:</strong></p>
+                        <ul>
+                            <li><strong>Setup:</strong> Character searching, discovery in background</li>
+                            <li><strong>Start:</strong> Focus on character (searching, confused)</li>
+                            <li><strong>Rack:</strong> Pull to what they discover</li>
+                            <li><strong>Effect:</strong> "Aha!" moment visualization</li>
+                            <li><strong>Example:</strong> Character confused, rack to clue they suddenly notice</li>
+                        </ul>
+                    </div>
+
+                    <h3>Setting Up Rack Focus in Blender</h3>
+
+                    <div class="card">
+                        <h4>🔧 Technical Implementation</h4>
+                        <p><strong>Method 1: Animating Focus Distance (manual)</strong></p>
+                        <ul>
+                            <li><strong>Step 1:</strong> Select camera</li>
+                            <li><strong>Step 2:</strong> Go to frame where focus should start</li>
+                            <li><strong>Step 3:</strong> Set Focus Distance to first subject distance</li>
+                            <li><strong>Step 4:</strong> Hover over Focus Distance value, press <code>I</code> to keyframe</li>
+                            <li><strong>Step 5:</strong> Move timeline to frame where focus should end</li>
+                            <li><strong>Step 6:</strong> Set Focus Distance to second subject distance</li>
+                            <li><strong>Step 7:</strong> Press <code>I</code> again to keyframe</li>
+                            <li><strong>Step 8:</strong> Blender interpolates smoothly between keyframes</li>
+                        </ul>
+
+                        <p><strong>Method 2: Animating Focus Object (recommended)</strong></p>
+                        <ul>
+                            <li><strong>Setup:</strong>
+                                <ul>
+                                    <li>Create Empty at first subject location</li>
+                                    <li>Camera Properties → Focus Object → Select Empty</li>
+                                    <li>Camera now focuses on Empty position</li>
+                                </ul>
+                            </li>
+                            <li><strong>Animate the Empty:</strong>
+                                <ul>
+                                    <li>Frame 1: Position Empty at subject A, keyframe location (<code>I</code> → Location)</li>
+                                    <li>Frame 60: Move Empty to subject B, keyframe location</li>
+                                    <li>Empty travels between subjects, focus follows</li>
+                                </ul>
+                            </li>
+                            <li><strong>Benefits:</strong>
+                                <ul>
+                                    <li>Visual feedback—see Empty move in viewport</li>
+                                    <li>Easy to adjust timing by moving keyframes</li>
+                                    <li>Can add easing for organic feel</li>
+                                    <li>More intuitive than numeric distance</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Method 3: Multiple Empties with constraints (advanced)</strong></p>
+                        <ul>
+                            <li>Create Empty for each subject (Empty_FocusA, Empty_FocusB)</li>
+                            <li>Create master Focus Empty with Copy Location constraint</li>
+                            <li>Animate constraint influence (0 = A, 1 = B)</li>
+                            <li>Allows precise control and reusability</li>
+                        </ul>
+                    </div>
+
+                    <h3>Timing and Pacing Rack Focus</h3>
+
+                    <div class="card">
+                        <h4>⏱️ The Rhythm of Focus Change</h4>
+                        <p><strong>Speed considerations:</strong></p>
+                        <ul>
+                            <li><strong>Fast rack (0.5-1 second):</strong>
+                                <ul>
+                                    <li>Sudden realization or surprise</li>
+                                    <li>Action sequences</li>
+                                    <li>Snappy, energetic feel</li>
+                                    <li>Example: Character notices danger</li>
+                                </ul>
+                            </li>
+                            <li><strong>Medium rack (1-2 seconds):</strong>
+                                <ul>
+                                    <li>Normal paced transition</li>
+                                    <li>Most common speed</li>
+                                    <li>Natural, not drawing attention to itself</li>
+                                    <li>Example: Conversation between characters</li>
+                                </ul>
+                            </li>
+                            <li><strong>Slow rack (2-4 seconds):</strong>
+                                <ul>
+                                    <li>Deliberate, thoughtful</li>
+                                    <li>Building suspense</li>
+                                    <li>Artistic, draws attention</li>
+                                    <li>Example: Slowly revealing who's at the door</li>
+                                </ul>
+                            </li>
+                            <li><strong>Very slow rack (4+ seconds):</strong>
+                                <ul>
+                                    <li>Extremely stylized</li>
+                                    <li>Dreamlike or contemplative</li>
+                                    <li>Use sparingly</li>
+                                    <li>Can feel pretentious if overused</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Easing and interpolation:</strong></p>
+                        <ul>
+                            <li><strong>Linear:</strong>
+                                <ul>
+                                    <li>Constant speed throughout</li>
+                                    <li>Mechanical feeling</li>
+                                    <li>Rarely used in practice</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ease In/Out (recommended):</strong>
+                                <ul>
+                                    <li>Starts slow, speeds up, slows down</li>
+                                    <li>Most natural, organic feel</li>
+                                    <li>Mimics human focus pulling</li>
+                                    <li>Default choice for most rack focus</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ease In:</strong>
+                                <ul>
+                                    <li>Starts slow, ends fast</li>
+                                    <li>Abrupt arrival at destination</li>
+                                    <li>Surprise reveal</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ease Out:</strong>
+                                <ul>
+                                    <li>Starts fast, ends slow</li>
+                                    <li>Gentle arrival</li>
+                                    <li>Settling on subject</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Setting easing in Blender:</strong></p>
+                        <ul>
+                            <li>Open Graph Editor (change editor type)</li>
+                            <li>Select keyframes for Focus Distance or Empty location</li>
+                            <li>Press <code>T</code> → Set Keyframe Interpolation</li>
+                            <li>Choose Bezier, then adjust handles for custom easing</li>
+                            <li>Or press <code>T</code> → Choose preset (Sinusoidal for smooth ease)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Rack Focus and Story</h3>
+
+                    <div class="card">
+                        <h4>📖 Narrative Applications</h4>
+                        <p><strong>Revealing information:</strong></p>
+                        <ul>
+                            <li>Start on character's confused expression</li>
+                            <li>Rack to what they're looking at (the answer)</li>
+                            <li>Viewer discovers along with character</li>
+                            <li>Creates shared experience</li>
+                        </ul>
+
+                        <p><strong>Building suspense:</strong></p>
+                        <ul>
+                            <li>Focus on character approaching door</li>
+                            <li>Slow rack to ominous shadow behind door</li>
+                            <li>Focus shift itself creates tension</li>
+                            <li>Anticipation builds during transition</li>
+                        </ul>
+
+                        <p><strong>Showing cause and effect:</strong></p>
+                        <ul>
+                            <li>Focus on character's action (pressing button)</li>
+                            <li>Rack to result (machine activating)</li>
+                            <li>Visual connection between action and consequence</li>
+                        </ul>
+
+                        <p><strong>Emotional reactions:</strong></p>
+                        <ul>
+                            <li>Focus on speaker delivering news</li>
+                            <li>Rack to listener's reaction</li>
+                            <li>Emphasizes emotional impact</li>
+                            <li>Show both sides of conversation moment</li>
+                        </ul>
+
+                        <p><strong>Point of view shifts:</strong></p>
+                        <ul>
+                            <li>Start focused on what character sees</li>
+                            <li>Rack to character's face (their perspective to them)</li>
+                            <li>Or reverse: character to their POV</li>
+                            <li>Establishes whose perspective we're sharing</li>
+                        </ul>
+
+                        <p><strong>Visual metaphor:</strong></p>
+                        <ul>
+                            <li>Focus on wedding ring (symbol of marriage)</li>
+                            <li>Rack to divorce papers (conflict)</li>
+                            <li>Juxtaposition tells story without dialogue</li>
+                        </ul>
+                    </div>
+
+                    <h3>Advanced Rack Focus Techniques</h3>
+
+                    <div class="card">
+                        <h4>🎨 Professional Polish</h4>
+                        <p><strong>Multiple focus points (chain rack):</strong></p>
+                        <ul>
+                            <li>Rack through several subjects in sequence</li>
+                            <li>A → B → C progression</li>
+                            <li>Creates journey through scene</li>
+                            <li>Example: Focus on phone, rack to photo, rack to door</li>
+                            <li>Implementation: Add keyframes at each subject</li>
+                        </ul>
+
+                        <p><strong>Partial rack (subtle focus shift):</strong></p>
+                        <ul>
+                            <li>Don't fully reach second subject</li>
+                            <li>Both subjects remain somewhat soft</li>
+                            <li>Suggests attention but maintains mystery</li>
+                            <li>More ambiguous, artistic</li>
+                        </ul>
+
+                        <p><strong>Rack focus with camera move:</strong></p>
+                        <ul>
+                            <li>Combine rack focus with dolly or crane move</li>
+                            <li>Camera moves while focus shifts</li>
+                            <li>Highly dynamic, complex shot</li>
+                            <li>Requires careful coordination of both animations</li>
+                            <li>Example: Dolly forward while racking from background to foreground</li>
+                        </ul>
+
+                        <p><strong>Motivated rack focus:</strong></p>
+                        <ul>
+                            <li>Focus change triggered by action in scene</li>
+                            <li>Character looks at something → rack to what they see</li>
+                            <li>Sound off-screen → rack to source of sound</li>
+                            <li>Feels motivated by story, not arbitrary</li>
+                        </ul>
+
+                        <p><strong>Whip rack:</strong></p>
+                        <ul>
+                            <li>Extremely fast rack focus (under 0.5 seconds)</li>
+                            <li>Brief moment of complete blur between subjects</li>
+                            <li>Energetic, almost like a whip pan</li>
+                            <li>Use for shock or rapid attention shifts</li>
+                        </ul>
+
+                        <p><strong>Breathing rack (subtle drift):</strong></p>
+                        <ul>
+                            <li>Very slow, barely noticeable focus shift</li>
+                            <li>Organic, living quality</li>
+                            <li>Mimics imperfect human focus pulling</li>
+                            <li>Adds realism to handheld-style shots</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common Rack Focus Mistakes</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Pitfalls to Avoid</h4>
+                        <p><strong>Overusing rack focus:</strong></p>
+                        <ul>
+                            <li>Don't rack focus in every shot</li>
+                            <li>Becomes gimmicky and distracting</li>
+                            <li>Save for moments that matter</li>
+                            <li>Static focus is often better</li>
+                        </ul>
+
+                        <p><strong>Racking to nothing important:</strong></p>
+                        <ul>
+                            <li>Every rack focus should have purpose</li>
+                            <li>Don't shift focus just because you can</li>
+                            <li>If second subject isn't important, don't rack to it</li>
+                            <li>Viewers expect payoff after focus shift</li>
+                        </ul>
+
+                        <p><strong>Wrong timing:</strong></p>
+                        <ul>
+                            <li>Too fast: feels jarring, viewer can't register change</li>
+                            <li>Too slow: boring, draws too much attention to technique</li>
+                            <li>Match speed to emotional tone of scene</li>
+                        </ul>
+
+                        <p><strong>Insufficient depth of field:</strong></p>
+                        <ul>
+                            <li>If DoF too deep (small aperture), rack focus invisible</li>
+                            <li>Both subjects stay sharp—no transition visible</li>
+                            <li>Need shallow DoF (wide aperture) for rack focus to work</li>
+                            <li>Typically f/2.8 or wider</li>
+                        </ul>
+
+                        <p><strong>Subjects too close together:</strong></p>
+                        <ul>
+                            <li>If both subjects nearly same distance, rack barely visible</li>
+                            <li>Need significant distance separation</li>
+                            <li>Works best with foreground/background composition</li>
+                        </ul>
+
+                        <p><strong>Unmotivated rack:</strong></p>
+                        <ul>
+                            <li>Focus shift happens for no story reason</li>
+                            <li>Viewers confused: "Why did focus change?"</li>
+                            <li>Should feel like natural progression or revelation</li>
+                            <li>Tie to character gaze, sound, or story beat</li>
+                        </ul>
+
+                        <p><strong>Linear interpolation:</strong></p>
+                        <ul>
+                            <li>Constant-speed rack feels robotic</li>
+                            <li>Real focus pullers ease in and out</li>
+                            <li>Always use easing for organic feel</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Rack Focus Checklist</h4>
+                        <p><strong>Before creating rack focus shot:</strong></p>
+                        <ul>
+                            <li>✓ <strong>Purpose:</strong> Why does focus need to shift? What's revealed?</li>
+                            <li>✓ <strong>Distance:</strong> Subjects far enough apart for visible transition?</li>
+                            <li>✓ <strong>Aperture:</strong> Wide enough (f/2.8 or lower) for shallow DoF?</li>
+                            <li>✓ <strong>Timing:</strong> Speed matches emotional tone of moment?</li>
+                            <li>✓ <strong>Easing:</strong> Smooth acceleration/deceleration, not linear?</li>
+                            <li>✓ <strong>Motivation:</strong> Does focus shift feel natural, not arbitrary?</li>
+                            <li>✓ <strong>Importance:</strong> Is second subject worth shifting attention to?</li>
+                            <li>✓ <strong>Alternatives:</strong> Would cutting between shots work better?</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Rack Focus: The Invisible Guide:</strong> When done well, rack focus feels completely natural—the viewer's attention shifts without them realizing you're controlling it. It's like a gentle hand on their shoulder saying "Look here now." The key is motivation: rack focus works when it answers the question "What happens next?" or "What are they looking at?" Real focus pullers in cinema spend years mastering the timing—when to rack, how fast, and with what easing. They're reading the scene, feeling the rhythm, anticipating the actor's movements. In Blender, you have the luxury of perfect timing every time. Use that power wisely. The best rack focus is the one the viewer doesn't consciously notice—they just naturally look where you want them to, at exactly the right moment, as if by their own choice.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="practical-dof-scenarios" class="content-section">
+                    <h2>🎬 Practical DoF Scenarios</h2>
+
+                    <p>Theory is one thing, but how do you actually use depth of field in real projects? Let's walk through common scenarios you'll encounter and exactly how to set up DoF for each.</p>
+
+                    <h3>Portrait Photography (Character Closeup)</h3>
+
+                    <div class="card">
+                        <h4>👤 Classic Portrait Setup</h4>
+                        <p><strong>Goal:</strong> Isolate subject from background, emphasize character</p>
+                        
+                        <p><strong>Camera setup:</strong></p>
+                        <ul>
+                            <li><strong>Focal length:</strong> 85mm-135mm (portrait range)</li>
+                            <li><strong>Aperture:</strong> f/1.8-f/2.8 (very shallow DoF)</li>
+                            <li><strong>Distance:</strong> 2-3 meters from subject</li>
+                            <li><strong>Focus target:</strong> Character's closest eye</li>
+                        </ul>
+
+                        <p><strong>Why these settings:</strong></p>
+                        <ul>
+                            <li>85mm+ compresses perspective, flattering for faces</li>
+                            <li>Wide aperture completely blurs background</li>
+                            <li>Subject "pops" from environment</li>
+                            <li>Viewer's eye drawn immediately to face</li>
+                        </ul>
+
+                        <p><strong>Focus object setup:</strong></p>
+                        <ul>
+                            <li>Create Empty, position at character's eye level</li>
+                            <li>Parent Empty to character's head bone (if rigged)</li>
+                            <li>Camera Properties → Focus Object → Select Empty</li>
+                            <li>Focus automatically tracks character's face as they move</li>
+                        </ul>
+
+                        <p><strong>Bokeh considerations:</strong></p>
+                        <ul>
+                            <li>Add small lights in background for visible bokeh</li>
+                            <li>Use 9-12 aperture blades for smooth, circular bokeh</li>
+                            <li>Background should be 5-10 meters behind subject</li>
+                        </ul>
+
+                        <p><strong>Common mistakes:</strong></p>
+                        <ul>
+                            <li>❌ Focusing on nose instead of eyes</li>
+                            <li>❌ DoF so shallow that one eye sharp, other eye soft</li>
+                            <li>❌ Background too close—doesn't blur enough</li>
+                            <li>✓ Solution: Focus on closest eye, increase subject-background distance</li>
+                        </ul>
+                    </div>
+
+                    <h3>Product Visualization</h3>
+
+                    <div class="card">
+                        <h4>📦 Commercial Product Shots</h4>
+                        <p><strong>Goal:</strong> Show product clearly while suggesting depth, context</p>
+                        
+                        <p><strong>Camera setup (hero shot):</strong></p>
+                        <ul>
+                            <li><strong>Focal length:</strong> 50mm-85mm</li>
+                            <li><strong>Aperture:</strong> f/4-f/5.6 (moderate DoF)</li>
+                            <li><strong>Distance:</strong> Depends on product size</li>
+                            <li><strong>Focus target:</strong> Product brand/logo or key feature</li>
+                        </ul>
+
+                        <p><strong>Why these settings:</strong></p>
+                        <ul>
+                            <li>Need product mostly sharp (client requirement)</li>
+                            <li>But want some background blur for depth</li>
+                            <li>f/4-5.6 is sweet spot for product work</li>
+                            <li>Logo/branding must be perfectly sharp</li>
+                        </ul>
+
+                        <p><strong>Lifestyle product shots (more DoF):</strong></p>
+                        <ul>
+                            <li>Product in context (on desk, in kitchen, etc.)</li>
+                            <li>Aperture: f/2.8-f/4 (shallower DoF)</li>
+                            <li>Focus on product, blur environment</li>
+                            <li>Emphasizes product as subject, not just catalog photo</li>
+                        </ul>
+
+                        <p><strong>Technical product shots (less DoF):</strong></p>
+                        <ul>
+                            <li>Show all details, specifications</li>
+                            <li>Aperture: f/8-f/11 (deep DoF)</li>
+                            <li>Everything sharp edge to edge</li>
+                            <li>Common for technical documentation, manuals</li>
+                        </ul>
+
+                        <p><strong>Setup tips:</strong></p>
+                        <ul>
+                            <li>Place focus Empty at product's most important feature</li>
+                            <li>For bottles/cans: focus on label</li>
+                            <li>For electronics: focus on screen or logo</li>
+                            <li>For jewelry: focus on gemstone or central element</li>
+                            <li>Test render to verify key features are sharp</li>
+                        </ul>
+                    </div>
+
+                    <h3>Architectural Visualization</h3>
+
+                    <div class="card">
+                        <h4>🏛️ Interior and Exterior Shots</h4>
+                        <p><strong>Goal:</strong> Show space, details, while maintaining depth</p>
+                        
+                        <p><strong>Interior camera setup:</strong></p>
+                        <ul>
+                            <li><strong>Focal length:</strong> 24mm-35mm (wide angle for space)</li>
+                            <li><strong>Aperture:</strong> f/8-f/11 (deep DoF)</li>
+                            <li><strong>Distance:</strong> Varies by room size</li>
+                            <li><strong>Focus target:</strong> 1/3 into the scene</li>
+                        </ul>
+
+                        <p><strong>Why these settings:</strong></p>
+                        <ul>
+                            <li>Clients want to see entire space clearly</li>
+                            <li>Deep DoF keeps foreground and background sharp</li>
+                            <li>Wide angle captures room scope</li>
+                            <li>Everything from near to far should be readable</li>
+                        </ul>
+
+                        <p><strong>Exterior shots:</strong></p>
+                        <ul>
+                            <li>Similar to interiors: f/8-f/11 for overall sharpness</li>
+                            <li>Wide to normal focal lengths (24mm-50mm)</li>
+                            <li>Focus approximately 1/3 into scene for maximum sharpness</li>
+                        </ul>
+
+                        <p><strong>Artistic architectural shots:</strong></p>
+                        <ul>
+                            <li>Can use shallow DoF for mood/emphasis</li>
+                            <li>Focus on specific detail (doorway, chandelier, texture)</li>
+                            <li>Blur background to isolate architectural element</li>
+                            <li>Aperture: f/2.8-f/4</li>
+                            <li>More editorial than commercial</li>
+                        </ul>
+
+                        <p><strong>DoF exceptions in archviz:</strong></p>
+                        <ul>
+                            <li><strong>Detail shots:</strong> Close-up of materials, fixtures (use shallow DoF, f/2.8-4)</li>
+                            <li><strong>Mood shots:</strong> Through window, looking into space (can use f/4-5.6)</li>
+                            <li><strong>Hero object:</strong> Featured furniture piece (shallow DoF acceptable)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Environment/Landscape Renders</h3>
+
+                    <div class="card">
+                        <h4>🌄 Natural and Fantasy Environments</h4>
+                        <p><strong>Goal:</strong> Showcase vast environment, maintain sharpness throughout</p>
+                        
+                        <p><strong>Camera setup:</strong></p>
+                        <ul>
+                            <li><strong>Focal length:</strong> 24mm-50mm</li>
+                            <li><strong>Aperture:</strong> f/11-f/16 (very deep DoF)</li>
+                            <li><strong>Distance:</strong> Far from camera</li>
+                            <li><strong>Focus target:</strong> Hyperfocal distance (approximately 1/3 into scene)</li>
+                        </ul>
+
+                        <p><strong>Why these settings:</strong></p>
+                        <ul>
+                            <li>Landscapes demand front-to-back sharpness</li>
+                            <li>Viewer wants to examine entire scene</li>
+                            <li>Small aperture provides maximum DoF</li>
+                            <li>Focus 1/3 into scene maximizes sharpness from near to infinity</li>
+                        </ul>
+
+                        <p><strong>Exceptions for creative effect:</strong></p>
+                        <ul>
+                            <li><strong>Foreground subject in landscape:</strong>
+                                <ul>
+                                    <li>Character looking at vista</li>
+                                    <li>Focus on character (f/4-5.6)</li>
+                                    <li>Landscape slightly soft</li>
+                                    <li>Emphasizes character over environment</li>
+                                </ul>
+                            </li>
+                            <li><strong>Selective focus on distant landmark:</strong>
+                                <ul>
+                                    <li>Focus on mountain peak or distant structure</li>
+                                    <li>Foreground softly blurred</li>
+                                    <li>Draws eye to specific feature</li>
+                                </ul>
+                            </li>
+                            <li><strong>Atmospheric depth:</strong>
+                                <ul>
+                                    <li>Moderate DoF (f/5.6-8)</li>
+                                    <li>Slight blur in far distance</li>
+                                    <li>Combined with atmospheric fog</li>
+                                    <li>Reinforces sense of scale</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Action/Dynamic Scenes</h3>
+
+                    <div class="card">
+                        <h4>⚡ Fast Movement and Energy</h4>
+                        <p><strong>Goal:</strong> Keep subject sharp during movement, blur background for speed sense</p>
+                        
+                        <p><strong>Camera setup:</strong></p>
+                        <ul>
+                            <li><strong>Focal length:</strong> 50mm-85mm</li>
+                            <li><strong>Aperture:</strong> f/2.8-f/4 (shallow to moderate)</li>
+                            <li><strong>Distance:</strong> Varies by subject</li>
+                            <li><strong>Focus target:</strong> Moving subject (use Focus Object)</li>
+                        </ul>
+
+                        <p><strong>Why these settings:</strong></p>
+                        <ul>
+                            <li>Shallow DoF isolates fast-moving subject</li>
+                            <li>Blurred background enhances sense of speed</li>
+                            <li>Focus Object tracks subject automatically</li>
+                            <li>Viewer's eye stays on action</li>
+                        </ul>
+
+                        <p><strong>Implementation:</strong></p>
+                        <ul>
+                            <li>Create Empty, parent to animated subject</li>
+                            <li>Camera automatically maintains focus during movement</li>
+                            <li>Combined with motion blur for maximum dynamism</li>
+                        </ul>
+
+                        <p><strong>Multiple subjects (fighting, racing):</strong></p>
+                        <ul>
+                            <li>Slightly deeper DoF (f/4-5.6)</li>
+                            <li>Keep both combatants/racers reasonably sharp</li>
+                            <li>Or use rack focus to shift attention between subjects</li>
+                        </ul>
+                    </div>
+
+                    <h3>Cinematic Storytelling</h3>
+
+                    <div class="card">
+                        <h4>🎭 Narrative-Driven Scenes</h4>
+                        <p><strong>Dramatic closeups:</strong></p>
+                        <ul>
+                            <li>Aperture: f/1.4-f/2.8 (extremely shallow)</li>
+                            <li>Focus on eyes</li>
+                            <li>Everything else blurred</li>
+                            <li>Intimate, emotional</li>
+                        </ul>
+
+                        <p><strong>Over-the-shoulder dialogue:</strong></p>
+                        <ul>
+                            <li>Aperture: f/2.8-f/4</li>
+                            <li>Focus on speaker's face</li>
+                            <li>Foreground character (shoulder) softly blurred</li>
+                            <li>Establishes spatial relationship</li>
+                        </ul>
+
+                        <p><strong>Establishing shots:</strong></p>
+                        <ul>
+                            <li>Aperture: f/8-f/11 (deep DoF)</li>
+                            <li>Show entire environment</li>
+                            <li>Orient viewer to space</li>
+                            <li>Wide angle (24mm-35mm)</li>
+                        </ul>
+
+                        <p><strong>Revelation moments:</strong></p>
+                        <ul>
+                            <li>Start with shallow DoF (subject blurred)</li>
+                            <li>Rack focus to reveal identity or detail</li>
+                            <li>Or deepen DoF over time (aperture change)</li>
+                            <li>Gradual information reveal</li>
+                        </ul>
+
+                        <p><strong>Suspense/mystery:</strong></p>
+                        <ul>
+                            <li>Shallow DoF with partial reveals</li>
+                            <li>Focus on clues, keep context blurred</li>
+                            <li>Viewer pieces together scene</li>
+                            <li>Withholding information builds tension</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                        <h4>💡 Quick Reference: DoF by Scenario</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                            <thead>
+                                <tr style="background: #1976D2; color: white;">
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Scenario</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Focal Length</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Aperture</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Focus On</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Portrait</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">85-135mm</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">f/1.8-2.8</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Closest eye</td>
+                                </tr>
+                                <tr style="background: #f5f5f5;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Product (hero)</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">50-85mm</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">f/4-5.6</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Logo/key feature</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Architecture</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">24-35mm</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">f/8-11</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">1/3 into scene</td>
+                                </tr>
+                                <tr style="background: #f5f5f5;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Landscape</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">24-50mm</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">f/11-16</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Hyperfocal (1/3 in)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Action</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">50-85mm</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">f/2.8-4</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Moving subject</td>
+                                </tr>
+                                <tr style="background: #f5f5f5;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Cinematic closeup</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">85-135mm</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">f/1.4-2</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Eyes</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Establishing shot</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">24-35mm</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">f/8-11</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Middle distance</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 DoF as Visual Language:</strong> Every f-stop tells a story. f/1.4 whispers "intimacy"—just you and the subject, nothing else matters. f/8 declares "context"—this is where we are, this is the world. f/16 shouts "epic"—behold this vast landscape in all its detail. Professional cinematographers choose aperture as carefully as they choose camera angle, because DoF isn't just a technical setting—it's part of the visual vocabulary. A portrait at f/11 feels documentary, observational. The same portrait at f/1.8 feels emotional, personal, like we're inside the character's head. When you set your aperture in Blender, you're not just controlling blur—you're making a statement about how the viewer should feel about what they're seeing.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 04
+     Continue with lesson_22_depth_of_field_and_focus_part_05.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 22 - PART 05
+     File: lesson_22_depth_of_field_and_focus_part_05.html
+     ============================================ -->
+
+                <section id="troubleshooting-dof" class="content-section">
+                    <h2>🔧 Troubleshooting DoF Issues</h2>
+
+                    <p>Depth of field can be finicky. Sometimes it doesn't look right, doesn't render as expected, or creates unexpected artifacts. Let's solve the most common problems you'll encounter.</p>
+
+                    <h3>DoF Not Visible in Render</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: Everything Sharp Despite Shallow Aperture</h4>
+                        <p><strong>Symptoms:</strong></p>
+                        <ul>
+                            <li>Set aperture to f/1.4 but render looks like f/16</li>
+                            <li>No blur visible in background or foreground</li>
+                            <li>Viewport shows DoF preview but render doesn't</li>
+                        </ul>
+
+                        <p><strong>Cause 1: DoF not enabled</strong></p>
+                        <ul>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Select camera</li>
+                                    <li>Camera Properties → Depth of Field section</li>
+                                    <li>Check that there's an F-Stop value set (not blank)</li>
+                                    <li>Or check that Focus Object is assigned</li>
+                                    <li>If both are empty, DoF is disabled</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Cause 2: Render samples too low (Cycles)</strong></p>
+                        <ul>
+                            <li>DoF requires many samples to render cleanly</li>
+                            <li>Low samples = noisy or absent DoF</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Render Properties → Sampling</li>
+                                    <li>Increase Render samples to 128+ (256+ for clean DoF)</li>
+                                    <li>Viewport samples can stay lower (32-64)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Cause 3: Eevee DoF not enabled</strong></p>
+                        <ul>
+                            <li>In Eevee, DoF requires specific enabling</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Camera Properties → Depth of Field → Enable</li>
+                                    <li>Render Properties → Bloom (if you want bokeh highlights)</li>
+                                    <li>May need to increase Max Size for large blur</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Cause 4: Insufficient subject-background separation</strong></p>
+                        <ul>
+                            <li>If subject and background at similar distances, DoF minimal</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Move background farther from subject</li>
+                                    <li>Or move subject farther from background</li>
+                                    <li>Need at least 2-3x focus distance for visible blur</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Cause 5: Aperture too small</strong></p>
+                        <ul>
+                            <li>f/8 or higher creates deep DoF—blur barely visible</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Reduce f-stop to f/2.8 or lower</li>
+                                    <li>Test with f/1.4 for obvious DoF effect</li>
+                                    <li>Then adjust to taste</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>DoF Too Strong or Too Weak</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: Can't Achieve Desired DoF Strength</h4>
+                        <p><strong>DoF too strong (everything blurred):</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Aperture too wide, subject too close, or focal length too long</li>
+                            <li><strong>Solutions:</strong>
+                                <ul>
+                                    <li>Increase f-stop (f/1.4 → f/2.8 → f/4)</li>
+                                    <li>Move camera farther from subject</li>
+                                    <li>Use shorter focal length (85mm → 50mm)</li>
+                                    <li>Each adjustment deepens DoF slightly</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>DoF too weak (not enough blur):</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Aperture too narrow, subject too far, or focal length too short</li>
+                            <li><strong>Solutions:</strong>
+                                <ul>
+                                    <li>Decrease f-stop (f/5.6 → f/2.8 → f/1.4)</li>
+                                    <li>Use longer focal length (50mm → 85mm → 135mm)</li>
+                                    <li>Move camera closer to subject (increases blur)</li>
+                                    <li>Increase subject-background distance</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Remember the DoF equation:</strong></p>
+                        <ul>
+                            <li>Shallow DoF = Wide aperture + Long lens + Close subject + Far background</li>
+                            <li>Deep DoF = Narrow aperture + Short lens + Distant subject + Close background</li>
+                        </ul>
+                    </div>
+
+                    <h3>Noisy or Grainy DoF (Cycles)</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: DoF Looks Grainy/Noisy</h4>
+                        <p><strong>Symptoms:</strong></p>
+                        <ul>
+                            <li>Out-of-focus areas have visible grain/noise</li>
+                            <li>Bokeh circles not smooth</li>
+                            <li>Uneven blur quality</li>
+                        </ul>
+
+                        <p><strong>Cause: Insufficient render samples</strong></p>
+                        <ul>
+                            <li>DoF is computationally expensive in Cycles</li>
+                            <li>Requires many samples for clean blur</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Render Properties → Sampling → Render: 256+ samples</li>
+                                    <li>For very shallow DoF: 512-1024 samples</li>
+                                    <li>Enable denoising to help (but samples still needed)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Denoising settings:</strong></p>
+                        <ul>
+                            <li>Render Properties → Sampling → Denoise (enable)</li>
+                            <li>Use OptiX or OpenImageDenoise</li>
+                            <li>Helps reduce noise but can't fix extreme undersampling</li>
+                            <li>DoF requires samples—denoising is supplement, not replacement</li>
+                        </ul>
+
+                        <p><strong>Progressive refinement approach:</strong></p>
+                        <ul>
+                            <li>Render with 128 samples for quick preview</li>
+                            <li>Verify DoF looks correct (focus, amount)</li>
+                            <li>Then render final at 256-512 samples</li>
+                            <li>Saves time—don't waste high sample count on wrong settings</li>
+                        </ul>
+                    </div>
+
+                    <h3>Subject Out of Focus</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: Wrong Part of Scene is Sharp</h4>
+                        <p><strong>Symptoms:</strong></p>
+                        <ul>
+                            <li>Background sharp, subject blurred</li>
+                            <li>Or foreground sharp, subject blurred</li>
+                            <li>Focus seems to be in wrong location</li>
+                        </ul>
+
+                        <p><strong>Cause 1: Focus distance incorrect</strong></p>
+                        <ul>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Enable Camera Properties → Viewport Display → Limits</li>
+                                    <li>Yellow cross shows focus plane location in viewport</li>
+                                    <li>Adjust Focus Distance until cross aligns with subject</li>
+                                    <li>Or use Focus Object for automatic targeting</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Cause 2: Focus Object set incorrectly</strong></p>
+                        <ul>
+                            <li>Focus Object pointing to wrong object</li>
+                            <li>Or Empty in wrong location</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Check Camera Properties → Depth of Field → Focus Object</li>
+                                    <li>Verify it's pointing to correct object/Empty</li>
+                                    <li>In viewport, select camera, verify line connects to intended focus point</li>
+                                    <li>Move Empty to correct location if needed</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Cause 3: DoF too shallow</strong></p>
+                        <ul>
+                            <li>Aperture so wide that DoF range tiny</li>
+                            <li>Focus technically correct but subject spans beyond DoF depth</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Slightly close aperture (f/1.4 → f/2 → f/2.8)</li>
+                                    <li>Gives more "wiggle room" for subject</li>
+                                    <li>Especially important for deep subjects (person facing camera)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Quick fix method:</strong></p>
+                        <ul>
+                            <li>In viewport (camera view), <code>Shift+Right-Click</code> on subject</li>
+                            <li>Focus distance automatically set to that point</li>
+                            <li>Quick way to get focus approximately right</li>
+                            <li>Then fine-tune with Focus Distance value or Empty</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bokeh Artifacts or Weird Shapes</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: Bokeh Looks Wrong</h4>
+                        <p><strong>Hexagonal bokeh when you want circular:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Low blade count (default is often 6)</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Camera Properties → Depth of Field → Aperture</li>
+                                    <li>Increase Blades to 9-12 for rounder bokeh</li>
+                                    <li>Or set very wide aperture (f/1.4) for perfect circles</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Bokeh not visible at all:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> No bright point sources in scene</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Add small bright lights in background</li>
+                                    <li>Or add glossy spheres with specular highlights</li>
+                                    <li>Bokeh only visible with bright, small light sources</li>
+                                    <li>Large diffuse surfaces don't create visible bokeh</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Bokeh too distracting:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Background lights too bright or numerous</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Reduce background light intensity</li>
+                                    <li>Remove some lights</li>
+                                    <li>Slightly close aperture to reduce bokeh size</li>
+                                    <li>Balance: visible but not overwhelming</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Weird polygonal shapes (not bokeh circles):</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Object edges being blurred, not point lights</li>
+                            <li>This is normal—only point lights create circular bokeh</li>
+                            <li>Large object edges blur into irregular shapes</li>
+                            <li>Not a problem—this is accurate behavior</li>
+                        </ul>
+                    </div>
+
+                    <h3>DoF Animation Issues</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: Animated DoF Behaves Unexpectedly</h4>
+                        <p><strong>Focus doesn't follow moving subject:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Using manual Focus Distance instead of Focus Object</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Create Empty</li>
+                                    <li>Parent Empty to subject (or subject's armature bone)</li>
+                                    <li>Set Camera → Focus Object to Empty</li>
+                                    <li>Focus now tracks subject automatically</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Rack focus too fast or too slow:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Keyframe timing incorrect</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Open Timeline or Graph Editor</li>
+                                    <li>Move keyframes closer together (faster) or farther apart (slower)</li>
+                                    <li>Typically 30-60 frames (1-2 seconds) for normal rack focus</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Rack focus feels robotic:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Linear interpolation</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Graph Editor → Select keyframes</li>
+                                    <li>Press <code>T</code> → Set Interpolation → Bezier</li>
+                                    <li>Or choose Sinusoidal for smooth ease in/out</li>
+                                    <li>Adjust handles for custom easing</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Focus "hunting" (oscillating):</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> Too many keyframes or conflicting keyframes</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Simplify keyframes—only key start and end points</li>
+                                    <li>Remove intermediate keyframes unless intentional</li>
+                                    <li>Check for accidental duplicate keyframes</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Performance and Render Time Issues</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Problem: DoF Renders Too Slowly</h4>
+                        <p><strong>Cycles DoF slow:</strong></p>
+                        <ul>
+                            <li><strong>Reality:</strong> DoF adds render time—this is normal</li>
+                            <li><strong>Optimization strategies:</strong>
+                                <ul>
+                                    <li>Use Eevee for preview/test renders (much faster)</li>
+                                    <li>Only render final shot in Cycles</li>
+                                    <li>Reduce render samples to minimum acceptable (256 often sufficient)</li>
+                                    <li>Enable adaptive sampling to save samples on converged areas</li>
+                                    <li>Use denoising to allow lower sample counts</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Eevee DoF slow:</strong></p>
+                        <ul>
+                            <li><strong>Cause:</strong> DoF Max Size set too high</li>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Camera Properties → Depth of Field → Max Size</li>
+                                    <li>Lower value = faster but limited blur amount</li>
+                                    <li>Try 64-128 for most cases</li>
+                                    <li>Only increase if blur is getting cut off</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Viewport preview slow:</strong></p>
+                        <ul>
+                            <li><strong>Solution:</strong>
+                                <ul>
+                                    <li>Disable viewport DoF until ready to test</li>
+                                    <li>Camera icon in viewport header → uncheck Depth of Field</li>
+                                    <li>Work without DoF, enable only for preview</li>
+                                    <li>Or reduce viewport samples (Render Properties → Viewport Sampling)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Eevee vs Cycles DoF Differences</h3>
+
+                    <div class="card">
+                        <h4>🎨 Render Engine Behavior</h4>
+                        <p><strong>Cycles DoF characteristics:</strong></p>
+                        <ul>
+                            <li>✅ Physically accurate blur</li>
+                            <li>✅ Proper bokeh shape (respects blade count)</li>
+                            <li>✅ Accurate light gathering</li>
+                            <li>❌ Slower render times</li>
+                            <li>❌ Requires high sample counts</li>
+                            <li><strong>Best for:</strong> Final renders, hero shots, extreme DoF effects</li>
+                        </ul>
+
+                        <p><strong>Eevee DoF characteristics:</strong></p>
+                        <ul>
+                            <li>✅ Very fast rendering</li>
+                            <li>✅ Interactive viewport preview</li>
+                            <li>✅ Good for quick iteration</li>
+                            <li>❌ Approximated DoF (not physically accurate)</li>
+                            <li>❌ Bokeh shape less accurate</li>
+                            <li>❌ Limited blur amount (Max Size)</li>
+                            <li><strong>Best for:</strong> Previews, animations, less critical shots</li>
+                        </ul>
+
+                        <p><strong>When Eevee is good enough:</strong></p>
+                        <ul>
+                            <li>Moderate DoF (f/4-8 range)</li>
+                            <li>No extreme bokeh emphasis</li>
+                            <li>Fast turnaround needed</li>
+                            <li>Animation (render time critical)</li>
+                        </ul>
+
+                        <p><strong>When Cycles is necessary:</strong></p>
+                        <ul>
+                            <li>Extreme shallow DoF (f/1.4-2)</li>
+                            <li>Bokeh is key visual element</li>
+                            <li>Final portfolio/client work</li>
+                            <li>Quality over speed priority</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ DoF Troubleshooting Checklist</h4>
+                        <p><strong>If DoF isn't working, check in this order:</strong></p>
+                        <ol>
+                            <li>✓ Is DoF enabled? (F-Stop value or Focus Object assigned)</li>
+                            <li>✓ Is focus distance correct? (Use Limits display to verify)</li>
+                            <li>✓ Is aperture appropriate? (f/2.8 or wider for visible DoF)</li>
+                            <li>✓ Is subject-background distance sufficient? (Need separation)</li>
+                            <li>✓ Are render samples high enough? (256+ for Cycles)</li>
+                            <li>✓ Is Eevee DoF enabled in camera properties?</li>
+                        </ol>
+
+                        <p><strong>If DoF is working but looks wrong:</strong></p>
+                        <ol>
+                            <li>✓ Adjust aperture for stronger/weaker effect</li>
+                            <li>✓ Increase render samples for cleaner blur</li>
+                            <li>✓ Adjust blade count for better bokeh</li>
+                            <li>✓ Check focus distance (Shift+Right-Click for quick fix)</li>
+                            <li>✓ Verify interpolation (use easing for animated focus)</li>
+                        </ol>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 DoF Troubleshooting Philosophy:</strong> When DoF isn't working, resist the urge to randomly adjust every setting. The systematic approach wins: verify it's enabled, check focus distance, confirm aperture setting, ensure adequate samples. Most DoF problems are one of these four issues. Once it's working but doesn't look right, then you optimize—adjust aperture for amount, increase samples for quality, tune bokeh for aesthetics. The best troubleshooters don't know more solutions—they just work methodically through the possibilities instead of guessing. Keep a render with DoF working correctly as reference, and when something goes wrong, compare settings side-by-side. Often the answer jumps out immediately.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="project-dof-mastery" class="content-section">
+                    <h2>🎯 Project: DoF Mastery Gallery</h2>
+
+                    <p>Time to put everything together! You'll create a gallery of four different DoF scenarios, each demonstrating your understanding of aperture, focus, and bokeh. This project will become portfolio-ready evidence of your camera mastery.</p>
+
+                    <h3>Project Overview</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎬 Your Mission</h3>
+                        <p style="color: white;">Create four distinct renders, each showcasing different depth of field techniques:</p>
+                        <ol style="color: white;">
+                            <li><strong>Portrait Shot:</strong> Extreme shallow DoF with beautiful bokeh</li>
+                            <li><strong>Product Display:</strong> Moderate DoF balancing sharpness and depth</li>
+                            <li><strong>Environmental Story:</strong> Rack focus transition (animated)</li>
+                            <li><strong>Landscape/Vista:</strong> Deep DoF showing front-to-back sharpness</li>
+                        </ol>
+                        <p style="color: white;">Each render should demonstrate technical mastery and artistic intent.</p>
+                    </div>
+
+                    <h3>Setup: Creating Your Scene Library</h3>
+
+                    <div class="card">
+                        <h4>📦 Asset Preparation</h4>
+                        <p><strong>You'll need simple subjects for each shot:</strong></p>
+                        
+                        <p><strong>For Portrait:</strong></p>
+                        <ul>
+                            <li>Suzanne (monkey head) with Subdivision Surface modifier</li>
+                            <li>Or simple character proxy (UV Sphere + cylinders for body)</li>
+                            <li>Position at origin for easy camera setup</li>
+                        </ul>
+
+                        <p><strong>For Product:</strong></p>
+                        <ul>
+                            <li>Simple product shape (cylinder for can/bottle, cube for box)</li>
+                            <li>Add Bevel modifier for realistic edges</li>
+                            <li>Apply simple material (metallic or glossy)</li>
+                        </ul>
+
+                        <p><strong>For Environment:</strong></p>
+                        <ul>
+                            <li>Foreground object (cube or sphere)</li>
+                            <li>Background object (different shape, 5-10 units away)</li>
+                            <li>Simple ground plane</li>
+                        </ul>
+
+                        <p><strong>For Landscape:</strong></p>
+                        <ul>
+                            <li>Use Plane + Subdivision Surface + Displace modifier</li>
+                            <li>Or import simple terrain mesh</li>
+                            <li>Add several objects at different distances (trees, rocks)</li>
+                            <li>Can use primitive shapes—doesn't need to be photorealistic</li>
+                        </ul>
+
+                        <p><strong>Background elements for bokeh (all shots):</strong></p>
+                        <ul>
+                            <li>Array of small Point lights (10-20) scattered in background</li>
+                            <li>Or small Emission spheres (0.1 unit radius)</li>
+                            <li>Position 5-15 units behind main subject</li>
+                            <li>Random heights for natural look</li>
+                        </ul>
+                    </div>
+
+                    <h3>Shot 1: Portrait with Extreme DoF</h3>
+
+                    <div class="card">
+                        <h4>👤 The Cinematic Closeup</h4>
+                        <p><strong>Goal:</strong> Create dramatic portrait with subject sharp, everything else beautifully blurred</p>
+
+                        <p><strong>Camera setup:</strong></p>
+                        <ul>
+                            <li>Add Camera (<code>Shift+A</code> → Camera)</li>
+                            <li>Camera Properties → Lens:
+                                <ul>
+                                    <li>Focal Length: 85mm</li>
+                                    <li>Sensor Size: 36mm (full frame)</li>
+                                </ul>
+                            </li>
+                            <li>Camera Properties → Depth of Field:
+                                <ul>
+                                    <li>F-Stop: 1.8</li>
+                                    <li>Blades: 12 (smooth bokeh)</li>
+                                    <li>Focus Object: Create Empty at subject's "eye" location</li>
+                                </ul>
+                            </li>
+                            <li>Position camera 3-4 units from subject</li>
+                        </ul>
+
+                        <p><strong>Lighting setup:</strong></p>
+                        <ul>
+                            <li>Key light: Area light, above and 45° to side</li>
+                            <li>Fill light: Lower intensity, opposite side</li>
+                            <li>Rim light: Behind subject, highlighting edge</li>
+                            <li>Background lights: 15-20 small point lights scattered</li>
+                        </ul>
+
+                        <p><strong>Materials:</strong></p>
+                        <ul>
+                            <li>Subject: Principled BSDF, adjust color/roughness</li>
+                            <li>Background elements: Emission shader (for bokeh)</li>
+                        </ul>
+
+                        <p><strong>Render settings (Cycles):</strong></p>
+                        <ul>
+                            <li>Samples: 512 (for clean DoF)</li>
+                            <li>Resolution: 1920x1080</li>
+                            <li>Denoise: Enabled</li>
+                        </ul>
+
+                        <p><strong>Success criteria:</strong></p>
+                        <ul>
+                            <li>✓ Subject's face perfectly sharp</li>
+                            <li>✓ Background completely blurred</li>
+                            <li>✓ Visible circular bokeh from background lights</li>
+                            <li>✓ Smooth, creamy blur quality</li>
+                            <li>✓ Professional portrait aesthetic</li>
+                        </ul>
+                    </div>
+
+                    <h3>Shot 2: Product Display</h3>
+
+                    <div class="card">
+                        <h4>📦 Commercial Quality</h4>
+                        <p><strong>Goal:</strong> Show product clearly while maintaining depth and context</p>
+
+                        <p><strong>Camera setup:</strong></p>
+                        <ul>
+                            <li>Focal Length: 50mm</li>
+                            <li>F-Stop: 4.0</li>
+                            <li>Focus Object: Empty at product center or logo</li>
+                            <li>Position: Slight angle (not dead-on), 2-3 units away</li>
+                        </ul>
+
+                        <p><strong>Scene composition:</strong></p>
+                        <ul>
+                            <li>Product: Center frame, elevated on surface</li>
+                            <li>Props: Complementary objects (books, plants, etc.)</li>
+                            <li>Background: 3-5 units behind product</li>
+                            <li>Surface: Simple plane with material</li>
+                        </ul>
+
+                        <p><strong>Lighting setup:</strong></p>
+                        <ul>
+                            <li>Three-point lighting (from previous lessons)</li>
+                            <li>Soft key light (large area light)</li>
+                            <li>Fill to lift shadows</li>
+                            <li>Back/rim for separation</li>
+                            <li>Optional: HDRI for reflections</li>
+                        </ul>
+
+                        <p><strong>Materials focus:</strong></p>
+                        <ul>
+                            <li>Product: Glossy/metallic material showing reflections</li>
+                            <li>Ensure reflections in focus (part of product sharpness)</li>
+                            <li>Props: Matte materials (don't compete with product)</li>
+                        </ul>
+
+                        <p><strong>Success criteria:</strong></p>
+                        <ul>
+                            <li>✓ Product entirely sharp (all details readable)</li>
+                            <li>✓ Background softly blurred but recognizable</li>
+                            <li>✓ Depth apparent (product separated from background)</li>
+                            <li>✓ Professional, commercial look</li>
+                            <li>✓ Balanced DoF—not too shallow, not too deep</li>
+                        </ul>
+                    </div>
+
+                    <h3>Shot 3: Rack Focus Story (Animated)</h3>
+
+                    <div class="card">
+                        <h4>🎬 Dynamic Focus Shift</h4>
+                        <p><strong>Goal:</strong> Create animated shot where focus shifts from foreground to background</p>
+
+                        <p><strong>Scene setup:</strong></p>
+                        <ul>
+                            <li>Foreground object: 2 units from camera</li>
+                            <li>Background object: 8-10 units from camera</li>
+                            <li>Clear visual connection (foreground character "looking at" background object)</li>
+                        </ul>
+
+                        <p><strong>Camera setup:</strong></p>
+                        <ul>
+                            <li>Focal Length: 85mm (emphasizes DoF)</li>
+                            <li>F-Stop: 2.8 (shallow enough for clear transition)</li>
+                            <li>Static camera (no movement)</li>
+                        </ul>
+
+                        <p><strong>Animating the focus:</strong></p>
+                        <ul>
+                            <li><strong>Method: Animated Empty</strong>
+                                <ul>
+                                    <li>Create Empty_Focus</li>
+                                    <li>Camera → Focus Object → Empty_Focus</li>
+                                </ul>
+                            </li>
+                            <li><strong>Frame 1:</strong>
+                                <ul>
+                                    <li>Position Empty at foreground object</li>
+                                    <li>Hover over Empty location, press <code>I</code> → Location</li>
+                                </ul>
+                            </li>
+                            <li><strong>Frame 60:</strong>
+                                <ul>
+                                    <li>Move Empty to background object</li>
+                                    <li>Press <code>I</code> → Location</li>
+                                </ul>
+                            </li>
+                            <li><strong>Easing:</strong>
+                                <ul>
+                                    <li>Open Graph Editor</li>
+                                    <li>Select Empty's location keyframes</li>
+                                    <li>Press <code>T</code> → Sinusoidal (smooth ease in/out)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Lighting:</strong></p>
+                        <ul>
+                            <li>Light both foreground and background adequately</li>
+                            <li>Background should be visible (even if blurred at start)</li>
+                            <li>Foreground should be visible (even if blurred at end)</li>
+                        </ul>
+
+                        <p><strong>Render settings:</strong></p>
+                        <ul>
+                            <li>Animation: 90 frames (3 seconds at 30fps)</li>
+                            <li>Frame 1-30: Focus on foreground (hold)</li>
+                            <li>Frame 30-60: Rack focus transition</li>
+                            <li>Frame 60-90: Focus on background (hold)</li>
+                            <li>Samples: 256 (acceptable for animation)</li>
+                            <li>Output as video file or image sequence</li>
+                        </ul>
+
+                        <p><strong>Success criteria:</strong></p>
+                        <ul>
+                            <li>✓ Smooth transition between focus points</li>
+                            <li>✓ Both subjects clearly visible when in focus</li>
+                            <li>✓ Natural easing (not linear)</li>
+                            <li>✓ 1-2 second transition timing</li>
+                            <li>✓ Storytelling: reveals information progressively</li>
+                        </ul>
+                    </div>
+
+                    <h3>Shot 4: Landscape with Deep DoF</h3>
+
+                    <div class="card">
+                        <h4>🌄 Front-to-Back Sharpness</h4>
+                        <p><strong>Goal:</strong> Create expansive scene with everything sharp from near to far</p>
+
+                        <p><strong>Camera setup:</strong></p>
+                        <ul>
+                            <li>Focal Length: 35mm (wide angle for landscape feel)</li>
+                            <li>F-Stop: 16 (very deep DoF)</li>
+                            <li>Focus Distance: 1/3 into scene (hyperfocal principle)</li>
+                            <li>Position: Ground level or slightly elevated</li>
+                        </ul>
+
+                        <p><strong>Scene composition:</strong></p>
+                        <ul>
+                            <li>Foreground elements: 1-3 units from camera</li>
+                            <li>Midground: 5-10 units</li>
+                            <li>Background: 15-30+ units</li>
+                            <li>Vary heights for visual interest</li>
+                            <li>Leading lines directing eye through scene</li>
+                        </ul>
+
+                        <p><strong>Lighting setup:</strong></p>
+                        <ul>
+                            <li>Sun light (Directional light, low angle for drama)</li>
+                            <li>Or HDRI world lighting (outdoor environment)</li>
+                            <li>Sky with atmospheric gradient</li>
+                            <li>Long shadows emphasizing depth</li>
+                        </ul>
+
+                        <p><strong>Focus technique:</strong></p>
+                        <ul>
+                            <li>Create Empty at 1/3 distance into scene</li>
+                            <li>Or manually set Focus Distance to approximately 1/3 of far distance</li>
+                            <li>Enable Limits display to verify focus plane</li>
+                            <li>Adjust until foreground, middle, and background all acceptably sharp</li>
+                        </ul>
+
+                        <p><strong>Success criteria:</strong></p>
+                        <ul>
+                            <li>✓ Foreground elements sharp and detailed</li>
+                            <li>✓ Midground elements sharp</li>
+                            <li>✓ Background/horizon sharp</li>
+                            <li>✓ No obvious blur anywhere in frame</li>
+                            <li>✓ Epic, expansive feeling</li>
+                            <li>✓ Demonstrates control over deep DoF</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bonus Challenges</h3>
+
+                    <div class="card" style="background: #fff3e0; border-left: 4px solid #ff9800;">
+                        <h4>🌟 Go Further (Optional)</h4>
+                        <p><strong>Challenge 1: Anamorphic bokeh</strong></p>
+                        <ul>
+                            <li>Recreate Portrait shot with anamorphic bokeh (oval shapes)</li>
+                            <li>Set Aperture Ratio to 0.5</li>
+                            <li>Add horizontal lens flare in post (optional)</li>
+                            <li>Render at 2.39:1 aspect ratio (cinemascope)</li>
+                        </ul>
+
+                        <p><strong>Challenge 2: Focus breathing</strong></p>
+                        <ul>
+                            <li>Create animated shot with subtle focus drift</li>
+                            <li>Animate focus distance slightly (0.1-0.2 units oscillation)</li>
+                            <li>Slow, organic movement (2-3 second cycles)</li>
+                            <li>Simulates manual focus pulling or handheld feel</li>
+                        </ul>
+
+                        <p><strong>Challenge 3: Multi-subject rack focus</strong></p>
+                        <ul>
+                            <li>Scene with 3+ subjects at different distances</li>
+                            <li>Rack focus through all subjects sequentially</li>
+                            <li>A → B → C → D progression</li>
+                            <li>Tells story through focus sequence</li>
+                        </ul>
+
+                        <p><strong>Challenge 4: DoF comparison sheet</strong></p>
+                        <ul>
+                            <li>Same scene, 6 renders with different f-stops</li>
+                            <li>f/1.4, f/2.8, f/4, f/5.6, f/8, f/16</li>
+                            <li>Arrange in grid to show DoF progression</li>
+                            <li>Educational reference showing aperture impact</li>
+                        </ul>
+                    </div>
+
+                    <h3>Submission and Review</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Project Completion Checklist</h4>
+                        <p><strong>Required deliverables:</strong></p>
+                        <ul>
+                            <li>✓ Portrait render (1920x1080, PNG or JPG)</li>
+                            <li>✓ Product render (1920x1080, PNG or JPG)</li>
+                            <li>✓ Rack focus animation (MP4 or image sequence)</li>
+                            <li>✓ Landscape render (1920x1080, PNG or JPG)</li>
+                        </ul>
+
+                        <p><strong>Quality verification:</strong></p>
+                        <ul>
+                            <li>✓ Each render demonstrates appropriate DoF for scenario</li>
+                            <li>✓ Focus is accurate (sharp where intended)</li>
+                            <li>✓ Bokeh visible in shots that should have it</li>
+                            <li>✓ No noise/grain in out-of-focus areas</li>
+                            <li>✓ Professional composition and lighting</li>
+                        </ul>
+
+                        <p><strong>Self-assessment questions:</strong></p>
+                        <ul>
+                            <li>Can you explain why you chose each f-stop value?</li>
+                            <li>Can you describe how DoF helps tell the story in each shot?</li>
+                            <li>Would you make the same choices for a client project?</li>
+                            <li>What did you learn about DoF that surprised you?</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Portfolio Power of DoF Mastery:</strong> These four shots aren't just practice—they're portfolio gold. When art directors and clients see your work, they're not just looking at pretty pictures—they're assessing technical competence. A gallery showing mastery of shallow DoF, moderate DoF, animated focus, and deep DoF instantly communicates "this person understands cameras at a professional level." It says you can deliver the right depth of field for any project: intimate portraits, commercial products, cinematic storytelling, or epic environments. Many 3D artists neglect camera work, creating technically perfect models with novice camera technique. Don't be that artist. These DoF skills separate professionals from hobbyists, and this project proves you're the former.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_22_depth_of_field_and_focus_part_06.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 22 - PART 06
+     File: lesson_22_depth_of_field_and_focus_part_06.html
+     ============================================ -->
+
+                <section id="summary" class="content-section">
+                    <h2>📝 Lesson Summary</h2>
+
+                    <p>Congratulations! You've mastered one of the most powerful cinematic tools in your arsenal. Depth of field isn't just a technical camera setting—it's a storytelling language that guides attention, creates mood, and separates professional work from amateur renders.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎯 Key Takeaways</h3>
+                        <ul style="color: white;">
+                            <li><strong>Aperture controls blur amount:</strong> Wide aperture (f/1.4-2.8) = shallow DoF, narrow aperture (f/11-16) = deep DoF</li>
+                            <li><strong>Focus distance determines sharpness location:</strong> Use Focus Object for easy targeting and animation tracking</li>
+                            <li><strong>Bokeh is blur aesthetics:</strong> Blade count and aperture shape affect out-of-focus quality—9+ blades for premium look</li>
+                            <li><strong>Rack focus shifts attention:</strong> Animate focus to guide viewer's eye and reveal information progressively</li>
+                            <li><strong>DoF is genre-specific:</strong> Portraits want shallow DoF, landscapes want deep DoF, products want moderate DoF</li>
+                            <li><strong>Four factors affect DoF:</strong> Aperture, focal length, focus distance, and sensor size—master all four</li>
+                        </ul>
+                    </div>
+
+                    <h3>What We Covered</h3>
+
+                    <div class="card">
+                        <h4>📚 Complete DoF Knowledge</h4>
+                        
+                        <p><strong>Fundamentals:</strong></p>
+                        <ul>
+                            <li>What depth of field is and why it matters</li>
+                            <li>How aperture (f-stops) controls blur intensity</li>
+                            <li>The relationship between f-number and DoF depth</li>
+                            <li>Real-world photography terminology in 3D context</li>
+                        </ul>
+
+                        <p><strong>Technical control:</strong></p>
+                        <ul>
+                            <li>Setting up DoF in Blender camera properties</li>
+                            <li>Manual focus distance vs Focus Object methods</li>
+                            <li>Visualizing focus plane with camera Limits display</li>
+                            <li>Aperture blade count and bokeh shape control</li>
+                        </ul>
+
+                        <p><strong>Focus techniques:</strong></p>
+                        <ul>
+                            <li>Where to place focus for different subjects (eyes, logos, landmarks)</li>
+                            <li>Understanding focal plane and acceptable sharpness zone</li>
+                            <li>Hyperfocal distance for landscape photography</li>
+                            <li>Focus strategies for moving subjects and cameras</li>
+                        </ul>
+
+                        <p><strong>Bokeh mastery:</strong></p>
+                        <ul>
+                            <li>What makes "good" vs "bad" bokeh</li>
+                            <li>How aperture blades create bokeh shapes</li>
+                            <li>Creating visible bokeh with lights and highlights</li>
+                            <li>Anamorphic and specialty bokeh effects</li>
+                        </ul>
+
+                        <p><strong>Rack focus:</strong></p>
+                        <ul>
+                            <li>Animating focus shifts between subjects</li>
+                            <li>Timing and easing for natural focus pulls</li>
+                            <li>Narrative applications (reveals, reactions, discoveries)</li>
+                            <li>Advanced techniques (chain rack, motivated focus, whip rack)</li>
+                        </ul>
+
+                        <p><strong>Practical application:</strong></p>
+                        <ul>
+                            <li>DoF settings for portraits, products, architecture, landscapes, action</li>
+                            <li>Cycles vs Eevee DoF characteristics and when to use each</li>
+                            <li>Troubleshooting common DoF problems</li>
+                            <li>Optimization for render performance</li>
+                        </ul>
+                    </div>
+
+                    <h3>Skills You've Gained</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Professional Capabilities</h4>
+                        <p><strong>You can now:</strong></p>
+                        <ul>
+                            <li>✓ Intentionally control what's sharp and what's blurred in any shot</li>
+                            <li>✓ Choose appropriate f-stop for any scenario (portrait to landscape)</li>
+                            <li>✓ Set up Focus Objects for precise, animation-friendly focus control</li>
+                            <li>✓ Create beautiful bokeh with proper blade counts and background setup</li>
+                            <li>✓ Animate rack focus to guide attention and reveal information</li>
+                            <li>✓ Troubleshoot DoF issues systematically when renders don't look right</li>
+                            <li>✓ Optimize DoF rendering for quality vs speed balance</li>
+                            <li>✓ Match DoF aesthetics to genre expectations (commercial, cinematic, documentary)</li>
+                            <li>✓ Explain your DoF choices with professional cinematography vocabulary</li>
+                            <li>✓ Create portfolio-quality renders demonstrating camera mastery</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Creative Impact</h3>
+
+                    <div class="card">
+                        <h4>🎨 Why This Matters</h4>
+                        <p><strong>DoF as visual hierarchy:</strong></p>
+                        <ul>
+                            <li>Sharp = important, look here</li>
+                            <li>Blurred = context, supporting information</li>
+                            <li>You control the visual hierarchy completely</li>
+                            <li>Shallow DoF isolates, deep DoF contextualizes</li>
+                        </ul>
+
+                        <p><strong>DoF as emotion:</strong></p>
+                        <ul>
+                            <li>Extreme shallow DoF feels intimate, personal, emotional</li>
+                            <li>Deep DoF feels objective, documentary, informational</li>
+                            <li>Moderate DoF feels balanced, commercial, professional</li>
+                            <li>The same scene at different f-stops tells different stories</li>
+                        </ul>
+
+                        <p><strong>DoF as style signature:</strong></p>
+                        <ul>
+                            <li>Consistent DoF approach creates visual identity</li>
+                            <li>Think Wes Anderson (deep DoF, everything sharp) vs Denis Villeneuve (selective focus)</li>
+                            <li>Your DoF choices become part of your artistic voice</li>
+                            <li>Clients recognize quality through intentional camera work</li>
+                        </ul>
+
+                        <p><strong>DoF separates professionals from novices:</strong></p>
+                        <ul>
+                            <li>Beginners: everything sharp or everything blurred (extremes)</li>
+                            <li>Intermediate: using DoF but not always intentionally</li>
+                            <li>Professional: DoF choice deliberate for each shot, serves story/product</li>
+                            <li>You're now in the professional category</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common DoF Patterns to Remember</h3>
+
+                    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                        <h4>💡 The Essential Formulas</h4>
+                        
+                        <p><strong>The shallow DoF formula:</strong></p>
+                        <ul>
+                            <li>Wide aperture (f/1.4-2.8) + Long lens (85mm+) + Close subject + Far background = Maximum blur</li>
+                        </ul>
+
+                        <p><strong>The deep DoF formula:</strong></p>
+                        <ul>
+                            <li>Narrow aperture (f/11-16) + Short lens (24-35mm) + Distant subject + Focus 1/3 into scene = Maximum sharpness</li>
+                        </ul>
+
+                        <p><strong>The commercial sweet spot:</strong></p>
+                        <ul>
+                            <li>f/4-5.6 + 50-85mm lens + Moderate distance = Product visible, background pleasant</li>
+                        </ul>
+
+                        <p><strong>The portrait standard:</strong></p>
+                        <ul>
+                            <li>f/1.8-2.8 + 85-135mm lens + Eyes in focus = Subject isolated, background bokeh</li>
+                        </ul>
+
+                        <p><strong>The landscape approach:</strong></p>
+                        <ul>
+                            <li>f/11-16 + 24-50mm lens + Focus 1/3 into scene = Front-to-back sharpness</li>
+                        </ul>
+                    </div>
+
+                    <h3>Next Steps in Your Journey</h3>
+
+                    <div class="card">
+                        <h4>🚀 Continuing to Grow</h4>
+                        <p><strong>Practice these skills:</strong></p>
+                        <ul>
+                            <li><strong>DoF study routine:</strong> Take one scene, render at f/1.4, f/2.8, f/4, f/5.6, f/8, f/11, f/16—see the progression</li>
+                            <li><strong>Bokeh experiments:</strong> Try different blade counts (5, 7, 9, 12) and aperture ratios to see aesthetic differences</li>
+                            <li><strong>Rack focus drills:</strong> Practice 10 different rack focus scenarios—foreground to background, character to object, reveal shots</li>
+                            <li><strong>Match reference:</strong> Find professional photos/films, try to match their DoF in your renders</li>
+                            <li><strong>Genre studies:</strong> Study DoF conventions in different film genres (noir, sci-fi, romance, action)</li>
+                        </ul>
+
+                        <p><strong>Analyze professional work:</strong></p>
+                        <ul>
+                            <li>Watch movies with camera-focused commentary</li>
+                            <li>Study cinematography breakdowns on YouTube</li>
+                            <li>Look at photography portfolios, note f-stops used</li>
+                            <li>Ask yourself: "Why did they choose this DoF for this shot?"</li>
+                            <li>Notice when DoF changes within scenes (rack focus moments)</li>
+                        </ul>
+
+                        <p><strong>Build your DoF library:</strong></p>
+                        <ul>
+                            <li>Save camera presets for common scenarios (portrait, product, landscape)</li>
+                            <li>Create Empty collections for focus targeting (eyes, logos, focal planes)</li>
+                            <li>Keep reference renders showing various f-stops</li>
+                            <li>Document your successful DoF setups for future projects</li>
+                        </ul>
+
+                        <p><strong>Combine with other techniques:</strong></p>
+                        <ul>
+                            <li>DoF + Composition (previous lesson) = Visual hierarchy mastery</li>
+                            <li>DoF + Lighting = Mood control</li>
+                            <li>DoF + Animation (next lesson) = Dynamic storytelling</li>
+                            <li>DoF + Color grading = Complete aesthetic control</li>
+                        </ul>
+                    </div>
+
+                    <h3>Avoiding Common Mistakes</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Long-Term Pitfalls to Avoid</h4>
+                        <p><strong>Don't develop these bad habits:</strong></p>
+                        <ul>
+                            <li>❌ <strong>Always using extreme DoF:</strong> f/1.4 every shot becomes gimmicky—vary your approach</li>
+                            <li>❌ <strong>Ignoring genre expectations:</strong> Clients expect certain DoF for certain projects—don't fight conventions without reason</li>
+                            <li>❌ <strong>Forgetting focus point:</strong> Double-check focus is on subject, not background—easy to miss</li>
+                            <li>❌ <strong>Over-relying on DoF:</strong> Bad composition + shallow DoF ≠ good image—fix composition first</li>
+                            <li>❌ <strong>Never using deep DoF:</strong> Sometimes everything should be sharp—don't default to blur</li>
+                            <li>❌ <strong>Unmotivated rack focus:</strong> Focus shifts should serve story, not just show off technique</li>
+                            <li>❌ <strong>Forgetting render samples:</strong> Low samples = noisy DoF ruins otherwise good work</li>
+                        </ul>
+
+                        <p><strong>Instead, build these good habits:</strong></p>
+                        <ul>
+                            <li>✓ <strong>Ask "What should be sharp?"</strong> before setting up camera—intentional choices</li>
+                            <li>✓ <strong>Test-render early:</strong> Quick low-sample render to verify DoF before final render</li>
+                            <li>✓ <strong>Use viewport DoF preview:</strong> Camera icon → Depth of Field—see before rendering</li>
+                            <li>✓ <strong>Document your settings:</strong> When DoF looks great, save camera settings for future reference</li>
+                            <li>✓ <strong>Study the masters:</strong> Regularly analyze professional cinematography DoF choices</li>
+                            <li>✓ <strong>Match DoF to intent:</strong> Every f-stop choice should support your story/message</li>
+                        </ul>
+                    </div>
+
+                    <h3>Your DoF Toolkit</h3>
+
+                    <div class="card">
+                        <h4>🛠️ Quick Reference</h4>
+                        <p><strong>Essential hotkeys and shortcuts:</strong></p>
+                        <ul>
+                            <li><code>Numpad 0</code>: Camera view</li>
+                            <li><code>Shift+Right-Click</code> (in camera view): Set focus to clicked point</li>
+                            <li><code>I</code>: Insert keyframe (for animating focus)</li>
+                            <li><code>T</code> (Graph Editor): Set interpolation type</li>
+                            <li>Camera icon (viewport header) → Depth of Field: Toggle viewport DoF preview</li>
+                        </ul>
+
+                        <p><strong>Where to find settings:</strong></p>
+                        <ul>
+                            <li><strong>Camera Properties → Lens:</strong> Focal length, sensor size</li>
+                            <li><strong>Camera Properties → Depth of Field:</strong> F-Stop, focus distance, focus object, blades</li>
+                            <li><strong>Camera Properties → Viewport Display:</strong> Limits (shows focus plane)</li>
+                            <li><strong>Render Properties → Sampling:</strong> Render samples (for clean DoF)</li>
+                        </ul>
+
+                        <p><strong>Quick DoF troubleshooting checklist:</strong></p>
+                        <ol>
+                            <li>DoF enabled? (F-Stop set or Focus Object assigned)</li>
+                            <li>Focus distance correct? (Use Limits display to verify)</li>
+                            <li>Aperture appropriate? (f/2.8 or wider for visible DoF)</li>
+                            <li>Enough subject-background separation?</li>
+                            <li>Render samples sufficient? (256+ for Cycles)</li>
+                            <li>Eevee DoF enabled in camera properties?</li>
+                        </ol>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The DoF Mindset:</strong> The difference between amateur and professional camera work isn't technical knowledge—it's intentionality. Amateurs adjust DoF until it "looks good." Professionals ask: "What story am I telling? What should the viewer focus on? What emotion am I creating?" Then they choose the f-stop, focus point, and bokeh quality that serves those answers. You now have the technical skills to execute any DoF choice. The art is in making deliberate choices that serve your vision. Every time you set up a camera, pause and ask: "Why this f-stop? Why this focus point? What am I communicating?" When you can answer those questions clearly, you're thinking like a cinematographer. That's the mindset that creates memorable, powerful imagery.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="whats-next" class="content-section">
+                    <h2>🔮 What's Next?</h2>
+
+                    <p>You've completed the Camera and Composition module with mastery over camera basics, composition principles, and depth of field. You now control exactly what viewers see and how they see it. Next, we bring scenes to life with animation!</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎬 Coming Up: Lesson 23 - Camera Animation</h3>
+                        <p style="color: white;">In the next lesson, you'll learn to create dynamic camera movement that enhances storytelling and adds production value to your scenes:</p>
+                        <ul style="color: white;">
+                            <li><strong>Camera animation fundamentals:</strong> Keyframes, interpolation, timing</li>
+                            <li><strong>Classic camera moves:</strong> Dolly, crane, orbit, tracking shots</li>
+                            <li><strong>Camera constraints:</strong> Follow path, track to, follow objects</li>
+                            <li><strong>Handheld and stabilization:</strong> Realistic camera shake vs smooth motion</li>
+                            <li><strong>Cinematic camera rigs:</strong> Professional multi-camera setups</li>
+                            <li><strong>Animation timing:</strong> Speed ramping, easing, natural acceleration</li>
+                        </ul>
+                        <p style="color: white; margin-top: 1rem;"><strong>Why it matters:</strong> Static cameras are fine, but moving cameras create energy, reveal space, and guide attention through time. Combined with your DoF and composition skills, camera animation will make your work feel truly cinematic.</p>
+                    </div>
+
+                    <h3>The Complete Camera Mastery Picture</h3>
+
+                    <div class="card">
+                        <h4>📸 What You've Built</h4>
+                        <p><strong>Module 5 Complete: Camera and Composition</strong></p>
+                        <div class="mermaid">
+                            graph LR
+                            A[Lesson 20:<br/>Camera Basics] --> B[Lesson 21:<br/>Composition]
+                            B --> C[Lesson 22:<br/>Depth of Field]
+                            C --> D[Lesson 23:<br/>Camera Animation]
+                            style C fill:#4CAF50,stroke:#333,stroke-width:3px,color:#fff
+                            style D fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                        </div>
+                        
+                        <p style="margin-top: 1.5rem;"><strong>Your camera skill progression:</strong></p>
+                        <ul>
+                            <li><strong>Lesson 20:</strong> Camera technical foundation (focal length, sensor size, clipping)</li>
+                            <li><strong>Lesson 21:</strong> Visual composition and framing (rule of thirds, leading lines, balance)</li>
+                            <li><strong>Lesson 22:</strong> Depth of field and focus control (you are here! ✅)</li>
+                            <li><strong>Lesson 23:</strong> Camera movement and animation (coming next)</li>
+                        </ul>
+
+                        <p><strong>After Lesson 23, you'll have complete camera mastery:</strong></p>
+                        <ul>
+                            <li>Technical camera controls (focal length, DoF, sensor settings)</li>
+                            <li>Composition and framing for maximum impact</li>
+                            <li>Focus control and bokeh aesthetics</li>
+                            <li>Dynamic camera movement and timing</li>
+                        </ul>
+
+                        <p>This is the complete toolkit professional cinematographers use. You're not just learning Blender—you're learning the visual language of cinema.</p>
+                    </div>
+
+                    <h3>Before Moving On</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Readiness Check</h4>
+                        <p><strong>Before starting Lesson 23, ensure you can:</strong></p>
+                        <ul>
+                            <li>✓ Explain how f-stops control depth of field</li>
+                            <li>✓ Set up Focus Object for precise focus targeting</li>
+                            <li>✓ Choose appropriate aperture for different scenarios (portrait, product, landscape)</li>
+                            <li>✓ Create visible bokeh with proper lighting and blade count</li>
+                            <li>✓ Animate rack focus with smooth easing</li>
+                            <li>✓ Troubleshoot common DoF problems systematically</li>
+                            <li>✓ Complete the DoF Mastery Gallery project with 4 quality renders</li>
+                        </ul>
+
+                        <p><strong>If you can do all of the above, you're ready for camera animation!</strong></p>
+                        <p>If any areas feel weak, revisit those sections and practice before moving on. Camera animation builds on these DoF skills—especially animated focus (rack focus is essentially camera animation for focus).</p>
+                    </div>
+
+                    <h3>Keep Practicing</h3>
+
+                    <div class="card">
+                        <h4>🎯 Daily DoF Exercise</h4>
+                        <p><strong>5-minute DoF drill (do this daily):</strong></p>
+                        <ol>
+                            <li>Open Blender, create simple scene (3 objects at different distances)</li>
+                            <li>Add camera, set 3 different f-stops (f/2, f/5.6, f/11)</li>
+                            <li>Render all three, compare DoF depth</li>
+                            <li>Change focal length (35mm, 50mm, 85mm), render again</li>
+                            <li>Observe how focal length + aperture = DoF control</li>
+                        </ol>
+                        <p>This muscle memory is invaluable. After 2 weeks, you'll intuitively know which settings create which DoF without testing.</p>
+                    </div>
+
+                </section>
+
+                <section id="final-encouragement" class="content-section">
+                    <div class="card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 2rem;">
+                        <h2 style="color: white; margin-top: 0;">🎓 You're a Camera Master</h2>
+                        <p style="color: white; font-size: 1.1em; line-height: 1.6;">
+                            Take a moment to appreciate what you've accomplished. Depth of field is one of those skills that separates "people who use cameras" from "cinematographers." You're now in the latter category. You understand f-stops, focus distance, bokeh, rack focus—concepts that professional camera operators train for years to master. And you didn't just memorize them—you understand WHY they work and WHEN to use them.
+                        </p>
+                        <p style="color: white; font-size: 1.1em; line-height: 1.6;">
+                            In your next renders, viewers won't consciously think "nice depth of field," but they'll FEEL the professionalism. They'll naturally look where you want them to look. They'll feel the intimacy of a shallow DoF portrait or the epic scope of a deep DoF landscape. That's the invisible art of great camera work—it guides without announcing itself.
+                        </p>
+                        <p style="color: white; font-size: 1.1em; line-height: 1.6;">
+                            Keep pushing forward. Camera animation awaits, and it's going to be spectacular. You're building something special here—not just technical skills, but artistic vision backed by professional technique. That combination is unstoppable.
+                        </p>
+                        <p style="color: white; font-size: 1.2em; margin-top: 1.5rem; margin-bottom: 0;">
+                            <strong>See you in Lesson 23. Let's make those cameras move! 🎬</strong>
+                        </p>
+                    </div>
+                </section>
+
+            </article>
+        </main>
+
+        <nav class="lesson-nav" aria-label="Lesson Navigation">
+            <a href="lesson_21_composition_principles.html" class="prev-lesson">← Previous: Composition Principles</a>
+            <a href="index.html" class="home-link">🏠 Course Home</a>
+            <a href="lesson_23_camera_animation.html" class="next-lesson">Next: Camera Animation →</a>
+        </nav>
+
+        <footer class="site-footer">
+            <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>
+
+<!-- ============================================
+     END OF PART 06
+     This completes Lesson 22: Depth of Field and Focus
+     ============================================ -->

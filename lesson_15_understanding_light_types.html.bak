@@ -1,0 +1,3144 @@
+<!-- ============================================
+     LESSON 15 - PART 01
+     File: lesson_15_understanding_light_types_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master the different light types in Blender - learn when and how to use Point, Sun, Spot, and Area lights to create professional lighting setups.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 15: Understanding Light Types - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="main-nav" aria-label="Main Navigation">
+            <a href="index.html" class="nav-logo">🎨 Blender Course</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#lessons">Lessons</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#lessons">Lessons</a> &gt; 
+            <span>Lesson 15: Understanding Light Types</span>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <article class="lesson-content">
+                <header class="lesson-header">
+                    <h1>💡 Lesson 15: Understanding Light Types</h1>
+                    <p class="lesson-intro">Welcome to Module 4: Lighting and Rendering! You've created beautiful models and applied stunning materials—now it's time to light them properly. Lighting is what brings your 3D scenes to life, creating mood, depth, and drama. Without good lighting, even the most detailed model with perfect materials will look flat and uninspiring. In this lesson, you'll master Blender's four main light types and learn when and how to use each one to create professional results.</p>
+                </header>
+
+                <!-- Learning Objectives -->
+                <div class="card">
+                    <h2>🎯 What You'll Learn</h2>
+                    <ul>
+                        <li>The fundamental role of lighting in 3D visualization</li>
+                        <li>Understanding light properties: color, intensity, and falloff</li>
+                        <li>Point lights: omnidirectional illumination basics</li>
+                        <li>Sun lights: parallel rays for outdoor scenes</li>
+                        <li>Spot lights: focused, directional lighting</li>
+                        <li>Area lights: soft, realistic light sources</li>
+                        <li>Light properties and settings in depth</li>
+                        <li>Comparing light types and choosing the right one</li>
+                        <li>Practical lighting scenarios and solutions</li>
+                        <li>Render engine differences (Eevee vs. Cycles)</li>
+                        <li>Creating your first professional lighting setup</li>
+                    </ul>
+                    <p><strong>⏱️ Estimated Time:</strong> 45-60 minutes</p>
+                    <p><strong>🎯 Project:</strong> Create a multi-light scene showcasing each light type</p>
+                </div>
+
+                <!-- Table of Contents -->
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#why-lighting-matters" class="toc-link">Why Lighting Matters</a></li>
+                            <li><a href="#light-fundamentals" class="toc-link">Light Fundamentals</a></li>
+                            <li><a href="#adding-lights" class="toc-link">Adding Lights in Blender</a></li>
+                            <li><a href="#point-light" class="toc-link">Point Light</a></li>
+                            <li><a href="#sun-light" class="toc-link">Sun Light</a></li>
+                            <li><a href="#spot-light" class="toc-link">Spot Light</a></li>
+                            <li><a href="#area-light" class="toc-link">Area Light</a></li>
+                            <li><a href="#light-properties" class="toc-link">Common Light Properties</a></li>
+                            <li><a href="#comparing-lights" class="toc-link">Comparing Light Types</a></li>
+                            <li><a href="#practical-scenarios" class="toc-link">Practical Lighting Scenarios</a></li>
+                            <li><a href="#project" class="toc-link">Project: Light Type Showcase</a></li>
+                            <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="why-lighting-matters" class="content-section">
+                    <h2>🌟 Why Lighting Matters</h2>
+
+                    <p>Lighting is arguably the most important aspect of 3D visualization. It can make or break your scene, regardless of how good your models and materials are. Let's understand why lighting deserves your attention and respect.</p>
+
+                    <h3>The Power of Light</h3>
+
+                    <div class="card">
+                        <h4>✨ What Lighting Does for Your Scene</h4>
+                        <p><strong>Lighting controls:</strong></p>
+                        <ul>
+                            <li><strong>Visibility:</strong> Without light, there's nothing to see (literally pitch black)</li>
+                            <li><strong>Form and depth:</strong> Shadows and highlights reveal 3D shape</li>
+                            <li><strong>Mood and atmosphere:</strong> Warm sunset vs. cold moonlight changes everything</li>
+                            <li><strong>Focus and attention:</strong> Light draws the eye to what matters</li>
+                            <li><strong>Realism:</strong> Accurate lighting makes scenes believable</li>
+                            <li><strong>Story and emotion:</strong> Light supports narrative and feeling</li>
+                        </ul>
+
+                        <p><strong>The lighting rule of thumb:</strong></p>
+                        <blockquote>
+                            <p>"Good lighting can save a mediocre model. Bad lighting will ruin a perfect model."</p>
+                        </blockquote>
+
+                        <p><strong>What professional lighting achieves:</strong></p>
+                        <ul>
+                            <li>Separates objects from background (depth)</li>
+                            <li>Reveals surface detail and texture</li>
+                            <li>Creates visual hierarchy (what to look at first)</li>
+                            <li>Establishes time of day and location</li>
+                            <li>Evokes specific emotional responses</li>
+                            <li>Guides the viewer's eye through the scene</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Photography Analogy:</strong> Think about how photographers obsess over lighting—they'll wait hours for the perfect light, use multiple light sources, and carefully control shadows. The same principles apply in 3D. You have even more control than a photographer because you can place lights anywhere, make them any color, and adjust them perfectly. Use that power wisely!</p>
+                    </blockquote>
+
+                    <h3>Lighting in the Real World vs. 3D</h3>
+
+                    <div class="card">
+                        <h4>🌍 Understanding Light Behavior</h4>
+                        <p><strong>Real-world light sources:</strong></p>
+                        <ul>
+                            <li><strong>The sun:</strong> Distant, parallel rays, incredibly bright</li>
+                            <li><strong>Light bulbs:</strong> Point sources radiating in all directions</li>
+                            <li><strong>Windows:</strong> Large area sources, soft diffused light</li>
+                            <li><strong>Lamps/fixtures:</strong> Directional, often focused with reflectors</li>
+                            <li><strong>Screens/monitors:</strong> Flat emissive surfaces</li>
+                            <li><strong>Fire/candles:</strong> Warm, flickering point sources</li>
+                        </ul>
+
+                        <p><strong>In Blender:</strong></p>
+                        <ul>
+                            <li>We simulate these real-world sources with virtual lights</li>
+                            <li>Four main light types to recreate any real lighting scenario</li>
+                            <li>Plus materials can emit light (emission shader)</li>
+                            <li>World/environment lighting for overall ambient illumination</li>
+                        </ul>
+
+                        <p><strong>Key light properties we'll control:</strong></p>
+                        <ul>
+                            <li><strong>Color:</strong> White, warm, cool, colored lights</li>
+                            <li><strong>Intensity/Power:</strong> How bright the light is</li>
+                            <li><strong>Position:</strong> Where the light comes from</li>
+                            <li><strong>Direction:</strong> Where the light points (for some types)</li>
+                            <li><strong>Size:</strong> Small (hard shadows) vs. large (soft shadows)</li>
+                            <li><strong>Falloff:</strong> How light diminishes with distance</li>
+                        </ul>
+                    </div>
+
+                    <h3>Hard vs. Soft Light</h3>
+
+                    <div class="card">
+                        <h4>🔦 Shadow Quality Fundamentals</h4>
+                        <p><strong>Hard light characteristics:</strong></p>
+                        <ul>
+                            <li>Small or distant light source</li>
+                            <li>Sharp, well-defined shadows</li>
+                            <li>High contrast between light and shadow</li>
+                            <li>Dramatic, intense feeling</li>
+                            <li><strong>Examples:</strong> Direct sunlight, small bare bulb, flashlight</li>
+                        </ul>
+
+                        <p><strong>Soft light characteristics:</strong></p>
+                        <ul>
+                            <li>Large or diffused light source</li>
+                            <li>Gradual shadow edges (penumbra)</li>
+                            <li>Lower contrast, gentle transitions</li>
+                            <li>Flattering, natural feeling</li>
+                            <li><strong>Examples:</strong> Overcast sky, window light, softbox, bounced light</li>
+                        </ul>
+
+                        <p><strong>The distance-size relationship:</strong></p>
+                        <ul>
+                            <li>Same light appears harder when far from subject</li>
+                            <li>Same light appears softer when close to subject</li>
+                            <li>The sun is huge but appears hard because it's so far away</li>
+                            <li>A small lamp appears soft when very close</li>
+                        </ul>
+
+                        <p><strong>Choosing hard vs. soft:</strong></p>
+                        <ul>
+                            <li><strong>Use hard light for:</strong> Drama, focus, outdoor midday, product highlights</li>
+                            <li><strong>Use soft light for:</strong> Portraits, even illumination, realism, gentle mood</li>
+                            <li><strong>Mix both:</strong> Most professional setups use a combination</li>
+                        </ul>
+                    </div>
+
+                    <h3>Light and Mood</h3>
+
+                    <div class="card">
+                        <h4>🎭 Emotional Impact of Lighting</h4>
+                        <p><strong>Color temperature and mood:</strong></p>
+                        <ul>
+                            <li><strong>Warm light (orange/yellow):</strong>
+                                <ul>
+                                    <li>Feelings: Cozy, comfortable, nostalgic, inviting</li>
+                                    <li>Uses: Sunset, indoor scenes, intimate moments</li>
+                                    <li>Color temperature: 2000K-3500K</li>
+                                </ul>
+                            </li>
+                            <li><strong>Neutral light (white):</strong>
+                                <ul>
+                                    <li>Feelings: Clean, professional, realistic, balanced</li>
+                                    <li>Uses: Product shots, midday scenes, office environments</li>
+                                    <li>Color temperature: 5000K-6500K</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cool light (blue/cyan):</strong>
+                                <ul>
+                                    <li>Feelings: Cold, sterile, mysterious, futuristic</li>
+                                    <li>Uses: Night scenes, sci-fi, clinical settings, moonlight</li>
+                                    <li>Color temperature: 7000K-10000K</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Direction and drama:</strong></p>
+                        <ul>
+                            <li><strong>Front lighting:</strong> Flat, even, reduces drama (think passport photo)</li>
+                            <li><strong>Side lighting:</strong> Reveals texture, creates depth, dramatic</li>
+                            <li><strong>Back lighting:</strong> Silhouettes, rim lighting, mysterious</li>
+                            <li><strong>Top lighting:</strong> Natural, can be harsh or gentle</li>
+                            <li><strong>Bottom lighting:</strong> Unnatural, spooky, theatrical</li>
+                        </ul>
+
+                        <p><strong>Contrast and intensity:</strong></p>
+                        <ul>
+                            <li><strong>High contrast:</strong> Dramatic, intense, film noir</li>
+                            <li><strong>Low contrast:</strong> Gentle, soft, dreamy, ethereal</li>
+                            <li><strong>Very bright:</strong> Energetic, positive, harsh</li>
+                            <li><strong>Dim/low key:</strong> Mysterious, moody, intimate</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ The Lighting Mindset</h4>
+                        <p><strong>Approach lighting like a cinematographer:</strong></p>
+                        <ul>
+                            <li>Ask: "What is this scene's story and mood?"</li>
+                            <li>Observe: Study real-world lighting constantly</li>
+                            <li>Simplify: Start with one light, add more only when needed</li>
+                            <li>Iterate: Lighting is an iterative process—adjust, test, refine</li>
+                            <li>Reference: Look at paintings, photographs, films for inspiration</li>
+                            <li>Purpose: Every light should have a reason to exist</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="light-fundamentals" class="content-section">
+                    <h2>🔬 Light Fundamentals</h2>
+
+                    <p>Before we dive into specific light types, let's understand the core concepts that apply to all lights in Blender. These fundamentals will help you make better lighting decisions.</p>
+
+                    <h3>Light Units and Measurements</h3>
+
+                    <div class="card">
+                        <h4>📊 Understanding Light Power</h4>
+                        <p><strong>Power units in Blender:</strong></p>
+                        <ul>
+                            <li><strong>Watts (W):</strong> Default unit, based on electrical power
+                                <ul>
+                                    <li>Real-world equivalent: A 60W incandescent bulb</li>
+                                    <li>Good for intuitive understanding</li>
+                                    <li>Range: 1W-10,000W+ depending on light type</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lumens:</strong> Measure of total visible light output
+                                <ul>
+                                    <li>More accurate physically</li>
+                                    <li>LED bulb equivalent: 800 lumens ≈ 60W incandescent</li>
+                                </ul>
+                            </li>
+                            <li><strong>Candelas:</strong> Intensity in a particular direction
+                                <ul>
+                                    <li>Used for directional lights</li>
+                                    <li>Less common in practice</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Practical power ranges:</strong></p>
+                        <ul>
+                            <li><strong>Point/Spot lights:</strong> 10W-1000W (typical scenes)</li>
+                            <li><strong>Area lights:</strong> 100W-5000W (larger sources need more power)</li>
+                            <li><strong>Sun light:</strong> 1-10 strength (dimensionless, different system)</li>
+                            <li><strong>Interior scenes:</strong> Generally lower values (10-500W)</li>
+                            <li><strong>Exterior scenes:</strong> Higher values or Sun light</li>
+                        </ul>
+
+                        <p><strong>Important note:</strong> These are starting points—your scene scale and materials will affect what works. Trust your eyes, not just numbers!</p>
+                    </div>
+
+                    <h3>Light Falloff</h3>
+
+                    <div class="card">
+                        <h4>📉 How Light Diminishes with Distance</h4>
+                        <p><strong>Inverse square law (physics):</strong></p>
+                        <ul>
+                            <li>Light intensity decreases with the square of distance</li>
+                            <li>Double the distance = 1/4 the brightness (not 1/2!)</li>
+                            <li>This is how real light behaves</li>
+                            <li>Creates natural-looking falloff</li>
+                        </ul>
+
+                        <p><strong>Falloff types in Blender:</strong></p>
+                        <ul>
+                            <li><strong>Inverse Square (default):</strong> Physically accurate, realistic
+                                <ul>
+                                    <li>Use for: Most realistic scenes</li>
+                                    <li>Behavior: Rapid falloff close to light, gradual far away</li>
+                                </ul>
+                            </li>
+                            <li><strong>Linear:</strong> Uniform decrease with distance
+                                <ul>
+                                    <li>Use for: Stylized looks, special effects</li>
+                                    <li>Behavior: Even, predictable falloff</li>
+                                </ul>
+                            </li>
+                            <li><strong>Constant:</strong> No falloff at all
+                                <ul>
+                                    <li>Use for: NPR (non-photorealistic) rendering, special cases</li>
+                                    <li>Behavior: Same brightness regardless of distance</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Why falloff matters:</strong></p>
+                        <ul>
+                            <li>Creates depth and dimensionality</li>
+                            <li>Objects closer to light are brighter (obvious but important)</li>
+                            <li>Helps separate foreground from background</li>
+                            <li>Realistic falloff = realistic appearance</li>
+                        </ul>
+                    </div>
+
+                    <h3>Light Color</h3>
+
+                    <div class="card">
+                        <h4>🎨 Color Temperature and Tinting</h4>
+                        <p><strong>Color temperature basics:</strong></p>
+                        <ul>
+                            <li>Measured in Kelvin (K)</li>
+                            <li>Counter-intuitive: Lower K = warmer (more red/orange)</li>
+                            <li>Higher K = cooler (more blue)</li>
+                            <li>Default white light = 6500K (daylight)</li>
+                        </ul>
+
+                        <p><strong>Common color temperatures:</strong></p>
+                        <ul>
+                            <li><strong>1800K-2000K:</strong> Candlelight, fire (very warm orange)</li>
+                            <li><strong>2700K-3000K:</strong> Incandescent bulbs, tungsten (warm yellow)</li>
+                            <li><strong>4000K-4500K:</strong> Fluorescent, neutral warm</li>
+                            <li><strong>5500K-6500K:</strong> Daylight, neutral white</li>
+                            <li><strong>7000K-10000K:</strong> Overcast sky, shade (cool blue)</li>
+                            <li><strong>15000K-27000K:</strong> Clear blue sky (very cool blue)</li>
+                        </ul>
+
+                        <p><strong>Setting color in Blender:</strong></p>
+                        <ul>
+                            <li><strong>RGB color picker:</strong> Choose any color directly</li>
+                            <li><strong>Temperature slider:</strong> Some light settings show Kelvin value</li>
+                            <li><strong>Hex values:</strong> Can input specific color codes</li>
+                            <li><strong>White is not always white:</strong> Pure white (RGB 1,1,1) is neutral, but warm/cool whites are common</li>
+                        </ul>
+
+                        <p><strong>Colored lighting tips:</strong></p>
+                        <ul>
+                            <li>Slight color tints (not pure colors) often look more realistic</li>
+                            <li>Use complementary colored lights (warm + cool) for visual interest</li>
+                            <li>Match light color to story/mood (blue = cold/night, orange = warm/sunset)</li>
+                            <li>Don't overdo it—subtle is usually better</li>
+                        </ul>
+                    </div>
+
+                    <h3>Light Visibility and Rendering</h3>
+
+                    <div class="card">
+                        <h4>👁️ Seeing Lights in Viewport and Render</h4>
+                        <p><strong>Viewport display:</strong></p>
+                        <ul>
+                            <li>Light objects show as wireframe icons (you can't see the light itself)</li>
+                            <li>Icon shape indicates light type</li>
+                            <li>Size of icon doesn't affect lighting (just visual reference)</li>
+                            <li>Change icon size: Properties → Light Data → Viewport Display → Size</li>
+                        </ul>
+
+                        <p><strong>Viewing light effects:</strong></p>
+                        <ul>
+                            <li><strong>Solid mode:</strong> Uses basic lighting (not accurate)</li>
+                            <li><strong>Material Preview:</strong> Shows material response to lights (good for quick preview)</li>
+                            <li><strong>Rendered mode:</strong> Shows actual render result (most accurate)</li>
+                            <li><strong>Final render (F12):</strong> Full quality result</li>
+                        </ul>
+
+                        <p><strong>Light objects vs. light emission:</strong></p>
+                        <ul>
+                            <li><strong>Light objects:</strong> Specialized lights we're learning (Point, Sun, Spot, Area)</li>
+                            <li><strong>Emissive materials:</strong> Materials that glow (emission shader)
+                                <ul>
+                                    <li>Any object can emit light via materials</li>
+                                    <li>Less efficient than light objects</li>
+                                    <li>Better for visible light sources (lamps, screens, neon signs)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Render Engine Considerations</h4>
+                        <p><strong>Eevee vs. Cycles lighting differences:</strong></p>
+                        <ul>
+                            <li><strong>Eevee (real-time):</strong>
+                                <ul>
+                                    <li>Approximates lighting for speed</li>
+                                    <li>Requires shadow settings enabled per light</li>
+                                    <li>Limited light bounces (indirect lighting)</li>
+                                    <li>Good for previews and some final renders</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cycles (ray tracing):</strong>
+                                <ul>
+                                    <li>Physically accurate light simulation</li>
+                                    <li>Automatic shadows and reflections</li>
+                                    <li>Full global illumination (light bounces)</li>
+                                    <li>Slower but more realistic</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>This lesson applies to both engines, with notes where they differ.</strong></p>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_15_understanding_light_types_part_02.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 15 - PART 02
+     File: lesson_15_understanding_light_types_part_02.html
+     ============================================ -->
+
+                <section id="adding-lights" class="content-section">
+                    <h2>➕ Adding Lights in Blender</h2>
+
+                    <p>Before we explore each light type, let's learn the basic workflow for adding and manipulating lights in Blender. These skills apply to all light types.</p>
+
+                    <h3>Creating Light Objects</h3>
+
+                    <div class="card">
+                        <h4>🔦 Adding Your First Light</h4>
+                        <p><strong>Basic add light workflow:</strong></p>
+                        <ol>
+                            <li><strong>Position 3D cursor (optional):</strong>
+                                <ul>
+                                    <li>Shift+Right-click to place cursor where you want light</li>
+                                    <li>Or use Shift+S → Cursor to Selected</li>
+                                    <li>New lights appear at cursor location</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add light:</strong>
+                                <ul>
+                                    <li><code>Shift+A</code> → Light → [Choose type]</li>
+                                    <li>Or: Top menu → Add → Light → [Choose type]</li>
+                                </ul>
+                            </li>
+                            <li><strong>Light appears at cursor:</strong>
+                                <ul>
+                                    <li>Automatically selected</li>
+                                    <li>Ready to move, rotate, and configure</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Quick tips:</strong></p>
+                        <ul>
+                            <li>Default scene comes with one light (usually Point light)</li>
+                            <li>You can have unlimited lights in a scene</li>
+                            <li>More lights = longer render times (use wisely!)</li>
+                            <li>Name your lights descriptively: "Key_Light", "Rim_Light", etc.</li>
+                        </ul>
+                    </div>
+
+                    <h3>Transforming Lights</h3>
+
+                    <div class="card">
+                        <h4>🎯 Moving, Rotating, and Scaling Lights</h4>
+                        <p><strong>Move light (G key):</strong></p>
+                        <ul>
+                            <li>Select light → <code>G</code> → Move mouse → Click to confirm</li>
+                            <li>Constrain to axis: <code>G</code> → <code>X/Y/Z</code></li>
+                            <li>Precise movement: <code>G</code> → Type number → Enter</li>
+                            <li><strong>Important:</strong> Light position affects which objects it illuminates</li>
+                        </ul>
+
+                        <p><strong>Rotate light (R key):</strong></p>
+                        <ul>
+                            <li>Select light → <code>R</code> → Move mouse → Click to confirm</li>
+                            <li>Constrain rotation: <code>R</code> → <code>X/Y/Z</code></li>
+                            <li><strong>Matters for:</strong> Spot lights, Area lights (directional)</li>
+                            <li><strong>Doesn't matter for:</strong> Point lights (omnidirectional), Sun lights (only rotation, not position)</li>
+                        </ul>
+
+                        <p><strong>Scale light (S key):</strong></p>
+                        <ul>
+                            <li>For most lights: Scale affects icon size only (visual reference)</li>
+                            <li><strong>For Area lights:</strong> Scale changes light size (affects shadow softness!)</li>
+                            <li>Scale icon: <code>S</code> → Move mouse → Click</li>
+                        </ul>
+
+                        <p><strong>Aim light at object:</strong></p>
+                        <ul>
+                            <li>Select light → Shift+Select target object</li>
+                            <li><code>Ctrl+T</code> → Track To Constraint</li>
+                            <li>Light now follows the target object</li>
+                            <li>Useful for animated lights or keeping spotlight aimed</li>
+                        </ul>
+                    </div>
+
+                    <h3>Accessing Light Properties</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Light Data Properties Panel</h4>
+                        <p><strong>Where to find light settings:</strong></p>
+                        <ol>
+                            <li>Select a light object</li>
+                            <li>Properties panel (right side) → Light Properties icon (light bulb)</li>
+                            <li>All light settings accessible here</li>
+                        </ol>
+
+                        <p><strong>Main sections in Light Properties:</strong></p>
+                        <ul>
+                            <li><strong>Light type dropdown:</strong> Change between Point/Sun/Spot/Area</li>
+                            <li><strong>Color:</strong> Light color picker</li>
+                            <li><strong>Power/Strength:</strong> Brightness control</li>
+                            <li><strong>Specular/Diffuse:</strong> How light affects materials</li>
+                            <li><strong>Shadow settings:</strong> Enable/disable, quality settings</li>
+                            <li><strong>Custom Distance/Radius:</strong> Falloff control</li>
+                            <li><strong>Type-specific settings:</strong> Changes based on light type</li>
+                        </ul>
+
+                        <p><strong>Quick panel (N-key sidebar):</strong></p>
+                        <ul>
+                            <li>Press <code>N</code> in 3D Viewport to open sidebar</li>
+                            <li>Item tab shows basic light properties</li>
+                            <li>Quick access without switching panels</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Light Setup Workflow</h4>
+                        <p><strong>Recommended approach for any scene:</strong></p>
+                        <ol>
+                            <li><strong>Start simple:</strong> Begin with one light (usually Area or Sun)</li>
+                            <li><strong>Position for main lighting:</strong> Place where primary illumination comes from</li>
+                            <li><strong>Check in Rendered view:</strong> Switch viewport shading to see actual effect</li>
+                            <li><strong>Adjust power:</strong> Get overall brightness correct first</li>
+                            <li><strong>Add lights one at a time:</strong> Each new light should have a purpose</li>
+                            <li><strong>Name your lights:</strong> "Key", "Fill", "Rim", "Background" etc.</li>
+                            <li><strong>Iterate:</strong> Lighting is never "done" on first try—keep refining!</li>
+                        </ol>
+                    </div>
+
+                </section>
+
+                <section id="point-light" class="content-section">
+                    <h2>💡 Point Light</h2>
+
+                    <p>The Point Light is the simplest light type—it radiates light equally in all directions from a single point in space, just like a bare light bulb. Let's master this foundational light type.</p>
+
+                    <h3>What is a Point Light?</h3>
+
+                    <div class="card">
+                        <h4>🔆 Point Light Characteristics</h4>
+                        <p><strong>Behavior:</strong></p>
+                        <ul>
+                            <li>Emits light equally in all directions (omnidirectional)</li>
+                            <li>Single point source (infinitely small)</li>
+                            <li>Light spreads spherically outward from center</li>
+                            <li>No inherent direction (rotation doesn't matter)</li>
+                        </ul>
+
+                        <p><strong>Real-world equivalents:</strong></p>
+                        <ul>
+                            <li>Bare incandescent bulb</li>
+                            <li>Candle flame</li>
+                            <li>Small LED without diffuser</li>
+                            <li>Star or distant point light source</li>
+                        </ul>
+
+                        <p><strong>Visual characteristics:</strong></p>
+                        <ul>
+                            <li>Creates hard shadows (because it's a point source)</li>
+                            <li>Even illumination in all directions</li>
+                            <li>Falloff based on inverse square law</li>
+                            <li>Distinct "hot spot" directly around the light</li>
+                        </ul>
+
+                        <p><strong>When to use Point lights:</strong></p>
+                        <ul>
+                            <li>Small light sources (candles, small bulbs)</li>
+                            <li>Accent lighting in scenes</li>
+                            <li>When you need omnidirectional illumination</li>
+                            <li>Quick placeholder lighting during modeling</li>
+                            <li>Stylized or game-style lighting</li>
+                        </ul>
+
+                        <p><strong>When NOT to use Point lights:</strong></p>
+                        <ul>
+                            <li>When you want soft shadows (use Area instead)</li>
+                            <li>For realistic interior lighting (most real lights have some directionality)</li>
+                            <li>As primary/key light for product renders (too hard)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Point Light Settings</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Configuring Point Lights</h4>
+                        <p><strong>Key parameters:</strong></p>
+                        
+                        <p><strong>Color:</strong></p>
+                        <ul>
+                            <li>Default: Pure white</li>
+                            <li>Adjust for mood: Warm (yellowish) for cozy, cool (bluish) for clinical</li>
+                            <li>Can use any color for stylized effects</li>
+                        </ul>
+
+                        <p><strong>Power (Watts):</strong></p>
+                        <ul>
+                            <li>Default: 10W (quite dim)</li>
+                            <li>Typical range: 50W-500W for interior scenes</li>
+                            <li>Small scenes may need less (10-50W)</li>
+                            <li>Large scenes may need more (500W-5000W)</li>
+                            <li><strong>Remember:</strong> Power needed depends on scene scale and distance to objects</li>
+                        </ul>
+
+                        <p><strong>Radius (Shadow Softness):</strong></p>
+                        <ul>
+                            <li>Default: 0.25m (creates hard shadows)</li>
+                            <li>Increase radius → softer shadows</li>
+                            <li>Simulates physical size of light source</li>
+                            <li>Range: 0.01m (very hard) to 2m+ (very soft)</li>
+                            <li><strong>Cycles only:</strong> Eevee always produces hard shadows from Point lights</li>
+                        </ul>
+
+                        <p><strong>Custom Distance:</strong></p>
+                        <ul>
+                            <li>When enabled: Light stops affecting objects beyond this distance</li>
+                            <li>Default: OFF (infinite distance)</li>
+                            <li>Use to: Optimize performance, control which objects are lit</li>
+                            <li>Useful in scenes with many lights</li>
+                        </ul>
+
+                        <p><strong>Shadow settings (Eevee):</strong></p>
+                        <ul>
+                            <li>Must enable "Shadow" checkbox for shadows in Eevee</li>
+                            <li>Clip Start: Minimum shadow distance (avoid self-shadowing artifacts)</li>
+                            <li>Bias: Prevents shadow acne (increase if you see black spots)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Practical Point Light Examples</h3>
+
+                    <div class="card">
+                        <h4>🎯 Point Light in Action</h4>
+                        
+                        <p><strong>Example 1: Candle lighting</strong></p>
+                        <ul>
+                            <li><strong>Setup:</strong> Point light at candle wick position</li>
+                            <li><strong>Color:</strong> Warm orange (#FF9E4A or RGB 1.0, 0.62, 0.29)</li>
+                            <li><strong>Power:</strong> 5-15W (candles are dim)</li>
+                            <li><strong>Radius:</strong> 0.05-0.1m (small, hard-ish light)</li>
+                            <li><strong>Custom Distance:</strong> Enable at 2-3m (candlelight doesn't reach far)</li>
+                            <li><strong>Bonus:</strong> Add emission material to candle flame for realism</li>
+                        </ul>
+
+                        <p><strong>Example 2: Desk lamp</strong></p>
+                        <ul>
+                            <li><strong>Setup:</strong> Point light inside lamp shade</li>
+                            <li><strong>Color:</strong> Slightly warm white (#FFFAF0)</li>
+                            <li><strong>Power:</strong> 50-100W</li>
+                            <li><strong>Radius:</strong> 0.15-0.25m</li>
+                            <li><strong>Note:</strong> For more realistic lamp, use Area light instead</li>
+                        </ul>
+
+                        <p><strong>Example 3: Firefly/magical particle</strong></p>
+                        <ul>
+                            <li><strong>Setup:</strong> Small point light for glowing particle effect</li>
+                            <li><strong>Color:</strong> Green, blue, or yellow (depending on effect)</li>
+                            <li><strong>Power:</strong> 1-5W (very dim, just visible glow)</li>
+                            <li><strong>Radius:</strong> 0.01-0.05m (tiny)</li>
+                            <li><strong>Custom Distance:</strong> Enable at 0.5-1m (very short range)</li>
+                        </ul>
+
+                        <p><strong>Example 4: Accent/fill lighting</strong></p>
+                        <ul>
+                            <li><strong>Setup:</strong> Hidden point light to brighten dark areas</li>
+                            <li><strong>Color:</strong> Match ambient/scene color temperature</li>
+                            <li><strong>Power:</strong> Low (20-50W) to gently lift shadows</li>
+                            <li><strong>Placement:</strong> Behind camera or in dark corners</li>
+                            <li><strong>Purpose:</strong> Fill in shadows without creating obvious light source</li>
+                        </ul>
+                    </div>
+
+                    <h3>Point Light Limitations</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Point Light Drawbacks</h4>
+                        <p><strong>Hard shadows:</strong></p>
+                        <ul>
+                            <li>Point lights create harsh, sharp shadows</li>
+                            <li>Rarely looks realistic for main lighting</li>
+                            <li>Radius parameter helps (Cycles) but Area lights are better</li>
+                        </ul>
+
+                        <p><strong>Lack of directionality:</strong></p>
+                        <ul>
+                            <li>Light goes everywhere equally</li>
+                            <li>Can't control which way light points (unlike Spot/Area)</li>
+                            <li>Can cause unwanted illumination of background/ceiling</li>
+                        </ul>
+
+                        <p><strong>Not energy efficient:</strong></p>
+                        <ul>
+                            <li>Lights all directions = wasted light in many scenarios</li>
+                            <li>More efficient to use directional lights (Spot, Area) when possible</li>
+                        </ul>
+
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>Use Area lights for softer, more realistic lighting</li>
+                            <li>Use Spot lights for directional control</li>
+                            <li>Reserve Point lights for specific use cases (candles, accents, small sources)</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>💡 Pro Tip: Point Light Workarounds</h4>
+                        <p><strong>Making Point lights more realistic:</strong></p>
+                        <ul>
+                            <li><strong>Increase radius</strong> (Cycles) to soften shadows (0.5m-1m)</li>
+                            <li><strong>Use custom distance</strong> to prevent over-illumination</li>
+                            <li><strong>Lower power</strong> and place closer to subject (softer effect)</li>
+                            <li><strong>Combine multiple Point lights</strong> at different positions for softer combined result</li>
+                            <li><strong>Or just use Area lights instead</strong> for most realistic scenarios!</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="sun-light" class="content-section">
+                    <h2>☀️ Sun Light</h2>
+
+                    <p>The Sun Light creates parallel light rays, simulating the sun or any infinitely distant light source. It's perfect for outdoor scenes and creating consistent directional lighting.</p>
+
+                    <h3>What is a Sun Light?</h3>
+
+                    <div class="card">
+                        <h4>🌞 Sun Light Characteristics</h4>
+                        <p><strong>Behavior:</strong></p>
+                        <ul>
+                            <li>Emits parallel light rays in one direction</li>
+                            <li>Acts as infinitely distant light source</li>
+                            <li>Position doesn't matter (only rotation/direction matters!)</li>
+                            <li>Consistent brightness across entire scene</li>
+                            <li>No falloff with distance</li>
+                        </ul>
+
+                        <p><strong>Real-world equivalent:</strong></p>
+                        <ul>
+                            <li><strong>The sun:</strong> So far away that all rays appear parallel</li>
+                            <li><strong>Moon:</strong> Same principle, though dimmer and cooler</li>
+                            <li><strong>Any extremely distant light source</strong></li>
+                        </ul>
+
+                        <p><strong>Visual characteristics:</strong></p>
+                        <ul>
+                            <li>Sharp, parallel shadows</li>
+                            <li>Consistent shadow direction across scene</li>
+                            <li>Even lighting intensity (no hot spots)</li>
+                            <li>Strong sense of direction</li>
+                        </ul>
+
+                        <p><strong>When to use Sun lights:</strong></p>
+                        <ul>
+                            <li>Outdoor scenes (primary light source)</li>
+                            <li>Simulating daylight through windows</li>
+                            <li>Any scenario with distant directional light</li>
+                            <li>When you need consistent lighting across large scenes</li>
+                            <li>Architectural visualization exteriors</li>
+                        </ul>
+
+                        <p><strong>When NOT to use Sun lights:</strong></p>
+                        <ul>
+                            <li>Indoor scenes without windows</li>
+                            <li>Night scenes (unless for moonlight)</li>
+                            <li>When you need light falloff with distance</li>
+                            <li>Small, confined spaces</li>
+                        </ul>
+                    </div>
+
+                    <h3>Sun Light Settings</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Configuring Sun Lights</h4>
+                        <p><strong>Key parameters:</strong></p>
+                        
+                        <p><strong>Strength (not Watts):</strong></p>
+                        <ul>
+                            <li>Default: 1.0</li>
+                            <li>Dimensionless value (not Watts like other lights)</li>
+                            <li>Typical range: 0.5-5.0
+                                <ul>
+                                    <li>0.5-1.0: Overcast day, soft outdoor light</li>
+                                    <li>1.0-2.0: Normal sunny day</li>
+                                    <li>2.0-5.0: Bright, harsh midday sun</li>
+                                    <li>0.1-0.5: Moonlight (with cool blue color)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Angle (Shadow Softness):</strong></p>
+                        <ul>
+                            <li>Default: 0.526° (actual sun's angular size from Earth)</li>
+                            <li>Controls shadow softness</li>
+                            <li>0° = perfectly hard shadows</li>
+                            <li>0.526° = realistic sun shadows (slight softness)</li>
+                            <li>2-5° = softer, more diffused shadows (overcast)</li>
+                            <li><strong>Cycles only:</strong> Eevee doesn't use Angle parameter</li>
+                        </ul>
+
+                        <p><strong>Color:</strong></p>
+                        <ul>
+                            <li><strong>Morning/Evening sun:</strong> Warm orange (#FFAE42)</li>
+                            <li><strong>Midday sun:</strong> Slightly warm white (#FFF8E7)</li>
+                            <li><strong>Overcast day:</strong> Neutral cool white (#F0F8FF)</li>
+                            <li><strong>Moonlight:</strong> Cool blue (#B0C4DE)</li>
+                        </ul>
+
+                        <p><strong>Rotation (Direction):</strong></p>
+                        <ul>
+                            <li><strong>Most important setting for Sun lights!</strong></li>
+                            <li>Rotation determines light direction (position doesn't matter)</li>
+                            <li>Can rotate Sun icon to visualize direction</li>
+                            <li>Arrow on Sun icon points in light direction</li>
+                            <li><strong>Tip:</strong> Use <code>R</code> key to rotate, <code>X/Y/Z</code> to constrain axis</li>
+                        </ul>
+                    </div>
+
+                    <h3>Sun Light Direction and Time of Day</h3>
+
+                    <div class="card">
+                        <h4>🕐 Simulating Different Times</h4>
+                        <p><strong>Morning sun (sunrise):</strong></p>
+                        <ul>
+                            <li><strong>Direction:</strong> Low angle from east (horizontal-ish)</li>
+                            <li><strong>Color:</strong> Warm orange to yellow (#FF9E4A to #FFD700)</li>
+                            <li><strong>Strength:</strong> 1.0-1.5</li>
+                            <li><strong>Angle:</strong> 1-2° (softer than midday)</li>
+                            <li><strong>Shadows:</strong> Long, dramatic shadows</li>
+                        </ul>
+
+                        <p><strong>Midday sun (noon):</strong></p>
+                        <ul>
+                            <li><strong>Direction:</strong> High angle from above (steep, nearly vertical)</li>
+                            <li><strong>Color:</strong> Bright white with slight warm tint (#FFFEF0)</li>
+                            <li><strong>Strength:</strong> 2.0-3.0 (brightest)</li>
+                            <li><strong>Angle:</strong> 0.526° (realistic sun)</li>
+                            <li><strong>Shadows:</strong> Short, directly below objects, harsh</li>
+                        </ul>
+
+                        <p><strong>Afternoon sun (golden hour):</strong></p>
+                        <ul>
+                            <li><strong>Direction:</strong> Low angle from west</li>
+                            <li><strong>Color:</strong> Golden orange (#FFA500 to #FF8C00)</li>
+                            <li><strong>Strength:</strong> 1.5-2.0</li>
+                            <li><strong>Angle:</strong> 1-3° (softer, flattering)</li>
+                            <li><strong>Shadows:</strong> Long, warm, golden quality</li>
+                            <li><strong>Note:</strong> "Golden hour" is photographer's favorite time!</li>
+                        </ul>
+
+                        <p><strong>Dusk/twilight:</strong></p>
+                        <ul>
+                            <li><strong>Direction:</strong> Very low angle, almost at horizon</li>
+                            <li><strong>Color:</strong> Deep orange to purple gradient (#FF6B35 fading to #4A4E69)</li>
+                            <li><strong>Strength:</strong> 0.5-1.0 (dim)</li>
+                            <li><strong>Angle:</strong> 3-5° (very soft)</li>
+                            <li><strong>Shadows:</strong> Very long, fading into ambient</li>
+                        </ul>
+
+                        <p><strong>Overcast day:</strong></p>
+                        <ul>
+                            <li><strong>Direction:</strong> From above (but use HDRI instead for most realism)</li>
+                            <li><strong>Color:</strong> Neutral to cool white (#E8F1F5)</li>
+                            <li><strong>Strength:</strong> 0.5-1.0 (diffused)</li>
+                            <li><strong>Angle:</strong> 5-10° (very soft shadows)</li>
+                            <li><strong>Better approach:</strong> Use HDRI environment instead of Sun for overcast</li>
+                        </ul>
+                    </div>
+
+                    <h3>Practical Sun Light Examples</h3>
+
+                    <div class="card">
+                        <h4>🎯 Sun Light in Action</h4>
+                        
+                        <p><strong>Example 1: Outdoor product shot (midday)</strong></p>
+                        <ul>
+                            <li><strong>Sun rotation:</strong> 45° angle from above and side</li>
+                            <li><strong>Color:</strong> Slightly warm white (#FFFEF5)</li>
+                            <li><strong>Strength:</strong> 2.0</li>
+                            <li><strong>Angle:</strong> 0.526° (realistic sun)</li>
+                            <li><strong>Add:</strong> Slight blue-tinted fill light from opposite side (sky reflection)</li>
+                        </ul>
+
+                        <p><strong>Example 2: Architectural exterior (golden hour)</strong></p>
+                        <ul>
+                            <li><strong>Sun rotation:</strong> Low angle, 15-20° above horizon</li>
+                            <li><strong>Color:</strong> Warm golden orange (#FFB347)</li>
+                            <li><strong>Strength:</strong> 1.8</li>
+                            <li><strong>Angle:</strong> 2° (softer golden hour shadows)</li>
+                            <li><strong>Bonus:</strong> Add warm HDRI for ambient/sky light</li>
+                        </ul>
+
+                        <p><strong>Example 3: Indoor scene with window light</strong></p>
+                        <ul>
+                            <li><strong>Sun rotation:</strong> Aimed through window opening</li>
+                            <li><strong>Color:</strong> White to slightly warm</li>
+                            <li><strong>Strength:</strong> 1.5-2.5 (strong directional light)</li>
+                            <li><strong>Angle:</strong> 1-3° (slightly soft through atmosphere)</li>
+                            <li><strong>Result:</strong> Dramatic shafts of light through window</li>
+                        </ul>
+
+                        <p><strong>Example 4: Moonlight scene</strong></p>
+                        <ul>
+                            <li><strong>Sun rotation:</strong> High angle (moon overhead) or low (moon at horizon)</li>
+                            <li><strong>Color:</strong> Cool blue (#A0B8D0)</li>
+                            <li><strong>Strength:</strong> 0.2-0.5 (moon is very dim compared to sun)</li>
+                            <li><strong>Angle:</strong> 0.5° (moon is similar size to sun in sky)</li>
+                            <li><strong>Important:</strong> Add very low ambient/environment light for night realism</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Sun Light Best Practices</h4>
+                        <ul>
+                            <li><strong>Position doesn't matter:</strong> You can place Sun anywhere (only rotation counts)</li>
+                            <li><strong>Combine with environment:</strong> Sun + HDRI = most realistic outdoor lighting</li>
+                            <li><strong>Watch your shadows:</strong> Shadows reveal sun direction—make it make sense!</li>
+                            <li><strong>Don't use alone indoors:</strong> Add fill lights to prevent pitch-black shadows</li>
+                            <li><strong>Match color to time of day:</strong> Color sells the time more than strength</li>
+                            <li><strong>Rotate, don't move:</strong> Use <code>R</code> key to aim, ignore <code>G</code> key</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Infinite Distance Insight:</strong> The Sun light's "position doesn't matter" behavior might seem weird at first, but it makes perfect sense! The real sun is 93 million miles away, so whether you're standing here or 10 feet over there, the sun's rays hit you at the exact same angle—they're parallel. Blender's Sun light works the same way. Think of it as an infinite grid of parallel arrows all pointing the same direction, extending across your entire scene.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_15_understanding_light_types_part_03.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 15 - PART 03
+     File: lesson_15_understanding_light_types_part_03.html
+     ============================================ -->
+
+                <section id="spot-light" class="content-section">
+                    <h2>🔦 Spot Light</h2>
+
+                    <p>The Spot Light creates a cone of directional light, perfect for theatrical lighting, flashlights, stage spotlights, and any scenario where you need focused, controllable illumination.</p>
+
+                    <h3>What is a Spot Light?</h3>
+
+                    <div class="card">
+                        <h4>🎯 Spot Light Characteristics</h4>
+                        <p><strong>Behavior:</strong></p>
+                        <ul>
+                            <li>Emits light in a cone shape from a point</li>
+                            <li>Highly directional (like a flashlight or stage spotlight)</li>
+                            <li>Both position AND rotation matter</li>
+                            <li>Has adjustable cone angle (spread)</li>
+                            <li>Can have soft or hard edges on cone</li>
+                        </ul>
+
+                        <p><strong>Real-world equivalents:</strong></p>
+                        <ul>
+                            <li>Flashlight or torch</li>
+                            <li>Stage spotlight</li>
+                            <li>Car headlights</li>
+                            <li>Desk lamp with focused beam</li>
+                            <li>Track lighting or recessed ceiling lights</li>
+                            <li>Search light or lighthouse beam</li>
+                        </ul>
+
+                        <p><strong>Visual characteristics:</strong></p>
+                        <ul>
+                            <li>Circular pool of light on surfaces</li>
+                            <li>Defined beam with falloff at edges</li>
+                            <li>Can create hard or soft shadows</li>
+                            <li>Strong sense of direction and focus</li>
+                            <li>Dramatic, theatrical quality</li>
+                        </ul>
+
+                        <p><strong>When to use Spot lights:</strong></p>
+                        <ul>
+                            <li>Product photography (highlighting specific areas)</li>
+                            <li>Stage/theatrical lighting</li>
+                            <li>Simulating practical lights (lamps, flashlights)</li>
+                            <li>Focusing attention on specific objects/areas</li>
+                            <li>Creating dramatic, moody lighting</li>
+                            <li>Controlling exactly where light goes</li>
+                        </ul>
+
+                        <p><strong>When NOT to use Spot lights:</strong></p>
+                        <ul>
+                            <li>General ambient lighting (too focused)</li>
+                            <li>Outdoor daylight (use Sun instead)</li>
+                            <li>When you need omnidirectional light (use Point or Area)</li>
+                            <li>Soft, flattering portrait lighting (use Area lights instead)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Spot Light Settings</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Configuring Spot Lights</h4>
+                        <p><strong>Core parameters:</strong></p>
+                        
+                        <p><strong>Power (Watts):</strong></p>
+                        <ul>
+                            <li>Similar to Point lights in concept</li>
+                            <li>Typical range: 50W-2000W
+                                <ul>
+                                    <li>50-200W: Desk lamp, accent light</li>
+                                    <li>200-500W: Strong product lighting</li>
+                                    <li>500-2000W: Stage spotlight, dramatic effect</li>
+                                </ul>
+                            </li>
+                            <li>Focused beam = more concentrated light = can use lower power</li>
+                        </ul>
+
+                        <p><strong>Spot Size (Cone Angle):</strong></p>
+                        <ul>
+                            <li>Controls the width of the light cone</li>
+                            <li>Measured in degrees (0-180°)</li>
+                            <li>Default: 45° (moderate cone)</li>
+                            <li>Common values:
+                                <ul>
+                                    <li>15-30°: Narrow beam, tight spotlight</li>
+                                    <li>45-60°: Medium beam, general use</li>
+                                    <li>70-90°: Wide beam, flood light</li>
+                                    <li>120-180°: Very wide, approaching omnidirectional</li>
+                                </ul>
+                            </li>
+                            <li><strong>Tip:</strong> Narrower beam = more dramatic, wider = more coverage</li>
+                        </ul>
+
+                        <p><strong>Blend (Edge Softness):</strong></p>
+                        <ul>
+                            <li>Controls how soft/hard the edge of the light cone is</li>
+                            <li>Range: 0.0 to 1.0</li>
+                            <li>0.0 = Hard edge (sharp cutoff)</li>
+                            <li>0.5 = Moderate blend (gradual transition)</li>
+                            <li>1.0 = Very soft edge (gentle fadeout)</li>
+                            <li><strong>Visual effect:</strong> High blend = softer, more realistic; Low blend = theatrical, dramatic</li>
+                        </ul>
+
+                        <p><strong>Radius (Shadow Softness):</strong></p>
+                        <ul>
+                            <li>Same as Point light radius</li>
+                            <li>Simulates physical size of light source</li>
+                            <li>Affects shadow softness (Cycles only)</li>
+                            <li>Default: 0.25m</li>
+                            <li>Increase for softer shadows (0.5m-2m)</li>
+                        </ul>
+
+                        <p><strong>Show Cone:</strong></p>
+                        <ul>
+                            <li>Viewport display option</li>
+                            <li>When enabled: Shows light cone visualization in viewport</li>
+                            <li>Helps you see where light is pointing</li>
+                            <li>Doesn't affect render, only viewport display</li>
+                            <li><strong>Very useful for aiming spot lights!</strong></li>
+                        </ul>
+                    </div>
+
+                    <h3>Aiming and Positioning Spot Lights</h3>
+
+                    <div class="card">
+                        <h4>🎯 Getting the Perfect Aim</h4>
+                        <p><strong>Basic aiming:</strong></p>
+                        <ul>
+                            <li>Spot light points in its local -Z direction (down its cone)</li>
+                            <li>Rotate light to aim: <code>R</code> key</li>
+                            <li>Enable "Show Cone" to see where it's pointing</li>
+                            <li>Arrow on spot icon points in light direction</li>
+                        </ul>
+
+                        <p><strong>Precise aiming workflow:</strong></p>
+                        <ol>
+                            <li><strong>Position light:</strong> <code>G</code> to move where you want it</li>
+                            <li><strong>Select target:</strong> Select object you want to illuminate</li>
+                            <li><strong>Switch back to light:</strong> Select light again</li>
+                            <li><strong>Aim at target:</strong>
+                                <ul>
+                                    <li>Keep light selected, Shift+Select target object</li>
+                                    <li><code>Ctrl+T</code> → Track To Constraint</li>
+                                    <li>Light now aims at target automatically</li>
+                                </ul>
+                            </li>
+                            <li><strong>Or manual aim:</strong> Select light → <code>R</code> to rotate until aimed correctly</li>
+                        </ol>
+
+                        <p><strong>Classic three-point lighting positions for Spot lights:</strong></p>
+                        <ul>
+                            <li><strong>Key light:</strong> 45° angle from front-side, slightly above subject</li>
+                            <li><strong>Fill light:</strong> Opposite side from key, lower intensity</li>
+                            <li><strong>Rim/back light:</strong> Behind subject, creating edge highlight</li>
+                            <li>(We'll cover three-point lighting in detail in Lesson 16!)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Spot Light Patterns and Effects</h3>
+
+                    <div class="card">
+                        <h4>🎨 Creative Spot Light Techniques</h4>
+                        
+                        <p><strong>Gobo patterns (light shaping):</strong></p>
+                        <ul>
+                            <li><strong>What's a gobo?</strong> Pattern placed in light path (like a stencil)</li>
+                            <li><strong>In Blender:</strong> Use texture to shape light</li>
+                            <li><strong>How to create:</strong>
+                                <ol>
+                                    <li>Select Spot light → Light Properties</li>
+                                    <li>Scroll to bottom → check "Use Nodes"</li>
+                                    <li>Open Shader Editor (with light selected)</li>
+                                    <li>Add Image Texture node</li>
+                                    <li>Load black & white pattern image (white = light, black = blocked)</li>
+                                    <li>Connect: Image Texture Color → Emission Strength</li>
+                                </ol>
+                            </li>
+                            <li><strong>Examples:</strong> Window shadows, leaf patterns, geometric shapes, logos</li>
+                        </ul>
+
+                        <p><strong>Volumetric beams (visible light rays):</strong></p>
+                        <ul>
+                            <li>Makes the spot light beam itself visible (like dust in light)</li>
+                            <li><strong>In Eevee:</strong>
+                                <ul>
+                                    <li>Render Properties → Volumetrics: Enable</li>
+                                    <li>World Properties → Volume → Add Principled Volume</li>
+                                    <li>Spot light beam now visible in render</li>
+                                </ul>
+                            </li>
+                            <li><strong>In Cycles:</strong>
+                                <ul>
+                                    <li>Add Volume Scatter node to World or objects</li>
+                                    <li>Automatically shows light scattering</li>
+                                </ul>
+                            </li>
+                            <li><strong>Great for:</strong> Theatrical effects, dusty environments, underwater scenes</li>
+                        </ul>
+
+                        <p><strong>Light cookies (projection mapping):</strong></p>
+                        <ul>
+                            <li>Project images or patterns through spot light</li>
+                            <li>Like a slide projector effect</li>
+                            <li>Use same technique as gobo (texture in light shader)</li>
+                            <li>Can project logos, text, images onto surfaces</li>
+                        </ul>
+                    </div>
+
+                    <h3>Practical Spot Light Examples</h3>
+
+                    <div class="card">
+                        <h4>💡 Spot Light in Action</h4>
+                        
+                        <p><strong>Example 1: Product spotlight</strong></p>
+                        <ul>
+                            <li><strong>Position:</strong> 45° above and to side of product</li>
+                            <li><strong>Rotation:</strong> Aimed at product center</li>
+                            <li><strong>Power:</strong> 300-500W</li>
+                            <li><strong>Spot Size:</strong> 45-60° (enough to cover product plus slight spill)</li>
+                            <li><strong>Blend:</strong> 0.3-0.5 (moderate soft edge)</li>
+                            <li><strong>Radius:</strong> 0.5m (softens shadows slightly)</li>
+                            <li><strong>Color:</strong> Neutral white or slightly warm</li>
+                        </ul>
+
+                        <p><strong>Example 2: Desk lamp simulation</strong></p>
+                        <ul>
+                            <li><strong>Position:</strong> Inside lamp shade model</li>
+                            <li><strong>Rotation:</strong> Pointing down toward desk surface</li>
+                            <li><strong>Power:</strong> 100-200W</li>
+                            <li><strong>Spot Size:</strong> 70-90° (wide spread for desk coverage)</li>
+                            <li><strong>Blend:</strong> 0.6-0.8 (soft, diffused by shade)</li>
+                            <li><strong>Color:</strong> Warm white (#FFFAF0)</li>
+                            <li><strong>Bonus:</strong> Add Point light at bulb position for extra realism</li>
+                        </ul>
+
+                        <p><strong>Example 3: Stage performer spotlight</strong></p>
+                        <ul>
+                            <li><strong>Position:</strong> High above and angled down</li>
+                            <li><strong>Rotation:</strong> Aimed at performer/stage center</li>
+                            <li><strong>Power:</strong> 1000-2000W (bright, dramatic)</li>
+                            <li><strong>Spot Size:</strong> 20-35° (tight beam, focused attention)</li>
+                            <li><strong>Blend:</strong> 0.2-0.4 (defined beam edge, theatrical)</li>
+                            <li><strong>Color:</strong> White or colored gel (blue, red, yellow)</li>
+                            <li><strong>Extra:</strong> Enable volumetrics to see beam in air</li>
+                        </ul>
+
+                        <p><strong>Example 4: Window light fake (cheating interior lighting)</strong></p>
+                        <ul>
+                            <li><strong>Position:</strong> Outside window, aimed through opening</li>
+                            <li><strong>Rotation:</strong> Angled down into room (sun angle)</li>
+                            <li><strong>Power:</strong> 500-1000W</li>
+                            <li><strong>Spot Size:</strong> 60-80° (wide enough to cover window area)</li>
+                            <li><strong>Blend:</strong> 0.7-0.9 (very soft, diffused)</li>
+                            <li><strong>Radius:</strong> 1-2m (large, soft shadows)</li>
+                            <li><strong>Color:</strong> Slightly cool white (sky light)</li>
+                            <li><strong>Note:</strong> Area light is often better for this, but Spot works in a pinch</li>
+                        </ul>
+
+                        <p><strong>Example 5: Flashlight effect</strong></p>
+                        <ul>
+                            <li><strong>Position:</strong> At flashlight location (in character's hand)</li>
+                            <li><strong>Rotation:</strong> Aimed where character looks</li>
+                            <li><strong>Power:</strong> 200-400W</li>
+                            <li><strong>Spot Size:</strong> 40-50° (realistic flashlight beam)</li>
+                            <li><strong>Blend:</strong> 0.3-0.5</li>
+                            <li><strong>Color:</strong> Slightly cool white (LED flashlight) or warm (old flashlight)</li>
+                            <li><strong>Bonus:</strong> Parent light to character's hand for animated flashlight</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Spot Light Best Practices</h4>
+                        <ul>
+                            <li><strong>Enable "Show Cone":</strong> Makes aiming much easier in viewport</li>
+                            <li><strong>Start with moderate settings:</strong> 45° spot size, 0.5 blend, then adjust</li>
+                            <li><strong>Use Track To constraint:</strong> For lights that need to follow objects</li>
+                            <li><strong>Don't overuse:</strong> Too many spot lights = messy, competing beams</li>
+                            <li><strong>Match cone size to need:</strong> Narrow for drama, wide for coverage</li>
+                            <li><strong>Blend is your friend:</strong> Higher blend = more realistic, lower = more theatrical</li>
+                            <li><strong>Consider Area lights:</strong> For soft, realistic lighting, Area lights often work better</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Common Spot Light Mistakes</h4>
+                        <ul>
+                            <li><strong>Forgetting to aim:</strong> Spot light rotates with default orientation, might not point where you think!</li>
+                            <li><strong>Too narrow spot size:</strong> 15° looks dramatic but often misses parts of subject</li>
+                            <li><strong>Zero blend:</strong> Hard cone edges rarely look realistic (except for theatrical scenes)</li>
+                            <li><strong>Too many spots:</strong> 5+ spot lights = confusing, overlapping beams (simplify!)</li>
+                            <li><strong>Wrong power:</strong> Spot lights concentrate light, may need less power than you think</li>
+                            <li><strong>Not testing angles:</strong> Small rotation changes big effect—test different angles!</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="area-light" class="content-section">
+                    <h2>⬜ Area Light</h2>
+
+                    <p>The Area Light is the most versatile and realistic light type—it emits light from a flat surface, creating beautiful soft shadows and realistic illumination. This is the professional's choice for most studio and product lighting.</p>
+
+                    <h3>What is an Area Light?</h3>
+
+                    <div class="card">
+                        <h4>💎 Area Light Characteristics</h4>
+                        <p><strong>Behavior:</strong></p>
+                        <ul>
+                            <li>Emits light from a rectangular or other shaped surface</li>
+                            <li>Has physical size (not a point source)</li>
+                            <li>Produces soft, realistic shadows</li>
+                            <li>Directional—emits from one side of the plane</li>
+                            <li>Both position, rotation, AND size matter</li>
+                        </ul>
+
+                        <p><strong>Real-world equivalents:</strong></p>
+                        <ul>
+                            <li>Softbox (photography/studio lighting)</li>
+                            <li>Window with diffused light</li>
+                            <li>LED panel lights</li>
+                            <li>Ceiling light panels</li>
+                            <li>Computer/TV screens</li>
+                            <li>Any large, flat light-emitting surface</li>
+                        </ul>
+
+                        <p><strong>Visual characteristics:</strong></p>
+                        <ul>
+                            <li>Soft, gradual shadows (most realistic!)</li>
+                            <li>Even, flattering illumination</li>
+                            <li>Gentle falloff and transitions</li>
+                            <li>Professional, studio-quality look</li>
+                            <li>Can wrap around subjects naturally</li>
+                        </ul>
+
+                        <p><strong>When to use Area lights:</strong></p>
+                        <ul>
+                            <li>Product photography and visualization</li>
+                            <li>Portrait/character lighting</li>
+                            <li>Studio setups and professional renders</li>
+                            <li>Interior lighting (windows, ceiling lights)</li>
+                            <li>Whenever you want soft, realistic shadows</li>
+                            <li><strong>Default choice for most realistic lighting!</strong></li>
+                        </ul>
+
+                        <p><strong>When NOT to use Area lights:</strong></p>
+                        <ul>
+                            <li>When you specifically want hard shadows (use Point or Sun)</li>
+                            <li>Tight spotlight effects (use Spot light)</li>
+                            <li>When render time is critical (Area lights are slower)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Area Light Settings</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Configuring Area Lights</h4>
+                        <p><strong>Core parameters:</strong></p>
+                        
+                        <p><strong>Power (Watts):</strong></p>
+                        <ul>
+                            <li>Area lights typically need higher power than Point lights</li>
+                            <li>Light spreads over surface area instead of radiating from point</li>
+                            <li>Typical range: 100W-5000W
+                                <ul>
+                                    <li>100-500W: Small area light, soft fill</li>
+                                    <li>500-1500W: Medium area, main light source</li>
+                                    <li>1500-5000W: Large area, bright key light</li>
+                                </ul>
+                            </li>
+                            <li>Larger area = may need more power for same brightness</li>
+                        </ul>
+
+                        <p><strong>Shape:</strong></p>
+                        <ul>
+                            <li><strong>Rectangle (default):</strong> Most common, versatile
+                                <ul>
+                                    <li>Two size parameters: X and Y</li>
+                                    <li>Can be square (1:1) or rectangular (e.g. 2:1)</li>
+                                    <li>Best for: Studio lights, windows, general use</li>
+                                </ul>
+                            </li>
+                            <li><strong>Square:</strong> Equal dimensions, single size parameter
+                                <ul>
+                                    <li>Simpler to control (one size value)</li>
+                                    <li>Best for: Symmetrical lighting, ceiling panels</li>
+                                </ul>
+                            </li>
+                            <li><strong>Disk:</strong> Circular shape
+                                <ul>
+                                    <li>Creates circular highlights (instead of rectangular)</li>
+                                    <li>Best for: Softboxes with round diffusers, porthole lights</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ellipse:</strong> Oval shape
+                                <ul>
+                                    <li>Two size parameters for oval dimensions</li>
+                                    <li>Best for: Specialized strip lights, creative effects</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Size (Most Important!):</strong></p>
+                        <ul>
+                            <li><strong>Controls shadow softness directly</strong></li>
+                            <li>Larger area = softer shadows</li>
+                            <li>Smaller area = harder shadows</li>
+                            <li>Measured in meters (or Blender units)</li>
+                            <li>Common sizes:
+                                <ul>
+                                    <li>0.5m-1m: Small, moderately soft</li>
+                                    <li>2m-4m: Medium, very soft (typical studio softbox)</li>
+                                    <li>5m-10m: Large, ultra-soft (window light, big studio)</li>
+                                </ul>
+                            </li>
+                            <li><strong>The soft shadow rule:</strong> Bigger relative to subject = softer shadows</li>
+                        </ul>
+
+                        <p><strong>Spread (Eevee only):</strong></p>
+                        <ul>
+                            <li>Controls light cone angle (similar to Spot light)</li>
+                            <li>Default: 180° (hemisphere, full spread)</li>
+                            <li>Lower values: More focused beam</li>
+                            <li><strong>Cycles:</strong> Always 180° spread (can't adjust)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Area Light Size and Shadow Softness</h3>
+
+                    <div class="card">
+                        <h4>📏 The Size-Softness Relationship</h4>
+                        <p><strong>Understanding soft shadows:</strong></p>
+                        <ul>
+                            <li>Shadow softness depends on light size <strong>relative to subject</strong></li>
+                            <li>Same area light appears softer when closer, harder when farther</li>
+                            <li>Large area light = each point on surface emits light = shadows blend = soft</li>
+                            <li>Small area light = approaches point source = sharp shadows</li>
+                        </ul>
+
+                        <p><strong>The portrait photography analogy:</strong></p>
+                        <ul>
+                            <li><strong>Small softbox (1m) at 3m distance:</strong> Moderate softness</li>
+                            <li><strong>Same softbox at 1m distance:</strong> Very soft (larger relative to subject)</li>
+                            <li><strong>Large softbox (3m) at 3m distance:</strong> Very soft</li>
+                            <li><strong>Same large softbox at 10m distance:</strong> Harder (smaller relative to subject)</li>
+                        </ul>
+
+                        <p><strong>Practical size guidelines:</strong></p>
+                        <ul>
+                            <li><strong>Portrait/character lighting:</strong> 2-4m area light at 3-5m distance</li>
+                            <li><strong>Small product:</strong> 1-2m area light at 1-2m distance</li>
+                            <li><strong>Large product/scene:</strong> 4-8m area light at 5-10m distance</li>
+                            <li><strong>Window simulation:</strong> Match actual window size (2m x 3m typical)</li>
+                        </ul>
+
+                        <p><strong>Testing shadow softness:</strong></p>
+                        <ol>
+                            <li>Place simple object (cube/sphere) in scene</li>
+                            <li>Add area light aimed at object</li>
+                            <li>Look at shadow on ground/wall</li>
+                            <li>Increase area size → softer shadow</li>
+                            <li>Move light closer → softer shadow</li>
+                            <li>Move light farther → harder shadow</li>
+                        </ol>
+                    </div>
+
+                    <h3>Positioning and Aiming Area Lights</h3>
+
+                    <div class="card">
+                        <h4>🎯 Area Light Placement</h4>
+                        <p><strong>Direction and orientation:</strong></p>
+                        <ul>
+                            <li>Area lights emit from one side of the plane only</li>
+                            <li>The "front" side emits light (check arrow in viewport)</li>
+                            <li>Rotate to aim: Light emits in local -Z direction (perpendicular to plane)</li>
+                            <li><strong>Tip:</strong> Think of it as a wall that glows on one side</li>
+                        </ul>
+
+                        <p><strong>Classic studio placement:</strong></p>
+                        <ul>
+                            <li><strong>Key light (main light):</strong>
+                                <ul>
+                                    <li>45° to side of subject, slightly above</li>
+                                    <li>Largest/brightest area light</li>
+                                    <li>Size: 3-5m for soft shadows</li>
+                                    <li>Creates primary modeling/dimension</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fill light (shadow softener):</strong>
+                                <ul>
+                                    <li>Opposite side from key, lower power</li>
+                                    <li>Lifts shadows without creating own shadow</li>
+                                    <li>Size: Can match key or be larger</li>
+                                    <li>Power: 30-50% of key light</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rim/back light (separation):</strong>
+                                <ul>
+                                    <li>Behind subject, aimed at edges</li>
+                                    <li>Can be smaller (1-2m) for defined highlights</li>
+                                    <li>Creates separation from background</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Scale trick for fast positioning:</strong></p>
+                        <ul>
+                            <li>Scale area light (<code>S</code> key) to adjust size quickly</li>
+                            <li>Or use Size parameter in properties for precision</li>
+                            <li>Remember: You can scale non-uniformly (<code>S</code> → <code>X</code> or <code>Y</code>)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Practical Area Light Examples</h3>
+
+                    <div class="card">
+                        <h4>💡 Area Light in Action</h4>
+                        
+                        <p><strong>Example 1: Product photography setup</strong></p>
+                        <ul>
+                            <li><strong>Key light:</strong>
+                                <ul>
+                                    <li>Shape: Rectangle or Square</li>
+                                    <li>Size: 3m x 3m</li>
+                                    <li>Position: 45° front-right, 2m above product</li>
+                                    <li>Power: 800W</li>
+                                    <li>Color: Neutral white</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fill light:</strong>
+                                <ul>
+                                    <li>Size: 4m x 4m (larger, softer)</li>
+                                    <li>Position: 45° front-left, same height</li>
+                                    <li>Power: 300W (less than key)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rim light:</strong>
+                                <ul>
+                                    <li>Size: 1m x 2m (smaller, defined edge)</li>
+                                    <li>Position: Behind product, aimed at edges</li>
+                                    <li>Power: 400W</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Example 2: Portrait lighting (beauty/glamour)</strong></p>
+                        <ul>
+                            <li><strong>Main light (key):</strong>
+                                <ul>
+                                    <li>Shape: Square or Rectangle</li>
+                                    <li>Size: 4m x 4m (large, flattering)</li>
+                                    <li>Position: Slightly above eye level, 30° to side</li>
+                                    <li>Distance: 2-3m from subject</li>
+                                    <li>Power: 1000W</li>
+                                    <li>Color: Slightly warm white</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fill:</strong>
+                                <ul>
+                                    <li>Size: 5m x 5m (even larger)</li>
+                                    <li>Position: Opposite side from key</li>
+                                    <li>Power: 400W (gentle fill)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Hair light:</strong>
+                                <ul>
+                                    <li>Shape: Rectangle (1m x 3m strip)</li>
+                                    <li>Position: Above and behind, aimed at hair</li>
+                                    <li>Power: 500W</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Example 3: Interior window light</strong></p>
+                        <ul>
+                            <li><strong>Window area light:</strong>
+                                <ul>
+                                    <li>Shape: Rectangle</li>
+                                    <li>Size: 2m x 3m (typical window)</li>
+                                    <li>Position: At window location, pointing inward</li>
+                                    <li>Power: 2000-4000W (strong daylight)</li>
+                                    <li>Color: Slightly cool white (sky light)</li>
+                                    <li>Rotation: Angled down 15-30° (sun angle)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Result:</strong> Soft, natural-looking window illumination</li>
+                        </ul>
+
+                        <p><strong>Example 4: Ceiling panel light</strong></p>
+                        <ul>
+                            <li><strong>Setup:</strong>
+                                <ul>
+                                    <li>Shape: Rectangle or Square</li>
+                                    <li>Size: 1m x 1m to 2m x 4m (depending on ceiling fixture)</li>
+                                    <li>Position: Ceiling height, pointing down</li>
+                                    <li>Power: 500-1500W</li>
+                                    <li>Color: Cool white (fluorescent) or neutral</li>
+                                </ul>
+                            </li>
+                            <li><strong>Array for office:</strong> Duplicate multiple panels in grid pattern</li>
+                        </ul>
+
+                        <p><strong>Example 5: Monitor/screen glow</strong></p>
+                        <ul>
+                            <li><strong>Setup:</strong>
+                                <ul>
+                                    <li>Shape: Rectangle (match screen aspect ratio, e.g. 16:9)</li>
+                                    <li>Size: Match actual screen size (0.5m x 0.3m for laptop)</li>
+                                    <li>Position: At screen location, pointing out</li>
+                                    <li>Power: 50-150W (screens are dim)</li>
+                                    <li>Color: Cool blue-white (#E0F0FF)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Bonus:</strong> Animate power for screen flicker effect</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Area Light Best Practices</h4>
+                        <ul>
+                            <li><strong>Start with Area lights:</strong> They're the most versatile and realistic</li>
+                            <li><strong>Size matters most:</strong> Adjust size before tweaking power</li>
+                            <li><strong>Bigger = softer:</strong> Use large areas (3m+) for beautiful soft shadows</li>
+                            <li><strong>Closer = softer:</strong> Move light closer for ultra-soft effect</li>
+                            <li><strong>Match real world:</strong> If simulating window, make it window-sized</li>
+                            <li><strong>Rectangle is versatile:</strong> Can be square (1:1) or strip (4:1) or anything between</li>
+                            <li><strong>Check all angles:</strong> Rotate viewport to see how shadows look from different views</li>
+                            <li><strong>Don't be afraid to go big:</strong> 5m-10m area lights create gorgeously soft light</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Area Light Performance Note</h4>
+                        <p><strong>Area lights are slower to render than other types:</strong></p>
+                        <ul>
+                            <li>Renderer must calculate light from entire surface (not just a point)</li>
+                            <li>Larger area = more samples needed = longer render</li>
+                            <li>In Cycles: Increases noise, needs more samples</li>
+                            <li>In Eevee: Generally fast, but still slower than Point/Spot</li>
+                        </ul>
+                        <p><strong>Optimization tips:</strong></p>
+                        <ul>
+                            <li>Use fewer, larger area lights instead of many small ones</li>
+                            <li>Disable area lights outside camera view</li>
+                            <li>Use render layers to render lights separately if needed</li>
+                            <li>Accept slightly longer renders for much better quality!</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Softbox Revelation:</strong> Professional photographers spend thousands of dollars on large softboxes for one reason: soft light is beautiful light. The larger the light source relative to your subject, the softer and more flattering the result. In Blender, you get infinite softboxes for free—make them huge! A 10-meter area light costs you nothing but render time, and the results are stunning. Don't be shy about using massive area lights.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 03
+     Continue with lesson_15_understanding_light_types_part_04.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 15 - PART 04
+     File: lesson_15_understanding_light_types_part_04.html
+     ============================================ -->
+
+                <section id="light-properties" class="content-section">
+                    <h2>⚙️ Common Light Properties</h2>
+
+                    <p>All light types share some common properties that give you fine-tuned control over how they behave. Let's explore these universal settings that apply across Point, Sun, Spot, and Area lights.</p>
+
+                    <h3>Diffuse and Specular</h3>
+
+                    <div class="card">
+                        <h4>🎨 Controlling Light Contribution</h4>
+                        <p><strong>What these do:</strong></p>
+                        <ul>
+                            <li><strong>Diffuse:</strong> Controls how much light affects matte/diffuse surfaces</li>
+                            <li><strong>Specular:</strong> Controls how much light creates reflections/highlights</li>
+                            <li>Both default to 1.0 (full contribution)</li>
+                            <li>Can be adjusted from 0.0 (none) to 1.0+ (enhanced)</li>
+                        </ul>
+
+                        <p><strong>Understanding the split:</strong></p>
+                        <ul>
+                            <li><strong>Diffuse lighting:</strong> The overall color/brightness of a surface (matte appearance)</li>
+                            <li><strong>Specular lighting:</strong> Shiny highlights and reflections (glossy appearance)</li>
+                            <li>Most materials have both components</li>
+                            <li>Separating them gives creative control</li>
+                        </ul>
+
+                        <p><strong>When to adjust:</strong></p>
+                        <ul>
+                            <li><strong>Reduce Specular (0.3-0.5):</strong>
+                                <ul>
+                                    <li>Light provides illumination but minimal highlights</li>
+                                    <li>Good for fill lights (you don't want competing highlights)</li>
+                                    <li>Prevents overly shiny look</li>
+                                </ul>
+                            </li>
+                            <li><strong>Increase Specular (1.5-2.0):</strong>
+                                <ul>
+                                    <li>Enhance reflections and highlights</li>
+                                    <li>Make metals pop more</li>
+                                    <li>Create dramatic gleaming effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Reduce Diffuse:</strong>
+                                <ul>
+                                    <li>Light affects highlights but not overall color (rare use)</li>
+                                    <li>Good for rim/edge lights that shouldn't brighten overall scene</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Practical examples:</strong></p>
+                        <ul>
+                            <li><strong>Fill light setup:</strong> Diffuse: 1.0, Specular: 0.2
+                                <ul>
+                                    <li>Brightens shadows without creating distracting highlights</li>
+                                </ul>
+                            </li>
+                            <li><strong>Highlight light:</strong> Diffuse: 0.3, Specular: 2.0
+                                <ul>
+                                    <li>Creates strong reflections without brightening matte surfaces much</li>
+                                </ul>
+                            </li>
+                            <li><strong>Standard key light:</strong> Diffuse: 1.0, Specular: 1.0
+                                <ul>
+                                    <li>Balanced, natural contribution</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Volume Settings</h3>
+
+                    <div class="card">
+                        <h4>🌫️ Light Interaction with Volume</h4>
+                        <p><strong>What is Volume?</strong></p>
+                        <ul>
+                            <li>Volumetric effects = visible light scattering in air/fog/smoke</li>
+                            <li>Makes light beams themselves visible (not just what they illuminate)</li>
+                            <li>Like dust particles revealing sunbeams</li>
+                        </ul>
+
+                        <p><strong>Volume Scatter:</strong></p>
+                        <ul>
+                            <li>Default: 1.0 (light fully participates in volume rendering)</li>
+                            <li>Controls how much this light affects volumetric effects</li>
+                            <li>Set to 0.0: Light illuminates surfaces but doesn't create visible beams</li>
+                            <li>Set to 1.0+: Light strongly visible in fog/atmosphere</li>
+                        </ul>
+
+                        <p><strong>When to use:</strong></p>
+                        <ul>
+                            <li><strong>Visible light beams:</strong> Spot lights through fog, god rays, light shafts</li>
+                            <li><strong>Atmospheric scenes:</strong> Dusty rooms, underwater, smoky environments</li>
+                            <li><strong>Disable for cleanliness:</strong> Set to 0 when you don't want visible beams cluttering scene</li>
+                        </ul>
+
+                        <p><strong>Setting up volumetrics:</strong></p>
+                        <ul>
+                            <li><strong>Eevee:</strong>
+                                <ul>
+                                    <li>Render Properties → Volumetrics: Check "Volumetric Lighting"</li>
+                                    <li>World Properties → Volume → Add Principled Volume node</li>
+                                    <li>Adjust Density (0.001-0.1 typically)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cycles:</strong>
+                                <ul>
+                                    <li>Add volume to World or specific objects</li>
+                                    <li>Volume Scatter or Principled Volume</li>
+                                    <li>Automatically interacts with lights</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Shadow Settings</h3>
+
+                    <div class="card">
+                        <h4>👥 Shadow Control</h4>
+                        <p><strong>Shadow Enable/Disable:</strong></p>
+                        <ul>
+                            <li>Each light can have shadows turned on or off</li>
+                            <li><strong>Eevee:</strong> Must explicitly enable shadows per light (checkboxes)</li>
+                            <li><strong>Cycles:</strong> Shadows automatically enabled (can disable for optimization)</li>
+                        </ul>
+
+                        <p><strong>Contact Shadow (Eevee only):</strong></p>
+                        <ul>
+                            <li>Adds subtle shadows in crevices and contact points</li>
+                            <li>Improves realism by preventing "floating" appearance</li>
+                            <li>Separate from main shadow system</li>
+                            <li>Enable in Light Properties → Shadow → Contact Shadows</li>
+                            <li>Adjust Distance (how far shadows extend) and Bias (softness)</li>
+                        </ul>
+
+                        <p><strong>Shadow settings (Eevee):</strong></p>
+                        <ul>
+                            <li><strong>Clip Start:</strong> Minimum distance for shadows
+                                <ul>
+                                    <li>Prevents self-shadowing artifacts</li>
+                                    <li>Increase if you see shadow acne (black spots on surfaces)</li>
+                                    <li>Default: 0.05m, increase to 0.1-0.5m if problems occur</li>
+                                </ul>
+                            </li>
+                            <li><strong>Bias:</strong> Shadow offset to prevent artifacts
+                                <ul>
+                                    <li>Higher bias = fewer artifacts but shadows may detach from objects</li>
+                                    <li>Lower bias = more accurate shadows but possible artifacts</li>
+                                    <li>Default: 1.0, adjust 0.5-2.0 as needed</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>When to disable shadows:</strong></p>
+                        <ul>
+                            <li>Fill lights (shadows would compete with key light)</li>
+                            <li>Rim/edge lights (often want pure highlights without shadows)</li>
+                            <li>Background lights (illuminating backdrop only)</li>
+                            <li>Performance optimization (fewer shadow-casting lights = faster)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Custom Distance</h3>
+
+                    <div class="card">
+                        <h4>📏 Limiting Light Range</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Sets maximum distance light can travel</li>
+                            <li>Beyond this distance, light has zero effect</li>
+                            <li>Default: OFF (infinite range)</li>
+                        </ul>
+
+                        <p><strong>Why use it:</strong></p>
+                        <ul>
+                            <li><strong>Performance:</strong> Reduce calculations for objects far from light</li>
+                            <li><strong>Artistic control:</strong> Prevent lights from affecting distant objects</li>
+                            <li><strong>Localized lighting:</strong> Keep light confined to specific area</li>
+                            <li><strong>Realism:</strong> Real small lights don't illuminate entire rooms</li>
+                        </ul>
+
+                        <p><strong>How to set:</strong></p>
+                        <ul>
+                            <li>Light Properties → Custom Distance: Enable checkbox</li>
+                            <li>Distance slider appears (meters)</li>
+                            <li>Sphere visualization shows range in viewport (when light selected)</li>
+                        </ul>
+
+                        <p><strong>Practical uses:</strong></p>
+                        <ul>
+                            <li><strong>Candle light:</strong> 2-3m range (candles are weak)</li>
+                            <li><strong>Desk lamp:</strong> 3-5m range (local illumination)</li>
+                            <li><strong>Accent lights:</strong> 1-2m range (highlight specific object)</li>
+                            <li><strong>Room lights:</strong> 10-15m range (illuminate room but not beyond)</li>
+                        </ul>
+
+                        <p><strong>Interaction with falloff:</strong></p>
+                        <ul>
+                            <li>Light still follows inverse square falloff within range</li>
+                            <li>At custom distance limit: Light abruptly cuts to zero</li>
+                            <li>Creates visible boundary if distance is too short</li>
+                            <li><strong>Tip:</strong> Set distance generous enough that falloff looks natural</li>
+                        </ul>
+                    </div>
+
+                    <h3>Multiple Importance Sampling (Cycles)</h3>
+
+                    <div class="card">
+                        <h4>🎯 Advanced Render Optimization</h4>
+                        <p><strong>What is MIS?</strong></p>
+                        <ul>
+                            <li>Multiple Importance Sampling = smarter light calculation</li>
+                            <li>Helps Cycles render challenging lighting more efficiently</li>
+                            <li>Reduces noise from large area lights</li>
+                            <li>Cycles-only feature (not in Eevee)</li>
+                        </ul>
+
+                        <p><strong>When to enable:</strong></p>
+                        <ul>
+                            <li>Large area lights causing noise/fireflies</li>
+                            <li>Complex scenes with multiple lights</li>
+                            <li>When using emissive materials as light sources</li>
+                            <li><strong>Default:</strong> Usually ON, leave it on</li>
+                        </ul>
+
+                        <p><strong>MIS settings:</strong></p>
+                        <ul>
+                            <li>Found in Light Properties (Cycles render engine)</li>
+                            <li>Checkbox: Enable/disable</li>
+                            <li><strong>Usually leave enabled</strong> unless you have specific reason to turn off</li>
+                            <li>Minimal performance cost, significant noise reduction</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="comparing-lights" class="content-section">
+                    <h2>⚖️ Comparing Light Types</h2>
+
+                    <p>Now that we've covered all four light types in detail, let's directly compare them to help you choose the right light for any situation.</p>
+
+                    <h3>Quick Comparison Table</h3>
+
+                    <div class="card">
+                        <h4>📊 Light Types at a Glance</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+                            <thead>
+                                <tr style="background: #667eea; color: white;">
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Feature</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Point</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Sun</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Spot</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Area</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Direction</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Omni-directional</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Parallel rays</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Cone shape</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Planar direction</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Shadow Quality</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Hard (sharp)</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Hard (parallel)</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Hard-Medium</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Soft (realistic)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Falloff</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Inverse square</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">No falloff</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Inverse square</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Inverse square</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Position Matters</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Yes</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">No</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Yes</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Yes</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Rotation Matters</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">No</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Yes</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Yes</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Yes</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Size Control</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Radius only</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Angle only</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Radius + Cone</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Physical size</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Best For</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Small sources, accents</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Outdoor, distant light</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Focused, theatrical</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Realistic, studio</td>
+                                </tr>
+                                <tr style="background: #f9f9f9;">
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Render Speed</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Fast</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Fast</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Fast</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Slower</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Realism</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Low-Medium</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">High (outdoors)</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Medium</td>
+                                    <td style="padding: 0.75rem; border: 1px solid #ddd;">Highest</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Decision Tree: Which Light to Use?</h3>
+
+                    <div class="mermaid">
+graph TD
+    A[What lighting do you need?] --> B{Outdoor scene?}
+    B -->|Yes| C[Sun Light]
+    B -->|No| D{Soft shadows needed?}
+    D -->|Yes| E[Area Light]
+    D -->|No| F{Directional/focused beam?}
+    F -->|Yes| G[Spot Light]
+    F -->|No| H{Small omnidirectional source?}
+    H -->|Yes| I[Point Light]
+    H -->|No| J[Use Area Light - most versatile]
+    
+    style C fill:#FFD93D,stroke:#333,stroke-width:2px,color:#000
+    style E fill:#6BCF7F,stroke:#333,stroke-width:2px,color:#000
+    style G fill:#FF6B9D,stroke:#333,stroke-width:2px,color:#000
+    style I fill:#4D96FF,stroke:#333,stroke-width:2px,color:#000
+    style J fill:#6BCF7F,stroke:#333,stroke-width:2px,color:#000
+</div>
+
+                    <h3>Light Type Strengths and Weaknesses</h3>
+
+                    <div class="card">
+                        <h4>💪 Point Light</h4>
+                        <p><strong>Strengths:</strong></p>
+                        <ul>
+                            <li>Simple and easy to understand</li>
+                            <li>Fast to render</li>
+                            <li>Good for small, omnidirectional sources</li>
+                            <li>Perfect for candles, bulbs, particles</li>
+                        </ul>
+                        <p><strong>Weaknesses:</strong></p>
+                        <ul>
+                            <li>Hard shadows (rarely realistic)</li>
+                            <li>No directional control</li>
+                            <li>Lights everything equally (wasteful)</li>
+                            <li>Less professional looking than Area lights</li>
+                        </ul>
+                        <p><strong>When to choose:</strong> Small light sources, accents, placeholders, stylized scenes</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>☀️ Sun Light</h4>
+                        <p><strong>Strengths:</strong></p>
+                        <ul>
+                            <li>Perfect for outdoor lighting</li>
+                            <li>Consistent across entire scene</li>
+                            <li>Position-independent (easy to work with)</li>
+                            <li>Fast to render</li>
+                            <li>Creates realistic outdoor shadows</li>
+                        </ul>
+                        <p><strong>Weaknesses:</strong></p>
+                        <ul>
+                            <li>Only one direction (no falloff)</li>
+                            <li>Hard shadows (can be too harsh)</li>
+                            <li>Not suitable for indoor scenes</li>
+                            <li>Limited creative control</li>
+                        </ul>
+                        <p><strong>When to choose:</strong> Outdoor scenes, distant directional light, architectural exteriors, daylight</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>🔦 Spot Light</h4>
+                        <p><strong>Strengths:</strong></p>
+                        <ul>
+                            <li>Excellent directional control</li>
+                            <li>Adjustable cone angle and softness</li>
+                            <li>Good for focused, dramatic lighting</li>
+                            <li>Can create patterns (gobos)</li>
+                            <li>Theatrical and cinematic</li>
+                        </ul>
+                        <p><strong>Weaknesses:</strong></p>
+                        <ul>
+                            <li>Can look artificial if overused</li>
+                            <li>Requires careful aiming</li>
+                            <li>Hard shadows (unless increased radius)</li>
+                            <li>Can create competing light cones</li>
+                        </ul>
+                        <p><strong>When to choose:</strong> Theatrical lighting, flashlights, focused highlights, stage setups, practical lights</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>⬜ Area Light</h4>
+                        <p><strong>Strengths:</strong></p>
+                        <ul>
+                            <li>Most realistic shadows (soft, natural)</li>
+                            <li>Excellent for studio and portrait lighting</li>
+                            <li>Highly controllable (size, shape, direction)</li>
+                            <li>Professional quality results</li>
+                            <li>Most versatile overall</li>
+                        </ul>
+                        <p><strong>Weaknesses:</strong></p>
+                        <ul>
+                            <li>Slower to render than other types</li>
+                            <li>More parameters to manage (can be complex)</li>
+                            <li>Requires understanding of size/softness relationship</li>
+                        </ul>
+                        <p><strong>When to choose:</strong> Product shots, portraits, studio setups, realistic lighting, windows, whenever quality matters most</p>
+                    </div>
+
+                    <h3>Common Lighting Combinations</h3>
+
+                    <div class="card">
+                        <h4>🎨 Effective Multi-Light Setups</h4>
+                        
+                        <p><strong>Product visualization:</strong></p>
+                        <ul>
+                            <li>1x Large Area light (key, 3m+)</li>
+                            <li>1x Large Area light (fill, opposite side)</li>
+                            <li>1x Small Area or Spot (rim/edge highlight)</li>
+                            <li><strong>Total: 3 lights</strong></li>
+                        </ul>
+
+                        <p><strong>Outdoor architectural:</strong></p>
+                        <ul>
+                            <li>1x Sun light (main illumination)</li>
+                            <li>HDRI environment (ambient/sky light)</li>
+                            <li>Optional: Area light for window interiors</li>
+                            <li><strong>Total: 1-2 lights + HDRI</strong></li>
+                        </ul>
+
+                        <p><strong>Interior scene:</strong></p>
+                        <ul>
+                            <li>1-2x Area lights (windows)</li>
+                            <li>2-4x Point or Spot lights (practical lamps)</li>
+                            <li>1x Area light (bounce/ambient fill)</li>
+                            <li><strong>Total: 4-7 lights</strong></li>
+                        </ul>
+
+                        <p><strong>Portrait/character:</strong></p>
+                        <ul>
+                            <li>1x Large Area light (key light, main)</li>
+                            <li>1x Large Area light (fill light, soften shadows)</li>
+                            <li>1x Medium Area or Spot (rim/hair light)</li>
+                            <li>Optional: Area or Point for background</li>
+                            <li><strong>Total: 3-4 lights</strong></li>
+                        </ul>
+
+                        <p><strong>Cinematic/moody:</strong></p>
+                        <ul>
+                            <li>1x Spot light (dramatic key)</li>
+                            <li>1x Dim Area or Point (subtle fill)</li>
+                            <li>1x Spot or Area (rim/separation)</li>
+                            <li><strong>Total: 3 lights (keep it simple for drama)</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ General Lighting Principles</h4>
+                        <ul>
+                            <li><strong>Start simple:</strong> Begin with one light, add more only as needed</li>
+                            <li><strong>Every light needs purpose:</strong> Key, fill, rim, accent—know why each light exists</li>
+                            <li><strong>Fewer is often better:</strong> 3-5 well-placed lights beat 10 random ones</li>
+                            <li><strong>Area lights are safe default:</strong> When in doubt, use Area lights</li>
+                            <li><strong>Match to scenario:</strong> Outdoor = Sun, Studio = Area, Theatrical = Spot</li>
+                            <li><strong>Test different angles:</strong> Small rotation/position changes = big effect</li>
+                            <li><strong>Consider render time:</strong> Area lights look best but render slowest</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 04
+     Continue with lesson_15_understanding_light_types_part_05.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 15 - PART 05
+     File: lesson_15_understanding_light_types_part_05.html
+     ============================================ -->
+
+                <section id="practical-scenarios" class="content-section">
+                    <h2>🎬 Practical Lighting Scenarios</h2>
+
+                    <p>Let's apply everything we've learned to real-world scenarios. These practical examples show you exactly which lights to use and how to set them up for common situations you'll encounter.</p>
+
+                    <h3>Scenario 1: Product Photography Setup</h3>
+
+                    <div class="card">
+                        <h4>📦 Professional Product Lighting</h4>
+                        <p><strong>Goal:</strong> Clean, professional product shot with soft shadows and even illumination</p>
+                        
+                        <p><strong>Setup:</strong></p>
+                        <ol>
+                            <li><strong>Key Light (Main):</strong>
+                                <ul>
+                                    <li>Type: Area Light (Rectangle or Square)</li>
+                                    <li>Size: 3m x 3m</li>
+                                    <li>Position: 45° to front-right, 30° above horizontal</li>
+                                    <li>Distance: 3-4m from product</li>
+                                    <li>Power: 800-1200W</li>
+                                    <li>Color: Neutral white (#FFFFFF)</li>
+                                    <li>Purpose: Primary illumination and modeling</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fill Light:</strong>
+                                <ul>
+                                    <li>Type: Area Light (Rectangle)</li>
+                                    <li>Size: 4m x 4m (larger = softer)</li>
+                                    <li>Position: 45° to front-left, same height as key</li>
+                                    <li>Distance: 3-4m from product</li>
+                                    <li>Power: 400-500W (about 40% of key)</li>
+                                    <li>Color: Same as key or slightly cool</li>
+                                    <li>Purpose: Soften shadows, reduce contrast</li>
+                                    <li>Shadow: Disabled (no competing shadows)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rim Light:</strong>
+                                <ul>
+                                    <li>Type: Area Light (Rectangle, 1m x 2m) or Spot</li>
+                                    <li>Position: Behind product, 30-45° from directly behind</li>
+                                    <li>Aimed: At product edges</li>
+                                    <li>Power: 500-800W</li>
+                                    <li>Color: White or slightly warm for gold edge</li>
+                                    <li>Purpose: Separation from background, edge definition</li>
+                                </ul>
+                            </li>
+                            <li><strong>Background Light (Optional):</strong>
+                                <ul>
+                                    <li>Type: Area Light or Spot</li>
+                                    <li>Position: Behind product, aimed at backdrop</li>
+                                    <li>Power: 300-600W</li>
+                                    <li>Purpose: Create gradient on background, separation</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Camera setup:</strong></p>
+                        <ul>
+                            <li>Position: Front and center of product</li>
+                            <li>Angle: Slightly above product (10-20°)</li>
+                            <li>Focal length: 50-100mm (avoid distortion)</li>
+                        </ul>
+
+                        <p><strong>Pro tips:</strong></p>
+                        <ul>
+                            <li>Keep key light larger than product for soft shadows</li>
+                            <li>Fill light should never overpower key (keep dimmer)</li>
+                            <li>Rim light creates premium, professional look</li>
+                            <li>Adjust key-to-fill ratio for different moods (high contrast = dramatic)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Scenario 2: Outdoor Architectural Exterior</h3>
+
+                    <div class="card">
+                        <h4>🏛️ Daytime Architectural Visualization</h4>
+                        <p><strong>Goal:</strong> Realistic outdoor building visualization with natural daylight</p>
+                        
+                        <p><strong>Setup:</strong></p>
+                        <ol>
+                            <li><strong>Sun Light (Primary):</strong>
+                                <ul>
+                                    <li>Type: Sun Light</li>
+                                    <li>Rotation: 30-45° angle from horizon (afternoon sun)</li>
+                                    <li>Direction: From side for modeling, not straight on</li>
+                                    <li>Strength: 1.5-2.5</li>
+                                    <li>Color: Slightly warm white (#FFF8E7) for pleasant afternoon</li>
+                                    <li>Angle: 0.526° (realistic sun) or 1-2° for softer</li>
+                                    <li>Purpose: Main illumination and shadow definition</li>
+                                </ul>
+                            </li>
+                            <li><strong>HDRI Environment:</strong>
+                                <ul>
+                                    <li>Type: HDRI image in World settings</li>
+                                    <li>Strength: 0.3-0.8 (ambient fill)</li>
+                                    <li>Rotation: Match sun direction (sun in HDRI aligned with Sun light)</li>
+                                    <li>Purpose: Realistic sky, ambient light, reflections</li>
+                                    <li>Note: Will cover HDRI in detail in Lesson 17!</li>
+                                </ul>
+                            </li>
+                            <li><strong>Sky Fill Light (Alternative to HDRI):</strong>
+                                <ul>
+                                    <li>Type: Large Area Light (10m x 10m+)</li>
+                                    <li>Position: High above scene, angled down</li>
+                                    <li>Power: 500-1000W</li>
+                                    <li>Color: Cool blue (#C8D8E8) for sky light</li>
+                                    <li>Purpose: Simulate diffused skylight</li>
+                                    <li>Shadow: Disabled</li>
+                                    <li>Use: When not using HDRI</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Time of day variations:</strong></p>
+                        <ul>
+                            <li><strong>Midday (harsh):</strong> Sun high angle (70-80°), bright white, strength 2.5-3.0</li>
+                            <li><strong>Golden hour (flattering):</strong> Sun low angle (15-20°), warm orange (#FFB347), strength 1.5-2.0</li>
+                            <li><strong>Overcast:</strong> Use HDRI only or very large soft Area light, no distinct shadows</li>
+                        </ul>
+
+                        <p><strong>Pro tips:</strong></p>
+                        <ul>
+                            <li>Sun direction should create interesting shadows on building facade</li>
+                            <li>Avoid straight-on sun (flat, boring)</li>
+                            <li>HDRI + Sun combo is most realistic</li>
+                            <li>Match HDRI time of day with Sun color/angle</li>
+                        </ul>
+                    </div>
+
+                    <h3>Scenario 3: Interior Room with Window Light</h3>
+
+                    <div class="card">
+                        <h4>🪟 Natural Interior Lighting</h4>
+                        <p><strong>Goal:</strong> Realistic interior lit by window with natural daylight</p>
+                        
+                        <p><strong>Setup:</strong></p>
+                        <ol>
+                            <li><strong>Window Area Light (Primary):</strong>
+                                <ul>
+                                    <li>Type: Area Light (Rectangle)</li>
+                                    <li>Size: Match window dimensions (e.g., 2m x 3m)</li>
+                                    <li>Position: At window location, pointing into room</li>
+                                    <li>Rotation: Angled down 20-30° (sun angle through window)</li>
+                                    <li>Power: 2000-5000W (strong daylight)</li>
+                                    <li>Color: Slightly cool white (#F5F8FF) for outdoor light</li>
+                                    <li>Purpose: Primary light source (sun through window)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Sky Fill/Ambient:</strong>
+                                <ul>
+                                    <li>Type: Large Area Light (8m x 8m)</li>
+                                    <li>Position: Outside window, farther back, angled down</li>
+                                    <li>Power: 500-1000W</li>
+                                    <li>Color: Cool blue (#D0E0F0) for diffused sky</li>
+                                    <li>Purpose: General ambient, prevent pitch-black shadows</li>
+                                    <li>Shadow: Disabled</li>
+                                </ul>
+                            </li>
+                            <li><strong>Bounce Light (Simulated GI):</strong>
+                                <ul>
+                                    <li>Type: Large Area Light (6m x 6m)</li>
+                                    <li>Position: Low, on side opposite window (simulating floor/wall bounce)</li>
+                                    <li>Power: 200-400W (very dim)</li>
+                                    <li>Color: Warm based on room colors (beige/orange tint)</li>
+                                    <li>Purpose: Simulate light bouncing off surfaces</li>
+                                    <li>Shadow: Disabled</li>
+                                    <li>Note: Cycles GI handles this automatically; this is for extra control</li>
+                                </ul>
+                            </li>
+                            <li><strong>Practical Lights (Optional):</strong>
+                                <ul>
+                                    <li>Type: Point or Spot lights</li>
+                                    <li>Position: Inside lamp fixtures in scene</li>
+                                    <li>Power: 50-200W (dim, supplementary)</li>
+                                    <li>Color: Warm white (#FFF5E6)</li>
+                                    <li>Purpose: Accent lighting, visible light sources</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Pro tips:</strong></p>
+                        <ul>
+                            <li>Window should be strongest light by far</li>
+                            <li>Directional light from window creates depth and interest</li>
+                            <li>Bounce/ambient prevents unrealistically dark shadows</li>
+                            <li>Add slight warm tint to bounce (reflects room materials)</li>
+                            <li>Can use multiple windows with separate Area lights each</li>
+                        </ul>
+                    </div>
+
+                    <h3>Scenario 4: Portrait/Character Lighting</h3>
+
+                    <div class="card">
+                        <h4>👤 Classic Three-Point Portrait Setup</h4>
+                        <p><strong>Goal:</strong> Flattering character lighting with dimension and separation</p>
+                        
+                        <p><strong>Setup:</strong></p>
+                        <ol>
+                            <li><strong>Key Light (Main):</strong>
+                                <ul>
+                                    <li>Type: Area Light (Rectangle or Square)</li>
+                                    <li>Size: 4m x 4m (large for soft, flattering light)</li>
+                                    <li>Position: 30-45° to side of face, slightly above eye level</li>
+                                    <li>Distance: 2-3m from character</li>
+                                    <li>Power: 1000-1500W</li>
+                                    <li>Color: Neutral to slightly warm white</li>
+                                    <li>Purpose: Primary facial modeling and definition</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fill Light:</strong>
+                                <ul>
+                                    <li>Type: Area Light (Rectangle)</li>
+                                    <li>Size: 5m x 5m (even larger than key for ultra-soft)</li>
+                                    <li>Position: Opposite side from key, near camera height</li>
+                                    <li>Distance: 2-3m from character</li>
+                                    <li>Power: 400-600W (30-40% of key)</li>
+                                    <li>Color: Match key or very slightly cooler</li>
+                                    <li>Purpose: Soften shadows on face, reduce contrast</li>
+                                    <li>Shadow: Disabled</li>
+                                    <li>Specular: 0.3 (minimal highlights from fill)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rim/Hair Light:</strong>
+                                <ul>
+                                    <li>Type: Area Light (Rectangle, 1m x 3m strip) or Spot</li>
+                                    <li>Position: Behind and above character, 45° from directly behind</li>
+                                    <li>Aimed: At hair/shoulders (edge of character)</li>
+                                    <li>Power: 600-1000W</li>
+                                    <li>Color: White or slightly warm for golden edge</li>
+                                    <li>Purpose: Separation from background, dimension, highlight hair</li>
+                                </ul>
+                            </li>
+                            <li><strong>Background Light (Optional):</strong>
+                                <ul>
+                                    <li>Type: Spot or Area Light</li>
+                                    <li>Position: Behind character, aimed at background</li>
+                                    <li>Power: 300-800W (creates gradient on background)</li>
+                                    <li>Purpose: Background interest, prevent black void</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Lighting ratio (key to fill):</strong></p>
+                        <ul>
+                            <li><strong>2:1 ratio:</strong> Low contrast, very flattering (beauty, commercial)</li>
+                            <li><strong>3:1 ratio:</strong> Moderate contrast, classic portrait (standard)</li>
+                            <li><strong>4:1 or higher:</strong> High contrast, dramatic (film noir, moody)</li>
+                        </ul>
+
+                        <p><strong>Pro tips:</strong></p>
+                        <ul>
+                            <li>Larger lights = more flattering (softer shadows)</li>
+                            <li>Key light should be main source of character definition</li>
+                            <li>Fill prevents unflattering harsh shadows</li>
+                            <li>Rim light is crucial for separation—don't skip it!</li>
+                            <li>Adjust key-fill ratio for different moods</li>
+                        </ul>
+                    </div>
+
+                    <h3>Scenario 5: Moody/Cinematic Night Scene</h3>
+
+                    <div class="card">
+                        <h4>🌃 Dramatic Low-Key Lighting</h4>
+                        <p><strong>Goal:</strong> Atmospheric, high-contrast night scene with selective illumination</p>
+                        
+                        <p><strong>Setup:</strong></p>
+                        <ol>
+                            <li><strong>Moonlight (Optional, Ambient):</strong>
+                                <ul>
+                                    <li>Type: Sun Light or Large Area</li>
+                                    <li>Direction: High angle (moon overhead) or low (moon at horizon)</li>
+                                    <li>Strength/Power: 0.3-0.5 (Sun) or 500-800W (Area)</li>
+                                    <li>Color: Cool blue (#A0B8D0)</li>
+                                    <li>Purpose: General ambient, subtle overall illumination</li>
+                                </ul>
+                            </li>
+                            <li><strong>Practical Light Source:</strong>
+                                <ul>
+                                    <li>Type: Spot Light or small Area</li>
+                                    <li>Position: Streetlamp, window, flashlight, etc.</li>
+                                    <li>Power: 800-2000W (strong, focused)</li>
+                                    <li>Color: Warm orange (#FFB366) for sodium vapor, or cool for LED</li>
+                                    <li>Spot Size: 40-60° if using Spot</li>
+                                    <li>Purpose: Primary subject illumination, story element</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rim/Separation Light:</strong>
+                                <ul>
+                                    <li>Type: Spot Light or Area</li>
+                                    <li>Position: Behind subject, aimed at edges</li>
+                                    <li>Power: 500-1000W</li>
+                                    <li>Color: Cool blue (moonlight) or warm (fire/ambient)</li>
+                                    <li>Purpose: Separate subject from dark background</li>
+                                </ul>
+                            </li>
+                            <li><strong>Minimal Fill (Very Subtle):</strong>
+                                <ul>
+                                    <li>Type: Large Area Light</li>
+                                    <li>Position: Near camera, very far back or large</li>
+                                    <li>Power: 100-200W (extremely dim)</li>
+                                    <li>Color: Cool neutral</li>
+                                    <li>Purpose: Just enough to see into shadows (barely)</li>
+                                    <li>Shadow: Disabled</li>
+                                    <li>Note: Can omit entirely for pure high-contrast look</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Key principles for moody lighting:</strong></p>
+                        <ul>
+                            <li><strong>Embrace darkness:</strong> Large areas should be dark/black (high contrast)</li>
+                            <li><strong>Selective illumination:</strong> Light only what matters (face, key objects)</li>
+                            <li><strong>Motivated lighting:</strong> Every light should have visible source (lamp, window, fire)</li>
+                            <li><strong>Color temperature contrast:</strong> Cool moonlight vs. warm practical lights</li>
+                            <li><strong>Use shadows creatively:</strong> Shadows are as important as light</li>
+                        </ul>
+
+                        <p><strong>Pro tips:</strong></p>
+                        <ul>
+                            <li>Use few lights (2-3 total) for dramatic simplicity</li>
+                            <li>Strong directional lighting creates drama</li>
+                            <li>Avoid fill light or use minimal—embrace shadows!</li>
+                            <li>Practical lights (visible in scene) add realism</li>
+                            <li>Color contrast (warm vs cool) enhances mood</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Universal Lighting Setup Tips</h4>
+                        <ul>
+                            <li><strong>Start with one light:</strong> Add your key/main light first, get it right</li>
+                            <li><strong>Build gradually:</strong> Add lights one at a time, testing after each</li>
+                            <li><strong>Less is more:</strong> 3-5 well-placed lights beat 10 random ones</li>
+                            <li><strong>Every light has purpose:</strong> Key, fill, rim, accent—know the role</li>
+                            <li><strong>Test in Rendered view:</strong> Material Preview can be misleading</li>
+                            <li><strong>Adjust ratios, not absolute values:</strong> Key-to-fill relationship matters more than specific watts</li>
+                            <li><strong>Reference real photography:</strong> Study how photographers light similar subjects</li>
+                            <li><strong>Iterate constantly:</strong> Lighting is never "done" on first try—keep refining!</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="project" class="content-section">
+                    <h2>🎯 Project: Light Type Showcase</h2>
+
+                    <p>Time to put your knowledge into practice! You'll create a comprehensive scene that demonstrates each light type and solidifies your understanding through hands-on experience.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎨 Project Goal</h3>
+                        <p style="color: white;">Create a single scene with four objects, each lit primarily by a different light type, demonstrating the unique characteristics of Point, Sun, Spot, and Area lights.</p>
+                        <p style="color: white;"><strong>Learning objectives:</strong></p>
+                        <ul style="color: white;">
+                            <li>Practice adding and configuring all four light types</li>
+                            <li>Understand how each light type affects shadows and appearance</li>
+                            <li>Learn to position, aim, and adjust light properties</li>
+                            <li>Compare light types side-by-side</li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 1: Scene Setup</h3>
+
+                    <div class="card">
+                        <h4>🎬 Prepare Your Scene</h4>
+                        <ol>
+                            <li><strong>Start fresh:</strong> File → New → General</li>
+                            <li><strong>Delete default cube and light:</strong> Select (click) → X → Delete</li>
+                            <li><strong>Add four spheres:</strong>
+                                <ul>
+                                    <li>Shift+A → Mesh → UV Sphere (repeat 4 times)</li>
+                                    <li>Or duplicate: Add one sphere, Shift+D to duplicate 3 more</li>
+                                    <li>Arrange in a row with spacing (G key to move)</li>
+                                    <li>Spacing: About 4-5 Blender units between centers</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add ground plane:</strong>
+                                <ul>
+                                    <li>Shift+A → Mesh → Plane</li>
+                                    <li>Scale large: S → 20 → Enter</li>
+                                    <li>Position below spheres (catches shadows)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Position camera:</strong>
+                                <ul>
+                                    <li>Numpad 7 (top view) → Numpad 0 (camera view)</li>
+                                    <li>N key → View → check "Camera to View"</li>
+                                    <li>Navigate so all four spheres visible, angled view</li>
+                                    <li>N key → uncheck "Camera to View" (lock camera)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Switch to Rendered viewport:</strong>
+                                <ul>
+                                    <li>Top right of viewport: Click rightmost sphere icon</li>
+                                    <li>Or press Z → Rendered</li>
+                                    <li>Scene will be black (no lights yet—perfect!)</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 2: Add Point Light</h3>
+
+                    <div class="card">
+                        <h4>💡 Demonstrating Point Light</h4>
+                        <ol>
+                            <li><strong>Add Point light:</strong> Shift+A → Light → Point Light</li>
+                            <li><strong>Position above first sphere:</strong>
+                                <ul>
+                                    <li>G key → Z → 3 (move up 3 units)</li>
+                                    <li>Adjust X/Y to be centered over first sphere</li>
+                                </ul>
+                            </li>
+                            <li><strong>Configure in Properties:</strong>
+                                <ul>
+                                    <li>Select Point light → Light Properties (bulb icon)</li>
+                                    <li>Power: 300W</li>
+                                    <li>Color: Warm white (slightly yellow)</li>
+                                    <li>Radius: 0.25m (default, hard shadows)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Observe results:</strong>
+                                <ul>
+                                    <li>Note omnidirectional light spread</li>
+                                    <li>Sharp shadow on ground directly below</li>
+                                    <li>Gradual falloff with distance</li>
+                                </ul>
+                            </li>
+                            <li><strong>Optional experimentation:</strong>
+                                <ul>
+                                    <li>Try different Power values (100W, 500W, 1000W)</li>
+                                    <li>Change Radius to 1.0m (softer shadows in Cycles)</li>
+                                    <li>Move closer/farther to see falloff effect</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 3: Add Sun Light</h3>
+
+                    <div class="card">
+                        <h4>☀️ Demonstrating Sun Light</h4>
+                        <ol>
+                            <li><strong>Add Sun light:</strong> Shift+A → Light → Sun</li>
+                            <li><strong>Position (anywhere is fine!):</strong>
+                                <ul>
+                                    <li>Remember: position doesn't matter for Sun</li>
+                                    <li>Place it above second sphere for visual reference</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotate to aim at second sphere:</strong>
+                                <ul>
+                                    <li>R key → X → 45 (rotate 45° around X-axis)</li>
+                                    <li>Adjust until light hits second sphere from angle</li>
+                                    <li>Watch arrow on Sun icon (shows direction)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Configure in Properties:</strong>
+                                <ul>
+                                    <li>Strength: 2.0</li>
+                                    <li>Color: Neutral white or very slight warm</li>
+                                    <li>Angle: 0.526° (realistic sun)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Observe results:</strong>
+                                <ul>
+                                    <li>Parallel shadows (consistent direction)</li>
+                                    <li>No falloff (even brightness across scene)</li>
+                                    <li>Sharp, defined shadow edges</li>
+                                    <li>All objects in scene receive light (not just sphere 2)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fix overexposure:</strong>
+                                <ul>
+                                    <li>If scene too bright overall, reduce Strength to 1.0-1.5</li>
+                                    <li>Or increase Power on Point light to match</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 4: Add Spot Light</h3>
+
+                    <div class="card">
+                        <h4>🔦 Demonstrating Spot Light</h4>
+                        <ol>
+                            <li><strong>Add Spot light:</strong> Shift+A → Light → Spot Light</li>
+                            <li><strong>Position above third sphere:</strong>
+                                <ul>
+                                    <li>G → Z → 4 (move up 4 units)</li>
+                                    <li>Center over third sphere</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotate to aim down:</strong>
+                                <ul>
+                                    <li>Default orientation usually points down already</li>
+                                    <li>If not: R → X → adjust until pointing at sphere</li>
+                                    <li>Enable "Show Cone" in Light Properties → Viewport Display</li>
+                                </ul>
+                            </li>
+                            <li><strong>Configure in Properties:</strong>
+                                <ul>
+                                    <li>Power: 500W</li>
+                                    <li>Spot Size: 50° (moderate cone)</li>
+                                    <li>Blend: 0.4 (moderate softness)</li>
+                                    <li>Radius: 0.3m</li>
+                                    <li>Color: Cool white (slightly blue)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Observe results:</strong>
+                                <ul>
+                                    <li>Circular pool of light on ground</li>
+                                    <li>Defined beam with falloff at edges</li>
+                                    <li>Directional light (only lights in cone)</li>
+                                    <li>Shadow confined to lit area</li>
+                                </ul>
+                            </li>
+                            <li><strong>Experiment:</strong>
+                                <ul>
+                                    <li>Spot Size: Try 20° (narrow) and 80° (wide)</li>
+                                    <li>Blend: Try 0.0 (hard edge) and 1.0 (very soft)</li>
+                                    <li>Rotate slightly to see beam direction change</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 5: Add Area Light</h3>
+
+                    <div class="card">
+                        <h4>⬜ Demonstrating Area Light</h4>
+                        <ol>
+                            <li><strong>Add Area light:</strong> Shift+A → Light → Area Light</li>
+                            <li><strong>Position above fourth sphere:</strong>
+                                <ul>
+                                    <li>G → Z → 3 (move up 3 units)</li>
+                                    <li>Center over fourth sphere</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotate to aim down:</strong>
+                                <ul>
+                                    <li>R → X → 90 (if needed to point straight down)</li>
+                                    <li>Default may already be correct</li>
+                                    <li>Check wireframe orientation in viewport</li>
+                                </ul>
+                            </li>
+                            <li><strong>Scale to large size:</strong>
+                                <ul>
+                                    <li>S → 3 → Enter (scale to 3m x 3m)</li>
+                                    <li>Or set Size in Properties: 3m</li>
+                                </ul>
+                            </li>
+                            <li><strong>Configure in Properties:</strong>
+                                <ul>
+                                    <li>Shape: Square or Rectangle</li>
+                                    <li>Size: 3m (or 3m x 3m for Rectangle)</li>
+                                    <li>Power: 800W</li>
+                                    <li>Color: Neutral white</li>
+                                </ul>
+                            </li>
+                            <li><strong>Observe results:</strong>
+                                <ul>
+                                    <li>Soft, gradual shadow edges (most realistic!)</li>
+                                    <li>Even, flattering illumination</li>
+                                    <li>Natural appearance compared to other lights</li>
+                                </ul>
+                            </li>
+                            <li><strong>Experiment with size:</strong>
+                                <ul>
+                                    <li>Size 1m: Harder shadows</li>
+                                    <li>Size 5m: Ultra-soft shadows</li>
+                                    <li>Compare shadow softness to other light types!</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h3>Step 6: Fine-Tune and Compare</h3>
+
+                    <div class="card">
+                        <h4>🎨 Refinement and Analysis</h4>
+                        <ol>
+                            <li><strong>Balance brightness:</strong>
+                                <ul>
+                                    <li>All four spheres should be similarly bright</li>
+                                    <li>Adjust Power values to balance</li>
+                                    <li>Goal: Each light shows its characteristics without being too dim/bright</li>
+                                </ul>
+                            </li>
+                            <li><strong>Check shadows:</strong>
+                                <ul>
+                                    <li>Point: Sharp shadow directly below</li>
+                                    <li>Sun: Parallel shadow in one direction (all objects same direction)</li>
+                                    <li>Spot: Shadow within light cone only</li>
+                                    <li>Area: Soft, gradual shadow</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add materials (optional enhancement):</strong>
+                                <ul>
+                                    <li>Select each sphere → Material Properties → New</li>
+                                    <li>Adjust Roughness: 0.2-0.4 (semi-glossy)</li>
+                                    <li>Metallic: 0.0 (or try 1.0 for metal sphere)</li>
+                                    <li>See how different lights affect specular highlights</li>
+                                </ul>
+                            </li>
+                            <li><strong>Label your lights:</strong>
+                                <ul>
+                                    <li>Select each light → Properties → Object Properties</li>
+                                    <li>Rename: "Point_Light", "Sun_Light", "Spot_Light", "Area_Light"</li>
+                                    <li>Good organization habit!</li>
+                                </ul>
+                            </li>
+                            <li><strong>Test render:</strong>
+                                <ul>
+                                    <li>F12 to render final image</li>
+                                    <li>Image → Save As → save your result</li>
+                                    <li>Compare to viewport (should be similar if using Cycles/Eevee consistently)</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Project Success Checklist</h4>
+                        <p><strong>Your project is complete when:</strong></p>
+                        <ul>
+                            <li>✅ Four spheres in scene, each primarily lit by different light type</li>
+                            <li>✅ Point light: Shows omnidirectional spread and hard shadows</li>
+                            <li>✅ Sun light: Shows parallel rays and consistent directional lighting</li>
+                            <li>✅ Spot light: Shows focused cone beam and controlled direction</li>
+                            <li>✅ Area light: Shows soft shadows and realistic illumination</li>
+                            <li>✅ All lights properly positioned, aimed, and configured</li>
+                            <li>✅ Brightness roughly balanced across all four objects</li>
+                            <li>✅ You understand why each light behaves differently</li>
+                            <li>✅ Scene saved and final render created</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bonus Challenges</h3>
+
+                    <div class="card">
+                        <h4>🌟 Take It Further (Optional)</h4>
+                        <p><strong>If you want extra practice:</strong></p>
+                        <ul>
+                            <li><strong>Color experimentation:</strong>
+                                <ul>
+                                    <li>Give each light a different color (warm/cool)</li>
+                                    <li>See how colored lights affect material appearance</li>
+                                    <li>Create complementary color schemes</li>
+                                </ul>
+                            </li>
+                            <li><strong>Shadow comparison:</strong>
+                                <ul>
+                                    <li>Create second scene with only ground plane + one object</li>
+                                    <li>Test same light type with different settings</li>
+                                    <li>E.g., Area light: 1m, 3m, 5m, 10m sizes—compare shadows</li>
+                                </ul>
+                            </li>
+                            <li><strong>Complex object test:</strong>
+                                <ul>
+                                    <li>Replace spheres with Suzanne monkey heads</li>
+                                    <li>More complex geometry shows light behavior better</li>
+                                    <li>Notice how shadows reveal form</li>
+                                </ul>
+                            </li>
+                            <li><strong>Animation:</strong>
+                                <ul>
+                                    <li>Animate light positions/rotations</li>
+                                    <li>Keyframe Power to pulse lights on/off</li>
+                                    <li>Render short animation showing light behavior</li>
+                                </ul>
+                            </li>
+                            <li><strong>Three-point setup:</strong>
+                                <ul>
+                                    <li>Create new scene with single character/object</li>
+                                    <li>Implement classic three-point lighting</li>
+                                    <li>Practice key + fill + rim workflow</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_15_understanding_light_types_part_06.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 15 - PART 06 (FINAL)
+     File: lesson_15_understanding_light_types_part_06.html
+     ============================================ -->
+
+                <section id="summary" class="content-section">
+                    <h2>🎓 Lesson Summary</h2>
+
+                    <div class="card">
+                        <h3>What You've Learned</h3>
+                        <p>Congratulations! You've completed a comprehensive exploration of lighting in Blender. Lighting is one of the most powerful tools in your 3D toolkit, and you now have the knowledge to create professional, compelling illumination for any scene.</p>
+                        
+                        <p><strong>Key concepts mastered:</strong></p>
+                        <ul>
+                            <li><strong>Why lighting matters:</strong> How light creates mood, depth, focus, and realism</li>
+                            <li><strong>Light fundamentals:</strong> Power, falloff, color temperature, hard vs. soft light</li>
+                            <li><strong>Point lights:</strong> Omnidirectional illumination for small sources</li>
+                            <li><strong>Sun lights:</strong> Parallel rays for outdoor and distant lighting</li>
+                            <li><strong>Spot lights:</strong> Focused cone beams for theatrical and controlled lighting</li>
+                            <li><strong>Area lights:</strong> Soft, realistic illumination for professional results</li>
+                            <li><strong>Light properties:</strong> Diffuse/specular, shadows, volume, custom distance</li>
+                            <li><strong>Practical scenarios:</strong> Real-world lighting setups for common situations</li>
+                        </ul>
+
+                        <p><strong>Skills you can now do:</strong></p>
+                        <ul>
+                            <li>✨ Choose the right light type for any scenario</li>
+                            <li>🎨 Create professional three-point lighting setups</li>
+                            <li>☀️ Light outdoor architectural scenes realistically</li>
+                            <li>💡 Configure light properties for desired effects</li>
+                            <li>🎯 Control shadow softness and quality</li>
+                            <li>🔦 Aim and position lights effectively</li>
+                            <li>⚖️ Balance multiple lights in complex scenes</li>
+                            <li>🎭 Create mood and atmosphere through lighting choices</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>The Four Light Types: Quick Reference</h3>
+                        
+                        <p><strong>💡 Point Light:</strong></p>
+                        <ul>
+                            <li><strong>Use for:</strong> Candles, small bulbs, particles, accent lights</li>
+                            <li><strong>Characteristics:</strong> Omnidirectional, hard shadows, inverse square falloff</li>
+                            <li><strong>Pro tip:</strong> Great for quick placeholder lighting while modeling</li>
+                        </ul>
+
+                        <p><strong>☀️ Sun Light:</strong></p>
+                        <ul>
+                            <li><strong>Use for:</strong> Outdoor scenes, distant directional light, daylight</li>
+                            <li><strong>Characteristics:</strong> Parallel rays, no falloff, position irrelevant</li>
+                            <li><strong>Pro tip:</strong> Combine with HDRI for most realistic outdoor lighting</li>
+                        </ul>
+
+                        <p><strong>🔦 Spot Light:</strong></p>
+                        <ul>
+                            <li><strong>Use for:</strong> Theatrical lighting, flashlights, focused highlights</li>
+                            <li><strong>Characteristics:</strong> Cone-shaped beam, adjustable angle, directional</li>
+                            <li><strong>Pro tip:</strong> Enable "Show Cone" for easier aiming in viewport</li>
+                        </ul>
+
+                        <p><strong>⬜ Area Light:</strong></p>
+                        <ul>
+                            <li><strong>Use for:</strong> Studio lighting, portraits, realistic illumination</li>
+                            <li><strong>Characteristics:</strong> Soft shadows, physical size, most versatile</li>
+                            <li><strong>Pro tip:</strong> Larger = softer shadows. Don't be afraid to go huge (5m-10m+)!</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>The Lighting Decision Framework</h3>
+                        <blockquote>
+                            <p><strong>"What story does this scene tell, and what lighting supports that story?"</strong></p>
+                        </blockquote>
+                        
+                        <p><strong>Ask yourself these questions:</strong></p>
+                        <ol>
+                            <li><strong>Where does this scene take place?</strong>
+                                <ul>
+                                    <li>Outdoors → Sun light + environment</li>
+                                    <li>Indoors → Area lights (windows) + practical lights</li>
+                                    <li>Studio/product → Area lights in three-point setup</li>
+                                </ul>
+                            </li>
+                            <li><strong>What time is it?</strong>
+                                <ul>
+                                    <li>Day → Bright, warm/neutral sun</li>
+                                    <li>Golden hour → Low angle, warm orange sun</li>
+                                    <li>Night → Cool moonlight, practical light sources</li>
+                                </ul>
+                            </li>
+                            <li><strong>What's the mood?</strong>
+                                <ul>
+                                    <li>Bright & positive → High key, soft fill, warm colors</li>
+                                    <li>Dramatic & moody → High contrast, minimal fill, directional</li>
+                                    <li>Mysterious & dark → Low key, cool colors, selective lighting</li>
+                                </ul>
+                            </li>
+                            <li><strong>What needs emphasis?</strong>
+                                <ul>
+                                    <li>Hero object → Strongest light on it (key light)</li>
+                                    <li>Background → Separate light or let fall into shadow</li>
+                                    <li>Texture/detail → Side lighting to reveal form</li>
+                                </ul>
+                            </li>
+                            <li><strong>What's realistic for this scene?</strong>
+                                <ul>
+                                    <li>Where would light actually come from?</li>
+                                    <li>Windows, lamps, sky, sun—visible sources</li>
+                                    <li>Motivated lighting = believable lighting</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="card" style="background-color: #e3f2fd; border-left: 4px solid #2196F3;">
+                        <h4>💡 The Three Fundamental Lighting Truths</h4>
+                        
+                        <p><strong>1. Bigger light sources = softer shadows</strong></p>
+                        <ul>
+                            <li>This is physics, not preference</li>
+                            <li>Large Area lights (3m+) create beautiful, realistic shadows</li>
+                            <li>Point lights create harsh shadows because they're infinitely small</li>
+                            <li>Closer light = relatively bigger = softer (even if actual size unchanged)</li>
+                        </ul>
+
+                        <p><strong>2. Every light should have a purpose</strong></p>
+                        <ul>
+                            <li>Key light: Main illumination and modeling</li>
+                            <li>Fill light: Soften shadows without competing</li>
+                            <li>Rim light: Separation and edge definition</li>
+                            <li>Accent light: Draw attention to specific elements</li>
+                            <li>Background light: Separate subject from backdrop</li>
+                            <li>If you can't name a light's purpose, delete it</li>
+                        </ul>
+
+                        <p><strong>3. Less is almost always more</strong></p>
+                        <ul>
+                            <li>3-5 well-placed lights beat 10 random ones</li>
+                            <li>More lights = more complexity = harder to control</li>
+                            <li>Start with one light, add only when truly needed</li>
+                            <li>Simplicity creates clarity and impact</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>Common Lighting Mistakes to Avoid</h3>
+                        
+                        <p><strong>❌ Using only Point lights:</strong></p>
+                        <ul>
+                            <li>Hard shadows rarely look realistic</li>
+                            <li>Area lights are almost always better for main lighting</li>
+                            <li>Reserve Point lights for specific small sources</li>
+                        </ul>
+
+                        <p><strong>❌ Too many lights without purpose:</strong></p>
+                        <ul>
+                            <li>Creates competing shadows and confusion</li>
+                            <li>Harder to control and balance</li>
+                            <li>Longer render times with no benefit</li>
+                        </ul>
+
+                        <p><strong>❌ Ignoring shadow quality:</strong></p>
+                        <ul>
+                            <li>Shadows reveal depth and form—they matter!</li>
+                            <li>Pay attention to shadow softness, direction, intensity</li>
+                            <li>Unrealistic shadows destroy believability</li>
+                        </ul>
+
+                        <p><strong>❌ Flat, front-only lighting:</strong></p>
+                        <ul>
+                            <li>Light from camera position = flat, boring</li>
+                            <li>Use 30-45° angles for dimension</li>
+                            <li>Side and back lights create depth</li>
+                        </ul>
+
+                        <p><strong>❌ Wrong color temperature:</strong></p>
+                        <ul>
+                            <li>Cool light for sunset (should be warm)</li>
+                            <li>Warm light for night (should be cool)</li>
+                            <li>Match color to time of day and light source type</li>
+                        </ul>
+
+                        <p><strong>❌ Forgetting the background:</strong></p>
+                        <ul>
+                            <li>Subject floating in black void looks amateurish</li>
+                            <li>Add background light or environment</li>
+                            <li>Separation between subject and background is key</li>
+                        </ul>
+
+                        <p><strong>❌ Not testing render early:</strong></p>
+                        <ul>
+                            <li>Viewport preview can be misleading</li>
+                            <li>Test render (F12) frequently as you light</li>
+                            <li>What looks good in viewport may not render well</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>Next Steps in Your Lighting Journey</h3>
+                        <p><strong>Immediate practice:</strong></p>
+                        <ul>
+                            <li>Light at least 5 different scenes using what you've learned</li>
+                            <li>Try each lighting scenario from the lesson (product, portrait, etc.)</li>
+                            <li>Experiment with extreme settings to understand boundaries</li>
+                            <li>Compare your renders to reference photographs</li>
+                        </ul>
+
+                        <p><strong>Study real-world lighting:</strong></p>
+                        <ul>
+                            <li>Look at professional photography—where are the lights?</li>
+                            <li>Watch films with attention to lighting (cinematography)</li>
+                            <li>Visit museums—study how paintings use light and shadow</li>
+                            <li>Observe the real world: time of day, weather, indoor/outdoor</li>
+                        </ul>
+
+                        <p><strong>Build a lighting reference library:</strong></p>
+                        <ul>
+                            <li>Save images of lighting setups you like</li>
+                            <li>Screenshot your successful Blender lighting setups</li>
+                            <li>Note power, position, and settings for future reference</li>
+                            <li>Create lighting templates you can reuse</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>What's Next?</h3>
+                        <p>You've mastered the fundamentals of light types! Now you're ready to learn professional lighting techniques and advanced workflows.</p>
+                        
+                        <p><strong>Coming up in the rest of Module 4:</strong></p>
+                        <ul>
+                            <li><strong>Lesson 16: Three-Point Lighting Setup</strong>
+                                <ul>
+                                    <li>Master the classic cinematography technique</li>
+                                    <li>Key, fill, and rim light relationships</li>
+                                    <li>Lighting ratios and contrast control</li>
+                                    <li>Variations for different moods and styles</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lesson 17: HDRI and World Lighting</strong>
+                                <ul>
+                                    <li>Image-based lighting with HDRIs</li>
+                                    <li>Realistic environment lighting</li>
+                                    <li>Combining HDRI with manual lights</li>
+                                    <li>Creating and using custom environments</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lesson 18: Eevee Real-time Rendering</strong>
+                                <ul>
+                                    <li>Fast, interactive render engine</li>
+                                    <li>Eevee-specific lighting settings</li>
+                                    <li>Optimization for real-time performance</li>
+                                    <li>When to use Eevee vs. Cycles</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lesson 19: Cycles Path Tracing</strong>
+                                <ul>
+                                    <li>Photorealistic rendering</li>
+                                    <li>Global illumination and light bounces</li>
+                                    <li>Cycles-specific features and optimization</li>
+                                    <li>Achieving maximum realism</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p>With solid understanding of light types, you're ready to tackle advanced lighting techniques that will make your renders truly professional!</p>
+                    </div>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎉 Excellent Work!</h3>
+                        <p style="color: white;">You've taken a huge step forward in your Blender journey. Lighting separates amateur work from professional results, and you now have the knowledge to create compelling, beautiful illumination.</p>
+                        
+                        <p style="color: white;"><strong>Remember the golden rules:</strong></p>
+                        <ul style="color: white;">
+                            <li>🌟 Start simple—one light at a time</li>
+                            <li>📏 Bigger lights = softer shadows = more realistic</li>
+                            <li>🎯 Every light needs a purpose</li>
+                            <li>🎨 Less is more—quality over quantity</li>
+                            <li>👁️ Study the real world constantly</li>
+                            <li>🔄 Iterate and experiment—lighting is never "done"</li>
+                        </ul>
+
+                        <p style="color: white;">Lighting is both a technical skill and an art form. The technical knowledge you've gained today provides the foundation, but artistry comes with practice. Keep experimenting, keep observing, and keep learning!</p>
+                        
+                        <p style="color: white;"><strong>Now go forth and light your worlds beautifully! 💡</strong></p>
+                    </div>
+
+                </section>
+
+            </article>
+        </main>
+
+        <!-- Lesson Navigation -->
+        <nav class="lesson-nav" aria-label="Lesson Navigation">
+            <a href="lesson_14_advanced_materials.html" class="prev-lesson">← Previous: Lesson 14 - Advanced Materials and Shading</a>
+            <a href="index.html" class="home-link">🏠 Course Home</a>
+            <a href="lesson_16_three_point_lighting_setup.html" class="next-lesson">Next: Lesson 16 - Three-Point Lighting Setup →</a>
+        </nav>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>

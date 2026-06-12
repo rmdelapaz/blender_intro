@@ -1,0 +1,2141 @@
+<!-- ============================================
+     LESSON 25 - PART 01
+     File: lesson_25_timeline_and_keyframes_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master Blender's Timeline and keyframe workflow. Learn to create, edit, and manage keyframes efficiently. Essential tools for all animation work in Blender.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 25: The Timeline and Keyframes - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#module6">Module 6: Introduction to Animation</a> &gt; 
+            <span>Lesson 25: The Timeline and Keyframes</span>
+        </nav>
+
+        <header class="lesson-header">
+            <h1>⏱️ Lesson 25: The Timeline and Keyframes</h1>
+            <p class="lead">The Timeline is your animation control center—where you bring the principles you learned to life. Master keyframes, understand interpolation, and learn professional workflows that make animation efficient and precise. This is where theory becomes practice.</p>
+        </header>
+
+        <main>
+            <article class="lesson-content">
+
+                <section class="learning-objectives">
+                    <div class="card">
+                        <h2>🎯 Learning Objectives</h2>
+                        <p><strong>By the end of this lesson, you will be able to:</strong></p>
+                        <ul>
+                            <li>Navigate and understand the Timeline interface</li>
+                            <li>Create, edit, and delete keyframes efficiently</li>
+                            <li>Use different interpolation modes for motion control</li>
+                            <li>Work with the Dope Sheet for animation management</li>
+                            <li>Use auto-keyframing for faster workflows</li>
+                            <li>Organize animations with markers and frame ranges</li>
+                            <li>Apply professional keyframing best practices</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                        <h3>📋 What You'll Learn</h3>
+                        <ul>
+                            <li><strong>Time Required:</strong> 60-90 minutes</li>
+                            <li><strong>Difficulty:</strong> Beginner-Intermediate</li>
+                            <li><strong>Prerequisites:</strong> Lesson 24 (Animation Fundamentals)</li>
+                            <li><strong>Project:</strong> Multi-object animation demonstrating timeline mastery</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#timeline-interface" class="toc-link">Understanding the Timeline</a></li>
+                            <li><a href="#keyframe-basics" class="toc-link">Keyframe Fundamentals</a></li>
+                            <li><a href="#creating-keyframes" class="toc-link">Creating and Inserting Keyframes</a></li>
+                            <li><a href="#interpolation" class="toc-link">Interpolation Modes</a></li>
+                            <li><a href="#editing-keyframes" class="toc-link">Editing and Managing Keyframes</a></li>
+                            <li><a href="#auto-keyframing" class="toc-link">Auto-Keyframing Workflow</a></li>
+                            <li><a href="#dope-sheet" class="toc-link">The Dope Sheet</a></li>
+                            <li><a href="#project" class="toc-link">Project: Animated Scene</a></li>
+                            <li><a href="#summary" class="toc-link">Summary and Next Steps</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="timeline-interface" class="content-section">
+                    <h2>🎬 Understanding the Timeline</h2>
+
+                    <p>The Timeline is where your animation lives. Think of it as a music sequencer—each keyframe is a note, and together they create the melody of motion. Let's explore this essential interface.</p>
+
+                    <h3>What is the Timeline?</h3>
+
+                    <div class="card">
+                        <h4>📊 Your Animation Dashboard</h4>
+                        <p><strong>The Timeline shows:</strong></p>
+                        <ul>
+                            <li><strong>Time ruler:</strong> Frame numbers across the top (1, 24, 48, 96...)</li>
+                            <li><strong>Current frame indicator:</strong> Blue vertical line (playhead)</li>
+                            <li><strong>Keyframes:</strong> Diamond markers showing where animation is defined</li>
+                            <li><strong>Frame range:</strong> Start and end frames for your animation</li>
+                            <li><strong>Playback controls:</strong> Play, pause, jump to start/end</li>
+                        </ul>
+
+                        <p><strong>Default location:</strong></p>
+                        <ul>
+                            <li>Bottom of screen in Animation workspace</li>
+                            <li>Can be changed to different editor type</li>
+                            <li>Usually narrow horizontal strip</li>
+                            <li>Expandable for more detail</li>
+                        </ul>
+
+                        <p><strong>What the Timeline does:</strong></p>
+                        <ul>
+                            <li>Shows when keyframes exist</li>
+                            <li>Lets you scrub through animation</li>
+                            <li>Controls playback speed and range</li>
+                            <li>Provides quick access to frame navigation</li>
+                        </ul>
+                    </div>
+
+                    <h3>Timeline Anatomy</h3>
+
+                    <div class="card">
+                        <h4>🔍 Interface Breakdown</h4>
+                        <p><strong>Top bar (frame ruler):</strong></p>
+                        <ul>
+                            <li><strong>Frame numbers:</strong> Every major frame labeled (1, 12, 24, 36...)</li>
+                            <li><strong>Tick marks:</strong> Small marks for every frame or every few frames</li>
+                            <li><strong>Current frame display:</strong> Number box on left showing current frame</li>
+                            <li><strong>Start/End frame boxes:</strong> Define animation range</li>
+                        </ul>
+
+                        <p><strong>Main area (keyframe display):</strong></p>
+                        <ul>
+                            <li><strong>Yellow diamonds:</strong> Keyframes on selected object</li>
+                            <li><strong>Orange diamonds:</strong> Keyframes on non-selected objects in view</li>
+                            <li><strong>Blue vertical line:</strong> Current frame (playhead)</li>
+                            <li><strong>Green markers:</strong> Frame markers (notes/bookmarks)</li>
+                        </ul>
+
+                        <p><strong>Bottom bar (playback controls):</strong></p>
+                        <ul>
+                            <li><strong>Jump to start:</strong> <code>Shift+Left Arrow</code> or button</li>
+                            <li><strong>Step backward:</strong> <code>Left Arrow</code> or button</li>
+                            <li><strong>Play/Pause:</strong> <code>Spacebar</code> or button</li>
+                            <li><strong>Step forward:</strong> <code>Right Arrow</code> or button</li>
+                            <li><strong>Jump to end:</strong> <code>Shift+Right Arrow</code> or button</li>
+                        </ul>
+                    </div>
+
+                    <h3>Frame Rate and Time</h3>
+
+                    <div class="card">
+                        <h4>⏰ Understanding Animation Time</h4>
+                        <p><strong>Frame rate basics:</strong></p>
+                        <ul>
+                            <li><strong>FPS (Frames Per Second):</strong> How many frames shown per second</li>
+                            <li><strong>24 fps:</strong> Film standard (most common for animation)</li>
+                            <li><strong>30 fps:</strong> US TV standard</li>
+                            <li><strong>60 fps:</strong> Smooth gameplay, slow-motion base</li>
+                            <li>Higher fps = smoother motion, more frames to animate</li>
+                        </ul>
+
+                        <p><strong>Setting frame rate:</strong></p>
+                        <ul>
+                            <li>Output Properties panel → Frame Rate dropdown</li>
+                            <li>Default: 24 fps (good for most projects)</li>
+                            <li>This affects playback speed but not frame numbers</li>
+                        </ul>
+
+                        <p><strong>Frame to time conversion (at 24 fps):</strong></p>
+                        <ul>
+                            <li>24 frames = 1 second</li>
+                            <li>12 frames = 0.5 seconds (half second)</li>
+                            <li>6 frames = 0.25 seconds (quarter second)</li>
+                            <li>96 frames = 4 seconds</li>
+                            <li>240 frames = 10 seconds</li>
+                        </ul>
+
+                        <p><strong>Why frames, not seconds?</strong></p>
+                        <ul>
+                            <li>Frames give precise control (can't have "half a frame")</li>
+                            <li>Industry standard—animators think in frames</li>
+                            <li>Easy to communicate ("keyframe at frame 24" is clear)</li>
+                            <li>Frame rate can change without affecting animation</li>
+                        </ul>
+                    </div>
+
+                    <h3>Navigation and Playback</h3>
+
+                    <div class="card">
+                        <h4>🎮 Moving Through Time</h4>
+                        <p><strong>Essential keyboard shortcuts:</strong></p>
+                        <ul>
+                            <li><code>Spacebar</code>: Play/Pause animation</li>
+                            <li><code>Left Arrow</code>: Previous frame</li>
+                            <li><code>Right Arrow</code>: Next frame</li>
+                            <li><code>Shift+Left Arrow</code>: Jump to start</li>
+                            <li><code>Shift+Right Arrow</code>: Jump to end</li>
+                            <li><code>Up Arrow</code>: Jump forward 10 frames</li>
+                            <li><code>Down Arrow</code>: Jump backward 10 frames</li>
+                        </ul>
+
+                        <p><strong>Mouse navigation:</strong></p>
+                        <ul>
+                            <li><strong>Click in timeline:</strong> Jump to that frame</li>
+                            <li><strong>Drag playhead:</strong> Scrub through animation (smooth preview)</li>
+                            <li><strong>Scroll wheel:</strong> Zoom in/out on timeline</li>
+                            <li><strong>Middle-click drag:</strong> Pan left/right</li>
+                        </ul>
+
+                        <p><strong>Playback options:</strong></p>
+                        <ul>
+                            <li><strong>Play animation:</strong> Spacebar (loops by default)</li>
+                            <li><strong>Play in reverse:</strong> Playback menu → Play Backwards</li>
+                            <li><strong>Sync to audio:</strong> Playback → Audio Scrubbing</li>
+                            <li><strong>Limit frame range:</strong> Use Start/End frame values</li>
+                        </ul>
+
+                        <p><strong>Pro tip: Scrubbing vs Playing</strong></p>
+                        <ul>
+                            <li><strong>Scrubbing (dragging playhead):</strong> See every frame, precise control</li>
+                            <li><strong>Playing (Spacebar):</strong> Real-time speed, see timing/rhythm</li>
+                            <li>Use both! Scrub for details, play for overall feel</li>
+                        </ul>
+                    </div>
+
+                    <h3>Frame Range Settings</h3>
+
+                    <div class="card">
+                        <h4>📏 Defining Your Animation Length</h4>
+                        <p><strong>Start and End frames:</strong></p>
+                        <ul>
+                            <li>Start frame: Usually 1 (can be 0 or any number)</li>
+                            <li>End frame: Default 250, set to your animation length</li>
+                            <li>Example: 96-frame animation → End frame = 96</li>
+                            <li>Timeline only shows this range during playback</li>
+                        </ul>
+
+                        <p><strong>Setting frame range:</strong></p>
+                        <ul>
+                            <li><strong>In Timeline:</strong> Edit Start/End frame number boxes</li>
+                            <li><strong>In Output Properties:</strong> Frame Range section</li>
+                            <li><strong>Quick set:</strong> Select frames, Playback → Set Frame Range</li>
+                        </ul>
+
+                        <p><strong>Preview range (subset of animation):</strong></p>
+                        <ul>
+                            <li>Want to loop just frames 24-48? Set preview range</li>
+                            <li><code>P</code> in Timeline: Set preview range start</li>
+                            <li><code>Alt+P</code>: Clear preview range</li>
+                            <li>Gray bar shows preview range in timeline</li>
+                            <li>Useful for perfecting small sections</li>
+                        </ul>
+
+                        <p><strong>Common frame ranges:</strong></p>
+                        <ul>
+                            <li><strong>24 frames:</strong> 1-second test animations</li>
+                            <li><strong>96 frames:</strong> 4-second short animations (Lesson 24 bouncing ball)</li>
+                            <li><strong>240 frames:</strong> 10-second clips</li>
+                            <li><strong>600+ frames:</strong> Longer animations (25+ seconds)</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Timeline: Your Animation GPS:</strong> Just as a GPS shows you where you are on a map, the Timeline shows where you are in time. That blue playhead is your position—frame 24 of 96. Those yellow diamonds are your destinations—keyframes you'll animate between. The Timeline doesn't create animation (you do that in the 3D viewport), but it's your constant reference. Professional animators keep one eye on the Timeline at all times, always aware of where they are in time and where their keyframes live. Master Timeline navigation and you've mastered half of animation workflow.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="keyframe-basics" class="content-section">
+                    <h2>🔑 Keyframe Fundamentals</h2>
+
+                    <p>Keyframes are the foundation of animation. They're the "key" poses or states that define your animation. Blender calculates everything between keyframes automatically. Understanding keyframes deeply is essential for efficient animation.</p>
+
+                    <h3>What is a Keyframe?</h3>
+
+                    <div class="card">
+                        <h4>📍 Defining Moments in Time</h4>
+                        <p><strong>Keyframe definition:</strong></p>
+                        <ul>
+                            <li>A saved state of a property at a specific frame</li>
+                            <li>"At frame 1, sphere is at X=0, Y=0, Z=0"</li>
+                            <li>"At frame 24, sphere is at X=5, Y=0, Z=0"</li>
+                            <li>Blender calculates positions for frames 2-23 automatically</li>
+                        </ul>
+
+                        <p><strong>What can be keyframed:</strong></p>
+                        <ul>
+                            <li><strong>Location:</strong> Object position (X, Y, Z)</li>
+                            <li><strong>Rotation:</strong> Object orientation (X, Y, Z angles)</li>
+                            <li><strong>Scale:</strong> Object size (X, Y, Z dimensions)</li>
+                            <li><strong>Material properties:</strong> Color, roughness, emission</li>
+                            <li><strong>Modifiers:</strong> Strength, parameters</li>
+                            <li><strong>Almost anything:</strong> If it has a number, it can be keyframed</li>
+                        </ul>
+
+                        <p><strong>The pose-to-pose workflow (from Lesson 24):</strong></p>
+                        <ol>
+                            <li>Create start pose at frame 1 (keyframe)</li>
+                            <li>Create end pose at frame 24 (keyframe)</li>
+                            <li>Blender interpolates frames 2-23</li>
+                            <li>Add breakdown poses as needed (more keyframes)</li>
+                            <li>Refine timing and spacing</li>
+                        </ol>
+
+                        <p><strong>Keyframes vs transforms:</strong></p>
+                        <ul>
+                            <li><strong>Transform:</strong> Moving object in viewport (temporary)</li>
+                            <li><strong>Keyframe:</strong> Saving that transform at a specific frame (permanent)</li>
+                            <li>Without keyframes, your changes don't persist across frames</li>
+                            <li>Keyframes "lock in" your animation at specific moments</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Interpolation Concept</h3>
+
+                    <div class="card">
+                        <h4>🔄 The Magic Between Keyframes</h4>
+                        <p><strong>Interpolation explained:</strong></p>
+                        <ul>
+                            <li><strong>Interpolation:</strong> Calculating values between keyframes</li>
+                            <li>Frame 1: Object at X=0 (keyframe)</li>
+                            <li>Frame 24: Object at X=10 (keyframe)</li>
+                            <li>Frame 12: Object at X=5 (interpolated—calculated by Blender)</li>
+                            <li>You set endpoints, Blender fills the middle</li>
+                        </ul>
+
+                        <p><strong>Why interpolation matters:</strong></p>
+                        <ul>
+                            <li>You don't animate every frame manually (would take forever)</li>
+                            <li>Keyframe major poses, let computer handle in-betweens</li>
+                            <li>Just like Disney's lead animators and in-betweeners</li>
+                            <li>You're the lead animator, Blender is the in-betweener</li>
+                        </ul>
+
+                        <p><strong>Different interpolation types (preview):</strong></p>
+                        <ul>
+                            <li><strong>Bezier (default):</strong> Smooth curves (ease in/out)</li>
+                            <li><strong>Linear:</strong> Straight line (constant speed)</li>
+                            <li><strong>Constant:</strong> No interpolation (holds value)</li>
+                            <li>We'll explore these in detail shortly</li>
+                        </ul>
+                    </div>
+
+                    <h3>Keyframe Visualization</h3>
+
+                    <div class="card">
+                        <h4>👁️ Seeing Your Keyframes</h4>
+                        <p><strong>In the Timeline:</strong></p>
+                        <ul>
+                            <li><strong>Yellow diamonds:</strong> Keyframes on selected object</li>
+                            <li><strong>Orange diamonds:</strong> Keyframes on other objects</li>
+                            <li><strong>Tall diamond:</strong> Keyframe at current frame</li>
+                            <li><strong>No diamond:</strong> No keyframe, interpolated value</li>
+                        </ul>
+
+                        <p><strong>In the 3D Viewport:</strong></p>
+                        <ul>
+                            <li>Selected object properties turn orange when keyframed</li>
+                            <li>Example: Location property in properties panel shows orange background</li>
+                            <li>This indicates "this property has keyframes"</li>
+                            <li>Non-keyframed properties stay gray</li>
+                        </ul>
+
+                        <p><strong>Color coding meanings:</strong></p>
+                        <ul>
+                            <li><strong>Yellow:</strong> Active object's keyframes</li>
+                            <li><strong>Orange:</strong> Property is keyframed (background)</li>
+                            <li><strong>White/Gray:</strong> Property not keyframed</li>
+                            <li><strong>Green:</strong> Keyframe at current frame (Graph Editor)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Channel Concept</h3>
+
+                    <div class="card">
+                        <h4>📺 Understanding Animation Channels</h4>
+                        <p><strong>What is a channel?</strong></p>
+                        <ul>
+                            <li>A channel is one animatable property</li>
+                            <li>Example: Location X is a channel, Location Y is another</li>
+                            <li>Each channel has its own keyframes</li>
+                            <li>Object can have dozens of channels</li>
+                        </ul>
+
+                        <p><strong>Common channels:</strong></p>
+                        <ul>
+                            <li><strong>Location X:</strong> Left/right position</li>
+                            <li><strong>Location Y:</strong> Forward/backward position</li>
+                            <li><strong>Location Z:</strong> Up/down position</li>
+                            <li><strong>Rotation X/Y/Z:</strong> Three rotation axes</li>
+                            <li><strong>Scale X/Y/Z:</strong> Three scale dimensions</li>
+                        </ul>
+
+                        <p><strong>Keyframing individual channels:</strong></p>
+                        <ul>
+                            <li>Can keyframe all channels together (Location X, Y, Z at once)</li>
+                            <li>Or keyframe individually (just Location X this frame)</li>
+                            <li>Flexibility for complex animations</li>
+                            <li>Example: Animate X position but not Y or Z</li>
+                        </ul>
+
+                        <p><strong>Why this matters:</strong></p>
+                        <ul>
+                            <li>Not everything needs to animate together</li>
+                            <li>Door rotates (Rotation Z), but doesn't move (Location)</li>
+                            <li>Cube moves left/right (X), but not up/down (Z)</li>
+                            <li>Selective keyframing keeps animation organized</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_25_timeline_and_keyframes_part_02.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 25 - PART 02
+     File: lesson_25_timeline_and_keyframes_part_02.html
+     ============================================ -->
+
+                <section id="creating-keyframes" class="content-section">
+                    <h2>➕ Creating and Inserting Keyframes</h2>
+
+                    <p>Now that you understand what keyframes are, let's learn the many ways to create them. Blender offers multiple methods, each suited to different workflows. Master these and you'll be keyframing like a pro.</p>
+
+                    <h3>The Primary Method: Insert Keyframe Menu</h3>
+
+                    <div class="card">
+                        <h4>🔑 The Standard Workflow</h4>
+                        <p><strong>Basic keyframing process:</strong></p>
+                        <ol>
+                            <li>Select object in 3D Viewport</li>
+                            <li>Move to desired frame (click in Timeline or arrow keys)</li>
+                            <li>Transform object (move, rotate, scale)</li>
+                            <li>Press <code>I</code> to open Insert Keyframe menu</li>
+                            <li>Choose what to keyframe (Location, Rotation, Scale, etc.)</li>
+                            <li>Keyframe appears in Timeline as yellow diamond</li>
+                        </ol>
+
+                        <p><strong>Insert Keyframe menu options (<code>I</code> key):</strong></p>
+                        <ul>
+                            <li><strong>Location:</strong> Keyframe X, Y, Z position</li>
+                            <li><strong>Rotation:</strong> Keyframe X, Y, Z rotation</li>
+                            <li><strong>Scale:</strong> Keyframe X, Y, Z scale</li>
+                            <li><strong>LocRot:</strong> Location and Rotation together</li>
+                            <li><strong>LocScale:</strong> Location and Scale together</li>
+                            <li><strong>LocRotScale:</strong> All three transforms at once (most common)</li>
+                            <li><strong>Available:</strong> Only keyframe properties that have changed</li>
+                        </ul>
+
+                        <p><strong>Example: Animating a cube moving right</strong></p>
+                        <ul>
+                            <li>Frame 1: Cube at X=0, press <code>I</code> → Location</li>
+                            <li>Frame 24: Move cube to X=5, press <code>I</code> → Location</li>
+                            <li>Play animation: Cube moves from X=0 to X=5 smoothly</li>
+                            <li>Two keyframes, 22 interpolated frames between</li>
+                        </ul>
+                    </div>
+
+                    <h3>Right-Click Method (Quick)</h3>
+
+                    <div class="card">
+                        <h4>⚡ Fast Property Keyframing</h4>
+                        <p><strong>How it works:</strong></p>
+                        <ul>
+                            <li>Hover mouse over any number property</li>
+                            <li>Right-click to open context menu</li>
+                            <li>Select "Insert Keyframe" or "Insert Single Keyframe"</li>
+                            <li>That specific property gets keyframed</li>
+                        </ul>
+
+                        <p><strong>When to use this:</strong></p>
+                        <ul>
+                            <li>Keyframing individual channels (just Location X, not Y or Z)</li>
+                            <li>Keyframing material properties (color, roughness)</li>
+                            <li>Keyframing modifier values</li>
+                            <li>Any property with a number you want to animate</li>
+                        </ul>
+
+                        <p><strong>Example: Animating material emission</strong></p>
+                        <ul>
+                            <li>Shader Editor: Emission Strength value</li>
+                            <li>Frame 1: Set Strength to 0, right-click → Insert Keyframe</li>
+                            <li>Frame 24: Set Strength to 5, right-click → Insert Keyframe</li>
+                            <li>Object glows from 0 to 5 over time</li>
+                        </ul>
+
+                        <p><strong>Visual feedback:</strong></p>
+                        <ul>
+                            <li>Property background turns orange when keyframed</li>
+                            <li>Yellow diamond appears at current frame in Timeline</li>
+                        </ul>
+                    </div>
+
+                    <h3>Button Method (Properties Panel)</h3>
+
+                    <div class="card">
+                        <h4>🖱️ Click-to-Keyframe</h4>
+                        <p><strong>The keyframe button:</strong></p>
+                        <ul>
+                            <li>Small diamond icon next to most properties</li>
+                            <li>Click to insert keyframe for that property</li>
+                            <li>Diamond turns yellow/orange when keyframed</li>
+                            <li>Same as right-click method but more visible</li>
+                        </ul>
+
+                        <p><strong>Where to find it:</strong></p>
+                        <ul>
+                            <li>Properties panel: Next to Location, Rotation, Scale values</li>
+                            <li>Material properties: Next to colors, values</li>
+                            <li>Modifier properties: Next to strength, parameters</li>
+                            <li>Almost anywhere with a number field</li>
+                        </ul>
+
+                        <p><strong>Advantage:</strong></p>
+                        <ul>
+                            <li>Visual—can see what's keyframed at a glance</li>
+                            <li>Precise—keyframe exactly what you want</li>
+                            <li>Good for beginners learning what can be animated</li>
+                        </ul>
+                    </div>
+
+                    <h3>Keyframing Best Practices</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Professional Workflows</h4>
+                        <p><strong>Start with major poses (blocking):</strong></p>
+                        <ul>
+                            <li>Keyframe start pose at frame 1</li>
+                            <li>Keyframe end pose at final frame</li>
+                            <li>Add key middle poses (extremes)</li>
+                            <li>Then add breakdowns between extremes</li>
+                            <li>Don't keyframe every frame—let interpolation work</li>
+                        </ul>
+
+                        <p><strong>Choose appropriate keyframe type:</strong></p>
+                        <ul>
+                            <li><strong>Location only:</strong> If object only moves (no rotation/scale)</li>
+                            <li><strong>Rotation only:</strong> If object only rotates (door, wheel)</li>
+                            <li><strong>LocRotScale:</strong> When everything changes (safest choice)</li>
+                            <li>Don't keyframe things that don't change (wastes memory)</li>
+                        </ul>
+
+                        <p><strong>Be frame-aware:</strong></p>
+                        <ul>
+                            <li>Always check current frame before keyframing</li>
+                            <li>Easy mistake: keyframe on wrong frame</li>
+                            <li>Timeline shows current frame prominently—use it</li>
+                            <li>Double-check after keyframing (diamond at right frame?)</li>
+                        </ul>
+
+                        <p><strong>Name your actions (optional but helpful):</strong></p>
+                        <ul>
+                            <li>Dope Sheet → Action Editor → Name field</li>
+                            <li>Default: "CubeAction"</li>
+                            <li>Better: "Cube_Bounce", "Door_Open", "Ball_Roll"</li>
+                            <li>Helps when managing multiple animations</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common Keyframing Mistakes</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Avoid These Pitfalls</h4>
+                        <p><strong>Mistake 1: Keyframing before transforming</strong></p>
+                        <ul>
+                            <li>Wrong order: Press <code>I</code>, then move object</li>
+                            <li>Keyframe saves old position, not new one</li>
+                            <li>Right order: Move object, then press <code>I</code></li>
+                            <li>Always transform first, keyframe second</li>
+                        </ul>
+
+                        <p><strong>Mistake 2: Wrong frame selected</strong></p>
+                        <ul>
+                            <li>You're at frame 10 but meant to keyframe at frame 12</li>
+                            <li>Keyframe goes to current frame, not where you intended</li>
+                            <li>Solution: Always verify current frame first</li>
+                            <li>Look at blue playhead position in Timeline</li>
+                        </ul>
+
+                        <p><strong>Mistake 3: Keyframing wrong object</strong></p>
+                        <ul>
+                            <li>Camera selected instead of cube</li>
+                            <li>Keyframe goes to wrong object</li>
+                            <li>Solution: Check outliner—selected object highlighted</li>
+                            <li>Only selected objects get keyframes</li>
+                        </ul>
+
+                        <p><strong>Mistake 4: Over-keyframing</strong></p>
+                        <ul>
+                            <li>Keyframing every single frame manually</li>
+                            <li>Defeats purpose of interpolation</li>
+                            <li>Makes editing nearly impossible</li>
+                            <li>Solution: Trust interpolation, use fewer keyframes</li>
+                        </ul>
+
+                        <p><strong>Mistake 5: Not checking keyframe type</strong></p>
+                        <ul>
+                            <li>Accidentally keyframe Location when you meant Rotation</li>
+                            <li>Creates unwanted keyframes on other channels</li>
+                            <li>Solution: Pay attention to <code>I</code> menu choice</li>
+                            <li>Use right-click method for specific properties</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Art of Keyframe Placement:</strong> Beginners keyframe frantically—dozens of keyframes for simple motions. Professionals are strategic—they place keyframes only where needed. Think of keyframes as waypoints on a journey. You don't need a waypoint every step; you need them at major turns and destinations. A character walking across screen? Maybe 4 keyframes total—start, two steps, end. Blender handles everything between. Learn to trust interpolation. Your goal isn't maximizing keyframes; it's minimizing them while maintaining control. That's the professional mindset.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="interpolation" class="content-section">
+                    <h2>📈 Interpolation Modes</h2>
+
+                    <p>Interpolation is how Blender calculates values between your keyframes. Different interpolation modes create dramatically different motion. Understanding these modes is crucial for controlling timing and feeling.</p>
+
+                    <h3>Bezier Interpolation (Default)</h3>
+
+                    <div class="card">
+                        <h4>🌊 Smooth, Natural Curves</h4>
+                        <p><strong>What Bezier does:</strong></p>
+                        <ul>
+                            <li>Creates smooth acceleration and deceleration</li>
+                            <li>Automatically adds ease-in and ease-out</li>
+                            <li>Most natural-looking motion</li>
+                            <li>Mimics real-world physics (nothing moves at constant speed)</li>
+                        </ul>
+
+                        <p><strong>This is the "Slow In and Slow Out" principle from Lesson 24:</strong></p>
+                        <ul>
+                            <li>Movement starts slowly (accelerates)</li>
+                            <li>Reaches full speed in middle</li>
+                            <li>Slows down at end (decelerates)</li>
+                            <li>Creates organic, appealing motion</li>
+                        </ul>
+
+                        <p><strong>When to use Bezier:</strong></p>
+                        <ul>
+                            <li><strong>Almost always:</strong> It's default for good reason</li>
+                            <li>Character animation: Organic, lifelike motion</li>
+                            <li>Camera moves: Smooth, professional</li>
+                            <li>Object animation: Natural acceleration</li>
+                            <li>Only exception: When you specifically need different behavior</li>
+                        </ul>
+
+                        <p><strong>Visual in Graph Editor:</strong></p>
+                        <ul>
+                            <li>Smooth S-curve between keyframes</li>
+                            <li>Handles on keyframes (control curve shape)</li>
+                            <li>Gentle slopes at start/end (slow)</li>
+                            <li>Steep slope in middle (fast)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Linear Interpolation</h3>
+
+                    <div class="card">
+                        <h4>📏 Constant Speed</h4>
+                        <p><strong>What Linear does:</strong></p>
+                        <ul>
+                            <li>Straight line between keyframes</li>
+                            <li>Constant speed—no acceleration or deceleration</li>
+                            <li>Object jumps to full speed instantly, stops instantly</li>
+                            <li>Robotic, mechanical feeling</li>
+                        </ul>
+
+                        <p><strong>When to use Linear:</strong></p>
+                        <ul>
+                            <li><strong>Mechanical objects:</strong> Robots, machines, conveyor belts</li>
+                            <li><strong>Intentional effect:</strong> Stylized, unnatural motion</li>
+                            <li><strong>Rarely for characters:</strong> Unless going for robotic performance</li>
+                            <li><strong>UI animation:</strong> Sometimes desired for digital interfaces</li>
+                        </ul>
+
+                        <p><strong>Why Linear usually feels wrong:</strong></p>
+                        <ul>
+                            <li>Nothing in real life moves at constant speed</li>
+                            <li>Even machines have slight acceleration</li>
+                            <li>Lacks the organic quality of real motion</li>
+                            <li>Viewers sense something "off" even if they can't articulate it</li>
+                        </ul>
+
+                        <p><strong>Visual in Graph Editor:</strong></p>
+                        <ul>
+                            <li>Perfectly straight line between keyframes</li>
+                            <li>No handles, no curves</li>
+                            <li>45-degree angle (or close to it)</li>
+                        </ul>
+
+                        <p><strong>How to set:</strong></p>
+                        <ul>
+                            <li>Select keyframes in Timeline or Graph Editor</li>
+                            <li>Press <code>T</code> → Interpolation Mode → Linear</li>
+                        </ul>
+                    </div>
+
+                    <h3>Constant Interpolation (Hold)</h3>
+
+                    <div class="card">
+                        <h4>⏸️ No Movement</h4>
+                        <p><strong>What Constant does:</strong></p>
+                        <ul>
+                            <li>Value doesn't change until next keyframe</li>
+                            <li>Object "holds" position/state</li>
+                            <li>No interpolation—value stays constant</li>
+                            <li>Sudden jump to next keyframe value</li>
+                        </ul>
+
+                        <p><strong>When to use Constant:</strong></p>
+                        <ul>
+                            <li><strong>Binary states:</strong> Light on/off, visibility on/off</li>
+                            <li><strong>Stop-motion effect:</strong> Intentional stutter</li>
+                            <li><strong>Teleportation:</strong> Object disappears and reappears</li>
+                            <li><strong>Stepped preview:</strong> Quickly blocking poses without smooth motion</li>
+                        </ul>
+
+                        <p><strong>Example: Traffic light animation</strong></p>
+                        <ul>
+                            <li>Frame 1-24: Red light emission = 5 (Constant interpolation)</li>
+                            <li>Frame 25: Red emission = 0, Green emission = 5 (sudden switch)</li>
+                            <li>Light doesn't fade—it switches instantly</li>
+                            <li>Perfect for this scenario</li>
+                        </ul>
+
+                        <p><strong>Visual in Graph Editor:</strong></p>
+                        <ul>
+                            <li>Flat horizontal line</li>
+                            <li>Vertical jump to next keyframe value</li>
+                            <li>Stair-step appearance</li>
+                        </ul>
+
+                        <p><strong>How to set:</strong></p>
+                        <ul>
+                            <li>Select keyframes</li>
+                            <li>Press <code>T</code> → Interpolation Mode → Constant</li>
+                        </ul>
+                    </div>
+
+                    <h3>Changing Interpolation Modes</h3>
+
+                    <div class="card">
+                        <h4>🔧 Switching Between Modes</h4>
+                        <p><strong>Method 1: Timeline (quick)</strong></p>
+                        <ol>
+                            <li>Select keyframe(s) in Timeline (click diamond)</li>
+                            <li>Press <code>T</code> to open Interpolation menu</li>
+                            <li>Choose: Constant, Linear, Bezier</li>
+                            <li>Keyframe shape changes to reflect mode</li>
+                        </ol>
+
+                        <p><strong>Method 2: Graph Editor (visual)</strong></p>
+                        <ol>
+                            <li>Open Graph Editor</li>
+                            <li>Select keyframe(s) on curve</li>
+                            <li>Press <code>T</code> → Choose interpolation</li>
+                            <li>See curve change in real-time</li>
+                        </ol>
+
+                        <p><strong>Method 3: Right-click menu</strong></p>
+                        <ul>
+                            <li>Right-click keyframe</li>
+                            <li>Interpolation Mode → Choose option</li>
+                        </ul>
+
+                        <p><strong>Setting default interpolation:</strong></p>
+                        <ul>
+                            <li>Edit → Preferences → Animation</li>
+                            <li>Default Interpolation: Usually Bezier</li>
+                            <li>All new keyframes use this mode</li>
+                            <li>Can change per-keyframe as needed</li>
+                        </ul>
+                    </div>
+
+                    <h3>Interpolation in Practice</h3>
+
+                    <div class="card">
+                        <h4>🎨 Choosing the Right Mode</h4>
+                        <p><strong>Scenario: Bouncing ball</strong></p>
+                        <ul>
+                            <li><strong>In air (rising/falling):</strong> Bezier (smooth arcs)</li>
+                            <li><strong>At ground impact:</strong> Linear approach (accelerating)</li>
+                            <li><strong>At apex:</strong> Bezier (slow, natural pause)</li>
+                            <li>Mix modes for best result</li>
+                        </ul>
+
+                        <p><strong>Scenario: Door opening</strong></p>
+                        <ul>
+                            <li><strong>Start:</strong> Bezier (slow start, accelerates)</li>
+                            <li><strong>Middle:</strong> Bezier continues (smooth motion)</li>
+                            <li><strong>End:</strong> Bezier (decelerates to stop)</li>
+                            <li>Single mode works perfectly</li>
+                        </ul>
+
+                        <p><strong>Scenario: Robot walking</strong></p>
+                        <ul>
+                            <li><strong>Leg movements:</strong> Linear or minimal Bezier (mechanical)</li>
+                            <li><strong>Foot down:</strong> Constant (instant plant)</li>
+                            <li><strong>Body:</strong> Slight Bezier (not completely rigid)</li>
+                            <li>Mix creates convincing robot motion</li>
+                        </ul>
+
+                        <p><strong>Scenario: Light switch flipping</strong></p>
+                        <ul>
+                            <li><strong>Light state:</strong> Constant (on/off, no fade)</li>
+                            <li><strong>Switch rotation:</strong> Bezier (smooth flip)</li>
+                            <li>Different properties use different modes</li>
+                        </ul>
+                    </div>
+
+                    <h3>Easing Types (Advanced)</h3>
+
+                    <div class="card">
+                        <h4>🎯 Fine-Tuning Bezier</h4>
+                        <p><strong>Graph Editor handle types:</strong></p>
+                        <ul>
+                            <li><strong>Auto:</strong> Blender calculates smooth curve automatically</li>
+                            <li><strong>Vector:</strong> Straight line to/from keyframe</li>
+                            <li><strong>Aligned:</strong> Handles stay aligned (smooth tangent)</li>
+                            <li><strong>Free:</strong> Independent handle control (maximum control)</li>
+                        </ul>
+
+                        <p><strong>Common easing needs:</strong></p>
+                        <ul>
+                            <li><strong>Ease in only:</strong> Slow start, then constant speed</li>
+                            <li><strong>Ease out only:</strong> Constant speed, then slow stop</li>
+                            <li><strong>Ease in/out (default):</strong> Slow start and stop</li>
+                            <li><strong>No ease:</strong> Instant full speed (rarely desired)</li>
+                        </ul>
+
+                        <p><strong>How to adjust:</strong></p>
+                        <ul>
+                            <li>We'll cover this in depth in Lesson 26 (Graph Editor)</li>
+                            <li>For now, trust default Bezier curves</li>
+                            <li>They work well for 90% of situations</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Interpolation: The Invisible Choice:</strong> Most viewers don't consciously notice interpolation—they just feel whether motion is smooth or jarring, natural or robotic. Bezier interpolation is the secret behind professional-looking animation. It's why Disney films feel fluid and alive, while amateur animations feel stiff and mechanical. The difference isn't in the poses (keyframes)—it's in the movement between poses (interpolation). Default Bezier will carry you incredibly far. Resist the urge to change it to Linear unless you have specific reason. Your animation will thank you.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="editing-keyframes" class="content-section">
+                    <h2>✂️ Editing and Managing Keyframes</h2>
+
+                    <p>Creating keyframes is just the start. Professional animators spend most of their time editing—moving, copying, deleting, and refining keyframes. These skills separate quick drafts from polished animations.</p>
+
+                    <h3>Selecting Keyframes</h3>
+
+                    <div class="card">
+                        <h4>🎯 Choosing What to Edit</h4>
+                        <p><strong>In the Timeline:</strong></p>
+                        <ul>
+                            <li><strong>Click diamond:</strong> Select single keyframe</li>
+                            <li><strong>Shift+Click:</strong> Add to selection (multiple keyframes)</li>
+                            <li><strong>Box select (<code>B</code>):</strong> Draw box around keyframes</li>
+                            <li><strong>Select all (<code>A</code>):</strong> All keyframes on selected object</li>
+                            <li><strong>Deselect all (<code>Alt+A</code>):</strong> Clear selection</li>
+                        </ul>
+
+                        <p><strong>Visual feedback:</strong></p>
+                        <ul>
+                            <li>Selected keyframes: Lighter/highlighted diamonds</li>
+                            <li>Unselected keyframes: Normal diamonds</li>
+                            <li>Active keyframe: White outline</li>
+                        </ul>
+
+                        <p><strong>Selection matters because:</strong></p>
+                        <ul>
+                            <li>All editing operations work on selected keyframes only</li>
+                            <li>Move, copy, delete only affects selection</li>
+                            <li>Always verify what's selected before editing</li>
+                        </ul>
+                    </div>
+
+                    <h3>Moving Keyframes (Timing Adjustment)</h3>
+
+                    <div class="card">
+                        <h4>⏰ Changing When Things Happen</h4>
+                        <p><strong>Moving keyframes in Timeline:</strong></p>
+                        <ul>
+                            <li>Select keyframe(s)</li>
+                            <li>Press <code>G</code> (Grab/Move)</li>
+                            <li>Move mouse left/right to slide keyframes</li>
+                            <li>Click to confirm, or <code>Esc</code> to cancel</li>
+                        </ul>
+
+                        <p><strong>Precise movement:</strong></p>
+                        <ul>
+                            <li><code>G</code> then type number: Move exact frames (e.g., <code>G</code> <code>12</code> = move 12 frames right)</li>
+                            <li><code>G</code> then <code>-12</code>: Move 12 frames left</li>
+                            <li><code>Shift</code> while moving: Fine control (slower movement)</li>
+                            <li><code>Ctrl</code> while moving: Snap to frame numbers</li>
+                        </ul>
+
+                        <p><strong>Why move keyframes:</strong></p>
+                        <ul>
+                            <li><strong>Timing adjustment:</strong> Action feels too fast—move end keyframe later</li>
+                            <li><strong>Synchronization:</strong> Match action to audio beat or other animation</li>
+                            <li><strong>Spacing changes:</strong> Create different rhythm</li>
+                            <li>Example: Move bounce peak from frame 12 to frame 18 (slower bounce)</li>
+                        </ul>
+
+                        <p><strong>Moving multiple keyframes:</strong></p>
+                        <ul>
+                            <li>Select multiple keyframes (box select or Shift+Click)</li>
+                            <li>Press <code>G</code> to move all together</li>
+                            <li>Maintains relative spacing between keyframes</li>
+                            <li>Useful for shifting entire animation sequences</li>
+                        </ul>
+                    </div>
+
+                    <h3>Scaling Keyframes (Timing Stretch)</h3>
+
+                    <div class="card">
+                        <h4>📏 Speed Up or Slow Down</h4>
+                        <p><strong>What scaling does:</strong></p>
+                        <ul>
+                            <li>Scales time between keyframes</li>
+                            <li>Scale > 1.0: Animation slows down (keyframes spread apart)</li>
+                            <li>Scale < 1.0: Animation speeds up (keyframes compress together)</li>
+                            <li>Changes timing while keeping all keyframes</li>
+                        </ul>
+
+                        <p><strong>How to scale:</strong></p>
+                        <ul>
+                            <li>Select keyframes (need at least 2)</li>
+                            <li>Press <code>S</code> (Scale)</li>
+                            <li>Move mouse away from center to stretch (slow down)</li>
+                            <li>Move mouse toward center to compress (speed up)</li>
+                            <li>Click to confirm</li>
+                        </ul>
+
+                        <p><strong>Example: Doubling animation time</strong></p>
+                        <ul>
+                            <li>Animation from frame 1 to 24 (24 frames total)</li>
+                            <li>Select all keyframes, press <code>S</code></li>
+                            <li>Type <code>2</code> (scale by 2x)</li>
+                            <li>Animation now from frame 1 to 48 (48 frames—twice as slow)</li>
+                        </ul>
+
+                        <p><strong>Example: Speeding up by half</strong></p>
+                        <ul>
+                            <li>Animation from frame 1 to 48</li>
+                            <li>Select all keyframes, press <code>S</code></li>
+                            <li>Type <code>0.5</code> (scale by 50%)</li>
+                            <li>Animation now from frame 1 to 24 (half duration—twice as fast)</li>
+                        </ul>
+
+                        <p><strong>Pivot point matters:</strong></p>
+                        <ul>
+                            <li>Scaling happens from pivot point</li>
+                            <li>Default: 2D Cursor (current frame)</li>
+                            <li>Change pivot: Header → Pivot Point</li>
+                            <li>Useful: Set cursor to frame 1, scale from there</li>
+                        </ul>
+                    </div>
+
+                    <h3>Copying and Duplicating Keyframes</h3>
+
+                    <div class="card">
+                        <h4>📋 Reusing Animation</h4>
+                        <p><strong>Copy and paste keyframes:</strong></p>
+                        <ul>
+                            <li>Select keyframe(s)</li>
+                            <li><code>Ctrl+C</code>: Copy</li>
+                            <li>Move to target frame</li>
+                            <li><code>Ctrl+V</code>: Paste</li>
+                            <li>Keyframes duplicated at new location</li>
+                        </ul>
+
+                        <p><strong>Duplicate keyframes:</strong></p>
+                        <ul>
+                            <li>Select keyframe(s)</li>
+                            <li><code>Shift+D</code>: Duplicate</li>
+                            <li>Move mouse to position duplicates</li>
+                            <li>Click to place, or <code>Esc</code> to cancel</li>
+                        </ul>
+
+                        <p><strong>When to copy keyframes:</strong></p>
+                        <ul>
+                            <li><strong>Repetitive motion:</strong> Bouncing ball—copy first bounce to create subsequent bounces</li>
+                            <li><strong>Symmetry:</strong> Left hand animation copied to right hand</li>
+                            <li><strong>Cycles:</strong> Walking—copy walk cycle to extend duration</li>
+                            <li><strong>Starting point:</strong> Copy keyframe as template for variation</li>
+                        </ul>
+
+                        <p><strong>Example: Creating walk cycle</strong></p>
+                        <ul>
+                            <li>Frame 1: Left foot forward (keyframe)</li>
+                            <li>Frame 12: Right foot forward (keyframe)</li>
+                            <li>Select frame 1 keyframe, copy, paste at frame 24</li>
+                            <li>Select frame 12 keyframe, copy, paste at frame 36</li>
+                            <li>Continuous walk loop created</li>
+                        </ul>
+                    </div>
+
+                    <h3>Deleting Keyframes</h3>
+
+                    <div class="card">
+                        <h4>🗑️ Removing Unwanted Keys</h4>
+                        <p><strong>Delete selected keyframes:</strong></p>
+                        <ul>
+                            <li>Select keyframe(s) in Timeline</li>
+                            <li>Press <code>X</code> or <code>Delete</code></li>
+                            <li>Confirm deletion</li>
+                            <li>Keyframes removed, interpolation adjusts</li>
+                        </ul>
+
+                        <p><strong>Clear all keyframes on property:</strong></p>
+                        <ul>
+                            <li>Right-click property (e.g., Location X)</li>
+                            <li>Clear Keyframes</li>
+                            <li>All keyframes for that property removed</li>
+                            <li>Useful for starting over on one channel</li>
+                        </ul>
+
+                        <p><strong>When to delete keyframes:</strong></p>
+                        <ul>
+                            <li><strong>Over-keyframing:</strong> Too many keyframes make motion stiff</li>
+                            <li><strong>Mistakes:</strong> Keyframe on wrong frame or object</li>
+                            <li><strong>Simplifying:</strong> Reduce keyframes for cleaner curves</li>
+                            <li><strong>Change of plan:</strong> Decided on different animation approach</li>
+                        </ul>
+
+                        <p><strong>Undo is your friend:</strong></p>
+                        <ul>
+                            <li><code>Ctrl+Z</code>: Undo deletion</li>
+                            <li>Keyframes come back</li>
+                            <li>Don't fear deletion—you can always undo</li>
+                        </ul>
+                    </div>
+
+                    <h3>Keyframe Cleanup</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Maintaining Clean Animations</h4>
+                        <p><strong>Signs your animation needs cleanup:</strong></p>
+                        <ul>
+                            <li>Timeline cluttered with yellow diamonds</li>
+                            <li>Motion feels stiff or jerky</li>
+                            <li>Can't easily adjust timing (too many keyframes)</li>
+                            <li>Accidentally keyframed properties you didn't mean to</li>
+                        </ul>
+
+                        <p><strong>Cleanup strategies:</strong></p>
+                        <ul>
+                            <li><strong>Delete redundant keyframes:</strong> If three keyframes in a row have same value, keep first and last only</li>
+                            <li><strong>Trust interpolation:</strong> Remove intermediate keyframes if Bezier handles it well</li>
+                            <li><strong>Clear unused channels:</strong> Remove keyframes on properties that shouldn't animate</li>
+                            <li><strong>Simplify curves:</strong> Graph Editor → Channel → Clean Keyframes</li>
+                        </ul>
+
+                        <p><strong>Professional habit:</strong></p>
+                        <ul>
+                            <li>Review animation regularly</li>
+                            <li>Ask: "Does this keyframe need to exist?"</li>
+                            <li>Fewer keyframes = easier to edit later</li>
+                            <li>Keep animation as simple as effective</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Editing is Animation:</strong> Beginners think animation happens when creating keyframes. Professionals know animation happens when editing them. You'll move keyframes dozens of times, adjusting timing by 2-3 frames repeatedly until motion feels right. You'll delete keyframes you thought were essential. You'll copy and scale and nudge. This iterative refinement—not the initial keyframing—is where great animation emerges. Learn to edit fearlessly. Make changes. Try different timing. Undo freely. The perfect animation is usually your tenth attempt, not your first.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_25_timeline_and_keyframes_part_03.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 25 - PART 03
+     File: lesson_25_timeline_and_keyframes_part_03.html
+     ============================================ -->
+
+                <section id="auto-keyframing" class="content-section">
+                    <h2>🤖 Auto-Keyframing Workflow</h2>
+
+                    <p>Auto-keyframing is a powerful feature that automatically creates keyframes when you transform objects. It's controversial—some animators love it, others avoid it. Understanding when and how to use it makes you more efficient.</p>
+
+                    <h3>What is Auto-Keyframing?</h3>
+
+                    <div class="card">
+                        <h4>⚡ Automatic Keyframe Creation</h4>
+                        <p><strong>How it works:</strong></p>
+                        <ul>
+                            <li>When enabled, transforming an object automatically creates keyframes</li>
+                            <li>No need to press <code>I</code> after every change</li>
+                            <li>Keyframes created on properties that change</li>
+                            <li>Only works on already-animated properties (must have at least one keyframe)</li>
+                        </ul>
+
+                        <p><strong>Enabling auto-keyframe:</strong></p>
+                        <ul>
+                            <li>Timeline header: Click record button (red circle icon)</li>
+                            <li>Or toggle in Scene Properties → Keying</li>
+                            <li>Button turns red when active</li>
+                            <li>Status: "Auto Keying" appears in Timeline</li>
+                        </ul>
+
+                        <p><strong>How it behaves:</strong></p>
+                        <ul>
+                            <li>Move object → Location keyframe created automatically</li>
+                            <li>Rotate object → Rotation keyframe created automatically</li>
+                            <li>Scale object → Scale keyframe created automatically</li>
+                            <li>Only creates keyframes on current frame</li>
+                        </ul>
+
+                        <p><strong>Important limitation:</strong></p>
+                        <ul>
+                            <li>Property must already be animated (have at least one existing keyframe)</li>
+                            <li>Example: If Location has keyframes, moving creates new Location keyframes</li>
+                            <li>If no keyframes exist, must manually insert first keyframe (<code>I</code>)</li>
+                            <li>This prevents accidental keyframing of everything</li>
+                        </ul>
+                    </div>
+
+                    <h3>Auto-Keyframe Modes</h3>
+
+                    <div class="card">
+                        <h4>🎛️ Different Auto-Key Behaviors</h4>
+                        <p><strong>Mode 1: Add & Replace (default)</strong></p>
+                        <ul>
+                            <li>Creates new keyframes or replaces existing ones</li>
+                            <li>If keyframe exists at current frame: Updates it</li>
+                            <li>If no keyframe at current frame: Creates one</li>
+                            <li>Most common mode</li>
+                        </ul>
+
+                        <p><strong>Mode 2: Replace</strong></p>
+                        <ul>
+                            <li>Only replaces existing keyframes</li>
+                            <li>Never creates new keyframes</li>
+                            <li>If no keyframe at current frame: Does nothing</li>
+                            <li>Useful for editing existing animation without adding frames</li>
+                        </ul>
+
+                        <p><strong>Changing modes:</strong></p>
+                        <ul>
+                            <li>Timeline header → Auto-key dropdown (next to record button)</li>
+                            <li>Or Scene Properties → Keying → Auto Keying Mode</li>
+                        </ul>
+
+                        <p><strong>Active Keying Set:</strong></p>
+                        <ul>
+                            <li>Controls which properties auto-keyframe</li>
+                            <li>Default: All animated properties</li>
+                            <li>Can limit to Location only, Rotation only, etc.</li>
+                            <li>Timeline header → Keying Set dropdown</li>
+                        </ul>
+                    </div>
+
+                    <h3>When to Use Auto-Keyframing</h3>
+
+                    <div class="card">
+                        <h4>✅ Best Use Cases</h4>
+                        <p><strong>Great for:</strong></p>
+                        <ul>
+                            <li><strong>Refining existing animation:</strong> Tweaking keyframes you already set</li>
+                            <li><strong>Scrubbing and adjusting:</strong> Move to frame, adjust pose, auto-keyframe saves it</li>
+                            <li><strong>Complex character animation:</strong> Many properties to keyframe simultaneously</li>
+                            <li><strong>Iterative posing:</strong> Quickly trying different poses at different frames</li>
+                            <li><strong>Experienced animators:</strong> Know exactly what they're keyframing</li>
+                        </ul>
+
+                        <p><strong>Example workflow with auto-key:</strong></p>
+                        <ol>
+                            <li>Create initial keyframes manually (frame 1 and 24)</li>
+                            <li>Enable auto-keyframe</li>
+                            <li>Scrub to frame 12, adjust object position</li>
+                            <li>Keyframe automatically created</li>
+                            <li>Continue adjusting at various frames</li>
+                            <li>All changes automatically saved as keyframes</li>
+                        </ol>
+                    </div>
+
+                    <h3>When to Avoid Auto-Keyframing</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Potential Pitfalls</h4>
+                        <p><strong>Problems with auto-keyframing:</strong></p>
+                        <ul>
+                            <li><strong>Accidental keyframes:</strong> Moving object while exploring creates unwanted keyframes</li>
+                            <li><strong>Cluttered timeline:</strong> Too many keyframes from casual adjustments</li>
+                            <li><strong>Difficult to undo:</strong> May create keyframes on multiple properties at once</li>
+                            <li><strong>Learning curve:</strong> Beginners often don't realize it's active</li>
+                        </ul>
+
+                        <p><strong>Avoid for:</strong></p>
+                        <ul>
+                            <li><strong>Learning phase:</strong> Better to manually keyframe to understand process</li>
+                            <li><strong>Exploration:</strong> When trying different poses/positions without committing</li>
+                            <li><strong>Blocking phase:</strong> Setting initial key poses (manual gives more control)</li>
+                            <li><strong>Simple animations:</strong> Pressing <code>I</code> twice isn't much work</li>
+                        </ul>
+
+                        <p><strong>Common beginner mistake:</strong></p>
+                        <ul>
+                            <li>Auto-key enabled, forget it's on</li>
+                            <li>Move object to check something</li>
+                            <li>Accidentally create keyframes all over timeline</li>
+                            <li>Animation becomes messy and hard to fix</li>
+                            <li><strong>Solution:</strong> Be very aware of auto-key status (red button)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Auto-Keyframe Best Practices</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>💡 Using Auto-Key Effectively</h4>
+                        <p><strong>Professional workflow:</strong></p>
+                        <ol>
+                            <li><strong>Start with manual keyframing:</strong> Set initial key poses using <code>I</code></li>
+                            <li><strong>Enable auto-key for refinement:</strong> Turn on when tweaking existing animation</li>
+                            <li><strong>Stay frame-aware:</strong> Always check current frame before transforming</li>
+                            <li><strong>Turn off when done:</strong> Disable when not actively keyframing</li>
+                            <li><strong>Review regularly:</strong> Check Timeline for unexpected keyframes</li>
+                        </ol>
+
+                        <p><strong>Visual reminders:</strong></p>
+                        <ul>
+                            <li>Red record button = auto-key ON (danger zone)</li>
+                            <li>Gray record button = auto-key OFF (safe mode)</li>
+                            <li>Get in habit of checking button color</li>
+                            <li>Some animators never use auto-key (perfectly valid)</li>
+                        </ul>
+
+                        <p><strong>Hybrid approach (recommended for beginners):</strong></p>
+                        <ul>
+                            <li>Default: Auto-key OFF</li>
+                            <li>Enable temporarily when refining complex sections</li>
+                            <li>Disable immediately after</li>
+                            <li>Gives benefits without risks</li>
+                        </ul>
+
+                        <p><strong>Remember:</strong></p>
+                        <ul>
+                            <li>Auto-key is a tool, not a requirement</li>
+                            <li>Many professional animators never use it</li>
+                            <li>Manual keyframing (<code>I</code>) works perfectly fine</li>
+                            <li>Choose what feels comfortable for your workflow</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Auto-Keyframe: Power Tool with Sharp Edges:</strong> Auto-keyframing is like a power saw—incredibly efficient in skilled hands, but dangerous if you're not paying attention. Experienced animators use it to fly through iterations, making hundreds of micro-adjustments without breaking flow. But beginners often leave it on accidentally and create keyframe chaos. Start without it. Master manual keyframing first. Then, when you feel constrained by pressing <code>I</code> constantly, try auto-key for specific refinement tasks. Turn it on deliberately, use it intentionally, turn it off immediately. That's the professional approach.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="dope-sheet" class="content-section">
+                    <h2>📊 The Dope Sheet</h2>
+
+                    <p>The Dope Sheet is the Timeline's more powerful sibling. While Timeline shows a simplified view, Dope Sheet reveals every animated property in detail. Essential for managing complex animations with multiple objects and properties.</p>
+
+                    <h3>What is the Dope Sheet?</h3>
+
+                    <div class="card">
+                        <h4>🎹 Advanced Timeline View</h4>
+                        <p><strong>Dope Sheet vs Timeline:</strong></p>
+                        <ul>
+                            <li><strong>Timeline:</strong> Simplified, shows all keyframes as single diamonds</li>
+                            <li><strong>Dope Sheet:</strong> Detailed, shows keyframes per property per object</li>
+                            <li>Both control same data, different visualizations</li>
+                            <li>Timeline = overview, Dope Sheet = detailed control</li>
+                        </ul>
+
+                        <p><strong>What Dope Sheet shows:</strong></p>
+                        <ul>
+                            <li>List of animated objects (left panel)</li>
+                            <li>Expandable property channels (Location X, Y, Z, etc.)</li>
+                            <li>Keyframes for each channel (diamonds on timeline)</li>
+                            <li>Full animation hierarchy at a glance</li>
+                        </ul>
+
+                        <p><strong>Opening Dope Sheet:</strong></p>
+                        <ul>
+                            <li>Change Timeline editor type to Dope Sheet</li>
+                            <li>Or use Animation workspace (often has Dope Sheet by default)</li>
+                            <li>Editor icon → Dope Sheet</li>
+                        </ul>
+
+                        <p><strong>Dope Sheet modes:</strong></p>
+                        <ul>
+                            <li><strong>Dope Sheet:</strong> Main mode (all animations)</li>
+                            <li><strong>Action Editor:</strong> Single action view</li>
+                            <li><strong>Shape Key Editor:</strong> For shape key animations</li>
+                            <li><strong>Grease Pencil:</strong> For 2D animations</li>
+                            <li><strong>Mask:</strong> For compositing masks</li>
+                        </ul>
+                    </div>
+
+                    <h3>Dope Sheet Interface</h3>
+
+                    <div class="card">
+                        <h4>🖥️ Layout and Navigation</h4>
+                        <p><strong>Left panel (Channel List):</strong></p>
+                        <ul>
+                            <li>Object names (e.g., "Cube", "Camera")</li>
+                            <li>Arrow to expand/collapse properties</li>
+                            <li>Property channels when expanded (Location, Rotation, Scale)</li>
+                            <li>Individual axes (Location X, Location Y, Location Z)</li>
+                        </ul>
+
+                        <p><strong>Right panel (Keyframe View):</strong></p>
+                        <ul>
+                            <li>Timeline grid (same as Timeline editor)</li>
+                            <li>Keyframes shown as diamonds on property rows</li>
+                            <li>Each property has its own row</li>
+                            <li>Can see exactly which properties are keyframed</li>
+                        </ul>
+
+                        <p><strong>Example hierarchy view:</strong></p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">
+Cube
+  ├─ Location
+  │   ├─ X Location
+  │   ├─ Y Location
+  │   └─ Z Location
+  ├─ Rotation
+  │   ├─ X Euler Rotation
+  │   ├─ Y Euler Rotation
+  │   └─ Z Euler Rotation
+  └─ Scale
+      ├─ X Scale
+      ├─ Y Scale
+      └─ Z Scale
+                        </pre>
+
+                        <p><strong>Visibility controls:</strong></p>
+                        <ul>
+                            <li><strong>Eye icon:</strong> Show/hide property in Graph Editor</li>
+                            <li><strong>Lock icon:</strong> Prevent editing of property</li>
+                            <li><strong>Mute icon:</strong> Temporarily disable animation on property</li>
+                        </ul>
+                    </div>
+
+                    <h3>Working with the Dope Sheet</h3>
+
+                    <div class="card">
+                        <h4>🛠️ Practical Operations</h4>
+                        <p><strong>Selecting keyframes:</strong></p>
+                        <ul>
+                            <li>Click diamond to select single keyframe</li>
+                            <li>Click channel name to select all keyframes in that channel</li>
+                            <li>Box select (<code>B</code>) to select region</li>
+                            <li>Select all (<code>A</code>) for all visible keyframes</li>
+                        </ul>
+
+                        <p><strong>Moving keyframes per channel:</strong></p>
+                        <ul>
+                            <li>Select keyframes on Location X only</li>
+                            <li>Press <code>G</code> to move just those keyframes</li>
+                            <li>Other channels (Y, Z) unaffected</li>
+                            <li>Precise control over individual properties</li>
+                        </ul>
+
+                        <p><strong>Isolating properties:</strong></p>
+                        <ul>
+                            <li>Want to see only Location animation?</li>
+                            <li>Collapse Rotation and Scale channels</li>
+                            <li>Focus on what matters</li>
+                            <li>Reduce visual clutter</li>
+                        </ul>
+
+                        <p><strong>Deleting specific property keyframes:</strong></p>
+                        <ul>
+                            <li>Expand object, find property (e.g., Rotation)</li>
+                            <li>Select all keyframes in Rotation channels</li>
+                            <li>Press <code>X</code> to delete</li>
+                            <li>Object keeps Location/Scale animation, loses Rotation</li>
+                        </ul>
+                    </div>
+
+                    <h3>Dope Sheet for Multi-Object Animation</h3>
+
+                    <div class="card">
+                        <h4>🎭 Managing Complex Scenes</h4>
+                        <p><strong>Viewing multiple objects:</strong></p>
+                        <ul>
+                            <li>Dope Sheet shows all animated objects in scene</li>
+                            <li>Each object gets its own row section</li>
+                            <li>Can see timing relationships between objects</li>
+                            <li>Example: When does Door open relative to Character walking?</li>
+                        </ul>
+
+                        <p><strong>Synchronizing animations:</strong></p>
+                        <ul>
+                            <li>See all object timings at once</li>
+                            <li>Move Object A's keyframes to align with Object B's</li>
+                            <li>Create choreographed sequences</li>
+                            <li>Ensure multiple animations work together</li>
+                        </ul>
+
+                        <p><strong>Staggering actions:</strong></p>
+                        <ul>
+                            <li>Three balls dropping</li>
+                            <li>Ball 1 starts at frame 1</li>
+                            <li>Ball 2 starts at frame 8 (select all keyframes, <code>G</code> 8)</li>
+                            <li>Ball 3 starts at frame 16 (select all keyframes, <code>G</code> 16)</li>
+                            <li>Cascading effect created easily</li>
+                        </ul>
+
+                        <p><strong>Filtering objects:</strong></p>
+                        <ul>
+                            <li>Header → Filter Options</li>
+                            <li>Show only selected objects</li>
+                            <li>Show only objects in collection</li>
+                            <li>Reduce clutter in complex scenes</li>
+                        </ul>
+                    </div>
+
+                    <h3>Summary Channels and Groups</h3>
+
+                    <div class="card">
+                        <h4>📦 Organizing Animation Data</h4>
+                        <p><strong>Summary channels:</strong></p>
+                        <ul>
+                            <li>Top-level rows (Location, Rotation, Scale)</li>
+                            <li>Show all keyframes for that property type</li>
+                            <li>Selecting summary channel selects all sub-channels</li>
+                            <li>Example: Select "Location" to affect X, Y, and Z together</li>
+                        </ul>
+
+                        <p><strong>Grouping channels:</strong></p>
+                        <ul>
+                            <li>Can create custom groups (e.g., "Arm", "Leg")</li>
+                            <li>Select channels → Channel → Move to Group</li>
+                            <li>Organize complex rigs</li>
+                            <li>Useful for character animation</li>
+                        </ul>
+
+                        <p><strong>Color coding:</strong></p>
+                        <ul>
+                            <li>Can assign colors to channel groups</li>
+                            <li>Visual organization in Dope Sheet</li>
+                            <li>Quickly identify property types</li>
+                            <li>Right-click channel → Set Color</li>
+                        </ul>
+                    </div>
+
+                    <h3>When to Use Dope Sheet vs Timeline</h3>
+
+                    <div class="card">
+                        <h4>🎯 Choosing the Right Tool</h4>
+                        <p><strong>Use Timeline for:</strong></p>
+                        <ul>
+                            <li>Quick overview of animation timing</li>
+                            <li>Simple animations (single object, all properties together)</li>
+                            <li>Scrubbing and playback</li>
+                            <li>General navigation</li>
+                            <li>When you want simplified view</li>
+                        </ul>
+
+                        <p><strong>Use Dope Sheet for:</strong></p>
+                        <ul>
+                            <li>Multi-object animations</li>
+                            <li>Editing specific properties independently</li>
+                            <li>Understanding what's actually keyframed</li>
+                            <li>Cleaning up unwanted keyframes on specific channels</li>
+                            <li>Complex timing relationships</li>
+                            <li>Character animation</li>
+                        </ul>
+
+                        <p><strong>Pro workflow:</strong></p>
+                        <ul>
+                            <li>Many animators keep both open</li>
+                            <li>Timeline at bottom for overview and playback</li>
+                            <li>Dope Sheet in separate area for detailed editing</li>
+                            <li>Switch between as needed</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Dope Sheet: X-Ray Vision for Animation:</strong> The Timeline is like looking at a building from outside—you see the structure but not the rooms. The Dope Sheet is like X-ray vision—you see every floor, every room, every piece of furniture. When your Timeline shows a yellow diamond at frame 12, the Dope Sheet reveals whether that's Location X, Rotation Y, or all nine transform channels. This matters enormously when debugging. "Why is my cube rotating weirdly?" Open Dope Sheet, find unexpected Rotation Z keyframe, delete it. Problem solved. Master the Dope Sheet and you master animation troubleshooting.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="project" class="content-section">
+                    <h2>🎨 Project: Multi-Object Animated Scene</h2>
+
+                    <p>Let's put everything together. You'll create a scene with multiple animated objects, demonstrating keyframe management, timing control, and professional workflow. This project reinforces all the concepts from this lesson.</p>
+
+                    <h3>Project Overview</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎯 Your Mission</h3>
+                        <p style="color: white;">Create a synchronized animation scene with:</p>
+                        <ul style="color: white;">
+                            <li><strong>Three objects:</strong> Ball, Cube, Cylinder</li>
+                            <li><strong>Staggered timing:</strong> Each object starts at different frame</li>
+                            <li><strong>Different motions:</strong> Ball bounces, Cube rotates, Cylinder scales</li>
+                            <li><strong>Clean keyframes:</strong> Only necessary keyframes, proper interpolation</li>
+                            <li><strong>Total duration:</strong> 96 frames (4 seconds at 24fps)</li>
+                        </ul>
+                        <p style="color: white; margin-top: 1rem;">This demonstrates Timeline mastery, Dope Sheet usage, and keyframe management</p>
+                    </div>
+
+                    <h3>Phase 1: Scene Setup (5 minutes)</h3>
+
+                    <div class="card">
+                        <h4>🛠️ Building the Stage</h4>
+                        <p><strong>Create objects:</strong></p>
+                        <ol>
+                            <li>New Blender file, delete default cube</li>
+                            <li>Add UV Sphere (<code>Shift+A</code> → Mesh → UV Sphere)
+                                <ul>
+                                    <li>Name it "Ball" (F2 or outliner)</li>
+                                    <li>Position at X=-4, Y=0, Z=5</li>
+                                </ul>
+                            </li>
+                            <li>Add Cube (<code>Shift+A</code> → Mesh → Cube)
+                                <ul>
+                                    <li>Name it "Cube"</li>
+                                    <li>Position at X=0, Y=0, Z=2</li>
+                                </ul>
+                            </li>
+                            <li>Add Cylinder (<code>Shift+A</code> → Mesh → Cylinder)
+                                <ul>
+                                    <li>Name it "Cylinder"</li>
+                                    <li>Position at X=4, Y=0, Z=2</li>
+                                </ul>
+                            </li>
+                            <li>Add Plane for ground (<code>Shift+A</code> → Mesh → Plane)
+                                <ul>
+                                    <li>Scale it large (S 20)</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Camera and lighting:</strong></p>
+                        <ul>
+                            <li>Position camera to see all three objects</li>
+                            <li>Add Sun light for illumination</li>
+                            <li>Optional: Add simple materials for visual interest</li>
+                        </ul>
+
+                        <p><strong>Set frame range:</strong></p>
+                        <ul>
+                            <li>End frame: 96 (4 seconds at 24fps)</li>
+                            <li>Timeline → Set end frame to 96</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 2: Animating the Ball (10 minutes)</h3>
+
+                    <div class="card">
+                        <h4>⚽ Bouncing Ball Animation</h4>
+                        <p><strong>Create bounce animation:</strong></p>
+                        <ol>
+                            <li>Select Ball object</li>
+                            <li>Frame 1: Ball at starting height (Z=5)
+                                <ul>
+                                    <li>Press <code>I</code> → LocScale</li>
+                                </ul>
+                            </li>
+                            <li>Frame 16: Ball at ground (Z=1), squashed
+                                <ul>
+                                    <li>Location Z = 1</li>
+                                    <li>Scale: 1.3, 1.3, 0.7</li>
+                                    <li>Press <code>I</code> → LocScale</li>
+                                </ul>
+                            </li>
+                            <li>Frame 28: Ball at medium height (Z=3.5), neutral
+                                <ul>
+                                    <li>Location Z = 3.5</li>
+                                    <li>Scale: 1, 1, 1</li>
+                                    <li>Press <code>I</code> → LocScale</li>
+                                </ul>
+                            </li>
+                            <li>Frame 40: Ball at ground (Z=1), squashed
+                                <ul>
+                                    <li>Location Z = 1</li>
+                                    <li>Scale: 1.2, 1.2, 0.8</li>
+                                    <li>Press <code>I</code> → LocScale</li>
+                                </ul>
+                            </li>
+                            <li>Frame 48: Ball at low height (Z=2), neutral
+                                <ul>
+                                    <li>Location Z = 2</li>
+                                    <li>Scale: 1, 1, 1</li>
+                                    <li>Press <code>I</code> → LocScale</li>
+                                </ul>
+                            </li>
+                            <li>Frame 54: Ball settles at ground (Z=1)
+                                <ul>
+                                    <li>Press <code>I</code> → LocScale</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Refine timing:</strong></p>
+                        <ul>
+                            <li>Open Graph Editor</li>
+                            <li>Check Z Location curve—should have parabolic arcs</li>
+                            <li>Ensure Bezier interpolation (smooth curves)</li>
+                            <li>Adjust if needed for better bounce feeling</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 3: Animating the Cube (8 minutes)</h3>
+
+                    <div class="card">
+                        <h4>🎲 Rotating Cube Animation</h4>
+                        <p><strong>Create rotation animation:</strong></p>
+                        <ol>
+                            <li>Select Cube object</li>
+                            <li>Frame 20: Starting rotation (0°)
+                                <ul>
+                                    <li>Press <code>I</code> → Rotation</li>
+                                </ul>
+                            </li>
+                            <li>Frame 60: Full rotation (360° on Z axis)
+                                <ul>
+                                    <li>Rotate Z: 360° (<code>R</code> <code>Z</code> <code>360</code>)</li>
+                                    <li>Press <code>I</code> → Rotation</li>
+                                </ul>
+                            </li>
+                            <li>Frame 80: Continue rotation (540° total)
+                                <ul>
+                                    <li>Rotate Z: additional 180°</li>
+                                    <li>Press <code>I</code> → Rotation</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Refine:</strong></p>
+                        <ul>
+                            <li>Check interpolation—should be Bezier (smooth acceleration)</li>
+                            <li>Graph Editor: Rotation Z curve should be smooth S-curve</li>
+                            <li>Play animation—cube should ease in, rotate smoothly, ease out</li>
+                        </ul>
+
+                        <p><strong>Note about rotation values:</strong></p>
+                        <ul>
+                            <li>Blender stores rotation in radians or degrees (depending on settings)</li>
+                            <li>360° = one full rotation</li>
+                            <li>If cube rotates weirdly, check rotation mode (Properties → Object → Rotation)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 4: Animating the Cylinder (8 minutes)</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Scaling Cylinder Animation</h4>
+                        <p><strong>Create pulsing scale animation:</strong></p>
+                        <ol>
+                            <li>Select Cylinder object</li>
+                            <li>Frame 30: Normal scale (1, 1, 1)
+                                <ul>
+                                    <li>Press <code>I</code> → Scale</li>
+                                </ul>
+                            </li>
+                            <li>Frame 50: Compressed scale (1.5, 1.5, 0.5)
+                                <ul>
+                                    <li>Scale Z: 0.5 (shorter)</li>
+                                    <li>Scale X and Y: 1.5 (wider to preserve volume)</li>
+                                    <li>Press <code>I</code> → Scale</li>
+                                </ul>
+                            </li>
+                            <li>Frame 70: Stretched scale (0.7, 0.7, 1.5)
+                                <ul>
+                                    <li>Scale Z: 1.5 (taller)</li>
+                                    <li>Scale X and Y: 0.7 (thinner)</li>
+                                    <li>Press <code>I</code> → Scale</li>
+                                </ul>
+                            </li>
+                            <li>Frame 90: Return to normal (1, 1, 1)
+                                <ul>
+                                    <li>Press <code>I</code> → Scale</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><strong>Result:</strong></p>
+                        <ul>
+                            <li>Cylinder pulses—squash, stretch, return</li>
+                            <li>Volume approximately preserved (wider when shorter)</li>
+                            <li>Organic, living feeling despite being simple geometry</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 5: Timing Refinement with Dope Sheet (10 minutes)</h3>
+
+                    <div class="card">
+                        <h4>🎼 Orchestrating the Scene</h4>
+                        <p><strong>Open Dope Sheet:</strong></p>
+                        <ul>
+                            <li>Change Timeline editor to Dope Sheet</li>
+                            <li>Should see all three objects listed</li>
+                            <li>Expand each to see property channels</li>
+                        </ul>
+
+                        <p><strong>Verify timing:</strong></p>
+                        <ul>
+                            <li><strong>Ball:</strong> Starts frame 1</li>
+                            <li><strong>Cube:</strong> Starts frame 20</li>
+                            <li><strong>Cylinder:</strong> Starts frame 30</li>
+                            <li>Staggered cascade effect</li>
+                        </ul>
+
+                        <p><strong>Synchronize ending:</strong></p>
+                        <ul>
+                            <li>All animations should complete by frame 90-96</li>
+                            <li>If needed, select object's keyframes, scale (<code>S</code>) to compress or expand timing</li>
+                            <li>Goal: Choreographed sequence with clean ending</li>
+                        </ul>
+
+                        <p><strong>Clean up keyframes:</strong></p>
+                        <ul>
+                            <li>Check Dope Sheet for unnecessary keyframes</li>
+                            <li>Delete any redundant keyframes (same value as interpolation would create)</li>
+                            <li>Ensure only necessary keyframes remain</li>
+                        </ul>
+                    </div>
+
+                    <h3>Phase 6: Final Review and Rendering (5 minutes)</h3>
+
+                    <div class="card">
+                        <h4>🎬 Polishing and Output</h4>
+                        <p><strong>Review checklist:</strong></p>
+                        <ul>
+                            <li>✓ Play animation start to finish—does it feel cohesive?</li>
+                            <li>✓ Ball bounces decrease in height (energy loss)?</li>
+                            <li>✓ Cube rotation is smooth (no sudden jumps)?</li>
+                            <li>✓ Cylinder scale preserves volume (wider when shorter)?</li>
+                            <li>✓ All animations end cleanly by frame 96?</li>
+                            <li>✓ No accidental keyframes on properties that shouldn't animate?</li>
+                        </ul>
+
+                        <p><strong>Test interpolation:</strong></p>
+                        <ul>
+                            <li>Graph Editor: Check all curves for smoothness</li>
+                            <li>Timeline: Scrub through slowly—motion should be fluid</li>
+                            <li>Fix any jerky motion by adjusting keyframe timing or interpolation</li>
+                        </ul>
+
+                        <p><strong>Optional rendering:</strong></p>
+                        <ul>
+                            <li>Set camera to nice angle showing all three objects</li>
+                            <li>Output Properties → Format: FFmpeg video or PNG sequence</li>
+                            <li>Render Animation (Render → Render Animation)</li>
+                            <li>Save and watch your creation!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Success Criteria</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Project Quality Check</h4>
+                        <p><strong>Technical requirements:</strong></p>
+                        <ul>
+                            <li>✓ Three animated objects with different motion types</li>
+                            <li>✓ Staggered start times (not all starting at frame 1)</li>
+                            <li>✓ Appropriate interpolation (Bezier for organic motion)</li>
+                            <li>✓ Clean Timeline/Dope Sheet (no unnecessary keyframes)</li>
+                            <li>✓ Total duration: 96 frames</li>
+                            <li>✓ Smooth playback with no glitches</li>
+                        </ul>
+
+                        <p><strong>Animation principles applied:</strong></p>
+                        <ul>
+                            <li>✓ Ball: Squash/stretch, arcs, timing (from Lesson 24)</li>
+                            <li>✓ Cube: Smooth ease in/out on rotation</li>
+                            <li>✓ Cylinder: Volume preservation during scale</li>
+                            <li>✓ Scene: Choreographed timing, visual interest</li>
+                        </ul>
+
+                        <p><strong>Workflow skills demonstrated:</strong></p>
+                        <ul>
+                            <li>✓ Manual keyframing with <code>I</code> key</li>
+                            <li>✓ Keyframe editing (moving, timing adjustments)</li>
+                            <li>✓ Dope Sheet navigation and management</li>
+                            <li>✓ Graph Editor verification</li>
+                            <li>✓ Multi-object animation orchestration</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 From Keyframes to Storytelling:</strong> This project might seem simple—just three objects doing basic motions. But you've orchestrated a sequence. Ball starts the scene, Cube follows, Cylinder completes the trio. There's rhythm, timing, progression. This is storytelling fundamentals. Every complex animation—character films, game cinematics, product demos—is just this principle scaled up. More objects, more properties, more complexity. But the core workflow you just practiced? Keyframes, timing, refinement, orchestration? That's the professional process. You're not just learning software—you're learning the craft of animation direction.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 03
+     Continue with lesson_25_timeline_and_keyframes_part_04.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 25 - PART 04
+     File: lesson_25_timeline_and_keyframes_part_04.html
+     ============================================ -->
+
+                <section id="summary" class="content-section">
+                    <h2>📝 Lesson Summary</h2>
+
+                    <p>Congratulations! You've mastered Blender's Timeline and keyframe workflow—the foundation of all animation work. These aren't just technical skills; they're the tools you'll use every single time you animate.</p>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3>🎯 Key Takeaways</h3>
+                        <ul style="color: white;">
+                            <li><strong>Timeline is your animation GPS:</strong> Shows where you are in time and where keyframes live</li>
+                            <li><strong>Keyframes define moments:</strong> You set key poses, Blender interpolates between</li>
+                            <li><strong>Interpolation creates motion:</strong> Bezier (smooth) is default and best for most cases</li>
+                            <li><strong>Editing is iterative:</strong> Move, scale, copy keyframes until timing feels right</li>
+                            <li><strong>Dope Sheet shows detail:</strong> Essential for complex animations and troubleshooting</li>
+                            <li><strong>Auto-key is optional:</strong> Powerful but requires discipline—start without it</li>
+                            <li><strong>Fewer keyframes = better:</strong> Trust interpolation, only keyframe what's necessary</li>
+                        </ul>
+                    </div>
+
+                    <h3>Timeline and Keyframe Tools Recap</h3>
+
+                    <div class="card">
+                        <h4>🛠️ Your Animation Toolkit</h4>
+                        <p><strong>Essential keyboard shortcuts:</strong></p>
+                        <ul>
+                            <li><code>Spacebar</code>: Play/Pause animation</li>
+                            <li><code>Left/Right Arrow</code>: Step forward/backward one frame</li>
+                            <li><code>Shift+Left/Right Arrow</code>: Jump to start/end</li>
+                            <li><code>I</code>: Insert keyframe menu</li>
+                            <li><code>G</code>: Move selected keyframes</li>
+                            <li><code>S</code>: Scale selected keyframes (timing stretch)</li>
+                            <li><code>X</code>: Delete selected keyframes</li>
+                            <li><code>Shift+D</code>: Duplicate keyframes</li>
+                            <li><code>T</code>: Change interpolation mode</li>
+                            <li><code>A</code>: Select all keyframes</li>
+                        </ul>
+
+                        <p><strong>Three ways to create keyframes:</strong></p>
+                        <ol>
+                            <li><code>I</code> key menu (standard method)</li>
+                            <li>Right-click property → Insert Keyframe (specific properties)</li>
+                            <li>Click diamond icon next to property (visual method)</li>
+                        </ol>
+
+                        <p><strong>Interpolation modes:</strong></p>
+                        <ul>
+                            <li><strong>Bezier:</strong> Smooth curves, ease in/out (default—use 90% of time)</li>
+                            <li><strong>Linear:</strong> Constant speed, straight line (mechanical objects)</li>
+                            <li><strong>Constant:</strong> Hold value until next keyframe (binary states)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Professional Workflow Summary</h3>
+
+                    <div class="card">
+                        <h4>💼 Industry-Standard Approach</h4>
+                        <p><strong>The blocking workflow (pose-to-pose):</strong></p>
+                        <ol>
+                            <li><strong>Set key poses:</strong> Start, end, major breakdowns (manual <code>I</code>)</li>
+                            <li><strong>Check timing:</strong> Play animation, does it feel right?</li>
+                            <li><strong>Add breakdowns:</strong> Intermediate poses where needed</li>
+                            <li><strong>Refine timing:</strong> Move keyframes until rhythm feels good</li>
+                            <li><strong>Polish interpolation:</strong> Adjust curves in Graph Editor (next lesson)</li>
+                            <li><strong>Final review:</strong> Clean up unnecessary keyframes</li>
+                        </ol>
+
+                        <p><strong>What professionals do:</strong></p>
+                        <ul>
+                            <li><strong>Think in frames, not seconds:</strong> "24 frames" not "1 second"</li>
+                            <li><strong>Start simple:</strong> Block major poses with minimal keyframes</li>
+                            <li><strong>Iterate timing:</strong> Move keyframes repeatedly until perfect</li>
+                            <li><strong>Trust interpolation:</strong> Don't over-keyframe</li>
+                            <li><strong>Use Dope Sheet:</strong> For multi-object and complex animations</li>
+                            <li><strong>Review constantly:</strong> Play animation hundreds of times while refining</li>
+                        </ul>
+
+                        <p><strong>Common beginner mistakes to avoid:</strong></p>
+                        <ul>
+                            <li>❌ Keyframing every frame manually</li>
+                            <li>❌ Using Linear interpolation for organic motion</li>
+                            <li>❌ Forgetting which frame you're on</li>
+                            <li>❌ Leaving auto-keyframe on accidentally</li>
+                            <li>❌ Never using Dope Sheet for complex animations</li>
+                            <li>❌ Not checking Timeline for keyframe placement</li>
+                        </ul>
+                    </div>
+
+                    <h3>Timeline vs Dope Sheet vs Graph Editor</h3>
+
+                    <div class="card">
+                        <h4>🎛️ Three Views, Same Data</h4>
+                        <p><strong>Timeline (simplified overview):</strong></p>
+                        <ul>
+                            <li><strong>Shows:</strong> All keyframes as single diamonds</li>
+                            <li><strong>Best for:</strong> Quick overview, playback, scrubbing</li>
+                            <li><strong>Use when:</strong> You need simple timing reference</li>
+                            <li><strong>Weakness:</strong> Can't see individual properties</li>
+                        </ul>
+
+                        <p><strong>Dope Sheet (detailed organization):</strong></p>
+                        <ul>
+                            <li><strong>Shows:</strong> Keyframes per property per object</li>
+                            <li><strong>Best for:</strong> Multi-object animation, property management</li>
+                            <li><strong>Use when:</strong> Managing complex scenes, isolating properties</li>
+                            <li><strong>Weakness:</strong> Doesn't show curve shapes</li>
+                        </ul>
+
+                        <p><strong>Graph Editor (curve control—Lesson 26):</strong></p>
+                        <ul>
+                            <li><strong>Shows:</strong> Animation curves, precise values over time</li>
+                            <li><strong>Best for:</strong> Fine-tuning timing, adjusting easing</li>
+                            <li><strong>Use when:</strong> Perfecting motion feel</li>
+                            <li><strong>Coming next lesson!</strong></li>
+                        </ul>
+
+                        <p><strong>Professional setup:</strong></p>
+                        <ul>
+                            <li>Timeline at bottom (always visible for playback)</li>
+                            <li>Dope Sheet for property management</li>
+                            <li>Graph Editor for curve refinement</li>
+                            <li>Switch between as workflow demands</li>
+                        </ul>
+                    </div>
+
+                    <h3>Advanced Tips and Tricks</h3>
+
+                    <div class="card">
+                        <h4>🚀 Level Up Your Workflow</h4>
+                        <p><strong>Markers for organization:</strong></p>
+                        <ul>
+                            <li>Press <code>M</code> in Timeline to add marker</li>
+                            <li>Name markers: "Jump starts", "Impact", "Landing"</li>
+                            <li>Visual bookmarks in your animation</li>
+                            <li>Jump between markers quickly</li>
+                            <li>Essential for longer animations</li>
+                        </ul>
+
+                        <p><strong>Preview range workflow:</strong></p>
+                        <ul>
+                            <li>Working on frames 24-48 only?</li>
+                            <li>Select frames, Playback → Set Preview Range</li>
+                            <li>Animation loops just that section</li>
+                            <li>Perfect small sections without watching whole animation</li>
+                            <li><code>Alt+P</code> to clear preview range</li>
+                        </ul>
+
+                        <p><strong>Keying sets (advanced):</strong></p>
+                        <ul>
+                            <li>Custom groups of properties to keyframe together</li>
+                            <li>Example: "Face" keying set includes eyes, mouth, brows</li>
+                            <li>Press <code>I</code> with keying set active → only those properties keyframed</li>
+                            <li>Useful for character animation (coming in later lessons)</li>
+                        </ul>
+
+                        <p><strong>Action management:</strong></p>
+                        <ul>
+                            <li>Each animated object has an "Action" (collection of keyframes)</li>
+                            <li>Can create multiple actions per object</li>
+                            <li>Example: "Walk", "Run", "Jump" actions for character</li>
+                            <li>Switch between in Action Editor</li>
+                            <li>We'll explore this more in character animation</li>
+                        </ul>
+
+                        <p><strong>Frame rate tricks:</strong></p>
+                        <ul>
+                            <li>Animation looks too fast at 24fps?</li>
+                            <li>Try 30fps playback—same frames, slower time</li>
+                            <li>Or scale all keyframes to stretch timing</li>
+                            <li>Frame rate doesn't change keyframes, just playback speed</li>
+                        </ul>
+                    </div>
+
+                    <h3>Troubleshooting Common Issues</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>🔧 Solving Problems</h4>
+                        <p><strong>Problem: "My object isn't animating!"</strong></p>
+                        <ul>
+                            <li>✓ Check Timeline—are there keyframes? (yellow diamonds)</li>
+                            <li>✓ Is object selected? (Only selected object shows yellow diamonds)</li>
+                            <li>✓ Are you on frame 1? (Object might animate later in timeline)</li>
+                            <li>✓ Is property keyframed? (Right-click property—see if orange background)</li>
+                            <li>Solution: Insert keyframes with <code>I</code> key</li>
+                        </ul>
+
+                        <p><strong>Problem: "Animation is jerky/stuttering"</strong></p>
+                        <ul>
+                            <li>✓ Check interpolation—is it Linear? (Should be Bezier)</li>
+                            <li>✓ Open Graph Editor—are curves jagged?</li>
+                            <li>✓ Too many keyframes causing stiffness?</li>
+                            <li>Solution: Select keyframes, <code>T</code> → Bezier, delete extra keyframes</li>
+                        </ul>
+
+                        <p><strong>Problem: "Keyframes on wrong frame"</strong></p>
+                        <ul>
+                            <li>✓ Check current frame indicator (blue line in Timeline)</li>
+                            <li>✓ Keyframe went where playhead was, not where you wanted</li>
+                            <li>Solution: Select keyframe, <code>G</code> to move to correct frame</li>
+                        </ul>
+
+                        <p><strong>Problem: "Too many keyframes, animation is messy"</strong></p>
+                        <ul>
+                            <li>✓ Auto-keyframe was left on accidentally?</li>
+                            <li>✓ Check Dope Sheet—see all keyframed properties</li>
+                            <li>Solution: Clean up unnecessary keyframes, select and delete extras</li>
+                        </ul>
+
+                        <p><strong>Problem: "Can't see my keyframes in Timeline"</strong></p>
+                        <ul>
+                            <li>✓ Is correct object selected?</li>
+                            <li>✓ Are keyframes outside visible frame range? (Scroll/zoom Timeline)</li>
+                            <li>✓ Check Dope Sheet to see all keyframes</li>
+                            <li>Solution: Select object, zoom Timeline to see full range</li>
+                        </ul>
+
+                        <p><strong>Problem: "Animation too fast/too slow"</strong></p>
+                        <ul>
+                            <li>✓ Check keyframe spacing—close together = fast, far apart = slow</li>
+                            <li>✓ Select all keyframes, <code>S</code> to scale timing</li>
+                            <li>Solution: Scale keyframes or move individual ones</li>
+                        </ul>
+                    </div>
+
+                    <h3>Next Steps in Your Animation Journey</h3>
+
+                    <div class="card">
+                        <h4>🎓 Building on This Foundation</h4>
+                        <p><strong>What you've mastered:</strong></p>
+                        <ul>
+                            <li>✓ Timeline navigation and playback control</li>
+                            <li>✓ Creating, editing, and managing keyframes</li>
+                            <li>✓ Understanding interpolation modes</li>
+                            <li>✓ Multi-object animation coordination</li>
+                            <li>✓ Dope Sheet for detailed animation management</li>
+                        </ul>
+
+                        <p><strong>Practice exercises to reinforce learning:</strong></p>
+                        <ul>
+                            <li><strong>Exercise 1:</strong> Animate 5 bouncing balls with staggered timing</li>
+                            <li><strong>Exercise 2:</strong> Create "domino effect" with 10 cubes falling in sequence</li>
+                            <li><strong>Exercise 3:</strong> Animate simple machine with rotating gears (synchronized timing)</li>
+                            <li><strong>Exercise 4:</strong> Create looping animation (end matches start seamlessly)</li>
+                            <li><strong>Exercise 5:</strong> Recreate timing of famous animation shot (study reference)</li>
+                        </ul>
+
+                        <p><strong>Coming in next lessons:</strong></p>
+                        <ul>
+                            <li><strong>Lesson 26:</strong> Graph Editor deep dive—perfecting curves and easing</li>
+                            <li><strong>Lesson 27:</strong> Character animation basics—applying principles to armatures</li>
+                            <li>Both build directly on Timeline/keyframe skills you learned today</li>
+                        </ul>
+
+                        <p><strong>Additional resources:</strong></p>
+                        <ul>
+                            <li>Study professional animations frame-by-frame</li>
+                            <li>Recreate simple shots from films/games</li>
+                            <li>Record video reference of yourself moving</li>
+                            <li>Animate along with online animation challenges</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Timeline Mindset</h3>
+
+                    <div class="card">
+                        <h4>🧠 Thinking Like an Animator</h4>
+                        <p><strong>Professional animators constantly think:</strong></p>
+                        <ul>
+                            <li><strong>"What frame am I on?"</strong> Always aware of current frame</li>
+                            <li><strong>"Where are my keyframes?"</strong> Timeline shows animation structure</li>
+                            <li><strong>"How many frames between keys?"</strong> Spacing determines speed</li>
+                            <li><strong>"Does this need a keyframe?"</strong> Only keyframe what's necessary</li>
+                            <li><strong>"Should I check the curve?"</strong> Graph Editor verification</li>
+                        </ul>
+
+                        <p><strong>Building animation muscle memory:</strong></p>
+                        <ul>
+                            <li>Practice keyboard shortcuts until automatic</li>
+                            <li><code>Spacebar</code> to play should be instinct</li>
+                            <li><code>I</code> for keyframe should be reflex</li>
+                            <li>Moving keyframes should feel natural</li>
+                            <li>The less you think about tools, the more you think about animation</li>
+                        </ul>
+
+                        <p><strong>From technique to artistry:</strong></p>
+                        <ul>
+                            <li>Right now, Timeline is a new tool you're learning</li>
+                            <li>After 100 animations, it's invisible—you just animate</li>
+                            <li>Tools fade into background, creativity comes forward</li>
+                            <li>That's when animation becomes art</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="final-encouragement" class="content-section">
+                    <div class="card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 2rem;">
+                        <h2 style="color: white; margin-top: 0;">🎬 You're an Animator</h2>
+                        <p style="color: white; font-size: 1.1em; line-height: 1.6;">
+                            Every professional animator started exactly where you are now—learning to place keyframes, adjust timing, and trust interpolation. The Timeline might feel like just a technical interface, but it's actually your canvas. Those yellow diamonds? They're brushstrokes. Moving them, spacing them, timing them—that's painting with motion.
+                        </p>
+                        <p style="color: white; font-size: 1.1em; line-height: 1.6;">
+                            In Lesson 24, you learned what makes animation work (the principles). Today, you learned how to make animation (the tools). These two lessons are the foundation of everything that follows. Understand principles, master Timeline and keyframes, and you can animate anything. Character walks, camera moves, product demos, game cinematics—all use these exact same tools and workflows.
+                        </p>
+                        <p style="color: white; font-size: 1.1em; line-height: 1.6;">
+                            The difference between you and the animators you admire isn't talent or secret knowledge. It's practice time with these tools. They've placed a million keyframes. You've placed dozens. That gap closes with every animation you make. So make many. Make bad ones. Make good ones. Make weird experiments. Each one builds muscle memory and intuition.
+                        </p>
+                        <p style="color: white; font-size: 1.1em; line-height: 1.6;">
+                            Next lesson, we'll open the Graph Editor—where good animation becomes great animation. But before moving on, create three more animations using only what you've learned so far. Bouncing balls, rotating objects, scaling shapes. Simple is good. Repetition builds mastery. The Timeline is your new home. Get comfortable here.
+                        </p>
+                        <p style="color: white; font-size: 1.2em; margin-top: 1.5rem; margin-bottom: 0;">
+                            <strong>Next: Master the Graph Editor and perfect your curves! 📈</strong>
+                        </p>
+                    </div>
+                </section>
+
+            </article>
+        </main>
+
+        <nav class="lesson-nav" aria-label="Lesson Navigation">
+            <a href="lesson_24_animation_fundamentals.html" class="prev-lesson">← Previous: Animation Fundamentals</a>
+            <a href="index.html" class="home-link">🏠 Course Home</a>
+            <a href="lesson_26_graph_editor_essentials.html" class="next-lesson">Next: Graph Editor Essentials →</a>
+        </nav>
+
+        <footer class="site-footer">
+            <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>
+
+<!-- ============================================
+     END OF PART 04
+     This completes Lesson 25: The Timeline and Keyframes
+     ============================================ -->

@@ -1,0 +1,2847 @@
+<!-- ============================================
+     LESSON 20 - PART 01
+     File: lesson_20_camera_basics_part_01.html
+     ============================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master camera basics in Blender - learn camera settings, focal length, sensor size, framing, and how to create professional shots for your 3D scenes.">
+    <meta name="author" content="Blender Course">
+    <title>Lesson 20: Camera Basics - Blender Mastery Course</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#f0f0f0',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#667eea'
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="main-nav" aria-label="Main Navigation">
+            <a href="index.html" class="nav-logo">🎨 Blender Course</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#lessons">Lessons</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="index.html#lessons">Lessons</a> &gt; 
+            <span>Lesson 20: Camera Basics</span>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <article class="lesson-content">
+                <header class="lesson-header">
+                    <h1>📷 Lesson 20: Camera Basics</h1>
+                    <p class="lesson-intro">Welcome to the art of virtual cinematography! The camera is your eye into the 3D world—it determines what your audience sees and how they experience your creation. Just like a real photographer or cinematographer, you control focal length, framing, position, and more to tell your visual story. A perfectly lit, beautifully modeled scene can be ruined by poor camera work, while a simple scene can become stunning with excellent camera choices. In this lesson, you'll learn the fundamental camera settings and techniques that separate amateur renders from professional work. You'll understand how focal length affects perspective, how to frame shots like a cinematographer, and how to position cameras for maximum impact. Master these basics, and your renders will instantly look more polished and intentional.</p>
+                </header>
+
+                <!-- Learning Objectives -->
+                <div class="card">
+                    <h2>🎯 What You'll Learn</h2>
+                    <ul>
+                        <li>Understanding camera fundamentals in 3D</li>
+                        <li>Camera settings and properties in Blender</li>
+                        <li>Focal length and how it affects perspective</li>
+                        <li>Sensor size and aspect ratios</li>
+                        <li>Camera positioning and orientation</li>
+                        <li>Framing techniques (rule of thirds, composition)</li>
+                        <li>Camera constraints for easier control</li>
+                        <li>Multiple cameras and switching between them</li>
+                        <li>Safe frames and render borders</li>
+                        <li>Common camera mistakes and how to avoid them</li>
+                        <li>Hands-on camera setup project</li>
+                    </ul>
+                    <p><strong>⏱️ Estimated Time:</strong> 50-65 minutes</p>
+                    <p><strong>🎯 Project:</strong> Create multiple camera setups for a scene</p>
+                </div>
+
+                <!-- Table of Contents -->
+                <details class="card" open style="position: sticky; top: 80px; z-index: 100; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <summary style="cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; user-select: none;">
+                        <h2 style="display: inline; margin: 0;">📑 In This Lesson</h2>
+                    </summary>
+                    <nav aria-label="Table of Contents" style="padding: 0 1rem 1rem 1rem;">
+                        <ol>
+                            <li><a href="#camera-fundamentals" class="toc-link">Camera Fundamentals</a></li>
+                            <li><a href="#camera-properties" class="toc-link">Camera Properties in Blender</a></li>
+                            <li><a href="#focal-length" class="toc-link">Focal Length and Perspective</a></li>
+                            <li><a href="#positioning" class="toc-link">Camera Positioning Techniques</a></li>
+                            <li><a href="#framing" class="toc-link">Framing and Composition</a></li>
+                            <li><a href="#multiple-cameras" class="toc-link">Working with Multiple Cameras</a></li>
+                            <li><a href="#camera-constraints" class="toc-link">Camera Constraints</a></li>
+                            <li><a href="#tips-tricks" class="toc-link">Camera Tips and Tricks</a></li>
+                            <li><a href="#project" class="toc-link">Project: Camera Setup Showcase</a></li>
+                            <li><a href="#summary" class="toc-link">Lesson Summary</a></li>
+                        </ol>
+                    </nav>
+                </details>
+
+                <section id="camera-fundamentals" class="content-section">
+                    <h2>📷 Camera Fundamentals</h2>
+
+                    <p>Before diving into Blender's camera settings, let's understand what cameras do and why they're essential for every 3D project.</p>
+
+                    <h3>What is a Camera in 3D?</h3>
+
+                    <div class="card">
+                        <h4>👁️ The Virtual Viewpoint</h4>
+                        <p><strong>Camera definition:</strong></p>
+                        <ul>
+                            <li>A camera defines what gets rendered</li>
+                            <li>It's your "eye" into the 3D scene</li>
+                            <li>Everything outside camera view is not rendered</li>
+                            <li>Simulates real-world camera or human vision</li>
+                        </ul>
+
+                        <p><strong>Why cameras are essential:</strong></p>
+                        <ul>
+                            <li><strong>Frame the shot:</strong> Choose what audience sees</li>
+                            <li><strong>Control perspective:</strong> Wide-angle vs telephoto effects</li>
+                            <li><strong>Set render dimensions:</strong> Aspect ratio and resolution</li>
+                            <li><strong>Enable effects:</strong> Depth of field, motion blur</li>
+                            <li><strong>Tell stories:</strong> Camera angle conveys mood and meaning</li>
+                        </ul>
+
+                        <p><strong>Real-world analogy:</strong></p>
+                        <ul>
+                            <li>Your 3D scene is like a movie set</li>
+                            <li>The camera is like a film camera or photographer's camera</li>
+                            <li>You position it, adjust settings, then "photograph" the scene</li>
+                            <li>Everything you learned about photography applies here</li>
+                        </ul>
+                    </div>
+
+                    <h3>Camera vs Viewport</h3>
+
+                    <div class="card">
+                        <h4>🖥️ Understanding the Difference</h4>
+                        <p><strong>Viewport (navigation view):</strong></p>
+                        <ul>
+                            <li>Your interactive 3D workspace</li>
+                            <li>Free to move and rotate anywhere</li>
+                            <li>Used for modeling, lighting, positioning objects</li>
+                            <li>Does NOT determine final render</li>
+                            <li>Think: "Construction site" view</li>
+                        </ul>
+
+                        <p><strong>Camera view:</strong></p>
+                        <ul>
+                            <li>Fixed viewpoint that renders</li>
+                            <li>What audience will see in final image</li>
+                            <li>Activate with <code>Numpad 0</code></li>
+                            <li>Shows exact framing of render</li>
+                            <li>Think: "Final photograph" view</li>
+                        </ul>
+
+                        <p><strong>Workflow:</strong></p>
+                        <ul>
+                            <li>Work in viewport to build scene</li>
+                            <li>Switch to camera view to compose shot</li>
+                            <li>Adjust camera position/settings</li>
+                            <li>Render captures camera view</li>
+                        </ul>
+
+                        <p><strong>Common beginner mistake:</strong></p>
+                        <ul>
+                            <li>Spending time perfecting viewport angle</li>
+                            <li>Rendering and seeing different view (camera!)</li>
+                            <li>Solution: Always check camera view before rendering</li>
+                        </ul>
+                    </div>
+
+                    <h3>Types of Camera Views</h3>
+
+                    <div class="card">
+                        <h4>🎬 Camera Terminology</h4>
+                        <p><strong>Common shot types (distance):</strong></p>
+                        <ul>
+                            <li><strong>Extreme Wide Shot (EWS):</strong> Shows environment, context</li>
+                            <li><strong>Wide Shot (WS):</strong> Subject with surroundings</li>
+                            <li><strong>Medium Shot (MS):</strong> Subject from waist up (for characters)</li>
+                            <li><strong>Close-Up (CU):</strong> Face or object detail</li>
+                            <li><strong>Extreme Close-Up (ECU):</strong> Eyes, texture details</li>
+                        </ul>
+
+                        <p><strong>Camera angles (vertical position):</strong></p>
+                        <ul>
+                            <li><strong>Eye level:</strong> Neutral, objective viewpoint</li>
+                            <li><strong>High angle:</strong> Camera above subject (makes subject small)</li>
+                            <li><strong>Low angle:</strong> Camera below subject (makes subject powerful)</li>
+                            <li><strong>Bird's eye:</strong> Directly overhead</li>
+                            <li><strong>Dutch angle:</strong> Tilted camera (creates tension)</li>
+                        </ul>
+
+                        <p><strong>Psychological impact:</strong></p>
+                        <ul>
+                            <li>Low angle = Power, dominance, importance</li>
+                            <li>High angle = Vulnerability, weakness, overview</li>
+                            <li>Eye level = Neutral, relatable, conversational</li>
+                            <li>Close-up = Intimacy, detail, emotion</li>
+                            <li>Wide shot = Context, scale, isolation</li>
+                        </ul>
+                    </div>
+
+                    <h3>Default Camera in Blender</h3>
+
+                    <div class="card">
+                        <h4>📸 Starting Camera</h4>
+                        <p><strong>Default scene includes:</strong></p>
+                        <ul>
+                            <li>One camera object (pyramid wireframe)</li>
+                            <li>Positioned at specific location</li>
+                            <li>Aimed at origin (0, 0, 0)</li>
+                            <li>Ready to use immediately</li>
+                        </ul>
+
+                        <p><strong>Camera object appearance:</strong></p>
+                        <ul>
+                            <li>Pyramid/trapezoid wireframe</li>
+                            <li>Shows field of view</li>
+                            <li>Dashed lines show view frustum</li>
+                            <li>Solid line shows frame border</li>
+                            <li>Triangle indicates "top" of image</li>
+                        </ul>
+
+                        <p><strong>Selecting the camera:</strong></p>
+                        <ul>
+                            <li>Click on camera object in viewport</li>
+                            <li>Or select in Outliner</li>
+                            <li>Selected camera has orange outline</li>
+                            <li>Active camera (renders) has solid triangle marker</li>
+                        </ul>
+
+                        <p><strong>Viewing through camera:</strong></p>
+                        <ul>
+                            <li>Press <code>Numpad 0</code> (enters camera view)</li>
+                            <li>Or View menu → Cameras → Active Camera</li>
+                            <li>Border shows render frame</li>
+                            <li>Everything outside border won't render</li>
+                            <li>Press <code>Numpad 0</code> again to exit camera view</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Photography Transfers to 3D:</strong> Everything you know about photography applies directly to 3D cameras. Focal length, aperture, exposure triangle, composition rules—it all works the same way. The difference? In 3D, you have perfect control over every element. No weather delays, no equipment limitations, no physics constraints. You can position the camera anywhere, even inside objects or underwater. But with this freedom comes responsibility: understanding real camera principles helps you make choices that feel natural and cinematic rather than random and artificial.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="camera-properties" class="content-section">
+                    <h2>⚙️ Camera Properties in Blender</h2>
+
+                    <p>Blender's cameras have numerous settings that control how they capture your scene. Let's explore each property and what it does.</p>
+
+                    <h3>Accessing Camera Settings</h3>
+
+                    <div class="card">
+                        <h4>🎛️ Camera Properties Panel</h4>
+                        <p><strong>Location:</strong></p>
+                        <ul>
+                            <li>Select camera object</li>
+                            <li>Properties panel (right side) → Camera Properties (camera icon)</li>
+                            <li>All camera settings organized in sections</li>
+                        </ul>
+
+                        <p><strong>Main sections:</strong></p>
+                        <ul>
+                            <li><strong>Lens:</strong> Focal length, sensor size, perspective</li>
+                            <li><strong>Depth of Field:</strong> Focus and blur effects</li>
+                            <li><strong>Viewport Display:</strong> How camera appears in viewport</li>
+                            <li><strong>Background Images:</strong> Reference images in camera view</li>
+                            <li><strong>Safe Areas:</strong> Composition guides</li>
+                        </ul>
+                    </div>
+
+                    <h3>Camera Type</h3>
+
+                    <div class="card">
+                        <h4>📐 Projection Types</h4>
+                        <p><strong>Camera Properties → Type:</strong></p>
+                        <ul>
+                            <li><strong>Perspective (default):</strong>
+                                <ul>
+                                    <li>Realistic camera simulation</li>
+                                    <li>Objects closer appear larger (perspective)</li>
+                                    <li>Parallel lines converge at distance</li>
+                                    <li>Use for: 99% of renders</li>
+                                </ul>
+                            </li>
+                            <li><strong>Orthographic:</strong>
+                                <ul>
+                                    <li>No perspective distortion</li>
+                                    <li>Objects same size regardless of distance</li>
+                                    <li>Parallel lines stay parallel</li>
+                                    <li>Use for: Technical drawings, schematics, blueprints</li>
+                                </ul>
+                            </li>
+                            <li><strong>Panoramic:</strong>
+                                <ul>
+                                    <li>360-degree capture</li>
+                                    <li>Equirectangular or fisheye</li>
+                                    <li>Use for: VR, HDRIs, panoramic renders</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>When to use orthographic:</strong></p>
+                        <ul>
+                            <li>Architectural plans (top view)</li>
+                            <li>Technical illustrations</li>
+                            <li>UI mockups and flat graphics</li>
+                            <li>Isometric game art</li>
+                        </ul>
+                    </div>
+
+                    <h3>Lens Settings</h3>
+
+                    <div class="card">
+                        <h4>🔍 Focal Length</h4>
+                        <p><strong>What is focal length?</strong></p>
+                        <ul>
+                            <li>Measured in millimeters (mm)</li>
+                            <li>Determines field of view (how much you see)</li>
+                            <li>Affects perspective and object proportions</li>
+                            <li>Default: 50mm (mimics human eye)</li>
+                        </ul>
+
+                        <p><strong>Focal length categories:</strong></p>
+                        <ul>
+                            <li><strong>Ultra-wide (12-24mm):</strong>
+                                <ul>
+                                    <li>Very wide field of view</li>
+                                    <li>Dramatic perspective distortion</li>
+                                    <li>Use for: Architecture exteriors, vast landscapes</li>
+                                </ul>
+                            </li>
+                            <li><strong>Wide-angle (24-35mm):</strong>
+                                <ul>
+                                    <li>Wide field of view</li>
+                                    <li>Noticeable perspective</li>
+                                    <li>Use for: Interiors, environmental shots</li>
+                                </ul>
+                            </li>
+                            <li><strong>Standard (35-55mm):</strong>
+                                <ul>
+                                    <li>Natural perspective</li>
+                                    <li>Mimics human vision</li>
+                                    <li>Use for: General purpose, product shots</li>
+                                </ul>
+                            </li>
+                            <li><strong>Portrait (85-135mm):</strong>
+                                <ul>
+                                    <li>Flattering perspective</li>
+                                    <li>Compressed depth</li>
+                                    <li>Use for: Character close-ups, portraits</li>
+                                </ul>
+                            </li>
+                            <li><strong>Telephoto (135mm+):</strong>
+                                <ul>
+                                    <li>Narrow field of view</li>
+                                    <li>Extreme compression</li>
+                                    <li>Use for: Distant subjects, abstract compositions</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Common focal lengths:</strong></p>
+                        <ul>
+                            <li>18mm: Extreme wide-angle</li>
+                            <li>24mm: Wide-angle interiors</li>
+                            <li>35mm: Environmental portraits</li>
+                            <li>50mm: Standard/normal lens</li>
+                            <li>85mm: Portrait lens</li>
+                            <li>135mm: Telephoto compression</li>
+                        </ul>
+                    </div>
+
+                    <h3>Sensor and Film Settings</h3>
+
+                    <div class="card">
+                        <h4>🎞️ Sensor Size</h4>
+                        <p><strong>What is sensor size?</strong></p>
+                        <ul>
+                            <li>Physical size of camera sensor/film</li>
+                            <li>Measured in millimeters (width)</li>
+                            <li>Affects field of view with focal length</li>
+                            <li>Default: 36mm (full-frame equivalent)</li>
+                        </ul>
+
+                        <p><strong>Common sensor sizes:</strong></p>
+                        <ul>
+                            <li><strong>Full Frame (36mm):</strong> Standard cinema/DSLR</li>
+                            <li><strong>Super 35 (24mm):</strong> Cinema standard</li>
+                            <li><strong>APS-C (23.5mm):</strong> Crop sensor cameras</li>
+                            <li><strong>Micro 4/3 (17mm):</strong> Compact cameras</li>
+                        </ul>
+
+                        <p><strong>Sensor size presets:</strong></p>
+                        <ul>
+                            <li>Camera Properties → Sensor → Preset dropdown</li>
+                            <li>Options: Various camera formats</li>
+                            <li>Usually leave at default unless matching specific camera</li>
+                        </ul>
+
+                        <p><strong>Sensor fit:</strong></p>
+                        <ul>
+                            <li><strong>Auto:</strong> Automatically fits to render aspect</li>
+                            <li><strong>Horizontal:</strong> Fits width, height adjusts</li>
+                            <li><strong>Vertical:</strong> Fits height, width adjusts</li>
+                            <li>Usually leave on Auto</li>
+                        </ul>
+                    </div>
+
+                    <h3>Clipping</h3>
+
+                    <div class="card">
+                        <h4>✂️ Near and Far Clipping</h4>
+                        <p><strong>What is clipping?</strong></p>
+                        <ul>
+                            <li>Defines visible distance range</li>
+                            <li>Objects closer than "Clip Start" invisible</li>
+                            <li>Objects farther than "Clip End" invisible</li>
+                            <li>Optimization for complex scenes</li>
+                        </ul>
+
+                        <p><strong>Clip Start:</strong></p>
+                        <ul>
+                            <li>Default: 0.1 Blender units</li>
+                            <li>Minimum distance camera can see</li>
+                            <li>Increase if camera penetrates objects</li>
+                            <li>Typical range: 0.01 - 1.0</li>
+                        </ul>
+
+                        <p><strong>Clip End:</strong></p>
+                        <ul>
+                            <li>Default: 100 Blender units</li>
+                            <li>Maximum distance camera can see</li>
+                            <li>Increase for very large scenes</li>
+                            <li>Decrease to optimize complex scenes</li>
+                        </ul>
+
+                        <p><strong>When to adjust:</strong></p>
+                        <ul>
+                            <li>Objects disappearing near camera: Increase Clip Start</li>
+                            <li>Distant objects invisible: Increase Clip End</li>
+                            <li>Z-fighting artifacts: Adjust Clip Start/End ratio</li>
+                            <li>Usually defaults work fine</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 01
+     Continue with lesson_20_camera_basics_part_02.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 20 - PART 02
+     File: lesson_20_camera_basics_part_02.html
+     ============================================ -->
+
+                <section id="focal-length" class="content-section">
+                    <h2>🔍 Focal Length and Perspective</h2>
+
+                    <p>Focal length is one of the most powerful creative tools in cinematography. Understanding how it affects perspective and composition will transform your camera work.</p>
+
+                    <h3>How Focal Length Works</h3>
+
+                    <div class="card">
+                        <h4>📐 The Field of View</h4>
+                        <p><strong>Relationship between focal length and field of view:</strong></p>
+                        <ul>
+                            <li><strong>Short focal length (wide-angle):</strong>
+                                <ul>
+                                    <li>Wide field of view (sees more)</li>
+                                    <li>Must be close to subject for same framing</li>
+                                    <li>Exaggerated perspective</li>
+                                    <li>Example: 24mm sees ~84° horizontally</li>
+                                </ul>
+                            </li>
+                            <li><strong>Long focal length (telephoto):</strong>
+                                <ul>
+                                    <li>Narrow field of view (sees less)</li>
+                                    <li>Must be far from subject for same framing</li>
+                                    <li>Compressed perspective</li>
+                                    <li>Example: 135mm sees ~18° horizontally</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>The key principle:</strong></p>
+                        <ul>
+                            <li>Field of view = How much camera sees</li>
+                            <li>Lower mm = Wider view, camera closer</li>
+                            <li>Higher mm = Narrower view, camera farther</li>
+                            <li>Distance + focal length = perspective effect</li>
+                        </ul>
+                    </div>
+
+                    <h3>Perspective Distortion</h3>
+
+                    <div class="card">
+                        <h4>🌀 Wide-Angle vs Telephoto</h4>
+                        <p><strong>Wide-angle perspective (18-35mm):</strong></p>
+                        <ul>
+                            <li><strong>Characteristics:</strong>
+                                <ul>
+                                    <li>Exaggerated depth and distance</li>
+                                    <li>Near objects appear much larger</li>
+                                    <li>Far objects appear much smaller</li>
+                                    <li>Parallel lines converge dramatically</li>
+                                </ul>
+                            </li>
+                            <li><strong>Effects:</strong>
+                                <ul>
+                                    <li>Rooms look bigger and deeper</li>
+                                    <li>Faces can look distorted up close</li>
+                                    <li>Dynamic, energetic feeling</li>
+                                    <li>Emphasizes foreground</li>
+                                </ul>
+                            </li>
+                            <li><strong>Use for:</strong>
+                                <ul>
+                                    <li>Architecture interiors</li>
+                                    <li>Cramped spaces (makes them feel larger)</li>
+                                    <li>Action scenes (dynamic feel)</li>
+                                    <li>Establishing shots showing environment</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Telephoto perspective (85mm+):</strong></p>
+                        <ul>
+                            <li><strong>Characteristics:</strong>
+                                <ul>
+                                    <li>Compressed depth (layers look flatter)</li>
+                                    <li>Background appears closer to foreground</li>
+                                    <li>Objects at different distances look similar size</li>
+                                    <li>Minimal perspective distortion</li>
+                                </ul>
+                            </li>
+                            <li><strong>Effects:</strong>
+                                <ul>
+                                    <li>Flattering for faces (no nose distortion)</li>
+                                    <li>Background more prominent, less blurred</li>
+                                    <li>Intimate, focused feeling</li>
+                                    <li>Isolates subject from environment</li>
+                                </ul>
+                            </li>
+                            <li><strong>Use for:</strong>
+                                <ul>
+                                    <li>Portrait and character close-ups</li>
+                                    <li>Product detail shots</li>
+                                    <li>Compressing busy backgrounds</li>
+                                    <li>Creating abstract compositions</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Normal focal length (40-55mm):</strong></p>
+                        <ul>
+                            <li>Balanced perspective (neutral)</li>
+                            <li>Mimics human vision</li>
+                            <li>Neither exaggerated nor compressed</li>
+                            <li>Most natural, comfortable viewing</li>
+                            <li>Use for general-purpose shots</li>
+                        </ul>
+                    </div>
+
+                    <h3>Choosing Focal Length</h3>
+
+                    <div class="card">
+                        <h4>🎯 Creative Decisions</h4>
+                        <p><strong>Consider these factors:</strong></p>
+                        <ul>
+                            <li><strong>Subject matter:</strong>
+                                <ul>
+                                    <li>Architecture: Wide-angle (24-35mm)</li>
+                                    <li>Portraits: Portrait lens (85-135mm)</li>
+                                    <li>Products: Standard to portrait (50-85mm)</li>
+                                    <li>Landscapes: Wide to standard (24-50mm)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mood and story:</strong>
+                                <ul>
+                                    <li>Dynamic action: Wide-angle</li>
+                                    <li>Intimate moment: Telephoto</li>
+                                    <li>Neutral observation: Standard</li>
+                                    <li>Dramatic intensity: Telephoto</li>
+                                </ul>
+                            </li>
+                            <li><strong>Space constraints:</strong>
+                                <ul>
+                                    <li>Tight space: Must use wide-angle</li>
+                                    <li>Distant subject: Must use telephoto</li>
+                                    <li>Flexible space: Choose creatively</li>
+                                </ul>
+                            </li>
+                            <li><strong>Depth perception:</strong>
+                                <ul>
+                                    <li>Want depth: Wide-angle</li>
+                                    <li>Want compression: Telephoto</li>
+                                    <li>Natural depth: Standard</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Adjusting Focal Length in Blender</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Practical Adjustment</h4>
+                        <p><strong>Method 1: Direct value entry</strong></p>
+                        <ol>
+                            <li>Select camera</li>
+                            <li>Camera Properties → Lens → Focal Length</li>
+                            <li>Type desired value (e.g., 35, 50, 85)</li>
+                            <li>See immediate result in camera view</li>
+                        </ol>
+
+                        <p><strong>Method 2: Interactive adjustment in viewport</strong></p>
+                        <ol>
+                            <li>Enter camera view (<code>Numpad 0</code>)</li>
+                            <li>Press <code>G</code> (or <code>Shift+F</code> for fly mode)</li>
+                            <li>Move mouse to zoom in/out</li>
+                            <li>Adjust focal length to reframe</li>
+                            <li>Click to confirm</li>
+                        </ol>
+
+                        <p><strong>Quick focal length presets:</strong></p>
+                        <ul>
+                            <li>18mm: Dramatic wide-angle</li>
+                            <li>24mm: Wide interior</li>
+                            <li>35mm: Reportage/street</li>
+                            <li>50mm: Standard</li>
+                            <li>85mm: Portrait</li>
+                            <li>135mm: Compressed telephoto</li>
+                            <li>200mm: Strong compression</li>
+                        </ul>
+
+                        <p><strong>Testing focal lengths:</strong></p>
+                        <ul>
+                            <li>Frame subject same in each test</li>
+                            <li>Try 24mm, 50mm, 135mm</li>
+                            <li>Notice how background changes</li>
+                            <li>Choose based on desired effect</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Focal Length Quick Reference</h4>
+                        <p><strong>Common scenarios and recommended focal lengths:</strong></p>
+                        <ul>
+                            <li><strong>Architecture exterior:</strong> 18-24mm</li>
+                            <li><strong>Architecture interior:</strong> 24-35mm</li>
+                            <li><strong>Product on table:</strong> 50-85mm</li>
+                            <li><strong>Character full body:</strong> 35-50mm</li>
+                            <li><strong>Character head shot:</strong> 85-135mm</li>
+                            <li><strong>Jewelry/small detail:</strong> 85-135mm (macro feel)</li>
+                            <li><strong>Landscape/environment:</strong> 24-50mm</li>
+                            <li><strong>Abstract/pattern:</strong> 135-200mm</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Focal Length Secret:</strong> Professional cinematographers don't choose focal length to "fit everything in frame"—they choose it for the perspective effect it creates. You can frame a subject the same size with 24mm (close) or 135mm (far away), but the feeling is completely different. Wide-angle makes the world feel vast and dynamic. Telephoto makes it feel intimate and compressed. This is why "zooming with your feet" (moving closer/farther) creates different results than changing focal length—you're changing perspective, not just magnification.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="positioning" class="content-section">
+                    <h2>🎯 Camera Positioning Techniques</h2>
+
+                    <p>Knowing where and how to position your camera is fundamental to good cinematography. Let's master camera movement and placement.</p>
+
+                    <h3>Moving the Camera</h3>
+
+                    <div class="card">
+                        <h4>🚀 Basic Camera Movement</h4>
+                        <p><strong>Method 1: Transform tools (precise)</strong></p>
+                        <ul>
+                            <li><strong>Move (G):</strong>
+                                <ul>
+                                    <li>Select camera</li>
+                                    <li>Press <code>G</code> to grab/move</li>
+                                    <li>Constrain to axis: <code>X</code>, <code>Y</code>, or <code>Z</code></li>
+                                    <li>Type number for exact distance</li>
+                                    <li>Click to confirm</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rotate (R):</strong>
+                                <ul>
+                                    <li>Press <code>R</code> to rotate</li>
+                                    <li>Constrain to axis: <code>X</code>, <code>Y</code>, or <code>Z</code></li>
+                                    <li>Type angle in degrees</li>
+                                    <li>Click to confirm</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Method 2: Interactive camera navigation</strong></p>
+                        <ul>
+                            <li><strong>Walk mode:</strong>
+                                <ul>
+                                    <li>Enter camera view (<code>Numpad 0</code>)</li>
+                                    <li>Press <code>Shift+`</code> (tilde)</li>
+                                    <li>WASD keys to move like FPS game</li>
+                                    <li>Mouse to look around</li>
+                                    <li>Click to exit</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lock camera to view:</strong>
+                                <ul>
+                                    <li>Enter camera view</li>
+                                    <li>Press <code>N</code> → View tab → Lock Camera to View (checkbox)</li>
+                                    <li>Now viewport navigation moves camera</li>
+                                    <li>Very intuitive for positioning</li>
+                                    <li>Disable when done to prevent accidental movement</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Method 3: Properties panel (numeric)</strong></p>
+                        <ul>
+                            <li>Select camera</li>
+                            <li>Properties → Object Properties (orange cube icon)</li>
+                            <li>Transform section</li>
+                            <li>Enter exact Location and Rotation values</li>
+                            <li>Perfect for matching specific coordinates</li>
+                        </ul>
+                    </div>
+
+                    <h3>Aiming the Camera</h3>
+
+                    <div class="card">
+                        <h4>🎯 Pointing at Your Subject</h4>
+                        <p><strong>Method 1: Manual rotation</strong></p>
+                        <ul>
+                            <li>Select camera</li>
+                            <li>Press <code>R</code> to rotate</li>
+                            <li>Visual feedback in viewport</li>
+                            <li>Adjust until aimed correctly</li>
+                        </ul>
+
+                        <p><strong>Method 2: Camera to View</strong></p>
+                        <ol>
+                            <li>Navigate viewport to desired angle</li>
+                            <li>Select camera</li>
+                            <li><code>Ctrl+Alt+Numpad 0</code></li>
+                            <li>Camera snaps to current view</li>
+                            <li>Or: View menu → Align View → Align Active Camera to View</li>
+                        </ol>
+
+                        <p><strong>Method 3: Track To constraint (automatic aiming)</strong></p>
+                        <ol>
+                            <li>Select camera</li>
+                            <li>Object Properties → Constraints → Add Constraint → Track To</li>
+                            <li>Target: Select object to track</li>
+                            <li>To: -Z (camera's forward direction)</li>
+                            <li>Up: Y</li>
+                            <li>Camera now always points at target</li>
+                            <li>Move target = camera follows</li>
+                        </ol>
+
+                        <p><strong>When to use each method:</strong></p>
+                        <ul>
+                            <li>Manual: Quick adjustments, static shots</li>
+                            <li>Camera to View: Matching specific viewport angle</li>
+                            <li>Track To: Animated subjects, orbit shots</li>
+                        </ul>
+                    </div>
+
+                    <h3>Camera Height and Angle</h3>
+
+                    <div class="card">
+                        <h4>📐 Vertical Position Psychology</h4>
+                        <p><strong>Eye level (neutral):</strong></p>
+                        <ul>
+                            <li>Camera at subject's eye height</li>
+                            <li>Objective, documentary feel</li>
+                            <li>Viewer as equal observer</li>
+                            <li>Most common for general shots</li>
+                            <li>Use as default, deviate with purpose</li>
+                        </ul>
+
+                        <p><strong>Low angle (powerful):</strong></p>
+                        <ul>
+                            <li>Camera below subject, looking up</li>
+                            <li>Makes subject appear:</li>
+                            <li>→ Powerful, dominant, intimidating</li>
+                            <li>→ Important, heroic, larger-than-life</li>
+                            <li>Dramatic sky/ceiling backgrounds</li>
+                            <li>Use for: Hero shots, authority figures</li>
+                        </ul>
+
+                        <p><strong>High angle (vulnerable):</strong></p>
+                        <ul>
+                            <li>Camera above subject, looking down</li>
+                            <li>Makes subject appear:</li>
+                            <li>→ Vulnerable, weak, insignificant</li>
+                            <li>→ Submissive, defeated, small</li>
+                            <li>Ground/floor prominent in frame</li>
+                            <li>Use for: Showing weakness, isolation</li>
+                        </ul>
+
+                        <p><strong>Bird's eye (overview):</strong></p>
+                        <ul>
+                            <li>Camera directly overhead</li>
+                            <li>Looking straight down</li>
+                            <li>Graphic, map-like composition</li>
+                            <li>Removes normal perspective</li>
+                            <li>Use for: Maps, patterns, abstract views</li>
+                        </ul>
+
+                        <p><strong>Dutch angle (tension):</strong></p>
+                        <ul>
+                            <li>Camera tilted (rolled on Z-axis)</li>
+                            <li>Horizon line diagonal</li>
+                            <li>Creates unease, instability</li>
+                            <li>Use sparingly for dramatic effect</li>
+                            <li>Use for: Chaos, disorientation, tension</li>
+                        </ul>
+                    </div>
+
+                    <h3>Camera Distance</h3>
+
+                    <div class="card">
+                        <h4>📏 Proximity and Intimacy</h4>
+                        <p><strong>Extreme wide shot:</strong></p>
+                        <ul>
+                            <li>Subject small in frame</li>
+                            <li>Environment dominates</li>
+                            <li>Emphasizes scale, isolation</li>
+                            <li>Use for: Establishing context, showing environment</li>
+                        </ul>
+
+                        <p><strong>Wide shot:</strong></p>
+                        <ul>
+                            <li>Full subject with surroundings</li>
+                            <li>Shows subject in context</li>
+                            <li>Comfortable viewing distance</li>
+                            <li>Use for: Action, movement, spatial relationships</li>
+                        </ul>
+
+                        <p><strong>Medium shot:</strong></p>
+                        <ul>
+                            <li>Subject from waist up (for characters)</li>
+                            <li>Balanced subject and background</li>
+                            <li>Comfortable for dialogue</li>
+                            <li>Use for: Conversations, product showcases</li>
+                        </ul>
+
+                        <p><strong>Close-up:</strong></p>
+                        <ul>
+                            <li>Face or object fills frame</li>
+                            <li>Emphasizes detail and emotion</li>
+                            <li>Creates intimacy</li>
+                            <li>Use for: Emotional moments, product details</li>
+                        </ul>
+
+                        <p><strong>Extreme close-up:</strong></p>
+                        <ul>
+                            <li>Eyes, hands, tiny details</li>
+                            <li>Maximum intimacy and focus</li>
+                            <li>Abstract quality</li>
+                            <li>Use for: Texture, emotion emphasis, drama</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Rule of Thirds in Camera Positioning</h3>
+
+                    <div class="card">
+                        <h4>📏 Compositional Guides</h4>
+                        <p><strong>Enabling composition guides:</strong></p>
+                        <ol>
+                            <li>Camera Properties → Viewport Display</li>
+                            <li>Composition Guides dropdown</li>
+                            <li>Select "Rule of Thirds"</li>
+                            <li>Grid overlay appears in camera view</li>
+                        </ol>
+
+                        <p><strong>Using the rule of thirds:</strong></p>
+                        <ul>
+                            <li>Image divided into 9 equal rectangles</li>
+                            <li>4 intersection points = "power points"</li>
+                            <li>Place important elements on these points</li>
+                            <li>Or align with grid lines</li>
+                            <li>Creates balanced, professional composition</li>
+                        </ul>
+
+                        <p><strong>Common applications:</strong></p>
+                        <ul>
+                            <li>Eyes on top horizontal line</li>
+                            <li>Horizon on top or bottom line (not center)</li>
+                            <li>Subject on left or right vertical line</li>
+                            <li>Products at intersection points</li>
+                        </ul>
+
+                        <p><strong>Other composition guides available:</strong></p>
+                        <ul>
+                            <li><strong>Center:</strong> Crosshair center marker</li>
+                            <li><strong>Center Diagonal:</strong> X from corners</li>
+                            <li><strong>Triangle A/B:</strong> Triangular composition</li>
+                            <li><strong>Harmony A/B:</strong> Golden ratio guides</li>
+                            <li><strong>Golden Triangle:</strong> Diagonal lines</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <section id="framing" class="content-section">
+                    <h2>🖼️ Framing and Composition</h2>
+
+                    <p>Great camera positioning isn't just about where the camera is—it's about what's in the frame and how it's arranged.</p>
+
+                    <h3>Basic Composition Principles</h3>
+
+                    <div class="card">
+                        <h4>🎨 Foundational Rules</h4>
+                        <p><strong>Rule of thirds (revisited):</strong></p>
+                        <ul>
+                            <li>Don't center everything</li>
+                            <li>Off-center creates interest</li>
+                            <li>Place subjects on intersections</li>
+                            <li>Leave "looking space" (empty space in look direction)</li>
+                        </ul>
+
+                        <p><strong>Balance:</strong></p>
+                        <ul>
+                            <li>Visual weight distribution</li>
+                            <li>Symmetrical: Same on both sides (formal, stable)</li>
+                            <li>Asymmetrical: Different but balanced (dynamic, interesting)</li>
+                            <li>Heavy elements balanced by smaller elements opposite</li>
+                        </ul>
+
+                        <p><strong>Leading lines:</strong></p>
+                        <ul>
+                            <li>Lines that guide viewer's eye</li>
+                            <li>Roads, fences, edges, beams</li>
+                            <li>Lead toward subject</li>
+                            <li>Create depth and direction</li>
+                        </ul>
+
+                        <p><strong>Framing within frame:</strong></p>
+                        <ul>
+                            <li>Use elements to frame subject</li>
+                            <li>Doorways, windows, arches</li>
+                            <li>Natural vignette effect</li>
+                            <li>Draws focus to subject</li>
+                        </ul>
+
+                        <p><strong>Depth:</strong></p>
+                        <ul>
+                            <li>Foreground, middle ground, background</li>
+                            <li>Creates 3D feel in 2D image</li>
+                            <li>Place elements at different depths</li>
+                            <li>Use depth of field to separate layers</li>
+                        </ul>
+                    </div>
+
+                    <h3>Negative Space</h3>
+
+                    <div class="card">
+                        <h4>⬜ Empty Space as Design Element</h4>
+                        <p><strong>What is negative space?</strong></p>
+                        <ul>
+                            <li>Empty areas in composition</li>
+                            <li>Space around subject, not occupied by subject</li>
+                            <li>Can be background, sky, floor, walls</li>
+                        </ul>
+
+                        <p><strong>Purpose of negative space:</strong></p>
+                        <ul>
+                            <li><strong>Focus:</strong> Isolates subject</li>
+                            <li><strong>Breathing room:</strong> Prevents cluttered feel</li>
+                            <li><strong>Elegance:</strong> Minimalist, clean aesthetic</li>
+                            <li><strong>Direction:</strong> Shows where subject is moving/looking</li>
+                        </ul>
+
+                        <p><strong>How much negative space?</strong></p>
+                        <ul>
+                            <li><strong>Minimal:</strong> Tight crop, dramatic, intense</li>
+                            <li><strong>Moderate:</strong> Balanced, comfortable</li>
+                            <li><strong>Lots:</strong> Isolated, minimalist, spacious</li>
+                            <li>More negative space = more isolation/focus</li>
+                        </ul>
+
+                        <p><strong>Placement with negative space:</strong></p>
+                        <ul>
+                            <li>Leave space in direction subject faces</li>
+                            <li>Leave space above head (headroom)</li>
+                            <li>Leave space for movement direction</li>
+                            <li>Avoid cramming subject against edge</li>
+                        </ul>
+                    </div>
+
+                    <h3>Aspect Ratio</h3>
+
+                    <div class="card">
+                        <h4>📐 Frame Proportions</h4>
+                        <p><strong>What is aspect ratio?</strong></p>
+                        <ul>
+                            <li>Width-to-height ratio of image</li>
+                            <li>Example: 16:9 means 16 units wide, 9 units tall</li>
+                            <li>Determines frame shape</li>
+                            <li>Set in Output Properties (not camera)</li>
+                        </ul>
+
+                        <p><strong>Common aspect ratios:</strong></p>
+                        <ul>
+                            <li><strong>16:9 (1.78:1):</strong>
+                                <ul>
+                                    <li>HD video standard</li>
+                                    <li>YouTube, TV, most video content</li>
+                                    <li>Wide, cinematic feel</li>
+                                </ul>
+                            </li>
+                            <li><strong>4:3 (1.33:1):</strong>
+                                <ul>
+                                    <li>Classic TV/monitor</li>
+                                    <li>More square, retro feel</li>
+                                    <li>Less common now</li>
+                                </ul>
+                            </li>
+                            <li><strong>2.39:1 (Cinemascope):</strong>
+                                <ul>
+                                    <li>Ultra-wide cinematic</li>
+                                    <li>Feature films</li>
+                                    <li>Very dramatic, letterbox</li>
+                                </ul>
+                            </li>
+                            <li><strong>1:1 (Square):</strong>
+                                <ul>
+                                    <li>Instagram posts</li>
+                                    <li>Graphic feel</li>
+                                    <li>Symmetrical composition</li>
+                                </ul>
+                            </li>
+                            <li><strong>9:16 (Vertical):</strong>
+                                <ul>
+                                    <li>Mobile/social media</li>
+                                    <li>Instagram Stories, TikTok</li>
+                                    <li>Portrait orientation</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Setting aspect ratio:</strong></p>
+                        <ul>
+                            <li>Output Properties → Format → Resolution X and Y</li>
+                            <li>Or use Resolution % to maintain ratio</li>
+                            <li>Examples:
+                                <ul>
+                                    <li>1920 x 1080 = 16:9</li>
+                                    <li>1920 x 1920 = 1:1</li>
+                                    <li>1080 x 1920 = 9:16</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3>Headroom and Looking Room</h3>
+
+                    <div class="card">
+                        <h4>👤 Character Framing</h4>
+                        <p><strong>Headroom:</strong></p>
+                        <ul>
+                            <li>Space above subject's head</li>
+                            <li><strong>Too much:</strong> Subject lost in frame, awkward</li>
+                            <li><strong>Too little:</strong> Cramped, claustrophobic</li>
+                            <li><strong>Just right:</strong> Comfortable, professional</li>
+                            <li>General rule: Small gap between head and top frame</li>
+                        </ul>
+
+                        <p><strong>Looking room (nose room):</strong></p>
+                        <ul>
+                            <li>Space in direction subject is facing/looking</li>
+                            <li>More space in front than behind</li>
+                            <li>Allows viewer to see what subject sees</li>
+                            <li>Creates comfortable, natural composition</li>
+                        </ul>
+
+                        <p><strong>Lead room:</strong></p>
+                        <ul>
+                            <li>Similar to looking room but for movement</li>
+                            <li>Space in direction subject is moving</li>
+                            <li>Shows where subject is going</li>
+                            <li>Prevents feeling of "bumping into" frame edge</li>
+                        </ul>
+
+                        <p><strong>Breaking the rules intentionally:</strong></p>
+                        <ul>
+                            <li>Excessive headroom: Isolation, insignificance</li>
+                            <li>No headroom: Pressure, claustrophobia</li>
+                            <li>No looking room: Trapped, uncomfortable</li>
+                            <li>Use violations to create specific feelings</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 02
+     Continue with lesson_20_camera_basics_part_03.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 20 - PART 03
+     File: lesson_20_camera_basics_part_03.html
+     ============================================ -->
+
+                <section id="multiple-cameras" class="content-section">
+                    <h2>🎬 Working with Multiple Cameras</h2>
+
+                    <p>Professional scenes often use multiple cameras to capture different angles and shots. Blender makes it easy to set up, switch between, and manage multiple cameras in your scene.</p>
+
+                    <h3>Why Use Multiple Cameras?</h3>
+
+                    <div class="card">
+                        <h4>📹 Benefits of Multi-Camera Setups</h4>
+                        <p><strong>Common scenarios:</strong></p>
+                        <ul>
+                            <li><strong>Product visualization:</strong>
+                                <ul>
+                                    <li>Front view, side view, detail view</li>
+                                    <li>Different angles for marketing materials</li>
+                                    <li>Quick switching without repositioning</li>
+                                </ul>
+                            </li>
+                            <li><strong>Architectural walkthrough:</strong>
+                                <ul>
+                                    <li>Multiple room views</li>
+                                    <li>Interior and exterior shots</li>
+                                    <li>Different perspectives of same space</li>
+                                </ul>
+                            </li>
+                            <li><strong>Character showcase:</strong>
+                                <ul>
+                                    <li>Full body, close-up, profile</li>
+                                    <li>Different emotional moments</li>
+                                    <li>Turnaround views</li>
+                                </ul>
+                            </li>
+                            <li><strong>Scene variations:</strong>
+                                <ul>
+                                    <li>Wide establishing shot</li>
+                                    <li>Medium character interaction</li>
+                                    <li>Close-up emotional moment</li>
+                                    <li>Each tells different part of story</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Advantages:</strong></p>
+                        <ul>
+                            <li>Save time - no repositioning between renders</li>
+                            <li>Maintain consistency across shots</li>
+                            <li>Easily compare different angles</li>
+                            <li>Professional workflow standard</li>
+                            <li>Animation-ready (can switch cameras mid-animation)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Adding Cameras to Your Scene</h3>
+
+                    <div class="card">
+                        <h4>➕ Creating Additional Cameras</h4>
+                        <p><strong>Method 1: Add menu</strong></p>
+                        <ol>
+                            <li>Position 3D cursor where you want camera</li>
+                            <li><code>Shift+A</code> → Camera</li>
+                            <li>New camera appears at cursor location</li>
+                            <li>Camera faces default direction (down negative Y-axis)</li>
+                        </ol>
+
+                        <p><strong>Method 2: Duplicate existing camera</strong></p>
+                        <ol>
+                            <li>Select existing camera</li>
+                            <li><code>Shift+D</code> (duplicate)</li>
+                            <li>Move to new position</li>
+                            <li>Click to confirm</li>
+                            <li>Maintains all settings from original camera</li>
+                        </ol>
+
+                        <p><strong>Method 3: From viewport position</strong></p>
+                        <ol>
+                            <li>Navigate viewport to desired camera angle</li>
+                            <li><code>Shift+A</code> → Camera</li>
+                            <li>Select new camera</li>
+                            <li><code>Ctrl+Alt+Numpad 0</code> (align to view)</li>
+                            <li>Camera now matches your viewport angle</li>
+                        </ol>
+
+                        <p><strong>Naming your cameras:</strong></p>
+                        <ul>
+                            <li>Select camera</li>
+                            <li>Press <code>F2</code> or double-click name in Outliner</li>
+                            <li>Use descriptive names:
+                                <ul>
+                                    <li>"Camera_Wide"</li>
+                                    <li>"Camera_CloseUp"</li>
+                                    <li>"Camera_Front"</li>
+                                    <li>"Camera_Detail"</li>
+                                </ul>
+                            </li>
+                            <li>Good naming = easier management</li>
+                        </ul>
+                    </div>
+
+                    <h3>Switching Between Cameras</h3>
+
+                    <div class="card">
+                        <h4>🔄 Active Camera Selection</h4>
+                        <p><strong>The active camera:</strong></p>
+                        <ul>
+                            <li>Only ONE camera active at a time</li>
+                            <li>Active camera = what renders</li>
+                            <li>Marked with solid triangle marker in viewport</li>
+                            <li>Inactive cameras show hollow triangle</li>
+                        </ul>
+
+                        <p><strong>Method 1: Make active from selection</strong></p>
+                        <ol>
+                            <li>Select desired camera in viewport or Outliner</li>
+                            <li><code>Ctrl+Numpad 0</code></li>
+                            <li>Camera becomes active</li>
+                            <li>Viewport switches to that camera view</li>
+                        </ol>
+
+                        <p><strong>Method 2: Scene properties</strong></p>
+                        <ol>
+                            <li>Scene Properties (scene icon) → Camera</li>
+                            <li>Dropdown shows all cameras in scene</li>
+                            <li>Select camera from list</li>
+                            <li>That camera becomes active</li>
+                        </ol>
+
+                        <p><strong>Method 3: Quick switching in camera view</strong></p>
+                        <ol>
+                            <li>Enter camera view (<code>Numpad 0</code>)</li>
+                            <li>Select different camera object</li>
+                            <li><code>Ctrl+Numpad 0</code></li>
+                            <li>View immediately switches to new camera</li>
+                        </ol>
+
+                        <p><strong>Viewing non-active cameras:</strong></p>
+                        <ul>
+                            <li>Select inactive camera</li>
+                            <li>View → Cameras → "Active Camera" is current active</li>
+                            <li>Or manually navigate to camera's position</li>
+                            <li>Press <code>Numpad 0</code> to snap to active camera</li>
+                        </ul>
+                    </div>
+
+                    <h3>Camera Collections</h3>
+
+                    <div class="card">
+                        <h4>📁 Organizing Multiple Cameras</h4>
+                        <p><strong>Why organize cameras?</strong></p>
+                        <ul>
+                            <li>Scenes with 5+ cameras get cluttered</li>
+                            <li>Hard to find specific camera</li>
+                            <li>Solution: Use collections</li>
+                        </ul>
+
+                        <p><strong>Creating a camera collection:</strong></p>
+                        <ol>
+                            <li>In Outliner, click "New Collection" button</li>
+                            <li>Name it "Cameras"</li>
+                            <li>Drag all camera objects into this collection</li>
+                            <li>Toggle collection visibility to hide/show all cameras</li>
+                        </ol>
+
+                        <p><strong>Benefits of camera collections:</strong></p>
+                        <ul>
+                            <li>All cameras grouped together</li>
+                            <li>Easy to hide camera objects while working</li>
+                            <li>Toggle visibility without affecting render</li>
+                            <li>Professional scene organization</li>
+                        </ul>
+
+                        <p><strong>Sub-collections for complex scenes:</strong></p>
+                        <ul>
+                            <li>Create sub-collections by type:
+                                <ul>
+                                    <li>"Cameras_Wide"</li>
+                                    <li>"Cameras_CloseUp"</li>
+                                    <li>"Cameras_Product"</li>
+                                </ul>
+                            </li>
+                            <li>Helps when scene has 10+ cameras</li>
+                        </ul>
+                    </div>
+
+                    <h3>Camera Markers (Timeline)</h3>
+
+                    <div class="card">
+                        <h4>🎞️ Animated Camera Switching</h4>
+                        <p><strong>What are camera markers?</strong></p>
+                        <ul>
+                            <li>Timeline markers that bind to cameras</li>
+                            <li>Automatically switch active camera at specific frames</li>
+                            <li>Essential for animation sequences</li>
+                            <li>Like editing cuts in film</li>
+                        </ul>
+
+                        <p><strong>Setting up camera markers:</strong></p>
+                        <ol>
+                            <li>Open Timeline editor (bottom of screen)</li>
+                            <li>Position playhead at frame where camera should switch</li>
+                            <li>Select camera you want active at that frame</li>
+                            <li>Marker menu → Bind Camera to Markers</li>
+                            <li>Or: <code>Ctrl+B</code> in timeline with camera selected</li>
+                        </ol>
+
+                        <p><strong>Workflow example:</strong></p>
+                        <ul>
+                            <li>Frame 1-50: Wide shot (Camera_Wide)</li>
+                            <li>Frame 51-100: Close-up (Camera_CloseUp)</li>
+                            <li>Frame 101-150: Side view (Camera_Side)</li>
+                            <li>Set marker at frame 1, 51, 101 with respective cameras</li>
+                            <li>Animation automatically switches cameras</li>
+                        </ul>
+
+                        <p><strong>Managing markers:</strong></p>
+                        <ul>
+                            <li>Markers appear as small triangles in timeline</li>
+                            <li>Name shows bound camera</li>
+                            <li>Drag to move marker (changes timing)</li>
+                            <li><code>X</code> to delete marker</li>
+                            <li>Right-click → Rename to change marker name</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Multi-Camera Best Practices</h4>
+                        <p><strong>Professional tips:</strong></p>
+                        <ul>
+                            <li><strong>Name systematically:</strong> Use prefixes like "CAM_01_Wide", "CAM_02_Medium"</li>
+                            <li><strong>Consistent settings:</strong> Match focal length within a sequence for continuity</li>
+                            <li><strong>Save camera angles:</strong> Don't delete cameras—keep all angles for future use</li>
+                            <li><strong>Test all cameras:</strong> Check each camera view before final render batch</li>
+                            <li><strong>Render organization:</strong> Output each camera to separate folder or filename</li>
+                            <li><strong>Documentation:</strong> Add notes about what each camera is for (use Text objects or external doc)</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Director's Toolkit:</strong> Professional cinematographers and directors work with multiple cameras simultaneously on film sets—a wide shot capturing the whole scene, close-ups for emotional beats, and detail shots for key moments. In 3D, you have the same power but with infinite cameras and zero additional cost. Set up your scene like a real film shoot: establish your master shot (wide), your coverage (medium), and your inserts (close-ups). Then you can "edit" your scene by switching between cameras, just like cutting between footage. This workflow mirrors real filmmaking and trains you to think cinematically about your 3D work.</p>
+                    </blockquote>
+
+                </section>
+
+                <section id="camera-constraints" class="content-section">
+                    <h2>🔗 Camera Constraints</h2>
+
+                    <p>Constraints are powerful tools that automate camera behavior and make complex camera movements simple to set up. They're your secret weapon for professional camera control.</p>
+
+                    <h3>What Are Constraints?</h3>
+
+                    <div class="card">
+                        <h4>⚙️ Automated Camera Behavior</h4>
+                        <p><strong>Constraint definition:</strong></p>
+                        <ul>
+                            <li>Rules that control object properties automatically</li>
+                            <li>For cameras: control position, rotation, or both</li>
+                            <li>React to other objects or follow rules</li>
+                            <li>Non-destructive (can disable/remove anytime)</li>
+                        </ul>
+
+                        <p><strong>Why use camera constraints?</strong></p>
+                        <ul>
+                            <li>Easier than manual keyframing</li>
+                            <li>Camera automatically follows target</li>
+                            <li>Complex movements simplified</li>
+                            <li>Maintain relationships between camera and subject</li>
+                            <li>Professional cinematography techniques automated</li>
+                        </ul>
+
+                        <p><strong>Accessing constraints:</strong></p>
+                        <ul>
+                            <li>Select camera</li>
+                            <li>Object Properties → Constraints (chain link icon)</li>
+                            <li>Add Constraint → Choose type</li>
+                            <li>Configure constraint parameters</li>
+                        </ul>
+                    </div>
+
+                    <h3>Track To Constraint</h3>
+
+                    <div class="card">
+                        <h4>🎯 Always Aim at Target</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Makes camera always point at target object</li>
+                            <li>Target moves = camera automatically reorients</li>
+                            <li>Perfect for following moving subjects</li>
+                            <li>Most commonly used camera constraint</li>
+                        </ul>
+
+                        <p><strong>Setting up Track To:</strong></p>
+                        <ol>
+                            <li>Select camera</li>
+                            <li>Object Properties → Constraints → Add Constraint → Track To</li>
+                            <li><strong>Target:</strong> Choose object to track (e.g., character, product)</li>
+                            <li><strong>To:</strong> Set to <code>-Z</code> (camera's forward direction)</li>
+                            <li><strong>Up:</strong> Set to <code>Y</code> (camera's up direction)</li>
+                            <li>Camera now automatically aims at target</li>
+                        </ol>
+
+                        <p><strong>Use cases:</strong></p>
+                        <ul>
+                            <li><strong>Character following:</strong> Camera tracks animated character</li>
+                            <li><strong>Product turntable:</strong> Camera stays aimed at rotating product</li>
+                            <li><strong>Orbit shots:</strong> Camera circles subject while tracking</li>
+                            <li><strong>Dolly shots:</strong> Camera moves while maintaining aim</li>
+                        </ul>
+
+                        <p><strong>Track To + Empty object trick:</strong></p>
+                        <ol>
+                            <li>Add Empty object (<code>Shift+A</code> → Empty)</li>
+                            <li>Position Empty at point of interest</li>
+                            <li>Make camera Track To the Empty</li>
+                            <li>Animate Empty position = camera follows smoothly</li>
+                            <li>More control than tracking actual subject</li>
+                        </ol>
+                    </div>
+
+                    <h3>Follow Path Constraint</h3>
+
+                    <div class="card">
+                        <h4>🛤️ Camera on Rails</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Makes camera follow a curve path</li>
+                            <li>Creates smooth camera movements</li>
+                            <li>Simulates camera dolly, crane, drone shots</li>
+                            <li>Perfect for animated camera moves</li>
+                        </ul>
+
+                        <p><strong>Setting up Follow Path:</strong></p>
+                        <ol>
+                            <li>Create Bezier Curve: <code>Shift+A</code> → Curve → Bezier</li>
+                            <li>Edit curve to desired camera path shape</li>
+                            <li>Select camera</li>
+                            <li>Add Constraint → Follow Path</li>
+                            <li>Target: Select your curve</li>
+                            <li>Enable "Follow Curve" to orient camera along path</li>
+                            <li>Animate "Offset Factor" 0 to 1 for full path travel</li>
+                        </ol>
+
+                        <p><strong>Combining with Track To:</strong></p>
+                        <ol>
+                            <li>Camera follows path (Follow Path constraint)</li>
+                            <li>Camera aims at subject (Track To constraint)</li>
+                            <li>Add both constraints to same camera</li>
+                            <li>Order matters: Follow Path first, Track To second</li>
+                            <li>Result: Smooth dolly shot while tracking subject</li>
+                        </ol>
+
+                        <p><strong>Common path movements:</strong></p>
+                        <ul>
+                            <li><strong>Dolly in:</strong> Straight path toward subject</li>
+                            <li><strong>Dolly out:</strong> Straight path away from subject</li>
+                            <li><strong>Arc/orbit:</strong> Circular path around subject</li>
+                            <li><strong>Crane up:</strong> Vertical ascending path</li>
+                            <li><strong>Fly through:</strong> Complex curved path through scene</li>
+                        </ul>
+                    </div>
+
+                    <h3>Copy Location/Rotation Constraints</h3>
+
+                    <div class="card">
+                        <h4>📋 Mirror Another Object</h4>
+                        <p><strong>Copy Location:</strong></p>
+                        <ul>
+                            <li>Camera copies position of target object</li>
+                            <li>Target moves = camera moves identically</li>
+                            <li>Can offset to maintain distance</li>
+                            <li>Use for: Matching camera to animated empty</li>
+                        </ul>
+
+                        <p><strong>Copy Rotation:</strong></p>
+                        <ul>
+                            <li>Camera copies rotation of target object</li>
+                            <li>Target rotates = camera rotates same way</li>
+                            <li>Use for: Syncing camera angle to animated object</li>
+                        </ul>
+
+                        <p><strong>Practical example - First Person View:</strong></p>
+                        <ol>
+                            <li>Create character with head bone/empty</li>
+                            <li>Camera Copy Location from head</li>
+                            <li>Camera Copy Rotation from head</li>
+                            <li>Add offset in Copy Location (slightly forward)</li>
+                            <li>Camera now moves exactly with character's head</li>
+                            <li>Perfect first-person perspective</li>
+                        </ol>
+                    </div>
+
+                    <h3>Limit Location/Rotation Constraints</h3>
+
+                    <div class="card">
+                        <h4>🚧 Boundary Controls</h4>
+                        <p><strong>Limit Location:</strong></p>
+                        <ul>
+                            <li>Restricts camera position to specific area</li>
+                            <li>Set min/max values for X, Y, Z axes</li>
+                            <li>Camera can't move beyond boundaries</li>
+                            <li>Use for: Keeping camera within room, preventing wall penetration</li>
+                        </ul>
+
+                        <p><strong>Limit Rotation:</strong></p>
+                        <ul>
+                            <li>Restricts camera rotation angles</li>
+                            <li>Set min/max degrees for each axis</li>
+                            <li>Prevents camera from tilting too far</li>
+                            <li>Use for: Natural looking camera movement, avoiding unrealistic angles</li>
+                        </ul>
+
+                        <p><strong>Example - Security Camera:</strong></p>
+                        <ol>
+                            <li>Position camera at security camera location</li>
+                            <li>Add Limit Rotation constraint</li>
+                            <li>Limit Z rotation: -45° to +45° (90° sweep)</li>
+                            <li>Animate rotation within allowed range</li>
+                            <li>Camera behaves like real security camera with limited motion</li>
+                        </ol>
+                    </div>
+
+                    <h3>Child Of Constraint</h3>
+
+                    <div class="card">
+                        <h4>👶 Parent-Child Relationship</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Makes camera move with parent object</li>
+                            <li>Like parenting but with more control</li>
+                            <li>Can animate the relationship on/off</li>
+                            <li>Can control which properties inherit (location, rotation, scale)</li>
+                        </ul>
+
+                        <p><strong>Setting up Child Of:</strong></p>
+                        <ol>
+                            <li>Select camera</li>
+                            <li>Add Constraint → Child Of</li>
+                            <li>Target: Select parent object</li>
+                            <li>Click "Set Inverse" button (important!)</li>
+                            <li>Camera now follows parent</li>
+                        </ol>
+
+                        <p><strong>Use cases:</strong></p>
+                        <ul>
+                            <li><strong>Vehicle camera:</strong> Child of car, moves with car</li>
+                            <li><strong>Handheld camera:</strong> Child of character hand bone</li>
+                            <li><strong>Mounted camera:</strong> Child of wall, room, equipment</li>
+                            <li><strong>Multi-part rigs:</strong> Camera attached to complex animated rig</li>
+                        </ul>
+
+                        <p><strong>Influence slider:</strong></p>
+                        <ul>
+                            <li>Controls strength of constraint (0-1)</li>
+                            <li>1.0 = Full effect, camera completely follows parent</li>
+                            <li>0.5 = Partial effect, camera follows halfway</li>
+                            <li>0.0 = No effect, constraint disabled</li>
+                            <li>Can animate influence for gradual attach/detach</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Constraint Combination Tips</h4>
+                        <p><strong>Powerful constraint combinations:</strong></p>
+                        <ul>
+                            <li><strong>Orbit shot:</strong> Follow Path (circular) + Track To (center object)</li>
+                            <li><strong>Crane shot:</strong> Follow Path (vertical arc) + Track To (subject)</li>
+                            <li><strong>Dolly zoom:</strong> Follow Path (toward subject) + Track To + animate focal length</li>
+                            <li><strong>Handheld cam:</strong> Child Of (character bone) + Track To (empty with wiggle animation)</li>
+                            <li><strong>Security camera:</strong> Limit Rotation + Track To + subtle animated rotation</li>
+                        </ul>
+                        
+                        <p><strong>Pro workflow:</strong></p>
+                        <ul>
+                            <li>Start with empty objects (not camera directly)</li>
+                            <li>Constrain/animate empties</li>
+                            <li>Parent camera to master empty</li>
+                            <li>Gives you non-destructive control layers</li>
+                            <li>Can adjust camera without breaking constraints</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Constraints: From Manual to Automated:</strong> Imagine trying to manually keyframe a camera to track a character walking through a scene—you'd need hundreds of rotation keyframes to keep the camera aimed correctly. With a Track To constraint, it happens automatically, no matter how the character moves. Constraints transform tedious, error-prone manual work into elegant, automatic behaviors. They're especially powerful when combined: a camera following a path while tracking a subject while limited in its rotation creates sophisticated cinematography with just a few clicks. Think of constraints as hiring a professional camera operator who knows exactly what to do—you just tell them the rules, and they handle the details.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 03
+     Continue with lesson_20_camera_basics_part_04.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 20 - PART 04
+     File: lesson_20_camera_basics_part_04.html
+     ============================================ -->
+
+                <section id="tips-tricks" class="content-section">
+                    <h2>💡 Camera Tips and Tricks</h2>
+
+                    <p>Now that you understand camera fundamentals, let's explore professional techniques, shortcuts, and hidden features that will level up your camera work.</p>
+
+                    <h3>Viewport Display Settings</h3>
+
+                    <div class="card">
+                        <h4>👁️ Camera Visualization Options</h4>
+                        <p><strong>Camera Properties → Viewport Display:</strong></p>
+                        <ul>
+                            <li><strong>Limits:</strong>
+                                <ul>
+                                    <li>Shows clipping start/end planes</li>
+                                    <li>Red lines indicate what's visible</li>
+                                    <li>Helps debug objects disappearing</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mist:</strong>
+                                <ul>
+                                    <li>Visualizes fog distance range</li>
+                                    <li>Shows where mist starts/ends</li>
+                                    <li>Useful when setting up atmospheric effects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Sensor:</strong>
+                                <ul>
+                                    <li>Shows sensor dimensions in viewport</li>
+                                    <li>Helps understand field of view</li>
+                                    <li>Useful for technical camera matching</li>
+                                </ul>
+                            </li>
+                            <li><strong>Name:</strong>
+                                <ul>
+                                    <li>Displays camera name in 3D view</li>
+                                    <li>Essential with multiple cameras</li>
+                                    <li>Helps identify which camera is which</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Size setting:</strong></p>
+                        <ul>
+                            <li>Controls camera object display size in viewport</li>
+                            <li>Doesn't affect render or camera function</li>
+                            <li>Make larger for easier selection in complex scenes</li>
+                            <li>Make smaller to reduce viewport clutter</li>
+                        </ul>
+
+                        <p><strong>Passepartout:</strong></p>
+                        <ul>
+                            <li>Darkens area outside camera frame</li>
+                            <li>Camera Properties → Viewport Display → Passepartout</li>
+                            <li>Alpha slider: 0 = no darkening, 1 = fully black</li>
+                            <li>Helps focus on what will render</li>
+                            <li>Typical value: 0.5-0.7</li>
+                        </ul>
+                    </div>
+
+                    <h3>Composition Guides</h3>
+
+                    <div class="card">
+                        <h4>📐 Visual Framing Aids</h4>
+                        <p><strong>Enabling guides (in camera view):</strong></p>
+                        <ul>
+                            <li>Camera Properties → Viewport Display → Composition Guides</li>
+                            <li>Choose from multiple guide types</li>
+                            <li>Overlays appear in camera view only</li>
+                            <li>Doesn't render—just for composition help</li>
+                        </ul>
+
+                        <p><strong>Available guides:</strong></p>
+                        <ul>
+                            <li><strong>Rule of Thirds:</strong>
+                                <ul>
+                                    <li>9-section grid</li>
+                                    <li>Place subjects on intersections</li>
+                                    <li>Most commonly used guide</li>
+                                </ul>
+                            </li>
+                            <li><strong>Center:</strong>
+                                <ul>
+                                    <li>Simple crosshair at center</li>
+                                    <li>Quick centering reference</li>
+                                    <li>Minimal, unobtrusive</li>
+                                </ul>
+                            </li>
+                            <li><strong>Center Diagonal:</strong>
+                                <ul>
+                                    <li>X from corner to corner</li>
+                                    <li>Helps with diagonal compositions</li>
+                                    <li>Dynamic energy placement</li>
+                                </ul>
+                            </li>
+                            <li><strong>Triangle A/B:</strong>
+                                <ul>
+                                    <li>Triangular composition guides</li>
+                                    <li>Based on golden triangle</li>
+                                    <li>Creates dynamic balance</li>
+                                </ul>
+                            </li>
+                            <li><strong>Harmony A/B:</strong>
+                                <ul>
+                                    <li>Golden ratio divisions</li>
+                                    <li>More precise than rule of thirds</li>
+                                    <li>Classic fine art composition</li>
+                                </ul>
+                            </li>
+                            <li><strong>Golden Triangle A/B:</strong>
+                                <ul>
+                                    <li>Diagonal lines dividing frame</li>
+                                    <li>Creates movement and flow</li>
+                                    <li>Good for landscape compositions</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Using guides effectively:</strong></p>
+                        <ul>
+                            <li>Start with Rule of Thirds (most versatile)</li>
+                            <li>Switch guides to find best composition</li>
+                            <li>Use as suggestions, not rigid rules</li>
+                            <li>Intentionally break rules for effect</li>
+                            <li>Turn off when composition is finalized</li>
+                        </ul>
+                    </div>
+
+                    <h3>Safe Areas</h3>
+
+                    <div class="card">
+                        <h4>📺 Broadcast and Screen Safe Zones</h4>
+                        <p><strong>What are safe areas?</strong></p>
+                        <ul>
+                            <li>Boundaries showing what's visible on different displays</li>
+                            <li>Important for TV, film, streaming content</li>
+                            <li>Accounts for overscan and cropping</li>
+                            <li>Ensures critical content isn't cut off</li>
+                        </ul>
+
+                        <p><strong>Enabling safe areas:</strong></p>
+                        <ul>
+                            <li>Camera Properties → Viewport Display → Safe Areas (checkbox)</li>
+                            <li>Shows two rectangles in camera view</li>
+                            <li>Outer = action safe, Inner = title safe</li>
+                        </ul>
+
+                        <p><strong>Action safe area (outer box):</strong></p>
+                        <ul>
+                            <li>Keep all important action within this boundary</li>
+                            <li>Typically 90-95% of frame</li>
+                            <li>Prevents edge cropping on different screens</li>
+                            <li>Essential content must be here</li>
+                        </ul>
+
+                        <p><strong>Title safe area (inner box):</strong></p>
+                        <ul>
+                            <li>Keep text and graphics within this boundary</li>
+                            <li>Typically 80-90% of frame</li>
+                            <li>Ensures readability on all displays</li>
+                            <li>More conservative than action safe</li>
+                        </ul>
+
+                        <p><strong>When to use safe areas:</strong></p>
+                        <ul>
+                            <li>TV broadcast content</li>
+                            <li>Film festival submissions</li>
+                            <li>Professional video production</li>
+                            <li>Any project with text/titles</li>
+                            <li>Not critical for web-only content</li>
+                        </ul>
+                    </div>
+
+                    <h3>Background Images</h3>
+
+                    <div class="card">
+                        <h4>🖼️ Reference Images in Camera View</h4>
+                        <p><strong>What are background images?</strong></p>
+                        <ul>
+                            <li>Reference photos visible in camera view</li>
+                            <li>Helps match real-world footage or references</li>
+                            <li>Doesn't render—only visible while working</li>
+                            <li>Professional technique for camera matching</li>
+                        </ul>
+
+                        <p><strong>Adding background image:</strong></p>
+                        <ol>
+                            <li>Select camera</li>
+                            <li>Camera Properties → Background Images</li>
+                            <li>Check "Background Images" box</li>
+                            <li>Click "Add Image"</li>
+                            <li>Choose image file or movie clip</li>
+                            <li>Image appears in camera view behind scene</li>
+                        </ol>
+
+                        <p><strong>Background image settings:</strong></p>
+                        <ul>
+                            <li><strong>Opacity:</strong> How transparent image is (0-1)</li>
+                            <li><strong>Display Depth:</strong>
+                                <ul>
+                                    <li>Back: Behind all objects (default)</li>
+                                    <li>Front: In front of objects</li>
+                                </ul>
+                            </li>
+                            <li><strong>Frame Method:</strong>
+                                <ul>
+                                    <li>Stretch: Fills frame (may distort)</li>
+                                    <li>Fit: Fits in frame (maintains aspect)</li>
+                                    <li>Crop: Crops to fill frame</li>
+                                </ul>
+                            </li>
+                            <li><strong>Offset X/Y:</strong> Shift image position</li>
+                            <li><strong>Scale:</strong> Resize image</li>
+                        </ul>
+
+                        <p><strong>Use cases:</strong></p>
+                        <ul>
+                            <li><strong>Camera matching:</strong> Match CG camera to photo</li>
+                            <li><strong>Architecture:</strong> Model over blueprint/photo</li>
+                            <li><strong>VFX:</strong> Integrate CG with real footage</li>
+                            <li><strong>Concept reference:</strong> Keep concept art visible while modeling</li>
+                            <li><strong>Rotoscoping:</strong> Trace over reference footage</li>
+                        </ul>
+                    </div>
+
+                    <h3>Lock Camera to View</h3>
+
+                    <div class="card">
+                        <h4>🔒 Intuitive Camera Positioning</h4>
+                        <p><strong>What it does:</strong></p>
+                        <ul>
+                            <li>Links viewport navigation to camera movement</li>
+                            <li>Navigate viewport = camera moves with it</li>
+                            <li>Most intuitive way to position camera</li>
+                            <li>Like moving a real camera in space</li>
+                        </ul>
+
+                        <p><strong>Enabling lock camera to view:</strong></p>
+                        <ol>
+                            <li>Enter camera view (<code>Numpad 0</code>)</li>
+                            <li>Press <code>N</code> to open sidebar</li>
+                            <li>View tab → View Lock section</li>
+                            <li>Check "Camera to View" box</li>
+                            <li>Now viewport navigation moves camera</li>
+                        </ol>
+
+                        <p><strong>Navigation with lock enabled:</strong></p>
+                        <ul>
+                            <li><strong>Middle mouse drag:</strong> Rotate camera (orbits around view center)</li>
+                            <li><strong>Shift+Middle mouse:</strong> Pan camera (moves side to side)</li>
+                            <li><strong>Scroll wheel:</strong> Dolly camera (moves forward/back)</li>
+                            <li><strong>All shortcuts work as normal:</strong> Just move camera instead of view</li>
+                        </ul>
+
+                        <p><strong>Best practices:</strong></p>
+                        <ul>
+                            <li>Enable when positioning camera</li>
+                            <li>Disable after camera is set (prevents accidental movement)</li>
+                            <li>Combine with Track To constraint for easy aiming</li>
+                            <li>Perfect for finding exact angle quickly</li>
+                        </ul>
+
+                        <p><strong>Alternative: Camera View Walking:</strong></p>
+                        <ul>
+                            <li>In camera view, press <code>Shift+`</code> (grave/tilde)</li>
+                            <li>Enters walk/fly mode</li>
+                            <li>WASD to move, mouse to look</li>
+                            <li>Spacebar/V to fly up/down</li>
+                            <li>Click to exit walk mode</li>
+                            <li>Great for exploring spaces and finding angles</li>
+                        </ul>
+                    </div>
+
+                    <h3>Render Border and Region</h3>
+
+                    <div class="card">
+                        <h4>✂️ Partial Frame Rendering</h4>
+                        <p><strong>Render border:</strong></p>
+                        <ul>
+                            <li>Renders only selected area of frame</li>
+                            <li>Speeds up test renders dramatically</li>
+                            <li>Focus on specific detail without full render</li>
+                            <li>Essential for iterative lighting/material tests</li>
+                        </ul>
+
+                        <p><strong>Setting render border:</strong></p>
+                        <ol>
+                            <li>Enter camera view</li>
+                            <li>Press <code>Ctrl+B</code></li>
+                            <li>Click and drag to define border rectangle</li>
+                            <li>Border shows as white rectangle</li>
+                            <li>Render now only processes this area</li>
+                        </ol>
+
+                        <p><strong>Managing render border:</strong></p>
+                        <ul>
+                            <li><code>Ctrl+B</code> again to adjust/resize border</li>
+                            <li><code>Ctrl+Alt+B</code> to clear border (render full frame)</li>
+                            <li>Or: Camera Properties → enable/disable "Use Border"</li>
+                            <li>Border is per-camera (each camera can have different border)</li>
+                        </ul>
+
+                        <p><strong>Workflow tips:</strong></p>
+                        <ul>
+                            <li>Render small border for quick material tests</li>
+                            <li>Render lighting on one area before full scene</li>
+                            <li>Test specific detail without waiting for full render</li>
+                            <li>Remember to disable before final render!</li>
+                            <li>Can save hours during iteration</li>
+                        </ul>
+
+                        <p><strong>Viewport render region (similar concept):</strong></p>
+                        <ul>
+                            <li><code>Ctrl+B</code> in viewport (not camera view)</li>
+                            <li>Limits real-time rendering to region</li>
+                            <li>Speeds up Eevee/Cycles viewport preview</li>
+                            <li><code>Ctrl+Alt+B</code> to clear</li>
+                        </ul>
+                    </div>
+
+                    <h3>Camera Presets and Custom Properties</h3>
+
+                    <div class="card">
+                        <h4>⚡ Quick Camera Setups</h4>
+                        <p><strong>Focal length presets workflow:</strong></p>
+                        <ul>
+                            <li>Create cameras with common focal lengths</li>
+                            <li>Name them descriptively:
+                                <ul>
+                                    <li>"CAM_Wide_24mm"</li>
+                                    <li>"CAM_Normal_50mm"</li>
+                                    <li>"CAM_Portrait_85mm"</li>
+                                </ul>
+                            </li>
+                            <li>Position each for optimal use</li>
+                            <li>Save in asset library or startup file</li>
+                            <li>Append into new projects as needed</li>
+                        </ul>
+
+                        <p><strong>Creating a camera library:</strong></p>
+                        <ol>
+                            <li>Create new .blend file</li>
+                            <li>Set up cameras with various settings:
+                                <ul>
+                                    <li>Wide angle camera</li>
+                                    <li>Standard camera</li>
+                                    <li>Portrait camera</li>
+                                    <li>Telephoto camera</li>
+                                    <li>Orthographic top view</li>
+                                    <li>Orthographic front view</li>
+                                </ul>
+                            </li>
+                            <li>Name each clearly</li>
+                            <li>Save file as "Camera_Library.blend"</li>
+                            <li>Append cameras into projects: File → Append → Camera_Library.blend → Object</li>
+                        </ol>
+
+                        <p><strong>Custom properties for organization:</strong></p>
+                        <ul>
+                            <li>Add custom properties to cameras for metadata</li>
+                            <li>Object Properties → Custom Properties</li>
+                            <li>Add properties like:
+                                <ul>
+                                    <li>"Shot_Number" (e.g., "001")</li>
+                                    <li>"Description" (e.g., "Wide establishing")</li>
+                                    <li>"Scene_Name" (e.g., "Kitchen_Morning")</li>
+                                </ul>
+                            </li>
+                            <li>Helps organize complex multi-camera scenes</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common Camera Mistakes</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ Pitfalls to Avoid</h4>
+                        <p><strong>Mistake 1: Ignoring the camera until render time</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Perfect viewport, wrong camera angle</li>
+                            <li><strong>Solution:</strong> Check camera view (<code>Numpad 0</code>) throughout process</li>
+                            <li>Work in camera view for final positioning/lighting</li>
+                        </ul>
+
+                        <p><strong>Mistake 2: Using extreme focal lengths without reason</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> 10mm or 300mm just because</li>
+                            <li><strong>Solution:</strong> Understand what each focal length does</li>
+                            <li>Choose focal length for perspective effect, not just "fitting everything in"</li>
+                        </ul>
+
+                        <p><strong>Mistake 3: Centering everything</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Bull's-eye composition</li>
+                            <li><strong>Solution:</strong> Use rule of thirds, create visual interest</li>
+                            <li>Center only when symmetry/balance is intentional</li>
+                        </ul>
+
+                        <p><strong>Mistake 4: No headroom or looking room</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Subjects cramped against frame edges</li>
+                            <li><strong>Solution:</strong> Leave space above heads, in look direction</li>
+                            <li>Give subjects breathing room</li>
+                        </ul>
+
+                        <p><strong>Mistake 5: Camera penetrating objects</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Camera inside wall/object, weird render</li>
+                            <li><strong>Solution:</strong> Increase Clip Start, check camera position</li>
+                            <li>View from outside camera view to see position</li>
+                        </ul>
+
+                        <p><strong>Mistake 6: Forgetting camera is an object</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Not using modifiers, constraints, parenting</li>
+                            <li><strong>Solution:</strong> Treat camera like any object—constrain it, parent it, animate it</li>
+                            <li>Use empties and constraints for complex setups</li>
+                        </ul>
+
+                        <p><strong>Mistake 7: Not testing different angles</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Using first camera position, missing better shots</li>
+                            <li><strong>Solution:</strong> Create multiple cameras, try various angles</li>
+                            <li>Professional photographers take hundreds of shots—you should too</li>
+                        </ul>
+
+                        <p><strong>Mistake 8: Inconsistent settings across cameras</strong></p>
+                        <ul>
+                            <li><strong>Problem:</strong> Different focal lengths/settings between related shots</li>
+                            <li><strong>Solution:</strong> Match camera settings for shots in same sequence</li>
+                            <li>Duplicate cameras to maintain consistency</li>
+                        </ul>
+                    </div>
+
+                    <h3>Performance Considerations</h3>
+
+                    <div class="card">
+                        <h4>⚡ Camera Setup Optimization</h4>
+                        <p><strong>Multiple cameras and performance:</strong></p>
+                        <ul>
+                            <li>Inactive cameras have zero render cost</li>
+                            <li>Only active camera is calculated</li>
+                            <li>Can have 100+ cameras with no slowdown</li>
+                            <li>Cameras are lightweight objects</li>
+                        </ul>
+
+                        <p><strong>Hiding cameras in viewport:</strong></p>
+                        <ul>
+                            <li>Hide camera objects to reduce viewport clutter</li>
+                            <li>Outliner → eye icon → hide camera</li>
+                            <li>Or put in collection and toggle collection visibility</li>
+                            <li>Doesn't affect rendering</li>
+                        </ul>
+
+                        <p><strong>Depth of field performance impact:</strong></p>
+                        <ul>
+                            <li>Camera DoF increases render time</li>
+                            <li>Disable during test renders</li>
+                            <li>Enable only for final renders</li>
+                            <li>More blur = longer render (more samples needed)</li>
+                        </ul>
+
+                        <p><strong>Motion blur performance impact:</strong></p>
+                        <ul>
+                            <li>Camera motion blur (if animated) adds render time</li>
+                            <li>Disable for tests, enable for finals</li>
+                            <li>Adjust shutter speed to control blur amount</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Professional Camera Workflow Summary</h4>
+                        <p><strong>Efficient camera workflow:</strong></p>
+                        <ol>
+                            <li><strong>Pre-visualization:</strong> Sketch or reference similar shots</li>
+                            <li><strong>Block cameras:</strong> Create multiple cameras for different angles</li>
+                            <li><strong>Name systematically:</strong> Clear naming convention</li>
+                            <li><strong>Test early:</strong> Check camera views before detailed work</li>
+                            <li><strong>Use composition guides:</strong> Enable rule of thirds or golden ratio</li>
+                            <li><strong>Constrain when possible:</strong> Automate aiming and movement</li>
+                            <li><strong>Iterate:</strong> Try different focal lengths and positions</li>
+                            <li><strong>Organize:</strong> Use collections for camera management</li>
+                            <li><strong>Document:</strong> Note which cameras are for which shots</li>
+                            <li><strong>Save library:</strong> Keep favorite camera setups for future projects</li>
+                        </ol>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Camera Makes the Shot:</strong> Professional cinematographers spend years mastering camera work because they know a truth that beginners often overlook: the camera is not just a tool to "capture what's there"—it's an artistic choice that shapes how the audience experiences the story. The same scene shot with a wide-angle lens feels vast and environmental; with a telephoto lens, it feels intimate and compressed. A low camera angle empowers the subject; a high angle diminishes them. These aren't just technical differences—they're emotional and narrative choices. As you work with cameras in Blender, you're not just positioning a viewport; you're making the same creative decisions that directors and cinematographers make on professional film sets. The skills you learn here translate directly to real-world cinematography, photography, and visual storytelling.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 04
+     Continue with lesson_20_camera_basics_part_05.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 20 - PART 05
+     File: lesson_20_camera_basics_part_05.html
+     ============================================ -->
+
+                <section id="project" class="content-section">
+                    <h2>🎯 Project: Camera Setup Showcase</h2>
+
+                    <p>Time to put everything you've learned into practice! In this project, you'll create a multi-camera scene showcasing different camera techniques, focal lengths, and compositions. This exercise will solidify your understanding of camera fundamentals and give you a portfolio piece demonstrating your cinematography skills.</p>
+
+                    <h3>Project Overview</h3>
+
+                    <div class="card">
+                        <h4>📋 What You'll Create</h4>
+                        <p><strong>The challenge:</strong></p>
+                        <ul>
+                            <li>Set up a simple scene (doesn't need to be complex)</li>
+                            <li>Create 5 different camera setups</li>
+                            <li>Each camera demonstrates different technique or focal length</li>
+                            <li>Use composition guides and constraints</li>
+                            <li>Render comparison sheet showing all 5 angles</li>
+                        </ul>
+
+                        <p><strong>Learning objectives:</strong></p>
+                        <ul>
+                            <li>Practice creating and positioning multiple cameras</li>
+                            <li>Understand focal length effects firsthand</li>
+                            <li>Apply composition principles</li>
+                            <li>Use camera constraints effectively</li>
+                            <li>Organize multi-camera workflow</li>
+                        </ul>
+
+                        <p><strong>Time estimate:</strong></p>
+                        <ul>
+                            <li>Scene setup: 10-15 minutes</li>
+                            <li>Camera positioning: 15-20 minutes</li>
+                            <li>Refinement: 10-15 minutes</li>
+                            <li>Total: 35-50 minutes</li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 1: Scene Setup</h3>
+
+                    <div class="card">
+                        <h4>🏗️ Build Your Stage</h4>
+                        <p><strong>Option A: Simple product scene (recommended for beginners)</strong></p>
+                        <ol>
+                            <li>Start with default scene (cube, light, camera)</li>
+                            <li>Scale cube to make it more interesting: <code>S</code> → <code>1.5</code></li>
+                            <li>Add plane below: <code>Shift+A</code> → Mesh → Plane</li>
+                            <li>Scale plane large: <code>S</code> → <code>10</code></li>
+                            <li>Add simple materials (different colors for cube and plane)</li>
+                            <li>Optional: Bevel cube edges for more interesting look</li>
+                        </ol>
+
+                        <p><strong>Option B: Character/object scene</strong></p>
+                        <ol>
+                            <li>Add Suzanne (monkey head): <code>Shift+A</code> → Mesh → Monkey</li>
+                            <li>Add ground plane</li>
+                            <li>Position monkey at interesting angle</li>
+                            <li>Add background object (cube or cylinder)</li>
+                            <li>Simple lighting setup</li>
+                        </ol>
+
+                        <p><strong>Option C: Interior space</strong></p>
+                        <ol>
+                            <li>Create simple room with cubes (walls, floor, ceiling)</li>
+                            <li>Add furniture placeholder (scaled cubes)</li>
+                            <li>Add focal point (main object to photograph)</li>
+                            <li>Keep it simple—focus is on cameras, not modeling</li>
+                        </ol>
+
+                        <p><strong>Lighting setup (keep simple):</strong></p>
+                        <ul>
+                            <li>Use default light or add Area Light</li>
+                            <li>Position light at 45° angle from subject</li>
+                            <li>Adjust power for good visibility</li>
+                            <li>Optional: Add second fill light (lower power)</li>
+                            <li>Don't overcomplicate—this isn't a lighting lesson</li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 2: Create Your Five Cameras</h3>
+
+                    <div class="card">
+                        <h4>📷 Camera Setup Requirements</h4>
+                        <p><strong>Camera 1: Wide-Angle Environmental Shot</strong></p>
+                        <ul>
+                            <li><strong>Focal length:</strong> 24mm</li>
+                            <li><strong>Purpose:</strong> Show entire scene with context</li>
+                            <li><strong>Position:</strong> Far back, showing whole environment</li>
+                            <li><strong>Composition:</strong> Use rule of thirds—place subject off-center</li>
+                            <li><strong>Name:</strong> "CAM_01_Wide_24mm"</li>
+                        </ul>
+
+                        <p><strong>Steps:</strong></p>
+                        <ol>
+                            <li>Select default camera (or add new one)</li>
+                            <li>Name it "CAM_01_Wide_24mm" (<code>F2</code>)</li>
+                            <li>Camera Properties → Lens → Focal Length → 24mm</li>
+                            <li>Position camera back far enough to see most of scene</li>
+                            <li>Aim at subject (use Track To constraint or manual rotation)</li>
+                            <li>Enable composition guides: Rule of Thirds</li>
+                            <li>Adjust position so subject on thirds intersection</li>
+                            <li>Check camera view (<code>Numpad 0</code>) and refine</li>
+                        </ol>
+
+                        <p><strong>Camera 2: Standard "Normal" Shot</strong></p>
+                        <ul>
+                            <li><strong>Focal length:</strong> 50mm</li>
+                            <li><strong>Purpose:</strong> Natural, balanced perspective</li>
+                            <li><strong>Position:</strong> Medium distance, eye-level to subject</li>
+                            <li><strong>Composition:</strong> Balanced, showing subject and some context</li>
+                            <li><strong>Name:</strong> "CAM_02_Normal_50mm"</li>
+                        </ul>
+
+                        <p><strong>Steps:</strong></p>
+                        <ol>
+                            <li>Duplicate Camera 1: Select it, <code>Shift+D</code></li>
+                            <li>Rename to "CAM_02_Normal_50mm"</li>
+                            <li>Change focal length to 50mm</li>
+                            <li>Move closer to subject (50mm is narrower field of view)</li>
+                            <li>Frame subject to fill frame similarly to wide shot</li>
+                            <li>Notice how perspective looks more natural</li>
+                            <li>Make this camera active: <code>Ctrl+Numpad 0</code></li>
+                        </ol>
+
+                        <p><strong>Camera 3: Portrait/Telephoto Compression</strong></p>
+                        <ul>
+                            <li><strong>Focal length:</strong> 85mm or 135mm</li>
+                            <li><strong>Purpose:</strong> Flattering close-up with compressed perspective</li>
+                            <li><strong>Position:</strong> Far from subject, telephoto brings it close</li>
+                            <li><strong>Composition:</strong> Subject fills frame, background compressed</li>
+                            <li><strong>Name:</strong> "CAM_03_Telephoto_85mm"</li>
+                        </ul>
+
+                        <p><strong>Steps:</strong></p>
+                        <ol>
+                            <li>Duplicate previous camera</li>
+                            <li>Rename to "CAM_03_Telephoto_85mm"</li>
+                            <li>Change focal length to 85mm (or try 135mm)</li>
+                            <li>Move camera much farther back</li>
+                            <li>Zoom in feel, but notice background looks closer</li>
+                            <li>Compare how depth feels compressed vs wide-angle</li>
+                        </ol>
+
+                        <p><strong>Camera 4: Low Angle "Hero" Shot</strong></p>
+                        <ul>
+                            <li><strong>Focal length:</strong> Your choice (35-50mm works well)</li>
+                            <li><strong>Purpose:</strong> Make subject look powerful/important</li>
+                            <li><strong>Position:</strong> Below subject, looking up</li>
+                            <li><strong>Composition:</strong> Subject dominant, dramatic angle</li>
+                            <li><strong>Name:</strong> "CAM_04_LowAngle_Hero"</li>
+                        </ul>
+
+                        <p><strong>Steps:</strong></p>
+                        <ol>
+                            <li>Add new camera or duplicate existing</li>
+                            <li>Rename appropriately</li>
+                            <li>Set focal length around 35-50mm</li>
+                            <li>Position camera LOW—at ground level or below subject</li>
+                            <li>Aim upward at subject</li>
+                            <li>Notice how subject looks powerful and imposing</li>
+                            <li>Sky or ceiling becomes prominent in background</li>
+                        </ol>
+
+                        <p><strong>Camera 5: Creative/Experimental Shot</strong></p>
+                        <ul>
+                            <li><strong>Focal length:</strong> Your artistic choice</li>
+                            <li><strong>Purpose:</strong> Show your creativity</li>
+                            <li><strong>Position:</strong> Unique angle you haven't tried</li>
+                            <li><strong>Composition:</strong> Break rules intentionally or use advanced guide</li>
+                            <li><strong>Name:</strong> "CAM_05_Creative"</li>
+                        </ul>
+
+                        <p><strong>Ideas for Camera 5:</strong></p>
+                        <ul>
+                            <li>Dutch angle (tilted camera)</li>
+                            <li>Extreme close-up (macro feel)</li>
+                            <li>Bird's eye view (looking straight down)</li>
+                            <li>Through another object (foreground framing)</li>
+                            <li>Unconventional composition guide (Golden Triangle, Harmony B)</li>
+                            <li>Extreme wide or extreme telephoto</li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 3: Apply Constraints (Optional but Recommended)</h3>
+
+                    <div class="card">
+                        <h4>🔗 Add Professional Control</h4>
+                        <p><strong>Add Track To constraint to all cameras:</strong></p>
+                        <ol>
+                            <li>Add Empty at your subject's center: <code>Shift+A</code> → Empty → Plain Axes</li>
+                            <li>Name it "Focus_Target"</li>
+                            <li>For each camera:
+                                <ul>
+                                    <li>Select camera</li>
+                                    <li>Object Properties → Constraints → Add → Track To</li>
+                                    <li>Target: Focus_Target</li>
+                                    <li>To: -Z</li>
+                                    <li>Up: Y</li>
+                                </ul>
+                            </li>
+                            <li>Now all cameras automatically aim at empty</li>
+                            <li>Move empty = all cameras follow</li>
+                        </ol>
+
+                        <p><strong>Bonus: Animate the target:</strong></p>
+                        <ul>
+                            <li>Move empty to different position</li>
+                            <li>All cameras automatically reorient</li>
+                            <li>Perfect for animated scenes</li>
+                            <li>Demonstrates power of constraints</li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 4: Organization and Refinement</h3>
+
+                    <div class="card">
+                        <h4>📁 Professional Scene Management</h4>
+                        <p><strong>Organize in Outliner:</strong></p>
+                        <ol>
+                            <li>Create new collection: "Cameras"</li>
+                            <li>Drag all 5 cameras into this collection</li>
+                            <li>Create collection: "Scene_Objects"</li>
+                            <li>Organize subject, ground, lights into this collection</li>
+                            <li>Clean, professional hierarchy</li>
+                        </ol>
+
+                        <p><strong>Enable useful display options:</strong></p>
+                        <ol>
+                            <li>Select each camera</li>
+                            <li>Camera Properties → Viewport Display</li>
+                            <li>Enable "Name" (shows camera name in viewport)</li>
+                            <li>Adjust "Size" if needed for visibility</li>
+                            <li>Consider enabling "Passepartout" (alpha 0.5) for Camera 1</li>
+                        </ol>
+
+                        <p><strong>Test each camera:</strong></p>
+                        <ol>
+                            <li>Select first camera</li>
+                            <li><code>Ctrl+Numpad 0</code> to make it active</li>
+                            <li>View through it (<code>Numpad 0</code> if not already)</li>
+                            <li>Check composition, framing, headroom</li>
+                            <li>Adjust if needed</li>
+                            <li>Repeat for all 5 cameras</li>
+                        </ol>
+
+                        <p><strong>Fine-tune compositions:</strong></p>
+                        <ul>
+                            <li>Enable Lock Camera to View for easier positioning</li>
+                            <li>Check composition guides are helping</li>
+                            <li>Verify no objects penetrating camera</li>
+                            <li>Ensure good headroom and looking space</li>
+                            <li>Make sure each camera tells different story</li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 5: Render Comparison Sheet</h3>
+
+                    <div class="card">
+                        <h4>🖼️ Create Your Showcase</h4>
+                        <p><strong>Render each camera view:</strong></p>
+                        <ol>
+                            <li>Set up render settings:
+                                <ul>
+                                    <li>Output Properties → Resolution: 1920 x 1080 (or smaller for speed)</li>
+                                    <li>Render Engine: Eevee (for speed) or Cycles (for quality)</li>
+                                    <li>Samples: 64-128 for Eevee, 256-512 for Cycles</li>
+                                </ul>
+                            </li>
+                            <li>For each camera:
+                                <ul>
+                                    <li>Make it active (<code>Ctrl+Numpad 0</code>)</li>
+                                    <li>Render: <code>F12</code></li>
+                                    <li>Save image: Image → Save As → name it after camera</li>
+                                    <li>Example: "render_01_wide_24mm.png"</li>
+                                </ul>
+                            </li>
+                            <li>Repeat for all 5 cameras</li>
+                        </ol>
+
+                        <p><strong>Optional: Create comparison in Blender Compositor:</strong></p>
+                        <ol>
+                            <li>Switch to Compositing workspace (top tabs)</li>
+                            <li>Enable "Use Nodes"</li>
+                            <li>Add your 5 rendered images as Image nodes</li>
+                            <li>Use Scale nodes to make them smaller</li>
+                            <li>Use Translate nodes to position in grid</li>
+                            <li>Add Text nodes to label each shot</li>
+                            <li>Composite to single comparison sheet</li>
+                        </ol>
+
+                        <p><strong>Alternative: External comparison (easier):</strong></p>
+                        <ul>
+                            <li>Open image editing software (GIMP, Photoshop, etc.)</li>
+                            <li>Create new document (e.g., 1920 x 1920 for square)</li>
+                            <li>Import all 5 renders</li>
+                            <li>Arrange in grid or layout</li>
+                            <li>Add text labels for each camera</li>
+                            <li>Add your name and "Camera Study" title</li>
+                            <li>Save as portfolio piece</li>
+                        </ul>
+                    </div>
+
+                    <h3>Success Checklist</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>✅ Project Completion Criteria</h4>
+                        <p><strong>You've successfully completed the project when:</strong></p>
+                        <ul>
+                            <li>✓ Created a simple 3D scene with subject and environment</li>
+                            <li>✓ Set up 5 different cameras with unique focal lengths/angles</li>
+                            <li>✓ Used composition guides (rule of thirds, etc.)</li>
+                            <li>✓ Named all cameras descriptively</li>
+                            <li>✓ Applied at least one constraint (Track To recommended)</li>
+                            <li>✓ Organized cameras in collection</li>
+                            <li>✓ Tested each camera view for good composition</li>
+                            <li>✓ Rendered all 5 camera views</li>
+                            <li>✓ Can clearly see the difference focal length and angle make</li>
+                            <li>✓ Each camera tells a different story about the scene</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bonus Challenges</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">🌟 Take It Further</h3>
+                        <p style="color: white;"><strong>Once you've completed the basic project, try these advanced exercises:</strong></p>
+                        
+                        <p style="color: white;"><strong>Challenge 1: Animated Camera Move</strong></p>
+                        <ul style="color: white;">
+                            <li>Add 6th camera with Follow Path constraint</li>
+                            <li>Create Bezier curve path</li>
+                            <li>Animate camera traveling along path</li>
+                            <li>Add Track To so it follows subject while moving</li>
+                            <li>Render short animation (30-60 frames)</li>
+                        </ul>
+
+                        <p style="color: white;"><strong>Challenge 2: Focal Length Comparison Animation</strong></p>
+                        <ul style="color: white;">
+                            <li>Set up single camera</li>
+                            <li>Keyframe position + focal length simultaneously</li>
+                            <li>Start: 24mm far away, subject small in frame</li>
+                            <li>End: 135mm close up, subject same size in frame</li>
+                            <li>Shows perspective compression dramatically</li>
+                            <li>Render 60-120 frame animation</li>
+                        </ul>
+
+                        <p style="color: white;"><strong>Challenge 3: Camera Markers Animation</strong></p>
+                        <ul style="color: white;">
+                            <li>Create 30 second animation (720 frames at 24fps)</li>
+                            <li>Use camera markers to cut between your 5 cameras</li>
+                            <li>Example: Wide shot 0-150, Medium 151-300, Close 301-450, etc.</li>
+                            <li>Creates multi-camera animation sequence</li>
+                            <li>Practice film editing in 3D</li>
+                        </ul>
+
+                        <p style="color: white;"><strong>Challenge 4: Dolly Zoom Effect</strong></p>
+                        <ul style="color: white;">
+                            <li>Famous "Vertigo" effect (Hitchcock zoom)</li>
+                            <li>Animate camera moving closer</li>
+                            <li>Simultaneously animate focal length wider</li>
+                            <li>Subject stays same size, but background changes dramatically</li>
+                            <li>Requires precise coordination—very cool result!</li>
+                        </ul>
+
+                        <p style="color: white;"><strong>Challenge 5: Complex Multi-Constraint Setup</strong></p>
+                        <ul style="color: white;">
+                            <li>Camera follows path (Follow Path)</li>
+                            <li>While tracking animated subject (Track To)</li>
+                            <li>With limited rotation range (Limit Rotation)</li>
+                            <li>Shows mastery of constraint stacking</li>
+                        </ul>
+                    </div>
+
+                    <h3>What You've Learned</h3>
+
+                    <div class="card">
+                        <h4>🎓 Skills Demonstrated</h4>
+                        <p><strong>By completing this project, you've practiced:</strong></p>
+                        <ul>
+                            <li><strong>Camera creation:</strong> Adding and duplicating cameras</li>
+                            <li><strong>Focal length mastery:</strong> Understanding wide-angle vs telephoto</li>
+                            <li><strong>Camera positioning:</strong> Height, angle, distance considerations</li>
+                            <li><strong>Composition:</strong> Applying rule of thirds and guides</li>
+                            <li><strong>Constraints:</strong> Automating camera behavior</li>
+                            <li><strong>Organization:</strong> Professional scene management</li>
+                            <li><strong>Workflow:</strong> Systematic approach to multi-camera setups</li>
+                            <li><strong>Rendering:</strong> Outputting multiple camera angles</li>
+                            <li><strong>Visual comparison:</strong> Analyzing different cinematography choices</li>
+                        </ul>
+
+                        <p><strong>Real-world applications:</strong></p>
+                        <ul>
+                            <li>Product visualization (multiple angle renders)</li>
+                            <li>Architectural walkthroughs (room views)</li>
+                            <li>Character showcases (turnaround, close-ups)</li>
+                            <li>Film pre-visualization (shot planning)</li>
+                            <li>Photography simulation (testing compositions)</li>
+                            <li>Animation sequences (multi-camera cuts)</li>
+                        </ul>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 Project Reflection:</strong> Now that you've set up multiple cameras, take a moment to compare your renders. Notice how the 24mm wide-angle makes the scene feel expansive and dynamic? See how the 85mm telephoto compresses depth and creates intimacy? Observe how the low angle makes your subject feel powerful? These aren't random effects—they're deliberate cinematographic choices that you now understand and control. Every film, TV show, commercial, and photograph you see has made these exact same decisions. The difference is, in 3D, you have perfect control and unlimited retakes. This project is your foundation for professional camera work. Save this file—you'll reference these camera setups for years to come.</p>
+                    </blockquote>
+
+                </section>
+
+<!-- ============================================
+     END OF PART 05
+     Continue with lesson_20_camera_basics_part_06.html
+     ============================================ -->
+<!-- ============================================
+     LESSON 20 - PART 06
+     File: lesson_20_camera_basics_part_06.html
+     ============================================ -->
+
+                <section id="summary" class="content-section">
+                    <h2>📚 Lesson Summary</h2>
+
+                    <p>Congratulations! You've completed the Camera Basics lesson and gained essential cinematography skills that will elevate every project you create. Let's recap what you've learned and look ahead to your next steps.</p>
+
+                    <h3>Key Takeaways</h3>
+
+                    <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                        <h4>🎯 What You Now Know</h4>
+                        <p><strong>Camera Fundamentals:</strong></p>
+                        <ul>
+                            <li>Cameras define what renders—your "eye" into the 3D scene</li>
+                            <li>Camera view vs viewport—knowing the difference is crucial</li>
+                            <li>Camera as storytelling tool, not just technical requirement</li>
+                            <li>Understanding shot types (wide, medium, close-up) and their impact</li>
+                        </ul>
+
+                        <p><strong>Technical Mastery:</strong></p>
+                        <ul>
+                            <li>Focal length controls perspective and field of view</li>
+                            <li>24mm = wide, dynamic; 50mm = natural; 85mm+ = compressed, intimate</li>
+                            <li>Sensor size affects field of view with focal length</li>
+                            <li>Clipping planes define visible distance range</li>
+                            <li>Camera types: Perspective (realistic), Orthographic (technical), Panoramic (360°)</li>
+                        </ul>
+
+                        <p><strong>Positioning and Composition:</strong></p>
+                        <ul>
+                            <li>Camera height communicates power dynamics (low = powerful, high = vulnerable)</li>
+                            <li>Rule of thirds creates balanced, professional compositions</li>
+                            <li>Negative space provides breathing room and focus</li>
+                            <li>Headroom and looking room prevent cramped framing</li>
+                            <li>Leading lines, depth, and framing guide viewer's eye</li>
+                        </ul>
+
+                        <p><strong>Professional Workflow:</strong></p>
+                        <ul>
+                            <li>Multiple cameras enable quick angle switching</li>
+                            <li>Constraints automate camera behavior (Track To, Follow Path)</li>
+                            <li>Camera markers switch cameras in animations</li>
+                            <li>Composition guides help achieve professional framing</li>
+                            <li>Render borders speed up iterative testing</li>
+                        </ul>
+
+                        <p><strong>Creative Control:</strong></p>
+                        <ul>
+                            <li>Focal length = creative choice, not just "fitting everything in"</li>
+                            <li>Camera angle conveys emotion and meaning</li>
+                            <li>Composition guides are suggestions—break rules intentionally</li>
+                            <li>Lock Camera to View makes positioning intuitive</li>
+                            <li>Background images help match real-world references</li>
+                        </ul>
+                    </div>
+
+                    <h3>Essential Camera Concepts</h3>
+
+                    <div class="card">
+                        <h4>🔑 Core Principles to Remember</h4>
+                        
+                        <p><strong>The Focal Length Principle:</strong></p>
+                        <blockquote>
+                            <p>"Don't choose focal length to fit everything in frame—choose it for the perspective effect it creates. You can frame a subject the same size with 24mm (close) or 135mm (far away), but the feeling is completely different."</p>
+                        </blockquote>
+
+                        <p><strong>The Composition Principle:</strong></p>
+                        <blockquote>
+                            <p>"Professional compositions rarely center the subject. Use the rule of thirds and leave space in the direction the subject is looking or moving."</p>
+                        </blockquote>
+
+                        <p><strong>The Angle Principle:</strong></p>
+                        <blockquote>
+                            <p>"Camera height isn't random—it's a storytelling choice. Low angles empower subjects, high angles diminish them, eye level feels neutral and objective."</p>
+                        </blockquote>
+
+                        <p><strong>The Constraint Principle:</strong></p>
+                        <blockquote>
+                            <p>"Don't manually keyframe what constraints can automate. Track To for aiming, Follow Path for movement, Child Of for attachment—let Blender do the tedious work."</p>
+                        </blockquote>
+
+                        <p><strong>The Testing Principle:</strong></p>
+                        <blockquote>
+                            <p>"Set up multiple cameras and compare. Professional cinematographers shoot hundreds of angles—you should too. The best shot is often not your first instinct."</p>
+                        </blockquote>
+                    </div>
+
+                    <h3>Common Pitfalls Avoided</h3>
+
+                    <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                        <h4>⚠️ What NOT to Do</h4>
+                        <p><strong>You now know to avoid these mistakes:</strong></p>
+                        <ul>
+                            <li>❌ Ignoring camera view until render time</li>
+                            <li>❌ Centering every subject (bull's-eye syndrome)</li>
+                            <li>❌ Using extreme focal lengths without purpose</li>
+                            <li>❌ No headroom or looking room (cramped framing)</li>
+                            <li>❌ Forgetting camera is an object (can be constrained, parented, animated)</li>
+                            <li>❌ Not testing multiple angles before finalizing</li>
+                            <li>❌ Inconsistent focal lengths between related shots</li>
+                            <li>❌ Penetrating walls/objects with camera position</li>
+                        </ul>
+                    </div>
+
+                    <h3>Quick Reference Guide</h3>
+
+                    <div class="card">
+                        <h4>⚡ Camera Shortcuts Cheat Sheet</h4>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #f0f0f0;">
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Action</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Shortcut</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Enter camera view</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><code>Numpad 0</code></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Make selected camera active</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><code>Ctrl+Numpad 0</code></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Align camera to current view</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><code>Ctrl+Alt+Numpad 0</code></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Set render border</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><code>Ctrl+B</code> (in camera view)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Clear render border</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><code>Ctrl+Alt+B</code></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Walk/fly mode (camera view)</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><code>Shift+`</code> (grave/tilde)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Rename selected object</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><code>F2</code></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Open sidebar (Lock Camera to View)</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><code>N</code></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Bind camera to marker</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><code>Ctrl+B</code> (in timeline)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Focal Length Quick Reference</h3>
+
+                    <div class="card">
+                        <h4>📏 Choose Your Perspective</h4>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #f0f0f0;">
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Focal Length</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Effect</th>
+                                    <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Best For</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>18-24mm</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Extreme wide, dramatic perspective</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Architecture, vast spaces, action</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>24-35mm</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Wide-angle, environmental feel</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Interiors, landscapes, context shots</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>35-50mm</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Natural, balanced perspective</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">General purpose, documentaries</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>50mm</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Mimics human eye, neutral</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Default choice, natural look</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>85-135mm</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Flattering, compressed depth</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Portraits, character close-ups</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>135mm+</strong></td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Extreme compression, abstract</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Distant subjects, patterns, details</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Your Camera Journey</h3>
+
+                    <div class="card">
+                        <h4>🎓 Skills Progression</h4>
+                        
+                        <div class="mermaid">
+                            graph LR
+                            A[Camera Basics<br/>This Lesson] --> B[Depth of Field<br/>Lesson 22]
+                            B --> C[Camera Animation<br/>Lesson 23]
+                            C --> D[Composition Mastery<br/>Lesson 21]
+                            D --> E[Professional<br/>Cinematography]
+                            
+                            style A fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                            style B fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style C fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style D fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style E fill:#764ba2,stroke:#333,stroke-width:2px,color:#fff
+                        </div>
+
+                        <p><strong>You've completed the foundation. Next steps:</strong></p>
+                        <ul>
+                            <li><strong>Lesson 21: Composition Principles</strong> – Deep dive into visual storytelling</li>
+                            <li><strong>Lesson 22: Depth of Field and Focus</strong> – Control what's sharp and blurred</li>
+                            <li><strong>Lesson 23: Camera Animation</strong> – Create dynamic camera movements</li>
+                            <li><strong>Advanced: Multi-camera sequences</strong> – Edit like a film director</li>
+                            <li><strong>Professional: Camera matching</strong> – Integrate CG with real footage</li>
+                        </ul>
+                    </div>
+
+                    <h3>Practice Recommendations</h3>
+
+                    <div class="card">
+                        <h4>🎯 Strengthen Your Skills</h4>
+                        <p><strong>Daily exercises (5-10 minutes each):</strong></p>
+                        <ul>
+                            <li><strong>Focal length drill:</strong> Same subject, 5 focal lengths, compare results</li>
+                            <li><strong>Angle study:</strong> One object, photograph from 8 different angles</li>
+                            <li><strong>Composition practice:</strong> Frame scene with different composition guides</li>
+                            <li><strong>Constraint challenge:</strong> Set up camera with 2+ constraints working together</li>
+                            <li><strong>Real-world analysis:</strong> Watch a film scene, identify focal lengths and angles used</li>
+                        </ul>
+
+                        <p><strong>Weekly projects:</strong></p>
+                        <ul>
+                            <li><strong>Product shoot:</strong> Create 5-angle product visualization</li>
+                            <li><strong>Architecture study:</strong> Model simple room, photograph from multiple cameras</li>
+                            <li><strong>Character showcase:</strong> Pose character, create portfolio of camera angles</li>
+                            <li><strong>Recreate famous shot:</strong> Find iconic film still, match camera angle and focal length</li>
+                        </ul>
+
+                        <p><strong>Real-world observation:</strong></p>
+                        <ul>
+                            <li>Watch movies/TV with cinematography in mind</li>
+                            <li>Notice camera angles and what emotions they convey</li>
+                            <li>Identify focal lengths (wide = dramatic, telephoto = intimate)</li>
+                            <li>Observe composition rules (and rule-breaking) in professional work</li>
+                            <li>Take photos with your phone at different heights/angles</li>
+                        </ul>
+                    </div>
+
+                    <h3>Resources for Continued Learning</h3>
+
+                    <div class="card">
+                        <h4>📖 Expand Your Knowledge</h4>
+                        <p><strong>Cinematography concepts to research:</strong></p>
+                        <ul>
+                            <li><strong>Shot types:</strong> Establishing, master, over-the-shoulder, insert shots</li>
+                            <li><strong>Camera movements:</strong> Pan, tilt, dolly, truck, crane, handheld</li>
+                            <li><strong>Advanced composition:</strong> Golden ratio, Fibonacci spiral, dynamic symmetry</li>
+                            <li><strong>Lens characteristics:</strong> Anamorphic, tilt-shift, fisheye effects</li>
+                            <li><strong>Cinematic color grading:</strong> How camera settings affect final look</li>
+                            <li><strong>Real-world cinematography:</strong> Study work of famous DPs (Directors of Photography)</li>
+                        </ul>
+
+                        <p><strong>Famous cinematographers to study:</strong></p>
+                        <ul>
+                            <li>Roger Deakins (Blade Runner 2049, 1917) – Master of lighting and camera work</li>
+                            <li>Emmanuel Lubezki (The Revenant, Birdman) – Long takes and natural light</li>
+                            <li>Hoyte van Hoytema (Interstellar, Dunkirk) – Epic scale and IMAX photography</li>
+                            <li>Rachel Morrison (Black Panther, Mudbound) – Dynamic angles and color</li>
+                        </ul>
+
+                        <p><strong>Blender-specific resources:</strong></p>
+                        <ul>
+                            <li>Blender Manual: Camera section (comprehensive technical reference)</li>
+                            <li>YouTube: Search "Blender camera tutorial" for specific techniques</li>
+                            <li>Blender Artists forum: Camera and cinematography discussions</li>
+                            <li>Your own experiments: Best teacher is hands-on practice!</li>
+                        </ul>
+                    </div>
+
+                    <h3>Final Thoughts</h3>
+
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">🎬 You're Now a Virtual Cinematographer</h3>
+                        <p style="color: white;">Camera work is where 3D art meets filmmaking. You're no longer just creating objects—you're crafting shots, telling stories, and making creative decisions that directly affect how audiences experience your work.</p>
+                        
+                        <p style="color: white;">Every render you create from this point forward will benefit from what you've learned here. When you position a camera, you're making the same choices that directors and cinematographers make on multi-million dollar film productions. The difference? You have unlimited control, infinite retakes, and zero budget constraints.</p>
+                        
+                        <p style="color: white;">Remember: there are no "correct" camera settings—only intentional ones. Wide-angle isn't "better" than telephoto; low angle isn't "better" than high angle. Each choice serves your artistic vision. Now you understand what each choice does and can select the right tool for your creative intent.</p>
+                        
+                        <p style="color: white;">The camera is your voice. You've learned the vocabulary. Now go tell your stories.</p>
+                    </div>
+
+                    <blockquote>
+                        <p><strong>💡 The Cinematographer's Mindset:</strong> Great cinematographers don't just point cameras at subjects—they use cameras to guide viewers' emotions and attention. When you watch a film and feel tension, excitement, intimacy, or awe, much of that feeling comes from camera choices: the angle, the focal length, the framing, the movement. You now have these same tools at your fingertips. As you continue your Blender journey, remember that every camera decision is a storytelling decision. Your technical skills serve your creative vision. Master the tools, but always in service of the story you're trying to tell. That's what separates technicians from artists—and you're well on your way to becoming both.</p>
+                    </blockquote>
+
+                </section>
+
+                <!-- Navigation -->
+                <nav class="lesson-nav" aria-label="Lesson Navigation">
+                    <a href="lesson_19_cycles_path_tracing.html" class="prev-lesson">← Previous: Lesson 19 - Cycles Path Tracing</a>
+                    <a href="index.html" class="home-link">🏠 Course Home</a>
+                    <a href="lesson_21_composition_principles.html" class="next-lesson">Next: Lesson 21 - Composition Principles →</a>
+                </nav>
+
+            </article>
+        </main>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <p>&copy; 2024 Blender Mastery Course. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/clipboard.js"></script>
+    <script src="js/course-enhancements.js"></script>
+</body>
+</html>
