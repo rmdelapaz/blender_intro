@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560"
+     role="img" aria-labelledby="sc-title sc-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="#222">
+  <title id="sc-title">Spot light cone structure</title>
+  <desc id="sc-desc">A spot light emits a cone of light. The inner cone is fully lit, the outer blend region fades from lit to dark, the spot size sets the cone angle, and the light points in one aimed direction. Objects inside the cone are lit; objects outside fall in shadow.</desc>
+
+  <!-- Top brand accent -->
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+  <!-- Heading block -->
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">SPOT LIGHT CONE</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">A focused beam &#183; spot size sets the angle &#183; blend softens the edge</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <!-- ===== Cone geometry =====
+       Apex (light source) at (150,170). Cone aims down-right toward the floor at y=470.
+       Outer cone edges: left to (300,470), right to (560,470).
+       Inner cone edges:  left to (350,470), right to (510,470). -->
+
+  <defs>
+    <linearGradient id="sc-beam" x1="150" y1="170" x2="430" y2="470" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFE08A" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#FFC24A" stop-opacity="0.30"/>
+    </linearGradient>
+    <linearGradient id="sc-blend" x1="150" y1="170" x2="430" y2="470" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFC24A" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#FFC24A" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer cone (blend region) -->
+  <polygon points="150,170 300,470 560,470" fill="url(#sc-blend)"/>
+  <!-- Inner cone (fully lit) -->
+  <polygon points="150,170 350,470 510,470" fill="url(#sc-beam)"/>
+
+  <!-- Cone outline edges -->
+  <g stroke="#FF8E3C" stroke-width="2" opacity="0.9" fill="none">
+    <line x1="150" y1="170" x2="300" y2="470"/>
+    <line x1="150" y1="170" x2="560" y2="470"/>
+  </g>
+  <!-- Inner-cone edges (dashed, softer) -->
+  <g stroke="#FFB060" stroke-width="1.5" opacity="0.8" fill="none" stroke-dasharray="5 4">
+    <line x1="150" y1="170" x2="350" y2="470"/>
+    <line x1="150" y1="170" x2="510" y2="470"/>
+  </g>
+
+  <!-- Floor line where the pool lands -->
+  <line x1="120" y1="470" x2="700" y2="470" stroke="currentColor" stroke-width="1.5" opacity="0.35"/>
+
+  <!-- Light pool on the floor: full pool (outer) + bright core (inner) -->
+  <ellipse cx="430" cy="470" rx="130" ry="16" fill="#FFC24A" opacity="0.30"/>
+  <ellipse cx="430" cy="470" rx="80" ry="11" fill="#FFE08A" opacity="0.65"/>
+
+  <!-- ===== Spot light glyph at apex ===== -->
+  <g>
+    <rect x="120" y="146" width="46" height="30" rx="6" transform="rotate(33 143 161)" fill="#FF6B00"/>
+    <circle cx="150" cy="170" r="9" fill="#FFE08A" stroke="#FF6B00" stroke-width="2"/>
+  </g>
+  <text x="96" y="138" font-size="13" font-weight="600" fill="currentColor" opacity="0.8">Spot light</text>
+
+  <!-- ===== Direction arrow (aim): runs down the cone axis ===== -->
+  <g stroke="#FF6B00" stroke-width="2.5" fill="none">
+    <line x1="178" y1="206" x2="284" y2="330"/>
+  </g>
+  <polygon points="286,332 271,320 282,312" fill="#FF6B00"/>
+  <!-- Horizontal label to the left of the cone, clear of the arc -->
+  <line x1="150" y1="250" x2="108" y2="250" stroke="#FF6B00" stroke-width="1.4" opacity="0.7"/>
+  <text x="104" y="246" font-size="13" font-weight="600" fill="#FF6B00" text-anchor="end">Direction</text>
+  <text x="104" y="262" font-size="12" fill="#FF6B00" opacity="0.8" text-anchor="end">(aim)</text>
+
+  <!-- ===== Spot Size angle arc (spans the cone at the apex) ===== -->
+  <path d="M 217 304 A 150 150 0 0 1 271 259" fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.6"/>
+  <text x="300" y="250" font-size="14" font-weight="600" fill="currentColor">Spot Size</text>
+  <text x="300" y="268" font-size="12" fill="currentColor" opacity="0.6">cone angle</text>
+
+  <!-- ===== Blend callout (the falloff band between inner and outer cone, right side) ===== -->
+  <g stroke="currentColor" stroke-width="1.4" opacity="0.5" fill="none">
+    <line x1="525" y1="420" x2="628" y2="372"/>
+  </g>
+  <circle cx="525" cy="420" r="4" fill="#FF6B00"/>
+  <text x="636" y="356" font-size="14" font-weight="600" fill="currentColor">Blend</text>
+  <text x="636" y="374" font-size="12" fill="currentColor" opacity="0.6">soft edge:</text>
+  <text x="636" y="390" font-size="12" fill="currentColor" opacity="0.6">0 = hard,</text>
+  <text x="636" y="406" font-size="12" fill="currentColor" opacity="0.6">1 = feathered</text>
+
+  <!-- ===== Inside vs outside objects ===== -->
+  <circle cx="430" cy="452" r="15" fill="#cfcfcf"/>
+  <ellipse cx="430" cy="470" rx="17" ry="4" fill="#000" opacity="0.28"/>
+  <text x="430" y="500" font-size="12" font-weight="600" fill="#4ADE80" text-anchor="middle">Lit (inside cone)</text>
+
+  <circle cx="660" cy="452" r="15" fill="#3a3a3a"/>
+  <text x="660" y="500" font-size="12" font-weight="600" fill="currentColor" opacity="0.55" text-anchor="middle">Dark (outside)</text>
+
+  <!-- ===== Footer tip (Variant B, left rail) ===== -->
+  <rect x="40" y="506" width="720" height="34" rx="0" fill="none"/>
+  <rect x="40" y="506" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="528" font-size="13" fill="currentColor">
+    <tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Enable Show Cone in the light data to see this beam live in the viewport while you aim.
+  </text>
+</svg>
