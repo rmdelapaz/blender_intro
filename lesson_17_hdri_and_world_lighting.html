@@ -128,6 +128,164 @@
                             <li>HDRI photo: Like your actual eyes—sees detail in shadows AND bright areas</li>
                             <li>Your eyes adjust; HDRI captures everything at once</li>
                         </ul>
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_01_hdr_ldr_comparison.png"
+                                 alt="Side by side comparison of the same chrome sphere scene rendered as an 8-bit LDR image on the left and a 32-bit HDR image on the right. The LDR panel shows crushed black shadows and a blown-out highlight band where detail is lost, while the HDR panel holds detail in both the bright sky reflection and the darker lower sphere."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 2002 1000"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                    <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                                        <rect x="360" y="46" width="280" height="62" rx="10" fill="#1a1a1a" fill-opacity="0.82"/>
+                                        <circle cx="398" cy="77" r="9" fill="#FF6B00"/>
+                                        <text x="420" y="86" font-size="34" font-weight="700" fill="#ffffff">LDR &#183; 8-bit</text>
+                                    </g>
+                                    <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                                        <rect x="1356" y="46" width="290" height="62" rx="10" fill="#1a1a1a" fill-opacity="0.82"/>
+                                        <circle cx="1394" cy="77" r="9" fill="#FF6B00"/>
+                                        <text x="1416" y="86" font-size="34" font-weight="700" fill="#ffffff">HDR &#183; 32-bit</text>
+                                    </g>
+                                    <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                                        <rect x="120" y="876" width="772" height="78" rx="10" fill="#1a1a1a" fill-opacity="0.82"/>
+                                        <text x="146" y="912" font-size="26" font-weight="700" fill="#FF6B00">8-bit scale</text>
+                                        <text x="146" y="942" font-size="23" font-weight="400" fill="#ffffff">0 &#183; 128 &#183; 255 (clips to white, detail lost)</text>
+                                    </g>
+                                    <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                                        <rect x="1110" y="876" width="772" height="78" rx="10" fill="#1a1a1a" fill-opacity="0.82"/>
+                                        <text x="1136" y="912" font-size="26" font-weight="700" fill="#FF6B00">32-bit scale</text>
+                                        <text x="1136" y="942" font-size="23" font-weight="400" fill="#ffffff">0.0 &#183; 1.0 &#183; 2.0 &#183; 5.0 &#183; 10.0+ (detail held)</text>
+                                    </g>
+                            </svg>
+                        </div>
+                    <figcaption>LDR versus HDR. The 8-bit LDR render clips: shadows crush to black and the bright sunset reflection blows out to white. The 32-bit HDR render keeps detail across the whole range, from the deep shadow to the sun, which is the information that lets an HDRI light a scene realistically.</figcaption>
+                    </figure>
+
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680"
+                            role="img" aria-labelledby="dr-title dr-desc"
+                            font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                            <title id="dr-title">Dynamic range: LDR 8-bit versus HDR 32-bit</title>
+                            <desc id="dr-desc">Two horizontal gradient bars compare dynamic range. The top bar is LDR, 8-bit per channel, clamped from 0 to 255 in 256 discrete steps. The bottom bar is HDR, 32-bit per channel, with values that continue past 1.0 to 2.0, 5.0, and beyond. A reference row maps example brightness values to a shadow, ambient light, a bulb, and the sun.</desc>
+
+                            <!-- Top brand accent -->
+                            <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+                            <!-- Heading block -->
+                            <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">Dynamic Range: LDR vs HDR</text>
+                            <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Why HDR stores light, not just color</text>
+                            <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+                            <defs>
+                                <!-- LDR ramp: black to white, hard clamp -->
+                                <linearGradient id="dr-ldr" x1="0" y1="0" x2="1" y2="0">
+                                    <stop offset="0" stop-color="#000000"/>
+                                    <stop offset="1" stop-color="#ffffff"/>
+                                </linearGradient>
+                                <!-- HDR ramp: black to white within range, then an orange over-range glow past 1.0 -->
+                                <linearGradient id="dr-hdr" x1="0" y1="0" x2="1" y2="0">
+                                    <stop offset="0" stop-color="#000000"/>
+                                    <stop offset="0.42" stop-color="#ffffff"/>
+                                    <stop offset="0.46" stop-color="#ffffff"/>
+                                    <stop offset="0.62" stop-color="#FFD9A6"/>
+                                    <stop offset="1" stop-color="#FF6B00"/>
+                                </linearGradient>
+                            </defs>
+
+                            <!-- LDR bar -->
+                            <text x="40" y="150" font-size="18" font-weight="600" fill="currentColor">LDR <tspan font-weight="400" opacity="0.6">&#183; 8-bit per channel (JPG, PNG)</tspan></text>
+                            <rect x="40" y="166" width="600" height="56" rx="4" fill="url(#dr-ldr)" stroke="currentColor" stroke-opacity="0.25" stroke-width="1"/>
+                            <!-- hard wall at the bright end: nothing beyond 255 -->
+                            <rect x="640" y="166" width="120" height="56" rx="4" fill="currentColor" opacity="0.06"/>
+                            <line x1="640" y1="160" x2="640" y2="234" stroke="#E63946" stroke-width="2"/>
+                            <text x="700" y="198" text-anchor="middle" font-size="12" font-weight="600" fill="#E63946">clamped</text>
+                            <text x="700" y="214" text-anchor="middle" font-size="11" fill="#E63946" opacity="0.85">no data &gt; 255</text>
+                            <!-- ticks -->
+                            <g font-size="12" fill="currentColor" opacity="0.7">
+                                <line x1="40" y1="226" x2="40" y2="234" stroke="currentColor" stroke-opacity="0.4"/>
+                                <text x="40" y="250" text-anchor="middle">0</text>
+                                <line x1="340" y1="226" x2="340" y2="234" stroke="currentColor" stroke-opacity="0.4"/>
+                                <text x="340" y="250" text-anchor="middle">128</text>
+                                <line x1="640" y1="226" x2="640" y2="234" stroke="currentColor" stroke-opacity="0.4"/>
+                                <text x="640" y="250" text-anchor="middle">255</text>
+                            </g>
+                            <text x="40" y="276" font-size="13" fill="currentColor" opacity="0.6">256 discrete steps &#183; bright areas blow out to white, shadows crush to black</text>
+
+                            <!-- HDR bar -->
+                            <text x="40" y="330" font-size="18" font-weight="600" fill="currentColor">HDR <tspan font-weight="400" opacity="0.6">&#183; 32-bit floating point (.hdr, .exr)</tspan></text>
+                            <rect x="40" y="346" width="720" height="56" rx="4" fill="url(#dr-hdr)" stroke="currentColor" stroke-opacity="0.25" stroke-width="1"/>
+                            <!-- marker where white (1.0) is reached, showing range continues past it -->
+                            <line x1="342" y1="340" x2="342" y2="414" stroke="#FF6B00" stroke-width="2" stroke-dasharray="4 3"/>
+                            <text x="342" y="430" text-anchor="middle" font-size="11" font-weight="600" fill="#FF6B00">white = 1.0</text>
+                            <text x="600" y="430" text-anchor="middle" font-size="11" font-weight="600" fill="#FF6B00">values continue &#8594;</text>
+                            <!-- ticks -->
+                            <g font-size="12" fill="currentColor" opacity="0.7">
+                                <line x1="40" y1="406" x2="40" y2="414" stroke="currentColor" stroke-opacity="0.4"/>
+                                <text x="40" y="468" text-anchor="middle">0.0</text>
+                                <line x1="342" y1="406" x2="342" y2="414" stroke="currentColor" stroke-opacity="0.4"/>
+                                <text x="342" y="468" text-anchor="middle">1.0</text>
+                                <line x1="480" y1="406" x2="480" y2="414" stroke="currentColor" stroke-opacity="0.4"/>
+                                <text x="480" y="468" text-anchor="middle">2.0</text>
+                                <line x1="620" y1="406" x2="620" y2="414" stroke="currentColor" stroke-opacity="0.4"/>
+                                <text x="620" y="468" text-anchor="middle">5.0</text>
+                                <line x1="760" y1="406" x2="760" y2="414" stroke="currentColor" stroke-opacity="0.4"/>
+                                <text x="760" y="468" text-anchor="middle">10.0+</text>
+                            </g>
+
+                            <!-- Value reference row -->
+                            <text x="40" y="510" font-size="18" font-weight="600" fill="currentColor">Example brightness values</text>
+                            <g font-size="13">
+                                <!-- shadow 0.1 -->
+                                <rect x="40" y="524" width="170" height="78" rx="6" fill="currentColor" opacity="0.04"/>
+                                <circle cx="72" cy="556" r="13" fill="#4A9EFF" opacity="0.55"/>
+                                <text x="96" y="552" fill="currentColor" font-weight="600">Shadow</text>
+                                <text x="96" y="572" fill="currentColor" opacity="0.6">value 0.1</text>
+                                <text x="58" y="592" fill="currentColor" opacity="0.6" font-size="12">dim, in range</text>
+                                <!-- ambient 1.0 -->
+                                <rect x="222" y="524" width="170" height="78" rx="6" fill="currentColor" opacity="0.04"/>
+                                <circle cx="254" cy="556" r="13" fill="#F5C242"/>
+                                <text x="278" y="552" fill="currentColor" font-weight="600">Ambient</text>
+                                <text x="278" y="572" fill="currentColor" opacity="0.6">value 1.0</text>
+                                <text x="240" y="592" fill="currentColor" opacity="0.6" font-size="12">neutral white</text>
+                                <!-- bulb 2.0 -->
+                                <rect x="404" y="524" width="170" height="78" rx="6" fill="currentColor" opacity="0.04"/>
+                                <circle cx="436" cy="556" r="13" fill="#FFB347"/>
+                                <line x1="436" y1="538" x2="436" y2="532" stroke="#FFB347" stroke-width="2"/>
+                                <line x1="436" y1="574" x2="436" y2="580" stroke="#FFB347" stroke-width="2"/>
+                                <line x1="418" y1="556" x2="412" y2="556" stroke="#FFB347" stroke-width="2"/>
+                                <line x1="454" y1="556" x2="460" y2="556" stroke="#FFB347" stroke-width="2"/>
+                                <text x="478" y="552" fill="currentColor" font-weight="600">Bulb</text>
+                                <text x="478" y="572" fill="currentColor" opacity="0.6">value 2.0</text>
+                                <text x="420" y="592" fill="currentColor" opacity="0.6" font-size="12">past white</text>
+                                <!-- sun 10+ -->
+                                <rect x="586" y="524" width="174" height="78" rx="6" fill="#FF6B00" opacity="0.10"/>
+                                <circle cx="618" cy="556" r="13" fill="#FF6B00"/>
+                                <g stroke="#FF6B00" stroke-width="2" stroke-linecap="round">
+                                    <line x1="618" y1="534" x2="618" y2="528"/>
+                                    <line x1="618" y1="578" x2="618" y2="584"/>
+                                    <line x1="596" y1="556" x2="590" y2="556"/>
+                                    <line x1="640" y1="556" x2="646" y2="556"/>
+                                    <line x1="602" y1="540" x2="598" y2="536"/>
+                                    <line x1="634" y1="572" x2="638" y2="576"/>
+                                    <line x1="634" y1="540" x2="638" y2="536"/>
+                                    <line x1="602" y1="572" x2="598" y2="576"/>
+                                </g>
+                                <text x="660" y="552" fill="currentColor" font-weight="600">Sun</text>
+                                <text x="660" y="572" fill="currentColor" opacity="0.6">value 10.0+</text>
+                                <text x="600" y="592" fill="#FF6B00" opacity="0.9" font-size="12" font-weight="600">far beyond white</text>
+                            </g>
+
+                            <!-- Footer tip (Variant B, dense position) -->
+                            <rect x="40" y="641" width="720" height="34" fill="none"/>
+                            <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+                            <text x="58" y="663" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> LDR throws away everything above 1.0; HDR keeps the sun's true intensity, which is what lights your scene.</text>
+                        </svg>
+
+                    <figcaption>Dynamic range compared. An 8-bit LDR bar clamps at 255 and loses all detail beyond white, while a 32-bit HDR bar keeps storing values past 1.0 (a bulb at 2.0, the sun at 10.0 and beyond), which is the light data that makes HDRIs work.</figcaption>
+                    </figure>
+
                     </div>
 
                     <h3>HDR vs. LDR Images</h3>
@@ -172,7 +330,30 @@
                             <li>→ Detail in both bright sky AND dark landscape</li>
                             <li>→ Can use as light source preserving sun's brightness</li>
                         </ul>
-                    </div>
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_30_before_after_comparison.png"
+                                 alt="The same glossy sphere shown twice. On the left, lit by a default flat grey world, it looks dull and nearly unlit. On the right, lit by an outdoor sunset HDRI, it shows a vivid warm reflection, graded shading, and a soft contact shadow."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 2002 1000"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                    <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                                        <rect x="330" y="46" width="340" height="62" rx="10" fill="#1a1a1a" fill-opacity="0.82"/>
+                                        <circle cx="368" cy="77" r="9" fill="#FF6B00"/>
+                                        <text x="390" y="86" font-size="34" font-weight="700" fill="#ffffff">Before &#183; grey world</text>
+                                    </g>
+                                    <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                                        <rect x="1330" y="46" width="342" height="62" rx="10" fill="#1a1a1a" fill-opacity="0.82"/>
+                                        <circle cx="1368" cy="77" r="9" fill="#FF6B00"/>
+                                        <text x="1390" y="86" font-size="34" font-weight="700" fill="#ffffff">After &#183; HDRI lit</text>
+                                    </g>
+                            </svg>
+                        </div>
+                    <figcaption>Before and after. With the default grey world the sphere reads flat and lifeless; swapping in a single outdoor HDRI gives it realistic environment reflections, directional warmth, and a soft shadow in one step.</figcaption>
+                    </figure>
 
                     <h3>How HDRIs Work as Lighting</h3>
 
@@ -207,7 +388,111 @@
 
                     <blockquote>
                         <p><strong>💡 The HDRI Revolution:</strong> Before HDRIs became common (early 2000s), lighting outdoor 3D scenes realistically required expert-level manual lighting setups. An experienced lighter might spend days positioning sun lights, sky lights, bounce lights, and color-grading everything to look natural. HDRI changed everything—now a single environment map captures that complexity in one image. It's like going from painting every pixel by hand to using a photograph. Both can create great results, but HDRI is dramatically faster and often more realistic.</p>
-                    </blockquote>
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680"
+                            role="img" aria-labelledby="sp-title sp-desc"
+                            font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                            <title id="sp-title">HDRI environment sphere lighting a 3D object from all directions</title>
+                            <desc id="sp-desc">A translucent environment sphere, textured with an outdoor scene, surrounds a central 3D object. Light-ray arrows point inward from many directions: warm orange rays from the bright sun area, cool blue rays from the sky, and dim neutral rays from the shadowed ground. The diagram shows image-based lighting, where every pixel of the HDRI acts as a small light source illuminating the object at once.</desc>
+
+                            <!-- Top brand accent -->
+                            <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+                            <!-- Heading block -->
+                            <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">Image-Based Lighting (IBL)</text>
+                            <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">The HDRI wraps your scene and lights it from every direction</text>
+                            <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+                            <defs>
+                                <radialGradient id="sp-shell" cx="0.42" cy="0.36" r="0.72">
+                                    <stop offset="0" stop-color="#BFE0FF" stop-opacity="0.32"/>
+                                    <stop offset="0.55" stop-color="#7FB0E8" stop-opacity="0.26"/>
+                                    <stop offset="0.78" stop-color="#C9A876" stop-opacity="0.30"/>
+                                    <stop offset="1" stop-color="#6E5536" stop-opacity="0.38"/>
+                                </radialGradient>
+                                <radialGradient id="sp-sun" cx="0.5" cy="0.5" r="0.5">
+                                    <stop offset="0" stop-color="#FFFDF2"/>
+                                    <stop offset="0.45" stop-color="#FFE39A"/>
+                                    <stop offset="1" stop-color="#FFE39A" stop-opacity="0"/>
+                                </radialGradient>
+                                <radialGradient id="sp-obj" cx="0.4" cy="0.32" r="0.8">
+                                    <stop offset="0" stop-color="#FFB066"/>
+                                    <stop offset="0.5" stop-color="#FF8A33"/>
+                                    <stop offset="1" stop-color="#C85A12"/>
+                                </radialGradient>
+                                <marker id="sp-arrow-warm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#FF8A33"/>
+                                </marker>
+                                <marker id="sp-arrow-cool" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#4A9EFF"/>
+                                </marker>
+                                <marker id="sp-arrow-dim" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#8A8F98"/>
+                                </marker>
+                            </defs>
+
+                            <!-- Environment sphere (translucent shell) -->
+                            <!-- center 400,410  radius 220 -->
+                            <circle cx="400" cy="410" r="220" fill="url(#sp-shell)" stroke="#4A9EFF" stroke-opacity="0.35" stroke-width="1.5"/>
+                            <!-- horizon band on the shell -->
+                            <ellipse cx="400" cy="410" rx="220" ry="58" fill="none" stroke="#ffffff" stroke-opacity="0.30" stroke-width="1"/>
+                            <!-- a couple meridians to read as a sphere -->
+                            <ellipse cx="400" cy="410" rx="74" ry="220" fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="1"/>
+                            <ellipse cx="400" cy="410" rx="150" ry="220" fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="1"/>
+                            <!-- sun on the shell (upper area) -->
+                            <circle cx="300" cy="296" r="40" fill="url(#sp-sun)"/>
+                            <circle cx="300" cy="296" r="11" fill="#FFFBEA"/>
+
+                            <!-- shell labels -->
+                            <text x="566" y="250" font-size="13" font-weight="600" fill="#4A9EFF">HDRI environment sphere</text>
+                            <text x="566" y="268" font-size="12" fill="currentColor" opacity="0.6">semi-transparent, surrounds scene</text>
+
+                            <!-- Inward light rays -->
+                            <!-- WARM rays from the sun / bright area (upper-left) -->
+                            <g stroke="#FF8A33" stroke-width="3" stroke-linecap="round">
+                                <line x1="318" y1="318" x2="372" y2="384" marker-end="url(#sp-arrow-warm)"/>
+                                <line x1="262" y1="330" x2="350" y2="396" marker-end="url(#sp-arrow-warm)"/>
+                                <line x1="356" y1="262" x2="392" y2="356" marker-end="url(#sp-arrow-warm)"/>
+                            </g>
+                            <!-- COOL rays from the sky (upper-right + top) -->
+                            <g stroke="#4A9EFF" stroke-width="2.5" stroke-linecap="round">
+                                <line x1="540" y1="300" x2="452" y2="372" marker-end="url(#sp-arrow-cool)"/>
+                                <line x1="560" y1="380" x2="468" y2="400" marker-end="url(#sp-arrow-cool)"/>
+                                <line x1="470" y1="240" x2="424" y2="346" marker-end="url(#sp-arrow-cool)"/>
+                            </g>
+                            <!-- DIM neutral rays from the shadowed ground (lower) -->
+                            <g stroke="#8A8F98" stroke-width="2" stroke-linecap="round" opacity="0.85">
+                                <line x1="300" y1="540" x2="368" y2="452" marker-end="url(#sp-arrow-dim)"/>
+                                <line x1="430" y1="566" x2="416" y2="470" marker-end="url(#sp-arrow-dim)"/>
+                                <line x1="540" y1="520" x2="456" y2="448" marker-end="url(#sp-arrow-dim)"/>
+                            </g>
+
+                            <!-- Central 3D object -->
+                            <!-- a simple shaded sphere as the lit object -->
+                            <ellipse cx="408" cy="468" rx="58" ry="16" fill="#000000" opacity="0.10"/>
+                            <circle cx="400" cy="410" r="56" fill="url(#sp-obj)" stroke="#7A3A0E" stroke-opacity="0.4" stroke-width="1"/>
+                            <!-- specular hit on the warm side -->
+                            <circle cx="382" cy="392" r="11" fill="#FFFFFF" opacity="0.5"/>
+                            <text x="400" y="500" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">3D object receives light</text>
+
+                            <!-- Legend -->
+                            <g font-size="13">
+                                <line x1="120" y1="610" x2="150" y2="610" stroke="#FF8A33" stroke-width="3" stroke-linecap="round"/>
+                                <text x="158" y="614" fill="currentColor">Warm light &#183; sun &amp; bright pixels</text>
+                                <line x1="120" y1="632" x2="150" y2="632" stroke="#4A9EFF" stroke-width="3" stroke-linecap="round"/>
+                                <text x="158" y="636" fill="currentColor">Cool light &#183; sky</text>
+                                <line x1="430" y1="632" x2="460" y2="632" stroke="#8A8F98" stroke-width="3" stroke-linecap="round"/>
+                                <text x="468" y="636" fill="currentColor">Dim light &#183; shadowed ground</text>
+                            </g>
+
+                            <!-- Footer tip (Variant B, dense position) -->
+                            <rect x="40" y="641" width="720" height="34" fill="none"/>
+                            <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+                            <text x="58" y="663" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Every pixel of the HDRI is a tiny light. Bright pixels light strongly, dark pixels barely at all.</text>
+                        </svg>
+
+                    <figcaption>Image-based lighting. The HDRI wraps the scene like a sphere and every pixel acts as a small light: warm rays from the sun and bright pixels, cool rays from the sky, and dim rays from the shadowed ground all reach the object at once.</figcaption>
+                    </figure>
 
                     <h3>Types of HDRI Maps</h3>
 
@@ -240,6 +525,124 @@
                             <li>Native support, easiest to work with</li>
                             <li>Most HDRI websites provide this format</li>
                         </ul>
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680"
+                            role="img" aria-labelledby="eq-title eq-desc"
+                            font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                            <title id="eq-title">Equirectangular HDRI projection wrapping to a sphere</title>
+                            <desc id="eq-desc">A flat equirectangular environment map with a two to one aspect ratio sits at the top, overlaid with a latitude and longitude grid that bunches together toward the top and bottom edges to show pole distortion. Projection arrows connect the flat map to a sphere below, illustrating how the rectangular image wraps around a three dimensional scene.</desc>
+
+                            <!-- Top brand accent -->
+                            <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+                            <!-- Heading block -->
+                            <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">Equirectangular Projection</text>
+                            <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">How a flat HDRI wraps around your scene</text>
+                            <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+                            <defs>
+                                <!-- sky-to-ground gradient for the panoramic map -->
+                                <linearGradient id="eq-sky" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0" stop-color="#3F6FB5"/>
+                                    <stop offset="0.42" stop-color="#9CC3E8"/>
+                                    <stop offset="0.52" stop-color="#D9E6F2"/>
+                                    <stop offset="0.62" stop-color="#C9A876"/>
+                                    <stop offset="1" stop-color="#6E5536"/>
+                                </linearGradient>
+                                <radialGradient id="eq-sun" cx="0.5" cy="0.5" r="0.5">
+                                    <stop offset="0" stop-color="#FFFDF2"/>
+                                    <stop offset="0.5" stop-color="#FFE39A"/>
+                                    <stop offset="1" stop-color="#FFE39A" stop-opacity="0"/>
+                                </radialGradient>
+                                <clipPath id="eq-mapclip"><rect x="140" y="138" width="520" height="180" rx="4"/></clipPath>
+                            </defs>
+
+                            <!-- Flat equirectangular map (2:1) -->
+                            <text x="140" y="132" font-size="14" font-weight="600" fill="currentColor">Equirectangular map <tspan font-weight="400" opacity="0.6">&#183; 2:1 ratio (360&#176; &#215; 180&#176;)</tspan></text>
+                            <g clip-path="url(#eq-mapclip)">
+                                <rect x="140" y="138" width="520" height="180" fill="url(#eq-sky)"/>
+                                <!-- sun in the sky band -->
+                                <circle cx="300" cy="186" r="46" fill="url(#eq-sun)"/>
+                                <circle cx="300" cy="186" r="13" fill="#FFFBEA"/>
+                                <!-- a couple of soft clouds -->
+                                <ellipse cx="520" cy="178" rx="44" ry="13" fill="#ffffff" opacity="0.45"/>
+                                <ellipse cx="470" cy="200" rx="30" ry="9" fill="#ffffff" opacity="0.30"/>
+                                <!-- horizon line -->
+                                <line x1="140" y1="246" x2="660" y2="246" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.5"/>
+                                <!-- longitude lines (vertical, evenly spaced) -->
+                                <g stroke="#ffffff" stroke-opacity="0.55" stroke-width="1">
+                                    <line x1="205" y1="138" x2="205" y2="318"/>
+                                    <line x1="270" y1="138" x2="270" y2="318"/>
+                                    <line x1="335" y1="138" x2="335" y2="318"/>
+                                    <line x1="400" y1="138" x2="400" y2="318"/>
+                                    <line x1="465" y1="138" x2="465" y2="318"/>
+                                    <line x1="530" y1="138" x2="530" y2="318"/>
+                                    <line x1="595" y1="138" x2="595" y2="318"/>
+                                </g>
+                                <!-- latitude lines (horizontal): bunched near top and bottom to show pole distortion -->
+                                <g stroke="#ffffff" stroke-opacity="0.55" stroke-width="1">
+                                    <line x1="140" y1="150" x2="660" y2="150"/>
+                                    <line x1="140" y1="166" x2="660" y2="166"/>
+                                    <line x1="140" y1="190" x2="660" y2="190"/>
+                                    <line x1="140" y1="246" x2="660" y2="246"/>
+                                    <line x1="140" y1="296" x2="660" y2="296"/>
+                                    <line x1="140" y1="308" x2="660" y2="308"/>
+                                </g>
+                            </g>
+                            <rect x="140" y="138" width="520" height="180" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.3" stroke-width="1"/>
+
+                            <!-- pole-distortion callouts -->
+                            <text x="670" y="156" font-size="12" fill="#FF6B00" font-weight="600">top pole</text>
+                            <text x="670" y="170" font-size="11" fill="currentColor" opacity="0.6">stretched</text>
+                            <text x="670" y="304" font-size="12" fill="#FF6B00" font-weight="600">bottom pole</text>
+                            <text x="670" y="318" font-size="11" fill="currentColor" opacity="0.6">stretched</text>
+                            <text x="68" y="232" font-size="12" fill="currentColor" opacity="0.7">horizon</text>
+                            <line x1="112" y1="228" x2="138" y2="240" stroke="currentColor" stroke-opacity="0.4" stroke-width="1"/>
+
+                            <!-- Projection arrows -->
+                            <g stroke="#FF6B00" stroke-width="2.5" fill="none" stroke-linecap="round">
+                                <path d="M 260 330 C 280 380, 330 400, 372 432" marker-end="url(#eq-arrow)"/>
+                                <path d="M 400 330 C 400 380, 400 400, 400 430" marker-end="url(#eq-arrow)"/>
+                                <path d="M 540 330 C 520 380, 470 400, 428 432" marker-end="url(#eq-arrow)"/>
+                            </g>
+                            <defs>
+                                <marker id="eq-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#FF6B00"/>
+                                </marker>
+                            </defs>
+                            <text x="400" y="372" text-anchor="middle" font-size="13" font-weight="600" fill="#FF6B00">wraps onto a sphere</text>
+
+                            <!-- Sphere (the wrap) -->
+                            <g>
+                                <circle cx="400" cy="520" r="78" fill="url(#eq-sky)" stroke="currentColor" stroke-opacity="0.3" stroke-width="1"/>
+                                <!-- sun reflected onto sphere upper-left -->
+                                <circle cx="362" cy="486" r="26" fill="url(#eq-sun)"/>
+                                <!-- longitude meridians curving around the sphere -->
+                                <g stroke="#ffffff" stroke-opacity="0.5" stroke-width="1" fill="none">
+                                    <ellipse cx="400" cy="520" rx="26" ry="78"/>
+                                    <ellipse cx="400" cy="520" rx="54" ry="78"/>
+                                    <line x1="400" y1="442" x2="400" y2="598"/>
+                                </g>
+                                <!-- latitude rings (ellipses) -->
+                                <g stroke="#ffffff" stroke-opacity="0.5" stroke-width="1" fill="none">
+                                    <ellipse cx="400" cy="498" rx="74" ry="20"/>
+                                    <ellipse cx="400" cy="520" rx="78" ry="6"/>
+                                    <ellipse cx="400" cy="542" rx="74" ry="20"/>
+                                </g>
+                                <!-- subtle shading on the sphere -->
+                                <circle cx="400" cy="520" r="78" fill="#000000" opacity="0.04"/>
+                            </g>
+                            <text x="400" y="624" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.7">360&#176; environment surrounding your 3D scene</text>
+
+                            <!-- Footer tip (Variant B, dense position) -->
+                            <rect x="40" y="641" width="720" height="34" fill="none"/>
+                            <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+                            <text x="58" y="663" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Equirectangular is Blender's native HDRI format. The stretched poles map correctly once wrapped.</text>
+                        </svg>
+
+                    <figcaption>Equirectangular projection. A flat 2:1 panoramic map (360 by 180 degrees) wraps onto a sphere around your scene. Latitude lines bunch toward the top and bottom, which is why the poles look stretched in the flat image but map correctly once wrapped.</figcaption>
+                    </figure>
+
                     </div>
 
                     <h3>When to Use HDRI</h3>
@@ -342,6 +745,49 @@
                         </ul>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_05_world_properties_panel.png"
+                                 alt="Blender's Properties editor on the World tab. The red world globe icon is selected in the left icon column. The Surface section shows the Background shader with a Color swatch and a Strength value of 1.000."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 584 426"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                                    <circle cx="30" cy="296" r="19" fill="none" stroke="#FF6B00" stroke-width="3"/>
+                                    <path d="M 30 277 L 30 150 L 96 150" fill="none" stroke="#FF6B00" stroke-width="2.5" stroke-linecap="round"/>
+                                    <rect x="96" y="132" width="150" height="34" rx="8" fill="#1a1a1a" fill-opacity="0.82"/>
+                                    <circle cx="114" cy="149" r="5" fill="#FF6B00"/>
+                                    <text x="126" y="155" font-size="16" font-weight="700" fill="#ffffff">World tab</text>
+                                </g>
+                                <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                                    <circle cx="275" cy="239" r="14" fill="none" stroke="#FF6B00" stroke-width="3"/>
+                                    <path d="M 275 225 L 275 150 L 300 150" fill="none" stroke="#FF6B00" stroke-width="2.5" stroke-linecap="round"/>
+                                    <rect x="300" y="132" width="120" height="34" rx="8" fill="#1a1a1a" fill-opacity="0.82"/>
+                                    <circle cx="317" cy="149" r="5" fill="#FF6B00"/>
+                                    <text x="329" y="155" font-size="16" font-weight="700" fill="#ffffff">Surface</text>
+                                </g>
+                                <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                                    <circle cx="275" cy="290" r="14" fill="none" stroke="#FF6B00" stroke-width="3"/>
+                                    <path d="M 275 304 L 275 356 L 300 356" fill="none" stroke="#FF6B00" stroke-width="2.5" stroke-linecap="round"/>
+                                    <rect x="300" y="340" width="100" height="32" rx="8" fill="#1a1a1a" fill-opacity="0.82"/>
+                                    <circle cx="316" cy="356" r="5" fill="#FF6B00"/>
+                                    <text x="328" y="362" font-size="15" font-weight="700" fill="#ffffff">Color</text>
+                                </g>
+                                <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                                    <rect x="288" y="314" width="232" height="26" rx="6" fill="none" stroke="#FF6B00" stroke-width="3"/>
+                                    <path d="M 404 340 L 404 356 L 438 356" fill="none" stroke="#FF6B00" stroke-width="2.5" stroke-linecap="round"/>
+                                    <rect x="438" y="340" width="120" height="32" rx="8" fill="#1a1a1a" fill-opacity="0.82"/>
+                                    <circle cx="455" cy="356" r="5" fill="#FF6B00"/>
+                                    <text x="467" y="362" font-size="15" font-weight="700" fill="#ffffff">Strength</text>
+                                </g>
+                            </svg>
+                        </div>
+                    <figcaption>The World Properties tab. Select the world globe icon in the Properties editor, then use the Surface section to set the Background shader's Color and Strength. Strength controls how bright the world lighting is.</figcaption>
+                    </figure>
+
                     <h3>Default World Shader Setup</h3>
 
                     <div class="card">
@@ -371,6 +817,38 @@
                             <li>We'll add Environment Texture between them for HDRI</li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_06_default_world_shader.png"
+                                 alt="Blender's Shader Editor in World mode showing the default world setup: a Background node on the left, with Color and Strength inputs, connected by a green shader noodle to the World Output node on the right."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 1273 312"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                                    <rect x="40" y="262" width="270" height="40" rx="9" fill="#1a1a1a" fill-opacity="0.82"/>
+                                    <circle cx="64" cy="282" r="6" fill="#FF6B00"/>
+                                    <text x="78" y="290" font-size="22" font-weight="700" fill="#ffffff">Background node</text>
+                                </g>
+                                <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                                    <rect x="900" y="262" width="270" height="40" rx="9" fill="#1a1a1a" fill-opacity="0.82"/>
+                                    <circle cx="924" cy="282" r="6" fill="#FF6B00"/>
+                                    <text x="938" y="290" font-size="22" font-weight="700" fill="#ffffff">World Output node</text>
+                                </g>
+                                <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                                    <rect x="500" y="60" width="260" height="38" rx="9" fill="#1a1a1a" fill-opacity="0.82"/>
+                                    <circle cx="523" cy="79" r="6" fill="#FF6B00"/>
+                                    <text x="537" y="87" font-size="21" font-weight="700" fill="#ffffff">Shader connection</text>
+                                    <line x1="630" y1="98" x2="630" y2="140" stroke="#FF6B00" stroke-width="2.5" stroke-linecap="round"/>
+                                    <circle cx="630" cy="146" r="6" fill="#FF6B00"/>
+                                </g>
+                            </svg>
+                        </div>
+                    <figcaption>The default World shader in the Shader Editor (World mode). The Background node emits environment light from its Color and Strength inputs, and its output connects to the World Output node. To use an HDRI, you add an Environment Texture node before the Background node.</figcaption>
+                    </figure>
 
                 </section>
 
@@ -439,6 +917,51 @@
                         </ol>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_07_hdri_setup_workflow.png"
+                                 alt="Four-panel HDRI setup workflow in the Blender World Shader Editor, progressing from the default world to a connected Environment Texture."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2668 1754"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <rect x="406" y="768" width="520" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                <text x="666" y="800" text-anchor="middle" dominant-baseline="central" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="700" fill="#ffffff">Step 1 &#183; Default world</text>
+                                <rect x="1621" y="768" width="760" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                <text x="2001" y="800" text-anchor="middle" dominant-baseline="central" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="700" fill="#ffffff">Step 2 &#183; Add Environment Texture</text>
+                                <rect x="366" y="1644" width="600" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                <text x="666" y="1676" text-anchor="middle" dominant-baseline="central" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="700" fill="#ffffff">Step 3 &#183; Load HDRI image</text>
+                                <rect x="1601" y="1644" width="800" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                <text x="2001" y="1676" text-anchor="middle" dominant-baseline="central" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="700" fill="#ffffff">Step 4 &#183; Connect Color &#8594; Background</text>
+                            </svg>
+                        </div>
+                    <figcaption>The HDRI setup workflow in four steps: start from the default world, add an Environment Texture node, load an HDRI image, then connect its Color output to the Background node.</figcaption>
+                    </figure>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_08_complete_node_network.png"
+                                 alt="The complete HDRI world node network: Environment Texture feeding Background feeding World Output, with the color connection labeled."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1260 352"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <rect x="72" y="315" width="220" height="34" rx="17" fill="#1a1a1a" fill-opacity="0.82"/>
+                                <text x="182" y="332" text-anchor="middle" dominant-baseline="central" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">HDRI image</text>
+                                <rect x="567" y="315" width="280" height="34" rx="17" fill="#1a1a1a" fill-opacity="0.82"/>
+                                <text x="707" y="332" text-anchor="middle" dominant-baseline="central" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Brightness control</text>
+                                <rect x="1028" y="315" width="220" height="34" rx="17" fill="#1a1a1a" fill-opacity="0.82"/>
+                                <text x="1138" y="332" text-anchor="middle" dominant-baseline="central" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Final output</text>
+                                <rect x="378" y="44" width="200" height="32" rx="16" fill="#1a1a1a" fill-opacity="0.82"/>
+                                <circle cx="392.4" cy="60" r="5.12" fill="#FFE066"/>
+                                <text x="484.4" y="60" text-anchor="middle" dominant-baseline="central" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="700" fill="#ffffff">Color data</text>
+                            </svg>
+                        </div>
+                    <figcaption>The complete HDRI node network: the Environment Texture supplies the HDRI image, the Background node controls brightness, and the World Output delivers the final result. The yellow noodle carries color data.</figcaption>
+                    </figure>
+
                     <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                         <h4>✅ Quick Setup Summary</h4>
                         <p><strong>The essential node setup:</strong></p>
@@ -448,6 +971,26 @@ Environment Texture (HDRI) → Background → World Output
     Color Output                Shader       Surface</pre>
                         <p><strong>That's it! Three nodes, two connections, instant realism.</strong></p>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_10_viewport_shading_icons.png"
+                                 alt="The four viewport shading icons in the top-right of the Blender 3D viewport, with Material Preview and Rendered highlighted."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 476 156"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <rect x="223" y="34" width="104" height="104" rx="10" fill="none" stroke="#4ADE80" stroke-width="5"/>
+                                <rect x="332" y="34" width="110" height="104" rx="10" fill="none" stroke="#4ADE80" stroke-width="5"/>
+                                <rect x="189" y="3" width="168" height="26" rx="13" fill="#0f1a14" fill-opacity="0.9"/>
+                                <text x="273" y="16" text-anchor="middle" dominant-baseline="central" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#4ADE80">Material Preview</text>
+                                <rect x="336" y="133" width="104" height="26" rx="13" fill="#0f1a14" fill-opacity="0.9"/>
+                                <text x="388" y="146" text-anchor="middle" dominant-baseline="central" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#4ADE80">Rendered</text>
+                            </svg>
+                        </div>
+                    <figcaption>Use the Material Preview or Rendered shading mode (the two right-hand icons) to see HDRI lighting in the viewport. Solid and Wireframe modes do not show it.</figcaption>
+                    </figure>
 
                     <h3>Testing Your HDRI Setup</h3>
 
@@ -481,6 +1024,51 @@ Environment Texture (HDRI) → Background → World Output
                             </li>
                         </ol>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_26_viewport_mode_comparison.png"
+                                 alt="The same HDRI-lit chrome sphere shown in three viewport shading modes side by side: Solid (flat clay, no HDRI), Material Preview (HDRI reflections visible), and Rendered (full Cycles lighting and reflections)."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2404 800"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <g>
+                                  <rect x="321" y="711" width="158" height="58" rx="10" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="400" y="740" text-anchor="middle" dominant-baseline="central" font-size="34" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">Solid</text>
+                                </g>
+                                <g>
+                                  <rect x="1011" y="711" width="382" height="58" rx="10" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="1202" y="740" text-anchor="middle" dominant-baseline="central" font-size="34" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">Material Preview</text>
+                                </g>
+                                <g>
+                                  <rect x="1895" y="711" width="219" height="58" rx="10" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="2004" y="740" text-anchor="middle" dominant-baseline="central" font-size="34" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">Rendered</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <figcaption>The same scene in three viewport shading modes. Solid mode shows flat clay with no HDRI, Material Preview shows HDRI reflections and lighting, and Rendered mode shows the full result. Use Material Preview or Rendered to see your HDRI.</figcaption>
+                    </figure>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_27_node_connection_closeup.png"
+                                 alt="Close-up of a node connection: the Environment Texture Color output socket linked to the Background Color input socket by a yellow noodle."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 605 145"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <circle cx="100" cy="29" r="15" fill="none" stroke="#4ADE80" stroke-width="4"/>
+                                <circle cx="483" cy="75" r="15" fill="none" stroke="#4ADE80" stroke-width="4"/>
+                                <rect x="167" y="100" width="250" height="32" rx="16" fill="#1a1a1a" fill-opacity="0.82"/>
+                                <circle cx="181.4" cy="116" r="5.12" fill="#FFE066"/>
+                                <text x="298.4" y="116" text-anchor="middle" dominant-baseline="central" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="700" fill="#ffffff">Yellow = Color data</text>
+                            </svg>
+                        </div>
+                    <figcaption>A close-up of the key connection: the Environment Texture Color output links to the Background Color input. Yellow sockets and noodles carry color data.</figcaption>
+                    </figure>
 
                     <h3>HDRI File Formats</h3>
 
@@ -521,6 +1109,95 @@ Environment Texture (HDRI) → Background → World Output
                             <li>Higher resolution = sharper reflections and background details</li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680" role="img" aria-labelledby="ff-title ff-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+                            <title id="ff-title">HDRI file formats: correct versus incorrect</title>
+                            <desc id="ff-desc">A two-column guide. The left column lists the correct HDRI formats, Radiance HDR and OpenEXR, both 32-bit floating point with a true high dynamic range, each marked with a green check. The right column lists JPG and PNG as incorrect for lighting because they are 8-bit with a limited dynamic range, each marked with a red cross. A takeaway band advises using .hdr or .exr for realistic lighting.</desc>
+                            <!-- Top brand accent -->
+                            <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+                            <!-- Heading block -->
+                            <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">HDRI File Formats</text>
+                            <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Use true 32-bit HDR formats for lighting &#183; avoid 8-bit images</text>
+                            <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+                            <!-- Left column: CORRECT -->
+                            <rect x="40" y="138" width="350" height="34" rx="6" fill="#4ADE80"/>
+                            <text x="64" y="161" font-size="17" font-weight="700" fill="#0f1a14">&#10003;  Correct for Lighting</text>
+                            <!-- .HDR card -->
+                            <rect x="40" y="186" width="350" height="118" rx="8" fill="currentColor" fill-opacity="0.04" stroke="#4ADE80" stroke-opacity="0.5" stroke-width="1.5"/>
+                            <rect x="56" y="202" width="78" height="34" rx="6" fill="#4ADE80"/>
+                            <text x="95" y="225" text-anchor="middle" font-size="16" font-weight="700" fill="#0f1a14">.HDR</text>
+                            <text x="148" y="216" font-size="15" font-weight="600" fill="currentColor">Radiance HDR</text>
+                            <text x="148" y="236" font-size="12.5" fill="currentColor" opacity="0.6">Most common &#183; good compression</text>
+                            <text x="56" y="262" font-size="13" fill="currentColor" opacity="0.85">32-bit float per channel</text>
+                            <text x="56" y="284" font-size="13" font-weight="700" fill="#4ADE80">Recommended for most use cases</text>
+                            <!-- .EXR card -->
+                            <rect x="40" y="316" width="350" height="118" rx="8" fill="currentColor" fill-opacity="0.04" stroke="#4ADE80" stroke-opacity="0.5" stroke-width="1.5"/>
+                            <rect x="56" y="332" width="78" height="34" rx="6" fill="#4ADE80"/>
+                            <text x="95" y="355" text-anchor="middle" font-size="16" font-weight="700" fill="#0f1a14">.EXR</text>
+                            <text x="148" y="346" font-size="15" font-weight="600" fill="currentColor">OpenEXR</text>
+                            <text x="148" y="366" font-size="12.5" fill="currentColor" opacity="0.6">VFX standard &#183; layers and passes</text>
+                            <text x="56" y="392" font-size="13" fill="currentColor" opacity="0.85">16-bit or 32-bit per channel</text>
+                            <text x="56" y="414" font-size="13" font-weight="700" fill="#4ADE80">Use when you need extra data</text>
+                            <!-- Right column: INCORRECT -->
+                            <rect x="410" y="138" width="350" height="34" rx="6" fill="#E63946"/>
+                            <text x="434" y="161" font-size="17" font-weight="700" fill="#ffffff">&#10007;  Not True HDR</text>
+                            <!-- .JPG card -->
+                            <rect x="410" y="186" width="350" height="118" rx="8" fill="currentColor" fill-opacity="0.04" stroke="#E63946" stroke-opacity="0.5" stroke-width="1.5"/>
+                            <rect x="426" y="202" width="78" height="34" rx="6" fill="#E63946"/>
+                            <text x="465" y="225" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">.JPG</text>
+                            <text x="518" y="216" font-size="15" font-weight="600" fill="currentColor">JPEG</text>
+                            <text x="518" y="236" font-size="12.5" fill="currentColor" opacity="0.6">Lossy &#183; 8-bit per channel</text>
+                            <text x="426" y="262" font-size="13" fill="currentColor" opacity="0.85">Limited dynamic range</text>
+                            <text x="426" y="284" font-size="13" font-weight="700" fill="#E63946">No realistic lighting values</text>
+                            <!-- .PNG card -->
+                            <rect x="410" y="316" width="350" height="118" rx="8" fill="currentColor" fill-opacity="0.04" stroke="#E63946" stroke-opacity="0.5" stroke-width="1.5"/>
+                            <rect x="426" y="332" width="78" height="34" rx="6" fill="#E63946"/>
+                            <text x="465" y="355" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">.PNG</text>
+                            <text x="518" y="346" font-size="15" font-weight="600" fill="currentColor">PNG</text>
+                            <text x="518" y="366" font-size="12.5" fill="currentColor" opacity="0.6">Lossless &#183; still 8-bit</text>
+                            <text x="426" y="392" font-size="13" fill="currentColor" opacity="0.85">Limited dynamic range</text>
+                            <text x="426" y="414" font-size="13" font-weight="700" fill="#E63946">Backgrounds only, not lighting</text>
+                            <!-- Why it matters band -->
+                            <rect x="40" y="456" width="720" height="92" rx="8" fill="currentColor" fill-opacity="0.05"/>
+                            <text x="60" y="484" font-size="15" font-weight="600" fill="currentColor">Why the difference matters</text>
+                            <text x="60" y="510" font-size="13" fill="currentColor" opacity="0.8">8-bit images clamp brightness at a value of 1.0, so a bright sky and the sun read</text>
+                            <text x="60" y="530" font-size="13" fill="currentColor" opacity="0.8">as the same flat white. True HDR stores values far above 1.0, preserving real light intensity.</text>
+                            <!-- Big takeaway -->
+                            <rect x="40" y="566" width="720" height="44" rx="8" fill="#FF6B00" fill-opacity="0.12" stroke="#FF6B00" stroke-opacity="0.45" stroke-width="1.5"/>
+                            <text x="232" y="594" font-size="16" font-weight="700" fill="currentColor">Use <tspan fill="#FF6B00">.hdr</tspan> or <tspan fill="#FF6B00">.exr</tspan> for realistic lighting</text>
+                            <!-- Footer tip (Variant B, dense) -->
+                            <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+                            <text x="58" y="663" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> A 4K .hdr is the sweet spot for most scenes &#183; sharp reflections without huge files.</text>
+                        </svg>
+                    <figcaption>HDRI file formats at a glance: .hdr and .exr store true 32-bit high dynamic range and are correct for lighting, while 8-bit .jpg and .png clamp brightness and should be avoided for lighting.</figcaption>
+                    </figure>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_24_quality_comparison.png"
+                                 alt="Three extreme close-ups of the same chrome sphere reflection, lit by a 2K, 4K, and 8K version of the same studio HDRI. The reflected window structure grows sharper from left to right as resolution increases."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2404 800"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <g>
+                                  <rect x="209" y="711" width="382" height="58" rx="10" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="400" y="740" text-anchor="middle" dominant-baseline="central" font-size="34" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">2K &#183; 2048px</text>
+                                </g>
+                                <g>
+                                  <rect x="1011" y="711" width="382" height="58" rx="10" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="1202" y="740" text-anchor="middle" dominant-baseline="central" font-size="34" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">4K &#183; 4096px</text>
+                                </g>
+                                <g>
+                                  <rect x="1813" y="711" width="382" height="58" rx="10" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="2004" y="740" text-anchor="middle" dominant-baseline="central" font-size="34" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">8K &#183; 8192px</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <figcaption>HDRI resolution compared in a chrome reflection. At 2K the reflected detail is soft and mushy; 4K is noticeably sharper; 8K resolves the window structure crisply. Higher resolution matters most on reflective surfaces and in close-ups.</figcaption>
+                    </figure>
 
                     <blockquote>
                         <p><strong>💡 The Setup Philosophy:</strong> HDRI setup in Blender is intentionally simple—add one node, load one image, done. This simplicity is deceptive; you're replacing dozens of potential manual lights with a single image that captures real-world lighting complexity. The power isn't in the complexity of the setup, but in the quality and appropriateness of the HDRI you choose.</p>
@@ -569,6 +1246,32 @@ Environment Texture (HDRI) → Background → World Output
                             <li>We'll cover this advanced technique later!</li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_11_strength_comparison.png"
+                                 alt="Three renders of the same chrome sphere and matte ground lit by one sunset HDRI at Background strengths of 0.5, 1.0, and 2.5. The scene grows progressively brighter from left to right as the environment strength increases."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2704 900"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <g>
+                                  <rect x="302" y="782" width="296" height="60" rx="30" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="450" y="812" text-anchor="middle" dominant-baseline="central" font-size="40" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">Strength &#183; 0.5</text>
+                                </g>
+                                <g>
+                                  <rect x="1204" y="782" width="296" height="60" rx="30" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="1352" y="812" text-anchor="middle" dominant-baseline="central" font-size="40" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">Strength &#183; 1.0</text>
+                                </g>
+                                <g>
+                                  <rect x="2106" y="782" width="296" height="60" rx="30" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="2254" y="812" text-anchor="middle" dominant-baseline="central" font-size="40" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">Strength &#183; 2.5</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <figcaption>The same HDRI at three Background strength values. At 0.5 the scene is dim and underexposed; 1.0 is balanced; 2.5 is bright and punchy. Strength scales the overall light the environment contributes without changing its color or direction.</figcaption>
+                    </figure>
 
                     <h3>Rotation</h3>
 
@@ -620,6 +1323,57 @@ Environment Texture (HDRI) → Background → World Output
                         </ul>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_12_rotation_effect.png"
+                                 alt="Four renders of the same chrome sphere lit by one HDRI rotated 0, 90, 180, and 270 degrees on the Z axis. The position of the bright sunset highlight and the cast shadow swing around the sphere as the environment is rotated."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1802 1802"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <g>
+                                  <rect x="372" y="778" width="156" height="68" rx="34" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="450" y="812" text-anchor="middle" dominant-baseline="central" font-size="46" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">0&#176;</text>
+                                </g>
+                                <g>
+                                  <rect x="1260" y="778" width="184" height="68" rx="34" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="1352" y="812" text-anchor="middle" dominant-baseline="central" font-size="46" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">90&#176;</text>
+                                </g>
+                                <g>
+                                  <rect x="344" y="1680" width="212" height="68" rx="34" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="450" y="1714" text-anchor="middle" dominant-baseline="central" font-size="46" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">180&#176;</text>
+                                </g>
+                                <g>
+                                  <rect x="1246" y="1680" width="212" height="68" rx="34" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="1352" y="1714" text-anchor="middle" dominant-baseline="central" font-size="46" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">270&#176;</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <figcaption>Rotating the HDRI on the Z axis swings the light direction around the subject. At each angle the bright sunset highlight and the shadow shift to a new side, letting you aim the key light without moving any lamp.</figcaption>
+                    </figure>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_09_rotation_node_setup.png"
+                                 alt="A World shader node chain: Texture Coordinate into Mapping into Environment Texture into Background into World Output. The Mapping node's Rotation Z field is set to 45 degrees and highlighted."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2489 729"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <g>
+                                  <rect x="536" y="483" width="213" height="47" rx="6" fill="none" stroke="#FF6B00" stroke-width="4"/>
+                                  <path d="M 642 530 C 560 580, 430 590, 320 631" fill="none" stroke="#FF6B00" stroke-width="3"/>
+                                  <circle cx="642" cy="530" r="5" fill="#FF6B00"/>
+                                  <rect x="92" y="579" width="366" height="52" rx="26" fill="#1a1a1a" fill-opacity="0.92" stroke="#FF6B00" stroke-width="2.5"/>
+                                  <text x="275" y="605" text-anchor="middle" dominant-baseline="central" font-size="28" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">Z &#183; rotates HDRI</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <figcaption>Insert a Mapping node (fed by Texture Coordinate) before the Environment Texture to control HDRI orientation. The Rotation Z value spins the environment around the vertical axis, aiming the light wherever you need it.</figcaption>
+                    </figure>
+
                     <h3>Color Adjustment</h3>
 
                     <div class="card">
@@ -662,6 +1416,32 @@ Environment Texture (HDRI) → Background → World Output
                             <li><strong>Boost colors:</strong> Increase Saturation for vibrant look</li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_23_color_grading_nodes.png"
+                                 alt="Three World shader node setups side by side, each inserting a different color node between the Environment Texture and Background: Hue/Saturation/Value, Color Ramp, and RGB Curves."
+                                 loading="lazy"
+                                 style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3784 411"
+                                 preserveAspectRatio="xMidYMid meet"
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <g>
+                                  <rect x="572" y="363" width="116" height="38" rx="19" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="630" y="382" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">HSV</text>
+                                </g>
+                                <g>
+                                  <rect x="1800" y="363" width="184" height="38" rx="19" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="1892" y="382" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">ColorRamp</text>
+                                </g>
+                                <g>
+                                  <rect x="3059" y="363" width="188" height="38" rx="19" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="3153" y="382" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="600" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">RGB Curves</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <figcaption>Three ways to color-grade an HDRI before it reaches the Background node. Hue/Saturation/Value shifts overall tone, Color Ramp remaps brightness ranges, and RGB Curves gives fine per-channel control.</figcaption>
+                    </figure>
 
                     <h3>Background Visibility Control</h3>
 
@@ -729,6 +1509,39 @@ Environment Texture (HDRI) → Background → World Output
 
                     <p>Not all HDRIs are created equal. Different HDRI types serve different purposes. Let's explore the main categories and when to use each.</p>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_13_hdri_types_grid.png" alt="hdri types grid" style="display: block; max-width: 100%; height: auto; margin: 0;" loading="lazy">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2704 1802" preserveAspectRatio="xMidYMid meet" style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none;" aria-hidden="true">
+                                <g>
+                                  <rect x="316" y="778" width="268" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="450" y="810" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Clear sky</text>
+                                </g>
+                                <g>
+                                  <rect x="1254" y="778" width="196" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="1352" y="810" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Cloudy</text>
+                                </g>
+                                <g>
+                                  <rect x="2156" y="778" width="196" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="2254" y="810" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Sunset</text>
+                                </g>
+                                <g>
+                                  <rect x="352" y="1680" width="196" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="450" y="1712" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Studio</text>
+                                </g>
+                                <g>
+                                  <rect x="1230" y="1680" width="244" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="1352" y="1712" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Interior</text>
+                                </g>
+                                <g>
+                                  <rect x="2168" y="1680" width="172" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="2254" y="1712" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Night</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <figcaption>The six main HDRI categories on one chrome sphere &#183; clear sky, cloudy, sunset (top) and studio, interior, night (bottom). Each environment produces a distinct reflection and overall light character.</figcaption>
+                    </figure>
+
                     <h3>Outdoor/Natural HDRIs</h3>
 
                     <div class="card">
@@ -785,6 +1598,31 @@ Environment Texture (HDRI) → Background → World Output
                         </ul>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_14_outdoor_examples.png" alt="outdoor examples" style="display: block; max-width: 100%; height: auto; margin: 0;" loading="lazy">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3606 900" preserveAspectRatio="xMidYMid meet" style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none;" aria-hidden="true">
+                                <g>
+                                  <rect x="316" y="778" width="268" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="450" y="810" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Clear sky</text>
+                                </g>
+                                <g>
+                                  <rect x="1254" y="778" width="196" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="1352" y="810" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Cloudy</text>
+                                </g>
+                                <g>
+                                  <rect x="2156" y="778" width="196" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="2254" y="810" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Sunset</text>
+                                </g>
+                                <g>
+                                  <rect x="3420" y="778" width="172" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="3506" y="810" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Night</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <figcaption>Outdoor HDRIs on the same object &#183; clear sky, cloudy, sunset, and night. Notice how the sky&rsquo;s color and brightness drives the entire mood.</figcaption>
+                    </figure>
+
                     <h3>Studio HDRIs</h3>
 
                     <div class="card">
@@ -837,6 +1675,27 @@ Environment Texture (HDRI) → Background → World Output
                         </ul>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_15_studio_examples.png" alt="studio examples" style="display: block; max-width: 100%; height: auto; margin: 0;" loading="lazy">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2704 900" preserveAspectRatio="xMidYMid meet" style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none;" aria-hidden="true">
+                                <g>
+                                  <rect x="292" y="778" width="316" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="450" y="810" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Three-point</text>
+                                </g>
+                                <g>
+                                  <rect x="1182" y="778" width="340" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="1352" y="810" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Softbox grid</text>
+                                </g>
+                                <g>
+                                  <rect x="1988" y="778" width="532" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="2254" y="810" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Single key + ambient</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <figcaption>Studio HDRIs &#183; three-point, softbox grid, and single key + ambient. Each pre-built lighting setup gives clean, professional reflections.</figcaption>
+                    </figure>
+
                     <h3>Interior HDRIs</h3>
 
                     <div class="card">
@@ -886,6 +1745,27 @@ Environment Texture (HDRI) → Background → World Output
                             <li>May need manual lights for better control</li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_17_16_interior_examples.png" alt="interior examples" style="display: block; max-width: 100%; height: auto; margin: 0;" loading="lazy">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2704 900" preserveAspectRatio="xMidYMid meet" style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none;" aria-hidden="true">
+                                <g>
+                                  <rect x="352" y="778" width="196" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="450" y="810" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Window</text>
+                                </g>
+                                <g>
+                                  <rect x="1206" y="778" width="292" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="1352" y="810" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Artificial</text>
+                                </g>
+                                <g>
+                                  <rect x="2168" y="778" width="172" height="64" rx="32" fill="#1a1a1a" fill-opacity="0.82"/>
+                                  <text x="2254" y="810" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="600" fill="#ffffff" text-anchor="middle" dominant-baseline="central">Mixed</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <figcaption>Interior HDRIs &#183; window daylight, artificial lighting, and mixed sources. Interiors are often darker and need higher strength than outdoor maps.</figcaption>
+                    </figure>
 
                     <h3>Creative/Artistic HDRIs</h3>
 

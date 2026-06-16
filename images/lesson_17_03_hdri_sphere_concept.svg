@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680"
+     role="img" aria-labelledby="sp-title sp-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="#222">
+  <title id="sp-title">HDRI environment sphere lighting a 3D object from all directions</title>
+  <desc id="sp-desc">A translucent environment sphere, textured with an outdoor scene, surrounds a central 3D object. Light-ray arrows point inward from many directions: warm orange rays from the bright sun area, cool blue rays from the sky, and dim neutral rays from the shadowed ground. The diagram shows image-based lighting, where every pixel of the HDRI acts as a small light source illuminating the object at once.</desc>
+
+  <!-- Top brand accent -->
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+  <!-- Heading block -->
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">Image-Based Lighting (IBL)</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">The HDRI wraps your scene and lights it from every direction</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <defs>
+    <radialGradient id="sp-shell" cx="0.42" cy="0.36" r="0.72">
+      <stop offset="0" stop-color="#BFE0FF" stop-opacity="0.32"/>
+      <stop offset="0.55" stop-color="#7FB0E8" stop-opacity="0.26"/>
+      <stop offset="0.78" stop-color="#C9A876" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#6E5536" stop-opacity="0.38"/>
+    </radialGradient>
+    <radialGradient id="sp-sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFFDF2"/>
+      <stop offset="0.45" stop-color="#FFE39A"/>
+      <stop offset="1" stop-color="#FFE39A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sp-obj" cx="0.4" cy="0.32" r="0.8">
+      <stop offset="0" stop-color="#FFB066"/>
+      <stop offset="0.5" stop-color="#FF8A33"/>
+      <stop offset="1" stop-color="#C85A12"/>
+    </radialGradient>
+    <marker id="sp-arrow-warm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#FF8A33"/>
+    </marker>
+    <marker id="sp-arrow-cool" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4A9EFF"/>
+    </marker>
+    <marker id="sp-arrow-dim" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8A8F98"/>
+    </marker>
+  </defs>
+
+  <!-- ============ Environment sphere (translucent shell) ============ -->
+  <!-- center 400,410  radius 220 -->
+  <circle cx="400" cy="410" r="220" fill="url(#sp-shell)" stroke="#4A9EFF" stroke-opacity="0.35" stroke-width="1.5"/>
+  <!-- horizon band on the shell -->
+  <ellipse cx="400" cy="410" rx="220" ry="58" fill="none" stroke="#ffffff" stroke-opacity="0.30" stroke-width="1"/>
+  <!-- a couple meridians to read as a sphere -->
+  <ellipse cx="400" cy="410" rx="74" ry="220" fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="1"/>
+  <ellipse cx="400" cy="410" rx="150" ry="220" fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="1"/>
+  <!-- sun on the shell (upper area) -->
+  <circle cx="300" cy="296" r="40" fill="url(#sp-sun)"/>
+  <circle cx="300" cy="296" r="11" fill="#FFFBEA"/>
+
+  <!-- shell labels -->
+  <text x="566" y="250" font-size="13" font-weight="600" fill="#4A9EFF">HDRI environment sphere</text>
+  <text x="566" y="268" font-size="12" fill="currentColor" opacity="0.6">semi-transparent, surrounds scene</text>
+
+  <!-- ============ Inward light rays ============ -->
+  <!-- WARM rays from the sun / bright area (upper-left) -->
+  <g stroke="#FF8A33" stroke-width="3" stroke-linecap="round">
+    <line x1="318" y1="318" x2="372" y2="384" marker-end="url(#sp-arrow-warm)"/>
+    <line x1="262" y1="330" x2="350" y2="396" marker-end="url(#sp-arrow-warm)"/>
+    <line x1="356" y1="262" x2="392" y2="356" marker-end="url(#sp-arrow-warm)"/>
+  </g>
+  <!-- COOL rays from the sky (upper-right + top) -->
+  <g stroke="#4A9EFF" stroke-width="2.5" stroke-linecap="round">
+    <line x1="540" y1="300" x2="452" y2="372" marker-end="url(#sp-arrow-cool)"/>
+    <line x1="560" y1="380" x2="468" y2="400" marker-end="url(#sp-arrow-cool)"/>
+    <line x1="470" y1="240" x2="424" y2="346" marker-end="url(#sp-arrow-cool)"/>
+  </g>
+  <!-- DIM neutral rays from the shadowed ground (lower) -->
+  <g stroke="#8A8F98" stroke-width="2" stroke-linecap="round" opacity="0.85">
+    <line x1="300" y1="540" x2="368" y2="452" marker-end="url(#sp-arrow-dim)"/>
+    <line x1="430" y1="566" x2="416" y2="470" marker-end="url(#sp-arrow-dim)"/>
+    <line x1="540" y1="520" x2="456" y2="448" marker-end="url(#sp-arrow-dim)"/>
+  </g>
+
+  <!-- ============ Central 3D object ============ -->
+  <!-- a simple shaded sphere as the lit object -->
+  <ellipse cx="408" cy="468" rx="58" ry="16" fill="#000000" opacity="0.10"/>
+  <circle cx="400" cy="410" r="56" fill="url(#sp-obj)" stroke="#7A3A0E" stroke-opacity="0.4" stroke-width="1"/>
+  <!-- specular hit on the warm side -->
+  <circle cx="382" cy="392" r="11" fill="#FFFFFF" opacity="0.5"/>
+  <text x="400" y="500" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">3D object receives light</text>
+
+  <!-- ============ Legend ============ -->
+  <g font-size="13">
+    <line x1="120" y1="610" x2="150" y2="610" stroke="#FF8A33" stroke-width="3" stroke-linecap="round"/>
+    <text x="158" y="614" fill="currentColor">Warm light &#183; sun &amp; bright pixels</text>
+    <line x1="120" y1="632" x2="150" y2="632" stroke="#4A9EFF" stroke-width="3" stroke-linecap="round"/>
+    <text x="158" y="636" fill="currentColor">Cool light &#183; sky</text>
+    <line x1="430" y1="632" x2="460" y2="632" stroke="#8A8F98" stroke-width="3" stroke-linecap="round"/>
+    <text x="468" y="636" fill="currentColor">Dim light &#183; shadowed ground</text>
+  </g>
+
+  <!-- Footer tip (Variant B, dense position) -->
+  <rect x="40" y="641" width="720" height="34" fill="none"/>
+  <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="663" font-size="13" fill="currentColor">
+    <tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Every pixel of the HDRI is a tiny light. Bright pixels light strongly, dark pixels barely at all.
+  </text>
+</svg>

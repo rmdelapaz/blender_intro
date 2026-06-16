@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680"
+     role="img" aria-labelledby="dr-title dr-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="#222">
+  <title id="dr-title">Dynamic range: LDR 8-bit versus HDR 32-bit</title>
+  <desc id="dr-desc">Two horizontal gradient bars compare dynamic range. The top bar is LDR, 8-bit per channel, clamped from 0 to 255 in 256 discrete steps. The bottom bar is HDR, 32-bit per channel, with values that continue past 1.0 to 2.0, 5.0, and beyond. A reference row maps example brightness values to a shadow, ambient light, a bulb, and the sun.</desc>
+
+  <!-- Top brand accent -->
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+  <!-- Heading block -->
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">Dynamic Range: LDR vs HDR</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Why HDR stores light, not just color</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <defs>
+    <!-- LDR ramp: black to white, hard clamp -->
+    <linearGradient id="dr-ldr" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#000000"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+    <!-- HDR ramp: black to white within range, then an orange over-range glow past 1.0 -->
+    <linearGradient id="dr-hdr" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#000000"/>
+      <stop offset="0.42" stop-color="#ffffff"/>
+      <stop offset="0.46" stop-color="#ffffff"/>
+      <stop offset="0.62" stop-color="#FFD9A6"/>
+      <stop offset="1" stop-color="#FF6B00"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ============ LDR bar ============ -->
+  <text x="40" y="150" font-size="18" font-weight="600" fill="currentColor">LDR <tspan font-weight="400" opacity="0.6">&#183; 8-bit per channel (JPG, PNG)</tspan></text>
+  <rect x="40" y="166" width="600" height="56" rx="4" fill="url(#dr-ldr)" stroke="currentColor" stroke-opacity="0.25" stroke-width="1"/>
+  <!-- hard wall at the bright end: nothing beyond 255 -->
+  <rect x="640" y="166" width="120" height="56" rx="4" fill="currentColor" opacity="0.06"/>
+  <line x1="640" y1="160" x2="640" y2="234" stroke="#E63946" stroke-width="2"/>
+  <text x="700" y="198" text-anchor="middle" font-size="12" font-weight="600" fill="#E63946">clamped</text>
+  <text x="700" y="214" text-anchor="middle" font-size="11" fill="#E63946" opacity="0.85">no data &gt; 255</text>
+  <!-- ticks -->
+  <g font-size="12" fill="currentColor" opacity="0.7">
+    <line x1="40" y1="226" x2="40" y2="234" stroke="currentColor" stroke-opacity="0.4"/>
+    <text x="40" y="250" text-anchor="middle">0</text>
+    <line x1="340" y1="226" x2="340" y2="234" stroke="currentColor" stroke-opacity="0.4"/>
+    <text x="340" y="250" text-anchor="middle">128</text>
+    <line x1="640" y1="226" x2="640" y2="234" stroke="currentColor" stroke-opacity="0.4"/>
+    <text x="640" y="250" text-anchor="middle">255</text>
+  </g>
+  <text x="40" y="276" font-size="13" fill="currentColor" opacity="0.6">256 discrete steps &#183; bright areas blow out to white, shadows crush to black</text>
+
+  <!-- ============ HDR bar ============ -->
+  <text x="40" y="330" font-size="18" font-weight="600" fill="currentColor">HDR <tspan font-weight="400" opacity="0.6">&#183; 32-bit floating point (.hdr, .exr)</tspan></text>
+  <rect x="40" y="346" width="720" height="56" rx="4" fill="url(#dr-hdr)" stroke="currentColor" stroke-opacity="0.25" stroke-width="1"/>
+  <!-- marker where white (1.0) is reached, showing range continues past it -->
+  <line x1="342" y1="340" x2="342" y2="414" stroke="#FF6B00" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="342" y="430" text-anchor="middle" font-size="11" font-weight="600" fill="#FF6B00">white = 1.0</text>
+  <text x="600" y="430" text-anchor="middle" font-size="11" font-weight="600" fill="#FF6B00">values continue &#8594;</text>
+  <!-- ticks -->
+  <g font-size="12" fill="currentColor" opacity="0.7">
+    <line x1="40" y1="406" x2="40" y2="414" stroke="currentColor" stroke-opacity="0.4"/>
+    <text x="40" y="468" text-anchor="middle">0.0</text>
+    <line x1="342" y1="406" x2="342" y2="414" stroke="currentColor" stroke-opacity="0.4"/>
+    <text x="342" y="468" text-anchor="middle">1.0</text>
+    <line x1="480" y1="406" x2="480" y2="414" stroke="currentColor" stroke-opacity="0.4"/>
+    <text x="480" y="468" text-anchor="middle">2.0</text>
+    <line x1="620" y1="406" x2="620" y2="414" stroke="currentColor" stroke-opacity="0.4"/>
+    <text x="620" y="468" text-anchor="middle">5.0</text>
+    <line x1="760" y1="406" x2="760" y2="414" stroke="currentColor" stroke-opacity="0.4"/>
+    <text x="760" y="468" text-anchor="middle">10.0+</text>
+  </g>
+
+  <!-- ============ Value reference row ============ -->
+  <text x="40" y="510" font-size="18" font-weight="600" fill="currentColor">Example brightness values</text>
+  <g font-size="13">
+    <!-- shadow 0.1 -->
+    <rect x="40" y="524" width="170" height="78" rx="6" fill="currentColor" opacity="0.04"/>
+    <circle cx="72" cy="556" r="13" fill="#4A9EFF" opacity="0.55"/>
+    <text x="96" y="552" fill="currentColor" font-weight="600">Shadow</text>
+    <text x="96" y="572" fill="currentColor" opacity="0.6">value 0.1</text>
+    <text x="58" y="592" fill="currentColor" opacity="0.6" font-size="12">dim, in range</text>
+    <!-- ambient 1.0 -->
+    <rect x="222" y="524" width="170" height="78" rx="6" fill="currentColor" opacity="0.04"/>
+    <circle cx="254" cy="556" r="13" fill="#F5C242"/>
+    <text x="278" y="552" fill="currentColor" font-weight="600">Ambient</text>
+    <text x="278" y="572" fill="currentColor" opacity="0.6">value 1.0</text>
+    <text x="240" y="592" fill="currentColor" opacity="0.6" font-size="12">neutral white</text>
+    <!-- bulb 2.0 -->
+    <rect x="404" y="524" width="170" height="78" rx="6" fill="currentColor" opacity="0.04"/>
+    <circle cx="436" cy="556" r="13" fill="#FFB347"/>
+    <line x1="436" y1="538" x2="436" y2="532" stroke="#FFB347" stroke-width="2"/>
+    <line x1="436" y1="574" x2="436" y2="580" stroke="#FFB347" stroke-width="2"/>
+    <line x1="418" y1="556" x2="412" y2="556" stroke="#FFB347" stroke-width="2"/>
+    <line x1="454" y1="556" x2="460" y2="556" stroke="#FFB347" stroke-width="2"/>
+    <text x="478" y="552" fill="currentColor" font-weight="600">Bulb</text>
+    <text x="478" y="572" fill="currentColor" opacity="0.6">value 2.0</text>
+    <text x="420" y="592" fill="currentColor" opacity="0.6" font-size="12">past white</text>
+    <!-- sun 10+ -->
+    <rect x="586" y="524" width="174" height="78" rx="6" fill="#FF6B00" opacity="0.10"/>
+    <circle cx="618" cy="556" r="13" fill="#FF6B00"/>
+    <g stroke="#FF6B00" stroke-width="2" stroke-linecap="round">
+      <line x1="618" y1="534" x2="618" y2="528"/>
+      <line x1="618" y1="578" x2="618" y2="584"/>
+      <line x1="596" y1="556" x2="590" y2="556"/>
+      <line x1="640" y1="556" x2="646" y2="556"/>
+      <line x1="602" y1="540" x2="598" y2="536"/>
+      <line x1="634" y1="572" x2="638" y2="576"/>
+      <line x1="634" y1="540" x2="638" y2="536"/>
+      <line x1="602" y1="572" x2="598" y2="576"/>
+    </g>
+    <text x="660" y="552" fill="currentColor" font-weight="600">Sun</text>
+    <text x="660" y="572" fill="currentColor" opacity="0.6">value 10.0+</text>
+    <text x="600" y="592" fill="#FF6B00" opacity="0.9" font-size="12" font-weight="600">far beyond white</text>
+  </g>
+
+  <!-- Footer tip (Variant B, dense position) -->
+  <rect x="40" y="641" width="720" height="34" fill="none"/>
+  <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="663" font-size="13" fill="currentColor">
+    <tspan font-weight="700" fill="#FF6B00">Tip:</tspan> LDR throws away everything above 1.0; HDR keeps the sun's true intensity, which is what lights your scene.
+  </text>
+</svg>
