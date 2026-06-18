@@ -2,7 +2,8 @@
 
 **File:** `lesson_17_hdri_and_world_lighting.html`
 **Module:** 04 — Lighting & Rendering (the lesson after L16 Three-Point Lighting)
-**Status:** **L17 FIGURE-COMPLETE 30/30 — P8 #22 separate_lighting_nodes `c22` + P10 #29 project_setup_reference `c29` INTEGRATED** · 30/30 produced / 30/30 integrated · 2026-06-16 · HTML 274,929 B · both genuine Blender node/UI captures (bridge full-window screenshot→Windows tempdir→Pillow crop→WSL). **Next = browser-QA pass** (Playwright + real Chromium, dark+light × 1920/1024/414; new `lesson_17_browser_qa_progress.md`).
+**Status:** **L17 DONE — browser-QA PASS/CLEAN 2026-06-18.** Full Playwright + real-Chromium sweep (dark+light × 1920/1024/414): 22/22 overlay pairs register exact (|dx|=|dy|=|dh|=0.00, worst |dw|=0.16px sub-pixel at 414), 22/22 imgs load every combo, 0px 414 overflow, 0 console errors, mermaid 0/0 (no live blocks). No defects → **real HTML untouched at 274,929 B, em-dash 19 held.** See `lesson_17_browser_qa_progress.md`. **L17 is figure-complete (30/30) + QA-clean = fully DONE.** Standing browser-QA queue EMPTY (L05–L17 all cleared).
+**(prior) L17 FIGURE-COMPLETE 30/30 — P8 #22 separate_lighting_nodes `c22` + P10 #29 project_setup_reference `c29` INTEGRATED** · 30/30 produced / 30/30 integrated · 2026-06-16 · HTML 274,929 B · both genuine Blender node/UI captures (bridge full-window screenshot→Windows tempdir→Pillow crop→WSL).
 **(prior) P9 DONE — troubleshooting #25 `tf` troubleshooting_flowchart INLINE SVG INTEGRATED** · 28/30 produced / 28/30 integrated · 2026-06-16 · HTML 265,457 B
 **(prior) P7 DONE — finding-hdris FULLY CLOSED (2/2 figs); #20 `c20` + #21 `fo` INTEGRATED** · 27/30 · 2026-06-16 · HTML 256,116 B
 **(prior) P6 DONE — combining-lights FULLY CLOSED (3/3 figs); #17 `hc` / #18 `c18` / #19 `th` INTEGRATED** · 25/30 produced / 25/30 integrated · 2026-06-16 · HTML 240,669 B
