@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680"
+     role="img" aria-labelledby="tt-title tt-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="#222">
+  <title id="tt-title">Eevee Next troubleshooting decision tree</title>
+  <desc id="tt-desc">A troubleshooting guide with four common Eevee Next problems and their fixes. Scene too dark: bake the Light Probe Volume and enable Raytracing. Glass renders black: turn on Raytrace Refraction on the material and enable scene Raytracing. Reflections missing: enable Raytracing and add a Sphere or Plane probe. Shadows look noisy or pixelated: raise shadow ray count and render samples. Each problem in red leads to a green solution.</desc>
+
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">Troubleshooting Eevee Next</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Common symptoms and the control that fixes each one</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <!-- Branch 1: too dark -->
+  <rect x="40" y="132" width="300" height="58" rx="8" fill="#E63946" fill-opacity="0.1" stroke="#E63946" stroke-width="1.5"/>
+  <text x="56" y="158" font-size="14" font-weight="700" fill="#E63946">Scene too dark / flat</text>
+  <text x="56" y="178" font-size="12" fill="currentColor" opacity="0.7">No bounce light, no ambient fill</text>
+  <g fill="#4ADE80"><polygon points="372,161 350,151 350,171"/></g>
+  <rect x="382" y="132" width="378" height="58" rx="8" fill="#4ADE80" fill-opacity="0.12" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="398" y="156" font-size="13" font-weight="700" fill="currentColor">Bake Light Probe Volume + enable Raytracing</text>
+  <text x="398" y="176" font-size="11.5" fill="currentColor" opacity="0.72">Add a Volume probe, Object &#183; Light Probe &#183; Bake; turn on Raytracing</text>
+
+  <!-- Branch 2: glass black -->
+  <rect x="40" y="210" width="300" height="58" rx="8" fill="#E63946" fill-opacity="0.1" stroke="#E63946" stroke-width="1.5"/>
+  <text x="56" y="236" font-size="14" font-weight="700" fill="#E63946">Glass renders black</text>
+  <text x="56" y="256" font-size="12" fill="currentColor" opacity="0.7">Transparent material looks opaque</text>
+  <g fill="#4ADE80"><polygon points="372,239 350,229 350,249"/></g>
+  <rect x="382" y="210" width="378" height="58" rx="8" fill="#4ADE80" fill-opacity="0.12" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="398" y="234" font-size="13" font-weight="700" fill="currentColor">Enable Raytrace Refraction on the material</text>
+  <text x="398" y="254" font-size="11.5" fill="currentColor" opacity="0.72">Material settings &#183; Raytrace Refraction on; scene Raytracing on</text>
+
+  <!-- Branch 3: no reflections -->
+  <rect x="40" y="288" width="300" height="58" rx="8" fill="#E63946" fill-opacity="0.1" stroke="#E63946" stroke-width="1.5"/>
+  <text x="56" y="314" font-size="14" font-weight="700" fill="#E63946">Reflections missing</text>
+  <text x="56" y="334" font-size="12" fill="currentColor" opacity="0.7">Surfaces should mirror but do not</text>
+  <g fill="#4ADE80"><polygon points="372,317 350,307 350,327"/></g>
+  <rect x="382" y="288" width="378" height="58" rx="8" fill="#4ADE80" fill-opacity="0.12" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="398" y="312" font-size="13" font-weight="700" fill="currentColor">Enable Raytracing, add a Sphere or Plane probe</text>
+  <text x="398" y="332" font-size="11.5" fill="currentColor" opacity="0.72">Raytracing covers rough reflections; probes fill off-screen detail</text>
+
+  <!-- Branch 4: noisy shadows -->
+  <rect x="40" y="366" width="300" height="58" rx="8" fill="#E63946" fill-opacity="0.1" stroke="#E63946" stroke-width="1.5"/>
+  <text x="56" y="392" font-size="14" font-weight="700" fill="#E63946">Shadows noisy / pixelated</text>
+  <text x="56" y="412" font-size="12" fill="currentColor" opacity="0.7">Grainy or stair-stepped shadow edges</text>
+  <g fill="#4ADE80"><polygon points="372,395 350,385 350,405"/></g>
+  <rect x="382" y="366" width="378" height="58" rx="8" fill="#4ADE80" fill-opacity="0.12" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="398" y="390" font-size="13" font-weight="700" fill="currentColor">Raise Shadow Ray Count + Render Samples</text>
+  <text x="398" y="410" font-size="11.5" fill="currentColor" opacity="0.72">More rays and samples smooth raytraced shadows in Eevee Next</text>
+
+  <!-- legacy note chip -->
+  <rect x="40" y="446" width="720" height="62" rx="8" fill="#4A9EFF" fill-opacity="0.08"/>
+  <text x="58" y="470" font-size="12.5" font-weight="700" fill="#4A9EFF">If a tutorial names a control you cannot find:</text>
+  <text x="58" y="490" font-size="12" fill="currentColor" opacity="0.78">Eevee Next removed the old SSR, SSR Refraction and Bloom checkboxes and the single Bake Indirect</text>
+  <text x="58" y="506" font-size="12" fill="currentColor" opacity="0.78">Lighting button. Their jobs moved to Raytracing, per-material refraction, and Light Probe baking.</text>
+
+  <!-- how-to-read legend -->
+  <rect x="40" y="528" width="300" height="34" rx="6" fill="#E63946" fill-opacity="0.1"/>
+  <text x="56" y="550" font-size="12" fill="currentColor"><tspan font-weight="700" fill="#E63946">Red</tspan> = symptom you see</text>
+  <rect x="382" y="528" width="378" height="34" rx="6" fill="#4ADE80" fill-opacity="0.12"/>
+  <text x="398" y="550" font-size="12" fill="currentColor"><tspan font-weight="700" fill="#2e9c5a">Green</tspan> = the control that fixes it</text>
+
+  <!-- Footer tip (Variant B left rail) -->
+  <rect x="40" y="630" width="720" height="34" fill="none"/>
+  <rect x="40" y="630" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="652" font-size="13" fill="currentColor">
+    <tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Most Eevee Next surprises trace back to one switch &#183; is Raytracing actually on?</text>
+</svg>
