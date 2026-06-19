@@ -1,27 +1,15 @@
-
-L18 Blender course — START FIGURE PIPELINE. L17 is fully DONE (figure-complete 30/30 + browser-QA PASS/CLEAN, real HTML 274,929 B untouched). Standing browser-QA queue EMPTY (L05–L17 cleared).
+L18 Blender course — resume P9 (hero render #28). P8 DONE (28/29 figures).
 Root: \\wsl$\Ubuntu\home\practicalace\projects\blender_course (always \\wsl$, never \\wsl.localhost)
+Tools: bridge = blender:execute_blender_code (open() for all \\wsl$ reads/writes/byte-counts; Claude-side bash can't reach UNC). Filesystem:copy_file_user_to_claude to pull PNGs Claude-side. cairosvg Claude-side (pip install cairosvg --break-system-packages). Bridge-side Pillow straight to images\ deliverable. Write overlay SVGs to /home/claude (uploads read-only).
 
-Target: lesson_18_eevee_realtime_rendering.html
+Read first via bridge open(): lesson_18_integration_progress.md — §8 top entry (P8 COMPLETE), §5 rules, §6 #28 spec + P5/P7 harness notes. session.md top banner. Everything below is delta only; specs/locked rules/discoveries live in those docs.
 
-Style: terse, autonomous, no commentary; warn before context tightens; docs-first close-out; in-chat handoff by default.
-Bridge / path rules (unchanged): Claude-side bash CANNOT reach \\wsl$\ UNC — use blender:execute_blender_code open() for authoritative file reads/writes and byte counts, or Filesystem:copy_file_user_to_claude to pull files Claude-side. Renders go Windows tempdir → Pillow crop → WSL relay (direct UNC screenshot writes truncate to 0 B). Never call bpy.ops.wm.read_factory_settings from MCP. edit_file dryRun→commit→get_file_info, one count=1 anchor each. em-dash: Python count('\u2014') authoritative, add none beyond baseline.
-READ FIRST (in order):
+On-disk state (verify via bridge UTF-8 count — authoritative): HTML lesson_18_eevee_realtime_rendering.html = 290,644 B; figure/figcaption 28/28, svg 28, img 19, em-dash 6, mdash/8212 0, color222 0, mermaid 1, 12 sections no dups.
 
-session.md — banner (newest leads = L17 DONE entry; L18 not yet started)
-images/IMAGE_STYLE_GUIDE.md v6 (LD1–21) — house style, BlenderMCP render recipes, overlay/pixel-verify conventions, inline-SVG pattern
-lesson_18_image_requirements.md (v1.0, Nov 11 2025) — enumerates the figure list + AI-gen prompts. Do NOT take at face value — same reconciliation as L17: prompts are content briefs only (course hand-codes SVGs + does BlenderMCP renders/Pillow composites with c{N} overlays at integration, NOT AI-gen); brand palette governs (orange #FF6B00, not #ff8c00); Blender is 5.1.1 not 4.0; SVG canvas is v6 (0 0 800 560/800 680), not the prompt raster dims. Reconcile figure count/numbering/SVG-vs-PNG split against the doc's own "SVG Diagram Recommendations" + "Image Placement Suggestions" tables before locking the plan.
-For the eventual browser-QA pass: lesson_17_browser_qa_progress.md + lesson_16_browser_qa_progress.md — exact harness recipe (Playwright + real Chromium /opt/pw-browsers/chromium-1194, local mermaid@10.9.6 over http://127.0.0.1, neutralize favicon/clipboard.js/course-enhancements.js, 6 combos dark+light × 1920/1024/414, overlay bbox dx/dy/dw/dh, hardened last-figure scroll, PIL.Image.MAX_IMAGE_PIXELS=None).
+Pre-flight (bridge): 1) print(bpy.app.version_string) — if hung, ask me to restart BlenderMCP. 2) len(win.screen.areas)==4; screen_full_area() to restore if ==1. 3) Scene CLEAN baseline: Cube/Light(POINT,1000)/Camera only, no mats/probes/nodegroups/compositor, AgX/look None, use_raytracing False, ray/step 1/6, taa 64, world 1.0, res 1920x1080.
 
-FIRST ACTIONS:
+P9 — #28 project_reference_render — `project` section, "Project Overview" card, c28 (optional). Single hero render: 3-point lit Eevee showcase, LD17 Standard/None during render, AgX restore at close. Proven harness: render.render(write_still) to Windows tempdir → Pillow → images\ deliverable → (optional c28 overlay viewBox=PNG px → cairosvg 1:1) → integrate inline-attr house form (figure col 20, figcaption OUTSIDE col 20, no c{N} container ids, overlay element ids c28-* namespaced, numeric entities only, zero em-dash) → bridge open() read, assert anchor count==1, replace, write, re-count invariants. Pre-write assert no \u2014 / &#8212; / &mdash; in any new block.
 
-Create lesson_18_integration_progress.md (mirror the L17 doc shape: source-of-truth list, requirements reconciliation, figure registry, locked plan, locked-rules, §6 per-figure detail, Status log newest-first). It does not exist yet.
-Lock the figure plan and phase order (HTML section order per the placement table).
+Per-figure close: tear down rig → restore pristine baseline → purge Windows temp + any _l18_* relays in images\. Docs-first close-out: update §8 + session.md banner BEFORE handoff.
 
-L18 ENTRY-STATE P0 (byte-exact, verified on the real UNC file via bridge Python 2026-06-18):
-
-Bytes: 157,593 · em-dash U+2014: 6 (baseline — all pre-existing body prose; &mdash; 0; keep at 6, add none) · body pristine/figure-free: figure/figcaption 0/0, img 0, <svg>/</svg> 0/0, <marker> 0, viewBox 0, wrapper-divs 0, color222 0.
-Mermaid: 1 LIVE diagram block (<div class="mermaid"> 1; 5 total mermaid string hits = head ESM import + initialize + the 1 body block). Unlike L17 — D5 (keep-mermaid) DOES apply to L18. The browser-QA harness must render mermaid 1/1 (like L11/L16), and integration must preserve the existing diagram.
-Sections: 12, no dup ids, document order: what-is-eevee · eevee-vs-cycles · basic-settings · screen-space-effects · bloom-effects · shadows · indirect-lighting · material-considerations · optimization · troubleshooting · project · summary.
-
-TASK: Reconcile requirements → lock plan → produce + integrate figures phase-by-phase (SVGs hand-coded per v6; PNGs via BlenderMCP renders / UI-chrome captures / Pillow composites + c{N} overlays, every overlay cairosvg-pixel-verified 1:1 before HTML commit; figcaption OUTSIDE wrapper; img style display:block;max-width:100%;height:auto;margin:0). Update session.md banner + the new progress doc as source-of-truth at each phase close. Browser-QA pass comes last, after figure-complete.
+After #28: P10 figure-complete (re-verify all 29 integrated, em-dash 6, mermaid 1, byte-trail), then browser-QA LAST (mermaid 1/1). Body-defect pass (legacy Bloom/SSR/AO/Shadow Cube/Cascade prose) still DEFERRED, separate from figure work.

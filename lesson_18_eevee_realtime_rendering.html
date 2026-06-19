@@ -63,7 +63,7 @@
                         <li>Screen Space effects (Reflections, Refraction, Ambient Occlusion)</li>
                         <li>Bloom, Motion Blur, and Depth of Field in Eevee</li>
                         <li>Shadows and shadow settings for quality</li>
-                        <li>Indirect lighting with Irradiance Volumes and Light Probes</li>
+                        <li>Indirect lighting with Light Probes (Volume, Sphere, Plane)</li>
                         <li>Material setup differences for Eevee</li>
                         <li>When to use Eevee vs Cycles (decision framework)</li>
                         <li>Troubleshooting common Eevee issues</li>
@@ -773,11 +773,10 @@
                         <p><strong>Key sections you'll use:</strong></p>
                         <ul>
                             <li><strong>Sampling:</strong> Quality and viewport settings</li>
-                            <li><strong>Ambient Occlusion:</strong> Contact shadows and depth</li>
-                            <li><strong>Bloom:</strong> Glowing bright areas</li>
-                            <li><strong>Screen Space Reflections:</strong> Reflective surfaces</li>
-                            <li><strong>Shadows:</strong> Shadow quality controls</li>
+                            <li><strong>Raytracing:</strong> Reflections, refraction, and Fast GI (the Ambient Occlusion replacement)</li>
+                            <li><strong>Shadows:</strong> Shadow quality controls, under Sampling</li>
                             <li><strong>Film:</strong> Transparency and color management</li>
+                            <li><strong>Compositor Glare node:</strong> Bloom and glow, added in the Compositing workspace</li>
                         </ul>
                     </div>
 
@@ -869,8 +868,8 @@
 
                         <p><strong>What samples affect:</strong></p>
                         <ul>
-                            <li>Ambient Occlusion smoothness</li>
-                            <li>Screen Space Reflections clarity</li>
+                            <li>Fast GI smoothness</li>
+                            <li>Raytraced reflection clarity</li>
                             <li>Depth of Field quality</li>
                             <li>Motion Blur smoothness</li>
                             <li>Overall anti-aliasing</li>
@@ -943,12 +942,12 @@
                             <li><strong>Disable when:</strong> Speed is critical, simple materials</li>
                         </ul>
 
-                        <p><strong>Soft Shadows:</strong></p>
+                        <p><strong>Softer shadow edges:</strong></p>
                         <ul>
-                            <li>Checkbox in Shadows section</li>
-                            <li>Enables: Softer, more realistic shadow edges</li>
+                            <li>EEVEE Next has no Soft Shadows checkbox</li>
+                            <li>Soften edges with higher Shadow Rays or larger lights</li>
                             <li>Performance impact</li>
-                            <li>Almost always want this enabled for quality</li>
+                            <li>Almost always worth it for quality</li>
                         </ul>
 
                         <p><strong>Memory management:</strong></p>
@@ -966,10 +965,10 @@
                         <ul>
                             <li><strong>Render Samples:</strong> 64-128</li>
                             <li><strong>Viewport Samples:</strong> 16</li>
-                            <li><strong>Ambient Occlusion:</strong> Enabled</li>
-                            <li><strong>Bloom:</strong> Enabled (if scene has bright lights)</li>
-                            <li><strong>Screen Space Reflections:</strong> Enabled</li>
-                            <li><strong>Soft Shadows:</strong> Enabled</li>
+                            <li><strong>Fast GI:</strong> Enabled (requires Raytracing on)</li>
+                            <li><strong>Compositor Glare (Bloom):</strong> Added if scene has bright lights</li>
+                            <li><strong>Raytracing:</strong> Enabled (reflections and refraction)</li>
+                            <li><strong>Shadow Rays:</strong> 2 or higher for softer shadows</li>
                             <li><strong>Transparent:</strong> Disabled (unless compositing)</li>
                         </ul>
                         <p><strong>Adjust from here based on your specific needs!</strong></p>
@@ -980,7 +979,7 @@
                 <section id="screen-space-effects" class="content-section">
                     <h2>✨ Screen Space Effects</h2>
 
-                    <p>Screen Space effects are Eevee's secret weapon for adding realism. They're fast but have important limitations you need to understand.</p>
+                    <p>Screen space techniques are EEVEE Next's secret weapon for adding realism. Raytracing with Screen Tracing and Fast GI are fast but have important limitations you need to understand.</p>
 
                     <h3>What is "Screen Space"?</h3>
 
@@ -1002,71 +1001,71 @@
                             <li>That's screen space - limited to visible information</li>
                         </ul>
 
-                        <p><strong>Main screen space effects in Eevee:</strong></p>
+                        <p><strong>Main screen space effects in EEVEE Next:</strong></p>
                         <ul>
-                            <li>Screen Space Reflections (SSR)</li>
-                            <li>Screen Space Refraction</li>
-                            <li>Screen Space Ambient Occlusion (SSAO)</li>
+                            <li>Raytracing with Screen Tracing (reflections)</li>
+                            <li>Raytraced Transmission (refraction)</li>
+                            <li>Fast GI in Ambient Occlusion mode (contact darkening)</li>
                         </ul>
                     </div>
 
-                    <h3>Screen Space Reflections (SSR)</h3>
+                    <h3>Raytraced Reflections</h3>
 
                     <div class="card">
                         <h4>🪞 Reflective Surfaces</h4>
-                        <p><strong>What SSR does:</strong></p>
+                        <p><strong>What raytraced reflections do:</strong></p>
                         <ul>
-                            <li>Creates reflections on shiny surfaces</li>
+                            <li>Create reflections on shiny surfaces</li>
                             <li>Metals, glossy materials, water, mirrors</li>
-                            <li>Fast approximation of reflections</li>
-                            <li>Works with Principled BSDF roughness</li>
+                            <li>Screen Tracing reflects what is on screen, fast</li>
+                            <li>Work with Principled BSDF roughness</li>
                         </ul>
 
-                        <p><strong>Enabling SSR:</strong></p>
+                        <p><strong>Enabling reflections:</strong></p>
                         <ol>
-                            <li>Render Properties → Screen Space Reflections</li>
-                            <li>Check "Screen Space Reflections" box</li>
+                            <li>Render Properties → Raytracing</li>
+                            <li>Turn on Raytracing, then open the Screen Tracing subpanel</li>
                             <li>Immediately see reflections in viewport (Rendered mode)</li>
                         </ol>
 
-                        <p><strong>SSR settings:</strong></p>
+                        <p><strong>Raytracing settings (Screen Tracing subpanel):</strong></p>
                         <ul>
-                            <li><strong>Refraction:</strong>
+                            <li><strong>Resolution:</strong>
                                 <ul>
-                                    <li>Checkbox to enable refractive transparency</li>
-                                    <li>For glass, water, clear materials</li>
-                                    <li>Separate from reflections</li>
-                                </ul>
-                            </li>
-                            <li><strong>Half Resolution Trace:</strong>
-                                <ul>
-                                    <li>Faster but lower quality reflections</li>
-                                    <li>Enable for speed, disable for quality</li>
+                                    <li>Trace resolution scale: 1 is full resolution</li>
+                                    <li>2 traces at half resolution: faster, softer</li>
+                                    <li>Lower the scale for speed, 1 for quality</li>
                                 </ul>
                             </li>
                             <li><strong>Max Roughness:</strong>
                                 <ul>
-                                    <li>How rough materials can be and still reflect</li>
+                                    <li>How rough materials can be and still trace</li>
                                     <li>Default: 0.5</li>
                                     <li>Higher = more materials show reflections</li>
                                     <li>Lower = only very smooth materials reflect</li>
                                 </ul>
                             </li>
-                            <li><strong>Thickness:</strong>
+                            <li><strong>Screen Trace Thickness:</strong>
                                 <ul>
-                                    <li>How thick objects are assumed to be</li>
+                                    <li>How thick on-screen surfaces are assumed to be</li>
                                     <li>Affects reflection accuracy</li>
-                                    <li>Usually leave at default (0.2)</li>
+                                    <li>Usually leave at the default (0.2)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Precision:</strong>
+                                <ul>
+                                    <li>Screen Trace Quality: higher is more accurate, slower</li>
+                                    <li>Raise it if traced reflections look broken</li>
                                 </ul>
                             </li>
                         </ul>
 
-                        <p><strong>SSR limitations to know:</strong></p>
+                        <p><strong>Screen tracing limits to know:</strong></p>
                         <ul>
                             <li>Can't reflect objects behind camera (not on screen)</li>
                             <li>Reflections fade at screen edges</li>
                             <li>Rough surfaces don't reflect as accurately as Cycles</li>
-                            <li>No reflection = falls back to black or reflection probe</li>
+                            <li>Off screen = falls back to a Sphere light probe or world</li>
                         </ul>
                     </div>
 
@@ -1091,7 +1090,7 @@
                     </figure>
                     <figcaption style="text-align:center;font-style:italic;color:#888;margin:0.5rem 0 1.5rem">EEVEE Next reflections come from Render &#183; Raytracing with the Screen Tracing subpanel, not a legacy SSR toggle &#183; with raytracing off the chrome sphere and floor stay blank; with it on, the red cube is traced into both.</figcaption>
 
-                    <h3>Screen Space Refraction</h3>
+                    <h3>Raytraced Refraction</h3>
 
                     <div class="card">
                         <h4>💎 Transparent Materials</h4>
@@ -1104,8 +1103,8 @@
 
                         <p><strong>Enabling refraction:</strong></p>
                         <ul>
-                            <li>In Screen Space Reflections section</li>
-                            <li>Check "Refraction" box</li>
+                            <li>Render Properties → Raytracing turned on</li>
+                            <li>Per material, enable Raytrace Transmission</li>
                             <li>Now transparent materials will refract</li>
                         </ul>
 
@@ -1123,18 +1122,18 @@
                             <li><strong>Roughness:</strong> 0.0-0.1 (clear glass)</li>
                         </ul>
 
-                        <p><strong>Important Eevee material settings:</strong></p>
+                        <p><strong>Important EEVEE Next material settings:</strong></p>
                         <ol>
                             <li>Select material → Material Properties</li>
                             <li>Settings section (bottom of material)</li>
-                            <li><strong>Blend Mode:</strong> Change from "Opaque" to "Alpha Blend"</li>
-                            <li><strong>Screen Space Refraction:</strong> Enable checkbox</li>
-                            <li>Material now refracts in Eevee!</li>
+                            <li><strong>Render Method:</strong> set to Blended for clear glass</li>
+                            <li><strong>Raytrace Transmission:</strong> enable the checkbox</li>
+                            <li><strong>Thickness:</strong> set to Sphere so the backdrop bends</li>
                         </ol>
 
                         <p><strong>Refraction limitations:</strong></p>
                         <ul>
-                            <li>Can only refract what's on screen (behind glass)</li>
+                            <li>Screen tracing only refracts what's on screen (behind glass)</li>
                             <li>Objects not visible to camera won't refract properly</li>
                             <li>Less accurate than Cycles ray-traced refraction</li>
                             <li>But much faster!</li>
@@ -1176,7 +1175,7 @@
                     </figure>
                     <figcaption style="text-align:center;font-style:italic;color:#888;margin-top:0.5rem">Raytraced refraction, built up one control at a time &#183; scene Raytracing &#8594; material Raytraced Transmission &#8594; IOR &#8594; Thickness. EEVEE Next has no legacy &ldquo;Screen Space Refraction&rdquo; material checkbox; transmission is raytraced.</figcaption>
 
-                    <h3>Ambient Occlusion (SSAO)</h3>
+                    <h3>Ambient Occlusion (Fast GI)</h3>
 
                     <div class="card">
                         <h4>🌑 Contact Shadows</h4>
@@ -1190,34 +1189,34 @@
 
                         <p><strong>Enabling Ambient Occlusion:</strong></p>
                         <ol>
-                            <li>Render Properties → Ambient Occlusion</li>
-                            <li>Check "Ambient Occlusion" box</li>
-                            <li>Immediately see contact shadows</li>
+                            <li>Render Properties → Raytracing → Fast GI</li>
+                            <li>Turn on Fast GI, set Method to Ambient Occlusion</li>
+                            <li>Immediately see contact darkening</li>
                         </ol>
 
-                        <p><strong>AO settings:</strong></p>
+                        <p><strong>Fast GI settings:</strong></p>
                         <ul>
                             <li><strong>Distance:</strong>
                                 <ul>
-                                    <li>How far AO reaches from surfaces</li>
-                                    <li>Default: 0.2 Blender units</li>
-                                    <li>Larger objects: Increase distance (0.5-1.0)</li>
-                                    <li>Small objects: Decrease distance (0.1-0.2)</li>
+                                    <li>How far the trace reaches from surfaces</li>
+                                    <li>Default: 1.0 Blender units</li>
+                                    <li>Larger objects: increase distance</li>
+                                    <li>Small objects: decrease distance</li>
                                 </ul>
                             </li>
-                            <li><strong>Factor:</strong>
+                            <li><strong>Rays:</strong>
                                 <ul>
-                                    <li>Strength of AO darkening</li>
-                                    <li>Default: 1.0 (full strength)</li>
-                                    <li>Lower: Subtle AO (0.3-0.5)</li>
-                                    <li>Higher: Dramatic AO (1.5-2.0)</li>
+                                    <li>Ray Count per pixel: strength and smoothness</li>
+                                    <li>Default: 4</li>
+                                    <li>Lower: faster, noisier darkening</li>
+                                    <li>Higher: cleaner, slower darkening</li>
                                 </ul>
                             </li>
-                            <li><strong>Trace Precision:</strong>
+                            <li><strong>Steps:</strong>
                                 <ul>
-                                    <li>Quality of AO calculation</li>
+                                    <li>Step Count along each ray: accuracy</li>
                                     <li>Higher = more accurate but slower</li>
-                                    <li>Usually leave at default</li>
+                                    <li>Usually leave at default (12)</li>
                                 </ul>
                             </li>
                         </ul>
@@ -1258,29 +1257,29 @@
                         <ul>
                             <li><strong>Reflections disappear at edges:</strong>
                                 <ul>
-                                    <li>This is normal screen space limitation</li>
-                                    <li>Add Reflection Probes (covered later)</li>
+                                    <li>This is a normal screen tracing limitation</li>
+                                    <li>Add a Sphere light probe (covered later)</li>
                                     <li>Or avoid showing screen edges in render</li>
                                 </ul>
                             </li>
                             <li><strong>Glass looks black:</strong>
                                 <ul>
-                                    <li>Enable Screen Space Refraction in SSR settings</li>
-                                    <li>Set material Blend Mode to Alpha Blend</li>
-                                    <li>Enable "Screen Space Refraction" in material settings</li>
+                                    <li>Enable Raytracing in Render Properties</li>
+                                    <li>Set the material Render Method to Blended</li>
+                                    <li>Enable Raytrace Transmission in material settings</li>
                                 </ul>
                             </li>
                             <li><strong>AO too dark/strong:</strong>
                                 <ul>
-                                    <li>Lower Factor value (0.5-0.7)</li>
+                                    <li>Lower the Fast GI Ray Count or shorten Distance</li>
                                     <li>Reduce Distance if affecting too large area</li>
                                 </ul>
                             </li>
                             <li><strong>No reflections on metal:</strong>
                                 <ul>
-                                    <li>Verify SSR is enabled</li>
+                                    <li>Verify Raytracing and Screen Tracing are on</li>
                                     <li>Check material Roughness (lower = more reflective)</li>
-                                    <li>Increase SSR Max Roughness setting</li>
+                                    <li>Raise the Raytracing Max Roughness setting</li>
                                 </ul>
                             </li>
                         </ul>
@@ -1350,59 +1349,56 @@
                     </figure>
                     <figcaption style="text-align:center;font-style:italic;color:#888;margin:0.5rem 0 1.5rem">EEVEE Next has no render-panel bloom toggle &#183; bloom is created in the Compositor with a Glare node set to Bloom, which spreads bright emissive light into soft halos.</figcaption>
 
-                    <h3>Enabling and Configuring Bloom</h3>
+                    <h3>Adding and Configuring Bloom</h3>
 
                     <div class="card">
-                        <h4>⚙️ Bloom Settings</h4>
-                        <p><strong>Enabling bloom:</strong></p>
+                        <h4>⚙️ Glare Node Bloom Settings</h4>
+                        <p><strong>Adding bloom:</strong></p>
                         <ol>
-                            <li>Render Properties → Bloom</li>
-                            <li>Check "Bloom" checkbox</li>
-                            <li>Bright areas immediately start glowing</li>
+                            <li>Open the Compositor and enable Use Nodes</li>
+                            <li>Add a Glare node between Render Layers and the output</li>
+                            <li>Set the Glare node Type to Bloom: bright areas start glowing</li>
                         </ol>
 
-                        <p><strong>Bloom controls:</strong></p>
+                        <p><strong>Glare node controls:</strong></p>
                         <ul>
                             <li><strong>Threshold:</strong>
                                 <ul>
                                     <li>How bright something must be to glow</li>
-                                    <li>Default: 0.8</li>
+                                    <li>Default: 1.0</li>
                                     <li>Lower (0.3-0.5): More areas glow (subtle effect)</li>
                                     <li>Higher (1.0-2.0): Only very bright areas glow</li>
                                 </ul>
                             </li>
-                            <li><strong>Radius:</strong>
+                            <li><strong>Size:</strong>
                                 <ul>
                                     <li>How far the glow spreads</li>
-                                    <li>Default: 6.5</li>
-                                    <li>Smaller (2-4): Tight glow</li>
-                                    <li>Larger (8-12): Wide, diffuse glow</li>
+                                    <li>Larger Size: wider, more diffuse glow</li>
+                                    <li>Smaller Size: tight glow</li>
                                 </ul>
                             </li>
-                            <li><strong>Color:</strong>
+                            <li><strong>Tint:</strong>
                                 <ul>
-                                    <li>Tint applied to bloom</li>
+                                    <li>Color applied to the bloom</li>
                                     <li>Default: White (no tint)</li>
                                     <li>Can create colored glow effects</li>
                                     <li>Usually leave at white for natural look</li>
                                 </ul>
                             </li>
-                            <li><strong>Intensity:</strong>
+                            <li><strong>Strength:</strong>
                                 <ul>
-                                    <li>Strength of bloom effect</li>
-                                    <li>Default: 0.05</li>
-                                    <li>Subtle: 0.02-0.05</li>
-                                    <li>Moderate: 0.1-0.2</li>
-                                    <li>Strong: 0.3-0.5</li>
-                                    <li>Dramatic: 0.5+</li>
+                                    <li>Intensity of the bloom effect</li>
+                                    <li>Subtle: low Strength</li>
+                                    <li>Moderate: mid Strength</li>
+                                    <li>Dramatic: high Strength</li>
                                 </ul>
                             </li>
-                            <li><strong>Clamp:</strong>
+                            <li><strong>Clamp / Maximum:</strong>
                                 <ul>
-                                    <li>Limits maximum bloom brightness</li>
+                                    <li>Enable Clamp to cap the brightest highlights</li>
                                     <li>Prevents overly bright blooms</li>
-                                    <li>Default: 1000 (very high)</li>
-                                    <li>Lower (10-100) for more controlled bloom</li>
+                                    <li>Set Maximum to bound the glare brightness</li>
+                                    <li>Use it for more controlled bloom</li>
                                 </ul>
                             </li>
                         </ul>
@@ -1435,6 +1431,7 @@
                             </svg>
                         </div>
                         <figcaption>Bloom in EEVEE Next is created in the Compositor, not a render toggle. A Render Layers node feeds its rendered Image into a Glare node whose Type is set to Bloom; the Glare output then continues to the composite result. Quality trades speed for smoothness, Strength scales the glow intensity, and Size controls how far the bloom spreads from bright areas. The legacy Eevee Bloom render-panel checkbox is gone, so this Glare-node setup is the supported way to add glow.</figcaption>
+                    </figure>
 
                     <h3>Bloom Best Practices</h3>
 
@@ -1443,34 +1440,34 @@
                         <p><strong>Subtle bloom (realistic):</strong></p>
                         <ul>
                             <li>Threshold: 0.8-1.0</li>
-                            <li>Radius: 4-6</li>
-                            <li>Intensity: 0.02-0.05</li>
+                            <li>Size: small</li>
+                            <li>Strength: low</li>
                             <li>Use for: Natural lighting, architectural viz, product shots</li>
                         </ul>
 
                         <p><strong>Moderate bloom (cinematic):</strong></p>
                         <ul>
                             <li>Threshold: 0.5-0.8</li>
-                            <li>Radius: 6-8</li>
-                            <li>Intensity: 0.1-0.15</li>
+                            <li>Size: medium</li>
+                            <li>Strength: medium</li>
                             <li>Use for: Motion graphics, commercials, stylized work</li>
                         </ul>
 
                         <p><strong>Strong bloom (stylized):</strong></p>
                         <ul>
                             <li>Threshold: 0.3-0.5</li>
-                            <li>Radius: 8-12</li>
-                            <li>Intensity: 0.2-0.4</li>
+                            <li>Size: large</li>
+                            <li>Strength: high</li>
                             <li>Use for: Sci-fi, fantasy, music videos, artistic work</li>
                         </ul>
 
                         <p><strong>Common mistakes to avoid:</strong></p>
                         <ul>
-                            <li>❌ Too much bloom (intensity > 0.5) looks unrealistic</li>
-                            <li>❌ Very low threshold makes everything glow (muddy)</li>
-                            <li>❌ Extreme radius creates hazy, unclear image</li>
+                            <li>❌ Too much Strength looks unrealistic</li>
+                            <li>❌ Very low Threshold makes everything glow (muddy)</li>
+                            <li>❌ Extreme Size creates a hazy, unclear image</li>
                             <li>✅ Start subtle, increase gradually</li>
-                            <li>✅ Match bloom intensity to scene style</li>
+                            <li>✅ Match the bloom Strength to scene style</li>
                         </ul>
                     </div>
 
@@ -1495,10 +1492,10 @@
                             <li><strong>50.0+:</strong> Intense glow (sun, explosion, magic effect)</li>
                         </ul>
 
-                        <p><strong>Bloom + Emission tips:</strong></p>
+                        <p><strong>Glare bloom + Emission tips:</strong></p>
                         <ul>
                             <li>Emission Strength controls how much object glows</li>
-                            <li>Bloom Threshold controls when bloom kicks in</li>
+                            <li>The Glare node Threshold controls when bloom kicks in</li>
                             <li>Higher emission = more bloom effect</li>
                             <li>Combine with lights for even brighter effect</li>
                         </ul>
@@ -1568,14 +1565,14 @@
 
                     <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                         <h4>✅ Bloom Quick Start Recipe</h4>
-                        <p><strong>For most scenes, try these bloom settings first:</strong></p>
+                        <p><strong>For most scenes, try these Glare node Bloom settings first:</strong></p>
                         <ul>
+                            <li><strong>Type:</strong> Bloom (the Glare node mode)</li>
                             <li><strong>Threshold:</strong> 0.8 (only bright areas glow)</li>
-                            <li><strong>Radius:</strong> 6.5 (balanced spread)</li>
-                            <li><strong>Intensity:</strong> 0.05 (subtle effect)</li>
-                            <li><strong>Clamp:</strong> 1000 (no limit)</li>
+                            <li><strong>Size:</strong> medium (balanced spread)</li>
+                            <li><strong>Strength:</strong> low (subtle effect)</li>
                         </ul>
-                        <p><strong>Then adjust to taste! Increase intensity for more dramatic look, decrease for subtle realism.</strong></p>
+                        <p><strong>Then adjust to taste! Raise Strength for a more dramatic look, lower it for subtle realism.</strong></p>
                     </div>
 
                 </section>
@@ -1619,40 +1616,40 @@
 
                     <div class="card">
                         <h4>⚙️ Shadow Controls</h4>
-                        <p><strong>Location:</strong> Render Properties → Shadows</p>
+                        <p><strong>Location:</strong> Render Properties &#183; Sampling &#183; Shadows</p>
 
                         <p><strong>Main shadow settings:</strong></p>
                         <ul>
-                            <li><strong>Cube Size:</strong>
+                            <li><strong>Shadow Rays:</strong>
                                 <ul>
-                                    <li>Shadow map resolution for Point/Area lights</li>
-                                    <li>Default: 512 pixels</li>
-                                    <li>Higher = sharper shadows, more memory</li>
-                                    <li>Options: 128, 256, 512, 1024, 2048, 4096</li>
-                                    <li><strong>Recommended:</strong> 1024-2048 for quality</li>
+                                    <li>Ray-traced shadow samples per pixel</li>
+                                    <li>Default: 1</li>
+                                    <li>Higher = cleaner, less noisy shadows, more render time</li>
+                                    <li>Range: 1 to 4</li>
+                                    <li><strong>Recommended:</strong> 2 to 4 for quality</li>
                                 </ul>
                             </li>
-                            <li><strong>Cascade Size:</strong>
+                            <li><strong>Shadow Steps:</strong>
                                 <ul>
-                                    <li>Shadow map resolution for Sun lights</li>
-                                    <li>Default: 1024 pixels</li>
-                                    <li>Sun lights cover large areas, need higher resolution</li>
-                                    <li><strong>Recommended:</strong> 2048-4096 for sun shadows</li>
+                                    <li>Ray-march steps along each shadow ray</li>
+                                    <li>Default: 6</li>
+                                    <li>Higher = smoother penumbra, more render time</li>
+                                    <li><strong>Recommended:</strong> 6 to 12 for quality</li>
                                 </ul>
                             </li>
-                            <li><strong>High Bitdepth:</strong>
+                            <li><strong>Resolution scale:</strong>
                                 <ul>
-                                    <li>More precise shadow calculations</li>
-                                    <li>Reduces shadow artifacts (peter panning, acne)</li>
-                                    <li>Slight performance cost</li>
-                                    <li><strong>Recommendation:</strong> Enable for quality</li>
+                                    <li>Shadow map detail (replaces the legacy Cube/Cascade Size)</li>
+                                    <li>Default: 1.0 (full resolution)</li>
+                                    <li>Lower it to trade sharpness for speed</li>
+                                    <li><strong>Recommendation:</strong> 1.0 for quality</li>
                                 </ul>
                             </li>
-                            <li><strong>Soft Shadows:</strong>
+                            <li><strong>Softer shadow edges:</strong>
                                 <ul>
-                                    <li>Enables softer, more realistic shadow edges</li>
-                                    <li>Performance cost</li>
-                                    <li><strong>Recommendation:</strong> Almost always enable</li>
+                                    <li>EEVEE Next has no legacy Soft Shadows checkbox</li>
+                                    <li>Soften edges with larger lights or higher Shadow Rays</li>
+                                    <li><strong>Recommendation:</strong> Raise Shadow Rays, then size the light</li>
                                 </ul>
                             </li>
                             <li><strong>Light Threshold:</strong>
@@ -1718,20 +1715,20 @@
                                     <li>Increase if seeing shadow artifacts near light</li>
                                 </ul>
                             </li>
-                            <li><strong>Bias:</strong>
+                            <li><strong>Reducing shadow artifacts:</strong>
                                 <ul>
-                                    <li>Offset to reduce shadow artifacts</li>
-                                    <li>Increase if seeing "shadow acne" (speckles)</li>
-                                    <li>Decrease if shadows seem detached from objects</li>
-                                    <li>Default usually works well</li>
+                                    <li>EEVEE Next has no per-light Bias slider</li>
+                                    <li>Clear speckles and noise by raising Shadow Rays and Shadow Steps (Sampling &#183; Shadows)</li>
+                                    <li>Larger lights also soften and stabilize edges</li>
+                                    <li>Default Sampling values usually work well</li>
                                 </ul>
                             </li>
-                            <li><strong>Contact Shadows (Eevee only):</strong>
+                            <li><strong>Ray-traced contact shadows:</strong>
                                 <ul>
-                                    <li>Additional detail shadows at contact points</li>
-                                    <li>Enhances realism where objects touch</li>
-                                    <li>Performance cost</li>
-                                    <li>Optional but improves quality</li>
+                                    <li>EEVEE Next has no Contact Shadows checkbox</li>
+                                    <li>Contact-point detail now comes from ray-traced shadows</li>
+                                    <li>Driven by Sampling &#183; Shadows Rays and Steps</li>
+                                    <li>Higher counts sharpen where objects touch</li>
                                 </ul>
                             </li>
                         </ul>
@@ -1743,9 +1740,8 @@
                         <h4>✨ Getting Better Shadows</h4>
                         <p><strong>For sharp, clean shadows:</strong></p>
                         <ul>
-                            <li>Increase Cube/Cascade Size (1024-4096)</li>
-                            <li>Enable High Bitdepth</li>
-                            <li>Enable Soft Shadows</li>
+                            <li>Raise Shadow Rays and Shadow Steps (Sampling &#183; Shadows)</li>
+                            <li>Keep shadow Resolution scale at 1.0</li>
                             <li>Use higher render samples (128-256)</li>
                         </ul>
 
@@ -1753,7 +1749,7 @@
                         <ul>
                             <li>Increase light size (Area lights) or radius (Point lights)</li>
                             <li>Larger lights = softer shadows naturally</li>
-                            <li>Enable Soft Shadows in render settings</li>
+                            <li>Raise Shadow Rays so the soft penumbra stays clean</li>
                             <li>Sun light: Increase Angle for softer sun shadows</li>
                         </ul>
 
@@ -1761,26 +1757,26 @@
                         <ul>
                             <li><strong>Shadow acne (speckles on surfaces):</strong>
                                 <ul>
-                                    <li>Increase light Bias slightly</li>
-                                    <li>Enable High Bitdepth</li>
+                                    <li>Raise Shadow Rays and Shadow Steps</li>
+                                    <li>Increase render samples</li>
                                 </ul>
                             </li>
                             <li><strong>Peter panning (floating shadows):</strong>
                                 <ul>
-                                    <li>Decrease light Bias</li>
-                                    <li>Adjust Clip Start</li>
+                                    <li>Raise Shadow Steps</li>
+                                    <li>Adjust per-light Clip Start</li>
                                 </ul>
                             </li>
-                            <li><strong>Blocky/pixelated shadows:</strong>
+                            <li><strong>Noisy or grainy shadows:</strong>
                                 <ul>
-                                    <li>Increase shadow map size (Cube/Cascade Size)</li>
+                                    <li>Raise Shadow Rays (Sampling &#183; Shadows)</li>
                                     <li>Move light closer to subject</li>
                                 </ul>
                             </li>
                             <li><strong>Shadows cutting off at distance:</strong>
                                 <ul>
-                                    <li>Sun light: Increase Cascade Max Distance</li>
-                                    <li>Point/Spot: Light has distance limit (increase in light settings)</li>
+                                    <li>Sun light: covers the full view by default in EEVEE Next</li>
+                                    <li>Point/Spot: enable Custom Distance and raise it in light settings</li>
                                 </ul>
                             </li>
                         </ul>
@@ -1790,10 +1786,9 @@
                         <h4>✅ Recommended Shadow Settings</h4>
                         <p><strong>For high-quality Eevee shadows, use these settings:</strong></p>
                         <ul>
-                            <li><strong>Cube Size:</strong> 2048</li>
-                            <li><strong>Cascade Size:</strong> 4096</li>
-                            <li><strong>High Bitdepth:</strong> Enabled</li>
-                            <li><strong>Soft Shadows:</strong> Enabled</li>
+                            <li><strong>Shadow Rays:</strong> 4</li>
+                            <li><strong>Shadow Steps:</strong> 12</li>
+                            <li><strong>Resolution scale:</strong> 1.0</li>
                             <li><strong>Render Samples:</strong> 128-256</li>
                         </ul>
                         <p><strong>This balances quality and performance for most scenes.</strong></p>
@@ -1954,7 +1949,7 @@
                 <section id="indirect-lighting" class="content-section">
                     <h2>🌈 Indirect Lighting Setup</h2>
 
-                    <p>Indirect lighting is light that bounces off surfaces. Cycles does this automatically, but Eevee needs help through light probes and irradiance volumes.</p>
+                    <p>Indirect lighting is light that bounces off surfaces. Cycles does this automatically, but EEVEE Next needs help through light probes that you bake.</p>
 
                     <h3>Understanding Indirect Lighting</h3>
 
@@ -1977,21 +1972,21 @@
                         </ul>
                     </div>
 
-                    <h3>Irradiance Volumes</h3>
+                    <h3>Volume Light Probes</h3>
 
                     <div class="card">
                         <h4>📦 Global Indirect Lighting</h4>
-                        <p><strong>What irradiance volumes do:</strong></p>
+                        <p><strong>What a Volume probe does:</strong></p>
                         <ul>
-                            <li>Capture indirect lighting throughout a volume of space</li>
-                            <li>Objects inside volume receive ambient bounce light</li>
-                            <li>Essential for realistic Eevee lighting</li>
+                            <li>Captures indirect lighting throughout a volume of space</li>
+                            <li>Objects inside the volume receive ambient bounce light</li>
+                            <li>Essential for realistic EEVEE Next lighting</li>
                         </ul>
 
-                        <p><strong>Adding an irradiance volume:</strong></p>
+                        <p><strong>Adding a Volume probe:</strong></p>
                         <ol>
-                            <li><code>Shift+A</code> → Light Probe → Irradiance Volume</li>
-                            <li>Scale volume to encompass your scene
+                            <li><code>Shift+A</code> → Light Probe → Volume</li>
+                            <li>Scale the probe to encompass your scene
                                 <ul>
                                     <li><code>S</code> key to scale</li>
                                     <li>Should cover all objects needing indirect light</li>
@@ -1999,9 +1994,9 @@
                             </li>
                             <li>Adjust resolution in properties:
                                 <ul>
-                                    <li>Select irradiance volume</li>
+                                    <li>Select the Volume probe</li>
                                     <li>Object Data Properties (probe icon)</li>
-                                    <li>Resolution X, Y, Z</li>
+                                    <li>Resolution X, Y, Z voxel grid</li>
                                 </ul>
                             </li>
                         </ol>
@@ -2015,12 +2010,12 @@
                             <li>Match resolution to scene size and detail needs</li>
                         </ul>
 
-                        <p><strong>Baking the irradiance volume:</strong></p>
+                        <p><strong>Baking the Volume probe:</strong></p>
                         <ol>
-                            <li>After placing and sizing volume</li>
-                            <li>Top viewport menu: Render → Bake Indirect Lighting</li>
-                            <li>Or: Select volume → Object Data Properties → Bake Indirect Lighting button</li>
-                            <li>Eevee calculates and stores indirect light</li>
+                            <li>After placing and sizing the probe</li>
+                            <li>Object → Light Probe → Bake Light Probe Volume</li>
+                            <li>Or: Object Data Properties → Bake Light Cache button</li>
+                            <li>EEVEE Next calculates and stores indirect light</li>
                             <li>Objects now receive bounce light!</li>
                         </ol>
 
@@ -2034,75 +2029,75 @@
                         </ul>
                     </div>
 
-                    <h3>Reflection Cubemap Probes</h3>
+                    <h3>Sphere Light Probes</h3>
 
                     <div class="card">
                         <h4>🪞 Enhanced Reflections</h4>
-                        <p><strong>What reflection probes do:</strong></p>
+                        <p><strong>What a Sphere probe does:</strong></p>
                         <ul>
-                            <li>Capture environment for reflections</li>
-                            <li>Supplement screen-space reflections</li>
-                            <li>Show reflections of off-screen objects</li>
+                            <li>Captures the environment for local reflections</li>
+                            <li>Supplements raytraced Screen Tracing</li>
+                            <li>Shows reflections of off-screen objects</li>
                             <li>Especially useful for reflective materials</li>
                         </ul>
 
-                        <p><strong>Adding a reflection probe:</strong></p>
+                        <p><strong>Adding a Sphere probe:</strong></p>
                         <ol>
-                            <li><code>Shift+A</code> → Light Probe → Reflection Cubemap</li>
+                            <li><code>Shift+A</code> → Light Probe → Sphere</li>
                             <li>Position at center of reflective area
                                 <ul>
                                     <li>Middle of room for interior</li>
                                     <li>Center of object for product shot</li>
                                 </ul>
                             </li>
-                            <li>Adjust influence distance
+                            <li>Adjust the probe radius
                                 <ul>
-                                    <li>Sphere showing probe's influence range</li>
+                                    <li>Radius sets the probe's reach</li>
                                     <li>Scale with <code>S</code> key</li>
                                     <li>Should cover reflective objects</li>
                                 </ul>
                             </li>
                         </ol>
 
-                        <p><strong>Reflection probe settings:</strong></p>
+                        <p><strong>Sphere probe settings:</strong></p>
                         <ul>
-                            <li><strong>Distance:</strong> How far probe influence extends</li>
+                            <li><strong>Radius:</strong> How far the probe reaches</li>
                             <li><strong>Falloff:</strong> How gradually influence fades</li>
                             <li><strong>Clipping Start/End:</strong> What distance range to capture</li>
-                            <li><strong>Resolution:</strong> Cubemap quality (512-2048)</li>
+                            <li><strong>Resolution:</strong> Reflection capture quality</li>
                         </ul>
 
                         <p><strong>Using multiple probes:</strong></p>
                         <ul>
-                            <li>Place probe in each major area</li>
+                            <li>Place a probe in each major area</li>
                             <li>Overlapping influence is fine</li>
-                            <li>Eevee blends between nearby probes</li>
+                            <li>EEVEE Next blends between nearby probes</li>
                             <li>Example: One per room in interior scene</li>
                         </ul>
 
-                        <p><strong>Baking reflection probes:</strong></p>
+                        <p><strong>Baking Sphere probes:</strong></p>
                         <ul>
-                            <li>Same as irradiance volume</li>
-                            <li>Render → Bake Indirect Lighting</li>
-                            <li>Re-bake when scene changes</li>
+                            <li>Same as the Volume probe</li>
+                            <li>Object → Light Probe → Bake Light Probe Volume</li>
+                            <li>Re-bake when the scene changes</li>
                         </ul>
                     </div>
 
-                    <h3>Reflection Plane Probes</h3>
+                    <h3>Plane Light Probes</h3>
 
                     <div class="card">
                         <h4>🪞 Planar Reflections</h4>
-                        <p><strong>What reflection planes do:</strong></p>
+                        <p><strong>What a Plane probe does:</strong></p>
                         <ul>
                             <li>High-quality reflections for flat surfaces</li>
                             <li>Mirrors, floors, water surfaces</li>
-                            <li>More accurate than screen-space for flat reflectors</li>
-                            <li>Performance cost higher than cubemaps</li>
+                            <li>More accurate than screen tracing for flat reflectors</li>
+                            <li>Performance cost higher than Sphere probes</li>
                         </ul>
 
-                        <p><strong>Adding a reflection plane:</strong></p>
+                        <p><strong>Adding a Plane probe:</strong></p>
                         <ol>
-                            <li><code>Shift+A</code> → Light Probe → Reflection Plane</li>
+                            <li><code>Shift+A</code> → Light Probe → Plane</li>
                             <li>Position on reflective surface
                                 <ul>
                                     <li>Align with floor, mirror, water</li>
@@ -2112,30 +2107,30 @@
                             <li>Scale to cover reflective area</li>
                         </ol>
 
-                        <p><strong>When to use reflection planes:</strong></p>
+                        <p><strong>When to use Plane probes:</strong></p>
                         <ul>
                             <li>Perfect mirrors or very reflective floors</li>
                             <li>Water surfaces</li>
                             <li>Any flat highly-reflective surface</li>
-                            <li>When SSR artifacts are visible</li>
+                            <li>When screen tracing artifacts are visible</li>
                         </ul>
 
                         <p><strong>Performance note:</strong></p>
                         <ul>
-                            <li>Reflection planes render scene again for each plane</li>
+                            <li>Plane probes render the scene again for each plane</li>
                             <li>Use sparingly (1-3 max in scene)</li>
-                            <li>For most reflections, SSR + cubemaps sufficient</li>
+                            <li>For most reflections, Screen Tracing plus Sphere probes suffice</li>
                         </ul>
                     </div>
 
                     <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                         <h4>✅ Light Probe Workflow</h4>
-                        <p><strong>Standard setup for Eevee scenes:</strong></p>
+                        <p><strong>Standard setup for EEVEE Next scenes:</strong></p>
                         <ol>
-                            <li><strong>Add Irradiance Volume:</strong> Covers entire scene</li>
-                            <li><strong>Add Reflection Cubemap(s):</strong> One per major area</li>
-                            <li><strong>Position and scale probes</strong></li>
-                            <li><strong>Render → Bake Indirect Lighting</strong></li>
+                            <li><strong>Add a Volume probe:</strong> Covers entire scene</li>
+                            <li><strong>Add Sphere probe(s):</strong> One per major area</li>
+                            <li><strong>Position and scale the probes</strong></li>
+                            <li><strong>Enable Raytracing, then Bake Light Probe Volume</strong></li>
                             <li><strong>Check result in Rendered view</strong></li>
                             <li><strong>Adjust and re-bake as needed</strong></li>
                         </ol>
@@ -2262,6 +2257,7 @@
                             </svg>
                         </div>
                         <figcaption>The Sphere light probe Object Data Properties in EEVEE Next. Type is set to Sphere, the probe that captures local reflections (the legacy Reflection Cubemap). Radius sets how far the probe reaches, Falloff softens its edge so it blends with surrounding reflections, and the Capture panel's Clipping Start and End bound the range the probe records. Like the Volume probe, a Sphere probe is baked with Bake Light Probe Volume; the Plane probe variant handles flat mirror surfaces.</figcaption>
+                    </figure>
 
                     <blockquote>
                         <p><strong>💡 The Pre-baking Trade-off:</strong> Having to bake light probes is both Eevee's limitation and its strength. Yes, it's an extra step compared to Cycles' automatic global illumination. But this pre-baking is exactly what allows Eevee to be so fast—the complex lighting calculations are done once, then reused. It's like meal prep: spend time preparing once, then enjoy quick results all week. Professional Eevee users build probe baking into their workflow and barely think about it.</p>
@@ -2330,38 +2326,35 @@
                         </ul>
                     </div>
 
-                    <h3>Eevee Material Settings</h3>
+                    <h3>EEVEE Next Material Settings</h3>
 
                     <div class="card">
-                        <h4>⚙️ Material-Specific Eevee Options</h4>
+                        <h4>⚙️ Material-Specific EEVEE Next Options</h4>
                         <p><strong>Location:</strong> Material Properties → Settings (bottom section)</p>
 
-                        <p><strong>Key Eevee-specific settings:</strong></p>
+                        <p><strong>Key EEVEE Next material settings:</strong></p>
                         <ul>
-                            <li><strong>Blend Mode:</strong>
+                            <li><strong>Render Method:</strong>
                                 <ul>
-                                    <li><strong>Opaque:</strong> Standard solid materials</li>
-                                    <li><strong>Alpha Clip:</strong> Sharp transparency (leaves, fences)</li>
-                                    <li><strong>Alpha Hashed:</strong> Noisy transparency (grass, hair)</li>
-                                    <li><strong>Alpha Blend:</strong> Smooth transparency (glass, water)</li>
-                                    <li>Choose based on material type</li>
+                                    <li><strong>Dithered:</strong> Fast stochastic transparency (grass, hair, foliage)</li>
+                                    <li><strong>Blended:</strong> Smooth true transparency (glass, water)</li>
+                                    <li>This single enum replaces the legacy Opaque / Alpha Clip / Alpha Hashed / Alpha Blend modes</li>
+                                    <li>Stored as <code>surface_render_method</code></li>
                                 </ul>
                             </li>
-                            <li><strong>Shadow Mode:</strong>
+                            <li><strong>Alpha Clipping:</strong>
                                 <ul>
-                                    <li>How material casts shadows</li>
-                                    <li><strong>Opaque:</strong> Full shadow</li>
-                                    <li><strong>Clip:</strong> Sharp shadow cutout</li>
-                                    <li><strong>Hashed:</strong> Noisy shadow</li>
-                                    <li><strong>None:</strong> No shadow</li>
-                                    <li>Should usually match Blend Mode</li>
+                                    <li>A hard cutout is driven by the <strong>Alpha Threshold</strong> value, not a separate Blend Mode</li>
+                                    <li>Alpha below the threshold = fully transparent</li>
+                                    <li>Alpha above = fully opaque</li>
                                 </ul>
                             </li>
-                            <li><strong>Clip Threshold:</strong>
+                            <li><strong>Transparent Shadows:</strong>
                                 <ul>
-                                    <li>For Alpha Clip mode</li>
-                                    <li>Alpha value below threshold = fully transparent</li>
-                                    <li>Above = fully opaque</li>
+                                    <li>How the material casts shadows through transparent areas</li>
+                                    <li>On: shadow respects the alpha cutout or transmission</li>
+                                    <li>Off: the material casts a full solid shadow</li>
+                                    <li>Replaces the legacy Shadow Mode menu</li>
                                 </ul>
                             </li>
                             <li><strong>Backface Culling:</strong>
@@ -2371,11 +2364,11 @@
                                     <li>Enable for single-sided objects</li>
                                 </ul>
                             </li>
-                            <li><strong>Screen Space Refraction:</strong>
+                            <li><strong>Raytrace Transmission:</strong>
                                 <ul>
-                                    <li>Enable for glass/transparent materials</li>
-                                    <li>Allows refraction effect in Eevee</li>
-                                    <li>Required for realistic glass</li>
+                                    <li>Enable for glass/transparent materials (<code>use_raytrace_refraction</code>)</li>
+                                    <li>Lets refracted light trace through the surface in EEVEE Next</li>
+                                    <li>Pair with a <strong>Thickness</strong> of Sphere or Slab for solid glass</li>
                                 </ul>
                             </li>
                             <li><strong>Subsurface Translucency:</strong>
@@ -2431,7 +2424,7 @@
 
                     <div class="card">
                         <h4>💎 Glass and Transparent Materials</h4>
-                        <p><strong>For realistic glass in Eevee:</strong></p>
+                        <p><strong>For realistic glass in EEVEE Next:</strong></p>
                         <ol>
                             <li><strong>Principled BSDF settings:</strong>
                                 <ul>
@@ -2442,15 +2435,16 @@
                             </li>
                             <li><strong>Material Settings (bottom):</strong>
                                 <ul>
-                                    <li>Blend Mode: Alpha Blend</li>
-                                    <li>Enable: Screen Space Refraction</li>
-                                    <li>Shadow Mode: Alpha Blend or None</li>
+                                    <li>Render Method: Blended</li>
+                                    <li>Enable: Raytrace Transmission</li>
+                                    <li>Thickness: Sphere (solid glass) or Slab (panes)</li>
+                                    <li>Transparent Shadows: on</li>
                                 </ul>
                             </li>
                             <li><strong>Render Settings:</strong>
                                 <ul>
-                                    <li>Enable Screen Space Reflections</li>
-                                    <li>Enable Refraction in SSR settings</li>
+                                    <li>Enable Raytracing</li>
+                                    <li>Raytracing drives both reflection and transmission</li>
                                 </ul>
                             </li>
                         </ol>
@@ -2459,7 +2453,7 @@
                         <ul>
                             <li>Transmission: 0.5-0.95 (partial)</li>
                             <li>Roughness: 0.2-0.5 (frosted)</li>
-                            <li>Same Blend Mode and SSR setup</li>
+                            <li>Same Render Method and Raytracing setup</li>
                         </ul>
                     </div>
 
@@ -2511,8 +2505,8 @@
 
                         <p><strong>Emission + Bloom:</strong></p>
                         <ul>
-                            <li>Enable Bloom in render settings</li>
-                            <li>Emission Strength > bloom threshold = glow effect</li>
+                            <li>Add a Glare node (Type: Bloom) in the Compositor</li>
+                            <li>Emission Strength above the Glare Threshold = glow effect</li>
                             <li>Perfect for:
                                 <ul>
                                     <li>Neon signs</li>
@@ -2546,9 +2540,9 @@
                             </li>
                             <li><strong>Transparency:</strong>
                                 <ul>
-                                    <li>Use Alpha Clip instead of Blend when possible</li>
-                                    <li>Clip is faster than Blend</li>
-                                    <li>Reserve Blend for smooth gradients only</li>
+                                    <li>Use the Dithered render method instead of Blended when possible</li>
+                                    <li>Dithered is faster than Blended</li>
+                                    <li>Reserve Blended for smooth gradients and clear glass only</li>
                                 </ul>
                             </li>
                             <li><strong>Backface culling:</strong>
@@ -2973,28 +2967,28 @@
                         <p><strong>Draft quality (fast preview):</strong></p>
                         <ul>
                             <li>Render Samples: 32</li>
-                            <li>Shadow Cube/Cascade Size: 512/1024</li>
-                            <li>Disable Bloom, Screen Space Reflections</li>
-                            <li>Disable Ambient Occlusion</li>
+                            <li>Shadow Rays: 1, Shadow Steps: 2 (Sampling &#183; Shadows)</li>
+                            <li>Raytracing off, no Screen Tracing reflections</li>
+                            <li>Fast GI off, Compositor Glare (Bloom) off</li>
                             <li>Use: Quick tests, iteration</li>
                         </ul>
 
                         <p><strong>Production quality (balanced):</strong></p>
                         <ul>
                             <li>Render Samples: 64-128</li>
-                            <li>Shadow Cube/Cascade Size: 1024/2048</li>
-                            <li>Enable SSR, AO, Bloom as needed</li>
-                            <li>Soft Shadows enabled</li>
+                            <li>Shadow Rays: 2, Shadow Steps: 6 (Sampling &#183; Shadows)</li>
+                            <li>Raytracing on, Fast GI on, Compositor Glare (Bloom) as needed</li>
+                            <li>Softer shadows via higher Shadow Rays</li>
                             <li>Use: Most final renders</li>
                         </ul>
 
                         <p><strong>High quality (slow but beautiful):</strong></p>
                         <ul>
                             <li>Render Samples: 256-512</li>
-                            <li>Shadow Cube/Cascade Size: 2048/4096</li>
+                            <li>Shadow Rays: 4, Shadow Steps: 12 (Sampling &#183; Shadows)</li>
                             <li>All effects enabled</li>
-                            <li>High Bitdepth shadows</li>
-                            <li>Contact Shadows on key lights</li>
+                            <li>Raytracing at full resolution (1:1)</li>
+                            <li>Ray-traced soft and contact shadows on key lights</li>
                             <li>Use: Hero shots, stills, portfolio pieces</li>
                         </ul>
                     </div>
@@ -3268,8 +3262,8 @@
                             <li><strong>World lighting not baked:</strong>
                                 <ul>
                                     <li>If using HDRI without direct lights</li>
-                                    <li>Add Irradiance Volume</li>
-                                    <li>Render → Bake Indirect Lighting</li>
+                                    <li>Add a Volume Light Probe</li>
+                                    <li>Enable Raytracing, then Bake Light Probe Volume</li>
                                 </ul>
                             </li>
                             <li><strong>Objects on wrong layer/collection:</strong>
@@ -3295,25 +3289,25 @@
                         <h4>⚠️ Problem: Glass/transparent objects look wrong</h4>
                         <p><strong>Glass appears black/opaque:</strong></p>
                         <ul>
-                            <li>Enable Screen Space Reflections in render settings</li>
-                            <li>Enable Refraction in SSR settings</li>
-                            <li>Material Settings → Blend Mode: Alpha Blend</li>
-                            <li>Material Settings → Enable: Screen Space Refraction</li>
-                            <li>Check all four requirements!</li>
+                            <li>Enable Raytracing in Render Properties</li>
+                            <li>Material Settings &#183; Raytraced Transmission: on</li>
+                            <li>Material Settings &#183; Render Method: Blended</li>
+                            <li>Principled BSDF Transmission near 1.0</li>
+                            <li>Check all requirements!</li>
                         </ul>
 
                         <p><strong>Transparent objects have dark edges:</strong></p>
                         <ul>
-                            <li>Blend Mode likely set to Alpha Clip instead of Blend</li>
-                            <li>Change to Alpha Blend for smooth transparency</li>
-                            <li>Or Alpha Hashed for noisy transparency</li>
+                            <li>Render Method likely set to Dithered instead of Blended</li>
+                            <li>Switch to Blended for smooth transparency</li>
+                            <li>Or keep Dithered for cheaper, noisier transparency</li>
                         </ul>
 
                         <p><strong>Transparency sorting issues:</strong></p>
                         <ul>
                             <li>Multiple transparent objects may render incorrectly</li>
                             <li>This is limitation of real-time rendering</li>
-                            <li>Try Alpha Hashed blend mode</li>
+                            <li>Try the Dithered render method</li>
                             <li>Or reorder objects in hierarchy</li>
                         </ul>
                     </div>
@@ -3324,24 +3318,24 @@
                         <h4>⚠️ Problem: Reflections missing or incorrect</h4>
                         <p><strong>No reflections at all:</strong></p>
                         <ul>
-                            <li>Enable Screen Space Reflections in render settings</li>
+                            <li>Enable Raytracing in Render Properties</li>
                             <li>Check material Roughness (lower = more reflective)</li>
-                            <li>Increase SSR Max Roughness setting</li>
+                            <li>Confirm the Screen Tracing subpanel is on</li>
                         </ul>
 
                         <p><strong>Reflections cut off at screen edges:</strong></p>
                         <ul>
-                            <li>This is normal SSR limitation</li>
-                            <li>Add Reflection Cubemap probe</li>
-                            <li>Bake indirect lighting</li>
+                            <li>This is normal screen-tracing limitation</li>
+                            <li>Add a Sphere light probe</li>
+                            <li>Bake the Light Probe Volume</li>
                             <li>Probe fills in off-screen reflections</li>
                         </ul>
 
                         <p><strong>Reflections don't match environment:</strong></p>
                         <ul>
-                            <li>Need to bake reflection probes</li>
-                            <li>Add Reflection Cubemap</li>
-                            <li>Render → Bake Indirect Lighting</li>
+                            <li>Need to bake light probes</li>
+                            <li>Add a Sphere light probe</li>
+                            <li>Object &#183; Bake Light Probe Volume</li>
                             <li>Re-bake when scene changes</li>
                         </ul>
                     </div>
@@ -3352,29 +3346,29 @@
                         <h4>⚠️ Problem: Shadow quality issues</h4>
                         <p><strong>Pixelated/blocky shadows:</strong></p>
                         <ul>
-                            <li>Increase shadow map size (Cube/Cascade Size)</li>
-                            <li>Try 2048 or 4096</li>
-                            <li>Enable Soft Shadows</li>
+                            <li>Raise Shadow Rays and Shadow Steps (Sampling &#183; Shadows)</li>
+                            <li>Keep Resolution scale at 1.0</li>
+                            <li>Move the light closer to the subject</li>
                         </ul>
 
                         <p><strong>Shadow acne (speckles):</strong></p>
                         <ul>
-                            <li>Increase light Bias slightly</li>
-                            <li>Enable High Bitdepth in shadow settings</li>
-                            <li>Adjust light Clip Start</li>
+                            <li>Raise Shadow Rays and Shadow Steps</li>
+                            <li>Increase render samples</li>
+                            <li>Adjust per-light Clip Start</li>
                         </ul>
 
                         <p><strong>Peter panning (floating shadows):</strong></p>
                         <ul>
-                            <li>Decrease light Bias</li>
+                            <li>Raise Shadow Steps</li>
                             <li>Object appears to float above shadow</li>
-                            <li>Find balance between acne and panning</li>
+                            <li>Find the balance between noise and panning</li>
                         </ul>
 
                         <p><strong>Shadows disappear at distance:</strong></p>
                         <ul>
-                            <li>Sun light: Increase Cascade Max Distance</li>
-                            <li>Other lights: Check light Distance setting</li>
+                            <li>Sun light: covers the full view by default in EEVEE Next</li>
+                            <li>Other lights: enable Custom Distance and raise it</li>
                             <li>Increase to cover full scene</li>
                         </ul>
                     </div>
@@ -3387,7 +3381,7 @@
                         <ul>
                             <li>Lower viewport samples (8-16)</li>
                             <li>Switch to Material Preview mode</li>
-                            <li>Disable Bloom, Motion Blur temporarily</li>
+                            <li>Disable Raytracing and Motion Blur temporarily</li>
                             <li>Hide objects not needed</li>
                         </ul>
 
@@ -3420,18 +3414,18 @@
                             <li>Check if specific effect causing noise</li>
                         </ul>
 
-                        <p><strong>Ambient Occlusion noise:</strong></p>
+                        <p><strong>Ambient occlusion noise:</strong></p>
                         <ul>
                             <li>Increase render samples</li>
-                            <li>Adjust AO Trace Precision</li>
-                            <li>Lower AO Factor if too strong</li>
+                            <li>Raise Fast GI Rays and Steps (Raytracing &#183; Fast GI)</li>
+                            <li>Lower Fast GI distance if the darkening is too strong</li>
                         </ul>
 
                         <p><strong>Screen-space artifacts:</strong></p>
                         <ul>
-                            <li>SSR may show artifacts at edges</li>
-                            <li>Normal for screen-space effects</li>
-                            <li>Add reflection probes to minimize</li>
+                            <li>Raytraced reflections may show artifacts at edges</li>
+                            <li>Normal for screen-tracing</li>
+                            <li>Add light probes to minimize</li>
                             <li>Or frame shot to avoid showing artifacts</li>
                         </ul>
                     </div>
@@ -3444,7 +3438,7 @@
                             <li>Verify viewport in Rendered mode (not Solid/Material Preview)</li>
                             <li>Test with simple scene (default cube, one light)</li>
                             <li>Add complexity back gradually to identify problem</li>
-                            <li>Check material settings (Blend Mode, SSR options)</li>
+                            <li>Check material settings (Render Method, Raytrace Transmission)</li>
                             <li>Verify light probes baked if using indirect lighting</li>
                             <li>Update GPU drivers if all else fails</li>
                         </ol>
@@ -3482,6 +3476,13 @@
 
                         <p><strong>Time estimate:</strong> 45-60 minutes</p>
                     </div>
+
+                    <figure style="margin:2rem 0">
+                        <div style="position:relative;display:block">
+                            <img src="images/lesson_18_28_project_reference_render.png" alt="A finished EEVEE Next hero render: a polished gold metallic figure lit by a three-point setup on a soft grey floor, beside a glossy red sphere and a glowing cyan emissive pillar. Raytraced reflections, soft shadows, and indirect light bounce are all visible, showing the real-time result this lesson builds toward." style="display:block;max-width:100%;height:auto;margin:0">
+                        </div>
+                    </figure>
+                    <figcaption style="text-align:center;font-style:italic;color:#888;margin:0.5rem 0 1.5rem">The finished project in one frame: a three-point lit scene rendered in EEVEE Next with raytracing on for reflections and ambient occlusion, soft ray-traced shadows, and indirect light bounce &#183; the gold figure picks up colored reflections from the red sphere and cyan emitter while the floor catches a soft mirror of the scene &#183; the clean, fast result a well-tuned Eevee setup delivers.</figcaption>
 
                     <h3>Part 1: Scene Setup</h3>
 
@@ -3559,37 +3560,35 @@
                                     <li>Viewport: 32</li>
                                 </ul>
                             </li>
-                            <li><strong>Ambient Occlusion:</strong>
+                            <li><strong>Raytracing:</strong>
                                 <ul>
                                     <li>Enable checkbox</li>
-                                    <li>Distance: 0.2</li>
-                                    <li>Factor: 1.0</li>
+                                    <li>Screen Tracing: on</li>
+                                    <li>Fast GI: on (Ambient Occlusion mode)</li>
                                 </ul>
                             </li>
-                            <li><strong>Bloom:</strong>
+                            <li><strong>Compositor Glare (Bloom):</strong>
                                 <ul>
-                                    <li>Enable checkbox</li>
+                                    <li>Add a Glare node, Type: Bloom</li>
                                     <li>Threshold: 0.8</li>
-                                    <li>Radius: 6.5</li>
-                                    <li>Intensity: 0.05</li>
+                                    <li>Size to taste</li>
                                 </ul>
                             </li>
-                            <li><strong>Screen Space Reflections:</strong>
+                            <li><strong>Reflections:</strong>
                                 <ul>
-                                    <li>Enable checkbox</li>
-                                    <li>Leave other settings default</li>
+                                    <li>Handled by Raytracing above</li>
+                                    <li>Leave Screen Tracing settings default</li>
                                 </ul>
                             </li>
                         </ol>
 
                         <p><strong>Step 3: Shadow settings</strong></p>
                         <ul>
-                            <li>Shadows section:
+                            <li>Sampling &#183; Shadows:
                                 <ul>
-                                    <li>Cube Size: 2048</li>
-                                    <li>Cascade Size: 4096</li>
-                                    <li>Enable: High Bitdepth</li>
-                                    <li>Enable: Soft Shadows</li>
+                                    <li>Shadow Rays: 4</li>
+                                    <li>Shadow Steps: 12</li>
+                                    <li>Resolution scale: 1.0</li>
                                 </ul>
                             </li>
                         </ul>
@@ -3660,9 +3659,9 @@
 
                     <div class="card">
                         <h4>🌈 Indirect Lighting</h4>
-                        <p><strong>Step 1: Add irradiance volume</strong></p>
+                        <p><strong>Step 1: Add volume light probe</strong></p>
                         <ol>
-                            <li><code>Shift+A</code> → Light Probe → Irradiance Volume</li>
+                            <li><code>Shift+A</code> → Light Probe → Volume</li>
                             <li>Scale to cover scene: <code>S</code> then drag</li>
                             <li>Should encompass object and nearby area</li>
                             <li>Object Data Properties:
@@ -3674,16 +3673,16 @@
                             </li>
                         </ol>
 
-                        <p><strong>Step 2: Add reflection cubemap</strong></p>
+                        <p><strong>Step 2: Add sphere light probe</strong></p>
                         <ol>
-                            <li><code>Shift+A</code> → Light Probe → Reflection Cubemap</li>
+                            <li><code>Shift+A</code> → Light Probe → Sphere</li>
                             <li>Position at center of scene</li>
                             <li>Scale influence to cover reflective object</li>
                         </ol>
 
                         <p><strong>Step 3: Bake light probes</strong></p>
                         <ol>
-                            <li>Top menu: Render → Bake Indirect Lighting</li>
+                            <li>Enable Raytracing, then Object menu: Light Probe → Bake Light Probe Volume</li>
                             <li>Wait for baking to complete</li>
                             <li>Scene should look more realistic</li>
                             <li>Notice improved ambient lighting and reflections</li>
@@ -3745,7 +3744,7 @@
                         <ul style="color: white;">
                             <li>Add glass object to scene</li>
                             <li>Set up proper Eevee transparency</li>
-                            <li>Enable Screen Space Refraction</li>
+                            <li>Enable Raytracing and Raytrace Transmission</li>
                             <li>Compare glass in Eevee vs Cycles</li>
                         </ul>
 
@@ -3823,29 +3822,29 @@
                                     <li>Know strengths and limitations of each</li>
                                 </ul>
                             </li>
-                            <li><strong>Essential Eevee settings:</strong>
+                            <li><strong>Essential EEVEE Next settings:</strong>
                                 <ul>
                                     <li>Samples: 64-128 for render, 16-32 for viewport</li>
-                                    <li>Always enable Ambient Occlusion</li>
-                                    <li>Screen Space Reflections for shiny materials</li>
-                                    <li>Bloom for glowing effects</li>
-                                    <li>High shadow quality (2048-4096)</li>
+                                    <li>Enable Fast GI for ambient occlusion</li>
+                                    <li>Enable Raytracing (Screen Tracing) for shiny materials</li>
+                                    <li>A Compositor Glare node for glowing effects</li>
+                                    <li>High shadow resolution scale and ray count</li>
                                 </ul>
                             </li>
-                            <li><strong>Screen space effects:</strong>
+                            <li><strong>Raytracing and screen tracing:</strong>
                                 <ul>
-                                    <li>Fast but limited to on-screen information</li>
-                                    <li>SSR for reflections (limited range)</li>
-                                    <li>Screen space refraction for glass</li>
-                                    <li>Ambient Occlusion for depth</li>
+                                    <li>Fast, with screen tracing limited to on-screen information</li>
+                                    <li>Raytraced reflections (screen tracing, then light probes)</li>
+                                    <li>Raytrace Transmission for glass</li>
+                                    <li>Fast GI for ambient occlusion and depth</li>
                                 </ul>
                             </li>
                             <li><strong>Light probes are essential:</strong>
                                 <ul>
-                                    <li>Irradiance Volumes for indirect lighting</li>
-                                    <li>Reflection Cubemaps for off-screen reflections</li>
+                                    <li>Volume probes for indirect lighting</li>
+                                    <li>Sphere probes for off-screen reflections</li>
                                     <li>Must bake after scene changes</li>
-                                    <li>Critical for realistic Eevee renders</li>
+                                    <li>Critical for realistic EEVEE Next renders</li>
                                 </ul>
                             </li>
                         </ul>
@@ -3873,7 +3872,7 @@
                             <li><strong>Speed is Eevee's superpower:</strong> 10-100x faster than Cycles makes animation practical and iteration rapid</li>
                             <li><strong>Screen space = limited but fast:</strong> Understanding this limitation explains Eevee's behavior</li>
                             <li><strong>Light probes are mandatory:</strong> Unlike Cycles, Eevee needs baked probes for indirect light and off-screen reflections</li>
-                            <li><strong>Material settings matter:</strong> Blend Mode and Eevee-specific checkboxes must be configured correctly</li>
+                            <li><strong>Material settings matter:</strong> Render Method and the EEVEE Next material toggles must be configured correctly</li>
                             <li><strong>Quality scales with samples:</strong> More samples = cleaner result but slower (still way faster than Cycles)</li>
                             <li><strong>Not everything needs perfection:</strong> Eevee's approximations are good enough for most cases</li>
                         </ul>
@@ -3883,8 +3882,8 @@
                         <h4>⚠️ Common Beginner Mistakes to Avoid</h4>
                         <ul>
                             <li><strong>Forgetting to bake light probes:</strong> Scene won't have proper indirect lighting or reflections</li>
-                            <li><strong>Not enabling Screen Space effects:</strong> Reflections and AO won't show up</li>
-                            <li><strong>Using wrong Blend Mode:</strong> Transparent materials need Alpha Blend, not Opaque</li>
+                            <li><strong>Not enabling Raytracing:</strong> Reflections and Fast GI won't show up</li>
+                            <li><strong>Using the wrong Render Method:</strong> Transparent materials need Blended, not the default</li>
                             <li><strong>Comparing Eevee to Cycles unfairly:</strong> They're different tools for different jobs</li>
                             <li><strong>Too-low shadow resolution:</strong> Blocky shadows ruin otherwise good render</li>
                             <li><strong>Not re-baking after changes:</strong> Light probes need updating when scene changes</li>
@@ -3978,7 +3977,7 @@
                         <p><strong>Make sure you can:</strong></p>
                         <ul>
                             <li>Switch between Eevee and Cycles</li>
-                            <li>Configure basic Eevee settings (samples, AO, SSR, Bloom)</li>
+                            <li>Configure basic EEVEE Next settings (samples, Fast GI, Raytracing, Compositor Glare)</li>
                             <li>Add and bake light probes</li>
                             <li>Set up transparent materials in Eevee</li>
                             <li>Understand the difference between screen space and ray tracing</li>
