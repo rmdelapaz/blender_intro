@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680"
+     role="img" aria-labelledby="rpf-title rpf-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="#222">
+  <title id="rpf-title">Cycles render process stages</title>
+  <desc id="rpf-desc">A vertical flowchart of what Cycles does after you press F12. Stages run top to bottom: start render, load scene data, build the BVH acceleration structure, divide the image into tiles, then a sampling loop that shoots and averages many samples per pixel until enough samples are reached, then optional denoising, then the final image. A side note shows the sampling loop repeats per tile.</desc>
+
+  <!-- Top brand accent -->
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+  <!-- Heading block -->
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">The Cycles Render Process</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">What happens between pressing F12 and the final image (Blender 5.1.1)</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <!-- flow connectors group -->
+  <g stroke="currentColor" stroke-width="1.5" opacity="0.3" stroke-linecap="round" fill="none">
+    <line x1="280" y1="170" x2="280" y2="188"/>
+    <line x1="280" y1="232" x2="280" y2="250"/>
+    <line x1="280" y1="294" x2="280" y2="312"/>
+    <line x1="280" y1="356" x2="280" y2="374"/>
+    <line x1="280" y1="436" x2="280" y2="454"/>
+    <line x1="280" y1="528" x2="280" y2="546"/>
+  </g>
+  <!-- arrowheads -->
+  <g fill="currentColor" opacity="0.45">
+    <polygon points="280,190 275,180 285,180"/>
+    <polygon points="280,252 275,242 285,242"/>
+    <polygon points="280,314 275,304 285,304"/>
+    <polygon points="280,376 275,366 285,366"/>
+    <polygon points="280,456 275,446 285,446"/>
+    <polygon points="280,548 275,538 285,538"/>
+  </g>
+
+  <!-- Stage 1: Start Render -->
+  <rect x="170" y="138" width="220" height="32" rx="16" fill="#FF6B00"/>
+  <text x="280" y="159" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">Press F12 · Start Render</text>
+
+  <!-- Stage 2: Load Scene -->
+  <rect x="160" y="190" width="240" height="42" rx="6" fill="#4A9EFF" fill-opacity="0.15" stroke="#4A9EFF" stroke-opacity="0.5"/>
+  <text x="280" y="210" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Load Scene Data</text>
+  <text x="280" y="226" text-anchor="middle" font-size="12" fill="currentColor" opacity="0.6">Geometry, materials, textures</text>
+
+  <!-- Stage 3: Build BVH -->
+  <rect x="160" y="252" width="240" height="42" rx="6" fill="#4A9EFF" fill-opacity="0.15" stroke="#4A9EFF" stroke-opacity="0.5"/>
+  <text x="280" y="272" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Build BVH</text>
+  <text x="280" y="288" text-anchor="middle" font-size="12" fill="currentColor" opacity="0.6">Acceleration structure for ray hits</text>
+
+  <!-- Stage 4: Divide into Tiles -->
+  <rect x="160" y="314" width="240" height="42" rx="6" fill="#4A9EFF" fill-opacity="0.15" stroke="#4A9EFF" stroke-opacity="0.5"/>
+  <text x="280" y="334" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Divide Image into Tiles</text>
+  <text x="280" y="350" text-anchor="middle" font-size="12" fill="currentColor" opacity="0.6">Rendered in parallel</text>
+
+  <!-- ===== Sampling loop block ===== -->
+  <rect x="120" y="374" width="320" height="154" rx="10" fill="#B47EE8" fill-opacity="0.08" stroke="#B47EE8" stroke-opacity="0.4" stroke-dasharray="5 4"/>
+  <text x="280" y="396" text-anchor="middle" font-size="13" font-weight="700" fill="#B47EE8">Per-pixel sampling loop</text>
+
+  <!-- Sample step -->
+  <rect x="160" y="406" width="240" height="40" rx="6" fill="#B47EE8" fill-opacity="0.18" stroke="#B47EE8" stroke-opacity="0.55"/>
+  <text x="280" y="426" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Shoot Sample, Bounce, Gather</text>
+  <text x="280" y="440" text-anchor="middle" font-size="12" fill="currentColor" opacity="0.6">Average samples into pixel color</text>
+
+  <!-- Decision diamond -->
+  <polygon points="280,456 360,492 280,528 200,492" fill="#F5C242" fill-opacity="0.2" stroke="#F5C242" stroke-opacity="0.7"/>
+  <text x="280" y="488" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">Enough</text>
+  <text x="280" y="504" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">samples?</text>
+
+  <!-- loop-back arrow: No -> back up to sample step -->
+  <g stroke="#B47EE8" stroke-width="1.5" opacity="0.7" fill="none" stroke-linecap="round">
+    <path d="M 200 492 L 140 492 L 140 426 L 158 426"/>
+  </g>
+  <polygon points="160,426 150,421 150,431" fill="#B47EE8" opacity="0.7"/>
+  <text x="140" y="462" text-anchor="middle" font-size="12" font-weight="700" fill="#B47EE8">No</text>
+
+  <!-- Yes label on the downward exit -->
+  <text x="296" y="542" font-size="12" font-weight="700" fill="#4ADE80">Yes</text>
+
+  <!-- Stage: Denoise (optional) -->
+  <rect x="160" y="548" width="240" height="42" rx="6" fill="#4ADE80" fill-opacity="0.15" stroke="#4ADE80" stroke-opacity="0.55"/>
+  <text x="280" y="568" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Apply Denoising</text>
+  <text x="280" y="584" text-anchor="middle" font-size="12" fill="currentColor" opacity="0.6">Optional · OpenImageDenoise or OptiX</text>
+
+  <!-- down to final -->
+  <g stroke="currentColor" stroke-width="1.5" opacity="0.3" stroke-linecap="round">
+    <line x1="280" y1="590" x2="280" y2="606"/>
+  </g>
+  <polygon points="280,608 275,598 285,598" fill="currentColor" opacity="0.45"/>
+
+  <!-- Final image -->
+  <rect x="170" y="608" width="220" height="32" rx="16" fill="#FF6B00"/>
+  <text x="280" y="629" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">Final Image</text>
+
+  <!-- ===== Side note: per-tile ===== -->
+  <rect x="470" y="374" width="290" height="154" rx="10" fill="none" stroke="currentColor" stroke-opacity="0.15"/>
+  <rect x="470" y="374" width="4" height="154" fill="#FF6B00"/>
+  <text x="490" y="400" font-size="14" font-weight="600" fill="currentColor">Loop runs per tile</text>
+  <text x="490" y="424" font-size="13" fill="currentColor" opacity="0.7">Each tile completes its own</text>
+  <text x="490" y="442" font-size="13" fill="currentColor" opacity="0.7">sampling loop, then the next</text>
+  <text x="490" y="460" font-size="13" fill="currentColor" opacity="0.7">tile starts. Tiles render in</text>
+  <text x="490" y="478" font-size="13" fill="currentColor" opacity="0.7">parallel across CPU or GPU.</text>
+  <text x="490" y="504" font-size="13" fill="currentColor" opacity="0.6">Progressive preview cleans up</text>
+  <text x="490" y="522" font-size="13" fill="currentColor" opacity="0.6">as more samples accumulate.</text>
+
+  <!-- Footer tip -->
+  <rect x="40" y="641" width="720" height="34" fill="none"/>
+  <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="663" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> This is the same loop the diagram above shows, drawn as discrete stages from F12 to final image.</text>
+</svg>

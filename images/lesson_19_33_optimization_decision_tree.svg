@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680"
+     role="img" aria-labelledby="odt-title odt-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="#222">
+  <title id="odt-title">Cycles optimization decision tree</title>
+  <desc id="odt-desc">A top-down decision flow that starts from render too slow. At each step you ask a question and apply a fix if the answer is no: using the GPU, denoising on, samples at 256 to 512, testing at lower resolution, bounces reduced, caustics disabled when not visible, and geometry instanced. Each yes moves down to the next check; the end state is a render that is as fast as it can be.</desc>
+
+  <!-- Top brand accent -->
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+  <!-- Heading block -->
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">Render Too Slow? Work Down the List</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Check each in order · apply the fix if the answer is no · the first few solve most cases</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <!-- Legend -->
+  <g font-size="12">
+    <rect x="438" y="124" width="14" height="14" rx="3" fill="#FF6B00" opacity="0.85"/>
+    <text x="458" y="135" fill="currentColor" opacity="0.75">Question</text>
+    <rect x="538" y="124" width="14" height="14" rx="3" fill="#4ADE80" opacity="0.85"/>
+    <text x="558" y="135" fill="currentColor" opacity="0.75">Fix to apply</text>
+    <text x="648" y="135" fill="#4A9EFF" font-weight="700">Yes goes down</text>
+  </g>
+
+  <!-- Start pill -->
+  <rect x="300" y="150" width="200" height="40" rx="20" fill="#E63946"/>
+  <text x="400" y="175" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">Render too slow?</text>
+
+  <!-- vertical trunk + step rows. Each row: question box (left), fix box (right), yes-arrow down -->
+  <!-- geometry: question x=70 w=330 ; fix x=430 w=300 ; rows at y 210,272,334,396,458,520 ; row h=46 -->
+  <g stroke="#4A9EFF" stroke-width="2" opacity="0.6" stroke-linecap="round">
+    <line x1="400" y1="190" x2="400" y2="210"/>
+    <line x1="235" y1="256" x2="235" y2="272"/>
+    <line x1="235" y1="318" x2="235" y2="334"/>
+    <line x1="235" y1="380" x2="235" y2="396"/>
+    <line x1="235" y1="442" x2="235" y2="458"/>
+    <line x1="235" y1="504" x2="235" y2="520"/>
+    <line x1="235" y1="566" x2="235" y2="582"/>
+  </g>
+
+  <!-- Row 1: GPU -->
+  <rect x="70" y="210" width="330" height="46" rx="8" fill="#FF6B00" opacity="0.12" stroke="#FF6B00" stroke-opacity="0.45"/>
+  <text x="86" y="231" font-size="14" font-weight="600" fill="currentColor">1. Using the GPU?</text>
+  <text x="86" y="249" font-size="12" fill="currentColor" opacity="0.65">Render Properties, Device set to GPU Compute</text>
+  <rect x="430" y="210" width="300" height="46" rx="8" fill="#4ADE80" opacity="0.12" stroke="#4ADE80" stroke-opacity="0.5"/>
+  <text x="446" y="231" font-size="13" font-weight="600" fill="currentColor">No: switch CPU to GPU Compute</text>
+  <text x="446" y="249" font-size="12" fill="currentColor" opacity="0.65">3 to 10x faster on most scenes</text>
+  <line x1="400" y1="233" x2="430" y2="233" stroke="#4ADE80" stroke-width="2" opacity="0.5"/>
+
+  <!-- Row 2: Denoising -->
+  <rect x="70" y="272" width="330" height="46" rx="8" fill="#FF6B00" opacity="0.12" stroke="#FF6B00" stroke-opacity="0.45"/>
+  <text x="86" y="293" font-size="14" font-weight="600" fill="currentColor">2. Denoising on?</text>
+  <text x="86" y="311" font-size="12" fill="currentColor" opacity="0.65">Sampling, Denoise: OpenImageDenoise or OptiX</text>
+  <rect x="430" y="272" width="300" height="46" rx="8" fill="#4ADE80" opacity="0.12" stroke="#4ADE80" stroke-opacity="0.5"/>
+  <text x="446" y="293" font-size="13" font-weight="600" fill="currentColor">No: enable it (biggest single win)</text>
+  <text x="446" y="311" font-size="12" fill="currentColor" opacity="0.65">256 + denoise rivals 2048 without</text>
+  <line x1="400" y1="295" x2="430" y2="295" stroke="#4ADE80" stroke-width="2" opacity="0.5"/>
+
+  <!-- Row 3: Samples -->
+  <rect x="70" y="334" width="330" height="46" rx="8" fill="#FF6B00" opacity="0.12" stroke="#FF6B00" stroke-opacity="0.45"/>
+  <text x="86" y="355" font-size="14" font-weight="600" fill="currentColor">3. Samples at 256 to 512?</text>
+  <text x="86" y="373" font-size="12" fill="currentColor" opacity="0.65">Plus Adaptive Sampling, threshold 0.01</text>
+  <rect x="430" y="334" width="300" height="46" rx="8" fill="#4ADE80" opacity="0.12" stroke="#4ADE80" stroke-opacity="0.5"/>
+  <text x="446" y="355" font-size="13" font-weight="600" fill="currentColor">No: drop from thousands to ~512</text>
+  <text x="446" y="373" font-size="12" fill="currentColor" opacity="0.65">Enable Adaptive Sampling too</text>
+  <line x1="400" y1="357" x2="430" y2="357" stroke="#4ADE80" stroke-width="2" opacity="0.5"/>
+
+  <!-- Row 4: Resolution -->
+  <rect x="70" y="396" width="330" height="46" rx="8" fill="#FF6B00" opacity="0.12" stroke="#FF6B00" stroke-opacity="0.45"/>
+  <text x="86" y="417" font-size="14" font-weight="600" fill="currentColor">4. Testing at lower resolution?</text>
+  <text x="86" y="435" font-size="12" fill="currentColor" opacity="0.65">Output, Resolution percentage slider</text>
+  <rect x="430" y="396" width="300" height="46" rx="8" fill="#4ADE80" opacity="0.12" stroke="#4ADE80" stroke-opacity="0.5"/>
+  <text x="446" y="417" font-size="13" font-weight="600" fill="currentColor">No: test at 50 percent (4x faster)</text>
+  <text x="446" y="435" font-size="12" fill="currentColor" opacity="0.65">Full res only for the final render</text>
+  <line x1="400" y1="419" x2="430" y2="419" stroke="#4ADE80" stroke-width="2" opacity="0.5"/>
+
+  <!-- Row 5: Bounces / caustics -->
+  <rect x="70" y="458" width="330" height="46" rx="8" fill="#FF6B00" opacity="0.12" stroke="#FF6B00" stroke-opacity="0.45"/>
+  <text x="86" y="479" font-size="14" font-weight="600" fill="currentColor">5. Bounces and caustics trimmed?</text>
+  <text x="86" y="497" font-size="12" fill="currentColor" opacity="0.65">Light Paths section</text>
+  <rect x="430" y="458" width="300" height="46" rx="8" fill="#4ADE80" opacity="0.12" stroke="#4ADE80" stroke-opacity="0.5"/>
+  <text x="446" y="479" font-size="13" font-weight="600" fill="currentColor">No: Max Bounces ~8, caustics off</text>
+  <text x="446" y="497" font-size="12" fill="currentColor" opacity="0.65">Uncheck caustics if none are visible</text>
+  <line x1="400" y1="481" x2="430" y2="481" stroke="#4ADE80" stroke-width="2" opacity="0.5"/>
+
+  <!-- Row 6: Geometry -->
+  <rect x="70" y="520" width="330" height="46" rx="8" fill="#FF6B00" opacity="0.12" stroke="#FF6B00" stroke-opacity="0.45"/>
+  <text x="86" y="541" font-size="14" font-weight="600" fill="currentColor">6. Geometry and textures lean?</text>
+  <text x="86" y="559" font-size="12" fill="currentColor" opacity="0.65">Instances, sensible texture sizes</text>
+  <rect x="430" y="520" width="300" height="46" rx="8" fill="#4ADE80" opacity="0.12" stroke="#4ADE80" stroke-opacity="0.5"/>
+  <text x="446" y="541" font-size="13" font-weight="600" fill="currentColor">No: instance repeats, shrink textures</text>
+  <text x="446" y="559" font-size="12" fill="currentColor" opacity="0.65">Alt+D linked copies share memory</text>
+  <line x1="400" y1="543" x2="430" y2="543" stroke="#4ADE80" stroke-width="2" opacity="0.5"/>
+
+  <!-- End pill -->
+  <rect x="280" y="582" width="240" height="40" rx="20" fill="#4ADE80"/>
+  <text x="400" y="607" text-anchor="middle" font-size="15" font-weight="700" fill="#0f1a14">As fast as it gets</text>
+
+  <!-- Footer tip (Variant B left rail), dense 680 position -->
+  <rect x="40" y="641" width="720" height="34" rx="0" fill="none"/>
+  <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="663" font-size="13" fill="currentColor">
+    <tspan font-weight="700" fill="#FF6B00">Tip:</tspan> The first three checks (GPU, denoise, samples) solve roughly 80 percent of slow renders on their own.
+  </text>
+</svg>

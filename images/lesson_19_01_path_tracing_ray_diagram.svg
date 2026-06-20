@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560"
+     role="img" aria-labelledby="ptr-title ptr-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="#222">
+  <title id="ptr-title">Path tracing ray diagram</title>
+  <desc id="ptr-desc">A camera on the left fires sample rays into a simple room. Each ray bounces off surfaces, numbered bounce 1 through bounce 3, until it reaches the light source on the ceiling. The path the ray gathers light along becomes the pixel color.</desc>
+
+  <!-- Top brand accent -->
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+  <!-- Heading block -->
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">Path Tracing</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Rays traced backward from the camera, bouncing to a light source</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <!-- Room box (simple interior) -->
+  <g stroke="currentColor" stroke-opacity="0.3" stroke-width="1.5" fill="none">
+    <!-- floor -->
+    <line x1="170" y1="470" x2="720" y2="470"/>
+    <!-- back wall -->
+    <line x1="170" y1="180" x2="170" y2="470"/>
+    <!-- ceiling -->
+    <line x1="170" y1="180" x2="720" y2="180"/>
+  </g>
+  <text x="184" y="462" font-size="13" fill="currentColor" opacity="0.45" font-style="italic">floor</text>
+  <text x="184" y="200" font-size="13" fill="currentColor" opacity="0.45" font-style="italic">wall</text>
+
+  <!-- Light source on ceiling -->
+  <rect x="470" y="172" width="120" height="10" rx="3" fill="#F5C242"/>
+  <ellipse cx="530" cy="200" rx="120" ry="40" fill="#F5C242" opacity="0.12"/>
+  <text x="530" y="160" font-size="14" font-weight="600" fill="#F5C242" text-anchor="middle">Light Source</text>
+
+  <!-- Camera (left) -->
+  <g>
+    <rect x="56" y="300" width="58" height="42" rx="6" fill="#FF6B00"/>
+    <polygon points="114,312 138,300 138,342 114,330" fill="#FF6B00"/>
+    <circle cx="85" cy="321" r="11" fill="#0f1a14" opacity="0.5"/>
+    <text x="85" y="372" font-size="14" font-weight="600" fill="currentColor" text-anchor="middle">Camera</text>
+  </g>
+
+  <!-- Diffuse object (matte box on floor) -->
+  <rect x="300" y="400" width="90" height="70" fill="#4ADE80" opacity="0.18" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="345" y="494" font-size="13" fill="currentColor" opacity="0.6" text-anchor="middle">Diffuse surface</text>
+
+  <!-- Glossy object (sphere) -->
+  <circle cx="600" cy="410" r="46" fill="#4A9EFF" opacity="0.18" stroke="#4A9EFF" stroke-width="1.5"/>
+  <text x="600" y="476" font-size="13" fill="currentColor" opacity="0.6" text-anchor="middle">Glossy surface</text>
+
+  <!-- Ray path: camera -> glossy sphere (b1) -> diffuse box (b2) -> light (b3) -->
+  <g stroke="#4A9EFF" stroke-width="3" fill="none" stroke-linecap="round">
+    <line x1="138" y1="318" x2="558" y2="396"/>
+    <line x1="558" y1="396" x2="372" y2="406"/>
+    <line x1="372" y1="406" x2="512" y2="196"/>
+  </g>
+  <!-- arrowheads along the path -->
+  <g fill="#4A9EFF">
+    <polygon points="558,396 543,392 549,405"/>
+    <polygon points="372,406 387,400 386,413"/>
+    <polygon points="512,196 503,208 517,210"/>
+  </g>
+
+  <!-- Bounce badges -->
+  <g>
+    <circle cx="558" cy="396" r="13" fill="#FF6B00"/>
+    <text x="558" y="401" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+    <circle cx="372" cy="406" r="13" fill="#FF6B00"/>
+    <text x="372" y="411" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+    <circle cx="512" cy="196" r="13" fill="#FF6B00"/>
+    <text x="512" y="201" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+  </g>
+
+  <!-- faint extra sample rays from camera to suggest "many samples" -->
+  <g stroke="#4A9EFF" stroke-width="1.5" opacity="0.28" fill="none" stroke-linecap="round">
+    <line x1="138" y1="312" x2="470" y2="300"/>
+    <line x1="138" y1="326" x2="320" y2="430"/>
+    <line x1="138" y1="320" x2="630" y2="380"/>
+  </g>
+
+  <!-- Legend -->
+  <g font-size="13" fill="currentColor">
+    <circle cx="54" cy="430" r="6" fill="#FF6B00"/>
+    <text x="68" y="434" opacity="0.7">Numbered bounce point</text>
+    <line x1="48" y1="458" x2="60" y2="458" stroke="#4A9EFF" stroke-width="3" stroke-linecap="round"/>
+    <text x="68" y="462" opacity="0.7">Sampled light path</text>
+  </g>
+
+  <!-- Footer tip (Variant B, left rail) -->
+  <rect x="40" y="506" width="720" height="34" fill="none"/>
+  <rect x="40" y="506" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="528" font-size="13" fill="currentColor">
+    <tspan font-weight="700" fill="#FF6B00">Tip:</tspan> More sample rays per pixel average out to a cleaner, more accurate image.
+  </text>
+</svg>

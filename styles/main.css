@@ -31,6 +31,8 @@ footer, header, hgroup, menu, nav, section {
     display: block;
 }
 
+*, *::before, *::after { box-sizing: border-box; }
+
 body { line-height: 1; }
 ol, ul { list-style: none; }
 blockquote, q { quotes: none; }
@@ -317,6 +319,12 @@ img {
     margin: var(--spacing-md) auto;
     border-radius: 8px;
 }
+
+/* Inline diagram SVGs scale down to fit narrow viewports.
+   Scoped with :not([style*="position"]) so absolutely-positioned
+   figure-overlay SVGs (which sit 1:1 on their PNG and set their own
+   width/height inline) are never affected. */
+svg:not([style*="position"]) { max-width: 100%; }
 
 figure { margin: var(--spacing-lg) 0; text-align: center; }
 figcaption { margin-top: var(--spacing-sm); font-size: 0.9rem; color: var(--text-light); }
