@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560"
+     role="img" aria-labelledby="do-title do-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="#222">
+  <title id="do-title">Diagnosing overshoot: curve that passes the target versus a clean landing</title>
+  <desc id="do-desc">A Graph Editor diagnostic comparison between the same two keyframes of a rotation curve that ends at the target value. The problem curve rises past the target value, forms a small hump above it, then settles back down, which makes the motion look like it wobbles past where it should stop. The fixed curve eases up and lands exactly on the target with no hump. The overshooting curve is drawn in warning red and the clean curve in green.</desc>
+
+  <!-- Top brand accent -->
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+  <!-- Heading block -->
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">DIAGNOSIS &#183; OVERSHOOT</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Symptom: the value shoots past its target and settles back &#183; Cause: handles reach too far past the end key</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <!-- Gridlines -->
+  <g stroke="currentColor" stroke-width="1" opacity="0.15">
+    <line x1="110" y1="170" x2="110" y2="460"/>
+    <line x1="262" y1="170" x2="262" y2="460"/>
+    <line x1="415" y1="170" x2="415" y2="460"/>
+    <line x1="567" y1="170" x2="567" y2="460"/>
+    <line x1="720" y1="170" x2="720" y2="460"/>
+    <line x1="110" y1="460" x2="720" y2="460"/>
+    <line x1="110" y1="170" x2="720" y2="170"/>
+  </g>
+
+  <!-- Axes -->
+  <g stroke="currentColor" stroke-width="1.5" opacity="0.4" stroke-linecap="round">
+    <line x1="110" y1="170" x2="110" y2="460"/>
+    <line x1="110" y1="460" x2="720" y2="460"/>
+  </g>
+
+  <!-- Target value reference line (at the end-key value, y=210) -->
+  <line x1="110" y1="210" x2="720" y2="210" stroke="#FF6B00" stroke-width="1.5" opacity="0.5" stroke-dasharray="6 5"/>
+  <text x="120" y="202" font-size="12" fill="#FF6B00" opacity="0.9">target value (90&#176;)</text>
+
+  <!-- Axis labels + ticks -->
+  <text x="110" y="478" font-size="13" fill="currentColor" opacity="0.6" text-anchor="middle">1</text>
+  <text x="415" y="478" font-size="13" fill="currentColor" opacity="0.6" text-anchor="middle">12</text>
+  <text x="720" y="478" font-size="13" fill="currentColor" opacity="0.6" text-anchor="middle">24</text>
+  <text x="415" y="500" font-size="13" fill="currentColor" opacity="0.65" text-anchor="middle">Frame (time)</text>
+  <text x="98" y="464" font-size="13" fill="currentColor" opacity="0.6" text-anchor="end">0&#176;</text>
+  <text x="98" y="214" font-size="13" fill="currentColor" opacity="0.6" text-anchor="end">90&#176;</text>
+  <text x="78" y="315" font-size="13" fill="currentColor" opacity="0.65" text-anchor="middle" transform="rotate(-90 78 315)">Rotation</text>
+
+  <!-- Shared keyframes: start(110,460) end(720,210). -->
+
+  <!-- PROBLEM: overshoot curve (warning red), dashed. Rises, humps ABOVE the target near the end, then settles back to it. -->
+  <path d="M 110 460 C 340 460 470 176 560 176 C 620 176 660 210 720 210"
+        fill="none" stroke="#E63946" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 9"/>
+
+  <!-- FIXED: clean landing curve (green), solid. Eases up and lands exactly on the target, no hump. -->
+  <path d="M 110 460 C 360 460 470 210 720 210"
+        fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Flat end handle arm (green) showing the clean clamp at the target -->
+  <g stroke="#4ADE80" stroke-width="1.5" opacity="0.55" stroke-linecap="round">
+    <line x1="720" y1="210" x2="640" y2="210"/>
+  </g>
+  <rect x="634" y="204" width="12" height="12" fill="#4ADE80"/>
+
+  <!-- Shared control-point diamonds (orange, on top): start + end -->
+  <g fill="#FF6B00">
+    <path d="M 110 449 L 121 460 L 110 471 L 99 460 Z"/>
+    <path d="M 720 199 L 731 210 L 720 221 L 709 210 Z"/>
+  </g>
+
+  <!-- Highlight ring around the overshoot hump (warning red) -->
+  <ellipse cx="560" cy="184" rx="58" ry="30" fill="none" stroke="#E63946" stroke-width="2" opacity="0.7" stroke-dasharray="4 4"/>
+
+  <!-- Problem badge / annotation (warning red) -->
+  <line x1="560" y1="214" x2="430" y2="276" stroke="#E63946" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+  <rect x="180" y="276" width="262" height="48" rx="6" fill="#E63946"/>
+  <text x="194" y="297" font-size="14" font-weight="700" fill="#ffffff">Problem: passes the target</text>
+  <text x="194" y="315" font-size="13" fill="#ffffff" opacity="0.92">curve humps above 90&#176; then settles</text>
+
+  <!-- Fix badge / annotation (green) -->
+  <line x1="610" y1="252" x2="690" y2="216" stroke="#4ADE80" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+  <rect x="430" y="356" width="258" height="48" rx="6" fill="#4ADE80"/>
+  <text x="444" y="377" font-size="14" font-weight="700" fill="#0f1a14">Fix: Auto Clamped handles</text>
+  <text x="444" y="395" font-size="13" fill="#0f1a14" opacity="0.85">lands clean, no overshoot hump</text>
+
+  <!-- Footer tip -->
+  <rect x="40" y="506" width="720" height="34" fill="none"/>
+  <rect x="40" y="506" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="528" font-size="13" fill="currentColor">
+    <tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Set the last key to V &#8250; Auto Clamped, or shorten its handles, so the curve arrives without sailing past.
+  </text>
+</svg>

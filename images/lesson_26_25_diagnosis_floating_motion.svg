@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560"
+     role="img" aria-labelledby="df-title df-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="#222">
+  <title id="df-title">Diagnosing floating motion: symmetrical bounce versus gravity-correct bounce</title>
+  <desc id="df-desc">A Graph Editor diagnostic comparison of a bouncing ball Z-location curve between the same keyframes. The problem curve is perfectly symmetrical, rising and falling at the same rate, which makes the ball appear to float with no sense of gravity. The fixed curve is asymmetric, with a steeper fast fall and a gentler slower rise, which reads as realistic weight. The symmetrical curve is drawn in warning red and the gravity-correct curve in green.</desc>
+
+  <!-- Top brand accent -->
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+  <!-- Heading block -->
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">DIAGNOSIS &#183; FLOATING MOTION</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Symptom: the ball drifts without weight &#183; Cause: it rises and falls at the same rate</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <!-- Gridlines -->
+  <g stroke="currentColor" stroke-width="1" opacity="0.15">
+    <line x1="110" y1="170" x2="110" y2="460"/>
+    <line x1="262" y1="170" x2="262" y2="460"/>
+    <line x1="415" y1="170" x2="415" y2="460"/>
+    <line x1="567" y1="170" x2="567" y2="460"/>
+    <line x1="720" y1="170" x2="720" y2="460"/>
+    <line x1="110" y1="460" x2="720" y2="460"/>
+    <line x1="110" y1="170" x2="720" y2="170"/>
+  </g>
+
+  <!-- Axes -->
+  <g stroke="currentColor" stroke-width="1.5" opacity="0.4" stroke-linecap="round">
+    <line x1="110" y1="170" x2="110" y2="460"/>
+    <line x1="110" y1="460" x2="720" y2="460"/>
+  </g>
+
+  <!-- Axis labels + ticks -->
+  <text x="110" y="478" font-size="13" fill="currentColor" opacity="0.6" text-anchor="middle">1</text>
+  <text x="415" y="478" font-size="13" fill="currentColor" opacity="0.6" text-anchor="middle">12</text>
+  <text x="720" y="478" font-size="13" fill="currentColor" opacity="0.6" text-anchor="middle">24</text>
+  <text x="415" y="500" font-size="13" fill="currentColor" opacity="0.65" text-anchor="middle">Frame (time)</text>
+  <text x="98" y="464" font-size="13" fill="currentColor" opacity="0.6" text-anchor="end">0</text>
+  <text x="98" y="174" font-size="13" fill="currentColor" opacity="0.6" text-anchor="end">5</text>
+  <text x="78" y="315" font-size="13" fill="currentColor" opacity="0.65" text-anchor="middle" transform="rotate(-90 78 315)">Height (Z)</text>
+
+  <!-- Shared keyframes: apex(110,170) impact(415,460) apex2(720,222). -->
+
+  <!-- PROBLEM: symmetrical arc (warning red), dashed to read as "wrong". -->
+  <!-- Clean mirror parabola: equal, gentle ease on BOTH the fall and the rise. -->
+  <path d="M 110 170 C 200 250 320 460 415 460 C 510 460 630 250 720 222"
+        fill="none" stroke="#E63946" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 9"/>
+
+  <!-- FIXED: gravity-correct arc (green), solid. -->
+  <!-- Fast fall: short hang at the top, then plunges late into the impact (steep approach). -->
+  <!-- Slow rise: leaves the impact briskly but eases into a long hang near the apex. -->
+  <path d="M 110 170 C 160 182 320 270 415 460 C 500 290 560 226 720 222"
+        fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Shared control-point diamonds (orange, on top): apex, impact, apex2 -->
+  <g fill="#FF6B00">
+    <path d="M 110 159 L 121 170 L 110 181 L 99 170 Z"/>
+    <path d="M 415 449 L 426 460 L 415 471 L 404 460 Z"/>
+    <path d="M 720 211 L 731 222 L 720 233 L 709 222 Z"/>
+  </g>
+
+  <!-- Fall annotation (green, steep late-descent side) -->
+  <line x1="300" y1="394" x2="352" y2="400" stroke="#4ADE80" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+  <rect x="138" y="376" width="162" height="40" rx="6" fill="#4ADE80"/>
+  <text x="152" y="394" font-size="13" font-weight="700" fill="#0f1a14">Fall: steep</text>
+  <text x="152" y="410" font-size="12" fill="#0f1a14" opacity="0.85">gravity pulls down fast</text>
+
+  <!-- Rise annotation (green, gentle ease into apex) -->
+  <line x1="600" y1="248" x2="640" y2="232" stroke="#4ADE80" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+  <rect x="560" y="252" width="152" height="40" rx="6" fill="#4ADE80"/>
+  <text x="574" y="270" font-size="13" font-weight="700" fill="#0f1a14">Rise: gentle</text>
+  <text x="574" y="286" font-size="12" fill="#0f1a14" opacity="0.85">eases into the hang</text>
+
+  <!-- Problem badge / annotation (warning red) -->
+  <line x1="300" y1="252" x2="262" y2="356" stroke="#E63946" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+  <rect x="262" y="204" width="298" height="48" rx="6" fill="#E63946"/>
+  <text x="276" y="225" font-size="14" font-weight="700" fill="#ffffff">Problem: same rate up and down</text>
+  <text x="276" y="243" font-size="13" fill="#ffffff" opacity="0.92">a mirror-image arc reads as weightless</text>
+
+  <!-- Footer tip -->
+  <rect x="40" y="506" width="720" height="34" fill="none"/>
+  <rect x="40" y="506" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="528" font-size="13" fill="currentColor">
+    <tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Real objects fall faster than they rise. Steepen the descent handles and ease the ascent for believable weight.
+  </text>
+</svg>
