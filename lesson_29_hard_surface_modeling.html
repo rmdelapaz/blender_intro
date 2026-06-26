@@ -13,18 +13,6 @@
     <title>Lesson 29: Hard Surface Modeling - Blender Mastery Course</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="icon" type="image/png" href="/favicon.png">
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ 
-            startOnLoad: true,
-            theme: 'default',
-            themeVariables: {
-                primaryColor: '#f0f0f0',
-                primaryTextColor: '#333',
-                primaryBorderColor: '#667eea'
-            }
-        });
-    </script>
 </head>
 <body>
     <div class="page-wrapper">
@@ -61,9 +49,9 @@
                 </header>
 
                 <!-- Learning Objectives -->
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 2rem;">
-                    <h2 style="color: white;">🎯 What You'll Learn</h2>
-                    <ul style="color: white;">
+                <div class="card" style="border: 2px solid currentColor; margin-bottom: 2rem;">
+                    <h2>🎯 What You'll Learn</h2>
+                    <ul>
                         <li><strong>Hard surface fundamentals:</strong> What makes hard surface modeling distinct from organic modeling</li>
                         <li><strong>Essential modifiers:</strong> Bevel, Array, Mirror, Solidify for hard surface work</li>
                         <li><strong>Boolean operations:</strong> Combining, cutting, and intersecting meshes</li>
@@ -72,8 +60,8 @@
                         <li><strong>Workflow optimization:</strong> Non-destructive modeling with modifier stacks</li>
                         <li><strong>Project:</strong> Create a mechanical object showcasing hard surface techniques</li>
                     </ul>
-                    <p style="color: white; margin-top: 1rem;"><strong>⏱️ Estimated time:</strong> 90-120 minutes</p>
-                    <p style="color: white;"><strong>🎨 Project:</strong> Build a detailed mechanical prop using hard surface techniques</p>
+                    <p style="margin-top: 1rem;"><strong>⏱️ Estimated time:</strong> 90-120 minutes</p>
+                    <p><strong>🎨 Project:</strong> Build a detailed mechanical prop using hard surface techniques</p>
                 </div>
 
                 <!-- Table of Contents (collapses to a floating button) -->
@@ -102,6 +90,105 @@
                     <h2>⚙️ What Is Hard Surface Modeling?</h2>
 
                     <p>Hard surface modeling is the art of creating objects with manufactured, geometric forms—vehicles, weapons, machinery, architecture, and technology. Unlike organic modeling (characters, creatures, nature), hard surface modeling emphasizes precision, clean edges, flat surfaces, and mechanical construction.</p>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_01_hard_surface_vs_organic.png" alt="Side-by-side comparison: a hard-surface paneled block with beveled edges, a raised front panel, a bolt row and a small greeble box on the left, versus a smooth organic blob of merged rounded forms on the right, on a dark studio background." loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1524 900" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+                                <!-- c1: hard surface vs organic labels -->
+                                <rect x="250" y="812" width="260" height="52" rx="7" fill="#FF6B00"/>
+                                <text x="380" y="848" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="700" fill="#ffffff">HARD SURFACE</text>
+                                <rect x="1028" y="812" width="224" height="52" rx="7" fill="#FF6B00"/>
+                                <text x="1140" y="848" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="700" fill="#ffffff">ORGANIC</text>
+                            </svg>
+                        </div>
+                        <figcaption>Two modeling philosophies. Hard surface (left) builds manufactured forms from clean panels, bevels and bolts; organic modeling (right) flows smooth, continuous volumes. This lesson is about the left.</figcaption>
+                    </figure>
+
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" role="img" aria-labelledby="hcTitle hcDesc" fill="none" style="max-width:100%;height:auto;color:currentColor">
+  <title id="hcTitle">Hard surface characteristics diagram</title>
+  <desc id="hcDesc">A mechanical container at three-quarter view with callouts pointing to beveled edges, panel separation, surface details, geometric precision, and flat surfaces.</desc>
+  <defs>
+    <marker id="hcArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <style>
+    .hc-stroke{stroke:currentColor;stroke-width:2;fill:none}
+    .hc-thin{stroke:currentColor;stroke-width:1;fill:none;opacity:.55}
+    .hc-fill{fill:currentColor;opacity:.06}
+    .hc-fill2{fill:currentColor;opacity:.12}
+    .hc-lead{stroke:currentColor;stroke-width:1.4;fill:none;opacity:.8}
+    .hc-label{font:600 15px system-ui,Arial,sans-serif;fill:currentColor}
+    .hc-sub{font:400 11.5px system-ui,Arial,sans-serif;fill:currentColor;opacity:.7}
+    .hc-dot{fill:currentColor}
+  </style>
+
+  <!-- container body (3/4 view) -->
+  <g transform="translate(330,150)">
+    <!-- front face -->
+    <path class="hc-fill2" d="M0,40 L150,40 L150,200 L0,200 Z"/>
+    <path class="hc-stroke" d="M0,40 L150,40 L150,200 L0,200 Z"/>
+    <!-- top face -->
+    <path class="hc-fill" d="M0,40 L60,0 L210,0 L150,40 Z"/>
+    <path class="hc-stroke" d="M0,40 L60,0 L210,0 L150,40 Z"/>
+    <!-- side face -->
+    <path class="hc-fill" d="M150,40 L210,0 L210,160 L150,200 Z"/>
+    <path class="hc-stroke" d="M150,40 L210,0 L210,160 L150,200 Z"/>
+    <!-- panel separation line (front) -->
+    <line class="hc-thin" x1="0" y1="120" x2="150" y2="120"/>
+    <line class="hc-thin" x1="150" y1="120" x2="210" y2="80"/>
+    <!-- inset panel (flat surface) -->
+    <rect class="hc-thin" x="22" y="58" width="106" height="46"/>
+    <!-- bolts / surface details -->
+    <circle class="hc-dot" cx="14" cy="52" r="3"/>
+    <circle class="hc-dot" cx="136" cy="52" r="3"/>
+    <circle class="hc-dot" cx="14" cy="188" r="3"/>
+    <circle class="hc-dot" cx="136" cy="188" r="3"/>
+    <!-- bevel highlight strip on top edge -->
+    <line class="hc-stroke" x1="0" y1="40" x2="150" y2="40" stroke-width="3"/>
+  </g>
+
+  <!-- Callout: Beveled edges (top-left) -->
+  <g>
+    <line class="hc-lead" x1="200" y1="110" x2="330" y2="190" marker-end="url(#hcArrow)"/>
+    <text class="hc-label" x="40" y="98">Beveled edges</text>
+    <text class="hc-sub" x="40" y="116">soft, light-catching corners</text>
+  </g>
+
+  <!-- Callout: Geometric precision (top-right) -->
+  <g>
+    <line class="hc-lead" x1="700" y1="100" x2="560" y2="160" marker-end="url(#hcArrow)"/>
+    <text class="hc-label" x="600" y="90" text-anchor="start">Geometric precision</text>
+    <text class="hc-sub" x="600" y="108" text-anchor="start">parallel lines, right angles</text>
+  </g>
+
+  <!-- Callout: Panel separation (left-mid) -->
+  <g>
+    <line class="hc-lead" x1="190" y1="300" x2="332" y2="270" marker-end="url(#hcArrow)"/>
+    <text class="hc-label" x="40" y="296">Panel separation</text>
+    <text class="hc-sub" x="40" y="314">recessed seams between plates</text>
+  </g>
+
+  <!-- Callout: Surface details (right-mid) -->
+  <g>
+    <line class="hc-lead" x1="720" y1="300" x2="470" y2="200" marker-end="url(#hcArrow)"/>
+    <text class="hc-label" x="600" y="296" text-anchor="start">Surface details</text>
+    <text class="hc-sub" x="600" y="314" text-anchor="start">bolts, screws, fasteners</text>
+  </g>
+
+  <!-- Callout: Flat surfaces (bottom) -->
+  <g>
+    <line class="hc-lead" x1="420" y1="470" x2="405" y2="312" marker-end="url(#hcArrow)"/>
+    <text class="hc-label" x="330" y="500">Flat surfaces</text>
+    <text class="hc-sub" x="330" y="518">planar faces, minimal curvature</text>
+  </g>
+
+  <text class="hc-sub" x="440" y="30" text-anchor="middle" style="font-size:13px;opacity:.85">What makes a model read as &#8220;hard surface&#8221;</text>
+</svg>
+                        <figcaption>The hard surface vocabulary: beveled edges, panel separation, surface details (bolts), geometric precision, and flat surfaces. These five traits are what make a model read as manufactured.</figcaption>
+                    </figure>
 
                     <h3>Defining Hard Surface</h3>
 
@@ -253,10 +340,10 @@
                         
                         <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
                             <thead>
-                                <tr style="background: #667eea; color: white;">
-                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Aspect</th>
-                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Hard Surface</th>
-                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Organic</th>
+                                <tr style="border-bottom: 2px solid currentColor;">
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid currentColor;">Aspect</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid currentColor;">Hard Surface</th>
+                                    <th style="padding: 0.75rem; text-align: left; border: 1px solid currentColor;">Organic</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -506,6 +593,107 @@
                         <p>This order matters! Each modifier affects the next.</p>
                     </div>
 
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 620" role="img" aria-labelledby="msTitle msDesc" fill="none" style="max-width:100%;height:auto;color:currentColor">
+  <title id="msTitle">Modifier stack visualization</title>
+  <desc id="msDesc">A vertical modifier stack ordered Mirror, Array, Boolean, Bevel, Subdivision Surface, with downward data-flow arrows and the resulting effect shown beside each step.</desc>
+  <defs>
+    <marker id="msFlow" viewBox="0 0 10 10" refX="5" refY="9" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L5,10 L10,0" fill="none" stroke="currentColor" stroke-width="2"/>
+    </marker>
+  </defs>
+  <style>
+    .ms-box{stroke:currentColor;stroke-width:2;fill:none;rx:8}
+    .ms-bar{fill:currentColor;opacity:.16}
+    .ms-flow{stroke:currentColor;stroke-width:2;fill:none}
+    .ms-name{font:700 16px system-ui,Arial,sans-serif;fill:currentColor}
+    .ms-note{font:400 12px system-ui,Arial,sans-serif;fill:currentColor;opacity:.7}
+    .ms-res{stroke:currentColor;stroke-width:1.6;fill:none;opacity:.85}
+    .ms-resfill{fill:currentColor;opacity:.08}
+    .ms-hd{font:600 13px system-ui,Arial,sans-serif;fill:currentColor;opacity:.85}
+    .ms-idx{font:700 13px system-ui,Arial,sans-serif;fill:currentColor;opacity:.55}
+  </style>
+
+  <text class="ms-hd" x="40" y="34">Modifier stack &#8212; top evaluates first, bottom last</text>
+  <text class="ms-hd" x="650" y="34" text-anchor="middle">Result</text>
+
+  <!-- Step generator -->
+  <!-- 1 MIRROR -->
+  <g transform="translate(40,56)">
+    <rect class="ms-box" x="0" y="0" width="360" height="78" rx="8"/>
+    <rect class="ms-bar" x="0" y="0" width="6" height="78"/>
+    <text class="ms-idx" x="22" y="30">1</text>
+    <text class="ms-name" x="44" y="33">MIRROR</text>
+    <text class="ms-note" x="44" y="56">Build one half, get symmetry free</text>
+    <!-- result: two halves -->
+    <g transform="translate(560,8)">
+      <rect class="ms-resfill" x="0" y="6" width="28" height="46"/><rect class="ms-res" x="0" y="6" width="28" height="46"/>
+      <rect class="ms-resfill" x="30" y="6" width="28" height="46"/><rect class="ms-res" x="30" y="6" width="28" height="46"/>
+      <line class="ms-res" x1="29" y1="0" x2="29" y2="58" stroke-dasharray="3 3"/>
+    </g>
+  </g>
+  <line class="ms-flow" x1="220" y1="134" x2="220" y2="160" marker-end="url(#msFlow)"/>
+
+  <!-- 2 ARRAY -->
+  <g transform="translate(40,162)">
+    <rect class="ms-box" x="0" y="0" width="360" height="78" rx="8"/>
+    <rect class="ms-bar" x="0" y="0" width="6" height="78"/>
+    <text class="ms-idx" x="22" y="30">2</text>
+    <text class="ms-name" x="44" y="33">ARRAY</text>
+    <text class="ms-note" x="44" y="56">Repeat the form into a pattern</text>
+    <g transform="translate(560,16)">
+      <rect class="ms-resfill" x="0" y="6" width="18" height="36"/><rect class="ms-res" x="0" y="6" width="18" height="36"/>
+      <rect class="ms-resfill" x="22" y="6" width="18" height="36"/><rect class="ms-res" x="22" y="6" width="18" height="36"/>
+      <rect class="ms-resfill" x="44" y="6" width="18" height="36"/><rect class="ms-res" x="44" y="6" width="18" height="36"/>
+    </g>
+  </g>
+  <line class="ms-flow" x1="220" y1="240" x2="220" y2="266" marker-end="url(#msFlow)"/>
+
+  <!-- 3 BOOLEAN -->
+  <g transform="translate(40,268)">
+    <rect class="ms-box" x="0" y="0" width="360" height="78" rx="8"/>
+    <rect class="ms-bar" x="0" y="0" width="6" height="78"/>
+    <text class="ms-idx" x="22" y="30">3</text>
+    <text class="ms-name" x="44" y="33">BOOLEAN</text>
+    <text class="ms-note" x="44" y="56">Cut holes, slots and panel lines</text>
+    <g transform="translate(560,8)">
+      <rect class="ms-resfill" x="0" y="6" width="58" height="46"/><rect class="ms-res" x="0" y="6" width="58" height="46"/>
+      <circle cx="22" cy="29" r="8" fill="currentColor"/>
+      <rect x="34" y="24" width="16" height="10" fill="currentColor"/>
+    </g>
+  </g>
+  <line class="ms-flow" x1="220" y1="346" x2="220" y2="372" marker-end="url(#msFlow)"/>
+
+  <!-- 4 BEVEL -->
+  <g transform="translate(40,374)">
+    <rect class="ms-box" x="0" y="0" width="360" height="78" rx="8"/>
+    <rect class="ms-bar" x="0" y="0" width="6" height="78"/>
+    <text class="ms-idx" x="22" y="30">4</text>
+    <text class="ms-name" x="44" y="33">BEVEL</text>
+    <text class="ms-note" x="44" y="56">Round edges so they catch light</text>
+    <g transform="translate(560,8)">
+      <path class="ms-resfill" d="M8,52 L8,16 Q8,8 16,8 L50,8 Q58,8 58,16 L58,52 Z"/>
+      <path class="ms-res" d="M8,52 L8,16 Q8,8 16,8 L50,8 Q58,8 58,16 L58,52 Z"/>
+    </g>
+  </g>
+  <line class="ms-flow" x1="220" y1="452" x2="220" y2="478" marker-end="url(#msFlow)"/>
+
+  <!-- 5 SUBDIVISION SURFACE -->
+  <g transform="translate(40,480)">
+    <rect class="ms-box" x="0" y="0" width="360" height="78" rx="8"/>
+    <rect class="ms-bar" x="0" y="0" width="6" height="78"/>
+    <text class="ms-idx" x="22" y="30">5</text>
+    <text class="ms-name" x="44" y="33">SUBDIVISION SURFACE</text>
+    <text class="ms-note" x="44" y="56">Final smoothing pass</text>
+    <g transform="translate(560,8)">
+      <path class="ms-resfill" d="M30,6 Q58,6 58,29 Q58,52 30,52 Q2,52 2,29 Q2,6 30,6 Z"/>
+      <path class="ms-res" d="M30,6 Q58,6 58,29 Q58,52 30,52 Q2,52 2,29 Q2,6 30,6 Z"/>
+    </g>
+  </g>
+</svg>
+                        <figcaption>A typical hard surface modifier stack evaluates top to bottom: Mirror builds symmetry, Array repeats the form, Boolean cuts openings, Bevel rounds the edges, and Subdivision Surface does the final smoothing. Order changes the result.</figcaption>
+                    </figure>
+
                     <h3>Bevel Modifier</h3>
 
                     <div class="card">
@@ -588,6 +776,50 @@
                         </ol>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_06_bevel_before_after.png" alt="Cube without bevel beside cube with bevel modifier applied" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 1644 900" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+      <g font-family="Arial, sans-serif" font-weight="700" text-anchor="middle">
+        <rect x="240" y="808" width="340" height="58" rx="8" fill="#FF6B00"/>
+        <text x="410" y="847" font-size="32" fill="#fff">WITHOUT BEVEL</text>
+        <rect x="1074" y="808" width="320" height="58" rx="8" fill="#FF6B00"/>
+        <text x="1234" y="847" font-size="32" fill="#fff">WITH BEVEL</text>
+        <rect x="1330" y="120" width="250" height="46" rx="8" fill="#FF6B00"/>
+        <text x="1455" y="151" font-size="24" fill="#fff">softened edges</text>
+      </g>
+                            </svg>
+                        </div>
+                        <figcaption>Bevel modifier comparison: sharp edges (left) catch light as a hard line, while beveled edges (right) read as machined metal.</figcaption>
+                    </figure>
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_07_bevel_settings.png" alt="Four cubes showing increasing bevel segments as a settings reference" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 2200 620" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+      <g font-family="Arial, sans-serif" text-anchor="middle">
+        <rect x="800" y="24" width="600" height="50" rx="8" fill="#FF6B00"/>
+        <text x="1100" y="60" font-size="30" font-weight="700" fill="#fff">BEVEL SETTINGS</text>
+        <g font-weight="700">
+          <rect x="120" y="510" width="310" height="46" rx="7" fill="#FF6B00"/>
+          <text x="275" y="542" font-size="26" fill="#fff">Amount</text>
+          <rect x="670" y="510" width="310" height="46" rx="7" fill="#FF6B00"/>
+          <text x="825" y="542" font-size="26" fill="#fff">Segments</text>
+          <rect x="1190" y="510" width="370" height="46" rx="7" fill="#FF6B00"/>
+          <text x="1375" y="542" font-size="26" fill="#fff">Limit Method</text>
+          <rect x="1780" y="510" width="290" height="46" rx="7" fill="#FF6B00"/>
+          <text x="1925" y="542" font-size="26" fill="#fff">Angle</text>
+        </g>
+        <g font-weight="400" fill="#fff">
+          <text x="275" y="586" font-size="20">bevel size</text>
+          <text x="825" y="586" font-size="20">smoothness</text>
+          <text x="1375" y="586" font-size="20">which edges</text>
+          <text x="1925" y="586" font-size="20">threshold&#176;</text>
+        </g>
+      </g>
+                            </svg>
+                        </div>
+                        <figcaption>Key Bevel settings &#8212; Amount controls size, Segments controls smoothness, Limit Method and Angle control which edges are affected.</figcaption>
+                    </figure>
                     <h3>Mirror Modifier</h3>
 
                     <div class="card">
@@ -667,6 +899,54 @@
                             <li><strong>Vertices not merging:</strong> Select verts, <code>M</code> → By Distance</li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_09_mirror_setup_guide.png" alt="Four-step mirror modifier setup sequence" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 2492 680" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+      <g font-family="Arial, sans-serif" text-anchor="middle" font-weight="700">
+        <rect x="152" y="596" width="320" height="50" rx="8" fill="#FF6B00"/>
+        <text x="312" y="631" font-size="26" fill="#fff">1 &#183; DELETE HALF</text>
+        <rect x="744" y="596" width="384" height="50" rx="8" fill="#FF6B00"/>
+        <text x="936" y="631" font-size="26" fill="#fff">2 &#183; ADD MIRROR</text>
+        <rect x="1352" y="596" width="416" height="50" rx="8" fill="#FF6B00"/>
+        <text x="1560" y="631" font-size="26" fill="#fff">3 &#183; ENABLE CLIPPING</text>
+        <rect x="2024" y="596" width="320" height="50" rx="8" fill="#FF6B00"/>
+        <text x="2184" y="631" font-size="26" fill="#fff">4 &#183; RESULT</text>
+      </g>
+                            </svg>
+                        </div>
+                        <figcaption>Mirror modifier setup &#8212; delete half, add the modifier, enable clipping to weld the seam, then model symmetrically.</figcaption>
+                    </figure>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_10_mirror_settings.png" alt="Mirror modifier settings reference showing axis plane and merge seam" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 1500 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+      <g font-family="Arial, sans-serif">
+        <rect x="450" y="40" width="600" height="56" rx="8" fill="#FF6B00"/>
+        <text x="750" y="79" font-size="32" font-weight="700" fill="#fff" text-anchor="middle">MIRROR SETTINGS</text>
+        <g font-weight="700" text-anchor="start">
+          <rect x="60" y="852" width="300" height="48" rx="7" fill="#FF6B00"/>
+          <text x="78" y="885" font-size="24" fill="#fff">Axis (X / Y / Z)</text>
+          <rect x="400" y="852" width="250" height="48" rx="7" fill="#FF6B00"/>
+          <text x="418" y="885" font-size="24" fill="#fff">Clipping</text>
+          <rect x="690" y="852" width="230" height="48" rx="7" fill="#FF6B00"/>
+          <text x="708" y="885" font-size="24" fill="#fff">Merge</text>
+          <rect x="960" y="852" width="220" height="48" rx="7" fill="#FF6B00"/>
+          <text x="978" y="885" font-size="24" fill="#fff">Bisect</text>
+        </g>
+        <g font-weight="400" fill="#fff" text-anchor="start" font-size="19">
+          <text x="78" y="932">mirror direction</text>
+          <text x="418" y="932">weld at center</text>
+          <text x="708" y="932">join verts</text>
+          <text x="978" y="932">cut at plane</text>
+        </g>
+      </g>
+                            </svg>
+                        </div>
+                        <figcaption>Mirror settings &#8212; Axis sets the mirror direction, Clipping and Merge weld the center seam, Bisect cuts geometry at the mirror plane.</figcaption>
+                    </figure>
 
                     <h3>Array Modifier</h3>
 
@@ -752,6 +1032,23 @@
                             <li><strong>Random variation:</strong> Array copies can be edited after applying</li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_11_array_examples.png" alt="Three array modifier examples: linear, circular, and 2D grid" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 2708 820" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+      <g font-family="Arial, sans-serif" text-anchor="middle" font-weight="700">
+        <rect x="266" y="730" width="370" height="56" rx="8" fill="#FF6B00"/>
+        <text x="451" y="769" font-size="30" fill="#fff">LINEAR ARRAY</text>
+        <rect x="1154" y="730" width="400" height="56" rx="8" fill="#FF6B00"/>
+        <text x="1354" y="769" font-size="30" fill="#fff">CIRCULAR ARRAY</text>
+        <rect x="2052" y="730" width="410" height="56" rx="8" fill="#FF6B00"/>
+        <text x="2257" y="769" font-size="30" fill="#fff">2D GRID ARRAY</text>
+      </g>
+                            </svg>
+                        </div>
+                        <figcaption>Array modifier types &#8212; linear (constant offset), circular (object offset with an Empty), and 2D grid (stacked X and Y arrays).</figcaption>
+                    </figure>
 
                     <h3>Solidify Modifier</h3>
 
@@ -908,10 +1205,10 @@
                         </ul>
                     </div>
 
-                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                        <h3 style="color: white;">⚙️ The Modifier Stack Recipe</h3>
-                        <p style="color: white;"><strong>Standard hard surface modifier order:</strong></p>
-                        <ol style="color: white;">
+                    <div class="card" style="border: 2px solid currentColor;">
+                        <h3>⚙️ The Modifier Stack Recipe</h3>
+                        <p><strong>Standard hard surface modifier order:</strong></p>
+                        <ol>
                             <li><strong>Mirror</strong> - Create symmetry first</li>
                             <li><strong>Array</strong> - Duplicate elements</li>
                             <li><strong>Solidify</strong> - Add thickness to surfaces</li>
@@ -919,8 +1216,37 @@
                             <li><strong>Bevel</strong> - Smooth edges</li>
                             <li><strong>Subdivision Surface</strong> - Final smoothing</li>
                         </ol>
-                        <p style="color: white; margin-top: 1rem;">This order ensures each modifier has the correct input and produces clean results.</p>
+                        <p style="margin-top: 1rem;">This order ensures each modifier has the correct input and produces clean results.</p>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_34_modifier_order_comparison.png" alt="Comparison of correct versus wrong modifier stack order" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+      <g font-family="Arial, sans-serif" text-anchor="middle">
+        <rect x="250" y="40" width="300" height="56" rx="8" fill="#FF6B00"/>
+        <text x="400" y="79" font-size="30" font-weight="700" fill="#fff">CORRECT ORDER</text>
+        <circle cx="618" cy="68" r="26" fill="#2e7d32"/>
+        <path d="M605 68 l9 10 l16 -20" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="1050" y="40" width="300" height="56" rx="8" fill="#FF6B00"/>
+        <text x="1200" y="79" font-size="30" font-weight="700" fill="#fff">WRONG ORDER</text>
+        <circle cx="1418" cy="68" r="26" fill="#c62828"/>
+        <path d="M1406 56 l24 24 M1430 56 l-24 24" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <g font-weight="700" font-size="22" fill="#fff">
+          <rect x="150" y="788" width="500" height="92" rx="8" fill="#FF6B00"/>
+          <text x="400" y="818">Mirror &#8594; Boolean &#8594;</text>
+          <text x="400" y="848">Bevel &#8594; Subsurf</text>
+        </g>
+        <g font-weight="700" font-size="22" fill="#fff">
+          <rect x="950" y="788" width="500" height="92" rx="8" fill="#FF6B00"/>
+          <text x="1200" y="818">Subsurf &#8594; Boolean &#8594;</text>
+          <text x="1200" y="848">Bevel &#8594; Mirror</text>
+        </g>
+      </g>
+                            </svg>
+                        </div>
+                        <figcaption>Modifier order matters &#8212; correct order (left) yields a clean beveled cut, while subdividing first (right) produces a melted, pinched result.</figcaption>
+                    </figure>
 
                     <blockquote>
                         <p><strong>💡 The Non-Destructive Advantage:</strong> Imagine modeling a spaceship. You spend hours perfecting the geometry. Then client says "make it twice as wide." With traditional modeling, you'd manually stretch everything, fix distortions, remodel damaged areas. With modifiers? Adjust one Mirror axis value. Done in seconds. That's the power of non-destructive workflow. Your base mesh stays clean and simple. Modifiers do the heavy lifting. You can change your mind anytime. Iterate rapidly. Try different variations. This isn't just convenience—it's professional workflow. Master modifiers. They're your competitive advantage.</p>
@@ -943,6 +1269,89 @@
                     <p>Boolean operations allow you to combine, subtract, and intersect meshes to create complex forms quickly. In hard surface modeling, Booleans are essential for cutting panels, creating openings, and building mechanical assemblies. Master Booleans and you'll speed up your workflow dramatically.</p>
 
                     <h3>Understanding Boolean Operations</h3>
+
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 460" role="img" aria-labelledby="boTitle boDesc" fill="none" style="max-width:100%;height:auto;color:currentColor">
+  <title id="boTitle">Boolean operations explained</title>
+  <desc id="boDesc">Three columns showing the result of Boolean Union, Difference, and Intersect on two overlapping shapes A and B.</desc>
+  <style>
+    .bo-a{stroke:currentColor;stroke-width:2;fill:currentColor;fill-opacity:.10}
+    .bo-b{stroke:currentColor;stroke-width:2;fill:currentColor;fill-opacity:.10;stroke-dasharray:5 4}
+    .bo-res{stroke:currentColor;stroke-width:2.4;fill:currentColor;fill-opacity:.28}
+    .bo-ghost{stroke:currentColor;stroke-width:1;fill:none;opacity:.35;stroke-dasharray:3 3}
+    .bo-op{font:700 18px system-ui,Arial,sans-serif;fill:currentColor}
+    .bo-sym{font:700 15px system-ui,Arial,sans-serif;fill:currentColor;opacity:.75}
+    .bo-cap{font:400 12px system-ui,Arial,sans-serif;fill:currentColor;opacity:.7}
+    .bo-tag{font:700 12px system-ui,Arial,sans-serif;fill:currentColor;opacity:.85}
+    .bo-div{stroke:currentColor;stroke-width:1;opacity:.2}
+  </style>
+
+  <text class="bo-op" x="440" y="34" text-anchor="middle">Boolean operations on shapes A and B</text>
+
+  <!-- column dividers -->
+  <line class="bo-div" x1="293" y1="60" x2="293" y2="430"/>
+  <line class="bo-div" x1="587" y1="60" x2="587" y2="430"/>
+
+  <!-- ===== Column 1: UNION ===== -->
+  <g transform="translate(0,0)">
+    <text class="bo-op" x="146" y="84" text-anchor="middle">Union</text>
+    <text class="bo-sym" x="146" y="104" text-anchor="middle">A &#8746; B</text>
+    <!-- inputs (small) -->
+    <g transform="translate(86,124)">
+      <rect class="bo-a" x="0" y="0" width="44" height="44"/>
+      <rect class="bo-b" x="30" y="20" width="44" height="44"/>
+      <text class="bo-tag" x="6" y="-4">A</text>
+      <text class="bo-tag" x="72" y="80">B</text>
+    </g>
+    <!-- result: merged outline -->
+    <g transform="translate(78,240)">
+      <path class="bo-res" d="M0,0 H60 V40 H90 V90 H30 V50 H0 Z"/>
+    </g>
+    <text class="bo-cap" x="146" y="356" text-anchor="middle">Combines both into</text>
+    <text class="bo-cap" x="146" y="372" text-anchor="middle">one solid volume</text>
+  </g>
+
+  <!-- ===== Column 2: DIFFERENCE ===== -->
+  <g transform="translate(294,0)">
+    <text class="bo-op" x="146" y="84" text-anchor="middle">Difference</text>
+    <text class="bo-sym" x="146" y="104" text-anchor="middle">A &#8722; B</text>
+    <g transform="translate(86,124)">
+      <rect class="bo-a" x="0" y="0" width="44" height="44"/>
+      <rect class="bo-b" x="30" y="20" width="44" height="44"/>
+      <text class="bo-tag" x="6" y="-4">A</text>
+      <text class="bo-tag" x="72" y="80">B</text>
+    </g>
+    <!-- result: A with B-shaped notch removed -->
+    <g transform="translate(96,240)">
+      <path class="bo-res" d="M0,0 H60 V20 H30 V44 H0 Z"/>
+      <path class="bo-ghost" d="M30,20 H60 V64 H30 Z"/>
+    </g>
+    <text class="bo-cap" x="146" y="356" text-anchor="middle">Subtracts B from A,</text>
+    <text class="bo-cap" x="146" y="372" text-anchor="middle">cutting a cavity</text>
+  </g>
+
+  <!-- ===== Column 3: INTERSECT ===== -->
+  <g transform="translate(588,0)">
+    <text class="bo-op" x="146" y="84" text-anchor="middle">Intersect</text>
+    <text class="bo-sym" x="146" y="104" text-anchor="middle">A &#8745; B</text>
+    <g transform="translate(86,124)">
+      <rect class="bo-a" x="0" y="0" width="44" height="44"/>
+      <rect class="bo-b" x="30" y="20" width="44" height="44"/>
+      <text class="bo-tag" x="6" y="-4">A</text>
+      <text class="bo-tag" x="72" y="80">B</text>
+    </g>
+    <!-- result: only the overlap -->
+    <g transform="translate(120,250)">
+      <path class="bo-ghost" d="M-30,-10 H30 V14 H-30 Z"/>
+      <path class="bo-ghost" d="M0,10 H44 V54 H0 Z"/>
+      <rect class="bo-res" x="0" y="10" width="30" height="14"/>
+    </g>
+    <text class="bo-cap" x="146" y="356" text-anchor="middle">Keeps only where</text>
+    <text class="bo-cap" x="146" y="372" text-anchor="middle">A and B overlap</text>
+  </g>
+</svg>
+                        <figcaption>The three Boolean operations on two overlapping shapes A and B: Union merges them into one volume, Difference subtracts B to cut a cavity, and Intersect keeps only the region where both overlap.</figcaption>
+                    </figure>
 
                     <div class="card">
                         <h4>🔀 Combining Meshes Mathematically</h4>
@@ -988,6 +1397,23 @@
                             <li><strong>Result:</strong> Base mesh modified by cutter shape</li>
                         </ol>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_16_boolean_workflow.png" alt="Boolean modifier workflow in four steps" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 2492 680" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="176" y="34" width="271" height="52" rx="8" fill="#FF6B00"/>
+                            <text x="312" y="70" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">1 BASE OBJECT</text>
+                            <rect x="750" y="34" width="373" height="52" rx="8" fill="#FF6B00"/>
+                            <text x="936" y="70" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">2 CUTTER POSITIONED</text>
+                            <rect x="1350" y="34" width="420" height="52" rx="8" fill="#FF6B00"/>
+                            <text x="1560" y="70" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">3 ADD BOOLEAN MODIFIER</text>
+                            <rect x="2091" y="34" width="186" height="52" rx="8" fill="#FF6B00"/>
+                            <text x="2184" y="70" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">4 RESULT</text>
+                            </svg>
+                        </div>
+                        <figcaption>Boolean workflow: start with a base object, position a cutter where material should be removed, add a Boolean (Difference) modifier &#8212; the cutter becomes a ghosted shape &#8212; and the result is a clean cut with the cutter hidden.</figcaption>
+                    </figure>
 
                     <h3>Setting Up Boolean Operations</h3>
 
@@ -1041,6 +1467,25 @@
                             </li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_17_boolean_settings.png" alt="Boolean modifier settings on a base object and cutter" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 1300 1000" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="40" y="70" width="560" height="300" rx="10" fill="#FF6B00"/>
+                            <text x="64" y="116" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="800" fill="#fff">BOOLEAN MODIFIER SETTINGS</text>
+                            <text x="64" y="162" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700" fill="#fff">Operation (Difference)</text>
+                            <text x="64" y="192" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="400" fill="#fff">Subtract the cutter volume from the base</text>
+                            <text x="64" y="232" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700" fill="#fff">Object (cutter)</text>
+                            <text x="64" y="262" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="400" fill="#fff">The mesh used to cut &#8212; here the orange box</text>
+                            <text x="64" y="302" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700" fill="#fff">Solver (Exact)</text>
+                            <text x="64" y="332" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="400" fill="#fff">Accurate, handles coplanar faces &#183; use over Fast</text>
+                            <text x="915" y="250" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" fill="#FF6B00" text-anchor="middle">cutter Object</text>
+                            <path d="M 915 262 L 915 285" stroke="#FF6B00" stroke-width="3" fill="none"/>
+                            </svg>
+                        </div>
+                        <figcaption>The three settings that matter on a Boolean modifier: Operation sets what the cut does (Difference subtracts), Object names the cutter mesh, and Solver controls accuracy &#8212; Exact handles coplanar faces far better than Fast.</figcaption>
+                    </figure>
 
                     <h3>Common Boolean Use Cases</h3>
 
@@ -1096,6 +1541,23 @@
                             <li>Cleaner than Join (Ctrl+J)</li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_18_boolean_use_cases.png" alt="Four common Boolean use cases on hard surface models" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 1524 1244" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="256" y="43" width="248" height="54" rx="8" fill="#FF6B00"/>
+                            <text x="380" y="80" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="700" fill="#fff" text-anchor="middle">PANEL LINES</text>
+                            <rect x="1016" y="43" width="248" height="54" rx="8" fill="#FF6B00"/>
+                            <text x="1140" y="80" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="700" fill="#fff" text-anchor="middle">VENT GRILLS</text>
+                            <rect x="220" y="663" width="320" height="54" rx="8" fill="#FF6B00"/>
+                            <text x="380" y="700" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="700" fill="#fff" text-anchor="middle">WINDOW OPENINGS</text>
+                            <rect x="989" y="663" width="302" height="54" rx="8" fill="#FF6B00"/>
+                            <text x="1140" y="700" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="700" fill="#fff" text-anchor="middle">CIRCULAR HOLES</text>
+                            </svg>
+                        </div>
+                        <figcaption>Common Boolean use cases: cutting panel lines, arraying vent grills, punching window openings through a wall, and boring circular holes &#8212; each is a Difference cut with a simple cutter shape.</figcaption>
+                    </figure>
 
                     <h3>Boolean Best Practices</h3>
 
@@ -1240,6 +1702,31 @@
                             </li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_20_boolean_troubleshooting.png" alt="Four common Boolean problems and their fixes" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 1524 1244" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="274" y="29" width="212" height="52" rx="8" fill="#FF6B00"/><text x="380" y="65" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">ARTIFACTS</text>
+                            <circle cx="189" cy="213" r="26" fill="#c62828"/><path d="M 178.08 202.08 L 199.92 223.92 M 199.92 202.08 L 178.08 223.92" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>
+                            <circle cx="569" cy="321" r="26" fill="#2e7d32"/><path d="M 557.3 321.52 L 565.88 330.88 L 582.0 310.08" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="124" y="538" width="513" height="44" rx="8" fill="#FF6B00"/><text x="380" y="568" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">Fix: recalc normals &#183; use Exact solver</text>
+                            <rect x="1034" y="29" width="212" height="52" rx="8" fill="#FF6B00"/><text x="1140" y="65" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">NO EFFECT</text>
+                            <circle cx="960" cy="199" r="26" fill="#c62828"/><path d="M 949.08 188.08 L 970.92 209.92 M 970.92 188.08 L 949.08 209.92" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>
+                            <circle cx="1339" cy="317" r="26" fill="#2e7d32"/><path d="M 1327.3 317.52 L 1335.88 326.88 L 1352.0 306.08" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="960" y="538" width="359" height="44" rx="8" fill="#FF6B00"/><text x="1140" y="568" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">Fix: check cutter penetration</text>
+                            <rect x="211" y="649" width="338" height="52" rx="8" fill="#FF6B00"/><text x="380" y="685" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">SHADING PROBLEMS</text>
+                            <circle cx="197" cy="843" r="26" fill="#c62828"/><path d="M 186.08 832.08 L 207.92 853.92 M 207.92 832.08 L 186.08 853.92" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>
+                            <circle cx="577" cy="940" r="26" fill="#2e7d32"/><path d="M 565.3 940.52 L 573.88 949.88 L 590.0 929.08" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="173" y="1158" width="414" height="44" rx="8" fill="#FF6B00"/><text x="380" y="1188" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">Fix: mark sharp &#183; auto-smooth</text>
+                            <rect x="989" y="649" width="302" height="52" rx="8" fill="#FF6B00"/><text x="1140" y="685" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">MESSY TOPOLOGY</text>
+                            <circle cx="961" cy="835" r="26" fill="#c62828"/><path d="M 950.08 824.08 L 971.92 845.92 M 971.92 824.08 L 950.08 845.92" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>
+                            <circle cx="1341" cy="929" r="26" fill="#2e7d32"/><path d="M 1329.3 929.52 L 1337.88 938.88 L 1354.0 918.08" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="999" y="1158" width="282" height="44" rx="8" fill="#FF6B00"/><text x="1140" y="1188" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">Fix: clean up manually</text>
+                            </svg>
+                        </div>
+                        <figcaption>Boolean troubleshooting, problem (left) versus fix (right) in each cell: artifacts clear up by recalculating normals and using the Exact solver, a no-effect cut means the cutter never penetrated, shading errors need sharp marks and auto-smooth, and messy topology should be cleaned up by hand.</figcaption>
+                    </figure>
 
                     <h3>Advanced Boolean Techniques</h3>
 
@@ -1469,6 +1956,102 @@
 
                     <h3>Edge Flow Principles</h3>
 
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 620" role="img" aria-labelledby="efTitle efDesc" fill="none" style="max-width:100%;height:auto;color:currentColor">
+  <title id="efTitle">Edge flow patterns</title>
+  <desc id="efDesc">A two by two grid showing ideal edge flow for cylindrical, spherical, planar, and radial forms.</desc>
+  <style>
+    .ef-cell{stroke:currentColor;stroke-width:1.5;fill:none;opacity:.35;rx:10}
+    .ef-form{stroke:currentColor;stroke-width:2;fill:currentColor;fill-opacity:.05}
+    .ef-flow{stroke:currentColor;stroke-width:1.3;fill:none;opacity:.75}
+    .ef-name{font:700 16px system-ui,Arial,sans-serif;fill:currentColor}
+    .ef-sub{font:400 11.5px system-ui,Arial,sans-serif;fill:currentColor;opacity:.7}
+    .ef-hd{font:600 13px system-ui,Arial,sans-serif;fill:currentColor;opacity:.85}
+  </style>
+
+  <text class="ef-hd" x="380" y="30" text-anchor="middle">Edge flow follows the form &#8212; loops wrap, edges span</text>
+
+  <!-- ===== Cylindrical (top-left) ===== -->
+  <g transform="translate(40,56)">
+    <rect class="ef-cell" x="0" y="0" width="320" height="240" rx="10"/>
+    <text class="ef-name" x="20" y="34">Cylindrical</text>
+    <text class="ef-sub" x="20" y="52">rings around, edges along length</text>
+    <g transform="translate(110,78)">
+      <!-- cylinder body -->
+      <ellipse class="ef-form" cx="50" cy="14" rx="50" ry="14"/>
+      <path class="ef-form" d="M0,14 V130 A50,14 0 0 0 100,130 V14"/>
+      <!-- horizontal rings -->
+      <ellipse class="ef-flow" cx="50" cy="48" rx="50" ry="13"/>
+      <ellipse class="ef-flow" cx="50" cy="82" rx="50" ry="13"/>
+      <ellipse class="ef-flow" cx="50" cy="116" rx="50" ry="13"/>
+      <!-- vertical edges -->
+      <line class="ef-flow" x1="0" y1="14" x2="0" y2="130"/>
+      <line class="ef-flow" x1="25" y1="20" x2="25" y2="136"/>
+      <line class="ef-flow" x1="75" y1="20" x2="75" y2="136"/>
+      <line class="ef-flow" x1="100" y1="14" x2="100" y2="130"/>
+    </g>
+  </g>
+
+  <!-- ===== Spherical (top-right) ===== -->
+  <g transform="translate(400,56)">
+    <rect class="ef-cell" x="0" y="0" width="320" height="240" rx="10"/>
+    <text class="ef-name" x="20" y="34">Spherical</text>
+    <text class="ef-sub" x="20" y="52">latitude and longitude loops</text>
+    <g transform="translate(160,150)">
+      <circle class="ef-form" cx="0" cy="0" r="72"/>
+      <!-- longitude -->
+      <ellipse class="ef-flow" cx="0" cy="0" rx="24" ry="72"/>
+      <ellipse class="ef-flow" cx="0" cy="0" rx="52" ry="72"/>
+      <line class="ef-flow" x1="0" y1="-72" x2="0" y2="72"/>
+      <!-- latitude -->
+      <ellipse class="ef-flow" cx="0" cy="0" rx="72" ry="24"/>
+      <ellipse class="ef-flow" cx="0" cy="0" rx="72" ry="52"/>
+      <line class="ef-flow" x1="-72" y1="0" x2="72" y2="0"/>
+    </g>
+  </g>
+
+  <!-- ===== Planar (bottom-left) ===== -->
+  <g transform="translate(40,320)">
+    <rect class="ef-cell" x="0" y="0" width="320" height="240" rx="10"/>
+    <text class="ef-name" x="20" y="34">Planar</text>
+    <text class="ef-sub" x="20" y="52">even, regular grid</text>
+    <g transform="translate(70,78)">
+      <rect class="ef-form" x="0" y="0" width="180" height="130"/>
+      <line class="ef-flow" x1="36" y1="0" x2="36" y2="130"/>
+      <line class="ef-flow" x1="72" y1="0" x2="72" y2="130"/>
+      <line class="ef-flow" x1="108" y1="0" x2="108" y2="130"/>
+      <line class="ef-flow" x1="144" y1="0" x2="144" y2="130"/>
+      <line class="ef-flow" x1="0" y1="32.5" x2="180" y2="32.5"/>
+      <line class="ef-flow" x1="0" y1="65" x2="180" y2="65"/>
+      <line class="ef-flow" x1="0" y1="97.5" x2="180" y2="97.5"/>
+    </g>
+  </g>
+
+  <!-- ===== Radial (bottom-right) ===== -->
+  <g transform="translate(400,320)">
+    <rect class="ef-cell" x="0" y="0" width="320" height="240" rx="10"/>
+    <text class="ef-name" x="20" y="34">Radial</text>
+    <text class="ef-sub" x="20" y="52">spokes from a center pole</text>
+    <g transform="translate(160,150)">
+      <circle class="ef-form" cx="0" cy="0" r="72"/>
+      <!-- concentric rings -->
+      <circle class="ef-flow" cx="0" cy="0" r="24"/>
+      <circle class="ef-flow" cx="0" cy="0" r="48"/>
+      <!-- spokes -->
+      <line class="ef-flow" x1="0" y1="0" x2="0" y2="-72"/>
+      <line class="ef-flow" x1="0" y1="0" x2="51" y2="-51"/>
+      <line class="ef-flow" x1="0" y1="0" x2="72" y2="0"/>
+      <line class="ef-flow" x1="0" y1="0" x2="51" y2="51"/>
+      <line class="ef-flow" x1="0" y1="0" x2="0" y2="72"/>
+      <line class="ef-flow" x1="0" y1="0" x2="-51" y2="51"/>
+      <line class="ef-flow" x1="0" y1="0" x2="-72" y2="0"/>
+      <line class="ef-flow" x1="0" y1="0" x2="-51" y2="-51"/>
+    </g>
+  </g>
+</svg>
+                        <figcaption>Good edge flow follows the underlying form: rings wrap a cylinder while edges run its length; spheres use latitude and longitude loops; flat panels take an even grid; and radial forms spoke out from a central pole.</figcaption>
+                    </figure>
+
                     <div class="card">
                         <h4>🌊 Following the Form</h4>
                         <p><strong>What is edge flow?</strong></p>
@@ -1519,6 +2102,33 @@
                             <li><strong>Radial:</strong> Loops radiating from point (fan pattern)</li>
                         </ul>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_21_quad_topology.png" alt="Clean quad topology versus messy triangle and ngon topology, shown as cage and subdivision surface result" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 1524 1244" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="232" y="24" width="296" height="86" rx="10" fill="#FF6B00"/>
+                            <text x="380" y="66" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="700" fill="#fff" text-anchor="middle">CLEAN QUADS</text>
+                            <text x="380" y="100" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700" fill="#fff" text-anchor="middle">GOOD</text>
+                            <rect x="958" y="24" width="332" height="86" rx="10" fill="#FF6B00"/>
+                            <text x="1124" y="66" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="700" fill="#fff" text-anchor="middle">MESSY TOPOLOGY</text>
+                            <text x="1124" y="100" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700" fill="#fff" text-anchor="middle">BAD</text>
+                            <rect x="20" y="560" width="150" height="46" rx="8" fill="#FF6B00"/>
+                            <text x="34" y="592" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="start">CAGE</text>
+                            <rect x="20" y="1178" width="330" height="46" rx="8" fill="#FF6B00"/>
+                            <text x="34" y="1210" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="start">SUBSURF RESULT</text>
+                            <circle cx="120" cy="200" r="46" fill="#2e7d32"/>
+                            <path d="M96 200 l18 20 l34 -42" stroke="#fff" stroke-width="11" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="120" cy="760" r="46" fill="#2e7d32"/>
+                            <path d="M96 760 l18 20 l34 -42" stroke="#fff" stroke-width="11" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="1410" cy="200" r="46" fill="#c62828"/>
+                            <path d="M1388 178 l44 44 M1432 178 l-44 44" stroke="#fff" stroke-width="11" fill="none" stroke-linecap="round"/>
+                            <circle cx="1410" cy="760" r="46" fill="#c62828"/>
+                            <path d="M1388 738 l44 44 M1432 738 l-44 44" stroke="#fff" stroke-width="11" fill="none" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <figcaption>Quad topology versus messy topology: clean all-quad geometry (left) subdivides into smooth, predictable surfaces, while triangles and ngons (right) cause pinching and faceting artifacts &#8212; the cage is shown above and the Subdivision Surface result below.</figcaption>
+                    </figure>
 
                     <h3>Topology Around Details</h3>
 
@@ -1623,6 +2233,31 @@
                         </ul>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_24_support_geometry.png" alt="Support geometry comparison: no support, far support, and close support loops controlling subdivision sharpness" loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 2168 820" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="201" y="18" width="320" height="60" rx="10" fill="#FF6B00"/>
+                            <text x="361" y="60" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">NO SUPPORT</text>
+                            <rect x="241" y="600" width="240" height="50" rx="8" fill="#FF6B00"/>
+                            <text x="361" y="635" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">ROUND</text>
+                            <rect x="918" y="18" width="330" height="60" rx="10" fill="#FF6B00"/>
+                            <text x="1083" y="60" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">FAR SUPPORT</text>
+                            <rect x="978" y="600" width="210" height="50" rx="8" fill="#FF6B00"/>
+                            <text x="1083" y="635" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">SOFT</text>
+                            <rect x="1626" y="18" width="360" height="60" rx="10" fill="#FF6B00"/>
+                            <text x="1806" y="60" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">CLOSE SUPPORT</text>
+                            <rect x="1701" y="600" width="210" height="50" rx="8" fill="#FF6B00"/>
+                            <text x="1806" y="635" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">SHARP</text>
+                            <rect x="18" y="160" width="150" height="46" rx="8" fill="#FF6B00"/>
+                            <text x="32" y="192" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="start">CAGE</text>
+                            <rect x="18" y="500" width="330" height="46" rx="8" fill="#FF6B00"/>
+                            <text x="32" y="532" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="start">SUBSURF RESULT</text>
+                            </svg>
+                        </div>
+                        <figcaption>Support geometry controls how sharp edges stay under subdivision: with no support loops the form rounds off, far support loops keep it soft, and close support loops hold crisp, sharp edges &#8212; the control cage is shown above and the Subdivision Surface result below.</figcaption>
+                    </figure>
+
                     <h3>Topology Workflow Tips</h3>
 
                     <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
@@ -1703,6 +2338,84 @@
                     <p>Hard surface modeling often requires exact measurements and precise placement. Blender provides powerful tools for accurate modeling—snapping, alignment, and measurement systems that ensure your mechanical objects have the precision they deserve.</p>
 
                     <h3>Snapping System</h3>
+
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 580" role="img" aria-labelledby="snTitle snDesc" fill="none" style="max-width:100%;height:auto;color:currentColor">
+  <title id="snTitle">Snapping system overview</title>
+  <desc id="snDesc">An infographic of Blender snapping modes: Increment, Vertex, Edge, Face, and Volume, each with an icon and a short description.</desc>
+  <style>
+    .sn-card{stroke:currentColor;stroke-width:1.5;fill:currentColor;fill-opacity:.04;rx:10}
+    .sn-icon{stroke:currentColor;stroke-width:1.8;fill:none}
+    .sn-fill{fill:currentColor}
+    .sn-name{font:700 16px system-ui,Arial,sans-serif;fill:currentColor}
+    .sn-desc{font:400 12px system-ui,Arial,sans-serif;fill:currentColor;opacity:.72}
+    .sn-hd{font:600 13px system-ui,Arial,sans-serif;fill:currentColor;opacity:.85}
+  </style>
+
+  <text class="sn-hd" x="380" y="32" text-anchor="middle">Snap modes &#8212; hold Ctrl, or toggle the magnet, to snap while transforming</text>
+
+  <!-- Card template: 350x96 -->
+  <!-- INCREMENT -->
+  <g transform="translate(30,56)">
+    <rect class="sn-card" x="0" y="0" width="700" height="92" rx="10"/>
+    <g transform="translate(34,22)">
+      <line class="sn-icon" x1="0" y1="48" x2="48" y2="48"/>
+      <line class="sn-icon" x1="0" y1="42" x2="0" y2="54"/>
+      <line class="sn-icon" x1="16" y1="44" x2="16" y2="52"/>
+      <line class="sn-icon" x1="32" y1="44" x2="32" y2="52"/>
+      <line class="sn-icon" x1="48" y1="42" x2="48" y2="54"/>
+    </g>
+    <text class="sn-name" x="108" y="40">Increment</text>
+    <text class="sn-desc" x="108" y="62">Snaps to grid units &#8212; clean steps like 0.1, 0.5, 1.0</text>
+  </g>
+
+  <!-- VERTEX -->
+  <g transform="translate(30,156)">
+    <rect class="sn-card" x="0" y="0" width="700" height="92" rx="10"/>
+    <g transform="translate(34,22)">
+      <path class="sn-icon" d="M4,48 L24,8 L44,48 Z"/>
+      <circle class="sn-fill" cx="24" cy="8" r="5"/>
+    </g>
+    <text class="sn-name" x="108" y="40">Vertex</text>
+    <text class="sn-desc" x="108" y="62">Snaps to the nearest vertex point &#8212; exact corner alignment</text>
+  </g>
+
+  <!-- EDGE -->
+  <g transform="translate(30,256)">
+    <rect class="sn-card" x="0" y="0" width="700" height="92" rx="10"/>
+    <g transform="translate(34,22)">
+      <path class="sn-icon" d="M4,48 L24,8 L44,48 Z"/>
+      <line class="sn-icon" x1="24" y1="8" x2="44" y2="48" stroke-width="3.4"/>
+    </g>
+    <text class="sn-name" x="108" y="40">Edge</text>
+    <text class="sn-desc" x="108" y="62">Snaps to the nearest edge &#8212; slide along or onto a span</text>
+  </g>
+
+  <!-- FACE -->
+  <g transform="translate(30,356)">
+    <rect class="sn-card" x="0" y="0" width="700" height="92" rx="10"/>
+    <g transform="translate(34,22)">
+      <path class="sn-icon" d="M4,48 L24,8 L44,48 Z"/>
+      <path class="sn-fill" d="M4,48 L24,8 L44,48 Z" opacity=".22"/>
+    </g>
+    <text class="sn-name" x="108" y="40">Face</text>
+    <text class="sn-desc" x="108" y="62">Snaps onto face surfaces &#8212; drop objects flush against a plane</text>
+  </g>
+
+  <!-- VOLUME -->
+  <g transform="translate(30,456)">
+    <rect class="sn-card" x="0" y="0" width="700" height="92" rx="10"/>
+    <g transform="translate(30,18)">
+      <path class="sn-icon" d="M8,18 L28,8 L48,18 L48,44 L28,54 L8,44 Z"/>
+      <path class="sn-icon" d="M8,18 L28,28 L48,18 M28,28 L28,54"/>
+      <circle class="sn-fill" cx="28" cy="28" r="4"/>
+    </g>
+    <text class="sn-name" x="108" y="40">Volume</text>
+    <text class="sn-desc" x="108" y="62">Snaps inside a mesh volume &#8212; centers within solid geometry</text>
+  </g>
+</svg>
+                        <figcaption>Blender&#8217;s snap modes, from grid Increment through Vertex, Edge, Face and Volume. Hold Ctrl while transforming, or toggle the magnet, to snap precisely to the element type you need.</figcaption>
+                    </figure>
 
                     <div class="card">
                         <h4>🧲 Magnetic Precision</h4>
@@ -1911,9 +2624,9 @@
                         </ul>
                     </div>
 
-                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                        <h3 style="color: white;">⚡ Precision Shortcuts Quick Reference</h3>
-                        <ul style="color: white;">
+                    <div class="card" style="border: 2px solid currentColor;">
+                        <h3>⚡ Precision Shortcuts Quick Reference</h3>
+                        <ul>
                             <li><strong><code>Shift+Tab</code></strong> - Toggle snapping on/off</li>
                             <li><strong><code>G/R/S</code> + number</strong> - Exact transform values</li>
                             <li><strong><code>Shift+S</code></strong> - Snap cursor/selection menu</li>
@@ -1921,8 +2634,125 @@
                             <li><strong><code>Ctrl+R</code></strong> - Loop cut (precise edge addition)</li>
                             <li><strong><code>S</code> <code>Z</code> <code>0</code></strong> - Flatten to plane</li>
                         </ul>
-                        <p style="color: white; margin-top: 1rem;">Master these for professional precision work.</p>
+                        <p style="margin-top: 1rem;">Master these for professional precision work.</p>
                     </div>
+
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" role="img" aria-labelledby="ptTitle ptDesc" fill="none" style="max-width:100%;height:auto;color:currentColor">
+  <title id="ptTitle">Precision tools reference</title>
+  <desc id="ptDesc">A shortcut card for precision modeling: numeric move, toggle snapping, flatten to plane, edge loop select, loop cut, and measurement overlay.</desc>
+  <style>
+    .pt-card{stroke:currentColor;stroke-width:1.5;fill:currentColor;fill-opacity:.04;rx:10}
+    .pt-key{stroke:currentColor;stroke-width:1.6;fill:currentColor;fill-opacity:.10;rx:5}
+    .pt-keytx{font:700 12px ui-monospace,Menlo,Consolas,monospace;fill:currentColor;text-anchor:middle}
+    .pt-name{font:700 14.5px system-ui,Arial,sans-serif;fill:currentColor}
+    .pt-desc{font:400 11.5px system-ui,Arial,sans-serif;fill:currentColor;opacity:.72}
+    .pt-icon{stroke:currentColor;stroke-width:1.6;fill:none;opacity:.8}
+    .pt-fill{fill:currentColor;opacity:.8}
+    .pt-hd{font:600 13px system-ui,Arial,sans-serif;fill:currentColor;opacity:.85}
+    .pt-plus{font:700 12px system-ui,Arial,sans-serif;fill:currentColor;opacity:.6}
+  </style>
+
+  <text class="pt-hd" x="440" y="32" text-anchor="middle">Precision modeling &#8212; type exact values instead of dragging by eye</text>
+
+  <!-- key helper rendered inline per card -->
+
+  <!-- Card 1: Numeric input  (col1 row1) -->
+  <g transform="translate(30,56)">
+    <rect class="pt-card" x="0" y="0" width="396" height="142" rx="10"/>
+    <text class="pt-name" x="20" y="32">Numeric move</text>
+    <!-- keycaps: G  X  2  Enter -->
+    <g transform="translate(20,48)">
+      <rect class="pt-key" x="0" y="0" width="26" height="26"/><text class="pt-keytx" x="13" y="18">G</text>
+      <rect class="pt-key" x="34" y="0" width="26" height="26"/><text class="pt-keytx" x="47" y="18">X</text>
+      <rect class="pt-key" x="68" y="0" width="26" height="26"/><text class="pt-keytx" x="81" y="18">2</text>
+      <rect class="pt-key" x="102" y="0" width="48" height="26"/><text class="pt-keytx" x="126" y="18">Enter</text>
+    </g>
+    <text class="pt-desc" x="20" y="104">Grab, lock to X axis, move exactly 2 units.</text>
+    <text class="pt-desc" x="20" y="122">Works with R (rotate) and S (scale) too.</text>
+  </g>
+
+  <!-- Card 2: Toggle snapping (col2 row1) -->
+  <g transform="translate(454,56)">
+    <rect class="pt-card" x="0" y="0" width="396" height="142" rx="10"/>
+    <text class="pt-name" x="20" y="32">Toggle snapping</text>
+    <g transform="translate(20,48)">
+      <rect class="pt-key" x="0" y="0" width="48" height="26"/><text class="pt-keytx" x="24" y="18">Shift</text>
+      <text class="pt-plus" x="56" y="18">+</text>
+      <rect class="pt-key" x="66" y="0" width="40" height="26"/><text class="pt-keytx" x="86" y="18">Tab</text>
+    </g>
+    <text class="pt-desc" x="20" y="104">Flips the magnet on or off mid-edit so you</text>
+    <text class="pt-desc" x="20" y="122">can snap to vertices, edges or the grid.</text>
+  </g>
+
+  <!-- Card 3: Flatten to plane (col1 row2) -->
+  <g transform="translate(30,212)">
+    <rect class="pt-card" x="0" y="0" width="396" height="142" rx="10"/>
+    <text class="pt-name" x="20" y="32">Flatten to plane</text>
+    <g transform="translate(20,48)">
+      <rect class="pt-key" x="0" y="0" width="26" height="26"/><text class="pt-keytx" x="13" y="18">S</text>
+      <rect class="pt-key" x="34" y="0" width="26" height="26"/><text class="pt-keytx" x="47" y="18">Z</text>
+      <rect class="pt-key" x="68" y="0" width="26" height="26"/><text class="pt-keytx" x="81" y="18">0</text>
+      <rect class="pt-key" x="102" y="0" width="48" height="26"/><text class="pt-keytx" x="126" y="18">Enter</text>
+    </g>
+    <text class="pt-desc" x="20" y="104">Scale to zero on Z &#8212; collapses selected</text>
+    <text class="pt-desc" x="20" y="122">geometry dead flat onto a single plane.</text>
+  </g>
+
+  <!-- Card 4: Edge loop select (col2 row2) -->
+  <g transform="translate(454,212)">
+    <rect class="pt-card" x="0" y="0" width="396" height="142" rx="10"/>
+    <text class="pt-name" x="20" y="32">Edge loop select</text>
+    <g transform="translate(20,48)">
+      <rect class="pt-key" x="0" y="0" width="36" height="26"/><text class="pt-keytx" x="18" y="18">Alt</text>
+      <text class="pt-plus" x="44" y="18">+</text>
+      <rect class="pt-key" x="54" y="0" width="56" height="26"/><text class="pt-keytx" x="82" y="18">Click</text>
+    </g>
+    <!-- loop icon -->
+    <g transform="translate(300,40)">
+      <ellipse class="pt-icon" cx="30" cy="40" rx="30" ry="20"/>
+      <circle class="pt-fill" cx="30" cy="20" r="3"/>
+    </g>
+    <text class="pt-desc" x="20" y="104">Selects an entire continuous loop in one</text>
+    <text class="pt-desc" x="20" y="122">click &#8212; no dragging across each edge.</text>
+  </g>
+
+  <!-- Card 5: Loop cut (col1 row3) -->
+  <g transform="translate(30,368)">
+    <rect class="pt-card" x="0" y="0" width="396" height="142" rx="10"/>
+    <text class="pt-name" x="20" y="32">Loop cut</text>
+    <g transform="translate(20,48)">
+      <rect class="pt-key" x="0" y="0" width="36" height="26"/><text class="pt-keytx" x="18" y="18">Ctrl</text>
+      <text class="pt-plus" x="44" y="18">+</text>
+      <rect class="pt-key" x="54" y="0" width="26" height="26"/><text class="pt-keytx" x="67" y="18">R</text>
+    </g>
+    <g transform="translate(300,40)">
+      <rect class="pt-icon" x="0" y="10" width="60" height="44"/>
+      <line class="pt-icon" x1="30" y1="10" x2="30" y2="54" stroke-width="2.4"/>
+    </g>
+    <text class="pt-desc" x="20" y="104">Adds a precise new edge loop; scroll to</text>
+    <text class="pt-desc" x="20" y="122">set count, then slide to position it.</text>
+  </g>
+
+  <!-- Card 6: Measurement overlay (col2 row3) -->
+  <g transform="translate(454,368)">
+    <rect class="pt-card" x="0" y="0" width="396" height="142" rx="10"/>
+    <text class="pt-name" x="20" y="32">Measure overlay</text>
+    <g transform="translate(20,48)">
+      <rect class="pt-key" x="0" y="0" width="150" height="26"/><text class="pt-keytx" x="75" y="18">Overlays &#9656; Edge Length</text>
+    </g>
+    <g transform="translate(300,38)">
+      <path class="pt-icon" d="M0,52 L0,12 L60,12 L60,52"/>
+      <line class="pt-icon" x1="0" y1="32" x2="60" y2="32" stroke-dasharray="4 3"/>
+      <circle class="pt-fill" cx="0" cy="32" r="2.5"/>
+      <circle class="pt-fill" cx="60" cy="32" r="2.5"/>
+    </g>
+    <text class="pt-desc" x="20" y="104">Shows live edge lengths and angles so you</text>
+    <text class="pt-desc" x="20" y="122">can verify dimensions while modeling.</text>
+  </g>
+</svg>
+                        <figcaption>A quick-reference of the precision tools that keep hard surface work exact: numeric transforms, snapping toggles, flatten-to-plane, loop selection and cuts, and the measurement overlay for verifying dimensions as you model.</figcaption>
+                    </figure>
 
                     <blockquote>
                         <p><strong>💡 Precision Isn't Perfectionism:</strong> Precision in hard surface modeling isn't about obsessing over decimals. It's about intentionality. When you need an edge exactly 2 units long, you make it exactly 2 units long. When you need something centered on an axis, you center it precisely on that axis. When you need symmetry, you use Mirror modifier for perfect symmetry. This precision has purpose: parts fit together correctly, measurements are consistent, the model is professional. But precision has limits. Spending 10 minutes adjusting a vertex by 0.001 units? That's not precision—that's procrastination. Use precision tools when precision matters. Trust your eye when it doesn't. Know the difference.</p>
@@ -1944,25 +2774,25 @@
 
                     <p>Time to apply everything you've learned. You'll create a detailed mechanical container—a sci-fi storage crate or ammo box. This project uses modifiers, Booleans, clean topology, and precision tools to create a professional hard surface asset from start to finish.</p>
 
-                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                        <h3 style="color: white;">🎨 Project Overview</h3>
-                        <p style="color: white;"><strong>What you'll build:</strong> A detailed mechanical container with:</p>
-                        <ul style="color: white;">
+                    <div class="card" style="border: 2px solid currentColor;">
+                        <h3>🎨 Project Overview</h3>
+                        <p><strong>What you'll build:</strong> A detailed mechanical container with:</p>
+                        <ul>
                             <li>Clean base form with beveled edges</li>
                             <li>Panel separation and surface details</li>
                             <li>Boolean-cut details (vents, handles)</li>
                             <li>Repeated elements using Array modifier</li>
                             <li>Professional topology and subdivision</li>
                         </ul>
-                        <p style="color: white; margin-top: 1rem;"><strong>Skills practiced:</strong></p>
-                        <ul style="color: white;">
+                        <p style="margin-top: 1rem;"><strong>Skills practiced:</strong></p>
+                        <ul>
                             <li>Modifier stack workflow (Mirror, Array, Bevel, Subdivision)</li>
                             <li>Boolean operations for details</li>
                             <li>Clean quad topology maintenance</li>
                             <li>Precision modeling techniques</li>
                             <li>Complete hard surface workflow</li>
                         </ul>
-                        <p style="color: white; margin-top: 1rem;"><strong>Time:</strong> 60-90 minutes | <strong>Difficulty:</strong> Intermediate</p>
+                        <p style="margin-top: 1rem;"><strong>Time:</strong> 60-90 minutes | <strong>Difficulty:</strong> Intermediate</p>
                     </div>
 
                     <h3>Phase 1: Base Form (15 minutes)</h3>
@@ -2027,6 +2857,23 @@
                             <li>Now model one side, get both automatically</li>
                         </ol>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_29_project_phase1_base.png" alt="Phase 1 base form workflow: a scaled cube, support loops added with bevel, a subdivision surface result, and a mirror setup, left to right on a dark studio background." loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 2200 560" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="10" y="484" width="358" height="58" rx="12" fill="#FF6B00"/>
+                            <text x="189" y="522" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">1 &#183; SCALED CUBE</text>
+                            <rect x="516" y="484" width="399" height="58" rx="12" fill="#FF6B00"/>
+                            <text x="715" y="522" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">2 &#183; SUPPORT LOOPS</text>
+                            <rect x="1306" y="484" width="358" height="58" rx="12" fill="#FF6B00"/>
+                            <text x="1485" y="522" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">3 &#183; SUBDIVISION</text>
+                            <rect x="1812" y="484" width="378" height="58" rx="12" fill="#FF6B00"/>
+                            <text x="2001" y="522" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">4 &#183; MIRROR SETUP</text>
+                            </svg>
+                        </div>
+                        <figcaption>Phase 1 builds the base form in four steps &#8212; start from a scaled cube, add support loops, apply subdivision for smoothing, then set up the Mirror modifier so one modeled half drives both sides.</figcaption>
+                    </figure>
 
                     <h3>Phase 2: Panel Details (20 minutes)</h3>
 
@@ -2107,6 +2954,23 @@
                         </ol>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_30_project_phase2_panels.png" alt="Phase 2 panel details: a front inset, corner reinforcement plates, boolean panel lines, and a bolt array, left to right on a dark studio background." loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 2200 560" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="10" y="484" width="358" height="58" rx="12" fill="#FF6B00"/>
+                            <text x="189" y="522" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">1 &#183; FRONT INSET</text>
+                            <rect x="485" y="484" width="460" height="58" rx="12" fill="#FF6B00"/>
+                            <text x="715" y="522" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">2 &#183; CORNER REINFORCE</text>
+                            <rect x="1306" y="484" width="358" height="58" rx="12" fill="#FF6B00"/>
+                            <text x="1485" y="522" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">3 &#183; PANEL LINES</text>
+                            <rect x="1852" y="484" width="338" height="58" rx="12" fill="#FF6B00"/>
+                            <text x="2021" y="522" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">4 &#183; BOLT ARRAY</text>
+                            </svg>
+                        </div>
+                        <figcaption>Phase 2 adds panel detail &#8212; inset the front face, reinforce the corners, cut clean panel lines with a boolean, and place a bolt array to read as mechanical hardware.</figcaption>
+                    </figure>
+
                     <h3>Phase 3: Functional Details (20 minutes)</h3>
 
                     <div class="card">
@@ -2175,6 +3039,23 @@
                         </ol>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_31_project_phase3_functional.png" alt="Phase 3 functional details: vent grilles, a recessed handle, a top access hatch, and a recessed label area, left to right on a dark studio background." loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 2200 560" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="10" y="484" width="378" height="58" rx="12" fill="#FF6B00"/>
+                            <text x="199" y="522" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">1 &#183; VENT GRILLES</text>
+                            <rect x="516" y="484" width="399" height="58" rx="12" fill="#FF6B00"/>
+                            <text x="715" y="522" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">2 &#183; HANDLE RECESS</text>
+                            <rect x="1326" y="484" width="317" height="58" rx="12" fill="#FF6B00"/>
+                            <text x="1485" y="522" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">3 &#183; TOP HATCH</text>
+                            <rect x="1852" y="484" width="338" height="58" rx="12" fill="#FF6B00"/>
+                            <text x="2021" y="522" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">4 &#183; LABEL AREA</text>
+                            </svg>
+                        </div>
+                        <figcaption>Phase 3 introduces functional details &#8212; cut vent grilles, recess a handle, add a top hatch, and carve a label area so the container reads as a working piece of equipment.</figcaption>
+                    </figure>
+
                     <h3>Phase 4: Edge Definition (10 minutes)</h3>
 
                     <div class="card">
@@ -2227,6 +3108,25 @@
                             <li>Run Mesh → Clean Up → Merge by Distance</li>
                         </ol>
                     </div>
+
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_32_project_phase4_beveling.png" alt="Phase 4 edge definition shown before and after: a flat sharp-edged container on the left versus the same container with a Bevel modifier catching rim light on the right." loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="77" y="452" width="226" height="70" rx="12" fill="#FF6B00"/>
+                            <text x="190" y="498" font-family="Arial,Helvetica,sans-serif" font-size="46" font-weight="700" fill="#fff" text-anchor="middle">BEFORE</text>
+                            <rect x="1617" y="452" width="198" height="70" rx="12" fill="#FF6B00"/>
+                            <text x="1716" y="498" font-family="Arial,Helvetica,sans-serif" font-size="46" font-weight="700" fill="#fff" text-anchor="middle">AFTER</text>
+                            <rect x="666" y="388" width="560" height="300" rx="18" fill="#FF6B00"/>
+                            <text x="946" y="444" font-family="Arial,Helvetica,sans-serif" font-size="40" font-weight="700" fill="#fff" text-anchor="middle">BEVEL MODIFIER</text>
+                            <text x="706" y="506" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="start">Amount: 0.02 m</text>
+                            <text x="706" y="554" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="start">Segments: 3</text>
+                            <text x="706" y="602" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="start">Harden Normals: on</text>
+                            <text x="706" y="650" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="start">Clamp Overlap: on</text>
+                            </svg>
+                        </div>
+                        <figcaption>Phase 4 defines the edges &#8212; before beveling the form reads flat and CG, while a Bevel modifier (small amount, a few segments, harden normals) catches light along every edge for a believable manufactured look.</figcaption>
+                    </figure>
 
                     <h3>Phase 5: Optional Enhancements (15 minutes)</h3>
 
@@ -2348,6 +3248,23 @@
                         </ul>
                     </div>
 
+                    <figure>
+                        <div style="position: relative; display: inline-block; max-width: 100%;">
+                            <img src="images/lesson_29_33_project_final_result.png" alt="Final hard-surface container shown from four angles: front, side with vent grilles, top, and a three-quarter perspective view, on a dark studio background." loading="lazy" style="display: block; max-width: 100%; height: auto; margin: 0;">
+                            <svg viewBox="0 0 1504 1504" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="30" y="30" width="172" height="62" rx="12" fill="#FF6B00"/>
+                            <text x="116" y="71" font-family="Arial,Helvetica,sans-serif" font-size="40" font-weight="700" fill="#fff" text-anchor="middle">FRONT</text>
+                            <rect x="778" y="30" width="147" height="62" rx="12" fill="#FF6B00"/>
+                            <text x="852" y="71" font-family="Arial,Helvetica,sans-serif" font-size="40" font-weight="700" fill="#fff" text-anchor="middle">SIDE</text>
+                            <rect x="30" y="778" width="122" height="62" rx="12" fill="#FF6B00"/>
+                            <text x="91" y="819" font-family="Arial,Helvetica,sans-serif" font-size="40" font-weight="700" fill="#fff" text-anchor="middle">TOP</text>
+                            <rect x="778" y="778" width="321" height="62" rx="12" fill="#FF6B00"/>
+                            <text x="938" y="819" font-family="Arial,Helvetica,sans-serif" font-size="40" font-weight="700" fill="#fff" text-anchor="middle">PERSPECTIVE</text>
+                            </svg>
+                        </div>
+                        <figcaption>The finished hard-surface container from four angles &#8212; front, side, top, and perspective &#8212; showing consistent panel detail, vents, hardware and beveled edges across the whole model.</figcaption>
+                    </figure>
+
                     <h3>Next Steps</h3>
 
                     <div class="card">
@@ -2399,11 +3316,11 @@
 
                     <p>You've completed your introduction to hard surface modeling in Blender. You've learned the techniques, tools, and workflows that professionals use to create mechanical objects, vehicles, weapons, and architectural elements. Let's review your accomplishments and chart your continued journey.</p>
 
-                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                        <h3 style="color: white;">🎓 What You've Mastered</h3>
+                    <div class="card" style="border: 2px solid currentColor;">
+                        <h3>🎓 What You've Mastered</h3>
                         
-                        <p style="color: white;"><strong>Core concepts:</strong></p>
-                        <ul style="color: white;">
+                        <p><strong>Core concepts:</strong></p>
+                        <ul>
                             <li>✅ Hard surface modeling fundamentals (geometric precision, manufactured forms)</li>
                             <li>✅ When to use hard surface vs. organic modeling</li>
                             <li>✅ Non-destructive modifier workflow</li>
@@ -2411,8 +3328,8 @@
                             <li>✅ Professional hard surface aesthetic</li>
                         </ul>
 
-                        <p style="color: white; margin-top: 1rem;"><strong>Essential modifiers:</strong></p>
-                        <ul style="color: white;">
+                        <p style="margin-top: 1rem;"><strong>Essential modifiers:</strong></p>
+                        <ul>
                             <li>✅ Bevel modifier for professional edges</li>
                             <li>✅ Mirror modifier for perfect symmetry</li>
                             <li>✅ Array modifier for repeated elements</li>
@@ -2421,8 +3338,8 @@
                             <li>✅ Proper modifier stack ordering</li>
                         </ul>
 
-                        <p style="color: white; margin-top: 1rem;"><strong>Technical skills:</strong></p>
-                        <ul style="color: white;">
+                        <p style="margin-top: 1rem;"><strong>Technical skills:</strong></p>
+                        <ul>
                             <li>✅ Boolean operations (Union, Difference, Intersect)</li>
                             <li>✅ Quad topology maintenance</li>
                             <li>✅ Support geometry for subdivision control</li>
@@ -2430,8 +3347,8 @@
                             <li>✅ Clean, production-ready workflows</li>
                         </ul>
 
-                        <p style="color: white; margin-top: 1rem;"><strong>Practical experience:</strong></p>
-                        <ul style="color: white;">
+                        <p style="margin-top: 1rem;"><strong>Practical experience:</strong></p>
+                        <ul>
                             <li>✅ Completed mechanical container project</li>
                             <li>✅ Applied full hard surface workflow</li>
                             <li>✅ Created professional-quality asset</li>
