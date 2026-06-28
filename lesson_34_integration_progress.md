@@ -1,6 +1,6 @@
 # Lesson 34 (Cloth Simulation) &#8212; Integration Progress
 
-**Status:** OPEN &#183; baseline locked &#183; **Phase 0 modernization COMPLETE + live-verified** &#183; **4 inline SVGs authored + cairosvg-verified (2026-06-27)** &#183; planning complete &#183; **ALL 14 PNG PRODUCED (Batches 1&#8211;4 COMPLETE, 2026-06-27): {3,7,11,12,13,17,18,20,24,27,32,33,35,36}.** Ready for INTEGRATION.
+**Status:** **FULLY CLOSED &#8212; INTEGRATION COMPLETE + QA-PASS (2026-06-28)** &#183; 18/18 figures live (4 inline SVG {1,9,16,37} + 14 PNG {3,7,11,12,13,17,18,20,24,27,32,33,35,36} with c34 overlays) &#183; final live HTML bytes 248,664 / em-dash 72 / figure 18 / img 14 / svg 18 &#183; **Browser QA PASS (4 configs 380/900 × dark/light, 0 defects, live HTML untouched).** See &#167;8 for FINAL INVARIANT TABLE + c34 registry; &#167;9 for QA results.
 Module 7 (Advanced Modeling), lesson 7 of module. Slug `cloth_simulation`.
 File `lesson_34_cloth_simulation.html`. Source of truth = this doc + `session.md` head.
 Opened 2026-06-27.
@@ -262,3 +262,122 @@ Bridge health test PASSED at session start (render f1 → cam +0.5m → re-rende
 **RE-BASELINE unchanged (HTML still untouched): bytes 196,802 / md5 ecb27b3c60fbb0249e634463054f6ca9 / em-dash 72 / purple 0 / table-wrap 8 / figure 0.**
 
 **REMAINING: none for asset production.** NEXT = **INTEGRATION** (18 figs, own chat: drop 4 inline SVG {1,9,16,37} root `color="#222"`→currentColor + place 14 PNG with c34 overlays; BAKE L33 overlay-margin fix into EVERY overlay figure — wrapper `style="position:relative;display:inline-block;max-width:100%;font-size:0"` + overlaid img `style="margin:0;vertical-align:top"`; never touch shared main.css) → **QA** (own chat).
+
+---
+
+## 8. INTEGRATION COMPLETE (2026-06-28)
+
+**STATUS: FULLY CLOSED — INTEGRATION COMPLETE + QA-PASS (2026-06-28). 18/18 figures live (4 inline SVG + 14 PNG with c34 overlays). QA section = §9.**
+
+All 18 BUILD figures integrated across two sessions. Per-figure procedure held throughout: pull PNG → PIL dims==locked → view to place leaders → author overlay at viewBox==locked → cairosvg 1:1 render (size assert + nonempty) → composite preview + view → assemble inline figure block (0 literal em-dash; `&#183;`/`&#8594;`/`&#8212;` entities) → edit_file dryRun→commit→get_file_info → re-pull + recount. L33 overlay-margin fix baked into every PNG overlay (wrapper `font-size:0` + img `margin:0;vertical-align:top`).
+
+### Integration byte / figure ladder
+
+| Checkpoint | bytes | figure | img | svg | em-dash |
+|---|---|---|---|---|---|
+| Phase-0 re-baseline (HTML, pre-integration) | 196,802 | 0 | 0 | 0 | 72 |
+| Session 1 close (12/18: 9 PNG + 3 inline SVG {1,9,16}) | 234,236 | 12 | 9 | 12 | 72 |
+| +#27 practical-examples (PNG) | 236,113 | 13 | 10 | 13 | 72 |
+| +#32 troubleshooting (PNG) | 237,902 | 14 | 11 | 14 | 72 |
+| +#33 troubleshooting (PNG) | (intermediate) | 15 | 12 | 15 | 72 |
+| +#37 troubleshooting (inline SVG) | 245,949 | 16 | 12 | 16 | 72 |
+| +#35 project (PNG) | (intermediate) | 17 | 13 | 17 | 72 |
+| **+#36 project (PNG) — INTEGRATION COMPLETE** | **248,664** | **18** | **14** | **18** | **72** |
+
+### FINAL INVARIANT TABLE (live HTML, UTF-8 python3, re-pulled + recounted)
+
+| Invariant | Baseline | Final | Note |
+|---|---|---|---|
+| bytes (disk) | 196,550 (orig) / 196,802 (Phase-0) / 234,236 (S1 close) | **248,664** | +14,428 over S1 close (6 figs) |
+| em-dash U+2014 | 72 | **72** | preserved verbatim, 0 new (figcaptions use `&#8212;` entity) |
+| literal U+00B7 | 0 | **0** | all separators are `&#183;` entity |
+| `&#183;` entity | 9 | **19** | +10 (#37 flowchart 8 + figcaption/pill separators) |
+| `#667eea` / `#764ba2` / `color="#222"` | 0 / 0 / 0 | **0 / 0 / 0** | clean |
+| currentColor | (Phase-0) | **36** | 4 inline SVG roots + children |
+| `.table-wrap` | 8 | **8** | unchanged |
+| rendered `class="mermaid"` | 17 | **17** | unchanged (semantic fills preserved) |
+| `<figure` / `<figcaption` / `</figure>` | 0 | **18 / 18 / 18** | balanced |
+| `<svg` / `</svg>` | 0 | **18 / 18** | 4 inline + 14 overlay |
+| `<img` | 0 | **14** | all 14 PNG |
+
+### Placement coverage (11 sections)
+
+| Section id | Figures live | Count |
+|---|---|---|
+| understanding-cloth | #1(svg spr) | 1 |
+| first-simulation | #3, #7 | 2 |
+| cloth-properties | #9(svg sti) | 1 |
+| pinning-groups | #11, #12, #13 | 3 |
+| collision-setup | #16(svg col), #17, #18 | 3 |
+| self-collision | #20 | 1 |
+| cache-baking | #24 | 1 |
+| practical-examples | #27 | 1 |
+| troubleshooting | #32, #33, #37(svg wf) | 3 |
+| project | #35, #36 | 2 |
+| summary | — (deferred, acceptable per L27) | 0 |
+
+Total = 18 (4 inline SVG + 14 PNG). `summary` carries 0 figures (L27 precedent).
+
+### c34 REGISTRY (14 PNG overlays + 4 inline SVG)
+
+**Inline SVG (4):** #1 `spr-` (spring network, understanding-cloth), #9 `sti-` (stiffness types, cloth-properties), #16 `col-` (collision distance, collision-setup), #37 `wf-` (workflow flowchart, troubleshooting). All root `color="currentColor"` (light+dark safe), 0 hardcoded `color="#222"` in HTML.
+
+**PNG c34 overlays (14):** role colors per c34 style — #4A9EFF blue (setup/before/primary), #4ADE80 green (after/baked/final), #FF6B00 orange (problem/highlight/free); dark backing rect `fill="#1a1a1a" fill-opacity≈0.82–0.85` over bright cloth areas.
+- #3 physics_properties_panel — panel-region callouts
+- #7 cloth_falling_sequence — 4-beat frame labels (1276×350)
+- #11 vertex_group_creation — Pin group / Assign callouts
+- #12 weight_paint_mode — red→blue gradient pinned/free
+- #13 pinned_flag_example — pin point + billow (425×539)
+- #17 cloth_on_sphere — drape callout (slug on disk = `cloth_on_sphere`, differs from requirements `cloth_draping_over_sphere`; HTML src + disk agree, link valid)
+- #18 collision_quality_comparison — 3-panel quality labels (1524×460)
+- #20 self_collision_comparison — 2-panel OFF/ON (922×446)
+- #24 cache_settings_panel — Bake / cache-region callouts
+- #27 tablecloth_draping_example — blue "Smooth draped top" + orange "Corner folds" (601×311)
+- #32 cloth_explosion_problem — orange "Cloth explodes" + blue "Collider intact" (442×485)
+- #33 cloth_penetration_problem — orange "Poke-through" (solid+dashed leaders, 482×450)
+- #35 project_scene_overview — blue "Before · flat, not yet simulated" (711×312)
+- #36 project_final_result — green "After · baked, draped & folded" (711×312); #35/#36 = true before/after of one scene, identical crop window
+
+Each overlay viewBox == PNG on-disk pixel box 1:1; cairosvg pixel-verified before every commit.
+
+### Carry-forward / QA notes
+- Browser QA pending (own chat): real Chromium/Playwright @380/900 dark+light; offline mermaid stub in QA copy only (live file untouched). Verify: 0 doc horizontal overflow; 14/14 PNG decode; 14/14 overlays register 1:1; 4/4 inline SVG `currentColor` inverts (dark rgb(212,212,212) / light rgb(51,65,85)); 8/8 `.table-wrap` no doc overflow @380; 17 mermaid divs lay out (offline = harness limit).
+- Blender TRUE-PRISTINE throughout (no bridge work during integration — all assets pre-produced).
+- 0 new em-dashes; 72 U+2014 preserved verbatim at every checkpoint.
+
+---
+
+## 9. BROWSER QA — PASS (2026-06-28)
+
+**L34 LIVE-PIXEL BROWSER QA — PASS. No defects found; live HTML UNTOUCHED (0 edits; bytes 248,664, mtime unchanged).**
+
+Claude-side real Chromium 1194 / Playwright (`/opt/pw-browsers`), live `lesson_34_cloth_simulation.html` + `styles/main.css` + 14 PNGs served on 127.0.0.1:5599 loopback. jsdelivr mermaid import swapped for an offline stub in the **QA copy only** (`qa.html`); live file byte-identical throughout (re-verified `get_file_info` post-run: 248,664 B, mtime 06:42:36 unchanged). All 14 imgs forced `loading=eager` + full-page scroll so `naturalWidth>0`. 4 configs = {380, 900}px × {dark, light}.
+
+**Pre-flight invariant recount (live copy, UTF-8 python3) — all match §8 FINAL INVARIANT TABLE:** bytes 248,664 / figure 18 / figcaption 18 / `</figure>` 18 / img 14 / svg 18 (4 inline + 14 overlay) / em-dash U+2014 72 / literal U+00B7 0 / `&#183;` 19 / `#667eea` 0 / `#764ba2` 0 / `color="#222"` 0 / currentColor 36 / `.table-wrap` 8 / `class="mermaid"` 17.
+
+**Static overlay verify (cairosvg/PIL pre-harness):** 14/14 overlay `viewBox` == PNG on-disk pixel box 1:1 (#3 1356×695, #7 1276×350, #11/#12 1918×974, #13 425×539, #17 441×407, #18 1524×460, #20 922×446, #24 1278×419, #27 601×311, #32 442×485, #33 482×450, #35/#36 711×312). 14/14 PNG wrappers carry the L33 overlay-margin fix (`font-size:0` + img `margin:0;vertical-align:top`).
+
+**Per-config results (all 4 PASS):**
+
+| Config | doc overflow | PNG decode | overlay 1:1 (worst dev) | svg non-empty | table-wrap | mermaid laid out | inline-SVG color |
+|---|---|---|---|---|---|---|---|
+| 380 dark | 0px | 14/14 | 14/14 (0.031px) | 18/18 | 8/8 internal-scroll, 0 doc overflow | 17/17 | rgb(212,212,212) |
+| 380 light | 0px | 14/14 | 14/14 (0.031px) | 18/18 | 8/8 internal-scroll, 0 doc overflow | 17/17 | rgb(51,65,85) |
+| 900 dark | 0px | 14/14 | 14/14 (0.047px) | 18/18 | 8/8, 0 internal scroll | 17/17 | rgb(212,212,212) |
+| 900 light | 0px | 14/14 | 14/14 (0.047px) | 18/18 | 8/8, 0 internal scroll | 17/17 | rgb(51,65,85) |
+
+**Overlay-margin sanity (L33 fix held):** max|dy| = 0.000px, max|dh| = 0.000px across all 14 figures both widths — zero vertical drift (the L33 defect signature was dy≈−16px / dh≈+32px). Only deviations are dw ≤ 0.047px (sub-pixel width rounding).
+
+**Checklist verdict:**
+- 0 document horizontal overflow (scrollWidth===clientWidth) × 4 configs — PASS
+- 14/14 PNG decode (naturalWidth>0) × 4 — PASS
+- 14/14 overlays register 1:1 on bitmaps (worst dev 0.047px, sub-px rounding) × 4 — PASS
+- 18/18 svg non-empty × 4 — PASS
+- 4/4 inline SVG `currentColor` inverts (dark rgb(212,212,212) / light rgb(51,65,85)) — PASS
+- 8/8 `.table-wrap` contain their tables (internal scroll @380, 0 doc overflow) — PASS
+- 17/17 mermaid divs lay out (offline stub render = harness limit, not a defect) — PASS
+- L33 overlay-margin fix held on all 14 (no ~3% drift) — PASS
+
+**RESULT: L34 QA-PASS. Live HTML untouched (no defects). bytes 248,664 / em-dash U+2014 72 / svg 18 / img 14 / figure 18 — all invariants preserved. L34 FULLY CLOSED.** Next lesson: **L35 (Rigid Body Physics)**.
+
+**L34 STATUS: FULLY CLOSED — INTEGRATION COMPLETE + QA-PASS (2026-06-28).**
