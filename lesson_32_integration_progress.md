@@ -1,6 +1,6 @@
 # Lesson 32 Integration Progress - Particle Systems Overview
 
-**Status:** ACTIVE - PRODUCTION. 13/24 figures on disk (4 inline SVG + 9 PNG). 11 render/geometry PNG remain, then INTEGRATION.
+**Status:** ACTIVE - PRODUCTION COMPLETE. 24/24 figures on disk (4 inline SVG + 20 PNG). All PNG batches (A/B/C) CLOSED. NEXT: INTEGRATION (own chat, byte-ladder from 282,724).
 **Opened:** 2026-06-27
 **Slug:** particle_systems_overview
 **File:** lesson_32_particle_systems_overview.html
@@ -237,7 +237,7 @@ Remaining PRODUCTION: 20 PNG via BlenderMCP (namespace c32) in PNG sub-chats (>=
 
 **Blender state at batch A close:** NOT TRUE-PRISTINE. Additive staging persists: particle system "Rain" (ParticleSystem mod) on Cube; Raindrop ico-sphere; Debris_Collection (5 objs: Debris_Rock1/Rock2/Chunk/Shard/Bit); Ground plane (-3 Z) with Collision modifier; ParticleAge material on Cube (Particle Info->ColorRamp->Principled). VIEW_3D area was switched to NODE_EDITOR and MAXIMIZED (fullscreen) - restore via `screen.back_to_previous()` if needed. View transform AgX UNTOUCHED (all UI-chrome). Next chat: either keep staging for the manual subpanel cluster (#9/13/14/31 reuse Rain psys + Ground collision + Debris_Collection + Raindrop directly) OR reset to pristine before the color-dependent render set.
 
-### PNG batch C (render/geometry set) - PARTIAL 2026-06-27
+### PNG batch C (render/geometry set) - COMPLETE 2026-06-27
 
 **Slice:** render/geometry set {3, 6, 7, 8, 11, 15, 16, 19, 20, 22, 23, 27, 28} = 13 PNG. Of these, 10 are color-dependent renders (LD17 F12 recipe), 3 are viewport/UI-chrome captures (#19 rain viewport, #27 collision viewport, #20 shader-editor screenshot - opengl/screenshot path, NOT color-dependent).
 
@@ -260,7 +260,33 @@ Remaining PRODUCTION: 20 PNG via BlenderMCP (namespace c32) in PNG sub-chats (>=
 
 **Temp files retained on disk (delete at INTEGRATION):** `_temp_l32_03_faces.png`, `_temp_l32_03_volume.png`, `_temp_l32_03_verts.png`, `_temp_l32_06_g10.png`, `_temp_l32_06_g00.png`, `_temp_l32_06_gneg10.png`, `_temp_l32_06_g20.png` in images\. (Plus batch-A retained `_temp_l32_fullwin.png`, `_temp_l32_02_raw.png`, `_temp_l32_17_raw.png`.)
 
-**PNG progress after batch C (partial):** 12 of 20 PNG done (batch A {2,4,17} + batch B {9,13,14,31} + batch C {3,6,7,8,11}). REMAINING PNG (8): {15, 16, 19, 20, 22, 23, 27, 28}.
+**PNG progress after batch C (partial):** 17 of 20 PNG done (batch A {2,4,17} + batch B {9,13,14,31} + batch C {3,6,7,8,11,15,16,22,23,28}). REMAINING PNG (3): {19, 20, 27} - ALL viewport/UI-chrome (need AgX + world 0.88 + viewport shading). **ALL 8 COLOR-DEPENDENT RENDERS COMPLETE.**
+
+#### #28 wind-on-rain 2-panel - COMPLETE 2026-06-27
+
+`lesson_32_28_wind_on_rain.png` 1202x600, 230,528 B (in-band). L=**no wind** (rain falling straight, uniform vertical fill) &#183; R=**with wind** (WIND str 5.0 rotated +X horizontal, emitter shifted x-2.0 so blown drops sweep across full frame at a clear diagonal slant). RainCyan emissive (0.45,0.72,1.0)/1.6, 600 drops RAND from a high plane (z4.0), gravity 1.0, continuous emit. **Wind tuning:** str 12 blew drops out-of-frame (x->17); str 5.0 + left-shifted emitter gives an in-frame slant. Front cam. Orange 2px divider, NO baked text (c28 overlay at INTEGRATION). RainEmit/RainDot/wind removed; RainCyan material kept.
+
+#### #22 snow+turbulence beauty - COMPLETE 2026-06-27
+
+`lesson_32_22_snow_turbulence.png` 600x600, 217,489 B (in-band). Single beauty render: cool-white snow (SnowWhite emissive 0.85,0.93,1.0 / str 1.5, ico r0.04) falling from a wide high plane (size 7, z4.5), 700 particles RAND, mass 0.3, scene.gravity -2.0 (slow fall), TURBULENCE str 1.5 size 2.0 for natural sway, size_random 0.6 for depth variation. Front cam. scene.gravity RESTORED to -9.81 after. SnowEmit/SnowDot/turbulence removed; SnowWhite material kept (harmless).
+
+#### #23 sparks burst beauty - COMPLETE 2026-06-27
+
+`lesson_32_23_sparks_burst.png` 600x600, 227,606 B (in-band). Single beauty render: hot-orange spark burst (SparkHot emissive 1.0,0.32,0.02 / str 1.8, ico r0.035) from a point emitter (ico r0.15, z-1.0), 500 particles, short burst (frame_end 8), normal 4.5 + factor_random 2.5 explosive velocity, mass 0.6, gravity 1.0 arcing. Captured **f14** (peak in-frame spread - frame-scanned 14/16/18/20/22, f14 kept ~229 in-frame; later frames the burst overshoots out of view). **Color tuning note:** hot sparks need green channel LOW (0.32) - at green 0.45-0.6 the emissive clips to flat yellow under Standard; pull toward orange-red. SparkEmit/SparkDot removed; SparkHot material kept; camera restored to canonical front (0,-9,1.2 / 82deg).
+
+#### #16 path-rendering beauty - COMPLETE 2026-06-27
+
+`lesson_32_16_path_rendering.png` 600x600, 381,040 B (in-band). Single beauty render: **hair-PATH starburst** - radial emissive-orange strands bursting from an ico-sphere (subdiv 2, r0.8). settings.type='HAIR', count 200, hair_length 2.5, render_type='PATH', emissive L09Orange strands. Ray-approved starburst (over directional motion-trail). **LOCKED: HAIR + render_type='PATH' DOES render visible strands in EEVEE F12** (unlike Newtonian PATH which is blank) - this is the reliable way to get true particle-path/trail renders. PathEmit removed after; scene back to Camera/FFDot/Light.
+
+#### #15 render-types 4-panel - COMPLETE 2026-06-27
+
+`lesson_32_15_render_types.png` 2406x600, 245,667 B (in-band). L->R: **None** (render_type='NONE', emitter mesh visible via show_instancer_for_render=True + GreyPlane, no particles) &#183; **Halo** (EEVEE stand-in: small emissive OBJECT dots, particle_size 0.5) &#183; **Object** (instanced FFDot sphere, particle_size 2.5) &#183; **Collection** (mixed cube/cone/cylinder instances). Identical 45-particle JIT layout across all 4 (only render_type changes = clean teaching control). CAMERA-FACING vertical emitter (plane rot 90deg X) so the field fills frame (a flat XY plane reads as a thin edge-on band under the 82deg front cam). Orange 2px dividers, NO baked text (c15 overlay at INTEGRATION). Figure-specific RTEmit + RT_Instances removed after; scene back to Camera/FFDot/Light.
+
+**LOCKED (render-type figures):**
+1. **HALO render_type renders BLANK in EEVEE F12** (legacy Cycles-era mode, no EEVEE path) - same 176 KB blank-signal as PATH. Use small emissive OBJECT dots as the faithful EEVEE Halo stand-in (Halo = glowing points); note the stand-in in figcaption at INTEGRATION.
+2. **COLLECTION instancing requires the instance_collection to be POPULATED** - `clear_demo`/`clear_emitters` that strips non-protected objects will empty the instance collection and silently produce 0 instances (176 KB blank). Protect the instance-source object names in the clear filter.
+3. **Scene-linked instance-source objects RENDER DIRECTLY at their own location** (stray shape at origin in None/Halo/Object panels). Fix: `layer_collection.exclude=True` for the instance collection - particle COLLECTION instancing reads the collection DATABLOCK, not the view layer, so instancing still works (verified 45 instances) while the source objects stop rendering directly.
+4. render_type enum (5.x): NONE / HALO / LINE / PATH / OBJECT / COLLECTION. Verify instance generation via `sum(1 for i in depsgraph.object_instances if i.is_instance)` before rendering.
 
 #### #8 turbulence 2-panel - COMPLETE 2026-06-27
 
@@ -286,9 +312,25 @@ Remaining PRODUCTION: 20 PNG via BlenderMCP (namespace c32) in PNG sub-chats (>=
 - Color-dependent renders (8): {7 force fields 5-panel, 8 turbulence 2-panel, 11 distribution 3-panel, 15 render-types 4-panel, 16 path-rendering beauty, 22 snow+turbulence beauty, 23 sparks burst beauty, 28 wind-on-rain 2-panel}.
 - Viewport/UI-chrome (3, NOT color-dependent, do under AgX/normal world): {19 rain viewport screenshot, 27 rain-collision viewport screenshot, 20 rain-material shader-editor screenshot}.
 
-**Figure tally after batch C (partial):** inline SVG 4/4 + PNG 12/20 = 16 of 24 figures on disk. 8 PNG remaining, then INTEGRATION.
+**Figure tally after batch C (COMPLETE):** inline SVG 4/4 + PNG 20/20 = 24 of 24 figures on disk. PRODUCTION COMPLETE. Next: INTEGRATION (own chat).
 
-**Blender state at batch C pause (LIVE, NOT restored):** Color-dependent staging ACTIVE - view_transform=Standard, look=None, world 0.05 str 1.0, EEVEE, res 600x600, frame 50. Objects: Camera, Light, GravEmit (plane, #6 leftover), GDot (orange dot). Materials live: ClearEmit, GreyEmit, GreyPlane, L09Cyan, L09Orange. **AgX NOT YET RESTORED** - intentional: 8 color-dependent renders remain, so next chat keeps this staging. The 3 viewport/UI-chrome figures (#19/27/20) need AgX+world 0.88+viewport shading, so do those AFTER the 8 renders, then RESTORE AgX/world 0.88 str 1.0 + L09Orange base (1.0,0.42,0.0) str 5.0 / L09Cyan base (0.29,0.62,1.0) str 5.0 at the FINAL slice close.
+#### #19 / #27 / #20 viewport-UI-chrome slice - COMPLETE 2026-06-27
+
+Final 3 PNG, all viewport/UI-chrome (screenshot/opengl path, NOT F12 color-dep). Built under AgX + world 0.88 str 1.0, on a freshly-rebuilt staged Rain scene (batch-A/B staging was on the prior Blender state and gone). Rebuilt: RainEmitter plane (size 8, z4.0) with "Rain" Newton psys (count 600-800, RAND, lifetime 80-120, normal 0, gravity -9.81) + Ground plane (size 12, z-3.0). Cache STEPPED forward (sc.frame_set 1..N, not jumped) per LOCKED motion-render pattern.
+
+| # | file | px | bytes | scene/capture notes |
+|---|---|---|---|---|
+| 19 | lesson_32_19_rain_viewport.png | 1452x600 (saved 1452x901) | 512,518 | Rain falling column, front ORTHO, MATERIAL-shaded VIEW_3D, overlays ON (floor grid + red X-axis). Orange-selected emitter plane (top) + ground plane (lower), dense white DOT-display particles falling through. Captured via `render.opengl(view_context=True)` to Win tempdir -> PIL relay to WSL (screen.screenshot returned BLANK on the freshly-converted VIEW_3D area - opengl is the reliable content path). view_location z-3.0, view_distance 16. |
+| 27 | lesson_32_27_rain_collision_viewport.png | 1452x901 | 515,483 | Same rain scene + Collision modifier on Ground (damping_factor 0.4, friction_factor 0.5, use_particle_kill False). Particles visibly PILE into a dense accumulation band above the orange-selected collider plane (sparse falling drops up top vs dense collected layer above ground = collision read). Cache re-stepped 1..70 after adding collider. render.opengl path, view_location z-1.0 dist 14. |
+| 20 | lesson_32_20_rain_material_shader.png | 1920x936 | 114,744 | Maximized Shader Node Editor (ShaderNodeTree/OBJECT), RainEmitter active. RainNodeMat tree: Particle Info (Age + Lifetime outputs) -> Divide (Math, Age/Lifetime) -> Color Ramp (cyan 0.30,0.70,1.0 -> deep-blue 0.02,0.10,0.45) -> Principled BSDF (Base Color) -> Material Output. Breadcrumb RainEmitter > Plane.031 > RainNodeMat visible. node.view_all framed; isolated maximize/screenshot/restore per L18 stall-fix; PIL crop to node canvas, top header strip trimmed. In UI-chrome band. |
+
+**LOCKED (viewport/opengl figures):** `bpy.ops.screen.screenshot` returns a BLANK dark capture on a VIEW_3D area freshly converted from another editor type (the area's draw buffer is not populated; wm.redraw_timer DRAW_WIN_SWAP does not fix it). Use `bpy.ops.render.opengl(write_still=True, view_context=True)` under a VIEW_3D temp_override instead - it renders actual viewport content (with overlays when show_overlays=True) to a file directly, no screenshot-buffer dependency. opengl viewport renders of a dense particle field + grid legitimately land 500-520 KB (content-justified, NOT flat-panel upscaling - the 250 KB UI-chrome flag does not apply to a viewport render with full grid + hundreds of particle dots).
+
+**FINAL RESTORE at slice close (EXECUTED + verified):** NODE_EDITOR area switched back to VIEW_3D (SOLID shading, toolbar on); view_transform=AgX look=None; world 0.88 str 1.0; L09Orange EMISSION (1.0,0.42,0.0) str 5.0; L09Cyan EMISSION (0.29,0.62,1.0) str 5.0; gravity -9.81; camera canonical (0,-9,1.2 / 82deg); render res reset 600x600. VERIFIED via read-back. **Cosmetic leftovers (harmless, no figures depend on them):** RainEmitter + Ground objects + RainNodeMat material persist in scene; RainCyan/SnowWhite/SparkHot beauty mats persist. Purge optional at INTEGRATION (separate chat, no rendering).
+
+**Temp files retained on disk to delete at INTEGRATION (images\ only; the _l32_19/27_ogl.png + _l32_*_fullwin.png live in the Windows tempdir, not images\, so they are NOT in the images\ delete list):** the batch-A 3 (`_temp_l32_fullwin.png`, `_temp_l32_02_raw.png`, `_temp_l32_17_raw.png`) + batch-C 7 (`_temp_l32_03_faces.png`, `_temp_l32_03_volume.png`, `_temp_l32_03_verts.png`, `_temp_l32_06_g10.png`, `_temp_l32_06_g00.png`, `_temp_l32_06_gneg10.png`, `_temp_l32_06_g20.png`) = 10 temps in images\.
+
+**Blender state at batch C COMPLETE (RESTORED, 2026-06-27):** AgX/None, world 0.88 str 1.0, EEVEE, res 600x600, gravity -9.81, camera canonical front. Objects: Camera, Light, RainEmitter, Ground (last two are cosmetic leftovers). L09Orange/L09Cyan restored to base values. PRODUCTION fully done - all 24 figures on disk.
 
 ---
 
@@ -299,3 +341,176 @@ Remaining PRODUCTION: 20 PNG via BlenderMCP (namespace c32) in PNG sub-chats (>=
 - 2026-06-27: PNG batch A (UI-chrome) PARTIAL. Verified Blender TRUE-PRISTINE first (AgX/None, EEVEE, world 0.88, default 8-vert Cube, 0 mods/psys). Staged additive scene (Rain psys on Cube, Raindrop, Debris_Collection x5, Ground+Collision, ParticleAge node material). Built 3 PNG: #2 interface overview (67,543 B), #4 properties panel layout (88,634 B), #17 Particle Info node setup (91,769 B) - all maximized-area captures, 1:1 1920px, get_file_info verified. BLOCKER: subpanel expansion not scriptable (no RNA flag, no click-injection) -> #9/#13/#14/#31 reassigned to MANUAL Win+Shift+S sub-chat. Remaining PNG: render/geometry {3,6,7,8,11,15,16,19,20,22,23,27,28}=13 + manual {9,13,14,31}=4. Blender left staged (NOT pristine); AgX untouched. 3 _temp raw files retained in images/.
 - 2026-06-27: PNG batch B (manual subpanel set) COMPLETE. Pre-flight verified batch-A staging intact (Rain psys, Ground Collision, Debris_Collection x5, Raindrop, ParticleAge, AgX untouched). KEPT staging (no pristine reset - scene already carried all 4 captures). Restored normal Layout via screen.back_to_previous(); widened right column 337->650px. Built 4 PNG via manual Win+Shift+S (Claude pre-set state, Ray snipped + saved direct to images\, Claude view-verified each): #31 viewport_display (122,753 B), #13 render_as_object (130,149 B), #14 render_as_collection (208,151 B, 2-area Outliner+Properties), #9 collision_physics (151,682 B). Restore at close: unlinked Debris_Collection from scene master (linked only for #14), render_type COLLECTION->HALO (instance refs kept), reselected Cube, Properties->PARTICLES, AgX confirmed untouched. PNG now 7/20; figures 11/24. NEXT: render/geometry set {3,6,7,8,11,15,16,19,20,22,23,27,28}=13 PNG (own sub-chat, RESET to pristine first, LD17 Standard recipe + restore AgX), then INTEGRATION.
 - 2026-06-27: PNG batch C (render/geometry set) PARTIAL. RESET to TRUE-PRISTINE first (verified), applied LD17 color-dependent staging (Standard/None, world 0.05, EEVEE). Relay path verified (Win tempdir->PIL 12.2.0->WSL). Built 2 PNG: #3 emission_source_comparison (1924x640, 335,333 B, 3-panel Faces/Volume/Verts with cyan wireframe-cage emitter) + #6 gravity_effects_comparison (1202x1202, 329,491 B, 2x2 grid fall/float/rise/fast-fall, per-panel emitter Z). LOCKED FINDINGS: (1) PATH render_type renders EMPTY for Newtonian emitter particles - use render_type=OBJECT emissive dots; (2) Volume emission needs transparent/wireframe-cage emitter (opaque faces occlude interior); (3) sparse dark-world panels legitimately 187-200 KB (content-verified, do not upscale); (4) display_method has no PATH enum, path steps are render_step/display_step not draw_step. PNG now 9/20; figures 13/24. Blender LEFT in color-dependent staging (AgX NOT restored - intentional, 8 renders remain). NEXT: remaining 11 PNG {7,8,11,15,16,19,20,22,23,27,28} - 8 color-dep renders keep staging, then 3 viewport/UI-chrome (#19/27/20) under AgX, then RESTORE AgX/world 0.88 at final slice close; then INTEGRATION.
+- 2026-06-27: PNG batch C render/geometry slice CONTINUED - all 8 color-dependent renders now COMPLETE (#3+#6 prior, +#7/#8/#11/#15/#16/#22/#23/#28 this slice). Kept color-dep staging (Standard/None, world 0.05, EEVEE) throughout; reused L09Orange/L09Cyan by name + FFDot orange instance object. Built: #7 force_field_types (5-panel Force/Wind/Vortex/Drag/Magnetic, 427,637 B, 5th=Magnetic per Ray), #8 turbulence_comparison (2-panel low/high, 228,754 B), #11 distribution_modes (3-panel Jit/Rand/Grid top-down, 343,574 B), #15 render_types (4-panel None/Halo/Object/Collection, 245,667 B, Halo=emissive-dot stand-in per Ray), #16 path_rendering (hair-PATH starburst beauty, 381,040 B, per Ray), #22 snow_turbulence (beauty, 217,489 B), #23 sparks_burst (beauty f14, 227,606 B), #28 wind_on_rain (2-panel, 230,528 B). All view-verified + get_file_info; per-panel temps removed after each composite. NEW LOCKED FINDINGS in batch-C section: motion-render pattern (frame_set must STEP forward to integrate NEWTON not jump; continuous emit + low normal + field; per-field-type camera; Wind-vs-Drag distinct-signature craft); distribution (JIT/RAND/GRID, grid_resolution^2 count, top-down static); render-type (HALO blank in EEVEE -> emissive-dot stand-in; COLLECTION needs populated coll + layer-exclude; verify is_instance); HAIR+PATH renders strands in EEVEE; sparks green<=0.32. Figures 21/24; PNG 17/20. Blender LEFT in color-dep staging, AgX NOT restored. NEXT: 3 viewport/UI-chrome {19,20,27} under AgX+world 0.88 (need rebuilt Rain staged scene), then FINAL RESTORE, then mark batch C COMPLETE (PNG 20/20, figures 24/24), then INTEGRATION (own chat).
+- 2026-06-27: PNG batch C viewport/UI-chrome slice COMPLETE - final 3 PNG built, batch C CLOSED, PRODUCTION COMPLETE (24/24 figures). Verified live Blender matched pause #2 block; switched to AgX + world 0.88. Rebuilt staged Rain scene (RainEmitter plane + Newton "Rain" psys + Ground plane); cache stepped forward. Built: #19 rain_viewport (1452x901, 512,518 B, front-ortho MATERIAL viewport, falling DOT column), #27 rain_collision_viewport (1452x901, 515,483 B, +Ground Collision mod, particles pile above collider), #20 rain_material_shader (1920x936, 114,744 B, RainNodeMat Particle-Info->Divide->ColorRamp->Principled node tree, maximized shader editor). All view-verified + get_file_info. NEW LOCKED FINDING: screen.screenshot returns BLANK on a freshly-converted VIEW_3D area -> use render.opengl(view_context=True) for viewport content; opengl particle-field+grid renders legitimately 500-520 KB (content-justified, 250 KB UI-chrome flag N/A). FINAL RESTORE executed + verified: VIEW_3D layout, AgX/None, world 0.88/1.0, L09Orange (1.0,0.42,0.0)/5.0, L09Cyan (0.29,0.62,1.0)/5.0, gravity -9.81, camera canonical, res 600x600. Cosmetic leftovers: RainEmitter/Ground/RainNodeMat persist (harmless). 10 images\ temps flagged for INTEGRATION delete. NEXT: INTEGRATION (own chat, byte-ladder from 282,724).
+
+## INTEGRATION LOG (own chat, started 2026-06-27)
+
+**session.md head flipped to L32 INTEGRATION ACTIVE (committed 2026-06-27).**
+
+### SVG batch INTEGRATION COMPLETE - 4/4 inline SVGs landed (2026-06-27)
+All 4 inline SVGs {1,5,10,34} inlined per IMAGE_STYLE_GUIDE v8 checklist (stripped root `color="#222"`, re-indented to local card depth, collapsed multi-line attrs, pruned ASCII-divider comments / kept short structural comments, preserved every role/aria/title/desc/id + #5 markers vd-h-purple/green/blue verbatim). Each cairosvg pixel-verified light+dark Claude-side, then edit_file dryRun->commit->get_file_info, mermaid left intact at every anchor.
+
+| # | id-prefix | placement anchor (section -> card) | indent (figure/contents) |
+|---|---|---|---|
+| 1 lifecycle | pl | what-are-particles -> Understanding Particles card, after lifecycle mermaid `</div>` | 20/24 |
+| 5 velocity | vd (3 markers preserved) | particle-physics -> Velocity card, after velocity mermaid `</div>` | 20/24 |
+| 10 collision | cb | particle-physics -> Collisions card, after collision mermaid `</div>` | 24/28 |
+| 34 quick-ref | sqr (800x680 dense; `&#8722;` minus x2) | summary -> Effect Templates card, after the table-wrap `</div>` | 24/28 |
+
+**Byte-ladder:** 282,724 (baseline) -> 289,219 (#1) -> 294,523 (#5) -> 301,735 (#10) -> **310,489 (#34)**.
+**Invariants after #34 (UTF-8 python3, fresh Claude-side copy):** figure 4 / figcaption 4 / `</figure>` 4 / img 0 / svg 4 ; em-dash U+2014 34 (0 new) ; U+00B7 literal 0 ; `&#183;` 8 ; color="#222" 0 ; #667eea/#764ba2 0/0 ; `<table>` 9 / table-wrap 9 ; mermaid import 1 / class=mermaid divs 10 ; ids pl/vd/cb/sqr all present ; `&#8722;` 2.
+
+### LOCKED placement map for the 20 PNG c32 overlays (topical fit, derived from live section/h3 map)
+- **particle-basics -> The Particle Properties Panel:** #2 interface_overview, #4 properties_panel_layout
+- **particle-basics -> Viewport Display Options:** #31 viewport_display
+- **emission-settings -> Emission Source Types:** #3 emission_source_comparison
+- **emission-settings -> Distribution Modes:** #11 distribution_modes
+- **particle-physics -> Gravity and Field Weights:** #6 gravity_effects_comparison
+- **particle-physics -> Force Fields:** #7 force_field_types (after force-field content); #8 turbulence_comparison (at/after the Turbulence callout)
+- **particle-physics -> Collisions:** #9 collision_physics (after the two-step collision setup, BEFORE the #10 SVG decision-tree)
+- **rendering-particles -> Render Types Overview:** #15 render_types (figcaption MUST note Halo = EEVEE emissive-dot stand-in)
+- **rendering-particles -> Object Instancing:** #13 render_as_object
+- **rendering-particles -> Collection Instancing:** #14 render_as_collection
+- **rendering-particles -> Path Rendering:** #16 path_rendering (figcaption MUST note hair-PATH starburst stand-in)
+- **rendering-particles -> Materials for Particles:** #17 particle_info_node_setup, #20 rain_material_shader
+- **common-effects -> Rain Effect:** #19 rain_viewport
+- **common-effects -> Snow Effect:** #22 snow_turbulence
+- **common-effects -> Sparks and Embers:** #23 sparks_burst
+- **project -> Part 3 Ground Collision:** #27 rain_collision_viewport
+- **project -> Part 4 Wind Force:** #28 wind_on_rain
+
+### PNG overlay build rules (carry into fresh chat)
+- viewBox == on-disk PNG pixel box 1:1 (confirmed px: #19 1452x901, #27 1452x901, #20 1920x936; others read via get_file_info at build time).
+- Wrapper div + overlay-svg pattern (LD10): relative inline-block container, img inline `display:block;max-width:100%;height:auto;margin:0`, overlay `position:absolute;inset:0;width:100%;height:100%;pointer-events:none` + `preserveAspectRatio="xMidYMid meet"`.
+- Overlay ids namespaced `c32-*` (e.g. c32-19-badge). Overlay svg does NOT need role/aria (figcaption + alt carry a11y).
+- Plates: warn/render/raw `#FF6B00` plate + `#fff` text; good/clean `#4ADE80` plate + `#0f1a14` text. HTML entities only; 0 new em-dashes (use `&#183;`).
+- cairosvg pixel-verify each overlay over its PNG Claude-side (copy_file_user_to_claude -> composite at viewBox=PNG px -> view) BEFORE every edit_file commit (LD19).
+- Indent depth per parent card (most section-direct cards open col 20 -> figure 20/contents 24; cards-in-cards deeper). Confirm per anchor.
+- overlays ARE counted in live svg (target svg 24 = 4 inline + 20 overlay); img 20 (one per PNG).
+
+### Remaining INTEGRATION work
+1. 20 PNG c32 overlays per map above (dryRun->commit->get_file_info + recount each).
+2. DELETE 10 `_temp_l32*.png` in images\ (batch-A 3: _temp_l32_fullwin/_02_raw/_17_raw; batch-C 7: _temp_l32_03_faces/volume/verts + _06_g10/g00/gneg10/g20). No Filesystem delete tool -> use blender bridge `os.remove` (or note for Ray). The _l32_19/27_ogl + _l32_*_fullwin in the Windows tempdir are NOT in this list.
+3. FINAL INVARIANT TABLE in this doc: targets figure 24 / figcaption 24 / `</figure>` 24 / img 20 / svg 24 / em-dash 34 / U+00B7 0 / color222 0 / #667eea+#764ba2 0/0 / table-wrap 9 / mermaid import 1 / divs 10.
+4. Browser QA = SEPARATE chat (Playwright + system Chrome, 4 configs 380/900 x dark/light; offline mermaid stub on render-copy only, live untouched).
+
+### PNG overlay BUILD LOG (own chat, started 2026-06-27)
+
+**PNG pixel registry (read on disk via Pillow, viewBox == these 1:1):**
+#2 1920x749 | #4 1920x987 | #31 918x1296 | #3 1924x640 | #11 1804x600 | #6 1202x1202 | #7 3008x600 | #8 1202x600 | #9 915x1268 | #13 892x1450 | #14 901x1932 | #15 2406x600 | #16 600x600 | #17 1700x475 | #20 1920x936 | #19 1452x901 | #22 600x600 | #23 600x600 | #27 1452x901 | #28 1202x600.
+
+**Convention re-confirmed at build:** overlay `<svg>` carries NO font-family (badge `<text>` inherits page system-ui) and NO role/aria (figcaption+alt carry a11y); overlay text uses inline `font-size`/`font-weight`/`fill` only. figcaptions open with descriptive prose (NO "Figure N:" prefix - matches the 4 inline-SVG figcaptions). Section-direct figures placed after the topical card's closing `</div>`, at figure col 20 / contents col 24.
+
+**LANDED (14/20), each cairosvg pixel-verified light-side then edit_file dryRun->commit->get_file_info->UTF-8 recount:**
+
+| # | file | viewBox | anchor (live) | c32 ids | callouts |
+|---|---|---|---|---|---|
+| 2 | interface_overview | 1920x749 | particle-basics, after "Understanding the Interface" card `</div>`, before `<h3>Core Particle Parameters</h3>` | c32-02-hl-list/type/emis | System list (orange), Emitter/Hair (green), Emission (green) |
+| 4 | properties_panel_layout | 1920x987 | immediately after #2 figure, before same h3 | c32-04-hl-open/stack | Open section (green), Collapsible sections (orange) |
+| 31 | viewport_display | 918x1296 | particle-basics -> Viewport Display Options, after the card (nested warning `</div>`+outer `</div>`), before `<h3>Multiple Particle Systems</h3>` | c32-31-hl-panel/das/amt | Viewport Display (orange), Display As (green), Viewport % (green) |
+| 3 | emission_source_comparison | 1924x640 | emission-settings -> Emission Source Types, after card `</div>`, before `<h3>Distribution Modes</h3>` | c32-03-badge-faces/volume/verts | Faces / Volume / Verts panel labels (orange) |
+| 11 | distribution_modes | 1804x600 | emission-settings -> Distribution Modes, after card `</div>`, before `<h3>Vertex Groups for Emission Control</h3>` | c32-11-badge-jit/rand/grid | Jittered / Random / Grid panel labels (orange) |
+| 6 | gravity_effects_comparison | 1202x1202 | particle-physics -> Gravity and Field Weights, after card `</div>`, before `<h3>Force Fields</h3>` | c32-06-badge-g10/g00/gneg10/g20 | Gravity 1.0 / 0.0 / &#8722;1.0 / 2.0 quadrant labels (orange; minus via &#8722;) |
+| 7 | force_field_types | 3008x600 | particle-physics -> Force Fields card, after the field-types mermaid `</div>`, before `<p>Field weights...` | c32-07-badge-force/wind/vortex/drag/magnetic | Force / Wind / Vortex / Drag / Magnetic panel labels (orange) |
+| 8 | turbulence_comparison | 1202x600 | particle-physics -> Force Fields card, after the "Turbulence for Realism" green callout `</div>`, before the card's closing `</div>` (before `<h3>Damping and Drag</h3>`) | c32-08-badge-low/high | Low turbulence / High turbulence labels (orange) |
+| 9 | collision_physics | 915x1268 | particle-physics -> Collisions card, after collision-settings `</ul>`, BEFORE the cb decision-tree mermaid+SVG | c32-09-hl-collision/particle/kill | Collision toggle (orange), Particle settings section (orange), Kill Particles checkbox (green) |
+| 13 | render_as_object | 892x1450 | rendering-particles -> Object Instancing, after card `</div>`, before `<h3>Collection Instancing</h3>` (figure 20/contents 24) | c32-13-hl-renderas/instance/scale | Render As: Object (orange), Instance Object (green), Object Scale (green) |
+| 14 | render_as_collection | 901x1932 | rendering-particles -> Collection Instancing, after card `</div>`, before `<h3>Path Rendering</h3>` (figure 20/contents 24) | c32-14-hl-coll/renderas/instance | Debris_Collection group "5 source objects" (green), Render As: Collection (orange), Instance Collection (green) |
+| 15 | render_types | 2406x600 | rendering-particles -> Render Types Overview, after card `</div>` (after table-wrap), before `<h3>Object Instancing</h3>` (figure 20/contents 24) | c32-15-badge-none/halo/object/coll | None / Halo / Object / Collection panel badges (orange, composite variant); figcaption notes Halo = EEVEE emissive-dot stand-in |
+| 16 | path_rendering | 600x600 | rendering-particles -> Path Rendering, after card `</div>`, before `<h3>Viewport Display</h3>` (figure 20/contents 24) | c32-16-badge-path | single "Path" badge (orange, beauty variant); figcaption notes hair-PATH starburst stand-in |
+| 17 | particle_info_node_setup | 1700x475 | rendering-particles -> Materials for Particles, after card `</div>`, before `<h3>Performance Considerations</h3>` (figure 20/contents 24) | c32-17-hl-pinfo/ramp/alpha | Particle Info node (orange box+leader+badge), Color Ramp node (green box+leader+badge), Alpha input on BSDF (orange box+leader+badge) |
+| 20 | rain_material_shader | 1920x936 | rendering-particles -> Materials for Particles, between #17 `</figure>` and `<h3>Performance Considerations</h3>` (figure 20/contents 24) | c32-20-hl-pinfo/divide/ramp | Particle Info node "Age &#183; Lifetime source" (orange box+leader+badge), Divide node "Age &#247; Lifetime" (green box+leader+badge), Color Ramp "maps to colour" (orange box+leader+badge); node positions pixel-scanned at native 1920x936 |
+| 19 | rain_viewport | 1452x901 | common-effects -> Rain Effect, after card `</div></div>`, before `<h3>Snow Effect</h3>` (figure 20/contents 24) | c32-19-badge | single "Rain: continuous fall" badge (orange, viewport/composite variant, no leader) in open upper-left |
+
+**Byte-ladder:** 310,489 (4-inline baseline) -> 313,491 (#2) -> 315,936 (#4) -> 319,065 (#31) -> 320,971 (#3) -> 322,949 (#11) -> 325,048 (#6) -> 327,688 (#7) -> 329,321 (#8) -> 332,488 (#9) -> 335,329 (#13) -> 338,270 (#14) -> 340,851 (#15) -> 342,271 (#16) -> 345,413 (#17) -> 348,683 (#20) -> **350,142 (#19)**.
+
+**Invariants after #19 (UTF-8 python3, fresh Claude-side copy):** figure 20 / figcaption 20 / `</figure>` 20 / img 16 / svg 20 (4 inline + 16 overlay) ; em-dash U+2014 34 (0 new) ; U+00B7 literal 0 ; color="#222" 0 ; #667eea/#764ba2 0/0 ; `<table>` 9 / table-wrap 9 ; mermaid import 1 / class=mermaid divs 10 ; `&#8722;` entity x4 ; `&#247;` x1. ON TARGET. (c32-19-badge confirmed present.)
+
+**#15 render_types: COMMITTED 2026-06-27.** **#16 path_rendering: COMMITTED 2026-06-27.** **#17 particle_info_node_setup: COMMITTED 2026-06-27** (UI-chrome 3-box variant, native node positions pixel-scanned, cairosvg PASS, recount ON TARGET). **#20 rain_material_shader: COMMITTED 2026-06-27** (UI-chrome 3-box variant: PInfo orange / Divide green / Color Ramp orange; 5 node headers pixel-scanned at native 1920x936, body bottoms measured for box heights; cairosvg light-side pixel-verify PASS; recount ON TARGET). **#19 rain_viewport: COMMITTED 2026-06-27** (viewport/composite single-badge variant, badge in open upper-left clear of particles; cairosvg PASS; recount ON TARGET).
+
+**REMAINING (0/20) - ALL 20 PNG OVERLAYS LANDED 2026-06-27.** #22/#23/#27/#28 committed this chat (final 4), completing the c32 overlay set.
+
+**LANDED (final 4/20), each cairosvg pixel-verified light-side then edit_file dryRun->commit->get_file_info->UTF-8 recount:**
+
+| # | file | viewBox | anchor (live) | c32 ids | callouts |
+|---|---|---|---|---|---|
+| 22 | snow_turbulence | 600x600 | common-effects -> Snow Effect, after card (nested Realism-trick `</div>` + outer `</div>`), before `<h3>Sparks and Embers</h3>` | c32-22-badge | single "Snow &#183; turbulence sway" badge (orange, beauty variant, no leader) in clear lower-left |
+| 23 | sparks_burst | 600x600 | common-effects -> Sparks and Embers, after card `</div>`, before `<h3>Smoke Rising (Simple Version)</h3>` | c32-23-badge | single "Sparks &#183; explosive burst" badge (orange, beauty variant, no leader) in clear top-left |
+| 27 | rain_collision_viewport | 1452x901 | project -> Part 3 Ground Collision, after card `</div>`, before `<h3>Part 4: Wind Force</h3>` | c32-27-badge | single "Rain piling on collider" badge (orange, viewport variant, no leader) in open top-left |
+| 28 | wind_on_rain | 1202x600 | project -> Part 4 Wind Force, after card `</div>`, before `<h3>Part 5: Splash Particles (Advanced)</h3>` | c32-28-badge-nowind / c32-28-badge-wind | one orange badge per panel near bottom edge: "No wind &#183; straight fall" (L) / "Wind &#183; slanted drift" (R), composite variant, divider carries separation |
+
+**Byte-ladder (final 4):** 350,142 (#19) -> 351,348 (#22) -> 352,568 (#23) -> 353,823 (#27) -> **355,438 (#28)**.
+
+**Invariants after #28 (UTF-8 python3, fresh Claude-side copy) - FINAL, ON ALL TARGETS:** figure 24 / figcaption 24 / `</figure>` 24 / img 20 / svg 24 (4 inline + 20 overlay) ; em-dash U+2014 34 (0 new) ; U+00B7 literal 0 ; color="#222" 0 ; #667eea/#764ba2 0/0 ; `<table>` 9 / table-wrap 9 ; mermaid import 1 / class=mermaid divs 10 ; `&#183;` 15 ; `&#8722;` 4 ; `&#247;` 1. All 5 new ids present (c32-22/23/27-badge, c32-28-badge-nowind, c32-28-badge-wind).
+
+---
+
+## FINAL INVARIANT TABLE (live file, post-#28, CONFIRMED 2026-06-27)
+
+| Metric | Target | Actual | Status |
+|---|---|---|---|
+| bytes | - | 355,438 | - |
+| figure | 24 | 24 | PASS |
+| figcaption | 24 | 24 | PASS |
+| `</figure>` | 24 | 24 | PASS |
+| img | 20 | 20 | PASS |
+| svg | 24 (4 inline + 20 overlay) | 24 | PASS |
+| em-dash U+2014 | 34 (0 new) | 34 | PASS |
+| literal U+00B7 | 0 | 0 | PASS |
+| color="#222" | 0 | 0 | PASS |
+| #667eea / #764ba2 | 0 / 0 | 0 / 0 | PASS |
+| `<table>` / table-wrap | 9 / 9 | 9 / 9 | PASS |
+| mermaid import / class=mermaid divs | 1 / 10 | 1 / 10 | PASS |
+| `&#183;` / `&#8722;` / `&#247;` | (entities) | 15 / 4 / 1 | OK |
+
+**INTEGRATION figure work COMPLETE.** All 24 figures (4 inline SVG + 20 PNG c32 overlays) landed and recount-verified.
+
+**STILL PENDING (next chat):**
+1. ~~DELETE 10 `_temp_l32*.png` in `images\`~~ **DONE 2026-06-27** (blender bridge `os.remove`, all 10 deleted, 0 remaining; verified 20 `lesson_32_*.png` + 4 `lesson_32_*.svg` deliverables intact). See TEMP CLEANUP block below.
+2. ~~Browser QA = SEPARATE chat~~ **DONE 2026-06-27 - QA-PASS, no regressions.** See BROWSER QA block below.
+
+**Still pending after overlays:** ~~delete 10 images\ temps~~ DONE; ~~Browser QA~~ DONE (QA-PASS). **L32 fully closed.**
+
+---
+
+## TEMP CLEANUP - COMPLETE (2026-06-27)
+
+Deleted all 10 `_temp_l32*.png` from `images\` via blender bridge `os.remove` (no Filesystem delete tool). Pre-delete: all 10 confirmed present + a `_temp_l32*` glob confirmed exactly those 10 (no more, no fewer). Post-delete: `_temp_l32*` glob = 0 remaining; deliverables intact (`lesson_32_*.png` = 20, `lesson_32_*.svg` = 4).
+
+Deleted: `_temp_l32_fullwin.png` (196,886), `_temp_l32_02_raw.png` (122,166), `_temp_l32_17_raw.png` (159,278), `_temp_l32_03_faces.png` (306,467), `_temp_l32_03_volume.png` (294,669), `_temp_l32_03_verts.png` (236,829), `_temp_l32_06_g10.png` (196,607), `_temp_l32_06_g00.png` (187,136), `_temp_l32_06_gneg10.png` (200,053), `_temp_l32_06_g20.png` (191,434). The `_l32_19/27_ogl` + `_l32_*_fullwin` in the Windows tempdir are out of scope (not in `images\`).
+
+---
+
+## BROWSER QA - QA-PASS (2026-06-27)
+
+**Method:** Playwright (sync API) + system Chrome `/opt/google/chrome/chrome` (Chromium 141.0.7390.37) via `executable_path`, served over a localhost HTTP server (file:// breaks ESM chunk imports). **Live file NEVER touched** - QA ran on a render-only copy `_qa_render.html` on Claude's computer; the jsdelivr mermaid import was swapped for a local offline ESM stub (mermaid v10.9.6 `dist/` vendored from npm, since jsdelivr is egress-blocked Claude-side). The live WSL file was never opened for writing; its jsdelivr import is intact.
+
+**Byte parity:** copied live = 355,438 B (matches live exactly). Render copy = 354,581 B (delta -857 = shorter local import string only). All 24 assets resolved (20 PNG + main.css + 2 JS); 4 inline SVGs confirmed inlined (0 SVG file refs).
+
+**4 configs: 380px + 900px x dark + light.** Dark driven by BOTH `color_scheme` emulation AND explicit `:root[data-theme="dark"]` (the real theme-toggle override path, which wins over prefers-color-scheme).
+
+### Automated DOM checks - ALL PASS every config
+| Check | Result (all 4 configs) |
+|---|---|
+| figure / figcaption / img / figure-svg | 24 / 24 / 20 / 24 |
+| PNG figures | 20 / 20 |
+| Mermaid diagrams rendered (`.mermaid svg`) | 10 / 10 |
+| Broken images | 0 (see lazy-load note) |
+| Overlay registration over PNG (<=2px at 1:1) | 0 misaligned, all 20 |
+| Horizontal page overflow @ 380px | none (docScrollW == innerW == 380) |
+| Unwrapped tables | 0 (9/9 wrapped; 3 scroll internally at 380px as designed) |
+| Page/console errors | only favicon.png 404 (asset not copied for QA; harmless) |
+
+**Lazy-load note (not a defect):** first harness pass flagged 11 "broken" imgs - exactly the 11 with `loading="lazy"` (HTTP requests simply hadn't fired below the fold; only 9 PNG requests had gone out). Re-ran forcing `loading=eager` + full scroll-through -> 0 broken, all 20 imgs `complete` with correct naturalWidth. All 20 PNG files also independently Pillow-verified to decode. PNG pixel dims match the doc's pixel registry 1:1.
+
+### Visual inspection (cropped bands, 900px, dark + light) - NO DEFECTS
+- **Mermaid (dark + light):** flowchart nodes render with good contrast (`#888` border + light/light-purple fills); legible both themes.
+- **Inline SVG #1 lifecycle (`pl`):** currentColor adapts correctly - white text on dark, dark-navy on light; orange accents legible both.
+- **Inline SVG #34 quick-ref (`sqr`, dense 800x680):** orange header, all 5 color-keyed rails (Rain blue / Snow green / Sparks yellow / Smoke purple / Explosion red), `&#8722;` minus on Smoke -0.5 renders as minus (not em-dash). Clean.
+- **PNG overlays #2/#4:** c32 orange + green plates + leader lines register exactly over UI elements at 1:1; figcaption (no "Figure N:" prefix) legible on both card themes.
+- **Wide PNG #7 (3008px, hardest downscale ~852px):** all 5 force-field panels read distinctly at thumbnail scale; orange badges + dividers legible.
+- **HTML `<table>` (dark):** `[data-theme=dark] th` blue header (#2d53a3) + white text, body rows legible - the L30/L31 table regression is NOT present here.
+
+**VERDICT: L32 QA-PASS. No regressions. All 24 figures render, overlays register at 1:1, 10 mermaid diagrams render, no table overflow at 380px, no dark-mode contrast defects. L32 FULLY CLOSED at 355,438 B.**
+

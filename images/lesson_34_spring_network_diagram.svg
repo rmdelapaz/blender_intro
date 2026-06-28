@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" color="#222" role="img" aria-labelledby="spr-title spr-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+    <title id="spr-title">Cloth mesh as a spring network</title>
+    <desc id="spr-desc">A four-by-four grid of cloth vertices connected by three kinds of virtual springs: structural springs joining horizontally and vertically adjacent vertices, shear springs joining diagonal neighbours, and bending springs joining vertices two steps apart. A legend explains each spring type and what resisting force it provides.</desc>
+    <style>
+        .spr-h{font:700 24px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor}
+        .spr-sub{font:400 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor;opacity:.65}
+        .spr-struct{stroke:#4A9EFF;stroke-width:2.5;fill:none}
+        .spr-shear{stroke:#FF8C00;stroke-width:1.6;fill:none;stroke-dasharray:6 4}
+        .spr-bend{stroke:#E91E63;stroke-width:2;fill:none;stroke-dasharray:3 4}
+        .spr-vtx{fill:currentColor;stroke:#1a1a1a;stroke-width:1}
+        .spr-lt{font:700 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor}
+        .spr-ld{font:400 12px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor;opacity:.62}
+    </style>
+    <rect x="0" y="0" width="800" height="3" fill="#FF8C00"/>
+    <text x="40" y="50" class="spr-h">CLOTH AS A SPRING NETWORK</text>
+    <text x="40" y="76" class="spr-sub">Blender links every vertex to its neighbours with three kinds of virtual spring</text>
+    <line x1="40" y1="96" x2="760" y2="96" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+    <!-- Grid: 4x4 vertices. origin (90,150), step 110 -> last at 420.  Plot area left of legend. -->
+    <!-- Draw order: bending (back) -> shear -> structural -> vertices (front) -->
+
+    <!-- BENDING springs: connect vertices two steps apart (skip one). horizontals + verticals only. -->
+    <g class="spr-bend">
+        <!-- horizontal bends, each row: col0-col2, col1-col3 -->
+        <path d="M90,150 L310,150"/><path d="M200,150 L420,150"/>
+        <path d="M90,260 L310,260"/><path d="M200,260 L420,260"/>
+        <path d="M90,370 L310,370"/><path d="M200,370 L420,370"/>
+        <path d="M90,480 L310,480"/><path d="M200,480 L420,480"/>
+        <!-- vertical bends, each col: row0-row2, row1-row3 -->
+        <path d="M90,150 L90,370"/><path d="M90,260 L90,480"/>
+        <path d="M200,150 L200,370"/><path d="M200,260 L200,480"/>
+        <path d="M310,150 L310,370"/><path d="M310,260 L310,480"/>
+        <path d="M420,150 L420,370"/><path d="M420,260 L420,480"/>
+    </g>
+
+    <!-- SHEAR springs: diagonals of every cell, both directions -->
+    <g class="spr-shear">
+        <path d="M90,150 L200,260"/><path d="M200,150 L90,260"/>
+        <path d="M200,150 L310,260"/><path d="M310,150 L200,260"/>
+        <path d="M310,150 L420,260"/><path d="M420,150 L310,260"/>
+        <path d="M90,260 L200,370"/><path d="M200,260 L90,370"/>
+        <path d="M200,260 L310,370"/><path d="M310,260 L200,370"/>
+        <path d="M310,260 L420,370"/><path d="M420,260 L310,370"/>
+        <path d="M90,370 L200,480"/><path d="M200,370 L90,480"/>
+        <path d="M200,370 L310,480"/><path d="M310,370 L200,480"/>
+        <path d="M310,370 L420,480"/><path d="M420,370 L310,480"/>
+    </g>
+
+    <!-- STRUCTURAL springs: adjacent horizontal + vertical -->
+    <g class="spr-struct">
+        <path d="M90,150 L420,150"/><path d="M90,260 L420,260"/>
+        <path d="M90,370 L420,370"/><path d="M90,480 L420,480"/>
+        <path d="M90,150 L90,480"/><path d="M200,150 L200,480"/>
+        <path d="M310,150 L310,480"/><path d="M420,150 L420,480"/>
+    </g>
+
+    <!-- VERTICES -->
+    <g class="spr-vtx">
+        <circle cx="90" cy="150" r="6"/><circle cx="200" cy="150" r="6"/><circle cx="310" cy="150" r="6"/><circle cx="420" cy="150" r="6"/>
+        <circle cx="90" cy="260" r="6"/><circle cx="200" cy="260" r="6"/><circle cx="310" cy="260" r="6"/><circle cx="420" cy="260" r="6"/>
+        <circle cx="90" cy="370" r="6"/><circle cx="200" cy="370" r="6"/><circle cx="310" cy="370" r="6"/><circle cx="420" cy="370" r="6"/>
+        <circle cx="90" cy="480" r="6"/><circle cx="200" cy="480" r="6"/><circle cx="310" cy="480" r="6"/><circle cx="420" cy="480" r="6"/>
+    </g>
+
+    <!-- LEGEND panel -->
+    <g transform="translate(500,150)">
+        <rect x="0" y="0" width="262" height="246" rx="10" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.3" stroke-width="1.5"/>
+        <text x="20" y="34" class="spr-lt">SPRING TYPES</text>
+
+        <line x1="20" y1="64" x2="60" y2="64" class="spr-struct"/>
+        <text x="72" y="60" class="spr-lt">Structural</text>
+        <text x="72" y="78" class="spr-ld">Adjacent vertices &#183; resists</text>
+        <text x="72" y="94" class="spr-ld">stretch &amp; compression</text>
+
+        <line x1="20" y1="128" x2="60" y2="128" class="spr-shear"/>
+        <text x="72" y="124" class="spr-lt">Shear</text>
+        <text x="72" y="142" class="spr-ld">Diagonal neighbours &#183; resists</text>
+        <text x="72" y="158" class="spr-ld">in-plane skewing</text>
+
+        <line x1="20" y1="192" x2="60" y2="192" class="spr-bend"/>
+        <text x="72" y="188" class="spr-lt">Bending</text>
+        <text x="72" y="206" class="spr-ld">Two steps apart &#183; resists</text>
+        <text x="72" y="222" class="spr-ld">folding &amp; creasing</text>
+    </g>
+
+    <text x="500" y="438" class="spr-ld">More structural stiffness &#8594; stiffer cloth.</text>
+    <text x="500" y="458" class="spr-ld">Less bending stiffness &#8594; softer, creasable.</text>
+    <text x="500" y="478" class="spr-ld">Every fabric is just a different balance</text>
+    <text x="500" y="496" class="spr-ld">of these three spring forces.</text>
+</svg>

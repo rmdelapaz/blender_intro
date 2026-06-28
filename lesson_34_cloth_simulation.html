@@ -21,7 +21,7 @@
             themeVariables: {
                 primaryColor: '#f0f0f0',
                 primaryTextColor: '#333',
-                primaryBorderColor: '#667eea'
+                primaryBorderColor: '#888888'
             }
         });
     </script>
@@ -48,7 +48,7 @@
             
             <p class="lead">Ever wondered how movie characters have clothing that moves so realistically? Or how flags wave convincingly in the wind? Welcome to the magical world of cloth simulation! In this lesson, you'll learn how to make fabric behave like real cloth—draping naturally over objects, developing authentic wrinkles and folds, and responding dynamically to movement and forces. Whether you're creating character clothing, interior design elements, or dynamic props, cloth simulation will bring a level of realism that's impossible to achieve through manual modeling alone.</p>
 
-            <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; margin: 2rem 0;">
+            <div class="card" style="background: #2a2a2a; color: white; padding: 2rem; margin: 2rem 0;">
                 <h3 style="color: white; margin-top: 0;">🎯 What You'll Learn</h3>
                 <ul style="color: white;">
                     <li><strong>Cloth Physics Fundamentals:</strong> Understand how Blender simulates fabric behavior</li>
@@ -119,11 +119,83 @@
                     A[Mesh Vertex] -->|Structural Spring| B[Adjacent Vertex]
                     A -->|Shear Spring| C[Diagonal Vertex]
                     A -->|Bending Spring| D[Next-Level Vertex]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style B fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                     style C fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
                     style D fill:#E91E63,stroke:#333,stroke-width:2px,color:#fff
                 </div>
+
+                <figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" color="currentColor" role="img" aria-labelledby="spr-title spr-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+    <title id="spr-title">Cloth mesh as a spring network</title>
+    <desc id="spr-desc">A four-by-four grid of cloth vertices connected by three kinds of virtual springs: structural springs joining horizontally and vertically adjacent vertices, shear springs joining diagonal neighbours, and bending springs joining vertices two steps apart. A legend explains each spring type and what resisting force it provides.</desc>
+    <style>
+        .spr-h{font:700 24px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor}
+        .spr-sub{font:400 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor;opacity:.65}
+        .spr-struct{stroke:#4A9EFF;stroke-width:2.5;fill:none}
+        .spr-shear{stroke:#FF8C00;stroke-width:1.6;fill:none;stroke-dasharray:6 4}
+        .spr-bend{stroke:#E91E63;stroke-width:2;fill:none;stroke-dasharray:3 4}
+        .spr-vtx{fill:currentColor;stroke:#1a1a1a;stroke-width:1}
+        .spr-lt{font:700 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor}
+        .spr-ld{font:400 12px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor;opacity:.62}
+    </style>
+    <rect x="0" y="0" width="800" height="3" fill="#FF8C00"/>
+    <text x="40" y="50" class="spr-h">CLOTH AS A SPRING NETWORK</text>
+    <text x="40" y="76" class="spr-sub">Blender links every vertex to its neighbours with three kinds of virtual spring</text>
+    <line x1="40" y1="96" x2="760" y2="96" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+    <g class="spr-bend">
+        <path d="M90,150 L310,150"/><path d="M200,150 L420,150"/>
+        <path d="M90,260 L310,260"/><path d="M200,260 L420,260"/>
+        <path d="M90,370 L310,370"/><path d="M200,370 L420,370"/>
+        <path d="M90,480 L310,480"/><path d="M200,480 L420,480"/>
+        <path d="M90,150 L90,370"/><path d="M90,260 L90,480"/>
+        <path d="M200,150 L200,370"/><path d="M200,260 L200,480"/>
+        <path d="M310,150 L310,370"/><path d="M310,260 L310,480"/>
+        <path d="M420,150 L420,370"/><path d="M420,260 L420,480"/>
+    </g>
+    <g class="spr-shear">
+        <path d="M90,150 L200,260"/><path d="M200,150 L90,260"/>
+        <path d="M200,150 L310,260"/><path d="M310,150 L200,260"/>
+        <path d="M310,150 L420,260"/><path d="M420,150 L310,260"/>
+        <path d="M90,260 L200,370"/><path d="M200,260 L90,370"/>
+        <path d="M200,260 L310,370"/><path d="M310,260 L200,370"/>
+        <path d="M310,260 L420,370"/><path d="M420,260 L310,370"/>
+        <path d="M90,370 L200,480"/><path d="M200,370 L90,480"/>
+        <path d="M200,370 L310,480"/><path d="M310,370 L200,480"/>
+        <path d="M310,370 L420,480"/><path d="M420,370 L310,480"/>
+    </g>
+    <g class="spr-struct">
+        <path d="M90,150 L420,150"/><path d="M90,260 L420,260"/>
+        <path d="M90,370 L420,370"/><path d="M90,480 L420,480"/>
+        <path d="M90,150 L90,480"/><path d="M200,150 L200,480"/>
+        <path d="M310,150 L310,480"/><path d="M420,150 L420,480"/>
+    </g>
+    <g class="spr-vtx">
+        <circle cx="90" cy="150" r="6"/><circle cx="200" cy="150" r="6"/><circle cx="310" cy="150" r="6"/><circle cx="420" cy="150" r="6"/>
+        <circle cx="90" cy="260" r="6"/><circle cx="200" cy="260" r="6"/><circle cx="310" cy="260" r="6"/><circle cx="420" cy="260" r="6"/>
+        <circle cx="90" cy="370" r="6"/><circle cx="200" cy="370" r="6"/><circle cx="310" cy="370" r="6"/><circle cx="420" cy="370" r="6"/>
+        <circle cx="90" cy="480" r="6"/><circle cx="200" cy="480" r="6"/><circle cx="310" cy="480" r="6"/><circle cx="420" cy="480" r="6"/>
+    </g>
+    <g transform="translate(500,150)">
+        <rect x="0" y="0" width="262" height="246" rx="10" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.3" stroke-width="1.5"/>
+        <text x="20" y="34" class="spr-lt">SPRING TYPES</text>
+        <line x1="20" y1="64" x2="60" y2="64" class="spr-struct"/>
+        <text x="72" y="60" class="spr-lt">Structural</text>
+        <text x="72" y="78" class="spr-ld">Adjacent vertices &#183; resists</text>
+        <text x="72" y="94" class="spr-ld">stretch &amp; compression</text>
+        <line x1="20" y1="128" x2="60" y2="128" class="spr-shear"/>
+        <text x="72" y="124" class="spr-lt">Shear</text>
+        <text x="72" y="142" class="spr-ld">Diagonal neighbours &#183; resists</text>
+        <text x="72" y="158" class="spr-ld">in-plane skewing</text>
+        <line x1="20" y1="192" x2="60" y2="192" class="spr-bend"/>
+        <text x="72" y="188" class="spr-lt">Bending</text>
+        <text x="72" y="206" class="spr-ld">Two steps apart &#183; resists</text>
+        <text x="72" y="222" class="spr-ld">folding &amp; creasing</text>
+    </g>
+    <text x="500" y="438" class="spr-ld">More structural stiffness &#8594; stiffer cloth.</text>
+    <text x="500" y="458" class="spr-ld">Less bending stiffness &#8594; softer, creasable.</text>
+    <text x="500" y="478" class="spr-ld">Every fabric is just a different balance</text>
+    <text x="500" y="496" class="spr-ld">of these three spring forces.</text>
+</svg><figcaption>The cloth mesh behaves as a network of three spring types: structural springs resist stretching between adjacent vertices, shear springs resist diagonal distortion, and bending springs resist folding across the surface.</figcaption></figure>
 
                 <ul>
                     <li><strong>Stretch and compress:</strong> Like the fabric being pulled or relaxed</li>
@@ -135,7 +207,7 @@
 
                 <div class="card">
                     <h4>🎬 Simulation vs. Manual Animation</h4>
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                    <div class="table-wrap"><table style="width: 100%; border-collapse: collapse; margin-top: 1rem; min-width: max-content;">
                         <thead>
                             <tr style="background: #f5f5f5;">
                                 <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Aspect</th>
@@ -165,7 +237,7 @@
                                 <td style="padding: 0.75rem; border: 1px solid #ddd;">Realistic fabric behavior</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table></div>
                 </div>
 
                 <h4>Types of Cloth Effects You Can Create</h4>
@@ -186,7 +258,7 @@
                     D --> D1[Flags and Banners]
                     D --> D2[Sails]
                     D --> D3[Soft Props]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style B fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                     style C fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
                     style D fill:#E91E63,stroke:#333,stroke-width:2px,color:#fff
@@ -276,9 +348,11 @@
                     B --> C[Click Cloth Button]
                     C --> D[Cloth Modifier Added]
                     D --> E[Ready to Simulate]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
+
+                <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_34_03_physics_properties_panel.png" alt="Blender Physics Properties panel with the Cloth physics type enabled, showing the Cloth panel with Quality Steps, Physical Properties, and Stiffness settings."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1356 695"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><g transform="translate(360,90)"><rect x="-150" y="-30" width="300" height="48" rx="8" fill="#4A9EFF"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="26" font-weight="700" dominant-baseline="middle">1 . ENABLE CLOTH</text></g><line x1="360" y1="108" x2="360" y2="172" stroke="#FF6B00" stroke-width="4"/><circle cx="360" cy="187" r="9" fill="#FF6B00"/><g transform="translate(490,250)"><rect x="-135" y="-26" width="270" height="44" rx="8" fill="#4ADE80"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="24" font-weight="700" dominant-baseline="middle">2 . QUALITY STEPS</text></g><line x1="490" y1="270" x2="490" y2="294" stroke="#FF6B00" stroke-width="4"/><circle cx="490" cy="309" r="9" fill="#FF6B00"/><g transform="translate(245,430)"><rect x="-115" y="-26" width="230" height="44" rx="8" fill="#FF6B00"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="24" font-weight="700" dominant-baseline="middle">3 . STIFFNESS</text></g><line x1="245" y1="450" x2="245" y2="468" stroke="#FF6B00" stroke-width="4"/><circle cx="245" cy="477" r="9" fill="#FF6B00"/></g></svg></div><figcaption>The Physics Properties panel after enabling Cloth: Quality Steps controls simulation accuracy, and the Stiffness group (Tension, Compression, Shear, Bending) defines how the fabric resists deformation.</figcaption></figure>
 
                 <p>You'll notice a bunch of settings appear. Don't worry about those yet—the defaults are actually pretty good for a basic simulation!</p>
 
@@ -366,14 +440,16 @@
                     E --> F[Cloth deforms and spreads]
                     F --> G[Energy dissipates]
                     G --> H[Final draped state]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style E fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
                     style H fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
 
+                <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_34_07_cloth_falling_sequence.png" alt="Four-frame sequence of a square cloth falling onto a sphere: suspended flat above the sphere, making first contact and tenting up over the top, draping down the sides, then settled into a final drape with hanging corners."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1276 350"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><g transform="translate(155,26)"><rect x="-78" y="-18" width="156" height="36" rx="7" fill="#4A9EFF"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="19" font-weight="700" dominant-baseline="middle">FRAME 1</text></g><g transform="translate(155,62)"><rect x="-57" y="-15" width="114" height="28" rx="6" fill="#1a1a1a" fill-opacity="0.72"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="16" font-weight="600" dominant-baseline="middle">Suspended</text></g><g transform="translate(475,26)"><rect x="-78" y="-18" width="156" height="36" rx="7" fill="#FF6B00"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="19" font-weight="700" dominant-baseline="middle">FRAME 25</text></g><g transform="translate(475,62)"><rect x="-47" y="-15" width="94" height="28" rx="6" fill="#1a1a1a" fill-opacity="0.72"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="16" font-weight="600" dominant-baseline="middle">Contact</text></g><g transform="translate(795,26)"><rect x="-78" y="-18" width="156" height="36" rx="7" fill="#FF6B00"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="19" font-weight="700" dominant-baseline="middle">FRAME 45</text></g><g transform="translate(795,62)"><rect x="-47" y="-15" width="94" height="28" rx="6" fill="#1a1a1a" fill-opacity="0.72"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="16" font-weight="600" dominant-baseline="middle">Draping</text></g><g transform="translate(1115,26)"><rect x="-78" y="-18" width="156" height="36" rx="7" fill="#4ADE80"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="19" font-weight="700" dominant-baseline="middle">FRAME 110</text></g><g transform="translate(1115,62)"><rect x="-47" y="-15" width="94" height="28" rx="6" fill="#1a1a1a" fill-opacity="0.72"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="16" font-weight="600" dominant-baseline="middle">Settled</text></g></g></svg></div><figcaption>A cloth simulation playing out over time: the flat cloth (frame 1) falls, tents over the sphere on contact (frame 25), drapes down its sides (frame 45), and settles into folds with hanging corners (frame 110).</figcaption></figure>
+
                 <div class="card">
                     <h4>🔍 Frame-by-Frame Physics</h4>
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                    <div class="table-wrap"><table style="width: 100%; border-collapse: collapse; margin-top: 1rem; min-width: max-content;">
                         <thead>
                             <tr style="background: #f5f5f5;">
                                 <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Phase</th>
@@ -408,7 +484,7 @@
                                 <td style="padding: 0.75rem; border: 1px solid #ddd;">All forces balanced</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table></div>
                 </div>
 
                 <h4>Modifying Your First Simulation</h4>
@@ -488,7 +564,7 @@
                     A --> F[Collisions]
                     A --> G[Field Weights]
                     A --> H[Cache]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style B fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
 
@@ -559,6 +635,70 @@
                         <li><strong>High (10-50):</strong> Stiff materials that create large, angular folds—leather, thick canvas</li>
                     </ul>
                 </div>
+
+                <figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" color="currentColor" role="img" aria-labelledby="sti-title sti-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+    <title id="sti-title">The four stiffness forces acting on cloth</title>
+    <desc id="sti-desc">A four-panel diagram. Tension shows a fabric patch pulled outward by opposing arrows and stretching. Compression shows the patch pushed inward by converging arrows and buckling. Shear shows the patch skewed sideways by offset arrows into a parallelogram. Bending shows the patch folding over a crease with curved arrows. Each panel names the force and the stiffness setting that resists it.</desc>
+    <style>
+        .sti-h{font:700 24px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor}
+        .sti-sub{font:400 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor;opacity:.65}
+        .sti-pt{font:700 16px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor}
+        .sti-pd{font:400 12px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor;opacity:.62}
+        .sti-ghost{fill:currentColor;fill-opacity:.06;stroke:currentColor;stroke-opacity:.3;stroke-width:1.4;stroke-dasharray:5 4}
+        .sti-cloth{fill:#4A9EFF;fill-opacity:.14;stroke:#4A9EFF;stroke-width:2}
+        .sti-panel{fill:currentColor;fill-opacity:.03;stroke:currentColor;stroke-opacity:.22;stroke-width:1.5}
+    </style>
+    <defs>
+        <marker id="sti-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f44336"/></marker>
+        <marker id="sti-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4A9EFF"/></marker>
+        <marker id="sti-org" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#FF8C00"/></marker>
+        <marker id="sti-grn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4CAF50"/></marker>
+    </defs>
+    <rect x="0" y="0" width="800" height="3" fill="#FF8C00"/>
+    <text x="40" y="50" class="sti-h">FOUR FORCES, FOUR STIFFNESS SETTINGS</text>
+    <text x="40" y="76" class="sti-sub">Each cloth stiffness value resists one way the fabric can deform</text>
+    <line x1="40" y1="96" x2="760" y2="96" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+    <g transform="translate(40,120)">
+        <rect class="sti-panel" width="360" height="215" rx="10"/>
+        <text x="20" y="34" class="sti-pt" fill="#f44336">TENSION</text>
+        <text x="20" y="54" class="sti-pd">Pulling apart &#183; resisted by Tension stiffness</text>
+        <rect class="sti-ghost" x="140" y="90" width="80" height="80" rx="3"/>
+        <rect class="sti-cloth" x="110" y="98" width="140" height="64" rx="3"/>
+        <line x1="100" y1="130" x2="55" y2="130" stroke="#f44336" stroke-width="2.5" marker-end="url(#sti-red)"/>
+        <line x1="260" y1="130" x2="305" y2="130" stroke="#f44336" stroke-width="2.5" marker-end="url(#sti-red)"/>
+        <text x="180" y="196" class="sti-pd" text-anchor="middle">Fabric stretches longer along the pull</text>
+    </g>
+    <g transform="translate(400,120)">
+        <rect class="sti-panel" width="360" height="215" rx="10"/>
+        <text x="20" y="34" class="sti-pt" fill="#4A9EFF">COMPRESSION</text>
+        <text x="20" y="54" class="sti-pd">Pushing together &#183; resisted by Compression stiffness</text>
+        <rect class="sti-ghost" x="140" y="90" width="80" height="80" rx="3"/>
+        <path class="sti-cloth" d="M152,96 q14,18 0,36 q-14,18 0,36 l56,0 q14,-18 0,-36 q-14,-18 0,-36 z"/>
+        <line x1="55" y1="130" x2="100" y2="130" stroke="#4A9EFF" stroke-width="2.5" marker-end="url(#sti-blue)"/>
+        <line x1="305" y1="130" x2="260" y2="130" stroke="#4A9EFF" stroke-width="2.5" marker-end="url(#sti-blue)"/>
+        <text x="180" y="196" class="sti-pd" text-anchor="middle">Fabric buckles &amp; wrinkles inward</text>
+    </g>
+    <g transform="translate(40,355)">
+        <rect class="sti-panel" width="360" height="215" rx="10"/>
+        <text x="20" y="34" class="sti-pt" fill="#FF8C00">SHEAR</text>
+        <text x="20" y="54" class="sti-pd">Skewing sideways &#183; resisted by Shear stiffness</text>
+        <rect class="sti-ghost" x="140" y="90" width="80" height="80" rx="3"/>
+        <polygon class="sti-cloth" points="150,170 190,90 270,90 230,170"/>
+        <line x1="195" y1="78" x2="265" y2="78" stroke="#FF8C00" stroke-width="2.5" marker-end="url(#sti-org)"/>
+        <line x1="215" y1="182" x2="145" y2="182" stroke="#FF8C00" stroke-width="2.5" marker-end="url(#sti-org)"/>
+        <text x="180" y="200" class="sti-pd" text-anchor="middle">Square skews into a parallelogram</text>
+    </g>
+    <g transform="translate(400,355)">
+        <rect class="sti-panel" width="360" height="215" rx="10"/>
+        <text x="20" y="34" class="sti-pt" fill="#4CAF50">BENDING</text>
+        <text x="20" y="54" class="sti-pd">Folding over a crease &#183; resisted by Bending stiffness</text>
+        <polygon class="sti-cloth" points="120,160 170,96 210,108 170,168"/>
+        <polygon class="sti-cloth" points="170,96 250,82 268,140 210,108"/>
+        <line x1="170" y1="96" x2="210" y2="108" stroke="#4CAF50" stroke-width="2.5"/>
+        <path d="M250,70 q40,30 22,78" fill="none" stroke="#4CAF50" stroke-width="2.5" marker-end="url(#sti-grn)"/>
+        <text x="180" y="196" class="sti-pd" text-anchor="middle">Fabric hinges along a fold line</text>
+    </g>
+</svg><figcaption>The four ways cloth stiffness resists deformation: tension resists stretching, compression resists bunching, shear resists diagonal skew, and bending resists folding. Tuning these four values is what makes one material behave like silk and another like leather.</figcaption></figure>
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
                     <h4>💡 Understanding Stiffness Through Example</h4>
@@ -829,6 +969,8 @@
 
                 <p>Notice how the left edge stays perfectly in place (pinned) while the rest of the flag flutters and waves! This is the power of pinning—you get to choose exactly what moves and what doesn't.</p>
 
+                <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_34_13_pinned_flag_example.png" alt="A cloth flag pinned along its upper-left edge while the rest of the fabric drapes and billows down to the right."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 425 539"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><g transform="translate(120,52)"><rect x="-92" y="-22" width="184" height="40" rx="8" fill="#4A9EFF"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="20" font-weight="700" dominant-baseline="middle">PINNED EDGE</text></g><line x1="120" y1="72" x2="112" y2="118" stroke="#FF6B00" stroke-width="4"/><circle cx="111" cy="128" r="8" fill="#FF6B00"/><g transform="translate(300,300)"><rect x="-92" y="-22" width="184" height="40" rx="8" fill="#FF6B00"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="20" font-weight="700" dominant-baseline="middle">FREE EDGE</text></g><line x1="290" y1="320" x2="255" y2="370" stroke="#FF6B00" stroke-width="4"/><circle cx="252" cy="376" r="8" fill="#FF6B00"/></g></svg></div><figcaption>A pinned flag: the upper-left edge is assigned to a pin vertex group and stays fixed, while the free edge falls and billows under gravity and wind. Pinning lets you decide exactly which parts of the cloth move.</figcaption></figure>
+
                 <div class="mermaid">
                     graph LR
                     A[Full Mesh] --> B[Vertex Group]
@@ -836,9 +978,11 @@
                     C --> D[Assigned to Group]
                     D --> E[Pin Group in Cloth Settings]
                     E --> F[Pinned Vertices Stay Fixed]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
+
+                <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_34_11_vertex_group_creation.png" alt="Blender Edit Mode with the left edge of a subdivided plane selected; the Object Data Properties panel shows a Pin vertex group with Assign, Remove, Select, and Deselect buttons and Weight set to 1.000."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1918 974"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><g transform="translate(560,176)"><rect x="-145" y="-26" width="290" height="46" rx="8" fill="#4A9EFF"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="24" font-weight="700" dominant-baseline="middle">1 . PIN VERTEX GROUP</text></g><line x1="415" y1="176" x2="395" y2="176" stroke="#FF6B00" stroke-width="4"/><circle cx="390" cy="176" r="9" fill="#FF6B00"/><g transform="translate(620,314)"><rect x="-130" y="-26" width="260" height="46" rx="8" fill="#4ADE80"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="24" font-weight="700" dominant-baseline="middle">2 . CLICK ASSIGN</text></g><line x1="490" y1="314" x2="145" y2="314" stroke="#FF6B00" stroke-width="4"/><circle cx="100" cy="314" r="9" fill="#FF6B00"/><g transform="translate(1180,300)"><rect x="-175" y="-26" width="350" height="46" rx="8" fill="#FF6B00"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-size="24" font-weight="700" dominant-baseline="middle">3 . SELECTED LEFT EDGE</text></g><line x1="1020" y1="320" x2="1002" y2="360" stroke="#FF6B00" stroke-width="4"/><circle cx="1000" cy="368" r="9" fill="#FF6B00"/></g></svg></div><figcaption>Creating a pin vertex group: add a group named Pin, select the vertices you want held in place (here the left edge), set Weight to 1.000, and click Assign to add them to the group.</figcaption></figure>
 
                 <h4>Understanding Vertex Groups</h4>
                 
@@ -846,7 +990,7 @@
 
                 <div class="card">
                     <h4>🎯 Vertex Group Weights</h4>
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                    <div class="table-wrap"><table style="width: 100%; border-collapse: collapse; margin-top: 1rem; min-width: max-content;">
                         <thead>
                             <tr style="background: #f5f5f5;">
                                 <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Weight Value</th>
@@ -881,7 +1025,7 @@
                                 <td style="padding: 0.75rem; border: 1px solid #ddd;">Attachment points, fixed edges</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table></div>
                 </div>
 
                 <h4>Advanced Pinning: Gradual Transitions</h4>
@@ -948,9 +1092,11 @@
                     D --> E[Paint Vertex Weights]
                     E --> F[Smooth Transitions]
                     F --> G[Apply to Cloth]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
+
+                <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_34_12_weight_paint_mode.png" alt="Blender in Weight Paint mode with the Pin vertex group active; the cloth plane shows a red-to-blue weight gradient, red on the pinned left edge and blue on the free right edge."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1918 974"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><line x1="690" y1="320" x2="700" y2="213" stroke="#FF6B00" stroke-width="4"/><circle cx="700" cy="211" r="8" fill="#FF6B00"/><line x1="235" y1="330" x2="120" y2="224" stroke="#FF6B00" stroke-width="4"/><circle cx="116" cy="222" r="8" fill="#FF6B00"/><line x1="870" y1="470" x2="1056" y2="540" stroke="#FF6B00" stroke-width="4"/><circle cx="1058" cy="542" r="9" fill="#FF6B00"/><line x1="1600" y1="470" x2="1412" y2="540" stroke="#FF6B00" stroke-width="4"/><circle cx="1410" cy="542" r="9" fill="#FF6B00"/><g transform="translate(690,350)"><rect x="-130" y="-26" width="260" height="52" rx="8" fill="#4A9EFF"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-weight="700" font-size="26" dominant-baseline="middle">Weight Paint mode</text></g><g transform="translate(235,360)"><rect x="-118" y="-26" width="236" height="52" rx="8" fill="#4A9EFF"/><text x="0" y="0" text-anchor="middle" fill="#fff" font-weight="700" font-size="26" dominant-baseline="middle">&#8220;Pin&#8221; group active</text></g><g transform="translate(760,452)"><rect x="-152" y="-31" width="372" height="62" rx="10" fill="#1a1a1a" fill-opacity="0.78"/><rect x="-145" y="-25" width="210" height="50" rx="8" fill="#4ADE80"/><text x="-40" y="0" text-anchor="middle" fill="#0c2a17" font-weight="700" font-size="25" dominant-baseline="middle">Red = 1.0</text><text x="142" y="0" text-anchor="middle" fill="#fff" font-weight="600" font-size="23" dominant-baseline="middle">pinned</text></g><g transform="translate(1560,452)"><rect x="-160" y="-31" width="350" height="62" rx="10" fill="#1a1a1a" fill-opacity="0.78"/><rect x="-152" y="-25" width="222" height="50" rx="8" fill="#FF6B00"/><text x="-41" y="0" text-anchor="middle" fill="#fff" font-weight="700" font-size="25" dominant-baseline="middle">Blue = 0.0</text><text x="128" y="0" text-anchor="middle" fill="#fff" font-weight="600" font-size="23" dominant-baseline="middle">free</text></g></g></svg></div><figcaption>In Weight Paint mode you paint how strongly each vertex is pinned. Red areas have a weight of 1.0 and are fully held in place; blue areas have a weight of 0.0 and move freely. The smooth gradient between them lets the cloth transition gradually from anchored to loose.</figcaption></figure>
 
                 <h4>Common Pinning Patterns</h4>
 
@@ -1080,7 +1226,7 @@
                     B --> C[Add Collision Physics]
                     C --> D[Set Collision Properties]
                     D --> E[Cloth Interacts]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
 
@@ -1187,6 +1333,78 @@
                     </ul>
                 </div>
 
+                <figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 540" color="currentColor" role="img" aria-labelledby="col-title col-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+    <title id="col-title">How collision distance creates an invisible buffer</title>
+    <desc id="col-desc">A side-on cross-section. A grey collision sphere sits in the centre with its solid surface drawn as a line. A dashed orange ring around it marks the collision distance buffer zone. A cyan cloth mesh with visible vertices drapes from above and comes to rest on the dashed buffer ring, never touching the actual sphere surface. A dimension arrow labels the gap between the sphere surface and the buffer as the collision distance.</desc>
+    <style>
+        .col-h{font:700 24px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor}
+        .col-sub{font:400 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor;opacity:.65}
+        .col-lt{font:700 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor}
+        .col-ld{font:400 12px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor;opacity:.62}
+        .col-dim{font:700 13px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#FF8C00}
+        .col-cloth{stroke:#00BCD4;stroke-width:2.5;fill:none}
+        .col-vtx{fill:#00BCD4}
+    </style>
+    <defs>
+        <marker id="col-dimL" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M10,0 L0,5 L10,10 z" fill="#FF8C00"/></marker>
+        <marker id="col-dimR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#FF8C00"/></marker>
+    </defs>
+    <rect x="0" y="0" width="800" height="3" fill="#FF8C00"/>
+    <text x="40" y="50" class="col-h">COLLISION DISTANCE: THE INVISIBLE BUFFER</text>
+    <text x="40" y="76" class="col-sub">Cloth stops at a thin offset around the object, not on its surface</text>
+    <line x1="40" y1="96" x2="760" y2="96" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+    <!-- Sphere centre ~ (340,330), surface r=110, buffer r=140 -->
+    <!-- Buffer zone fill (between surface and buffer ring) -->
+    <circle cx="340" cy="330" r="140" fill="#FF8C00" fill-opacity="0.10" stroke="none"/>
+    <!-- collision object body: theme-safe currentColor fill (light in dark mode, dark in light mode) -->
+    <circle cx="340" cy="330" r="110" fill="currentColor" fill-opacity="0.13"/>
+
+    <!-- buffer ring dashed -->
+    <circle cx="340" cy="330" r="140" fill="none" stroke="#FF8C00" stroke-width="2" stroke-dasharray="7 5"/>
+    <!-- actual sphere surface solid -->
+    <circle cx="340" cy="330" r="110" fill="none" stroke="currentColor" stroke-width="2.5" stroke-opacity="0.85"/>
+
+    <text x="340" y="336" class="col-lt" text-anchor="middle">Collision</text>
+    <text x="340" y="356" class="col-lt" text-anchor="middle">object</text>
+
+    <!-- Cloth draping from top, resting on the buffer ring top (y = 330-140 = 190) -->
+    <!-- A gentle catenary that dips to touch ~ (340,190) then rises -->
+    <path class="col-cloth" d="M120,150 C200,150 250,188 340,190 C430,188 480,150 560,150"/>
+    <!-- vertices along cloth -->
+    <g class="col-vtx">
+        <circle cx="120" cy="150" r="4.5"/><circle cx="185" cy="158" r="4.5"/>
+        <circle cx="245" cy="180" r="4.5"/><circle cx="305" cy="190" r="4.5"/>
+        <circle cx="340" cy="190" r="4.5"/><circle cx="375" cy="190" r="4.5"/>
+        <circle cx="435" cy="180" r="4.5"/><circle cx="495" cy="158" r="4.5"/>
+        <circle cx="560" cy="150" r="4.5"/>
+    </g>
+    <text x="120" y="138" class="col-ld">Cloth mesh (vertices shown)</text>
+
+    <!-- Dimension arrow for the gap: from sphere top (340,220) to buffer top (340,190) along a callout to the right -->
+    <!-- draw the gap on the right flank where surface=450,330 buffer=480,330 -->
+    <line x1="450" y1="330" x2="450" y2="404" stroke="currentColor" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="3 3"/>
+    <line x1="480" y1="330" x2="480" y2="404" stroke="#FF8C00" stroke-width="1" stroke-opacity="0.6" stroke-dasharray="3 3"/>
+    <line x1="450" y1="396" x2="480" y2="396" stroke="#FF8C00" stroke-width="2" marker-start="url(#col-dimL)" marker-end="url(#col-dimR)"/>
+    <text x="496" y="400" class="col-dim">Distance: 0.02 m</text>
+    <text x="496" y="420" class="col-ld">the buffer thickness</text>
+
+    <!-- Labels for the two rings -->
+    <line x1="232" y1="330" x2="150" y2="445" stroke="currentColor" stroke-width="1" stroke-opacity="0.35"/>
+    <text x="60" y="460" class="col-ld">Solid line = real surface</text>
+    <line x1="200" y1="330" x2="120" y2="478" stroke="#FF8C00" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="60" y="492" class="col-ld" fill="#FF8C00">Dashed ring = buffer zone</text>
+
+    <!-- takeaway -->
+    <text x="600" y="300" class="col-ld">A larger Distance keeps</text>
+    <text x="600" y="318" class="col-ld">cloth further off and</text>
+    <text x="600" y="336" class="col-ld">prevents poke-through,</text>
+    <text x="600" y="354" class="col-ld">but can look like it</text>
+    <text x="600" y="372" class="col-ld">floats above the object.</text>
+</svg><figcaption>Collision Distance is a thin invisible buffer around the collider: the cloth comes to rest a small offset away from the real surface rather than touching it. A larger Distance prevents poke-through but can make the cloth look like it floats; the default of 0.015 works well for most scenes.</figcaption></figure>
+
+                <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_34_18_collision_quality_comparison.png" alt="Three side-by-side renders of the same cloth draping over a sphere at increasing collision Quality settings: at low quality the cloth pokes through with a jagged seam, at medium it drapes more fully, and at high quality it forms a clean complete drape."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1524 460"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><g transform="translate(250,44)"><rect x="-150" y="-30" width="300" height="60" rx="10" fill="#1a1a1a" fill-opacity="0.80"/><rect x="-142" y="-22" width="150" height="44" rx="8" fill="#FF6B00"/><text x="-67" y="2" text-anchor="middle" fill="#fff" font-weight="700" font-size="26" dominant-baseline="middle">Low</text><text x="20" y="2" text-anchor="start" fill="#fff" font-weight="600" font-size="20" dominant-baseline="middle">Quality 1-2</text></g><g transform="translate(762,44)"><rect x="-160" y="-30" width="320" height="60" rx="10" fill="#1a1a1a" fill-opacity="0.80"/><rect x="-152" y="-22" width="150" height="44" rx="8" fill="#4A9EFF"/><text x="-77" y="2" text-anchor="middle" fill="#fff" font-weight="700" font-size="26" dominant-baseline="middle">Medium</text><text x="10" y="2" text-anchor="start" fill="#fff" font-weight="600" font-size="20" dominant-baseline="middle">Quality 4-8</text></g><g transform="translate(1273,44)"><rect x="-170" y="-30" width="340" height="60" rx="10" fill="#1a1a1a" fill-opacity="0.80"/><rect x="-162" y="-22" width="150" height="44" rx="8" fill="#4ADE80"/><text x="-87" y="2" text-anchor="middle" fill="#fff" font-weight="700" font-size="26" dominant-baseline="middle">High</text><text x="0" y="2" text-anchor="start" fill="#fff" font-weight="600" font-size="20" dominant-baseline="middle">Quality 10-20</text></g><line x1="250" y1="78" x2="270" y2="190" stroke="#FF6B00" stroke-width="3"/><circle cx="271" cy="193" r="7" fill="#FF6B00"/><g transform="translate(250,300)"><rect x="-145" y="-26" width="290" height="52" rx="9" fill="#1a1a1a" fill-opacity="0.80"/><text x="0" y="0" text-anchor="middle" fill="#FF8C00" font-weight="700" font-size="21" dominant-baseline="middle">cloth pokes through</text></g><g transform="translate(1273,300)"><rect x="-130" y="-26" width="260" height="52" rx="9" fill="#1a1a1a" fill-opacity="0.80"/><text x="0" y="0" text-anchor="middle" fill="#4ADE80" font-weight="700" font-size="21" dominant-baseline="middle">clean, full drape</text></g></g></svg></div><figcaption>Collision Quality controls how many times per frame Blender checks for collisions. Low values are fast but let the cloth poke through; higher values are slower but give a clean, accurate drape. Raise Quality when objects move quickly or the cloth is thin.</figcaption></figure>
+
                 <h4>Practical Collision Setup Example</h4>
                 
                 <p>Let's create a realistic example: cloth draping over a sphere (like a sheet over a ball).</p>
@@ -1238,6 +1456,8 @@
                     </ol>
                 </div>
 
+                <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_34_17_cloth_on_sphere.png" alt="A single piece of cloth draped over a sphere: the fabric makes smooth rounded contact across the top of the sphere and falls into soft folds down the sides with hanging corners."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 441 407"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><line x1="300" y1="40" x2="232" y2="66" stroke="#FF6B00" stroke-width="3"/><circle cx="230" cy="68" r="6" fill="#FF6B00"/><g transform="translate(300,30)"><rect x="-92" y="-19" width="184" height="38" rx="8" fill="#1a1a1a" fill-opacity="0.80"/><rect x="-86" y="-14" width="10" height="28" rx="3" fill="#4A9EFF"/><text x="6" y="1" text-anchor="middle" fill="#fff" font-weight="700" font-size="18" dominant-baseline="middle">dome contact</text></g><line x1="80" y1="285" x2="138" y2="228" stroke="#FF6B00" stroke-width="3"/><circle cx="140" cy="226" r="6" fill="#FF6B00"/><g transform="translate(78,300)"><rect x="-72" y="-19" width="150" height="38" rx="8" fill="#1a1a1a" fill-opacity="0.80"/><rect x="-66" y="-14" width="10" height="28" rx="3" fill="#4ADE80"/><text x="12" y="1" text-anchor="middle" fill="#fff" font-weight="700" font-size="18" dominant-baseline="middle">soft folds</text></g></g></svg></div><figcaption>Cloth draped over a sphere shows collision working correctly: the fabric makes smooth contact across the dome and settles into natural folds down the sides. This is the classic test for checking your collision and draping settings.</figcaption></figure>
+
                 <div class="mermaid">
                     graph TD
                     A[Cloth Falls] --> B[Approaches Sphere]
@@ -1248,7 +1468,7 @@
                     E -->|No| G[Continue Fall]
                     F --> H[Apply Friction]
                     H --> I[Drape Over Surface]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style C fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
                     style I fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
@@ -1364,7 +1584,7 @@
                     B -->|ON| D[Detects Self]
                     D --> E[Maintains Distance]
                     E --> F[Realistic Layering]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style C fill:#f44336,stroke:#333,stroke-width:2px,color:#fff
                     style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
@@ -1491,7 +1711,7 @@
                     C --> D[Creates Virtual Thickness]
                     D --> E[Collision Detection Zone]
                     E --> F[Prevents Self-Penetration]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
 
@@ -1590,7 +1810,7 @@
 
                 <div class="card">
                     <h4>✅ Self-Collision Decision Guide</h4>
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                    <div class="table-wrap"><table style="width: 100%; border-collapse: collapse; margin-top: 1rem; min-width: max-content;">
                         <thead>
                             <tr style="background: #f5f5f5;">
                                 <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Scenario</th>
@@ -1635,7 +1855,7 @@
                                 <td style="padding: 0.75rem; border: 1px solid #ddd;">Usually stays flat or gently curved</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table></div>
                 </div>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
@@ -1687,7 +1907,7 @@
                     D --> E[Play Back]
                     B -->|Yes| F[Load from Disk]
                     F --> G[Instant Playback]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style C fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
                     style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
@@ -1818,7 +2038,7 @@
                     F -->|No| H[Free Bake]
                     H --> I[Adjust Settings]
                     I --> B
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                     style E fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
                 </div>
@@ -1873,7 +2093,7 @@
 
                 <div class="card">
                     <h4>📊 Cache Type Comparison</h4>
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                    <div class="table-wrap"><table style="width: 100%; border-collapse: collapse; margin-top: 1rem; min-width: max-content;">
                         <thead>
                             <tr style="background: #f5f5f5;">
                                 <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Feature</th>
@@ -1908,7 +2128,7 @@
                                 <td style="padding: 0.75rem; border: 1px solid #ddd;">Yes, locked in</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table></div>
                 </div>
 
                 <h4>Troubleshooting Cache Issues</h4>
@@ -2088,7 +2308,7 @@
                     B --> C[Flag Waves]
                     C --> D[Continuous Motion]
                     D --> E[Natural Flutter]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
 
@@ -2268,7 +2488,7 @@
                     D --> E[Hits Ground]
                     E --> F[Bounces Slightly]
                     F --> G[Settles with Complex Folds]
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style C fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
                     style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
@@ -2277,7 +2497,7 @@
 
                 <div class="card">
                     <h4>📋 Quick Settings Guide by Use Case</h4>
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9em;">
+                    <div class="table-wrap"><table style="width: 100%; border-collapse: collapse; margin-top: 1rem; min-width: max-content; font-size: 0.9em;">
                         <thead>
                             <tr style="background: #f5f5f5;">
                                 <th style="padding: 0.5rem; border: 1px solid #ddd; text-align: left;">Use Case</th>
@@ -2324,7 +2544,7 @@
                                 <td style="padding: 0.5rem; border: 1px solid #ddd;">Yes</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table></div>
                 </div>
 
                 <blockquote>
@@ -2709,7 +2929,7 @@
 
                 <h4>Project Overview</h4>
                 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem;">
+                <div class="card" style="background: #2a2a2a; color: white; padding: 2rem;">
                     <h4 style="color: white; margin-top: 0;">🎨 What You'll Create</h4>
                     <p style="color: white;">A realistic dining table scene with:</p>
                     <ul style="color: white;">
@@ -3089,7 +3309,7 @@
                 <h4>Common Cloth Settings Quick Reference</h4>
 
                 <div class="card">
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9em;">
+                    <div class="table-wrap"><table style="width: 100%; border-collapse: collapse; margin-top: 1rem; min-width: max-content; font-size: 0.9em;">
                         <thead>
                             <tr style="background: #f5f5f5;">
                                 <th style="padding: 0.5rem; border: 1px solid #ddd;">Fabric Type</th>
@@ -3129,7 +3349,7 @@
                                 <td style="padding: 0.5rem; border: 1px solid #ddd;">Jackets, armor, accessories</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table></div>
                 </div>
 
                 <h4>Where to Go From Here</h4>
@@ -3162,7 +3382,7 @@
                     </ul>
                 </div>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; margin: 2rem 0;">
+                <div class="card" style="background: #2a2a2a; color: white; padding: 2rem; margin: 2rem 0;">
                     <h3 style="color: white; margin-top: 0;">🎉 Congratulations!</h3>
                     <p style="color: white; font-size: 1.1rem;">You've mastered one of Blender's most complex simulation systems! Cloth simulation opens up incredible creative possibilities—from realistic character clothing to dynamic scene elements. The skills you've learned here will serve you throughout your 3D journey.</p>
                     <p style="color: white; margin-bottom: 0;">Remember: every professional artist started exactly where you are now. Keep experimenting, stay curious, and don't be afraid to push the boundaries of what's possible. Your best work is still ahead of you!</p>

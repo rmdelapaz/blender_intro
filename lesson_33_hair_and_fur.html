@@ -21,7 +21,7 @@
             themeVariables: {
                 primaryColor: '#f0f0f0',
                 primaryTextColor: '#333',
-                primaryBorderColor: '#667eea'
+                primaryBorderColor: '#888'
             }
         });
     </script>
@@ -61,7 +61,7 @@
                 </header>
 
                 <!-- Learning Objectives -->
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 2rem;">
+                <div class="card" style="background: currentColor; color: white; margin-bottom: 2rem;">
                     <h2 style="color: white;">🎯 What You'll Learn</h2>
                     <ul style="color: white;">
                         <li><strong>Hair particle systems:</strong> How hair differs from emitter particles</li>
@@ -105,6 +105,8 @@
 
                     <p>Hair particle systems represent a specialized branch of particle simulation. Unlike emitter particles that fly free, hair particles remain rooted to surfaces. They grow from meshes like real hair from skin, grass from ground, or fur from bodies. Understanding this fundamental difference shapes everything about how you work with hair systems.</p>
 
+                    <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_01_hair_vs_emitter_comparison.png" alt="Side-by-side comparison: a sphere emitting free-flying particles on the left versus a sphere covered in surface-rooted hair strands on the right."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1920 1080"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><g transform="translate(360,150)"><rect x="-90" y="-34" width="200" height="52" rx="8" fill="#4A9EFF"/><text x="10" y="3" text-anchor="middle" fill="#fff" font-size="30" font-weight="700" dominant-baseline="middle">EMITTER</text></g><line x1="380" y1="168" x2="470" y2="330" stroke="#FF6B00" stroke-width="4"/><circle cx="470" cy="330" r="9" fill="#FF6B00"/><g transform="translate(1430,150)"><rect x="-80" y="-34" width="160" height="52" rx="8" fill="#4ADE80"/><text x="0" y="3" text-anchor="middle" fill="#fff" font-size="30" font-weight="700" dominant-baseline="middle">HAIR</text></g><line x1="1430" y1="168" x2="1360" y2="330" stroke="#FF6B00" stroke-width="4"/><circle cx="1360" cy="330" r="9" fill="#FF6B00"/></g></svg></div><figcaption>Emitter particles fly off the surface as free points; hair particles stay rooted to the mesh and form combable strands.</figcaption></figure>
+
                     <h3>Hair vs. Emitter Particles</h3>
 
                     <div class="card">
@@ -128,6 +130,7 @@
                             <li>Used for: Hair, fur, grass, fibers, coverage</li>
                         </ul>
 
+                        <div class="table-wrap">
                         <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
                             <thead>
                                 <tr style="background-color: #f0f0f0;">
@@ -169,6 +172,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
 
                         <div class="mermaid">
                             graph LR
@@ -178,7 +182,7 @@
                             B --> D[Rain, Sparks<br/>Debris, Effects]
                             C --> E[Hair, Fur<br/>Grass, Fibers]
                             
-                            style B fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style B fill:#888,stroke:#333,stroke-width:2px,color:#fff
                             style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                         </div>
                     </div>
@@ -209,6 +213,62 @@
                             style A fill:#f44336,stroke:#333,stroke-width:2px,color:#fff
                             style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                         </div>
+
+                        <figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 470" role="img" aria-labelledby="hsa-title hsa-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+    <title id="hsa-title">Anatomy of a hair strand</title>
+    <desc id="hsa-desc">A single curved hair strand drawn from its root anchored on a surface, through the control segments along its length, to the tapering tip, with each part labeled and the control points marked.</desc>
+    <style>
+        .hsa-lbl{font:600 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor}
+        .hsa-val{font:400 12px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor;opacity:.6}
+        .hsa-surf{fill:currentColor;fill-opacity:.06;stroke:currentColor;stroke-opacity:.4;stroke-width:1.5}
+        .hsa-lead{stroke:currentColor;stroke-opacity:.35;stroke-width:1;stroke-dasharray:4 4}
+    </style>
+    <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+    <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">HAIR STRAND ANATOMY</text>
+    <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Root &#183; segments &#183; tip &#183; the parts that make up one guide hair</text>
+    <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+    <!-- emitter surface -->
+    <rect class="hsa-surf" x="150" y="392" width="360" height="44" rx="3"/>
+    <text x="330" y="420" text-anchor="middle" class="hsa-val">Emitter surface (scalp / mesh face)</text>
+
+    <!-- the strand: root at (250,392) curving up to tip near (430,150) -->
+    <path d="M250,392 C246,320 260,268 300,236 C346,202 350,162 430,150"
+          fill="none" stroke="#FF6B00" stroke-width="3.5" stroke-linecap="round"/>
+
+    <!-- control points -->
+    <circle cx="250" cy="392" r="6.5" fill="#FF6B00"/>
+    <circle cx="250" cy="392" r="11" fill="none" stroke="#FF6B00" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="300" cy="236" r="5.5" fill="#4A9EFF"/>
+    <circle cx="346" cy="200" r="5.5" fill="#4A9EFF"/>
+    <circle cx="430" cy="150" r="6" fill="#4ADE80"/>
+
+    <!-- ROOT label (kept inside left margin) -->
+    <line class="hsa-lead" x1="250" y1="392" x2="190" y2="348"/>
+    <text x="150" y="342" class="hsa-lbl" fill="#FF6B00">Root</text>
+    <text x="150" y="360" class="hsa-val">anchored to surface; fixed in place</text>
+
+    <!-- SEGMENTS label (pulled in to fit canvas) -->
+    <line class="hsa-lead" x1="322" y1="218" x2="540" y2="262"/>
+    <text x="552" y="258" class="hsa-lbl" fill="#4A9EFF">Segments</text>
+    <text x="552" y="276" class="hsa-val">control points set by the</text>
+    <text x="552" y="292" class="hsa-val">Segments value; more =</text>
+    <text x="552" y="308" class="hsa-val">smoother bend &amp; combing</text>
+
+    <!-- TIP label -->
+    <line class="hsa-lead" x1="430" y1="150" x2="552" y2="150"/>
+    <text x="564" y="146" class="hsa-lbl" fill="#4ADE80">Tip</text>
+    <text x="564" y="164" class="hsa-val">free end; tapers thin,</text>
+    <text x="564" y="180" class="hsa-val">catches the most light</text>
+
+    <!-- length bracket -->
+    <line x1="112" y1="392" x2="112" y2="150" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+    <line x1="107" y1="392" x2="117" y2="392" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+    <line x1="107" y1="150" x2="117" y2="150" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+    <text x="100" y="276" text-anchor="middle" class="hsa-val" transform="rotate(-90 100 276)">Hair Length</text>
+
+    <text x="58" y="460" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> The root stays pinned while you groom; combing only moves the segments and tip.</text>
+</svg><figcaption>One guide hair runs from a pinned root, through Segments control points, to a tapering tip. The Segments value sets how many bend points the strand has.</figcaption></figure>
 
                         <p><strong>How strands behave:</strong></p>
                         <ul>
@@ -387,7 +447,7 @@
                             F --> G[Materials]
                             G --> H[Render]
                             
-                            style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style A fill:#888,stroke:#333,stroke-width:2px,color:#fff
                             style E fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
                             style H fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                         </div>
@@ -401,6 +461,91 @@
                             <li><strong>Rendering (5%):</strong> Final optimization and output</li>
                         </ul>
                     </div>
+
+                        <figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" role="img" aria-labelledby="hwf-title hwf-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+    <title id="hwf-title">Complete hair creation workflow</title>
+    <desc id="hwf-desc">A top-to-bottom flowchart of the full hair pipeline in six stages: add a hair particle system, set emission and distribution, groom in particle edit mode, add hair dynamics, assign a hair material, then light and render. A side loop shows that grooming and dynamics are often revisited.</desc>
+    <style>
+        .hwf-box{fill:currentColor;fill-opacity:.05;stroke:currentColor;stroke-opacity:.4;stroke-width:1.5}
+        .hwf-num{font:700 13px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:#FF6B00}
+        .hwf-t{font:700 15px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor}
+        .hwf-d{font:400 12px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor;opacity:.62}
+        .hwf-flow{stroke:#FF6B00;stroke-width:2.5;fill:none}
+        .hwf-loop{stroke:#4A9EFF;stroke-width:2;fill:none;stroke-dasharray:5 4}
+    </style>
+    <defs>
+        <marker id="hwf-h" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#FF6B00"/>
+        </marker>
+        <marker id="hwf-h-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#4A9EFF"/>
+        </marker>
+    </defs>
+    <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+    <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">COMPLETE HAIR WORKFLOW</text>
+    <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">System &#8594; emission &#8594; groom &#8594; dynamics &#8594; material &#8594; render</text>
+    <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+    <!-- 6 boxes stacked, w=430 h=56, x=70 -->
+    <!-- 1 -->
+    <g transform="translate(70,128)">
+        <rect class="hwf-box" width="430" height="56" rx="8"/>
+        <text x="20" y="26" class="hwf-num">01</text>
+        <text x="48" y="26" class="hwf-t">Add hair particle system</text>
+        <text x="48" y="45" class="hwf-d">Particle Properties &#8594; New &#8594; type Hair</text>
+    </g>
+    <line class="hwf-flow" x1="285" y1="184" x2="285" y2="194" marker-end="url(#hwf-h)"/>
+    <!-- 2 -->
+    <g transform="translate(70,196)">
+        <rect class="hwf-box" width="430" height="56" rx="8"/>
+        <text x="20" y="26" class="hwf-num">02</text>
+        <text x="48" y="26" class="hwf-t">Set emission &amp; distribution</text>
+        <text x="48" y="45" class="hwf-d">Number, Length, Seed; Faces / Verts; density vgroup</text>
+    </g>
+    <line class="hwf-flow" x1="285" y1="252" x2="285" y2="262" marker-end="url(#hwf-h)"/>
+    <!-- 3 -->
+    <g transform="translate(70,264)">
+        <rect class="hwf-box" width="430" height="56" rx="8"/>
+        <text x="20" y="26" class="hwf-num">03</text>
+        <text x="48" y="26" class="hwf-t">Groom in Particle Edit mode</text>
+        <text x="48" y="45" class="hwf-d">Comb, Cut, Length, Puff; shape the guides</text>
+    </g>
+    <line class="hwf-flow" x1="285" y1="320" x2="285" y2="330" marker-end="url(#hwf-h)"/>
+    <!-- 4 -->
+    <g transform="translate(70,332)">
+        <rect class="hwf-box" width="430" height="56" rx="8"/>
+        <text x="20" y="26" class="hwf-num">04</text>
+        <text x="48" y="26" class="hwf-t">Add hair dynamics</text>
+        <text x="48" y="45" class="hwf-d">Stiffness, mass, pinning; let it settle &amp; bake</text>
+    </g>
+    <line class="hwf-flow" x1="285" y1="388" x2="285" y2="398" marker-end="url(#hwf-h)"/>
+    <!-- 5 -->
+    <g transform="translate(70,400)">
+        <rect class="hwf-box" width="430" height="56" rx="8"/>
+        <text x="20" y="26" class="hwf-num">05</text>
+        <text x="48" y="26" class="hwf-t">Assign a hair material</text>
+        <text x="48" y="45" class="hwf-d">Principled Hair BSDF; root-to-tip color; children</text>
+    </g>
+    <line class="hwf-flow" x1="285" y1="456" x2="285" y2="466" marker-end="url(#hwf-h)"/>
+    <!-- 6 -->
+    <g transform="translate(70,468)">
+        <rect class="hwf-box" width="430" height="56" rx="8"/>
+        <text x="20" y="26" class="hwf-num">06</text>
+        <text x="48" y="26" class="hwf-t">Light &amp; render</text>
+        <text x="48" y="45" class="hwf-d">Rim/back light; viewport &amp; render display %; Cycles for depth</text>
+    </g>
+
+    <!-- iterate loop: box5 right edge up to box3 right edge -->
+    <path class="hwf-loop" d="M500,428 C600,428 600,292 510,292" marker-end="url(#hwf-h-blue)"/>
+    <text x="612" y="356" class="hwf-d" fill="#4A9EFF">Iterate:</text>
+    <text x="612" y="374" class="hwf-d" fill="#4A9EFF">re-groom after</text>
+    <text x="612" y="392" class="hwf-d" fill="#4A9EFF">seeing dynamics</text>
+    <text x="612" y="410" class="hwf-d" fill="#4A9EFF">&amp; material</text>
+
+    <text x="612" y="156" class="hwf-d">A guide-hair count</text>
+    <text x="612" y="174" class="hwf-d">stays low; children</text>
+    <text x="612" y="192" class="hwf-d">multiply at render.</text>
+</svg><figcaption>The full hair pipeline runs top to bottom: add the system, set emission, groom, add dynamics, assign a material, then light and render. Grooming and dynamics are usually revisited as a loop.</figcaption></figure>
 
                     <h3>Performance Considerations</h3>
 
@@ -437,7 +582,10 @@
                             </li>
                         </ul>
 
+                        <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_03_parent_child_visualization.png" alt="A small number of thick guide strands surrounded by many thinner strands that follow their shape."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1920 1080"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><g transform="translate(470,170)"><rect x="-95" y="-34" width="190" height="52" rx="8" fill="#4A9EFF"/><text x="0" y="3" text-anchor="middle" fill="#fff" font-size="30" font-weight="700" dominant-baseline="middle">PARENT</text></g><line x1="470" y1="188" x2="560" y2="400" stroke="#FF6B00" stroke-width="4"/><circle cx="560" cy="400" r="9" fill="#FF6B00"/><g transform="translate(1380,170)"><rect x="-80" y="-34" width="160" height="52" rx="8" fill="#4ADE80"/><text x="0" y="3" text-anchor="middle" fill="#fff" font-size="30" font-weight="700" dominant-baseline="middle">CHILD</text></g><line x1="1380" y1="188" x2="1290" y2="420" stroke="#FF6B00" stroke-width="4"/><circle cx="1290" cy="420" r="9" fill="#FF6B00"/></g></svg></div><figcaption>A few editable parent guides define the shape; many lightweight children interpolate around them to fill in density without raising the guide count.</figcaption></figure>
+
                         <p><strong>The workflow balance:</strong></p>
+                        <div class="table-wrap">
                         <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
                             <thead>
                                 <tr style="background-color: #f0f0f0;">
@@ -464,6 +612,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
 
                         <p><strong>Typical counts for different applications:</strong></p>
                         <ul>
@@ -557,6 +706,8 @@
                             <li><strong>System appears</strong> as white dots (default emitter type)</li>
                         </ol>
 
+                        <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_04_particle_properties_panel.png" alt="The Particle Properties panel with a hair system: Type set to Hair, Number, Hair Length and Segments fields, and the Emission section expanded."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 357 777"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><g transform="translate(150,70)"><rect x="0" y="-16" width="150" height="28" rx="6" fill="#4A9EFF"/><text x="10" y="4" fill="#fff" font-size="15" font-weight="700">Type: Hair</text></g><g transform="translate(150,210)"><rect x="0" y="-16" width="160" height="28" rx="6" fill="#FF6B00"/><text x="10" y="4" fill="#fff" font-size="15" font-weight="700">Number: 2000</text></g><g transform="translate(150,250)"><rect x="0" y="-16" width="195" height="28" rx="6" fill="#FF6B00"/><text x="10" y="4" fill="#fff" font-size="15" font-weight="700">Hair Length: 4.000</text></g><g transform="translate(150,290)"><rect x="0" y="-16" width="160" height="28" rx="6" fill="#FF6B00"/><text x="10" y="4" fill="#fff" font-size="15" font-weight="700">Segments: 8</text></g></g></svg></div><figcaption>The Particle Properties panel for a hair system. Set Type to Hair, then tune Number (how many guides), Hair Length, and Segments (control points per strand).</figcaption></figure>
+
                         <p><strong>Step 3: Change to Hair type</strong></p>
                         <ol>
                             <li><strong>Particle Properties → Particle System panel</strong></li>
@@ -589,7 +740,7 @@
                             C --> D[Strands Appear]
                             D --> E[Adjust Basic Settings]
                             
-                            style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style A fill:#888,stroke:#333,stroke-width:2px,color:#fff
                             style D fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                         </div>
 
@@ -709,6 +860,8 @@
                             <li>Achieve final density without performance hit</li>
                         </ul>
 
+                        <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_22_children_types_comparison.png" alt="Two hair heads side by side: the left shows tight separated clumps, the right shows dense even coverage."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1920 1080"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><g transform="translate(480,120)"><rect x="-130" y="-36" width="260" height="56" rx="8" fill="#4A9EFF"/><text x="0" y="4" text-anchor="middle" fill="#fff" font-size="32" font-weight="700" dominant-baseline="middle">SIMPLE</text></g><text x="480" y="190" text-anchor="middle" fill="#fff" font-size="24" font-weight="600">Follow nearest parent &#183; defined clumps</text><g transform="translate(1440,120)"><rect x="-200" y="-36" width="400" height="56" rx="8" fill="#4ADE80"/><text x="0" y="4" text-anchor="middle" fill="#fff" font-size="32" font-weight="700" dominant-baseline="middle">INTERPOLATED</text></g><text x="1440" y="190" text-anchor="middle" fill="#fff" font-size="24" font-weight="600">Blend between parents &#183; smooth coverage</text></g></svg></div><figcaption>Simple children clone each parent into separate clumps; Interpolated children blend between neighboring parents for smooth, even coverage.</figcaption></figure>
+
                         <p><strong>Enabling children:</strong></p>
                         <ol>
                             <li><strong>Particle Properties → Children</strong></li>
@@ -782,6 +935,7 @@
                         </div>
 
                         <p><strong>Simple vs. Interpolated children:</strong></p>
+                        <div class="table-wrap">
                         <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
                             <thead>
                                 <tr style="background-color: #f0f0f0;">
@@ -803,6 +957,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
 
                         <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
                             <h4>💡 Pro Tip: Viewport vs. Render Children</h4>
@@ -1127,6 +1282,7 @@
                             </li>
                         </ul>
 
+                        <div class="table-wrap">
                         <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
                             <thead>
                                 <tr style="background-color: #f0f0f0;">
@@ -1157,6 +1313,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
 
                     <h3>Surface Normals and Orientation</h3>
@@ -1171,6 +1328,72 @@
                             <li>Incorrect normals = hair pointing wrong way</li>
                             <li>Critical for natural appearance</li>
                         </ul>
+
+                        <figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 470" role="img" aria-labelledby="fnd-title fnd-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+    <title id="fnd-title">Face normals and hair growth direction</title>
+    <desc id="fnd-desc">Two mesh surfaces in cross-section. On the left, blue face-normal arrows point straight out and orange hair grows the same way alongside them. On the right, one normal is flipped to point inward and its orange hair grows down into the mesh.</desc>
+    <style>
+        .fnd-lbl{font:600 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor}
+        .fnd-val{font:400 12px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor;opacity:.6}
+        .fnd-surf{fill:currentColor;fill-opacity:.06;stroke:currentColor;stroke-opacity:.45;stroke-width:2}
+        .fnd-cap{font:700 13px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+    </style>
+    <defs>
+        <marker id="fnd-h-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#4A9EFF"/>
+        </marker>
+        <marker id="fnd-h-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#FF6B00"/>
+        </marker>
+        <marker id="fnd-h-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#F87171"/>
+        </marker>
+    </defs>
+    <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+    <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">FACE NORMALS &amp; HAIR DIRECTION</text>
+    <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Normals point out &#183; hair follows them &#183; a flipped normal grows hair inward</text>
+    <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+    <!-- LEFT: correct -->
+    <text x="200" y="146" text-anchor="middle" class="fnd-cap" fill="#4ADE80">CORRECT &#183; normals outward</text>
+    <rect class="fnd-surf" x="60" y="338" width="280" height="38"/>
+    <!-- helper: at each base x, blue normal at x-10 (shorter), orange hair at x+10 (taller) -->
+    <!-- pt1 base 130 -->
+    <line x1="120" y1="338" x2="120" y2="262" stroke="#4A9EFF" stroke-width="2.5" marker-end="url(#fnd-h-blue)"/>
+    <line x1="140" y1="338" x2="140" y2="206" stroke="#FF6B00" stroke-width="3.5" stroke-linecap="round" marker-end="url(#fnd-h-orange)"/>
+    <!-- pt2 base 200 -->
+    <line x1="190" y1="338" x2="190" y2="262" stroke="#4A9EFF" stroke-width="2.5" marker-end="url(#fnd-h-blue)"/>
+    <line x1="210" y1="338" x2="210" y2="200" stroke="#FF6B00" stroke-width="3.5" stroke-linecap="round" marker-end="url(#fnd-h-orange)"/>
+    <!-- pt3 base 270 -->
+    <line x1="260" y1="338" x2="260" y2="262" stroke="#4A9EFF" stroke-width="2.5" marker-end="url(#fnd-h-blue)"/>
+    <line x1="280" y1="338" x2="280" y2="206" stroke="#FF6B00" stroke-width="3.5" stroke-linecap="round" marker-end="url(#fnd-h-orange)"/>
+    <text x="200" y="398" text-anchor="middle" class="fnd-val">Hair grows out along the normal &#8212; as expected</text>
+
+    <!-- divider -->
+    <line x1="400" y1="138" x2="400" y2="404" stroke="currentColor" stroke-width="1" opacity="0.18"/>
+
+    <!-- RIGHT: flipped -->
+    <text x="600" y="146" text-anchor="middle" class="fnd-cap" fill="#F87171">FLIPPED &#183; normal inward</text>
+    <rect class="fnd-surf" x="460" y="338" width="280" height="38"/>
+    <!-- two ok points -->
+    <line x1="520" y1="338" x2="520" y2="262" stroke="#4A9EFF" stroke-width="2.5" marker-end="url(#fnd-h-blue)"/>
+    <line x1="540" y1="338" x2="540" y2="206" stroke="#FF6B00" stroke-width="3.5" stroke-linecap="round" marker-end="url(#fnd-h-orange)"/>
+    <line x1="680" y1="338" x2="680" y2="262" stroke="#4A9EFF" stroke-width="2.5" marker-end="url(#fnd-h-blue)"/>
+    <line x1="700" y1="338" x2="700" y2="206" stroke="#FF6B00" stroke-width="3.5" stroke-linecap="round" marker-end="url(#fnd-h-orange)"/>
+    <!-- flipped center: red normal DOWN, orange hair follows DOWN into mesh -->
+    <line x1="600" y1="338" x2="600" y2="408" stroke="#F87171" stroke-width="2.5" marker-end="url(#fnd-h-red)"/>
+    <line x1="620" y1="338" x2="620" y2="430" stroke="#FF6B00" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="6 4" marker-end="url(#fnd-h-orange)"/>
+    <text x="610" y="330" text-anchor="middle" class="fnd-val" fill="#F87171">grows into mesh</text>
+
+    <!-- legend -->
+    <g transform="translate(60,436)">
+        <line x1="0" y1="-4" x2="26" y2="-4" stroke="#4A9EFF" stroke-width="2.5" marker-end="url(#fnd-h-blue)"/>
+        <text x="34" y="0" class="fnd-val">Face normal</text>
+        <line x1="150" y1="-4" x2="176" y2="-4" stroke="#FF6B00" stroke-width="3.5" stroke-linecap="round" marker-end="url(#fnd-h-orange)"/>
+        <text x="184" y="0" class="fnd-val">Hair growth</text>
+    </g>
+    <text x="470" y="440" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Fix:</tspan> Mesh &#8594; Normals &#8594; Recalculate Outside.</text>
+</svg><figcaption>Hair grows along each face normal. Where a normal is flipped inward, the hair grows down into the mesh instead of out &#8212; fix it with Mesh &#8594; Normals &#8594; Recalculate Outside.</figcaption></figure>
 
                         <p><strong>Checking and fixing normals:</strong></p>
                         <ol>
@@ -1248,6 +1471,8 @@
                             <li>Grass has paths, bare spots, clusters</li>
                             <li>Vertex groups enable this variation</li>
                         </ul>
+
+                        <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_07_weight_paint_density_map.png" alt="A weight-painted surface showing a red-to-blue gradient indicating hair density per region."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1920 1080"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><g transform="translate(1560,150)"><rect x="0" y="0" width="300" height="170" rx="10" fill="#000" fill-opacity="0.55"/><text x="20" y="40" fill="#fff" font-size="26" font-weight="700">Density weight</text><rect x="20" y="58" width="30" height="30" rx="4" fill="#F87171"/><text x="62" y="81" fill="#fff" font-size="22">red = 1.0 (full)</text><rect x="20" y="100" width="30" height="30" rx="4" fill="#4A9EFF"/><text x="62" y="123" fill="#fff" font-size="22">blue = 0.0 (none)</text></g></g></svg></div><figcaption>A density vertex group painted as weights. Red areas (weight 1.0) grow full hair; blue areas (0.0) stay bare, letting you control where hair appears.</figcaption></figure>
 
                         <p><strong>Creating density map (detailed workflow):</strong></p>
                         <ol>
@@ -1571,6 +1796,8 @@
                             </li>
                         </ol>
 
+                        <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_08_particle_edit_interface.png" alt="Blender in Particle Edit mode: a grooming toolbar on the left with Comb active, a Particle Tool panel showing brush Radius and Strength, and a fur-covered emitter in the viewport."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1920 1046"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><g transform="translate(360,60)"><rect x="0" y="-30" width="330" height="46" rx="8" fill="#4A9EFF"/><text x="16" y="2" fill="#fff" font-size="26" font-weight="700">Particle Edit mode</text></g><g transform="translate(120,300)"><rect x="0" y="0" width="330" height="230" rx="10" fill="#000" fill-opacity="0.5"/><text x="18" y="36" fill="#fff" font-size="23" font-weight="700">Brushes:</text><text x="18" y="70" fill="#fff" font-size="21">Comb / Smooth / Cut</text><text x="18" y="100" fill="#fff" font-size="21">Length / Puff / Add</text></g><g transform="translate(1380,360)"><rect x="0" y="0" width="380" height="110" rx="10" fill="#000" fill-opacity="0.5"/><text x="18" y="40" fill="#fff" font-size="23" font-weight="700">Brush settings</text><text x="18" y="78" fill="#fff" font-size="21">Radius + Strength</text></g></g></svg></div><figcaption>Particle Edit mode replaces the modeling tools with a grooming toolbar (Comb, Smooth, Cut, Length, Puff, Add) and a brush panel for Radius and Strength.</figcaption></figure>
+
                         <p><strong>Particle Edit interface:</strong></p>
                         <ul>
                             <li><strong>Toolbar (left side):</strong>
@@ -1621,6 +1848,125 @@
 
                     <div class="card">
                         <h4>🛠️ Essential Styling Tools</h4>
+
+                        <figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-labelledby="gti-title gti-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+    <title id="gti-title">Particle edit mode grooming tools</title>
+    <desc id="gti-desc">A two-row by four-column grid of the eight hair grooming brushes found in Particle Edit mode: Comb, Smooth, Add, Length, Puff, Cut, Weight, and None, each with a simple icon and a one-line description of what it does.</desc>
+    <style>
+        .gti-name{font:700 15px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor}
+        .gti-desc{font:400 11.5px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;fill:currentColor;opacity:.6}
+        .gti-cell{fill:currentColor;fill-opacity:.04;stroke:currentColor;stroke-opacity:.18;stroke-width:1}
+        .gti-ic{fill:none;stroke:#FF6B00;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+        .gti-icf{fill:#FF6B00}
+    </style>
+    <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+    <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">GROOMING TOOLS</text>
+    <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">The eight Particle Edit brushes &#183; comb &#183; smooth &#183; add &#183; length &#183; puff &#183; cut &#183; weight</text>
+    <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+    <!-- 4 cols x 2 rows. cell 170x178, origin x=40,y=128, colstep=180, rowstep=194 -->
+    <!-- ROW 1 -->
+    <!-- Comb -->
+    <g transform="translate(40,128)">
+        <rect class="gti-cell" width="170" height="178" rx="8"/>
+        <g transform="translate(85,52)">
+            <path class="gti-ic" d="M-26,-14 L26,-14"/>
+            <path class="gti-ic" d="M-22,-14 L-26,18"/>
+            <path class="gti-ic" d="M-11,-14 L-13,18"/>
+            <path class="gti-ic" d="M0,-14 L0,18"/>
+            <path class="gti-ic" d="M11,-14 L13,18"/>
+            <path class="gti-ic" d="M22,-14 L26,18"/>
+        </g>
+        <text x="85" y="118" text-anchor="middle" class="gti-name">Comb</text>
+        <text x="85" y="140" text-anchor="middle" class="gti-desc">Push hairs along</text>
+        <text x="85" y="156" text-anchor="middle" class="gti-desc">brush direction</text>
+    </g>
+    <!-- Smooth -->
+    <g transform="translate(220,128)">
+        <rect class="gti-cell" width="170" height="178" rx="8"/>
+        <g transform="translate(85,52)">
+            <path class="gti-ic" d="M-28,8 C-18,-18 -6,-18 0,0 C6,18 18,18 28,-8"/>
+        </g>
+        <text x="85" y="118" text-anchor="middle" class="gti-name">Smooth</text>
+        <text x="85" y="140" text-anchor="middle" class="gti-desc">Average nearby</text>
+        <text x="85" y="156" text-anchor="middle" class="gti-desc">hairs; reduce frizz</text>
+    </g>
+    <!-- Add -->
+    <g transform="translate(400,128)">
+        <rect class="gti-cell" width="170" height="178" rx="8"/>
+        <g transform="translate(85,52)">
+            <path class="gti-ic" d="M0,-20 L0,20"/>
+            <path class="gti-ic" d="M-20,0 L20,0"/>
+        </g>
+        <text x="85" y="118" text-anchor="middle" class="gti-name">Add</text>
+        <text x="85" y="140" text-anchor="middle" class="gti-desc">Paint new hairs</text>
+        <text x="85" y="156" text-anchor="middle" class="gti-desc">onto the surface</text>
+    </g>
+    <!-- Length -->
+    <g transform="translate(580,128)">
+        <rect class="gti-cell" width="170" height="178" rx="8"/>
+        <g transform="translate(85,52)">
+            <path class="gti-ic" d="M-14,20 L-14,-20"/>
+            <path class="gti-ic" d="M-22,-12 L-14,-20 L-6,-12"/>
+            <path class="gti-ic" d="M14,20 L14,-4"/>
+            <path class="gti-ic" stroke-dasharray="3 3" d="M14,-4 L14,-20"/>
+            <path class="gti-ic" d="M6,-12 L14,-20 L22,-12" opacity="0.45"/>
+        </g>
+        <text x="85" y="118" text-anchor="middle" class="gti-name">Length</text>
+        <text x="85" y="140" text-anchor="middle" class="gti-desc">Grow or shrink</text>
+        <text x="85" y="156" text-anchor="middle" class="gti-desc">hairs (Grow/Shrink)</text>
+    </g>
+
+    <!-- ROW 2 -->
+    <!-- Puff -->
+    <g transform="translate(40,322)">
+        <rect class="gti-cell" width="170" height="178" rx="8"/>
+        <g transform="translate(85,52)">
+            <path class="gti-ic" d="M-24,18 L-24,-12"/>
+            <path class="gti-ic" d="M0,18 L0,-20"/>
+            <path class="gti-ic" d="M24,18 L24,-12"/>
+            <line class="gti-ic" x1="-30" y1="18" x2="30" y2="18"/>
+        </g>
+        <text x="85" y="118" text-anchor="middle" class="gti-name">Puff</text>
+        <text x="85" y="140" text-anchor="middle" class="gti-desc">Lift hairs to stand</text>
+        <text x="85" y="156" text-anchor="middle" class="gti-desc">up from the surface</text>
+    </g>
+    <!-- Cut -->
+    <g transform="translate(220,322)">
+        <rect class="gti-cell" width="170" height="178" rx="8"/>
+        <g transform="translate(85,52)">
+            <circle class="gti-ic" cx="-12" cy="12" r="7"/>
+            <circle class="gti-ic" cx="12" cy="12" r="7"/>
+            <path class="gti-ic" d="M-7,7 L18,-18"/>
+            <path class="gti-ic" d="M7,7 L-18,-18"/>
+        </g>
+        <text x="85" y="118" text-anchor="middle" class="gti-name">Cut</text>
+        <text x="85" y="140" text-anchor="middle" class="gti-desc">Trim hairs shorter</text>
+        <text x="85" y="156" text-anchor="middle" class="gti-desc">at the brush edge</text>
+    </g>
+    <!-- Weight -->
+    <g transform="translate(400,322)">
+        <rect class="gti-cell" width="170" height="178" rx="8"/>
+        <g transform="translate(85,52)">
+            <path class="gti-ic" d="M-18,-16 L18,-16 L24,18 L-24,18 Z"/>
+            <path class="gti-ic" d="M-8,-16 C-8,-24 8,-24 8,-16"/>
+        </g>
+        <text x="85" y="118" text-anchor="middle" class="gti-name">Weight</text>
+        <text x="85" y="140" text-anchor="middle" class="gti-desc">Paint weight for</text>
+        <text x="85" y="156" text-anchor="middle" class="gti-desc">hair dynamics pinning</text>
+    </g>
+    <!-- None -->
+    <g transform="translate(580,322)">
+        <rect class="gti-cell" width="170" height="178" rx="8"/>
+        <g transform="translate(85,52)">
+            <circle class="gti-ic" cx="0" cy="0" r="20"/>
+            <path class="gti-ic" d="M-14,-14 L14,14"/>
+        </g>
+        <text x="85" y="118" text-anchor="middle" class="gti-name">None</text>
+        <text x="85" y="140" text-anchor="middle" class="gti-desc">Selection only;</text>
+        <text x="85" y="156" text-anchor="middle" class="gti-desc">no brush effect</text>
+    </g>
+</svg><figcaption>The eight Particle Edit grooming brushes. Comb, Smooth, Add, and Length shape and build; Puff, Cut, and Weight refine; None is select-only.</figcaption></figure>
                         
                         <p><strong>1. Comb Tool</strong></p>
                         <ul>
@@ -1643,6 +1989,8 @@
                             </li>
                             <li><strong>Best for:</strong> General shaping, creating flow, styling direction</li>
                         </ul>
+
+                        <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_10_comb_tool_before_after.png" alt="Two panels of the same hair: on the left it is messy and undirected, on the right it has been combed into a smooth flowing direction."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1920 1080"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><g transform="translate(470,130)"><rect x="-110" y="-36" width="220" height="56" rx="8" fill="#F87171"/><text x="0" y="4" text-anchor="middle" fill="#fff" font-size="32" font-weight="700" dominant-baseline="middle">BEFORE</text></g><g transform="translate(1450,130)"><rect x="-100" y="-36" width="200" height="56" rx="8" fill="#4ADE80"/><text x="0" y="4" text-anchor="middle" fill="#fff" font-size="32" font-weight="700" dominant-baseline="middle">AFTER</text></g></g></svg></div><figcaption>The Comb tool brushes guide hairs along the stroke direction. Before combing the strands point every which way; after, they flow consistently.</figcaption></figure>
 
                         <p><strong>2. Smooth Tool</strong></p>
                         <ul>
@@ -1763,7 +2111,7 @@
                             A --> D[Cut:<br/>Length Control]
                             A --> E[Puff:<br/>Volume Control]
                             
-                            style B fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style B fill:#888,stroke:#333,stroke-width:2px,color:#fff
                             style C fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                         </div>
                     </div>
@@ -1915,7 +2263,7 @@
                             F --> G[Final Polish<br/>Smooth]
                             G --> H[Styled Hair]
                             
-                            style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style A fill:#888,stroke:#333,stroke-width:2px,color:#fff
                             style H fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                         </div>
 
@@ -2129,6 +2477,8 @@
                             </li>
                         </ol>
 
+                        <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_12_dynamics_settings_panel.png" alt="The Hair Dynamics panel with Structure (Mass, Stiffness, Random), Damping, and Collisions settings."><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 357 378"><g font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"><g transform="translate(170,118)"><rect x="0" y="-15" width="95" height="26" rx="6" fill="#FF6B00"/><text x="10" y="4" fill="#fff" font-size="14" font-weight="700">Mass</text></g><g transform="translate(170,156)"><rect x="0" y="-15" width="110" height="26" rx="6" fill="#FF6B00"/><text x="10" y="4" fill="#fff" font-size="14" font-weight="700">Stiffness</text></g><g transform="translate(170,248)"><rect x="0" y="-15" width="110" height="26" rx="6" fill="#FF6B00"/><text x="10" y="4" fill="#fff" font-size="14" font-weight="700">Damping</text></g></g></svg></div><figcaption>The Hair Dynamics panel. Mass, Stiffness, and Damping are the three settings that most shape how hair moves and settles.</figcaption></figure>
+
                         <p><strong>What happens when enabled:</strong></p>
                         <ul>
                             <li>Groomed shape becomes rest state</li>
@@ -2164,6 +2514,7 @@
 
                     <div class="card">
                         <h4>⚙️ Controlling Hair Behavior</h4>
+                        <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_14_stiffness_comparison.png" alt="Three hair systems compared at increasing stiffness values"><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1920 1080"><g font-family="system-ui,-apple-system,sans-serif" font-weight="700" text-anchor="middle"><g id="c33-14-low"><rect x="200" y="980" width="280" height="60" rx="8" fill="#4A9EFF"/><text x="340" y="1020" font-size="34" fill="#ffffff">Stiffness 0.5</text></g><g id="c33-14-mid"><rect x="820" y="980" width="280" height="60" rx="8" fill="#4ADE80"/><text x="960" y="1020" font-size="34" fill="#ffffff">Stiffness 1.5</text></g><g id="c33-14-high"><rect x="1440" y="980" width="280" height="60" rx="8" fill="#F87171"/><text x="1580" y="1020" font-size="34" fill="#ffffff">Stiffness 5.0</text></g></g></svg></div><figcaption>Hair stiffness governs how strongly strands resist bending under gravity and forces &#8212; low values droop and flow, high values stand rigid and spiky.</figcaption></figure>
                         
                         <p><strong>Structure section:</strong></p>
                         <ul>
@@ -2270,7 +2621,7 @@
                             D --> H[High = Quick Settle]
                             E --> I[High = Return to Rest]
                             
-                            style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style A fill:#888,stroke:#333,stroke-width:2px,color:#fff
                         </div>
                     </div>
 
@@ -2748,7 +3099,7 @@
                             C --> F[Glossy vs Matte]
                             D --> G[Shine Location]
                             
-                            style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style A fill:#888,stroke:#333,stroke-width:2px,color:#fff
                         </div>
                     </div>
 
@@ -2787,6 +3138,7 @@
                         </ol>
 
                         <p><strong>Common hair colors (RGB values):</strong></p>
+                        <div class="table-wrap">
                         <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
                             <thead>
                                 <tr style="background-color: #f0f0f0;">
@@ -2838,6 +3190,9 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
+
+                        <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_15_hair_bsdf_node_setup.png" alt="Hair BSDF node connected to Material Output in the shader editor"><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 930 430"><g font-family="system-ui,-apple-system,sans-serif" font-weight="700"><line x1="205" y1="180" x2="205" y2="238" stroke="#FF6B00" stroke-width="3"/><circle cx="205" cy="238" r="5" fill="#FF6B00"/><rect x="95" y="150" width="220" height="34" rx="8" fill="#4A9EFF"/><text x="205" y="173" font-size="20" fill="#ffffff" text-anchor="middle">Hair BSDF shader</text><line x1="765" y1="220" x2="765" y2="278" stroke="#FF6B00" stroke-width="3"/><circle cx="765" cy="278" r="5" fill="#FF6B00"/><rect x="650" y="190" width="230" height="34" rx="8" fill="#4ADE80"/><text x="765" y="213" font-size="20" fill="#ffffff" text-anchor="middle">Material Output</text><line x1="492" y1="420" x2="492" y2="350" stroke="#FF6B00" stroke-width="3"/><circle cx="492" cy="350" r="5" fill="#FF6B00"/><rect x="372" y="386" width="240" height="34" rx="8" fill="#F87171"/><text x="492" y="409" font-size="20" fill="#ffffff" text-anchor="middle">BSDF &#8594; Surface</text></g></svg></div><figcaption>The minimal hair shader &#8212; a Hair BSDF node wired into the Material Output's Surface socket. Everything else builds on this base.</figcaption></figure>
 
                         <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
                             <h4>💡 Pro Tip: Hair Is Never Pure Black or White</h4>
@@ -2945,9 +3300,14 @@
                             
                             F --> G[Hair BSDF Color]
                             
-                            style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                            style A fill:#888,stroke:#333,stroke-width:2px,color:#fff
                             style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                         </div>
+
+                        <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_16_color_gradient_setup.png" alt="Color Ramp driven by Hair Info Intercept feeding the Hair BSDF color"><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1330 440"><g font-family="system-ui,-apple-system,sans-serif" font-weight="700"><line x1="130" y1="180" x2="130" y2="238" stroke="#FF6B00" stroke-width="3"/><circle cx="130" cy="238" r="5" fill="#FF6B00"/><rect x="20" y="150" width="220" height="32" rx="8" fill="#4A9EFF"/><text x="130" y="172" font-size="19" fill="#ffffff" text-anchor="middle">Hair Info: Intercept</text><line x1="460" y1="160" x2="460" y2="218" stroke="#FF6B00" stroke-width="3"/><circle cx="460" cy="218" r="5" fill="#FF6B00"/><rect x="372" y="130" width="176" height="32" rx="8" fill="#4ADE80"/><text x="460" y="152" font-size="19" fill="#ffffff" text-anchor="middle">ColorRamp</text><text x="350" y="392" font-size="16" fill="#ffffff" text-anchor="start">&#9650; Root</text><text x="578" y="392" font-size="16" fill="#ffffff" text-anchor="end">Tip &#9650;</text><line x1="825" y1="200" x2="825" y2="258" stroke="#FF6B00" stroke-width="3"/><circle cx="825" cy="258" r="5" fill="#FF6B00"/><rect x="715" y="170" width="220" height="32" rx="8" fill="#F87171"/><text x="825" y="192" font-size="19" fill="#ffffff" text-anchor="middle">Hair BSDF: Color</text><line x1="1185" y1="230" x2="1185" y2="288" stroke="#FF6B00" stroke-width="3"/><circle cx="1185" cy="288" r="5" fill="#FF6B00"/><rect x="1075" y="200" width="230" height="32" rx="8" fill="#4A9EFF"/><text x="1190" y="222" font-size="19" fill="#ffffff" text-anchor="middle">Material Output</text></g></svg></div><figcaption>Driving the Hair BSDF color with a ColorRamp keyed to the strand's Intercept &#8212; the root-to-tip position &#8212; produces a natural gradient from darker roots to lighter tips.</figcaption></figure>
+
+                        <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_17_material_comparison.png" alt="Four hair spheres rendered at increasing roughness plus a color-gradient variant"><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1920 1080"><g font-family="system-ui,-apple-system,sans-serif" font-weight="700" text-anchor="middle"><g><rect x="120" y="660" width="300" height="86" rx="8" fill="#4A9EFF"/><text x="270" y="694" font-size="30" fill="#ffffff">Glossy</text><text x="270" y="730" font-size="26" fill="#ffffff">Roughness: 0.1</text></g><g><rect x="600" y="660" width="320" height="86" rx="8" fill="#4ADE80"/><text x="760" y="694" font-size="30" fill="#ffffff">Natural</text><text x="760" y="730" font-size="26" fill="#ffffff">Roughness: 0.3</text></g><g><rect x="1000" y="660" width="320" height="86" rx="8" fill="#F87171"/><text x="1160" y="694" font-size="30" fill="#ffffff">Matte</text><text x="1160" y="730" font-size="26" fill="#ffffff">Roughness: 0.6</text></g><g><rect x="1440" y="678" width="360" height="50" rx="8" fill="#A78BFA"/><text x="1620" y="712" font-size="26" fill="#ffffff">With Color Gradient</text></g></g></svg></div><figcaption>The same hair system across roughness values &#8212; low roughness reads glossy and wet, mid values look natural, high roughness goes soft and matte. The fourth adds the root-to-tip color gradient.</figcaption></figure>
+
                     </div>
 
                     <h3>Rendering Hair</h3>
@@ -2974,6 +3334,8 @@
                                 </ul>
                             </li>
                         </ul>
+
+                        <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_30_render_settings_panel.png" alt="Cycles render properties panel with hair-critical settings highlighted"><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1000 620"><g font-family="system-ui,-apple-system,sans-serif" font-weight="700" text-anchor="middle"><g><line x1="734" y1="120" x2="734" y2="133" stroke="#FF6B00" stroke-width="3"/><circle cx="734" cy="133" r="4" fill="#FF6B00"/><rect x="584" y="92" width="300" height="28" rx="6" fill="#4A9EFF"/><text x="734" y="112" font-size="17" fill="#ffffff">Render Samples: 256</text></g><g><line x1="300" y1="428" x2="300" y2="441" stroke="#FF6B00" stroke-width="3"/><circle cx="300" cy="441" r="4" fill="#FF6B00"/><rect x="150" y="400" width="300" height="28" rx="6" fill="#4ADE80"/><text x="300" y="420" font-size="17" fill="#ffffff">Transmission: 12</text></g><g><line x1="300" y1="574" x2="300" y2="561" stroke="#FF6B00" stroke-width="3"/><circle cx="300" cy="561" r="4" fill="#FF6B00"/><rect x="120" y="574" width="360" height="28" rx="6" fill="#F87171"/><text x="300" y="594" font-size="17" fill="#ffffff">Hair Shape: Rounded Ribbons</text></g></g></svg></div><figcaption>The Cycles settings that matter most for hair &#8212; enough render samples to resolve thin strands, generous transmission bounces for light passing through, and the Rounded Ribbons strand shape.</figcaption></figure>
 
                         <p><strong>Cycles render settings (Render Properties):</strong></p>
                         <ul>
@@ -3038,6 +3400,8 @@
                             <li>Can appear too dark without proper setup</li>
                             <li>Highlights crucial for showing shape and flow</li>
                         </ul>
+
+                        <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_18_lighting_setup_diagram.png" alt="Three-point lighting setup around a hair sphere with key, rim, and fill lights"><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1920 1080"><g font-family="system-ui,-apple-system,sans-serif" font-weight="700" text-anchor="middle"><g><rect x="120" y="250" width="300" height="78" rx="8" fill="#F59E0B"/><text x="270" y="282" font-size="30" fill="#ffffff">KEY LIGHT</text><text x="270" y="314" font-size="24" fill="#ffffff">warm &#183; 500W</text></g><g><rect x="860" y="40" width="300" height="78" rx="8" fill="#4A9EFF"/><text x="1010" y="72" font-size="30" fill="#ffffff">RIM LIGHT</text><text x="1010" y="104" font-size="24" fill="#ffffff">blue &#183; 300W</text></g><g><rect x="1300" y="700" width="300" height="78" rx="8" fill="#FBBF77"/><text x="1450" y="732" font-size="30" fill="#ffffff">FILL LIGHT</text><text x="1450" y="764" font-size="24" fill="#ffffff">warm &#183; 150W</text></g></g></svg></div><figcaption>A three-point rig for hair &#8212; a warm key establishes form and the catchlight, a cool rim picks out the silhouette and backlights the strands, and a soft fill lifts the shadows.</figcaption></figure>
 
                         <p><strong>Effective lighting setups:</strong></p>
                         <ul>
@@ -3279,6 +3643,7 @@
                         </ul>
 
                         <p><strong>Common hairstyles and approaches:</strong></p>
+                        <div class="table-wrap">
                         <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
                             <thead>
                                 <tr style="background-color: #f0f0f0;">
@@ -3320,6 +3685,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
 
                         <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                             <h4>✅ Character Hair Workflow</h4>
@@ -3685,7 +4051,9 @@
 
                     <p>Time to synthesize everything learned. This project creates complete character hairstyle from emission through grooming to final render. You'll build foundation, style hair, add dynamics, and produce polished result. Real workflow. Professional techniques. Complete hair system start to finish.</p>
 
-                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <figure><div style="position:relative;display:inline-block;max-width:100%;font-size:0"><img loading="lazy" style="margin:0;vertical-align:top" src="images/lesson_33_27_project_result_example.png" alt="Finished stylized hair render with combed-back flow, color gradient, and three-point lighting"><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1920 1080"><g font-family="system-ui,-apple-system,sans-serif" font-weight="700"><g><rect x="120" y="330" width="340" height="44" rx="8" fill="#F87171"/><text x="290" y="360" font-size="26" fill="#ffffff" text-anchor="middle">Key + rim lighting</text><line x1="460" y1="352" x2="1640" y2="462" stroke="#FF6B00" stroke-width="3"/><circle cx="1640" cy="462" r="6" fill="#FF6B00"/></g><g><rect x="120" y="500" width="330" height="44" rx="8" fill="#4A9EFF"/><text x="285" y="530" font-size="26" fill="#ffffff" text-anchor="middle">Combed-back flow</text><line x1="450" y1="522" x2="1492" y2="618" stroke="#FF6B00" stroke-width="3"/><circle cx="1492" cy="618" r="6" fill="#FF6B00"/></g><g><rect x="120" y="670" width="360" height="44" rx="8" fill="#4ADE80"/><text x="300" y="700" font-size="26" fill="#ffffff" text-anchor="middle">Root-to-tip gradient</text><line x1="480" y1="692" x2="1392" y2="842" stroke="#FF6B00" stroke-width="3"/><circle cx="1392" cy="842" r="6" fill="#FF6B00"/></g></g></svg></div><figcaption>The finished result &#8212; combed-back strands with a root-to-tip color gradient, lit by a warm key and cool rim to separate the hair from the background.</figcaption></figure>
+
+                    <div class="card" style="background: currentColor; color: white;">
                         <h3 style="color: white;">🎨 Project Goal</h3>
                         <p style="color: white;"><strong>Create a short-to-medium length hairstyle with:</strong></p>
                         <ul style="color: white;">
@@ -4187,7 +4555,7 @@
 
                     <h3>Key Concepts Mastered</h3>
 
-                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <div class="card" style="background: currentColor; color: white;">
                         <h3 style="color: white;">💡 Core Hair System Knowledge</h3>
                         
                         <ul style="color: white;">
