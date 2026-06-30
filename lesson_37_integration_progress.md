@@ -143,8 +143,64 @@ Teardown: clear_L37() removed L37_sym obj+armature; orphan purge 0; restored Cub
 1. Phase-0 modernize **[DONE 2026-06-28]**
 2. SVG batch (8 inline) &#8212; one batch **[DONE 2026-06-28]**
 3. PNG batches <=5/sub-chat (16 -> 4 sub-chats), each: Blender bridge health test + TRUE-PRISTINE verify before/after staging; Windows tempdir -> Pillow-relay -> WSL [Batch 1 {1,9,18,24,30} DONE 2026-06-29; Batch 2 {6,8,16,17,22} DONE 2026-06-29; Batch 3 scriptable UI-chrome {4,5,21} DONE 2026-06-29; Batch 4 {10} DONE 2026-06-29; Manual {12,19} Win+Shift+S popover DONE 2026-06-29 &#8212; **ALL 16 PNG COMPLETE**]
-4. Integration (own chat, 24>=6) &#8212; edit_file dryRun->commit->get_file_info, FIRST-match anchors, cairosvg pixel-verify + L33 overlay-margin fix per PNG [NEXT]
+4. Integration (own chat, 24>=6) &#8212; edit_file dryRun->commit, FIRST-match anchors, cairosvg pixel-verify + L33 overlay-margin fix per PNG **[DONE 2026-06-29]**
 5. Browser QA (own chat) &#8212; Playwright/Chromium 380/900 x dark/light [PENDING]
 
 **Blender TRUE-PRISTINE** (Phase-0 was HTML-only, no bridge work).
-**Next-pointer after L37: L38** (`lesson_38_*.html` &#8212; confirm slug at L37 close).
+**Next-pointer after L37: L38** (`lesson_38_weight_painting.html` &#8212; slug CONFIRMED at L37 close via live next-link).
+
+---
+
+## INTEGRATION COMPLETE &#8212; 2026-06-29
+**All 16 PNG+c37 figures live + cairosvg pixel-verified 1:1.** 24/24 figures total (8 inline SVG {2,3,7,11,13,15,26,29} + 16 PNG+c37 {1,4,5,6,8,9,10,12,16,17,18,19,21,22,24,30}). Each PNG: overlay viewBox == exact on-disk px-box, composite style (label bands #1a1a1a fill-opacity 0.82 + colored stroke, step badges, CORRECT/INCORRECT green/red checks via &#10003;/&#10007; entities), L33 overlay-margin fix baked (wrapper font-size:0 + img margin:0;vertical-align:top), FIRST-match anchor, edit_file dryRun->commit, U+2014 held 95 every checkpoint. Banned chars (U+2013/U+00B7/literal U+2192/em-dash in new content) 0 throughout; figcaptions + arrows use entities (&#8212; &#9656;).
+
+**FULL BYTE LADDER (every checkpoint re-copy + UTF-8 python3 recount):**
+301,193 (SVG-batch close) &#8212; PNG sub-batch commits across two integration chats:
+chat-1: 301,193 -> #1 304,770 -> #4 307,508 -> #5 311,031 -> #6 315,799 -> #8 319,080 -> #9 323,024 -> #10 327,526.
+chat-2: 327,526 -> #18 331,792 -> #12 335,308 -> #16 340,587 -> #17 344,615 -> #21 349,613 -> #19 353,473 -> #22 356,098 -> #24 360,885 -> #30 **365,620 (FINAL)**.
+
+**FINAL INVARIANT TABLE (UTF-8 python3, on real live file) &#8212; ALL PASS:**
+bytes **365,620**; figure/figcaption/`</figure>` **24/24/24**; svg **24** (8 inline + 16 overlay); img **16**; U+2014 **95 HELD**; U+2192 77; U+2013 0; U+00B7 0; `#667eea`/`#764ba2`/`linear-gradient`/`color="#222"` **0**; `<table>` 2 / table-wrap 2; mermaid `class="mermaid"` 4 + jsdelivr 1; lesson_36 1 / lesson_38 1; all 16 c37 PNG src present (each src count == 1).
+
+**c37 PNG REGISTRY (figure# -> slug -> px-box -> anchor -> overlay content):**
+- #1 armature_concept_diagram 1920x1080 -> after "What Is an Armature?" blockquote (chat-1)
+- #4 three_modes_comparison 2400x900 -> after "Understanding Armature Modes" intro p (chat-1); Object/Edit/Pose mode labels
+- #5 selection_methods 1600x1600 -> after "Basic Bone Manipulation in Edit Mode" intro p (chat-1); Click/Click-Sphere/B-Drag/C-Paint
+- #6 extrusion_process 2400x800 -> after "Adding More Bones" intro p (chat-1); 6 step badges + labels
+- #8 hierarchy_testing 1920x900 -> after "Testing Your Hierarchy in Pose Mode" heading (chat-1)
+- #9 anatomical_positioning 1920x1200 -> after "Why Bone Position Matters" blockquote (chat-1)
+- #10 critical_joint_positions 1600x1600 -> after "Anatomical Landmarks" intro p (chat-1); shoulder/hip/elbow/knee correct-vs-wrong
+- #12 recalculate_roll_interface 2261x1057 -> after "Bone Roll Alignment" intro p; menu-path + Global +Y Axis (CORRECT) + Roll-field callouts. **NO Ctrl+N label** (Ctrl+N = New File in Ray's build, not Recalc Roll)
+- #16 spine_construction 2400x800 -> Phase 1 card heading (deeper-indent, fig col 20 / svg children col 32); 6 step badges pelvis->head + "all connected"
+- #17 arm_chain_build 2000x1000 -> Phase 2 card heading (deeper-indent); 4 step badges shoulder.L->hand.L + parent-child band
+- #18 leg_forward_knee 1600x1000 -> after "Joint-Specific Positioning Guidelines" heading (heading-only anchor); CORRECT forward-knee (green) vs INCORRECT centered (red) + center-line refs + offset bracket
+- #19 symmetrize_demo 2400x800 -> after "The Symmetrize Tool (Primary Method)" intro p; Before/Symmetrize/After stage badges + .L->.R + "Perfect mirror created!"
+- #21 bone_properties_panel 1920x1080 -> after "Accessing Bone Properties" blockquote; 5 section labels (Transform/Relations/IK/Deform-green/Viewport Display) in bottom clear band w/ leaders to header rows
+- #22 deform_checkbox_comparison 1600x1200 -> after "Deformation Settings" intro p; Deform ON (green, top) / OFF (red, bottom)
+- #24 complete_tpose_armature 2400x1600 -> after "Final Touches and Verification" heading (heading-only anchor); Side/Front/Perspective view labels + 5 front-view bone callouts (head/spine/upper_arm.L/hand.L/upper_leg.L)
+- #30 finger_bones_detail 1600x1200 -> "Take It Further (Optional)" project card heading (deeper-indent); finger labels (index/middle/ring/pinky.L) + thumb.L (2 bones) + hand.L (palm root) + "15 bones total" badge. **figcaption states 15 bones** (1 palm + 14 segments, 2-seg thumb); spec's "16 bones" is bad arithmetic, NOT followed.
+
+**NEXT: browser QA** (own chat, Playwright/Chromium real 380/900 x dark/light; live HTML + main.css + 16 PNGs on 127.0.0.1 loopback, offline mermaid stub in QA copy only, live file untouched; verify 0 doc overflow, 16/16 PNG decode, 16 overlays register 1:1, L33 margin fix held max|dy|=max|dh|=0). **Blender TRUE-PRISTINE** (integration was HTML-only, no bridge work).
+
+---
+
+## BROWSER QA &#8212; PASS 2026-06-29
+**Live-pixel QA PASS, NO DEFECTS, 0 live-HTML edits.** Claude-side real Chromium 1194 (`/opt/pw-browsers/chromium-1194`) + Playwright 1.56. Live HTML + `styles/main.css` + all 16 c37 PNGs served on `http://127.0.0.1:5599` loopback (NOT file://); mermaid jsdelivr ESM import swapped for an offline layout stub IN THE QA COPY ONLY. Live file untouched and re-verified post-run (bytes 365,620 unchanged, all invariants identical).
+
+**Pre-QA static checks (UTF-8 python3, on live file):** all 16 on-disk PNG px-boxes == c37 registry 1:1; all 16 overlay `viewBox`es == on-disk px-box 1:1 in source.
+
+**All 4 configs (380 & 900 px &#215; dark & light):**
+- **0 document horizontal overflow** &#8212; scrollWidth === clientWidth all 4 (380=380, 900=900).
+- **16/16 PNG decode** (forced eager + scroll; imgs are `loading="lazy"`), naturalWidth>0 all 4 configs.
+- **16/16 overlays register 1:1** &#8212; max|dx|=max|dy|=max|dh|=**0.000px** all 4 configs; worst deviation **0.047px dw** (sub-px rounding) @380, **0.016px dw** @900. No dx/dy/dh drift anywhere.
+- **L33 overlay-margin fix HELD on all 16** &#8212; max|dy|=max|dh|=**0.000px** (defect signature dy&#8776;&#8722;16px/dh&#8776;+32px ABSENT). Wrapper `font-size:0` + img `margin:0;vertical-align:top` confirmed effective.
+- **8/8 inline SVG `currentColor` inverts** &#8212; dark rgb(212,212,212) / light rgb(51,65,85), 8/8 match both themes.
+- **2/2 `.table-wrap` contain** &#8212; both wraps within doc width @380 (internal scroll), 0 doc overflow.
+- **4/4 mermaid divs lay out** (offline stub = harness limit, not a defect; offline render unverified).
+- **0 pageerrors** all 4 configs.
+
+**404s observed (out of QA scope, expected):** `js/clipboard.js`, `js/course-enhancements.js`, `/favicon.png` &#8212; page-chrome assets not staged Claude-side (identical to L33&#8211;L36 harness); not part of figure/overlay QA.
+
+**Post-QA live-HTML re-verify (UTF-8 python3, fresh re-copy):** bytes **365,620** (unchanged); U+2014 **95 HELD**; U+2192 77; U+2013 0; U+00B7 0; figure/figcaption/`</figure>`/svg **24/24/24/24**; img **16**; `#667eea`/`#764ba2`/`linear-gradient`/`color="#222"` **0**; `<table>` 2 / table-wrap 2; mermaid `class="mermaid"` 4 + jsdelivr 1; lesson_36 1 / lesson_38 1. **All match INTEGRATION-COMPLETE FINAL INVARIANT TABLE exactly &#8212; QA harness never touched the live file.**
+
+**L37 FULLY CLOSED &#8212; INTEGRATION COMPLETE + QA-PASS (2026-06-29).** Standing browser-QA queue: EMPTY (all lessons L05&#8211;L37 cleared). Next active lesson: **L38** (`lesson_38_weight_painting.html`, slug CONFIRMED). **Blender TRUE-PRISTINE** (QA was HTML-only, no bridge work).

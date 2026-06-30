@@ -21,7 +21,7 @@
             themeVariables: {
                 primaryColor: '#f0f0f0',
                 primaryTextColor: '#333',
-                primaryBorderColor: '#667eea'
+                primaryBorderColor: '#888888'
             }
         });
     </script>
@@ -48,7 +48,7 @@
             
             <p class="lead">You've built a beautiful armature—now it's time to connect it to your character mesh! Weight painting is the art of telling each bone exactly how much influence it has over each vertex. Think of it as painting instructions onto your mesh: "This vertex belongs 100% to the forearm," "This vertex is 50% shoulder and 50% upper arm." Master weight painting and your character will bend, twist, and move naturally. Skip it or rush it, and you'll get broken, twisted, candy-wrapper deformation. This lesson teaches you the essential skill that bridges the gap between static skeleton and living, breathing character!</p>
 
-            <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; margin: 2rem 0;">
+            <div class="card" style="background: #2a2a2a; color: white; padding: 2rem; margin: 2rem 0;">
                 <h3 style="color: white; margin-top: 0;">🎯 What You'll Learn</h3>
                 <ul style="color: white;">
                     <li><strong>Skinning Fundamentals:</strong> How meshes bind to armatures and what vertex weights mean</li>
@@ -96,6 +96,53 @@
                 <blockquote>
                     <p><strong>🎭 The Puppet Skin Analogy:</strong> Imagine a puppet made of cloth (the mesh) with a wooden frame inside (the armature). The cloth must be attached to the frame somehow—maybe sewn at certain points, glued at others. "Skinning" is the process of attaching mesh to skeleton. But unlike a physical puppet where attachment points are fixed, in 3D we can make each vertex follow multiple bones with varying amounts of influence. This flexibility creates smooth, organic deformation!</p>
                 </blockquote>
+
+                <figure style="margin:1.5rem 0;">
+                    <svg id="sf-root" color="currentColor" viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Segoe UI,sans-serif" role="img" aria-labelledby="sf-title sf-desc">
+<title id="sf-title">Skinning system data flow</title>
+<desc id="sf-desc">Flowchart: bones to character surface to vertex groups to influence values to vertex deformation.</desc>
+<text x="600" y="40" text-anchor="middle" font-size="26" font-weight="700" fill="currentColor">The Skinning Data Flow</text>
+<rect x="41.7" y="100.0" width="190" height="140" rx="12" fill="none" stroke="#FF9800" stroke-width="3"/>
+<rect x="41.7" y="100.0" width="190" height="34" rx="12" fill="#FF9800" opacity="0.18"/>
+<text x="136.7" y="123.0" text-anchor="middle" font-size="15" font-weight="700" fill="#FF9800">STEP 1</text>
+<text x="136.7" y="164" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">Bones</text>
+<text x="136.7" y="224" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.8">Armature drives motion</text>
+<line x1="235.7" y1="170" x2="259.3" y2="170" stroke="#00BCD4" stroke-width="3"/>
+<path d="M 259.3 163 L 269.3 170 L 259.3 177 Z" fill="#00BCD4"/>
+<rect x="273.3" y="100.0" width="190" height="140" rx="12" fill="none" stroke="#4CAF50" stroke-width="3"/>
+<rect x="273.3" y="100.0" width="190" height="34" rx="12" fill="#4CAF50" opacity="0.18"/>
+<text x="368.3" y="123.0" text-anchor="middle" font-size="15" font-weight="700" fill="#4CAF50">STEP 2</text>
+<text x="368.3" y="154" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">Character</text>
+<text x="368.3" y="174" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">Surface</text>
+<text x="368.3" y="224" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.8">Mesh to deform</text>
+<line x1="467.3" y1="170" x2="491.0" y2="170" stroke="#00BCD4" stroke-width="3"/>
+<path d="M 491.0 163 L 501.0 170 L 491.0 177 Z" fill="#00BCD4"/>
+<rect x="505.0" y="100.0" width="190" height="140" rx="12" fill="none" stroke="#2196F3" stroke-width="3"/>
+<rect x="505.0" y="100.0" width="190" height="34" rx="12" fill="#2196F3" opacity="0.18"/>
+<text x="600.0" y="123.0" text-anchor="middle" font-size="15" font-weight="700" fill="#2196F3">STEP 3</text>
+<text x="600.0" y="154" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">One Group Per</text>
+<text x="600.0" y="174" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">Bone</text>
+<text x="600.0" y="224" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.8">Vertex groups</text>
+<line x1="699.0" y1="170" x2="722.7" y2="170" stroke="#00BCD4" stroke-width="3"/>
+<path d="M 722.7 163 L 732.7 170 L 722.7 177 Z" fill="#00BCD4"/>
+<rect x="736.7" y="100.0" width="190" height="140" rx="12" fill="none" stroke="#f44336" stroke-width="3"/>
+<rect x="736.7" y="100.0" width="190" height="34" rx="12" fill="#f44336" opacity="0.18"/>
+<text x="831.7" y="123.0" text-anchor="middle" font-size="15" font-weight="700" fill="#f44336">STEP 4</text>
+<text x="831.7" y="154" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">Influence</text>
+<text x="831.7" y="174" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">Values</text>
+<text x="831.7" y="224" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.8">Weights 0.0 to 1.0</text>
+<line x1="930.7" y1="170" x2="954.3" y2="170" stroke="#00BCD4" stroke-width="3"/>
+<path d="M 954.3 163 L 964.3 170 L 954.3 177 Z" fill="#00BCD4"/>
+<rect x="968.3" y="100.0" width="190" height="140" rx="12" fill="none" stroke="#9C27B0" stroke-width="3"/>
+<rect x="968.3" y="100.0" width="190" height="34" rx="12" fill="#9C27B0" opacity="0.18"/>
+<text x="1063.3" y="123.0" text-anchor="middle" font-size="15" font-weight="700" fill="#9C27B0">STEP 5</text>
+<text x="1063.3" y="154" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">Vertex Follows</text>
+<text x="1063.3" y="174" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">Bone</text>
+<text x="1063.3" y="224" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.8">Deformation</text>
+<text x="600" y="385" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.7">Each bone gets one vertex group; weights decide how much each vertex follows its bone.</text>
+</svg>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 1 &#8212; The skinning data flow: bones drive vertex groups, whose 0.0 to 1.0 weights determine how each vertex of the mesh follows its bone.</figcaption>
+                </figure>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ Skinning Core Concepts</h4>
@@ -216,11 +263,36 @@
 
                 <div class="card">
                     <h4>🎨 Weight Visualization</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_03_vertex_weight_example.png" alt="A simple arm mesh in Weight Paint Mode at a three-quarter angle, with the forearm bone selected: blue at the upper-arm end (0.0 weight), a smooth cyan-green-yellow gradient across the joint, and solid red along the forearm (1.0 weight)." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<circle cx="180" cy="280" r="70" fill="none" stroke="#4A9EFF" stroke-width="5"/>
+<line x1="232" y1="232" x2="470" y2="120" stroke="#4A9EFF" stroke-width="3" stroke-linecap="round"/>
+<circle cx="477" cy="118" r="7" fill="#4A9EFF"/>
+<rect x="484" y="92" width="430" height="52" rx="8" fill="#4A9EFF"/>
+<text x="699" y="127" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="27" font-weight="700" fill="#0b1626">0.0 &#8212; no influence (blue)</text>
+<ellipse cx="760" cy="440" rx="150" ry="190" fill="none" stroke="#FF8C00" stroke-width="5"/>
+<line x1="760" y1="630" x2="640" y2="800" stroke="#FF8C00" stroke-width="3" stroke-linecap="round"/>
+<circle cx="633" cy="807" r="7" fill="#FF8C00"/>
+<rect x="390" y="812" width="486" height="52" rx="8" fill="#FF8C00"/>
+<text x="633" y="847" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="27" font-weight="700" fill="#241400">smooth gradient at the joint</text>
+<circle cx="1180" cy="430" r="95" fill="none" stroke="#F23030" stroke-width="5"/>
+<line x1="1265" y1="388" x2="1500" y2="250" stroke="#F23030" stroke-width="3" stroke-linecap="round"/>
+<circle cx="1507" cy="247" r="7" fill="#F23030"/>
+<rect x="1392" y="196" width="490" height="52" rx="8" fill="#F23030"/>
+<text x="1637" y="231" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="27" font-weight="700" fill="#ffffff">1.0 &#8212; full influence (red)</text>
+<rect x="40" y="980" width="900" height="56" rx="8" fill="#000000" opacity="0.55"/>
+<text x="60" y="1017" text-anchor="start" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="26" font-weight="600" fill="#ffffff">Forearm bone selected &#183; weight rises blue &#8594; red toward the bone</text>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 10 &#8212; Weights on a simple arm with the forearm bone selected. Red marks 1.0 (full influence) along the forearm, blue marks 0.0 at the far end, and the smooth color band across the joint is the gradient that lets the elbow bend cleanly.</figcaption>
+                    </figure>
                     
                     <p><strong>Color-Coded Weight Display:</strong></p>
                     <p>In Weight Paint Mode, Blender shows weights as colors on your mesh:</p>
                     
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                    <div class="table-wrap"><table style="width: 100%; min-width:max-content; border-collapse: collapse; margin-top: 1rem;">
                         <thead>
                             <tr style="background: #f5f5f5;">
                                 <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Color</th>
@@ -255,8 +327,34 @@
                                 <td style="padding: 0.75rem; border: 1px solid #ddd;">Full influence (vertex completely owned by bone)</td>
                             </tr>
                         </tbody>
-                    </table>
-                    
+                    </table></div>
+
+                <figure style="margin:1.5rem 0;">
+                    <svg id="wcg-root" color="currentColor" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Segoe UI,sans-serif" role="img" aria-labelledby="wcg-title wcg-desc">
+<title id="wcg-title">Weight paint color scale</title>
+<desc id="wcg-desc">Horizontal gradient bar from blue at zero weight through cyan, green, yellow to red at full weight, with labeled percentage values.</desc>
+<text x="500" y="40" text-anchor="middle" font-size="26" font-weight="700" fill="currentColor">Weight Paint Color Scale</text>
+<text x="500" y="68" text-anchor="middle" font-size="15" fill="currentColor" opacity="0.75">How Blender visualizes vertex weight from 0.0 to 1.0</text>
+<defs><linearGradient id="wcg-grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0000FF"/><stop offset="25%" stop-color="#00FFFF"/><stop offset="50%" stop-color="#00FF00"/><stop offset="75%" stop-color="#FFFF00"/><stop offset="100%" stop-color="#FF0000"/></linearGradient></defs>
+<rect x="60" y="120" width="880" height="90" rx="6" fill="url(#wcg-grad)" stroke="currentColor" stroke-width="1.5" stroke-opacity="0.4"/>
+<line x1="60.0" y1="110" x2="60.0" y2="220" stroke="currentColor" stroke-width="2" stroke-opacity="0.85"/>
+<text x="60.0" y="102" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">0.0 (0%)</text>
+<text x="60.0" y="244" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.85">No Influence</text>
+<line x1="280.0" y1="110" x2="280.0" y2="220" stroke="currentColor" stroke-width="2" stroke-opacity="0.85"/>
+<text x="280.0" y="102" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">0.25 (25%)</text>
+<line x1="500.0" y1="110" x2="500.0" y2="220" stroke="currentColor" stroke-width="2" stroke-opacity="0.85"/>
+<text x="500.0" y="102" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">0.5 (50%)</text>
+<text x="500.0" y="244" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.85">Medium Influence</text>
+<line x1="720.0" y1="110" x2="720.0" y2="220" stroke="currentColor" stroke-width="2" stroke-opacity="0.85"/>
+<text x="720.0" y="102" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">0.75 (75%)</text>
+<line x1="940.0" y1="110" x2="940.0" y2="220" stroke="currentColor" stroke-width="2" stroke-opacity="0.85"/>
+<text x="940.0" y="102" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">1.0 (100%)</text>
+<text x="940.0" y="244" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.85">Full Influence</text>
+<text x="500" y="282" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.6">Red areas move fully with the bone; blue areas stay put; greens and yellows blend.</text>
+</svg>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 2 &#8212; Weight paint color scale. Blue is 0.0 (no influence), green is 0.5, red is 1.0 (full influence); cyan and yellow mark the quarter steps.</figcaption>
+                </figure>
+
                     <p style="margin-top: 1rem;"><strong>What You'll See:</strong></p>
                     <ul>
                         <li><strong>Solid red areas:</strong> Vertices fully controlled by selected bone (forearm middle)</li>
@@ -275,7 +373,7 @@
                     E --> F[Deformation - Vertex Follows Bone]
                     B --> G[Bone Moves]
                     G --> F
-                    style A fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style A fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style E fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
                     style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
@@ -284,6 +382,31 @@
 
                 <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
                     <h4>⚠️ The Make-or-Break Skill</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_07_weight_visualization_character.png" alt="A T-pose humanoid in Weight Paint Mode with upper_arm.L selected: a red 1.0 core along the upper arm, a cyan-to-yellow blend at the shoulder, and the rest of the body solid blue at 0.0." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<ellipse cx="865" cy="606" rx="150" ry="58" fill="none" stroke="#F23030" stroke-width="5"/>
+<line x1="865" y1="548" x2="820" y2="430" stroke="#F23030" stroke-width="3" stroke-linecap="round"/>
+<circle cx="817" cy="423" r="7" fill="#F23030"/>
+<rect x="556" y="372" width="520" height="52" rx="8" fill="#F23030"/>
+<text x="816" y="407" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="27" font-weight="700" fill="#ffffff">1.0 core &#8212; upper_arm.L</text>
+<ellipse cx="680" cy="606" rx="64" ry="62" fill="none" stroke="#FF8C00" stroke-width="5"/>
+<line x1="680" y1="668" x2="640" y2="800" stroke="#FF8C00" stroke-width="3" stroke-linecap="round"/>
+<circle cx="637" cy="807" r="7" fill="#FF8C00"/>
+<rect x="372" y="812" width="540" height="52" rx="8" fill="#FF8C00"/>
+<text x="642" y="847" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="27" font-weight="700" fill="#241400">shoulder blend gradient</text>
+<circle cx="405" cy="980" r="80" fill="none" stroke="#4A9EFF" stroke-width="5"/>
+<line x1="405" y1="1060" x2="405" y2="1180" stroke="#4A9EFF" stroke-width="3" stroke-linecap="round"/>
+<circle cx="405" cy="1187" r="7" fill="#4A9EFF"/>
+<rect x="150" y="1192" width="560" height="52" rx="8" fill="#4A9EFF"/>
+<text x="430" y="1227" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="27" font-weight="700" fill="#0b1626">0.0 &#8212; body stays with torso</text>
+<rect x="40" y="1820" width="760" height="56" rx="8" fill="#000000" opacity="0.55"/>
+<text x="60" y="1857" text-anchor="start" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="26" font-weight="600" fill="#ffffff">Good distribution &#183; strong core, smooth falloff</text>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 11 &#8212; What good weight distribution looks like on a character: a strong red 1.0 core on the upper arm, a smooth blend through the shoulder, and 0.0 (blue) everywhere the bone should not move.</figcaption>
+                    </figure>
                     
                     <p><strong>Good Weight Painting = Natural Movement:</strong></p>
                     <ul>
@@ -318,7 +441,7 @@
                     <p><strong>💭 Industry Perspective:</strong> At Pixar, Disney, and major game studios, weight painting is considered a specialized skill. Some studios have dedicated "skin weight artists" whose sole job is perfecting character deformation. The difference between good and great weight painting can make or break a character's believability. We're not just painting colors—we're defining how a character will move for every pose in every shot!</p>
                 </blockquote>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎯 Skinning Fundamentals Summary</h3>
                     <ul style="color: white;">
                         <li><strong>Skinning:</strong> Binding mesh to armature so bones control deformation</li>
@@ -398,6 +521,18 @@
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ Binding with Automatic Weights (Recommended)</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_04_binding_process_screenshot.png" alt="The Blender Set Parent To menu opened with Ctrl+P over a mesh and armature, with the &quot;With Automatic Weights&quot; option highlighted and its tooltip visible at lower right." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1071 567" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<rect x="14" y="416" width="576" height="44" rx="6" fill="none" stroke="#FF8C00" stroke-width="3"/>
+<path d="M 600 438 l 26 0 m -8 -7 l 8 7 l -8 7" fill="none" stroke="#FF8C00" stroke-width="3"/>
+<rect x="628" y="420" width="232" height="36" rx="6" fill="#1a1a1a" stroke="#FF8C00" stroke-width="1.5"/>
+<text x="744" y="443" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="17" font-weight="700" fill="#ffb347">Use this option</text>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 12 &#8212; Binding with Ctrl+P &#8594; Set Parent To &#8594; With Automatic Weights, the recommended one-step skinning method.</figcaption>
+                    </figure>
                     
                     <p><strong>Step-by-Step Binding:</strong></p>
                     <ol>
@@ -536,6 +671,20 @@
 
                 <div class="card">
                     <h4>⚙️ Armature Modifier Settings</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_25_armature_modifier_settings.png" alt="Blender Armature modifier panel showing Object set to Armature, Bind To Vertex Groups, and Preserve Volume enabled" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<line x1="540" y1="560" x2="690" y2="262" stroke="#FF8C00" stroke-width="3"/>
+<circle cx="690" cy="262" r="6" fill="none" stroke="#FF8C00" stroke-width="3"/>
+<rect x="96" y="560" width="610" height="92" rx="8" fill="#1a1a1a" fill-opacity="0.92" stroke="#FF8C00" stroke-width="2.5"/>
+<text x="120" y="592" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="bold" fill="#FF8C00">Preserve Volume</text>
+<text x="120" y="622" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#e8e8e8">Keeps limbs from collapsing at sharp bends &#8212; enable</text>
+<text x="120" y="644" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#e8e8e8">when joints lose thickness after weight painting.</text>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 13 &#8212; The Armature modifier binds the mesh to the rig. Enable Preserve Volume to stop limbs collapsing at sharp bends.</figcaption>
+                    </figure>
                     
                     <p><strong>Finding the Modifier:</strong></p>
                     <ol>
@@ -708,7 +857,7 @@
                     <p><strong>💭 Pro Tip:</strong> The best time to bind is AFTER the armature is 100% finalized but BEFORE you start detailed weight painting. If you change bone positions or add new bones after extensive weight painting, you'll have to redo a lot of work. Get the skeleton right first, then commit to binding. Professional studios often have a formal "rig approval" step before weight painting begins!</p>
                 </blockquote>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎯 Binding Armature Summary</h3>
                     <ul style="color: white;">
                         <li><strong>Binding process:</strong> Select mesh, Shift-select armature, Ctrl + P > With Automatic Weights</li>
@@ -778,6 +927,30 @@
 
                 <div class="card">
                     <h4>🖥️ Interface Overview</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_05_weight_paint_interface.png" alt="Blender Weight Paint mode interface with brush header, left brush toolbar, central weight-painted character, and the Vertex Groups list on the right" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<rect x="120" y="120" width="300" height="40" rx="6" fill="#1a1a1a" fill-opacity="0.9" stroke="#FF8C00" stroke-width="2.5"/>
+<text x="135" y="148" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="bold" fill="#FF8C00">Brush settings header</text>
+<line x1="420" y1="140" x2="640" y2="36" stroke="#FF8C00" stroke-width="2.5"/>
+<circle cx="640" cy="36" r="5" fill="none" stroke="#FF8C00" stroke-width="2.5"/>
+<rect x="120" y="200" width="300" height="40" rx="6" fill="#1a1a1a" fill-opacity="0.9" stroke="#FF8C00" stroke-width="2.5"/>
+<text x="135" y="228" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="bold" fill="#FF8C00">Brush toolbar</text>
+<line x1="120" y1="220" x2="44" y2="120" stroke="#FF8C00" stroke-width="2.5"/>
+<circle cx="44" cy="120" r="5" fill="none" stroke="#FF8C00" stroke-width="2.5"/>
+<rect x="430" y="540" width="370" height="40" rx="6" fill="#1a1a1a" fill-opacity="0.9" stroke="#FF8C00" stroke-width="2.5"/>
+<text x="445" y="568" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="bold" fill="#FF8C00">Active vertex group paints here</text>
+<line x1="800" y1="540" x2="900" y2="470" stroke="#FF8C00" stroke-width="2.5"/>
+<circle cx="900" cy="470" r="5" fill="none" stroke="#FF8C00" stroke-width="2.5"/>
+<rect x="1300" y="640" width="350" height="40" rx="6" fill="#1a1a1a" fill-opacity="0.9" stroke="#FF8C00" stroke-width="2.5"/>
+<text x="1315" y="668" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="bold" fill="#FF8C00">Pick the group to paint</text>
+<line x1="1380" y1="640" x2="1300" y2="460" stroke="#FF8C00" stroke-width="2.5"/>
+<circle cx="1300" cy="460" r="5" fill="none" stroke="#FF8C00" stroke-width="2.5"/>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 14 &#8212; Weight Paint mode: set the brush in the header, pick a tool on the left, choose the active vertex group on the right, then paint on the model.</figcaption>
+                    </figure>
                     
                     <p><strong>Top Header (Tool Controls):</strong></p>
                     <ul>
@@ -904,6 +1077,63 @@
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>🖌️ Essential Weight Paint Brushes</h4>
+                    <figure style="margin:1.25rem 0;">
+                    <svg id="bti-root" color="currentColor" viewBox="0 0 900 640" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Segoe UI,sans-serif" role="img" aria-labelledby="bti-title bti-desc">
+<title id="bti-title">Weight paint brush tools</title>
+<desc id="bti-desc">Reference grid of six weight paint brushes: Draw, Blur, Average, Smear, Gradient, and Sample Weight, each with an icon and a one-line description.</desc>
+<text x="450" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="currentColor">Weight Paint Brush Tools</text>
+<rect x="30.0" y="80" width="405.0" height="150" rx="10" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.5"/>
+<circle cx="90.0" cy="155.0" r="26" fill="currentColor" opacity="0.10"/>
+<circle cx="90.0" cy="155.0" r="26" fill="none" stroke="#FF9800" stroke-width="2"/>
+<path d="M 78.0 167.0 L 98.0 147.0 L 104.0 153.0 L 84.0 173.0 Z" fill="#FF9800"/>
+<path d="M 98.0 147.0 L 104.0 153.0" stroke="currentColor" stroke-width="1.5"/>
+<text x="140.0" y="149.0" font-size="21" font-weight="700" fill="currentColor">Draw</text>
+<text x="140.0" y="173" font-size="14" fill="currentColor" opacity="0.8">Paint weight values directly</text>
+<text x="140.0" y="191" font-size="14" fill="currentColor" opacity="0.8">onto vertices</text>
+<rect x="465.0" y="80" width="405.0" height="150" rx="10" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.5"/>
+<circle cx="525.0" cy="155.0" r="26" fill="currentColor" opacity="0.10"/>
+<circle cx="525.0" cy="155.0" r="26" fill="none" stroke="#FF9800" stroke-width="2"/>
+<circle cx="525.0" cy="155.0" r="15" fill="#00BCD4" opacity="0.25"/>
+<circle cx="525.0" cy="155.0" r="10" fill="#00BCD4" opacity="0.45"/>
+<circle cx="525.0" cy="155.0" r="5" fill="#00BCD4" opacity="0.8"/>
+<text x="575.0" y="149.0" font-size="21" font-weight="700" fill="currentColor">Blur</text>
+<text x="575.0" y="173" font-size="14" fill="currentColor" opacity="0.8">Smooth out sharp weight</text>
+<text x="575.0" y="191" font-size="14" fill="currentColor" opacity="0.8">transitions</text>
+<rect x="30.0" y="254" width="405.0" height="150" rx="10" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.5"/>
+<circle cx="90.0" cy="329.0" r="26" fill="currentColor" opacity="0.10"/>
+<circle cx="90.0" cy="329.0" r="26" fill="none" stroke="#FF9800" stroke-width="2"/>
+<line x1="78.0" y1="315.0" x2="90.0" y2="339.0" stroke="#4CAF50" stroke-width="2.5"/>
+<line x1="90.0" y1="315.0" x2="90.0" y2="339.0" stroke="#4CAF50" stroke-width="2.5"/>
+<line x1="102.0" y1="315.0" x2="90.0" y2="339.0" stroke="#4CAF50" stroke-width="2.5"/>
+<path d="M 85.0 333.0 L 90.0 341.0 L 95.0 333.0 Z" fill="#4CAF50"/>
+<text x="140.0" y="323.0" font-size="21" font-weight="700" fill="currentColor">Average</text>
+<text x="140.0" y="347" font-size="14" fill="currentColor" opacity="0.8">Level weights to their local</text>
+<text x="140.0" y="365" font-size="14" fill="currentColor" opacity="0.8">average</text>
+<rect x="465.0" y="254" width="405.0" height="150" rx="10" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.5"/>
+<circle cx="525.0" cy="329.0" r="26" fill="currentColor" opacity="0.10"/>
+<circle cx="525.0" cy="329.0" r="26" fill="none" stroke="#FF9800" stroke-width="2"/>
+<path d="M 509.0 335.0 C 519.0 317.0, 529.0 345.0, 541.0 323.0" fill="none" stroke="#9C27B0" stroke-width="3" stroke-linecap="round"/>
+<text x="575.0" y="323.0" font-size="21" font-weight="700" fill="currentColor">Smear</text>
+<text x="575.0" y="347" font-size="14" fill="currentColor" opacity="0.8">Drag and spread existing</text>
+<text x="575.0" y="365" font-size="14" fill="currentColor" opacity="0.8">weights</text>
+<rect x="30.0" y="428" width="405.0" height="150" rx="10" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.5"/>
+<circle cx="90.0" cy="503.0" r="26" fill="currentColor" opacity="0.10"/>
+<circle cx="90.0" cy="503.0" r="26" fill="none" stroke="#FF9800" stroke-width="2"/>
+<defs><linearGradient id="bti-g" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0000FF"/><stop offset="100%" stop-color="#FF0000"/></linearGradient></defs>
+<rect x="74.0" y="494.0" width="32" height="18" rx="3" fill="url(#bti-g)"/>
+<text x="140.0" y="497.0" font-size="21" font-weight="700" fill="currentColor">Gradient</text>
+<text x="140.0" y="521" font-size="14" fill="currentColor" opacity="0.8">Apply a linear weight falloff</text>
+<rect x="465.0" y="428" width="405.0" height="150" rx="10" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.5"/>
+<circle cx="525.0" cy="503.0" r="26" fill="currentColor" opacity="0.10"/>
+<circle cx="525.0" cy="503.0" r="26" fill="none" stroke="#FF9800" stroke-width="2"/>
+<path d="M 537.0 491.0 l 4 4 l -16 16 l -4 -4 z" fill="#FFC107"/>
+<circle cx="515.0" cy="513.0" r="3" fill="#FFC107"/>
+<text x="575.0" y="497.0" font-size="21" font-weight="700" fill="currentColor">Sample Weight</text>
+<text x="575.0" y="521" font-size="14" fill="currentColor" opacity="0.8">Pick a weight value off a</text>
+<text x="575.0" y="539" font-size="14" fill="currentColor" opacity="0.8">vertex</text>
+</svg>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 3 &#8212; The six core weight paint brushes. Draw sets values directly, Blur and Average smooth transitions, Smear drags weight, Gradient applies a linear falloff, and Sample Weight picks an existing value.</figcaption>
+                    </figure>
                     
                     <p><strong>Draw (Primary Brush)</strong></p>
                     <ul>
@@ -1112,7 +1342,7 @@
                     <p><strong>💭 Interface Comfort:</strong> Weight Paint Mode looks complex at first, but you'll quickly develop muscle memory. Most work uses just: Draw brush, Blur brush, Weight value, Radius adjust, and bone selection. The other tools are there when you need them, but 90% of weight painting is these five basics. Don't feel overwhelmed—focus on the essentials first!</p>
                 </blockquote>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎯 Weight Paint Mode Summary</h3>
                     <ul style="color: white;">
                         <li><strong>Enter mode:</strong> Select mesh, Ctrl + Tab > Weight Paint</li>
@@ -1213,6 +1443,33 @@
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ Quality Assessment Workflow</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_08_automatic_weights_comparison.png" alt="Auto-weight quality comparison: left band shows a smooth blue-to-red weight gradient (good result), right band shows spotty, patchy weights with hard jumps (bad result needing cleanup)." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<defs>
+<marker id="c38f15ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0,0 L10,5 L0,10 z" fill="#FF8C00"/>
+</marker>
+</defs>
+<!-- LEFT panel: GOOD label pill -->
+<rect x="60" y="120" width="510" height="74" rx="10" fill="#103a14" stroke="#4CAF50" stroke-width="3"/>
+<text x="84" y="168" font-family="Segoe UI,Arial,sans-serif" font-size="40" font-weight="700" fill="#7CE08A">GOOD &#8212; SMOOTH FALLOFF</text>
+<!-- RIGHT panel: PROBLEM label pill -->
+<rect x="1010" y="120" width="500" height="74" rx="10" fill="#3a1010" stroke="#E04C4C" stroke-width="3"/>
+<text x="1034" y="168" font-family="Segoe UI,Arial,sans-serif" font-size="40" font-weight="700" fill="#FF8A8A">BAD &#8212; SPOTTY WEIGHTS</text>
+<!-- left: clean blend-zone callout, leader from gradient transition (~x480 y540) up to label -->
+<line x1="480" y1="380" x2="520" y2="300" stroke="#FF8C00" stroke-width="3" marker-end="url(#c38f15ar)"/>
+<rect x="300" y="232" width="470" height="64" rx="9" fill="#1f1f1f" stroke="#FF8C00" stroke-width="2.5"/>
+<text x="320" y="272" font-family="Segoe UI,Arial,sans-serif" font-size="32" font-weight="600" fill="#f4f4f4">Gradual blue &#8594; red blend</text>
+<!-- right: stray-weight callout, leader from a noisy patch (~x1240 y540) down to label -->
+<line x1="1240" y1="700" x2="1280" y2="780" stroke="#FF8C00" stroke-width="3" marker-end="url(#c38f15ar)"/>
+<rect x="1010" y="788" width="560" height="64" rx="9" fill="#1f1f1f" stroke="#FF8C00" stroke-width="2.5"/>
+<text x="1030" y="828" font-family="Segoe UI,Arial,sans-serif" font-size="32" font-weight="600" fill="#f4f4f4">Stray weights &#38; hard jumps</text>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 15 &#8212; Auto-weight quality check: a smooth, gradual color falloff (left) signals clean binding; spotty, patchy weights (right) flag areas that need manual cleanup.</figcaption>
+                    </figure>
                     
                     <p><strong>Step 1: Visual Inspection (Weight Paint Mode)</strong></p>
                     <ol>
@@ -1472,7 +1729,7 @@
                     <p><strong>💭 Realistic Expectations:</strong> Professional riggers ALWAYS expect to do manual weight painting, even on perfect setups. Automatic weights are a starting point, not the finish line. Studios with thousands of characters and decades of experience still manually paint weights. Accept that this is part of the process—the automatic weights save you from painting EVERYTHING from scratch, which is the real time-saver!</p>
                 </blockquote>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎯 Automatic Weights Summary</h3>
                     <ul style="color: white;">
                         <li><strong>Algorithm:</strong> Distance-based + heat diffusion + hierarchy awareness</li>
@@ -1512,6 +1769,50 @@
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ Standard Weight Painting Workflow</h4>
+                    <figure style="margin:1.25rem 0;">
+                    <svg id="gpd-root" color="currentColor" viewBox="0 0 1200 560" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Segoe UI,sans-serif" role="img" aria-labelledby="gpd-title gpd-desc">
+<title id="gpd-title">Gradient weight painting at an elbow joint</title>
+<desc id="gpd-desc">Side view of an elbow showing five edge loops across the joint with weight values from 1.0 red at the upper arm down through 0.5 green at the joint center to 0.0 blue at the forearm, with the ideal gradient zone bracketed.</desc>
+<text x="600" y="42" text-anchor="middle" font-size="26" font-weight="700" fill="currentColor">Building a Gradient at the Elbow</text>
+<rect x="140" y="240.0" width="900" height="120" rx="60.0" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.45" stroke-width="2"/>
+<rect x="140" y="242.0" width="180" height="116" fill="#FF0000" fill-opacity="0.30"/>
+<line x1="230.0" y1="232.0" x2="230.0" y2="368.0" stroke="#FFFFFF" stroke-width="2.5"/>
+<circle cx="230.0" cy="206.0" r="22" fill="#FF0000"/>
+<text x="230.0" y="212.0" text-anchor="middle" font-size="16" font-weight="700" fill="#000000">1.0</text>
+<text x="230.0" y="398.0" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.85">Upper arm</text>
+<rect x="320" y="242.0" width="180" height="116" fill="#FF9800" fill-opacity="0.30"/>
+<line x1="410.0" y1="232.0" x2="410.0" y2="368.0" stroke="#FFFFFF" stroke-width="2.5"/>
+<circle cx="410.0" cy="206.0" r="22" fill="#FF9800"/>
+<text x="410.0" y="212.0" text-anchor="middle" font-size="16" font-weight="700" fill="#000000">0.75</text>
+<text x="410.0" y="398.0" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.85">Transition</text>
+<rect x="500" y="242.0" width="180" height="116" fill="#00CC00" fill-opacity="0.30"/>
+<line x1="590.0" y1="232.0" x2="590.0" y2="368.0" stroke="#FFFFFF" stroke-width="2.5"/>
+<circle cx="590.0" cy="206.0" r="22" fill="#00CC00"/>
+<text x="590.0" y="212.0" text-anchor="middle" font-size="16" font-weight="700" fill="#000000">0.5</text>
+<text x="590.0" y="398.0" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.85">Joint center</text>
+<rect x="680" y="242.0" width="180" height="116" fill="#00BCD4" fill-opacity="0.30"/>
+<line x1="770.0" y1="232.0" x2="770.0" y2="368.0" stroke="#FFFFFF" stroke-width="2.5"/>
+<circle cx="770.0" cy="206.0" r="22" fill="#00BCD4"/>
+<text x="770.0" y="212.0" text-anchor="middle" font-size="16" font-weight="700" fill="#000000">0.25</text>
+<text x="770.0" y="398.0" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.85">Transition</text>
+<rect x="860" y="242.0" width="180" height="116" fill="#1E66FF" fill-opacity="0.30"/>
+<line x1="950.0" y1="232.0" x2="950.0" y2="368.0" stroke="#FFFFFF" stroke-width="2.5"/>
+<circle cx="950.0" cy="206.0" r="22" fill="#1E66FF"/>
+<text x="950.0" y="212.0" text-anchor="middle" font-size="16" font-weight="700" fill="#000000">0.0</text>
+<text x="950.0" y="398.0" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.85">Forearm</text>
+<path d="M 410.0 182.0 L 410.0 168.0 L 770.0 168.0 L 770.0 182.0" fill="none" stroke="#FF9800" stroke-width="2.5"/>
+<text x="590" y="160.0" text-anchor="middle" font-size="16" font-weight="700" fill="#FF9800">Ideal Gradient Zone (2 to 4 edge loops)</text>
+<text x="600" y="438.0" text-anchor="middle" font-size="15" fill="currentColor" opacity="0.8">Smooth transition: each loop steps the weight down so the mesh bends without creasing.</text>
+<defs><linearGradient id="gpd-scale" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF0000"/><stop offset="25%" stop-color="#FF9800"/><stop offset="50%" stop-color="#00CC00"/><stop offset="75%" stop-color="#00BCD4"/><stop offset="100%" stop-color="#1E66FF"/></linearGradient></defs>
+<rect x="1080" y="160" width="28" height="240" rx="4" fill="url(#gpd-scale)" stroke="currentColor" stroke-opacity="0.4"/>
+<text x="1072" y="165" text-anchor="end" font-size="13" fill="currentColor">1.0</text>
+<text x="1072" y="285" text-anchor="end" font-size="13" fill="currentColor">0.5</text>
+<text x="1072" y="405" text-anchor="end" font-size="13" fill="currentColor">0.0</text>
+<text x="1094.0" y="148" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">Weight</text>
+<text x="600" y="540" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.7">Too few loops gives a sharp crease; 2 to 4 loops across the joint gives a smooth, natural bend.</text>
+</svg>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 4 &#8212; Building a gradient across the elbow. Each edge loop steps the weight down (1.0 to 0.75 to 0.5 to 0.25 to 0.0) so the joint bends smoothly; 2 to 4 loops in the gradient zone prevents creasing.</figcaption>
+                    </figure>
                     
                     <p><strong>Phase 1: Broad Strokes (Establish Zones)</strong></p>
                     <ol>
@@ -1654,6 +1955,16 @@
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
                     <h4>💡 Body-Part Specific Techniques</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_17_shoulder_weight_guide.png" alt="Shoulder weight zones on a T-pose character: red upper-arm region at full 1.0 weight, blue chest and spine at 0.0 weight, and a green-to-yellow blend band at the shoulder joint where weights transition between 0.3 and 0.7." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<!-- thin dashed highlight ring around the actual GREEN/YELLOW blend band (the baked label's "most complex area"); no text (baked labels already cover it) -->
+<ellipse cx="498" cy="610" rx="92" ry="135" fill="none" stroke="#FFD24D" stroke-width="4" stroke-dasharray="14 10" opacity="0.95"/>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 16 &#8212; Body-part zones for the shoulder: solid red arm (weight 1.0), solid blue chest (0.0), and the green/yellow blend band at the joint (0.3&#8211;0.7) that needs the most careful manual work.</figcaption>
+                    </figure>
                     
                     <p><strong>Arms (Simple Limbs):</strong></p>
                     <ul>
@@ -1805,6 +2116,29 @@
 
                 <div class="card" style="background: #fff3cd; border-left: 4px solid #ffc107;">
                     <h4>🎨 Pro-Level Techniques</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_16_split_screen_workflow.png" alt="Split-screen Blender workflow: left half is a Weight Paint viewport showing a vertex-group color ramp with a brush cursor (upper_arm.L); right half is a Pose Mode viewport showing the same arm armature with the forearm rotated -60 degrees so the deformation can be tested immediately." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<defs>
+<marker id="c38f17ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0,0 L10,5 L0,10 z" fill="#FF8C00"/>
+</marker>
+</defs>
+<!-- LEFT callout: paint here, leader down to the color-ramp arm (~x325 y432) -->
+<rect x="120" y="250" width="430" height="60" rx="9" fill="#1f1f1f" stroke="#FF8C00" stroke-width="2.5"/>
+<text x="140" y="290" font-family="Segoe UI,Arial,sans-serif" font-size="32" font-weight="600" fill="#f4f4f4">1. Paint weights in this view</text>
+<line x1="320" y1="312" x2="325" y2="392" stroke="#FF8C00" stroke-width="3" marker-end="url(#c38f17ar)"/>
+<!-- RIGHT callout: instant pose test, leader down to the posed armature elbow (~x1030 y490) -->
+<rect x="980" y="250" width="470" height="60" rx="9" fill="#1f1f1f" stroke="#FF8C00" stroke-width="2.5"/>
+<text x="1000" y="290" font-family="Segoe UI,Arial,sans-serif" font-size="32" font-weight="600" fill="#f4f4f4">2. Pose-test the deform live</text>
+<line x1="1100" y1="312" x2="1030" y2="450" stroke="#FF8C00" stroke-width="3" marker-end="url(#c38f17ar)"/>
+<!-- bridging arrow across the divider conveying the simultaneous loop -->
+<path d="M560 175 q200 -30 400 0" fill="none" stroke="#FFD24D" stroke-width="3" stroke-dasharray="12 8" marker-end="url(#c38f17ar)"/>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 17 &#8212; Split-screen pro workflow: paint weights in one viewport (left) while a second viewport in Pose Mode (right) lets you pose-test the deformation live without switching modes.</figcaption>
+                    </figure>
                     
                     <p><strong>Tip 1: Paint in Passes, Not Perfection</strong></p>
                     <ul>
@@ -1882,6 +2216,15 @@
 
                 <div class="card" style="background: #ffebee; border-left: 4px solid #f44336;">
                     <h4>❌ Avoid These Beginner Errors</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_15_xmirror_demonstration.png" alt="X-Mirror painting: paint one side and Blender mirrors weights to the matching side automatically" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<ellipse cx="1438" cy="292" rx="205" ry="74" fill="none" stroke="#FFD24D" stroke-width="4" stroke-dasharray="14 10" opacity="0.95"/>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 18 &#8212; X-Mirror painting. Paint weights on one arm and Blender mirrors them across the axis automatically &#8212; this only works with matching <code>.L</code>/<code>.R</code> bone names and a symmetrical mesh.</figcaption>
+                    </figure>
                     
                     <p><strong>Mistake 1: Painting Without Testing</strong></p>
                     <ul>
@@ -1931,7 +2274,7 @@
                     <p><strong>💭 The Paint-Test-Refine Loop:</strong> Professional weight painting is 50% painting, 50% testing. You can't judge weight quality by colors alone—you MUST see how it deforms. The pros constantly switch between Weight Paint and Pose Mode, making tiny adjustments and immediately checking results. This loop becomes second nature with practice. Paint → Test → Adjust → Test → Adjust → Done!</p>
                 </blockquote>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎯 Manual Painting Techniques Summary</h3>
                     <ul style="color: white;">
                         <li><strong>Workflow:</strong> Broad strokes → clear boundaries → blur transitions → test → detail</li>
@@ -2114,6 +2457,15 @@
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
                     <h4>💡 Refinement Workflow</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_14_elbow_deformation_comparison.png" alt="Elbow deformation comparison grid: good vs bad bends across smooth-crease, volume, and twisting rows" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1440" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<ellipse cx="1645" cy="778" rx="92" ry="64" fill="none" stroke="#FFD24D" stroke-width="4" stroke-dasharray="14 10" opacity="0.95"/>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 19 &#8212; Good vs bad elbow deformation. The left column shows clean results; the right shows the three classic failures &#8212; sharp creasing, volume loss (the highlighted thin-waist pinch), and axial twisting.</figcaption>
+                    </figure>
                     
                     <p><strong>Step 1: Identify Problem Area</strong></p>
                     <ol>
@@ -2195,6 +2547,24 @@
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ Complete Testing Checklist</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_20_testing_checklist_grid.png" alt="3&#215;3 grid of weight-paint test poses &#8212; elbow bends, knee bend, sitting, arms raised, spine bend &#38; twist, squat and reaching &#8212; each marked with a green check when it deforms cleanly" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1440" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<defs>
+<marker id="c38f20ar" markerWidth="11" markerHeight="11" refX="8" refY="5.5" orient="auto">
+<path d="M1,1 L10,5.5 L1,10" fill="none" stroke="#FF8C00" stroke-width="2"/>
+</marker>
+</defs>
+<ellipse cx="613" cy="505" rx="34" ry="30" fill="none" stroke="#FFD24D" stroke-width="3" stroke-dasharray="7 5"/>
+<line x1="270" y1="640" x2="585" y2="520" stroke="#FF8C00" stroke-width="3" marker-end="url(#c38f20ar)"/>
+<rect x="36" y="612" width="232" height="64" rx="10" fill="#1b1b1bdd" stroke="#FF8C00" stroke-width="2"/>
+<text x="152" y="639" font-family="sans-serif" font-size="21" font-weight="700" fill="#FFD24D" text-anchor="middle">Tick each pose</text>
+<text x="152" y="663" font-family="sans-serif" font-size="18" fill="#e8e8e8" text-anchor="middle">once it deforms cleanly</text>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 20 &#8212; A complete testing checklist: run the rig through every joint and spine pose, ticking each one off only after it deforms without creasing or volume loss.</figcaption>
+                    </figure>
                     
                     <p><strong>Per-Joint Tests:</strong></p>
                     <ul>
@@ -2316,7 +2686,7 @@ Priority fixes:
                     <p><strong>💭 The Testing Truth:</strong> Amateur riggers test once at the end and cry when everything's broken. Professional riggers test constantly during the process and fix small issues immediately. The difference isn't skill—it's workflow discipline. Test early, test often, test thoroughly. Every minute spent testing saves ten minutes fixing later. Make testing a habit, not an afterthought!</p>
                 </blockquote>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎯 Testing and Refinement Summary</h3>
                     <ul style="color: white;">
                         <li><strong>Test systematically:</strong> Each joint individually, then combined motions</li>
@@ -2353,8 +2723,64 @@ Priority fixes:
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
                     <h4>🔍 Fast Problem Lookup</h4>
+<figure style="margin:1.25rem 0;">
+<svg id="pqr-root" color="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="100%" style="height:auto;max-width:1000px;background:#2b2b2b;border-radius:8px;font-family:-apple-system,Segoe UI,Roboto,sans-serif;">
+<rect id="pqr-bg" x="0" y="0" width="1000" height="560" rx="8" fill="#2b2b2b"/>
+<text id="pqr-title" x="500.0" y="40" text-anchor="middle" fill="currentColor" font-size="26" font-weight="700">Weight Painting Problems &#8212; Quick Reference</text>
+<text id="pqr-sub" x="500.0" y="66" text-anchor="middle" fill="#9a9a9a" font-size="14">Border color = severity: red critical, amber important, yellow minor</text>
+<rect id="pqr-card0" x="24.0" y="86.0" width="224.5" height="216.0" rx="7" fill="#222222" stroke="#f44336" stroke-width="2.4"/>
+<circle cx="54.0" cy="120.0" r="20" fill="#1a1a1a" stroke="#cfcfcf" stroke-width="1.2"/>
+<path d="M32.0,114.0 L54.0,128.0 L54.0,118.0 L76.0,128.0" fill="none" stroke="#cfcfcf" stroke-width="2.4" stroke-linejoin="round"/>
+<text x="84.0" y="110.0" fill="currentColor" font-size="15.5" font-weight="700">Sharp Crease</text>
+<text x="84.0" y="130.0" fill="#9a9a9a" font-size="12.5">Harsh fold at bent joint</text>
+<text x="38.0" y="289.0" fill="#ff8c00" font-size="13" font-weight="600">Fix: Use Blur brush</text>
+<rect id="pqr-card1" x="266.5" y="86.0" width="224.5" height="216.0" rx="7" fill="#222222" stroke="#f44336" stroke-width="2.4"/>
+<circle cx="296.5" cy="120.0" r="20" fill="#1a1a1a" stroke="#cfcfcf" stroke-width="1.2"/>
+<ellipse cx="287.5" cy="120.0" rx="11" ry="11" fill="none" stroke="#cfcfcf" stroke-width="2.4"/><line x1="298.5" y1="120.0" x2="318.5" y2="120.0" stroke="#cfcfcf" stroke-width="3"/>
+<text x="326.5" y="110.0" fill="currentColor" font-size="15.5" font-weight="700">Volume Loss</text>
+<text x="326.5" y="130.0" fill="#9a9a9a" font-size="12.5">Limb thins to a stick</text>
+<text x="280.5" y="289.0" fill="#ff8c00" font-size="13" font-weight="600">Fix: Enable Preserve Volume</text>
+<rect id="pqr-card2" x="509.0" y="86.0" width="224.5" height="216.0" rx="7" fill="#222222" stroke="#f44336" stroke-width="2.4"/>
+<circle cx="539.0" cy="120.0" r="20" fill="#1a1a1a" stroke="#cfcfcf" stroke-width="1.2"/>
+<polyline points="521.0,112.0 527.0,128.0 533.0,112.0 539.0,128.0 545.0,112.0 551.0,128.0 557.0,112.0" fill="none" stroke="#cfcfcf" stroke-width="2.4" stroke-linecap="round"/>
+<text x="569.0" y="110.0" fill="currentColor" font-size="15.5" font-weight="700">Candy-Wrapper</text>
+<text x="569.0" y="130.0" fill="#9a9a9a" font-size="12.5">Mesh spirals around bone</text>
+<text x="523.0" y="289.0" fill="#ff8c00" font-size="13" font-weight="600">Fix: Recalculate bone roll</text>
+<rect id="pqr-card3" x="751.5" y="86.0" width="224.5" height="216.0" rx="7" fill="#222222" stroke="#ffc107" stroke-width="2.4"/>
+<circle cx="781.5" cy="120.0" r="20" fill="#1a1a1a" stroke="#cfcfcf" stroke-width="1.2"/>
+<line x1="759.5" y1="120.0" x2="799.5" y2="120.0" stroke="#cfcfcf" stroke-width="2.6"/><path d="M791.5,114.0 L803.5,120.0 L791.5,126.0" fill="none" stroke="#cfcfcf" stroke-width="2.6" stroke-linejoin="round"/>
+<text x="811.5" y="110.0" fill="currentColor" font-size="15.5" font-weight="700">Weight Bleeding</text>
+<text x="811.5" y="130.0" fill="#9a9a9a" font-size="12.5">Influence reaches too far</text>
+<text x="765.5" y="289.0" fill="#ff8c00" font-size="13" font-weight="600">Fix: Paint 0.0 to remove</text>
+<rect id="pqr-card4" x="24.0" y="320.0" width="224.5" height="216.0" rx="7" fill="#222222" stroke="#ffc107" stroke-width="2.4"/>
+<circle cx="54.0" cy="354.0" r="20" fill="#1a1a1a" stroke="#cfcfcf" stroke-width="1.2"/>
+<path d="M32.0,354.0 a16,16 0 1,1 6,11" fill="none" stroke="#cfcfcf" stroke-width="2.4"/>
+<text x="84.0" y="344.0" fill="currentColor" font-size="15.5" font-weight="700">Gaps at Joint</text>
+<text x="84.0" y="364.0" fill="#9a9a9a" font-size="12.5">Hole opens when bent</text>
+<text x="38.0" y="523.0" fill="#ff8c00" font-size="13" font-weight="600">Fix: Add weight in the gap</text>
+<rect id="pqr-card5" x="266.5" y="320.0" width="224.5" height="216.0" rx="7" fill="#222222" stroke="#ffc107" stroke-width="2.4"/>
+<circle cx="296.5" cy="354.0" r="20" fill="#1a1a1a" stroke="#cfcfcf" stroke-width="1.2"/>
+<rect x="280.5" y="342.0" width="22" height="22" fill="none" stroke="#cfcfcf" stroke-width="2.2"/><rect x="292.5" y="352.0" width="22" height="22" fill="none" stroke="#cfcfcf" stroke-width="2.2"/>
+<text x="326.5" y="344.0" fill="currentColor" font-size="15.5" font-weight="700">Mesh Penetration</text>
+<text x="326.5" y="364.0" fill="#9a9a9a" font-size="12.5">Surfaces overlap on bend</text>
+<text x="280.5" y="523.0" fill="#ff8c00" font-size="13" font-weight="600">Fix: Reduce weights in area</text>
+<rect id="pqr-card6" x="509.0" y="320.0" width="224.5" height="216.0" rx="7" fill="#222222" stroke="#ffd54f" stroke-width="2.4"/>
+<circle cx="539.0" cy="354.0" r="20" fill="#1a1a1a" stroke="#cfcfcf" stroke-width="1.2"/>
+<line x1="539.0" y1="340.0" x2="539.0" y2="368.0" stroke="#cfcfcf" stroke-width="1.6" stroke-dasharray="3,3"/><path d="M535.0,344.0 L521.0,354.0 L535.0,364.0 Z" fill="#cfcfcf"/><path d="M543.0,344.0 L557.0,354.0 L543.0,364.0 Z" fill="none" stroke="#cfcfcf" stroke-width="2"/>
+<text x="569.0" y="344.0" fill="currentColor" font-size="15.5" font-weight="700">X-Mirror Fails</text>
+<text x="569.0" y="364.0" fill="#9a9a9a" font-size="12.5">Sides paint asymmetrically</text>
+<text x="523.0" y="523.0" fill="#ff8c00" font-size="13" font-weight="600">Fix: Check .L / .R naming</text>
+<rect id="pqr-card7" x="751.5" y="320.0" width="224.5" height="216.0" rx="7" fill="#222222" stroke="#ffd54f" stroke-width="2.4"/>
+<circle cx="781.5" cy="354.0" r="20" fill="#1a1a1a" stroke="#cfcfcf" stroke-width="1.2"/>
+<circle cx="781.5" cy="354.0" r="13" fill="none" stroke="#cfcfcf" stroke-width="2.4"/><line x1="772.5" y1="345.0" x2="790.5" y2="363.0" stroke="#cfcfcf" stroke-width="2.4"/>
+<text x="811.5" y="344.0" fill="currentColor" font-size="15.5" font-weight="700">No Paint Effect</text>
+<text x="811.5" y="364.0" fill="#9a9a9a" font-size="12.5">Brush does nothing</text>
+<text x="765.5" y="523.0" fill="#ff8c00" font-size="13" font-weight="600">Fix: Select active group</text>
+</svg>
+<figcaption style="font-size:0.85rem;color:#888;margin-top:0.5rem;text-align:center;">Figure 6 &#8212; Common weight painting problems with severity, symptom, and quick fix.</figcaption>
+</figure>
                     
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                    <div class="table-wrap"><table style="width: 100%; min-width:max-content; border-collapse: collapse; margin-top: 1rem;">
                         <thead>
                             <tr style="background: #f5f5f5;">
                                 <th style="padding: 0.75rem; border: 1px solid #ddd; text-align: left;">Problem</th>
@@ -2403,13 +2829,36 @@ Priority fixes:
                                 <td style="padding: 0.75rem; border: 1px solid #ddd;">Enable X-Mirror, repaint</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table></div>
                 </div>
 
                 <h4>Sharp Creasing (Most Common Problem)</h4>
 
                 <div class="card" style="background: #ffebee; border-left: 4px solid #f44336;">
                     <h4>❌ Problem: Sharp Crease at Joint</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_09_sharp_crease_problem.png" alt="Three panels &#8212; left: a straight limb with a smooth blue-to-red weight gradient; center: a bent limb whose surface pinches into a sharp crease at the joint; right: the same bent limb showing an abrupt blue-to-red weight step with no blend zone" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 600" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<defs>
+<marker id="c38f21ar" markerWidth="11" markerHeight="11" refX="8" refY="5.5" orient="auto">
+<path d="M1,1 L10,5.5 L1,10" fill="none" stroke="#FF8C00" stroke-width="2"/>
+</marker>
+</defs>
+<text x="319" y="46" font-family="sans-serif" font-size="26" font-weight="700" fill="#4CAF50" text-anchor="middle">Smooth weight blend</text>
+<text x="319" y="76" font-family="sans-serif" font-size="19" fill="#dcdcdc" text-anchor="middle">gradual blue&#8594;red falloff</text>
+<text x="958" y="46" font-family="sans-serif" font-size="26" font-weight="700" fill="#E04C4C" text-anchor="middle">Sharp crease at joint</text>
+<text x="958" y="76" font-family="sans-serif" font-size="19" fill="#dcdcdc" text-anchor="middle">surface pinches when bent</text>
+<text x="1599" y="46" font-family="sans-serif" font-size="26" font-weight="700" fill="#E04C4C" text-anchor="middle">Abrupt weight step</text>
+<text x="1599" y="76" font-family="sans-serif" font-size="19" fill="#dcdcdc" text-anchor="middle">the cause: no transition zone</text>
+<ellipse cx="968" cy="372" rx="40" ry="34" fill="none" stroke="#FFD24D" stroke-width="3" stroke-dasharray="7 5"/>
+<line x1="958" y1="92" x2="966" y2="334" stroke="#FF8C00" stroke-width="3" marker-end="url(#c38f21ar)"/>
+<ellipse cx="1600" cy="378" rx="34" ry="40" fill="none" stroke="#FFD24D" stroke-width="3" stroke-dasharray="7 5"/>
+<line x1="1599" y1="92" x2="1600" y2="334" stroke="#FF8C00" stroke-width="3" marker-end="url(#c38f21ar)"/>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 21 &#8212; A sharp crease forms when weights jump abruptly across a joint. The smooth gradient (left) bends cleanly; an abrupt weight step (right) collapses the surface into a crease (center).</figcaption>
+                    </figure>
                     
                     <p><strong>Symptoms:</strong></p>
                     <ul>
@@ -2475,6 +2924,29 @@ Priority fixes:
 
                 <div class="card" style="background: #ffebee; border-left: 4px solid #f44336;">
                     <h4>❌ Problem: Limb Loses Volume When Bent</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_10_volume_loss_problem.png" alt="Two limb renders side by side. Left: a bent limb whose joint cross-section collapses into a thin waist (volume loss). Right: the same bend with a full rounded joint that keeps its mass (volume preserved)." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<defs>
+<marker id="c38f22arH" markerWidth="11" markerHeight="11" refX="8" refY="5.5" orient="auto"><path d="M1,1 L9,5.5 L1,10" fill="none" stroke="#FF8C00" stroke-width="2"/></marker>
+</defs>
+<!-- LEFT: volume loss -->
+<rect x="150" y="300" width="300" height="70" rx="10" fill="#1a1a1a" fill-opacity="0.82" stroke="#E04C4C" stroke-width="3"/>
+<text x="300" y="332" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="27" font-weight="bold" fill="#E04C4C">VOLUME LOSS</text>
+<text x="300" y="358" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="18" fill="#E6B0B0">cross-section collapses at bend</text>
+<ellipse cx="412" cy="660" rx="78" ry="92" fill="none" stroke="#FFD24D" stroke-width="4" stroke-dasharray="11 8"/>
+<path d="M334,376 L398,588" fill="none" stroke="#FF8C00" stroke-width="3" marker-end="url(#c38f22arH)"/>
+<!-- RIGHT: preserved -->
+<rect x="1280" y="300" width="330" height="70" rx="10" fill="#1a1a1a" fill-opacity="0.82" stroke="#4CAF50" stroke-width="3"/>
+<text x="1445" y="332" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="27" font-weight="bold" fill="#4CAF50">VOLUME PRESERVED</text>
+<text x="1445" y="358" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="18" fill="#A8D8AA">rounded joint keeps its mass</text>
+<ellipse cx="1452" cy="650" rx="120" ry="105" fill="none" stroke="#4CAF50" stroke-width="4" stroke-dasharray="11 8"/>
+<path d="M1430,376 L1444,540" fill="none" stroke="#FF8C00" stroke-width="3" marker-end="url(#c38f22arH)"/>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 22 &#8212; Volume loss vs preservation at a bent joint. Left: the cross-section collapses into a pinched waist. Right: Preserve Volume &#38; smooth weights keep the joint rounded.</figcaption>
+                    </figure>
                     
                     <p><strong>Symptoms:</strong></p>
                     <ul>
@@ -2792,7 +3264,7 @@ Priority fixes:
                     <p><strong>💭 The Debug Mindset:</strong> When weight painting goes wrong, don't panic or randomly paint hoping things improve. Professionals debug systematically: identify the specific symptom, hypothesize the cause, test the hypothesis with a targeted fix, verify the result. This methodical approach solves problems faster than frantic random adjustments. Most issues have been encountered and solved before—learn from that collective knowledge!</p>
                 </blockquote>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎯 Common Problems Summary</h3>
                     <ul style="color: white;">
                         <li><strong>Sharp creasing:</strong> Use Blur brush to create smooth gradients (2-4 edge loops)</li>
@@ -2833,6 +3305,60 @@ Priority fixes:
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ Transfer Weights Tool</h4>
+                    <figure style="margin:1.25rem 0;">
+                    <svg id="wtf-root" color="currentColor" viewBox="0 0 1200 460" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Segoe UI,sans-serif" role="img" aria-labelledby="wtf-title wtf-desc">
+<title id="wtf-title">Weight transfer workflow</title>
+<desc id="wtf-desc">Flowchart: a source mesh with good weights passes through the Transfer Weights operation into a target mesh, producing a result that is mostly complete and needs only minor refinement.</desc>
+<text x="600" y="42" text-anchor="middle" font-size="26" font-weight="700" fill="currentColor">Transferring Weights Between Meshes</text>
+<rect x="60" y="90" width="260" height="210" rx="12" fill="currentColor" fill-opacity="0.04" stroke="#4CAF50" stroke-width="3"/>
+<circle cx="190.0" cy="134.0" r="12" fill="#4CAF50"/>
+<rect x="176.0" y="148.0" width="28" height="40" rx="8" fill="#4CAF50"/>
+<line x1="176.0" y1="156.0" x2="162.0" y2="174.0" stroke="#4CAF50" stroke-width="6" stroke-linecap="round"/>
+<line x1="204.0" y1="156.0" x2="218.0" y2="174.0" stroke="#4CAF50" stroke-width="6" stroke-linecap="round"/>
+<line x1="183.0" y1="188.0" x2="178.0" y2="212.0" stroke="#4CAF50" stroke-width="6" stroke-linecap="round"/>
+<line x1="197.0" y1="188.0" x2="202.0" y2="212.0" stroke="#4CAF50" stroke-width="6" stroke-linecap="round"/>
+<circle cx="294.0" cy="116.0" r="16" fill="#4CAF50"/>
+<path d="M 287.0 116.0 l 4 5 l 9 -10" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="190" y="254" text-anchor="middle" font-size="18" font-weight="700" fill="#4CAF50">Source Mesh</text>
+<text x="190" y="276" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.8">Vertex groups hold</text>
+<text x="190" y="292" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.8">perfected weights</text>
+<rect x="470" y="90" width="260" height="210" rx="12" fill="currentColor" fill-opacity="0.04" stroke="#FFC107" stroke-width="3"/>
+<circle cx="600.0" cy="134.0" r="12" fill="#FFC107"/>
+<rect x="586.0" y="148.0" width="28" height="40" rx="8" fill="#FFC107"/>
+<line x1="586.0" y1="156.0" x2="572.0" y2="174.0" stroke="#FFC107" stroke-width="6" stroke-linecap="round"/>
+<line x1="614.0" y1="156.0" x2="628.0" y2="174.0" stroke="#FFC107" stroke-width="6" stroke-linecap="round"/>
+<line x1="593.0" y1="188.0" x2="588.0" y2="212.0" stroke="#FFC107" stroke-width="6" stroke-linecap="round"/>
+<line x1="607.0" y1="188.0" x2="612.0" y2="212.0" stroke="#FFC107" stroke-width="6" stroke-linecap="round"/>
+<circle cx="704.0" cy="116.0" r="16" fill="#FFC107"/>
+<text x="704.0" y="122.0" text-anchor="middle" font-size="20" font-weight="700" fill="#000">?</text>
+<text x="600" y="254" text-anchor="middle" font-size="18" font-weight="700" fill="#FFC107">Target Mesh</text>
+<text x="600" y="276" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.8">Empty or poor vertex</text>
+<text x="600" y="292" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.8">groups</text>
+<rect x="880" y="90" width="260" height="210" rx="12" fill="currentColor" fill-opacity="0.04" stroke="#2196F3" stroke-width="3"/>
+<circle cx="1010.0" cy="134.0" r="12" fill="#2196F3"/>
+<rect x="996.0" y="148.0" width="28" height="40" rx="8" fill="#2196F3"/>
+<line x1="996.0" y1="156.0" x2="982.0" y2="174.0" stroke="#2196F3" stroke-width="6" stroke-linecap="round"/>
+<line x1="1024.0" y1="156.0" x2="1038.0" y2="174.0" stroke="#2196F3" stroke-width="6" stroke-linecap="round"/>
+<line x1="1003.0" y1="188.0" x2="998.0" y2="212.0" stroke="#2196F3" stroke-width="6" stroke-linecap="round"/>
+<line x1="1017.0" y1="188.0" x2="1022.0" y2="212.0" stroke="#2196F3" stroke-width="6" stroke-linecap="round"/>
+<circle cx="1114.0" cy="116.0" r="16" fill="#2196F3"/>
+<text x="1114.0" y="123.0" text-anchor="middle" font-size="20" font-weight="700" fill="#000">*</text>
+<text x="1010" y="254" text-anchor="middle" font-size="18" font-weight="700" fill="#2196F3">Weights Transferred</text>
+<text x="1010" y="276" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.8">About 80 to 90 percent</text>
+<text x="1010" y="292" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.8">done, minor cleanup</text>
+<line x1="326" y1="195.0" x2="454" y2="195.0" stroke="#FF9800" stroke-width="4"/>
+<path d="M 454 186.0 L 468 195.0 L 454 204.0 Z" fill="#FF9800"/>
+<text x="395" y="179.0" text-anchor="middle" font-size="14" font-weight="700" fill="#FF9800">Transfer Weights</text>
+<text x="395" y="219.0" text-anchor="middle" font-size="12" fill="currentColor" opacity="0.75">Weights menu</text>
+<line x1="736" y1="195.0" x2="864" y2="195.0" stroke="#FF9800" stroke-width="4"/>
+<path d="M 864 186.0 L 878 195.0 L 864 204.0 Z" fill="#FF9800"/>
+<text x="805" y="179.0" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.8">Result</text>
+<text x="600" y="372" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.8">Requirement: both meshes use the same armature.</text>
+<text x="600" y="396" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.8">Best for similar characters, LOD models, and updated topology.</text>
+<text x="600" y="420" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.8">Typically saves 50 to 70 percent of the weight painting work.</text>
+</svg>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 5 &#8212; Weight transfer workflow. A source mesh with good weights feeds the Transfer Weights operation, giving the target mesh an 80 to 90 percent complete result that needs only minor refinement; both meshes must share the same armature.</figcaption>
+                    </figure>
                     
                     <p><strong>What It Does:</strong></p>
                     <ul>
@@ -2902,6 +3428,29 @@ Priority fixes:
 
                 <div class="card">
                     <h4>🎯 Weight-Based Selection</h4>
+                    <figure style="margin:1.5rem 0;text-align:center">
+                        <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                            <img src="images/lesson_38_21_blur_brush_before_after.png" alt="Two weight-edge renders side by side. Left (before): a hard blue-to-red boundary where weight jumps abruptly from 0 to 1. Right (after): the blur brush has spread the boundary into a smooth blue-cyan-green-yellow-red falloff across the edge." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+<defs>
+<marker id="c38f23arH" markerWidth="11" markerHeight="11" refX="8" refY="5.5" orient="auto"><path d="M1,1 L9,5.5 L1,10" fill="none" stroke="#FF8C00" stroke-width="2"/></marker>
+</defs>
+<!-- LEFT: BEFORE (hard step) -->
+<rect x="300" y="250" width="358" height="74" rx="10" fill="#1a1a1a" fill-opacity="0.85" stroke="#E04C4C" stroke-width="3"/>
+<text x="479" y="284" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="bold" fill="#E04C4C">BEFORE: Hard Edge</text>
+<text x="479" y="312" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="18" fill="#E6B0B0">abrupt weight jump, 0 to 1</text>
+<ellipse cx="472" cy="540" rx="42" ry="118" fill="none" stroke="#E04C4C" stroke-width="4" stroke-dasharray="11 8"/>
+<path d="M479,330 L472,408" fill="none" stroke="#FF8C00" stroke-width="3" marker-end="url(#c38f23arH)"/>
+<!-- RIGHT: AFTER (smooth gradient) -->
+<rect x="1262" y="250" width="356" height="74" rx="10" fill="#1a1a1a" fill-opacity="0.85" stroke="#4CAF50" stroke-width="3"/>
+<text x="1440" y="284" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="bold" fill="#4CAF50">AFTER: Blurred</text>
+<text x="1440" y="312" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="18" fill="#A8D8AA">smooth weight falloff across edge</text>
+<ellipse cx="1440" cy="540" rx="92" ry="118" fill="none" stroke="#FFD24D" stroke-width="4" stroke-dasharray="11 8"/>
+<path d="M1440,330 L1440,408" fill="none" stroke="#FF8C00" stroke-width="3" marker-end="url(#c38f23arH)"/>
+                            </svg>
+                        </div>
+                        <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 23 &#8212; The Blur brush in action. Before: a hard 0&#8594;1 weight edge. After: the same edge smoothed into a gradual falloff for cleaner deformation.</figcaption>
+                    </figure>
                     
                     <p><strong>Why It's Useful:</strong></p>
                     <ul>
@@ -2940,6 +3489,60 @@ Priority fixes:
                 </div>
 
                 <h4>Normalize and Clean Tools</h4>
+<figure style="margin:1.25rem 0;">
+<svg id="nrm-root" color="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="100%" style="height:auto;max-width:1000px;background:#2b2b2b;border-radius:8px;font-family:-apple-system,Segoe UI,Roboto,sans-serif;">
+<rect id="nrm-bg" x="0" y="0" width="1000" height="560" rx="8" fill="#2b2b2b"/>
+<text id="nrm-title" x="500.0" y="38" text-anchor="middle" fill="currentColor" font-size="24" font-weight="700">Normalize All &#8212; Weights Rescaled to Sum 1.0</text>
+<g id="nrm-before"><rect x="40" y="78" width="440" height="430" rx="8" fill="#222222" stroke="#3a3a3a" stroke-width="1.4"/>
+<text x="260.0" y="108" text-anchor="middle" fill="currentColor" font-size="17" font-weight="700">Before Normalize</text>
+<text x="70" y="140" fill="#9a9a9a" font-size="13" font-weight="600">Bone</text>
+<text x="440" y="140" text-anchor="end" fill="#9a9a9a" font-size="13" font-weight="600">Weight</text>
+<rect x="64" y="143" width="14" height="14" rx="2" fill="#5b8def"/>
+<text x="86" y="155" fill="currentColor" font-size="14" font-family="monospace">upper_arm</text>
+<text x="440" y="155" text-anchor="end" fill="currentColor" font-size="14" font-family="monospace">0.60</text>
+<rect x="64" y="177" width="14" height="14" rx="2" fill="#e0a13a"/>
+<text x="86" y="189" fill="currentColor" font-size="14" font-family="monospace">forearm</text>
+<text x="440" y="189" text-anchor="end" fill="currentColor" font-size="14" font-family="monospace">0.50</text>
+<rect x="64" y="211" width="14" height="14" rx="2" fill="#9c6ade"/>
+<text x="86" y="223" fill="currentColor" font-size="14" font-family="monospace">shoulder</text>
+<text x="440" y="223" text-anchor="end" fill="currentColor" font-size="14" font-family="monospace">0.20</text>
+<line x1="64" y1="244" x2="456" y2="244" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="86" y="263" fill="#f44336" font-size="14.5" font-weight="700" font-family="monospace">Total</text>
+<text x="440" y="263" text-anchor="end" fill="#f44336" font-size="14.5" font-weight="700" font-family="monospace">1.3</text>
+<text x="440" y="282" text-anchor="end" fill="#f44336" font-size="12">Total &gt; 1.0</text>
+<path d="M260.0,395 L260.00,337.00 A58,58 0 0,1 273.88,451.31 Z" fill="#5b8def" stroke="#2b2b2b" stroke-width="1.5"/>
+<path d="M260.0,395 L273.88,451.31 A58,58 0 0,1 212.27,362.05 Z" fill="#e0a13a" stroke="#2b2b2b" stroke-width="1.5"/>
+<path d="M260.0,395 L212.27,362.05 A58,58 0 0,1 260.00,337.00 Z" fill="#9c6ade" stroke="#2b2b2b" stroke-width="1.5"/>
+<circle cx="260.0" cy="395" r="58" fill="none" stroke="#2b2b2b" stroke-width="1.5"/>
+<text x="260.0" y="488" text-anchor="middle" fill="#9a9a9a" font-size="11.5">Weights exceed 1.0: unpredictable deformation</text></g>
+<g id="nrm-after"><rect x="520" y="78" width="440" height="430" rx="8" fill="#222222" stroke="#3a3a3a" stroke-width="1.4"/>
+<text x="740.0" y="108" text-anchor="middle" fill="currentColor" font-size="17" font-weight="700">After Normalize</text>
+<text x="550" y="140" fill="#9a9a9a" font-size="13" font-weight="600">Bone</text>
+<text x="920" y="140" text-anchor="end" fill="#9a9a9a" font-size="13" font-weight="600">Weight</text>
+<rect x="544" y="143" width="14" height="14" rx="2" fill="#5b8def"/>
+<text x="566" y="155" fill="currentColor" font-size="14" font-family="monospace">upper_arm</text>
+<text x="920" y="155" text-anchor="end" fill="currentColor" font-size="14" font-family="monospace">0.46</text>
+<rect x="544" y="177" width="14" height="14" rx="2" fill="#e0a13a"/>
+<text x="566" y="189" fill="currentColor" font-size="14" font-family="monospace">forearm</text>
+<text x="920" y="189" text-anchor="end" fill="currentColor" font-size="14" font-family="monospace">0.38</text>
+<rect x="544" y="211" width="14" height="14" rx="2" fill="#9c6ade"/>
+<text x="566" y="223" fill="currentColor" font-size="14" font-family="monospace">shoulder</text>
+<text x="920" y="223" text-anchor="end" fill="currentColor" font-size="14" font-family="monospace">0.15</text>
+<line x1="544" y1="244" x2="936" y2="244" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="566" y="263" fill="#4CAF50" font-size="14.5" font-weight="700" font-family="monospace">Total</text>
+<text x="920" y="263" text-anchor="end" fill="#4CAF50" font-size="14.5" font-weight="700" font-family="monospace">1.0</text>
+<text x="920" y="282" text-anchor="end" fill="#4CAF50" font-size="12">Total = 1.0</text>
+<path d="M740.0,395 L740.00,337.00 A58,58 0 0,1 754.42,451.18 Z" fill="#5b8def" stroke="#2b2b2b" stroke-width="1.5"/>
+<path d="M740.0,395 L754.42,451.18 A58,58 0 0,1 691.03,363.92 Z" fill="#e0a13a" stroke="#2b2b2b" stroke-width="1.5"/>
+<path d="M740.0,395 L691.03,363.92 A58,58 0 0,1 736.36,337.11 Z" fill="#9c6ade" stroke="#2b2b2b" stroke-width="1.5"/>
+<circle cx="740.0" cy="395" r="58" fill="none" stroke="#2b2b2b" stroke-width="1.5"/>
+<text x="740.0" y="488" text-anchor="middle" fill="#9a9a9a" font-size="11.5">Proportions kept, total rescaled to 1.0</text></g>
+<line id="nrm-arrowln" x1="486" y1="290" x2="514" y2="290" stroke="#ff8c00" stroke-width="3"/>
+<path d="M508,283 L520,290 L508,297 Z" fill="#ff8c00"/>
+<text x="500.0" y="538" text-anchor="middle" fill="#ff8c00" font-size="14" font-family="monospace">new_weight = old_weight / old_total</text>
+</svg>
+<figcaption style="font-size:0.85rem;color:#888;margin-top:0.5rem;text-align:center;">Figure 7 &#8212; Normalize All rescales a vertex&rsquo;s weights to sum 1.0 while keeping their proportions.</figcaption>
+</figure>
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
                     <h4>💡 Weight Cleanup Tools</h4>
@@ -3253,7 +3856,7 @@ if vg:
                     <p><strong>💭 Advanced Tools Philosophy:</strong> These advanced tools aren't required for good weight painting—you can create beautiful deformation with just Draw and Blur. But professional riggers use these tools to work faster and smarter. Weight Transfer alone can cut rigging time in half for similar characters. Learn the basics first, then add advanced tools to your arsenal as you encounter situations where they save time. Efficiency comes from knowing when to use the right tool!</p>
                 </blockquote>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎯 Advanced Tools Summary</h3>
                     <ul style="color: white;">
                         <li><strong>Weight Transfer:</strong> Copy weights between similar meshes (huge time saver)</li>
@@ -3286,8 +3889,73 @@ if vg:
                 
                 <p>Time to put everything together! You'll take a simple humanoid character through the complete weight painting process—from initial automatic weights to refined manual painting. This project mirrors real production workflows and will give you practical experience with every technique we've covered. By the end, you'll have a fully weighted character ready for animation!</p>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎯 Project Overview</h3>
+<figure style="margin:1.25rem 0;">
+<svg id="ppf-root" color="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="100%" style="height:auto;max-width:1000px;background:#2b2b2b;border-radius:8px;font-family:-apple-system,Segoe UI,Roboto,sans-serif;">
+<rect id="ppf-bg" x="0" y="0" width="1000" height="600" rx="8" fill="#2b2b2b"/>
+<text id="ppf-title" x="500.0" y="40" text-anchor="middle" fill="currentColor" font-size="24" font-weight="700">Weight Painting Project &#8212; Phase Flow</text>
+<text x="286" y="78" text-anchor="end" fill="#9a9a9a" font-size="12.5">Status:</text>
+<rect x="300" y="68" width="14" height="14" rx="3" fill="#4CAF50" stroke="#555" stroke-width="0.8"/>
+<text x="320" y="80" fill="#9a9a9a" font-size="12.5">Complete</text>
+<rect x="402.4" y="68" width="14" height="14" rx="3" fill="#ff8c00" stroke="#555" stroke-width="0.8"/>
+<text x="422.4" y="80" fill="#9a9a9a" font-size="12.5">Current</text>
+<rect x="497.5" y="68" width="14" height="14" rx="3" fill="#3a3a3a" stroke="#555" stroke-width="0.8"/>
+<text x="517.5" y="80" fill="#9a9a9a" font-size="12.5">Upcoming</text>
+<text x="960" y="80" text-anchor="end" fill="#ff8c00" font-size="12.5" font-weight="600">Total: about 2 to 3 hours</text>
+<g id="ppf-arrows"><line x1="310" y1="163.0" x2="365" y2="163.0" stroke="#7fb7ff" stroke-width="2.6"/><path d="M356,157.0 L365,163.0 L356,169.0 Z" fill="#7fb7ff"/><line x1="635" y1="163.0" x2="690" y2="163.0" stroke="#7fb7ff" stroke-width="2.6"/><path d="M681,157.0 L690,163.0 L681,169.0 Z" fill="#7fb7ff"/><line x1="825.0" y1="206" x2="825.0" y2="300" stroke="#7fb7ff" stroke-width="2.6"/><path d="M819.0,291 L825.0,300 L831.0,291 Z" fill="#7fb7ff"/><line x1="690" y1="343.0" x2="635" y2="343.0" stroke="#7fb7ff" stroke-width="2.6"/><path d="M644,337.0 L635,343.0 L644,349.0 Z" fill="#7fb7ff"/><line x1="365" y1="343.0" x2="310" y2="343.0" stroke="#7fb7ff" stroke-width="2.6"/><path d="M319,337.0 L310,343.0 L319,349.0 Z" fill="#7fb7ff"/><line x1="175.0" y1="386" x2="175.0" y2="470" stroke="#7fb7ff" stroke-width="2.6"/><path d="M169.0,461 L175.0,470 L181.0,461 Z" fill="#7fb7ff"/><line x1="310" y1="513.0" x2="365" y2="513.0" stroke="#7fb7ff" stroke-width="2.6"/><path d="M356,507.0 L365,513.0 L356,519.0 Z" fill="#7fb7ff"/><line x1="635" y1="513.0" x2="690" y2="513.0" stroke="#7fb7ff" stroke-width="2.6"/><path d="M681,507.0 L690,513.0 L681,519.0 Z" fill="#7fb7ff"/></g>
+<rect id="ppf-box1" x="40" y="120" width="270" height="86" rx="9" fill="#4CAF50" stroke="#555" stroke-width="1.2"/>
+<circle cx="66" cy="146" r="15" fill="#1a1a1a" opacity="0.5"/>
+<text x="66" y="151" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">1</text>
+<text x="90" y="152" fill="#ffffff" font-size="15.5" font-weight="700">Setup</text>
+<text x="90" y="178" fill="#eafaeb" font-size="12.5">Est. 10 min</text>
+<rect id="ppf-box2" x="365" y="120" width="270" height="86" rx="9" fill="#4CAF50" stroke="#555" stroke-width="1.2"/>
+<circle cx="391" cy="146" r="15" fill="#1a1a1a" opacity="0.5"/>
+<text x="391" y="151" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">2</text>
+<text x="415" y="152" fill="#ffffff" font-size="15.5" font-weight="700">Bind: Auto Weights</text>
+<text x="415" y="178" fill="#eafaeb" font-size="12.5">Est. 5 min</text>
+<rect id="ppf-box3" x="690" y="120" width="270" height="86" rx="9" fill="#4CAF50" stroke="#555" stroke-width="1.2"/>
+<circle cx="716" cy="146" r="15" fill="#1a1a1a" opacity="0.5"/>
+<text x="716" y="151" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">3</text>
+<text x="740" y="152" fill="#ffffff" font-size="15.5" font-weight="700">Initial Testing</text>
+<text x="740" y="178" fill="#eafaeb" font-size="12.5">Est. 15 min</text>
+<rect id="ppf-box4" x="690" y="300" width="270" height="86" rx="9" fill="#ff8c00" stroke="#555" stroke-width="1.2"/>
+<circle cx="716" cy="326" r="15" fill="#1a1a1a" opacity="0.5"/>
+<text x="716" y="331" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">4</text>
+<text x="740" y="332" fill="#ffffff" font-size="15.5" font-weight="700">Paint Major Areas</text>
+<text x="740" y="358" fill="#fff3e0" font-size="12.5">Est. 45 min</text>
+<rect id="ppf-box5" x="365" y="300" width="270" height="86" rx="9" fill="#3a3a3a" stroke="#555" stroke-width="1.2"/>
+<circle cx="391" cy="326" r="15" fill="#1a1a1a" opacity="0.5"/>
+<text x="391" y="331" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">5</text>
+<text x="415" y="332" fill="currentColor" font-size="15.5" font-weight="700">Paint Legs &amp; Hips</text>
+<text x="415" y="358" fill="#9a9a9a" font-size="12.5">Est. 30 min</text>
+<rect id="ppf-box6" x="40" y="300" width="270" height="86" rx="9" fill="#3a3a3a" stroke="#555" stroke-width="1.2"/>
+<circle cx="66" cy="326" r="15" fill="#1a1a1a" opacity="0.5"/>
+<text x="66" y="331" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">6</text>
+<text x="90" y="332" fill="currentColor" font-size="15.5" font-weight="700">Refine Secondary</text>
+<text x="90" y="358" fill="#9a9a9a" font-size="12.5">Est. 30 min</text>
+<rect id="ppf-box7" x="40" y="470" width="270" height="86" rx="9" fill="#3a3a3a" stroke="#555" stroke-width="1.2"/>
+<circle cx="66" cy="496" r="15" fill="#1a1a1a" opacity="0.5"/>
+<text x="66" y="501" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">7</text>
+<text x="90" y="502" fill="currentColor" font-size="15.5" font-weight="700">Cleanup: Normalize</text>
+<text x="90" y="528" fill="#9a9a9a" font-size="12.5">Est. 15 min</text>
+<rect id="ppf-box8" x="365" y="470" width="270" height="86" rx="9" fill="#3a3a3a" stroke="#555" stroke-width="1.2"/>
+<circle cx="391" cy="496" r="15" fill="#1a1a1a" opacity="0.5"/>
+<text x="391" y="501" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">8</text>
+<text x="415" y="502" fill="currentColor" font-size="15.5" font-weight="700">Final Testing</text>
+<text x="415" y="528" fill="#9a9a9a" font-size="12.5">Est. 20 min</text>
+<rect id="ppf-box9" x="690" y="470" width="270" height="86" rx="9" fill="#3a3a3a" stroke="#555" stroke-width="1.2"/>
+<circle cx="716" cy="496" r="15" fill="#1a1a1a" opacity="0.5"/>
+<text x="716" y="501" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">9</text>
+<text x="740" y="502" fill="currentColor" font-size="15.5" font-weight="700">Complete!</text>
+<text x="740" y="528" fill="#9a9a9a" font-size="12.5">Est. done</text>
+<g id="ppf-loop"><rect x="839.0" y="237.0" width="148" height="34" rx="6" fill="#222222" stroke="#ff8c00" stroke-width="1.6"/><text x="913.0" y="259.0" text-anchor="middle" fill="#ff8c00" font-size="12.5" font-weight="600">Problems? loop back</text></g>
+<path id="ppf-retarrow" d="M635,513.0 C982,513.0 982,343.0 960,343.0" fill="none" stroke="#ff8c00" stroke-width="2.2" stroke-dasharray="7,5"/>
+<path d="M969,337.0 L960,343.0 L969,349.0 Z" fill="#ff8c00"/>
+<text x="850" y="432.0" text-anchor="middle" fill="#ff8c00" font-size="11.5" transform="rotate(90,850,428.0)">re-test failures</text>
+</svg>
+<figcaption style="font-size:0.85rem;color:#888;margin-top:0.5rem;text-align:center;">Figure 8 &#8212; The complete weight painting project workflow across nine phases, with a test-and-loop-back checkpoint.</figcaption>
+</figure>
                     <p style="color: white;"><strong>Goal:</strong> Weight paint a simple humanoid character for clean deformation</p>
                     <p style="color: white;"><strong>Time Required:</strong> 2-3 hours (take breaks!)</p>
                     <p style="color: white;"><strong>Skills Applied:</strong></p>
@@ -3798,7 +4466,7 @@ if vg:
                     <p><strong>🏆 Congratulations on Your Weight Painted Character!</strong> Weight painting is one of the most technical skills in 3D art, and you've just completed a full character! This is a huge milestone. Your character is now ready for animation—bones control the mesh naturally and smoothly. You've learned a skill that studios value highly. Many 3D artists avoid rigging entirely because weight painting seems intimidating, but you've conquered it! The character you've weighted is your foundation for learning animation, and you can use these same skills on any future characters, creatures, or mechanical rigs. Well done!</p>
                 </blockquote>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎉 Project Complete!</h3>
                     <p style="color: white;"><strong>You've Successfully:</strong></p>
                     <ul style="color: white;">
@@ -3822,6 +4490,68 @@ if vg:
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>🔑 Key Takeaways</h4>
+<figure style="margin:1.25rem 0;">
+<svg id="elt-root" color="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 720" width="100%" style="height:auto;max-width:1000px;background:#2b2b2b;border-radius:8px;font-family:-apple-system,Segoe UI,Roboto,sans-serif;">
+<rect id="elt-bg" x="0" y="0" width="1000" height="720" rx="8" fill="#2b2b2b"/>
+<text id="elt-title" x="500.0" y="40" text-anchor="middle" fill="currentColor" font-size="24" font-weight="700">Elbow Edge-Loop Topology &#8212; Gradient Zone</text>
+<text id="elt-sub" x="500.0" y="66" text-anchor="middle" fill="#9a9a9a" font-size="14">3 to 4 edge loops across the joint give a smooth, bendable weight gradient</text>
+<g id="elt-mesh"><path d="M120,192 L880,192 M120,308 L880,308" stroke="#6a6a6a" stroke-width="1.6" fill="none"/><path d="M120,192 A58,58 0 0,0 120,308" stroke="#6a6a6a" stroke-width="1.6" fill="none"/><path d="M880,192 A58,58 0 0,1 880,308" stroke="#6a6a6a" stroke-width="1.6" fill="none"/><line x1="120" y1="250" x2="880" y2="250" stroke="#6a6a6a" stroke-width="0.8" stroke-dasharray="4,5"/>
+<ellipse cx="170" cy="250" rx="13" ry="58" fill="none" stroke="#6a6a6a" stroke-width="1.2"/>
+<ellipse cx="210" cy="250" rx="13" ry="58" fill="none" stroke="#6a6a6a" stroke-width="1.2"/>
+<ellipse cx="250" cy="250" rx="13" ry="58" fill="none" stroke="#6a6a6a" stroke-width="1.2"/>
+<ellipse cx="630" cy="250" rx="13" ry="58" fill="none" stroke="#6a6a6a" stroke-width="1.2"/>
+<ellipse cx="670" cy="250" rx="13" ry="58" fill="none" stroke="#6a6a6a" stroke-width="1.2"/>
+<ellipse cx="710" cy="250" rx="13" ry="58" fill="none" stroke="#6a6a6a" stroke-width="1.2"/>
+<ellipse cx="750" cy="250" rx="13" ry="58" fill="none" stroke="#6a6a6a" stroke-width="1.2"/>
+<ellipse cx="790" cy="250" rx="13" ry="58" fill="none" stroke="#6a6a6a" stroke-width="1.2"/>
+<ellipse cx="830" cy="250" rx="13" ry="58" fill="none" stroke="#6a6a6a" stroke-width="1.2"/>
+<line x1="140" y1="250" x2="860" y2="250" stroke="#8899bb" stroke-width="3" stroke-dasharray="2,4" opacity="0.6"/>
+<circle cx="500" cy="250" r="6" fill="#8899bb" opacity="0.7"/>
+</g>
+<g id="elt-loops">
+<rect x="345" y="162" width="270" height="176" rx="8" fill="none" stroke="#ff8c00" stroke-width="1.4" stroke-dasharray="6,5" opacity="0.8"/>
+<text x="480" y="152" text-anchor="middle" fill="#ff8c00" font-size="13.5" font-weight="700">Gradient Zone: 3 to 4 loops</text>
+<ellipse cx="360" cy="250" rx="14" ry="58" fill="none" stroke="#FF0000" stroke-width="2.6"/>
+<circle cx="360" cy="180" r="13" fill="#FF0000" stroke="#1a1a1a" stroke-width="1"/>
+<text x="360" y="184" text-anchor="middle" fill="#000" font-size="10" font-weight="700">1.0</text>
+<text x="360" y="330" text-anchor="middle" fill="currentColor" font-size="12.5" font-weight="600">Loop A</text>
+<ellipse cx="420" cy="250" rx="14" ry="58" fill="none" stroke="#FFA500" stroke-width="2.6"/>
+<circle cx="420" cy="180" r="13" fill="#FFA500" stroke="#1a1a1a" stroke-width="1"/>
+<text x="420" y="184" text-anchor="middle" fill="#000" font-size="10" font-weight="700">0.75</text>
+<text x="420" y="330" text-anchor="middle" fill="currentColor" font-size="12.5" font-weight="600">Loop B</text>
+<ellipse cx="480" cy="250" rx="14" ry="58" fill="none" stroke="#00C000" stroke-width="2.6"/>
+<circle cx="480" cy="180" r="13" fill="#00C000" stroke="#1a1a1a" stroke-width="1"/>
+<text x="480" y="184" text-anchor="middle" fill="#000" font-size="10" font-weight="700">0.5</text>
+<text x="480" y="330" text-anchor="middle" fill="currentColor" font-size="12.5" font-weight="600">Loop C</text>
+<ellipse cx="540" cy="250" rx="14" ry="58" fill="none" stroke="#00C8C8" stroke-width="2.6"/>
+<circle cx="540" cy="180" r="13" fill="#00C8C8" stroke="#1a1a1a" stroke-width="1"/>
+<text x="540" y="184" text-anchor="middle" fill="#000" font-size="10" font-weight="700">0.25</text>
+<text x="540" y="330" text-anchor="middle" fill="currentColor" font-size="12.5" font-weight="600">Loop D</text>
+<ellipse cx="600" cy="250" rx="14" ry="58" fill="none" stroke="#2060FF" stroke-width="2.6"/>
+<circle cx="600" cy="180" r="13" fill="#2060FF" stroke="#1a1a1a" stroke-width="1"/>
+<text x="600" y="184" text-anchor="middle" fill="#000" font-size="10" font-weight="700">0.0</text>
+<text x="600" y="330" text-anchor="middle" fill="currentColor" font-size="12.5" font-weight="600">Loop E</text>
+</g>
+<text x="210" y="358" text-anchor="middle" fill="#9a9a9a" font-size="13">Upper arm (weight 1.0)</text>
+<text x="730" y="358" text-anchor="middle" fill="#9a9a9a" font-size="13">Forearm (weight 0.0)</text>
+<defs><linearGradient id="elt-ramp" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FF0000"/><stop offset="0.25" stop-color="#FFA500"/><stop offset="0.5" stop-color="#00C000"/><stop offset="0.75" stop-color="#00C8C8"/><stop offset="1" stop-color="#2060FF"/></linearGradient></defs>
+<g id="elt-bad"><rect x="40" y="470" width="440" height="210" rx="8" fill="#222222" stroke="#f44336" stroke-width="2"/>
+<text x="260" y="498" text-anchor="middle" fill="#f44336" font-size="15.5" font-weight="700">Too Few Loops (Bad)</text>
+<path d="M174,539 L266,577 L336,541 L350,567 L278,607 L270,629 L248,625 L258,593 L160,565 Z" fill="#2c2c2c" stroke="#bbb" stroke-width="1.6"/>
+<line x1="262" y1="575" x2="268" y2="627" stroke="#f44336" stroke-width="2.2"/>
+<text x="300" y="587" fill="#f44336" font-size="11.5">sharp crease</text>
+<text x="260" y="664" text-anchor="middle" fill="#9a9a9a" font-size="12">1 loop: pinches, loses volume on bend</text></g>
+<g id="elt-good"><rect x="520" y="470" width="440" height="210" rx="8" fill="#222222" stroke="#ff8c00" stroke-width="2"/>
+<text x="740" y="498" text-anchor="middle" fill="#ff8c00" font-size="15.5" font-weight="700">Sufficient Loops (Good)</text>
+<path d="M652,541 Q720,545 754,567 Q784,591 780,647 L758,673 Q764,619 732,605 Q636,583 640,567 Z" fill="#2c2c2c" stroke="#bbb" stroke-width="1.6"/>
+<line x1="714" y1="555" x2="718" y2="619" stroke="#6a6a6a" stroke-width="1"/>
+<line x1="730" y1="555" x2="734" y2="619" stroke="#6a6a6a" stroke-width="1"/>
+<line x1="746" y1="555" x2="750" y2="619" stroke="#6a6a6a" stroke-width="1"/>
+<line x1="762" y1="555" x2="766" y2="619" stroke="#6a6a6a" stroke-width="1"/>
+<text x="740" y="664" text-anchor="middle" fill="#9a9a9a" font-size="12">3 to 4 loops: volume kept, smooth curve</text></g>
+</svg>
+<figcaption style="font-size:0.85rem;color:#888;margin-top:0.5rem;text-align:center;">Figure 9 &#8212; Edge-loop topology at the elbow: 3 to 4 loops across the joint form the weight gradient zone for a smooth bend.</figcaption>
+</figure>
                     
                     <p><strong>Fundamental Concepts:</strong></p>
                     <ul>
@@ -3972,7 +4702,7 @@ if vg:
                     <p><strong>💡 Final Wisdom:</strong> Weight painting is both art and science. The science is understanding how vertex weights control deformation mathematically. The art is knowing where to place those weights for natural, appealing movement. Like any art form, it improves with practice. Your first character might take many hours and iterations—that's normal! Professional riggers have spent thousands of hours refining their craft. Each character you weight teaches you something new. Be patient with yourself, celebrate small victories, and remember: even "good enough" weights can produce beautiful animation. Perfection can wait; motion is magic!</p>
                 </blockquote>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎓 Weight Painting Complete!</h3>
                     <p style="color: white;">You've mastered one of the most technical and essential skills in character animation. Your characters are now ready to move, and you're ready to bring them to life. Weight painting is your foundation for all rigging and animation work ahead.</p>
                     <p style="color: white;"><strong>In the next lesson, we'll dive into complete rigging workflows, building advanced character rigs with constraints, controllers, and IK/FK systems. You'll transform your weighted characters into animation-ready rigs!</strong></p>
