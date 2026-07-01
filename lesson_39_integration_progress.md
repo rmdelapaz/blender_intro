@@ -257,7 +257,156 @@ The last 7 PNG: COG/Chest function composites {23,24} + testing/mistakes grids {
 **Batch-6 status: 30/30 PNG done - ALL 30 PNG COMPLETE** (cumulative: batch 1 {5,10,26,29,34} + batch 2 {3,4,13,14,15} + batch 3 {18,19,20,9,16} + batch 4 {11,32,33} + batch 5 {35,38,6,7,12} + batch 6 {23,24,27,28,30,36,37}). Overlays (c39-NN) still DEFERRED to integration. Per-layer role hexes used as explicit hex (CTRL #4ADE80 / MCH #2196F3 / DEF #B47EE8 NEVER #667eea / FK #ff8c00 / IK #00bcd4; left #00bcd4 / right #e91e63 / center #ffd600). **8/8 inline SVG + 30/30 PNG = ALL 38 FIGURE ASSETS PRODUCED.** NEXT PHASE (own sub-chat): integration (cairosvg pixel-verify 1:1 + L33 overlay-margin fix per PNG: wrapper font-size:0 + img margin:0;vertical-align:top; edit_file dryRun->commit->recount per fig; FIRST-match unique anchors; U+2014 HELD at 36 every checkpoint) -> browser QA (Chromium 1194 + Playwright, 380/900 x dark/light). Confirm L40 next-link slug (geometry_nodes_introduction vs live L40) at lesson close.
 
 ## INTEGRATION LOG
-(empty - integration begins after SVG + PNG batches complete)
+
+### PLAN-LOCK (2026-06-30) - ready for fresh-chat execution; live HTML still TRUE-PRISTINE
+Pre-integration verification ALL PASS: live HTML 241,311 B / U+2014 36 / fig|figcap|svg|img 0/0/0/0 / #667eea|#764ba2|lin-grad 0/0/0 / color:white 48 / mermaid 8 + jsdelivr 1 / lesson_38 back 1 / lesson_40 next 1 (UTF-8 bridge read, NOT get_file_info). All 38 assets on disk; PNG px-boxes match batch tables exactly; 8 SVGs clean (0 U+2014, 0 &#8212;, color="#222" present, unique id-prefix + aria-labelledby).
+
+**DECISIONS (Ray-confirmed 2026-06-30):**
+- Figcaption: L38 full-sentence style, BUT separators use `&#183;` (NOT literal em-dash). U+2014 HELD at 36 every checkpoint (NOT re-based).
+- Img #33 (symmetry_mirroring) has NO reqs-doc anchor -> placed arm-rig, after #5 (Testing the Complete Arm Rig). Doc-order beat: ...#16 -> #5 -> #33.
+
+**CANONICAL WRAPPERS (captured verbatim from L38 live; L33 fix baked in):**
+- PNG figure:
+  ```
+  <figure style="margin:1.5rem 0;text-align:center">
+    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+      <img src="images/lesson_39_NN_slug.png" alt="..." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 W H" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"> ...c39-NN overlay, EXPLICIT-HEX strokes... </svg>
+    </div>
+    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure F &#183; ...sentence... </figcaption>
+  </figure>
+  ```
+  (viewBox W H = the PNG px-box EXACTLY, per dims column below; overlay coords authored in that space; cairosvg pixel-verify 1:1 before commit; max|dy|=max|dh|=0.000px.)
+- Inline SVG figure:
+  ```
+  <figure style="margin:1.5rem 0;">
+    <svg id="PFXroot" color="currentColor" viewBox="..." xmlns="http://www.w3.org/2000/svg" font-family="..." role="img" aria-labelledby="PFXtitle PFXdesc"> ...body verbatim from .svg... </svg>
+    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure F &#183; ...sentence... </figcaption>
+  </figure>
+  ```
+  TRANSFORM per inline SVG: standalone root `color="#222"` -> `color="currentColor"` (so page color cascades for dark/light invert). Body already uses currentColor for text/lines + fixed role hex for swatches. id-prefix already unique per file; keep as-is.
+
+**c39 overlay role hexes (PNG overlays only; NEVER #667eea; NEVER currentColor):** CTRL #4ADE80 / MCH #2196F3 / DEF #B47EE8 / FK #ff8c00 / IK #00bcd4 / brand #FF6B00; left #00bcd4 / right #e91e63 / center #ffd600. Overlay separators `&#183;` / arrows `&#8594;` - NO `&#8212;`.
+
+**PER-FIGURE EXECUTION TABLE (doc top-to-bottom order; F = figure number in caption):**
+
+| F | img | kind | file (images/) | viewBox / px-box | id-pfx | section | anchor (FIRST-match unique) |
+|---|---|---|---|---|---|---|---|
+| 1 | 01 | SVG | lesson_39_01_three_layer_architecture.svg | (from .svg root) | tla- | introduction | after opening paragraph |
+| 2 | 02 | SVG | lesson_39_02_ik_vs_fk_comparison.svg | (from .svg root) | ikfk- | rigging-philosophy | after "Core Rigging Principles" |
+| 3 | 03 | PNG | lesson_39_03_fk_arm_control_chain.png | 1920x1080 | c39-03 | ik-vs-fk | after FK Explained subsection |
+| 4 | 04 | PNG | lesson_39_04_ik_arm_with_pole.png | 1920x1080 | c39-04 | ik-vs-fk | after IK Explained subsection |
+| 5 | 09 | PNG | lesson_39_09_pole_target_positioning.png | 1920x1080 | c39-09 | ik-vs-fk | after Decision Guide table |
+| 6 | 06 | PNG | lesson_39_06_custom_shapes_library.png | 1920x1600 | c39-06 | control-bones | after "Why Custom Shapes Matter" |
+| 7 | 30 | PNG | lesson_39_30_custom_shape_assignment.png | 1920x1080 | c39-30 | control-bones | after "Practical Example" |
+| 8 | 07 | PNG | lesson_39_07_bone_groups_colors.png | 1920x1080 | c39-07 | control-bones | after "Organizing Control Shapes" |
+| 9 | 08 | SVG | lesson_39_08_ik_chain_components.svg | (from .svg root) | icc- | ik-chains | after "IK Chain Anatomy" |
+| 10 | 14 | PNG | lesson_39_14_arm_ik_setup_steps.png | 1920x1080 | c39-14 | ik-chains | after "Setting Up Basic IK Chain" |
+| 11 | 32 | PNG | lesson_39_32_pole_angle_adjustment.png | 1920x1080 | c39-32 | ik-chains | after "Pole Target Best Practices" |
+| 12 | 29 | PNG | lesson_39_29_constraint_stack_order.png | 1400x1200 | c39-29 | constraints | after "Understanding Constraints" |
+| 13 | 10 | PNG | lesson_39_10_copy_rotation_constraint.png | 1600x1200 | c39-10 | constraints | after "Copy Rotation Constraint" |
+| 14 | 11 | PNG | lesson_39_11_limit_rotation_constraint.png | 1920x1080 | c39-11 | constraints | after "Limit Rotation Constraint" |
+| 15 | 12 | PNG | lesson_39_12_track_to_eye_tracking.png | 1920x1080 | c39-12 | constraints | after "Track To Constraint" |
+| 16 | 13 | PNG | lesson_39_13_arm_rig_overview.png | 1920x1200 | c39-13 | arm-rig | after "Arm Rig Components" |
+| 17 | 15 | PNG | lesson_39_15_arm_fk_setup_steps.png | 1920x1080 | c39-15 | arm-rig | after "Phase 2: Create FK Control Chain" |
+| 18 | 34 | PNG | lesson_39_34_driver_setup_graph.png | 1920x1080 | c39-34 | arm-rig | after "Phase 5: Add IK/FK Switch Property" |
+| 19 | 16 | PNG | lesson_39_16_ikfk_snapping_problem.png | 1920x1080 | c39-16 | arm-rig | after "IK/FK Switching and Snapping" |
+| 20 | 05 | PNG | lesson_39_05_ikfk_influence_slider.png | 1920x1080 | c39-05 | arm-rig | after "Testing the Complete Arm Rig" |
+| 21 | 33 | PNG | lesson_39_33_symmetry_mirroring.png | 1920x1080 | c39-33 | arm-rig | after #5 / Testing the Complete Arm Rig (RAY-ASSIGNED 2026-06-30; no reqs-doc anchor) |
+| 22 | 17 | SVG | lesson_39_17_foot_hierarchy_diagram.svg | (from .svg root) | fh- | leg-rig | after "Understanding Foot Controls" |
+| 23 | 19 | PNG | lesson_39_19_foot_pivot_locations.png | 1920x1080 | c39-19 | leg-rig | after "Phase 3: Create IK System with Foot Controls" |
+| 24 | 18 | PNG | lesson_39_18_foot_roll_sequence.png | 1920x560 | c39-18 | leg-rig | after "Advanced Foot Features" |
+| 25 | 20 | PNG | lesson_39_20_leg_ik_complete.png | 1920x1080 | c39-20 | leg-rig | after "Testing the Complete Leg Rig" |
+| 26 | 21 | SVG | lesson_39_21_spine_control_system.svg | (from .svg root) | scs- | spine-rig | after "COG + Chest Spine Rig Components" |
+| 27 | 22 | SVG | lesson_39_22_spine_blending_gradient.svg | (from .svg root) | sbg- | spine-rig | after "Phase 5: Connect Controls to Spine" |
+| 28 | 25 | SVG | lesson_39_25_root_control_diagram.svg | (from .svg root) | rcd- | spine-rig | after "Phase 2: Create Root Control" |
+| 29 | 23 | PNG | lesson_39_23_cog_control_functions.png | 1920x1080 | c39-23 | spine-rig | after "Phase 3: Create COG Control" |
+| 30 | 24 | PNG | lesson_39_24_chest_control_functions.png | 1920x1080 | c39-24 | spine-rig | after "Phase 4: Create Chest Control" |
+| 31 | 31 | SVG | lesson_39_31_workflow_flowchart.svg | (from .svg root) | wf- | project | after "Project Overview" |
+| 32 | 26 | PNG | lesson_39_26_rig_layer_organization.png | 1400x1200 | c39-26 | project | after "Phase 1: Preparation" |
+| 33 | 35 | PNG | lesson_39_35_complete_rig_beauty.png | 1920x1080 | c39-35 | project | after "Phase 7: Polish and Testing" |
+| 34 | 27 | PNG | lesson_39_27_testing_poses_reference.png | 1920x1080 | c39-27 | project | after "Comprehensive Rig Testing" |
+| 35 | 28 | PNG | lesson_39_28_common_mistakes_grid.png | 1920x1080 | c39-28 | project | after "Common Issues and Fixes" |
+| 36 | 36 | PNG | lesson_39_36_control_interface_reference.png | 1920x1080 | c39-36 | summary | after "Professional Workflows" |
+| 37 | 37 | PNG | lesson_39_37_weight_painting_integration.png | 1920x1080 | c39-37 | summary | after "Beyond Biped Rigging" |
+| 38 | 38 | PNG | lesson_39_38_animation_ready_rig.png | 1920x1080 | c39-38 | summary | at end of lesson |
+
+**EXECUTION LOOP (per figure, in F-order):** (1) read anchor context in live HTML; pick a FIRST-match UNIQUE insertion point (close of the anchored block). (2) author figure block per wrapper above; PNG overlay coords in px-box space, explicit-hex. (3) for PNG: cairosvg render overlay@px-box + verify 1:1 registration vs base (max|dy|=max|dh|=0.000px) BEFORE commit. (4) edit_file dryRun -> inspect -> commit. (5) recount live HTML via UTF-8 bridge read: U+2014 == 36 (HARD), figure/img/svg counts incremented as expected, #667eea==0. (6) log row to INTEGRATION RUN below. Never batch-skip a recount.
+
+**CHECKPOINT INVARIANTS (every figure):** U+2014 = 36 | #667eea = 0 | #764ba2 = 0 | linear-gradient = 0 | mermaid 8 + jsdelivr 1 | lesson_38 back 1 | lesson_40 next 1. Final expected: <figure> 38 / <figcaption> 38 / inline <svg> 8 + 30 overlay <svg> = 38 <svg> / <img> 30.
+
+### INTEGRATION RUN
+(empty - begins next chat; append one row per committed figure: F | img | bytes-after | U+2014 | fig/img/svg counts | cairosvg max|dy|/max|dh| | OK)
+
+| F | img | kind | bytes-after | U+2014 | fig/img/svg | cairosvg max|dy|/max|dh| | OK |
+|---|---|---|---|---|---|---|---|
+| 1 | 01 | SVG | 246824 | 36 | 1/0/1 | n/a (inline SVG) | OK |
+| 2 | 02 | SVG | 252736 | 36 | 2/0/2 | n/a (inline SVG) | OK |
+| 3 | 03 | PNG | 254180 | 36 | 3/1/3 | 0.000/0.000 | OK |
+| 4 | 04 | PNG | 255650 | 36 | 4/2/4 | 0.000/0.000 | OK |
+| 5 | 09 | PNG | 257058 | 36 | 5/3/5 | 0.000/0.000 | OK |
+| 6 | 06 | PNG | 258386 | 36 | 6/4/6 | 0.000/0.000 | OK |
+| 7 | 30 | PNG | 259698 | 36 | 7/5/7 | 0.000/0.000 | OK |
+| 8 | 07 | PNG | 261053 | 36 | 8/6/8 | 0.000/0.000 | OK |
+| 9 | 08 | SVG | 267356 | 36 | 9/6/9 | n/a (inline SVG) | OK |
+| 10 | 14 | PNG | 268824 | 36 | 10/7/10 | 0.000/0.000 | OK |
+| 11 | 32 | PNG | 270130 | 36 | 11/8/11 | 0.000/0.000 | OK |
+| 12 | 29 | PNG | 271439 | 36 | 12/9/12 | 0.000/0.000 | OK |
+| 13 | 10 | PNG | 272770 | 36 | 13/10/13 | 0.000/0.000 | OK |
+| 14 | 11 | PNG | 274002 | 36 | 14/11/14 | 0.000/0.000 | OK |
+| 15 | 12 | PNG | 275212 | 36 | 15/12/15 | 0.000/0.000 | OK |
+| 16 | 13 | PNG | 276441 | 36 | 16/13/16 | 0.000/0.000 | OK |
+| 17 | 15 | PNG | 277689 | 36 | 17/14/17 | 0.000/0.000 | OK |
+| 18 | 34 | PNG | 278951 | 36 | 18/15/18 | 0.000/0.000 | OK |
+| 19 | 16 | PNG | 280224 | 36 | 19/16/19 | 0.000/0.000 | OK |
+| 20 | 05 | PNG | 281476 | 36 | 20/17/20 | 0.000/0.000 | OK |
+| 21 | 33 | PNG | 282725 | 36 | 21/18/21 | 0.000/0.000 | OK |
+| 22 | 17 | SVG | 288899 | 36 | 22/18/22 | n/a (inline SVG) | OK |
+| 23 | 19 | PNG | 290093 | 36 | 23/19/23 | 0.000/0.000 | OK |
+| 24 | 18 | PNG | 291291 | 36 | 24/20/24 | 0.000/0.000 | OK |
+| 25 | 20 | PNG | 292499 | 36 | 25/21/25 | 0.000/0.000 | OK |
+| 26 | 21 | SVG | 297092 | 36 | 26/21/26 | n/a (inline SVG) | OK |
+| 27 | 22 | SVG | 301521 | 36 | 27/21/27 | n/a (inline SVG) | OK |
+| 28 | 25 | SVG | 305155 | 36 | 28/21/28 | n/a (inline SVG) | OK |
+| 29 | 23 | PNG | 306298 | 36 | 29/22/29 | 0.000/0.000 | OK |
+| 30 | 24 | PNG | 307455 | 36 | 30/23/30 | 0.000/0.000 | OK |
+| 31 | 31 | SVG | 314246 | 36 | 31/23/31 | n/a (inline SVG) | OK |
+| 32 | 26 | PNG | 315524 | 36 | 32/24/32 | 0.000/0.000 | OK |
+| 33 | 35 | PNG | 316827 | 36 | 33/25/33 | 0.000/0.000 | OK |
+| 34 | 27 | PNG | 318118 | 36 | 34/26/34 | 0.000/0.000 | OK |
+| 35 | 28 | PNG | 319447 | 36 | 35/27/35 | 0.000/0.000 | OK |
+| 36 | 36 | PNG | 320750 | 36 | 36/28/36 | 0.000/0.000 | OK |
+| 37 | 37 | PNG | 322040 | 36 | 37/29/37 | 0.000/0.000 | OK |
+| 38 | 38 | PNG | 323309 | 36 | 38/30/38 | 0.000/0.000 | OK |
+
+**INTEGRATION COMPLETE 2026-06-30.** All 38 figures committed + verified from disk. Final live HTML: 323,309 B / U+2014 36 / fig|figcap|svg|img 38/38/38/30 (8 inline SVG + 30 PNG overlay) / #667eea|#764ba2|lin-grad 0/0/0 / U+2013 0 / &#8212; 0 / &#x2014 0 / mermaid 8 + jsdelivr 1 / lesson_38 back 1 / lesson_40 next 1. Blender TRUE-PRISTINE (bridge used only for UTF-8 read/recount + PNG IHDR; cairosvg pixel-verify ran Claude-side, all overlays 0.000/0.000). NEXT PHASE (own sub-chat): browser QA (Chromium 1194 + Playwright, 380/900 x dark/light). Confirm L40 next-link slug geometry_nodes_introduction vs live L40 at lesson close.
 
 ## BROWSER QA
-(empty - after integration)
+**BROWSER QA COMPLETE 2026-06-30.** Claude-side real Chromium 141.0.7390.37 + Playwright 1.56.0, served /home/claude/qa on 127.0.0.1 loopback. Deps: cairosvg 2.9.0 / pillow 12.1.1.
+
+STAGING: allowed-dirs confirmed; re-staged fresh container. HTML byte-identical 323,309. main.css + all 30 PNG copied clean (count 30).
+
+PRE-QA DECODE/VIEWBOX (PIL .load(), fresh container): 30/30 PNG decode OK / 0 bad dims (png size == img w/h attr) / 0 bad viewBox (overlay viewBox == base PNG px-box). Reconfirmed 0/0/0.
+
+QA COPY: live jsdelivr mermaid <script type="module"> replaced with offline stub rendering each .mermaid source as bordered theme-aware <pre data-mermaid-stub="1"> (border:1px solid currentColor; white-space:pre-wrap; overflow-x:auto; max-width:100%; box-sizing:border-box; color:inherit). No "jsdelivr" literal in stub. QA-copy recount: jsdelivr 0 / rendered stub-pre 8 / class="mermaid" (source) 8 / mermaid_left 0 / U+2014 36 / #667eea 0 / #764ba2 0 / linear-gradient 0 / &#8212; 0 / &#x2014 0 / U+2013 0. QA-copy bytes 322,390. LIVE FILE UNTOUCHED.
+
+PLAYWRIGHT RUN (380/900 x dark/light, data-theme set on <html>):
+| VP x theme | h-overflow | PNG decode | overlay pairs | max|dy| | max|dh| | stub-pre | mermaid-left |
+|---|---|---|---|---|---|---|---|
+| 380 dark  | 0 | 30/30 | 30 | 0.000 | 0.000 | 8 | 0 |
+| 380 light | 0 | 30/30 | 30 | 0.000 | 0.000 | 8 | 0 |
+| 900 dark  | 0 | 30/30 | 30 | 0.000 | 0.000 | 8 | 0 |
+| 900 light | 0 | 30/30 | 30 | 0.000 | 0.000 | 8 | 0 |
+
+Note: imgs are loading="lazy"; forced eager + img.decode() in-page before measuring (headless viewport never scrolls lazy imgs into view). This is a QA-runtime measurement aid only; live file lazy attrs unchanged.
+
+- 0 doc horizontal overflow at every viewport (scrollWidth<=clientWidth on documentElement).
+- All 30 PNG decode (naturalWidth>0) in all 4 combos.
+- All 30 overlays register 1:1 over base PNG: per-figure max|dy|=0.000px, max|dh|=0.000px (L33 overlay-margin fix held).
+- Inline SVG currentColor inverts dark<->light: figure svg computed color dark rgb(200,201,202) vs light rgb(51,65,85). Body text via --text-color: dark rgb(212,212,212) / light rgb(51,65,85).
+- Role hexes present + legible both themes: CTRL #4ADE80 (23) / MCH #2196F3 (43) / DEF #B47EE8 (4) / FK #ff8c00 (18) / IK #00bcd4 (26) / brand #FF6B00 (44).
+- No banned literals in QA copy: #667eea 0 / #764ba2 0 / linear-gradient 0 / &#8212; 0 / &#x2014 0 / U+2013 0 / U+2014 36 unchanged.
+
+L40 NEXT-LINK: live next-link -> lesson_40_geometry_nodes_introduction.html; verified against live disk (file exists, sole lesson_40_*.html, slug geometry_nodes_introduction). CONFIRMED.
+
+**L39 (Rigging Essentials) DONE. Module 7 / lesson 12 closed.**

@@ -50,6 +50,74 @@
 
                 <p>In this lesson, you'll learn to build complete character rigs with IK/FK systems, custom control shapes, bone constraints, and animation-friendly hierarchies. You'll transform your weighted character into a rig that professional animators would actually want to use. By the end, you'll understand how studios create the rigs behind animated films, games, and virtual productions. This is where your character truly comes alive!</p>
 
+            <figure style="margin:1.5rem 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560"
+                     role="img" aria-labelledby="tla-title tla-desc"
+                     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+                     color="currentColor">
+                  <title id="tla-title">Three-layer rig architecture diagram</title>
+                  <desc id="tla-desc">A vertical stack of three rig layers. The top CTRL layer in green holds the control bones an animator interacts with. The middle MCH layer in blue holds mechanism bones that run behind-the-scenes calculations. The bottom DEF layer in purple holds deformation bones that actually deform the mesh. Arrows flow downward showing that controls drive mechanisms, mechanisms drive deformation, and deformation drives the character mesh at the base.</desc>
+
+                  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+                  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">THREE-LAYER RIG ARCHITECTURE</text>
+                  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">CTRL · MCH · DEF · how every bone in a rig is organized</text>
+                  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+                  <g>
+                    <rect x="40" y="134" width="560" height="84" rx="8" fill="none" stroke="#4ADE80" stroke-width="1.5" opacity="0.9"/>
+                    <rect x="40" y="134" width="6" height="84" rx="0" fill="#4ADE80"/>
+                    <text x="64" y="162" font-size="16" font-weight="600" fill="#4ADE80">CTRL · Control Bones</text>
+                    <text x="64" y="185" font-size="14" fill="currentColor">hand_IK.L · foot_IK.L · COG · chest</text>
+                    <text x="64" y="206" font-size="13" fill="currentColor" opacity="0.6">What animators interact with · custom shapes, color-coded</text>
+                    <text x="620" y="180" font-size="13" fill="currentColor" opacity="0.6">Top layer</text>
+                  </g>
+
+                  <g stroke="currentColor" stroke-width="1.5" opacity="0.3" stroke-linecap="round" fill="none">
+                    <line x1="320" y1="218" x2="320" y2="238"/>
+                    <polyline points="312,230 320,238 328,230"/>
+                  </g>
+
+                  <g>
+                    <rect x="40" y="238" width="560" height="84" rx="8" fill="none" stroke="#2196F3" stroke-width="1.5" opacity="0.9"/>
+                    <rect x="40" y="238" width="6" height="84" rx="0" fill="#2196F3"/>
+                    <text x="64" y="266" font-size="16" font-weight="600" fill="#2196F3">MCH · Mechanism Bones</text>
+                    <text x="64" y="289" font-size="14" fill="currentColor">MCH_IK_upper_arm.L · MCH_IK_shin.L</text>
+                    <text x="64" y="310" font-size="13" fill="currentColor" opacity="0.6">Behind-the-scenes calculations · IK solvers, constraints</text>
+                    <text x="620" y="284" font-size="13" fill="currentColor" opacity="0.6">Middle layer</text>
+                  </g>
+
+                  <g stroke="currentColor" stroke-width="1.5" opacity="0.3" stroke-linecap="round" fill="none">
+                    <line x1="320" y1="322" x2="320" y2="342"/>
+                    <polyline points="312,334 320,342 328,334"/>
+                  </g>
+
+                  <g>
+                    <rect x="40" y="342" width="560" height="84" rx="8" fill="none" stroke="#B47EE8" stroke-width="1.5" opacity="0.9"/>
+                    <rect x="40" y="342" width="6" height="84" rx="0" fill="#B47EE8"/>
+                    <text x="64" y="370" font-size="16" font-weight="600" fill="#B47EE8">DEF · Deformation Bones</text>
+                    <text x="64" y="393" font-size="14" fill="currentColor">DEF_upper_arm.L · DEF_forearm.L · DEF_hand.L</text>
+                    <text x="64" y="414" font-size="13" fill="currentColor" opacity="0.6">Actually deform the mesh · weighted in weight paint</text>
+                    <text x="620" y="388" font-size="13" fill="currentColor" opacity="0.6">Bottom layer</text>
+                  </g>
+
+                  <g stroke="currentColor" stroke-width="1.5" opacity="0.3" stroke-linecap="round" fill="none">
+                    <line x1="320" y1="426" x2="320" y2="446"/>
+                    <polyline points="312,438 320,446 328,438"/>
+                  </g>
+
+                  <g>
+                    <path d="M 280 470 q 40 -20 80 0 q 10 18 -4 28 l -72 0 q -14 -10 -4 -28 Z" fill="currentColor" opacity="0.3"/>
+                    <text x="380" y="490" font-size="13" fill="currentColor" opacity="0.6">Character mesh · deformed by DEF bones</text>
+                  </g>
+
+                  <rect x="40" y="506" width="720" height="34" rx="0" fill="none"/>
+                  <rect x="40" y="506" width="4" height="34" fill="#FF6B00"/>
+                  <text x="58" y="528" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Animators touch only the CTRL layer; MCH and DEF run automatically beneath it.</text>
+                </svg>
+                <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 1 &#183; The three rig layers stack top to bottom &#183; CTRL controls drive MCH mechanisms, which drive DEF deformation, which deforms the character mesh.</figcaption>
+            </figure>
+
                 <div class="mermaid">
                     graph LR
                     A[Basic Armature] --> B[Weight Painting]
@@ -163,6 +231,85 @@
                         <li><strong>Example:</strong> Arm can be posed with IK (position-based) or FK (rotation-based) depending on animation needs</li>
                     </ul>
                 </div>
+
+            <figure style="margin:1.5rem 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560"
+                     role="img" aria-labelledby="ikfk-title ikfk-desc"
+                     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+                     color="currentColor">
+                  <title id="ikfk-title">IK versus FK control comparison</title>
+                  <desc id="ikfk-desc">A side-by-side comparison of two ways to control the same arm pose. On the left, FK (forward kinematics) uses three rotation controls at the shoulder, elbow, and wrist that the animator rotates individually for natural arcing motion. On the right, IK (inverse kinematics) uses a single hand target plus an elbow pole target; the animator moves the hand target and the joint rotations are solved automatically.</desc>
+
+                  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+                  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">IK VS FK CONTROL</text>
+                  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Same arm pose · two control methods · rotation vs position</text>
+                  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+                  <line x1="400" y1="134" x2="400" y2="478" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+                  <text x="40" y="156" font-size="18" font-weight="600" fill="#ff8c00">FK · Forward Kinematics</text>
+                  <text x="40" y="178" font-size="13" fill="currentColor" opacity="0.6">Rotation-based</text>
+
+                  <g stroke="currentColor" stroke-width="3" opacity="0.45" stroke-linecap="round" fill="none">
+                    <line x1="110" y1="250" x2="180" y2="320"/>
+                    <line x1="180" y1="320" x2="280" y2="300"/>
+                    <line x1="280" y1="300" x2="330" y2="330"/>
+                  </g>
+
+                  <circle cx="110" cy="250" r="22" fill="none" stroke="#ff8c00" stroke-width="3"/>
+                  <circle cx="180" cy="320" r="16" fill="none" stroke="#ff8c00" stroke-width="3"/>
+                  <circle cx="280" cy="300" r="11" fill="none" stroke="#ff8c00" stroke-width="3"/>
+
+                  <g stroke="#ff8c00" stroke-width="2" fill="none" stroke-linecap="round">
+                    <path d="M 132 232 a 28 28 0 0 1 14 26"/>
+                    <polyline points="142,250 146,260 152,251" fill="#ff8c00" stroke="none"/>
+                    <path d="M 198 304 a 22 22 0 0 1 10 20"/>
+                    <polyline points="203,320 208,328 213,320" fill="#ff8c00" stroke="none"/>
+                  </g>
+
+                  <text x="142" y="222" font-size="13" font-weight="600" fill="#ff8c00">30°</text>
+                  <text x="206" y="296" font-size="13" font-weight="600" fill="#ff8c00">45°</text>
+
+                  <text x="76" y="288" font-size="12" fill="currentColor" opacity="0.6">shoulder</text>
+                  <text x="150" y="356" font-size="12" fill="currentColor" opacity="0.6">elbow</text>
+                  <text x="276" y="332" font-size="12" fill="currentColor" opacity="0.6">wrist</text>
+
+                  <text x="40" y="430" font-size="14" fill="currentColor">Rotate each joint individually</text>
+                  <text x="40" y="452" font-size="13" fill="currentColor" opacity="0.6">Natural arcing motion · full control per joint</text>
+
+                  <text x="424" y="156" font-size="18" font-weight="600" fill="#00bcd4">IK · Inverse Kinematics</text>
+                  <text x="424" y="178" font-size="13" fill="currentColor" opacity="0.6">Position-based</text>
+
+                  <g stroke="currentColor" stroke-width="3" opacity="0.45" stroke-linecap="round" fill="none">
+                    <line x1="494" y1="250" x2="564" y2="320"/>
+                    <line x1="564" y1="320" x2="664" y2="300"/>
+                    <line x1="664" y1="300" x2="714" y2="330"/>
+                  </g>
+
+                  <circle cx="494" cy="250" r="6" fill="currentColor" opacity="0.45"/>
+                  <g stroke="#00bcd4" stroke-width="1.5" opacity="0.55" stroke-dasharray="5 4" fill="none">
+                    <line x1="494" y1="250" x2="714" y2="330"/>
+                  </g>
+
+                  <g stroke="#00bcd4" stroke-width="1.5" opacity="0.5" stroke-dasharray="3 3" fill="none">
+                    <line x1="564" y1="320" x2="560" y2="388"/>
+                  </g>
+                  <circle cx="560" cy="396" r="9" fill="none" stroke="#00bcd4" stroke-width="2.5"/>
+                  <text x="576" y="400" font-size="12" fill="currentColor" opacity="0.6">pole target</text>
+
+                  <rect x="700" y="316" width="28" height="28" rx="4" fill="none" stroke="#00bcd4" stroke-width="3"/>
+                  <text x="640" y="368" font-size="12" font-weight="600" fill="#00bcd4">hand target</text>
+
+                  <text x="424" y="430" font-size="14" fill="currentColor">Move one hand target</text>
+                  <text x="424" y="452" font-size="13" fill="currentColor" opacity="0.6">Joints solve automatically · fast posing</text>
+
+                  <rect x="40" y="506" width="720" height="34" rx="0" fill="none"/>
+                  <rect x="40" y="506" width="4" height="34" fill="#FF6B00"/>
+                  <text x="58" y="528" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> FK suits arcing motion like waving; IK suits planted contact like a hand on a wall.</text>
+                </svg>
+                <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 2 &#183; The same arm pose two ways &#183; FK rotates each joint for arcing motion, while IK moves one hand target and solves the joints automatically.</figcaption>
+            </figure>
 
                 <h4>Rigging Workflow Overview</h4>
 
@@ -346,6 +493,14 @@
                     </ul>
                 </div>
 
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_03_fk_arm_control_chain.png" alt="FK arm control chain in T-pose: three decreasing orange FK control circles at shoulder, elbow and wrist linked parent-to-child, with curved rotation arrows and numbered annotations showing that rotating the shoulder moves the whole arm, the elbow moves the forearm and hand, and the wrist moves the hand only." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#ff8c00"/><text x="115" y="84" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="38" font-weight="700" fill="#1a1a1a">FK</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 3 &#183; FK control chain &#183; rotating each control in turn (shoulder, then elbow, then wrist) builds the final hand position from the combined joint rotations.</figcaption>
+                </figure>
+
                 <h4>Inverse Kinematics (IK) Explained</h4>
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
@@ -389,6 +544,14 @@
                         <li>❌ <strong>Can feel stiff:</strong> Lacks the organic flow of FK animation</li>
                     </ul>
                 </div>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_04_ik_arm_with_pole.png" alt="IK arm with pole target: a diagonal arm from shoulder to a cyan hand IK target widget, a cyan elbow pole-target sphere linked to the elbow, a faint shoulder-to-hand solution line, and labelled callouts for the IK target, pole target and IK constraint with a settings chip listing target hand_IK.L, chain length 2 and pole elbow_pole.L." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#00bcd4"/><text x="115" y="84" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="38" font-weight="700" fill="#06222a">IK</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 4 &#183; IK arm with pole target &#183; the animator moves the hand target and the chain solves automatically, while the pole target steers which way the elbow points.</figcaption>
+                </figure>
 
                 <h4>Visual Comparison: FK vs IK</h4>
 
@@ -488,6 +651,14 @@
                     </table>
                     </div>
                 </div>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_09_pole_target_positioning.png" alt="Pole target positioning compared side by side: on the left an incorrect pole jammed too close to the elbow makes the elbow flip up into a broken angle, while on the right a pole placed about one forearm length behind the elbow gives a natural, stable bend." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#00bcd4"/><text x="115" y="84" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="38" font-weight="700" fill="#06222a">IK</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 5 &#183; Pole target positioning &#183; a pole placed too close to the elbow flips the joint, while one set roughly a forearm behind the elbow keeps the bend natural and stable.</figcaption>
+                </figure>
 
                 <blockquote>
                     <p><strong>🎨 The Professional Secret:</strong> The best rigs offer BOTH FK and IK, with the ability to switch between them! This is called "IK/FK switching" or "snap matching." Start animating a punch in FK for the windup (natural arcing motion), then switch to IK for the contact frame (precise hand placement). Or start a walk cycle in IK (plant feet), then switch an arm to FK for more natural swing. Professional animators switch between modes constantly during animation. We'll build this capability into your rig!</p>
@@ -674,6 +845,14 @@
                         <li><strong>Wings/Tails:</strong> Custom shapes following appendage shape</li>
                     </ul>
                 </div>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_06_custom_shapes_library.png" alt="Custom control shape library: a 3 by 4 grid of standard control glyphs, each color-coded by function with a name and use-case label." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1600" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#FF6B00"/><text x="115" y="84" font-family="Segoe UI,Arial,sans-serif" font-size="38" font-weight="700" fill="#1a1a1a" text-anchor="middle">LIB</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 6 &#183; A reference library of standard control shapes, grouped by function rather than by side, so circles read as FK joints, brackets as IK hand and foot targets, spheres as pole targets, and the brand-colored widgets as root and master controls.</figcaption>
+                </figure>
 
                 <h4>Creating Custom Shapes in Blender</h4>
 
@@ -905,6 +1084,14 @@
                     <p style="margin-top: 1rem;"><strong>Result:</strong> Clean, hand-shaped controls that are easy to select and color-coded by side. Professional!</p>
                 </div>
 
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_30_custom_shape_assignment.png" alt="Four-panel sequence for assigning a custom shape to a bone: create the shape mesh, open Bone Properties, pick the mesh in the Custom Object field, and see the bone display as the control." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#FF6B00"/><text x="115" y="84" font-family="Segoe UI,Arial,sans-serif" font-size="38" font-weight="700" fill="#1a1a1a" text-anchor="middle">UI</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 7 &#183; The four-step assignment flow in Blender, moving from a widget mesh through the Bone Properties Viewport Display panel to a bone that draws as its custom control shape.</figcaption>
+                </figure>
+
                 <h4>Organizing Control Shapes</h4>
 
                 <div class="card">
@@ -960,6 +1147,14 @@
                     </ul>
                     <p style="color: white; margin-bottom: 0;"><strong>Custom shapes complete! Now let's build IK chain systems!</strong></p>
                 </div>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_07_bone_groups_colors.png" alt="A T-pose character with controls color-coded by side: cyan on the viewer-left, magenta on the viewer-right, and yellow for the center root, COG, chest, and spine, with a Bone Collections panel inset." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#FF6B00"/><text x="115" y="84" font-family="Segoe UI,Arial,sans-serif" font-size="38" font-weight="700" fill="#1a1a1a" text-anchor="middle">ORG</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 8 &#183; A side-based color scheme for controls, with cyan on the left, magenta on the right, and yellow down the center line, organized into Bone Collections so animators can read any control's side at a glance.</figcaption>
+                </figure>
 
             </section>
 
@@ -1024,6 +1219,85 @@
                     style E fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
                 </div>
 
+                <figure style="margin:1.5rem 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680"
+                     role="img" aria-labelledby="icc-title icc-desc"
+                     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+                     color="currentColor">
+                  <title id="icc-title">IK chain components breakdown</title>
+                  <desc id="icc-desc">A technical diagram of the three parts of an IK chain. A two-bone deformation chain (upper arm and forearm) sits on the left, joined by a parent-child link. A hand-shaped IK target on the right is what the animator moves; an arrow shows the solve direction back into the chain. A pole target sphere above the elbow controls which way the elbow points. A constraint settings box at the bottom lists the IK constraint target, chain length of two, and pole target.</desc>
+
+                  <!-- Top brand accent -->
+                  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+                  <!-- Heading block -->
+                  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">IK CHAIN COMPONENTS</text>
+                  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Chain · IK target · pole target · the three parts of every IK setup</text>
+                  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+                  <!-- Pole target (top center) -->
+                  <circle cx="360" cy="170" r="13" fill="none" stroke="#00bcd4" stroke-width="3"/>
+                  <text x="384" y="166" font-size="15" font-weight="600" fill="#00bcd4">Pole Target</text>
+                  <text x="384" y="186" font-size="13" fill="currentColor" opacity="0.6">Controls elbow direction</text>
+                  <!-- dotted link pole -> elbow -->
+                  <g stroke="#00bcd4" stroke-width="1.5" opacity="0.5" stroke-dasharray="3 3" fill="none">
+                    <line x1="360" y1="183" x2="360" y2="300"/>
+                  </g>
+
+                  <!-- ===== Deformation chain (left) ===== -->
+                  <text x="40" y="240" font-size="18" font-weight="600" fill="currentColor">Deformation chain</text>
+
+                  <!-- Chain bone 1 (upper arm) -->
+                  <g stroke="currentColor" stroke-width="4" opacity="0.5" stroke-linecap="round" fill="none">
+                    <line x1="120" y1="300" x2="360" y2="300"/>
+                  </g>
+                  <circle cx="120" cy="300" r="7" fill="currentColor" opacity="0.5"/>
+                  <text x="150" y="288" font-size="14" fill="currentColor">Chain Bone 1 · upper arm</text>
+
+                  <!-- elbow joint -->
+                  <circle cx="360" cy="300" r="6" fill="#FF6B00"/>
+                  <text x="330" y="338" font-size="12" fill="currentColor" opacity="0.6">elbow</text>
+
+                  <!-- parent-child marker between bones -->
+                  <text x="222" y="322" font-size="12" fill="currentColor" opacity="0.45" font-style="italic">parent → child</text>
+
+                  <!-- Chain bone 2 (forearm) -->
+                  <g stroke="currentColor" stroke-width="4" opacity="0.5" stroke-linecap="round" fill="none">
+                    <line x1="360" y1="300" x2="560" y2="360"/>
+                  </g>
+                  <text x="372" y="356" font-size="14" fill="currentColor">Chain Bone 2 · forearm</text>
+
+                  <!-- ===== IK target (right) ===== -->
+                  <rect x="556" y="346" width="30" height="30" rx="4" fill="none" stroke="#00bcd4" stroke-width="3"/>
+                  <text x="600" y="356" font-size="15" font-weight="600" fill="#00bcd4">IK Target</text>
+                  <text x="600" y="376" font-size="13" fill="currentColor" opacity="0.6">Animator moves this</text>
+
+                  <!-- solve-direction arrow: target back into chain -->
+                  <g stroke="#00bcd4" stroke-width="2" opacity="0.7" fill="none" stroke-linecap="round">
+                    <line x1="556" y1="400" x2="372" y2="400"/>
+                    <polyline points="384,392 372,400 384,408" fill="#00bcd4" stroke="none"/>
+                  </g>
+                  <text x="392" y="392" font-size="12" fill="currentColor" opacity="0.6">solve direction</text>
+
+                  <!-- ===== Constraint settings box (bottom) ===== -->
+                  <rect x="40" y="470" width="720" height="120" rx="8" fill="none" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+                  <rect x="40" y="470" width="4" height="120" fill="#00bcd4"/>
+                  <text x="64" y="500" font-size="16" font-weight="600" fill="#00bcd4">IK Constraint</text>
+                  <text x="64" y="528" font-size="14" fill="currentColor">Target: hand_IK.L</text>
+                  <text x="64" y="552" font-size="14" fill="currentColor">Chain Length: 2</text>
+                  <text x="64" y="576" font-size="14" fill="currentColor">Pole Target: elbow_pole.L</text>
+                  <text x="430" y="528" font-size="13" fill="currentColor" opacity="0.6">Lives on the last chain bone (forearm).</text>
+                  <text x="430" y="552" font-size="13" fill="currentColor" opacity="0.6">Length 2 = solver affects forearm + upper arm.</text>
+                  <text x="430" y="576" font-size="13" fill="currentColor" opacity="0.6">Pole keeps the elbow from flipping.</text>
+
+                  <!-- Footer tip (Variant B, left rail, dense y641) -->
+                  <rect x="40" y="641" width="720" height="34" rx="0" fill="none"/>
+                  <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+                  <text x="58" y="663" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Every IK chain needs all three: a chain to solve, a target to reach, and a pole to aim the bend.</text>
+                </svg>
+                <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 9 &#183; The three parts of every IK chain: the deformation bones, the IK target the animator moves, and the pole target that aims the elbow. Together they make the limb solve predictably.</figcaption>
+                </figure>
+
                 <h4>Setting Up Basic IK Chain</h4>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
@@ -1087,6 +1361,17 @@
                         <li>Now controls are easy to identify and select!</li>
                     </ol>
                 </div>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_14_arm_ik_setup_steps.png" alt="Five-step sequence for setting up arm IK: create the IK target bone, add the pole target bone, apply the IK constraint, test and adjust, then assign custom shapes" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+                            <rect x="40" y="40" width="150" height="64" rx="10" fill="#00bcd4"/>
+                            <text x="115" y="84" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#06222a" text-anchor="middle">IK</text>
+                        </svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 10 &#183; Arm IK setup in five steps (duplicate the hand bone into an IK target, add a pole target ahead of the elbow, apply the IK constraint to the forearm with chain length 2, test by grabbing the control, and finish with custom shapes) so the limb solves cleanly from a single handle.</figcaption>
+                </figure>
 
                 <h4>Understanding Chain Length</h4>
 
@@ -1349,6 +1634,17 @@
                     <p style="color: white; margin-bottom: 0;"><strong>IK chains complete! Next: Essential bone constraints!</strong></p>
                 </div>
 
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_32_pole_angle_adjustment.png" alt="Pole angle parameter being adjusted to swing the elbow direction, comparing a flipped elbow against a correctly pointing one" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+                            <rect x="40" y="40" width="150" height="64" rx="10" fill="#00bcd4"/>
+                            <text x="115" y="84" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#06222a" text-anchor="middle">IK</text>
+                        </svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 11 &#183; Tuning the Pole Angle value (common settings being 90, -90, or 180 degrees) so the elbow points where you intend instead of flipping to the wrong side.</figcaption>
+                </figure>
+
             </section>
 
 <!-- ============================================
@@ -1438,6 +1734,17 @@
                     </ul>
                 </div>
 
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_29_constraint_stack_order.png" alt="A vertical stack of bone constraints showing how they evaluate top to bottom, with each constraint feeding its result into the next" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1200" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+                            <rect x="40" y="40" width="150" height="64" rx="10" fill="#2196F3"/>
+                            <text x="115" y="84" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#1a1a1a" text-anchor="middle">MCH</text>
+                        </svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 12 &#183; Constraints evaluate top to bottom in the stack, each one feeding its result into the next, so the order you list them changes the final outcome.</figcaption>
+                </figure>
+
                 <h4>Copy Rotation Constraint</h4>
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
@@ -1495,6 +1802,17 @@
                     </ul>
                 </div>
 
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_10_copy_rotation_constraint.png" alt="Copy Rotation constraint panel with an owner bone mirroring a target bone's rotation, showing the axis toggles and influence slider" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+                            <rect x="40" y="40" width="150" height="64" rx="10" fill="#2196F3"/>
+                            <text x="115" y="84" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#1a1a1a" text-anchor="middle">MCH</text>
+                        </svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 13 &#183; A Copy Rotation constraint makes the owner bone follow a target's rotation on the chosen axes, with the influence slider controlling how strongly the effect applies.</figcaption>
+                </figure>
+
                 <h4>Limit Rotation Constraint</h4>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
@@ -1546,6 +1864,14 @@
                         <li><strong>Influence:</strong> Can reduce to allow slight over-extension if needed</li>
                     </ul>
                 </div>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_11_limit_rotation_constraint.png" alt="Limit Rotation constraint restricting a forearm bone to a 0-150 degree elbow range, preventing backward bending" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#2196F3"/><text x="115" y="84" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">MCH</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 14 &#183; Limit Rotation caps a bone's travel on each axis &#183; here the forearm is held to a 0&#176; to 150&#176; range so the elbow bends forward but never backward.</figcaption>
+                </figure>
 
                 <h4>Track To Constraint</h4>
 
@@ -1607,6 +1933,14 @@
                         <li><strong>Influence:</strong> Reduce for partial tracking (lazy eyes effect)</li>
                     </ul>
                 </div>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_12_track_to_eye_tracking.png" alt="Track To constraint driving both eye bones to aim at a single eye_target control in front of the face" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#2196F3"/><text x="115" y="84" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">MCH</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 15 &#183; Track To keeps a bone aimed at a target &#183; here both eyes follow one eye_target control, so moving that single bone redirects the character's gaze.</figcaption>
+                </figure>
 
                 <h4>Damped Track Constraint</h4>
 
@@ -1897,6 +2231,14 @@
                     style E fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
 
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_13_arm_rig_overview.png" alt="Complete arm rig overview showing the DEF, FK, IK and MCH bone layers plus the IK/FK switch property working together" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1200" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#4ADE80"/><text x="115" y="84" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">CTRL</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 16 &#183; A complete arm rig layers deformation, FK, IK and mechanism bones &#183; the IK/FK switch property decides which system drives the deform bones at any moment.</figcaption>
+                </figure>
+
                 <h4>Step-by-Step: Building the Arm Rig</h4>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
@@ -1987,6 +2329,14 @@
                         </li>
                     </ol>
                 </div>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                  <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                    <img src="images/lesson_39_15_arm_fk_setup_steps.png" alt="Step-by-step setup of the FK control chain for the arm rig, showing duplicated and re-parented FK bones." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#ff8c00"/><text x="115" y="84" font-family="Arial, sans-serif" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">FK</text></svg>
+                  </div>
+                  <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 17 &#183; Building the FK control chain by duplicating the deformation bones, clearing their parents, then re-parenting them into a clean chain &#183; the FK controls drive the arm pose directly so they read as the FK role.</figcaption>
+                </figure>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ Phase 3: Create IK Control System</h4>
@@ -2148,6 +2498,14 @@
                     </ul>
                 </div>
 
+                <figure style="margin:1.5rem 0;text-align:center">
+                  <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                    <img src="images/lesson_39_34_driver_setup_graph.png" alt="Driver editor graph wiring the IK/FK switch property to the constraint influences via a driver." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#2196F3"/><text x="115" y="84" font-family="Arial, sans-serif" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">MCH</text></svg>
+                  </div>
+                  <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 18 &#183; Wiring the IK/FK switch property to the constraint influences in the driver editor, so one slider blends between the two chains &#183; the driver acts as the underlying mechanism (MCH) rather than a control the animator poses directly.</figcaption>
+                </figure>
+
                 <h4>IK/FK Switching and Snapping</h4>
 
                 <div class="card" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
@@ -2194,6 +2552,14 @@
                     </ul>
                 </div>
 
+                <figure style="margin:1.5rem 0;text-align:center">
+                  <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                    <img src="images/lesson_39_16_ikfk_snapping_problem.png" alt="Illustration of the IK/FK snapping problem where the arm jumps to a different pose at the moment of switching." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#2196F3"/><text x="115" y="84" font-family="Arial, sans-serif" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">MCH</text></svg>
+                  </div>
+                  <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 19 &#183; The snapping problem, where flipping the switch makes the arm jump because the inactive chain was left in a different pose &#183; snapping is a property of the switching mechanism (MCH), which is why match-on-switch tools exist.</figcaption>
+                </figure>
+
                 <h4>Testing the Complete Arm Rig</h4>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
@@ -2235,6 +2601,22 @@
                 <blockquote>
                     <p><strong>🎓 Professional Arm Rig Complete!</strong> You've just built what many 3D artists consider the most complex part of character rigging. An arm rig with proper IK/FK switching is the foundation of all limb rigging—the same principles apply to legs, tails, tentacles, wings, anything with joints. Master the arm rig, and you've mastered 80% of character rigging! The organization (DEF/MCH/CTRL layers), the constraint setup, and the switching system are industry-standard techniques used in every major animation studio.</p>
                 </blockquote>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                  <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                    <img src="images/lesson_39_05_ikfk_influence_slider.png" alt="The IK/FK influence slider in the sidebar set to a blend value, showing the custom property that drives the switch." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#4ADE80"/><text x="115" y="84" font-family="Arial, sans-serif" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">CTRL</text></svg>
+                  </div>
+                  <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 20 &#183; The IK/FK influence slider exposed as a custom property, letting the animator blend from full FK to full IK with one value &#183; this slider is the control surface (CTRL) the animator actually drives.</figcaption>
+                </figure>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                  <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                    <img src="images/lesson_39_33_symmetry_mirroring.png" alt="Mirroring the completed left-arm rig to the right side using symmetrize, with names auto-flipped from .L to .R." loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#FF6B00"/><text x="115" y="84" font-family="Arial, sans-serif" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">ORG</text></svg>
+                  </div>
+                  <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 21 &#183; Mirroring the finished left arm to the right with Symmetrize, which copies the bones and flips the .L suffix to .R automatically &#183; this is a rig-organization step (ORG) rather than a kinematic control.</figcaption>
+                </figure>
 
                 <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎯 Arm Rig Summary</h3>
@@ -2383,6 +2765,99 @@
                     </ul>
                 </div>
 
+                <figure style="margin:1.5rem 0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680"
+     role="img" aria-labelledby="fh-title fh-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="currentColor">
+  <title id="fh-title">Leg rig foot control hierarchy</title>
+  <desc id="fh-desc">A side view of a foot rig and its control hierarchy. The IK_foot control at the ankle is the parent that moves the whole foot system. Below it the heel pivot rotates the foot on the heel, the toe pivot rotates it on the ball, and the mechanism leg target at the ankle is the actual IK constraint target. A tree on the right shows the parent-to-child order: IK_foot, then heel pivot, then toe pivot, then the leg target feeding the IK constraint.</desc>
+
+  <!-- Top brand accent -->
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+  <!-- Heading block -->
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">FOOT CONTROL HIERARCHY</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">IK_foot · heel pivot · toe pivot · leg target · why order matters</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <!-- ===== LEFT: side-view foot (~60%) ===== -->
+  <text x="40" y="142" font-size="18" font-weight="600" fill="currentColor">Side view</text>
+
+  <!-- ground line -->
+  <line x1="60" y1="470" x2="470" y2="470" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+
+  <!-- foot silhouette -->
+  <path d="M 150 300 L 170 300 L 185 440 L 380 440 L 410 470 L 130 470 L 145 440 Z" fill="currentColor" opacity="0.18"/>
+  <!-- leg stub up from ankle -->
+  <path d="M 150 300 L 170 300 L 174 220 L 146 220 Z" fill="currentColor" opacity="0.18"/>
+
+  <!-- heel + ball contact dots -->
+  <circle cx="150" cy="470" r="6" fill="#ff8c00"/>
+  <text x="96" y="492" font-size="11" fill="currentColor" opacity="0.6">heel contact</text>
+  <circle cx="360" cy="470" r="6" fill="#4ADE80"/>
+  <text x="332" y="492" font-size="11" fill="currentColor" opacity="0.6">ball contact</text>
+
+  <!-- MCH_IK_leg_target (ankle, grey) -->
+  <circle cx="160" cy="300" r="9" fill="none" stroke="currentColor" stroke-width="2.5" opacity="0.55"/>
+  <text x="178" y="296" font-size="13" fill="currentColor" opacity="0.75">MCH_IK_leg_target.L</text>
+  <text x="178" y="314" font-size="11" fill="currentColor" opacity="0.5">actual IK constraint target</text>
+
+  <!-- IK_foot control (ankle, cyan, parent) -->
+  <rect x="120" y="248" width="34" height="26" rx="4" fill="none" stroke="#00bcd4" stroke-width="3"/>
+  <text x="178" y="262" font-size="13" font-weight="600" fill="#00bcd4">IK_foot.L</text>
+  <text x="178" y="280" font-size="11" fill="currentColor" opacity="0.5">moves the whole foot system</text>
+
+  <!-- heel pivot (heel, orange) + rotation arc -->
+  <circle cx="150" cy="455" r="10" fill="none" stroke="#ff8c00" stroke-width="3"/>
+  <path d="M 132 446 a 22 22 0 0 1 8 -16" stroke="#ff8c00" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <polyline points="138,432 140,422 148,428" fill="#ff8c00" stroke="none"/>
+  <text x="60" y="430" font-size="12" font-weight="600" fill="#ff8c00">IK_heel_pivot.L</text>
+
+  <!-- toe pivot (ball, green) + rotation arc -->
+  <circle cx="360" cy="455" r="10" fill="none" stroke="#4ADE80" stroke-width="3"/>
+  <path d="M 380 446 a 22 22 0 0 0 -8 -16" stroke="#4ADE80" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <polyline points="376,432 372,422 366,430" fill="#4ADE80" stroke="none"/>
+  <text x="360" y="424" font-size="12" font-weight="600" fill="#4ADE80">IK_toe_pivot.L</text>
+
+  <!-- ===== RIGHT: tree hierarchy box (~40%) ===== -->
+  <text x="500" y="142" font-size="18" font-weight="600" fill="currentColor">Parent → child order</text>
+
+  <!-- tree connectors (straight, currentColor op0.3) -->
+  <g stroke="currentColor" stroke-width="1.5" opacity="0.3" stroke-linecap="round" fill="none">
+    <line x1="520" y1="190" x2="520" y2="250"/>
+    <line x1="520" y1="250" x2="540" y2="250"/>
+    <line x1="520" y1="190" x2="520" y2="320"/>
+    <line x1="520" y1="320" x2="540" y2="320"/>
+    <line x1="520" y1="190" x2="520" y2="390"/>
+    <line x1="520" y1="390" x2="540" y2="390"/>
+    <line x1="520" y1="190" x2="520" y2="460"/>
+    <line x1="520" y1="460" x2="540" y2="460"/>
+  </g>
+
+  <!-- node 1: IK_foot.L (root) -->
+  <text x="506" y="184" font-size="14" font-weight="600" fill="#00bcd4">IK_foot.L</text>
+  <!-- node 2: heel pivot -->
+  <text x="548" y="255" font-size="14" font-weight="600" fill="#ff8c00">IK_heel_pivot.L</text>
+  <!-- node 3: toe pivot -->
+  <text x="548" y="325" font-size="14" font-weight="600" fill="#4ADE80">IK_toe_pivot.L</text>
+  <!-- node 4: leg target -->
+  <text x="548" y="395" font-size="14" fill="currentColor" opacity="0.75">MCH_IK_leg_target.L</text>
+  <!-- terminal: IK Constraint -->
+  <text x="548" y="465" font-size="14" font-weight="600" fill="#FF6B00">IK Constraint</text>
+
+  <!-- explanatory note under tree -->
+  <text x="500" y="510" font-size="13" fill="currentColor" opacity="0.6">Each pivot is a child of the one above,</text>
+  <text x="500" y="530" font-size="13" fill="currentColor" opacity="0.6">so rotating it carries everything below.</text>
+
+  <!-- Footer tip (Variant B, left rail, dense y641) -->
+  <rect x="40" y="641" width="720" height="34" rx="0" fill="none"/>
+  <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="663" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Build the hierarchy IK_foot down to leg_target, or heel and toe roll will fight each other.</text>
+</svg>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 22 &#183; The leg rig foot control hierarchy in side view, with the IK_foot master at the ankle parenting the heel pivot, toe pivot, and the hidden leg target. Building the chain top-down (from IK_foot down to the leg target) is what lets a single foot control drive smooth heel-to-toe roll.</figcaption>
+                </figure>
+
                 <h4>Step-by-Step: Building the Leg Rig</h4>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
@@ -2530,6 +3005,13 @@
                         </li>
                     </ol>
                 </div>
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_19_foot_pivot_locations.png" alt="Foot pivot bone locations: toe, heel, and ankle pivot points on the IK foot control hierarchy" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#00bcd4"/><text x="115" y="84" font-size="38" font-weight="700" text-anchor="middle" fill="#06222a">IK</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 23 &#183; Foot pivot locations define where the IK foot rolls and bends, with separate pivot bones placed at the toe, heel, and ankle so the heel-to-toe parenting chain drives a natural foot roll. </figcaption>
+                </figure>
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
                     <h4>💡 Phase 4: Add Custom Shapes and Organization</h4>
@@ -2608,6 +3090,14 @@
                 </div>
 
                 <h4>Advanced Foot Features</h4>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_18_foot_roll_sequence.png" alt="Foot roll sequence showing heel-strike, flat-foot, and toe-off poses driven by the heel and toe pivot bones" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 560" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#00bcd4"/><text x="115" y="84" font-size="38" font-weight="700" text-anchor="middle" fill="#06222a">IK</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 24 &#183; The foot roll sequence steps through heel strike, flat plant, and toe off, where rotating the heel and toe pivot bones in turn produces the natural roll seen across a walk cycle. </figcaption>
+                </figure>
 
                 <div class="card">
                     <h4>🦶 Foot Roll and Toe Bend Controls</h4>
@@ -2693,6 +3183,14 @@
                 </div>
 
                 <h4>Testing the Complete Leg Rig</h4>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_20_leg_ik_complete.png" alt="Completed leg IK rig with foot controls, knee pole target, and IK/FK switch ready for animation" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#00bcd4"/><text x="115" y="84" font-size="38" font-weight="700" text-anchor="middle" fill="#06222a">IK</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 25 &#183; The completed leg rig combines the IK foot control, knee pole target, and IK/FK switch, so a single foot control plants the leg while the pivots handle roll and the switch blends back to FK when needed. </figcaption>
+                </figure>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ Verification Checklist</h4>
@@ -2833,6 +3331,66 @@
 
                 <h4>COG + Chest Spine Rig Components</h4>
 
+                <figure style="margin:1.5rem 0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560"
+     role="img" aria-labelledby="scs-title scs-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="currentColor">
+  <title id="scs-title">Spine Control System Overview</title>
+  <desc id="scs-desc">Vertical control hierarchy for the COG and Chest spine rig: a ground Root master parents the COG center-of-gravity control, which feeds three middle spine mechanism bones that blend between COG and Chest, topped by the Chest control for the upper body.</desc>
+
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">SPINE CONTROL SYSTEM</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Root · COG · Spine blend · Chest hierarchy</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <text x="40" y="138" font-size="18" font-weight="600" fill="currentColor">Control hierarchy · ground to upper body</text>
+
+  <g stroke="currentColor" stroke-width="1.5" opacity="0.3" stroke-linecap="round" fill="none">
+    <line x1="170" y1="196" x2="170" y2="232"/>
+    <line x1="170" y1="280" x2="170" y2="316"/>
+    <line x1="170" y1="424" x2="170" y2="460"/>
+  </g>
+
+  <!-- Root -->
+  <circle cx="170" cy="182" r="14" fill="none" stroke="#FF6B00" stroke-width="3"/>
+  <text x="200" y="180" font-size="15" font-weight="600" fill="currentColor">Root</text>
+  <text x="200" y="198" font-size="13" fill="#FF6B00" opacity="0.9">Moves the entire character</text>
+  <text x="470" y="186" font-size="13" fill="currentColor" opacity="0.6">Master · world space</text>
+
+  <!-- COG -->
+  <circle cx="170" cy="266" r="14" fill="none" stroke="#4ADE80" stroke-width="3"/>
+  <text x="200" y="264" font-size="15" font-weight="600" fill="currentColor">COG</text>
+  <text x="200" y="282" font-size="13" fill="#4ADE80" opacity="0.9">Hips and weight · base of the spine</text>
+  <text x="470" y="270" font-size="13" fill="currentColor" opacity="0.6">CTRL · center of gravity</text>
+
+  <!-- Spine blend block: 3 MCH segments -->
+  <rect x="120" y="311" width="100" height="26" rx="5" fill="none" stroke="#2196F3" stroke-width="2"/>
+  <text x="170" y="329" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">spine_03</text>
+  <text x="240" y="329" font-size="12" fill="#2196F3" opacity="0.9">Chest 100%</text>
+  <rect x="120" y="347" width="100" height="26" rx="5" fill="none" stroke="#2196F3" stroke-width="2"/>
+  <text x="170" y="365" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">spine_02</text>
+  <text x="240" y="365" font-size="12" fill="#2196F3" opacity="0.9">~50 / 50</text>
+  <rect x="120" y="383" width="100" height="26" rx="5" fill="none" stroke="#2196F3" stroke-width="2"/>
+  <text x="170" y="401" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">spine_01</text>
+  <text x="240" y="401" font-size="12" fill="#2196F3" opacity="0.9">COG 100%</text>
+  <text x="470" y="362" font-size="13" fill="currentColor" opacity="0.6">MCH · middle bones interpolate</text>
+  <text x="470" y="380" font-size="13" fill="currentColor" opacity="0.6">between COG and Chest influence</text>
+
+  <!-- Chest -->
+  <circle cx="170" cy="450" r="14" fill="none" stroke="#4ADE80" stroke-width="3"/>
+  <text x="200" y="448" font-size="15" font-weight="600" fill="currentColor">Chest</text>
+  <text x="200" y="466" font-size="13" fill="#4ADE80" opacity="0.9">Shoulders and ribcage · twist and lean</text>
+  <text x="470" y="454" font-size="13" fill="currentColor" opacity="0.6">CTRL · upper body</text>
+
+  <!-- Footer tip Variant B -->
+  <rect x="40" y="506" width="720" height="34" fill="none"/>
+  <rect x="40" y="506" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="528" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> The COG drives the base of the spine and the Chest drives the top; the middle bones blend between them so the torso bends smoothly.</text>
+</svg>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 26 &#183; The spine control system stacks a ground Root master under the COG control, which feeds three blending mechanism bones up to the Chest control, so the lower body and upper body can be posed independently while the middle blends between them. </figcaption>
+                </figure>
+
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
                     <h4>💡 Professional Spine Rig Anatomy</h4>
                     
@@ -2951,6 +3509,66 @@
                     </ol>
                 </div>
 
+                <figure style="margin:1.5rem 0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560"
+     role="img" aria-labelledby="rcd-title rcd-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="currentColor">
+  <title id="rcd-title">Root Control Visualization</title>
+  <desc id="rcd-desc">The master Root control sits at ground level beneath the character. Moving the Root translates the whole rig through world space, shown by directional arrows radiating outward from the ground widget.</desc>
+
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">ROOT CONTROL</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Master control · world-space movement</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <text x="40" y="138" font-size="18" font-weight="600" fill="currentColor">Master control · moves everything</text>
+
+  <!-- Character silhouette -->
+  <g fill="currentColor" opacity="0.3">
+    <circle cx="400" cy="210" r="26"/>
+    <rect x="378" y="240" width="44" height="120" rx="14"/>
+    <rect x="345" y="252" width="34" height="14" rx="7"/>
+    <rect x="421" y="252" width="34" height="14" rx="7"/>
+    <rect x="382" y="356" width="14" height="74" rx="7"/>
+    <rect x="404" y="356" width="14" height="74" rx="7"/>
+  </g>
+
+  <!-- Ground line -->
+  <line x1="180" y1="438" x2="620" y2="438" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Root master widget (4-arrow + ring) -->
+  <g stroke="#FF6B00" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="400" cy="438" rx="70" ry="24"/>
+  </g>
+
+  <defs>
+    <marker id="rcd-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#FF6B00"/>
+    </marker>
+  </defs>
+  <g stroke="#FF6B00" stroke-width="2.5" opacity="0.85" stroke-linecap="round" marker-end="url(#rcd-ah)">
+    <line x1="400" y1="438" x2="300" y2="438"/>
+    <line x1="400" y1="438" x2="500" y2="438"/>
+    <line x1="400" y1="438" x2="400" y2="486"/>
+    <line x1="400" y1="438" x2="540" y2="408"/>
+    <line x1="400" y1="438" x2="260" y2="408"/>
+  </g>
+
+  <text x="400" y="510" font-size="14" font-weight="600" fill="#FF6B00" text-anchor="middle">Root · master control</text>
+  <text x="640" y="234" font-size="13" fill="currentColor" opacity="0.6">Largest control</text>
+  <text x="640" y="252" font-size="13" fill="currentColor" opacity="0.6">at the ground</text>
+  <text x="640" y="430" font-size="13" fill="currentColor" opacity="0.6">Move it and the</text>
+  <text x="640" y="448" font-size="13" fill="currentColor" opacity="0.6">whole rig follows</text>
+
+  <!-- Footer tip Variant B -->
+  <rect x="40" y="506" width="720" height="34" fill="none"/>
+  <rect x="40" y="506" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="528" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Animate the Root to relocate or reorient the entire character in the scene without disturbing any internal pose.</text>
+</svg>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 28 &#183; The root control sits at ground level as the master parent of the whole rig, so moving or rotating it carries the entire character through the scene while every other control hangs beneath it. </figcaption>
+                </figure>
+
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ Phase 3: Create COG Control</h4>
                     
@@ -2986,6 +3604,13 @@
                         </li>
                     </ol>
                 </div>
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_23_cog_control_functions.png" alt="COG control functions: posture, hip position, and spine base movement" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#ffd600"/><text x="115" y="84" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">COG</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 29 &#183; The COG control sits at hip level and drives whole-body posture, weight shifts, and the base of the spine, making it the second-most used control after root. </figcaption>
+                </figure>
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
                     <h4>💡 Phase 4: Create Chest Control</h4>
@@ -3023,6 +3648,13 @@
                         </li>
                     </ol>
                 </div>
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_24_chest_control_functions.png" alt="Chest control functions: upper-body rotation, lean, and shoulder following" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#4ADE80"/><text x="115" y="84" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">CTRL</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 30 &#183; The chest control governs upper-body rotation and lean while shoulders, arms, and the neck all parent to it, so it sits one level below COG in the spine hierarchy. </figcaption>
+                </figure>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ Phase 5: Connect Controls to Spine</h4>
@@ -3083,6 +3715,67 @@
                         </li>
                     </ol>
                 </div>
+
+                <figure style="margin:1.5rem 0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560"
+     role="img" aria-labelledby="sbg-title sbg-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="currentColor">
+  <title id="sbg-title">Spine Blending Visualization</title>
+  <desc id="sbg-desc">An interpolation bar shows how the middle spine bones blend between full COG influence at the base and full Chest influence at the top. Percentage markers along the bar map each spine bone to its blend ratio.</desc>
+
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">SPINE BLENDING</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Middle bones interpolate · COG to Chest influence</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <text x="40" y="138" font-size="18" font-weight="600" fill="currentColor">Influence interpolation · base to top</text>
+
+  <defs>
+    <linearGradient id="sbg-grad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#4ADE80"/>
+      <stop offset="50%" stop-color="#2196F3"/>
+      <stop offset="100%" stop-color="#4ADE80"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Gradient blend bar (base COG -> top Chest) -->
+  <rect x="120" y="170" width="80" height="300" rx="6" fill="url(#sbg-grad)" opacity="0.85"/>
+  <rect x="120" y="170" width="80" height="300" rx="6" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+  <text x="160" y="160" font-size="13" font-weight="600" fill="#4ADE80" text-anchor="middle">Chest 100%</text>
+  <text x="160" y="490" font-size="13" font-weight="600" fill="#4ADE80" text-anchor="middle">COG 100%</text>
+
+  <!-- Spine-bone tick markers mapped to blend ratio -->
+  <g stroke="currentColor" stroke-width="1.5" opacity="0.3" stroke-linecap="round">
+    <line x1="200" y1="200" x2="224" y2="200"/>
+    <line x1="200" y1="275" x2="224" y2="275"/>
+    <line x1="200" y1="350" x2="224" y2="350"/>
+  </g>
+  <circle cx="200" cy="200" r="5" fill="#2196F3"/>
+  <text x="234" y="196" font-size="14" font-weight="500" fill="currentColor">spine_03</text>
+  <text x="234" y="213" font-size="12" fill="#2196F3" opacity="0.9">COG / Chest · 25 / 75</text>
+  <circle cx="200" cy="275" r="5" fill="#2196F3"/>
+  <text x="234" y="271" font-size="14" font-weight="500" fill="currentColor">spine_02</text>
+  <text x="234" y="288" font-size="12" fill="#2196F3" opacity="0.9">COG / Chest · 50 / 50</text>
+  <circle cx="200" cy="350" r="5" fill="#2196F3"/>
+  <text x="234" y="346" font-size="14" font-weight="500" fill="currentColor">spine_01</text>
+  <text x="234" y="363" font-size="12" fill="#2196F3" opacity="0.9">COG / Chest · 75 / 25</text>
+
+  <text x="470" y="200" font-size="14" font-weight="600" fill="currentColor">How it blends</text>
+  <text x="470" y="228" font-size="13" fill="currentColor" opacity="0.6">The COG control fully drives the</text>
+  <text x="470" y="248" font-size="13" fill="currentColor" opacity="0.6">lowest spine bone; the Chest control</text>
+  <text x="470" y="268" font-size="13" fill="currentColor" opacity="0.6">fully drives the highest. Each middle</text>
+  <text x="470" y="288" font-size="13" fill="currentColor" opacity="0.6">bone mixes the two by its position,</text>
+  <text x="470" y="308" font-size="13" fill="currentColor" opacity="0.6">so the torso curves smoothly instead</text>
+  <text x="470" y="328" font-size="13" fill="currentColor" opacity="0.6">of snapping at one joint.</text>
+
+  <!-- Footer tip Variant B -->
+  <rect x="40" y="506" width="720" height="34" fill="none"/>
+  <rect x="40" y="506" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="528" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Blend weights across the middle bones (roughly 75/25, 50/50, 25/75) so no single joint carries the whole bend.</text>
+</svg>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 27 &#183; The spine blending gradient shows how each deform bone splits its Copy Transforms influence between COG and Chest, shifting from fully hip-driven at the base to fully chest-driven at the top so the spine bends in a smooth curve. </figcaption>
+                </figure>
 
                 <h4>Parenting Body Parts to Spine</h4>
 
@@ -3225,6 +3918,85 @@
                     </ul>
                     <p style="color: white; margin-bottom: 0;"><strong>Result:</strong> Professional-quality character rig ready for animation!</p>
                 </div>
+                <figure style="margin:1.5rem 0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680"
+     role="img" aria-labelledby="wf-title wf-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="currentColor">
+  <title id="wf-title">Workflow Flowchart - Complete Rig Build</title>
+  <desc id="wf-desc">A top-to-bottom flowchart of the full biped rig build: Preparation, then Spine, Arms, and Legs in sequence, then Polish. Decision diamonds at each limb check whether the result is correct and loop back to fix before moving on.</desc>
+
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">RIG BUILD WORKFLOW</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Preparation · Spine · Arms · Legs · Polish</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <text x="40" y="138" font-size="18" font-weight="600" fill="currentColor">Complete biped rig · build order</text>
+
+  <defs>
+    <marker id="wf-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- Stage boxes + decision diamonds, top to bottom -->
+  <rect x="160" y="160" width="180" height="44" rx="8" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.55"/>
+  <rect x="160" y="160" width="4" height="44" fill="#FF6B00"/>
+  <text x="250" y="180" font-size="14" font-weight="600" fill="currentColor" text-anchor="middle">Preparation</text>
+  <text x="250" y="196" font-size="11" fill="currentColor" opacity="0.6" text-anchor="middle">reference · layers · DEF bones</text>
+  <line x1="250" y1="204" x2="250" y2="224" stroke="currentColor" stroke-width="1.5" opacity="0.45" marker-end="url(#wf-ah)"/>
+  <rect x="160" y="224" width="180" height="44" rx="8" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.55"/>
+  <rect x="160" y="224" width="4" height="44" fill="#4ADE80"/>
+  <text x="250" y="244" font-size="14" font-weight="600" fill="currentColor" text-anchor="middle">Spine</text>
+  <text x="250" y="260" font-size="11" fill="currentColor" opacity="0.6" text-anchor="middle">Root · COG · Chest · blend</text>
+  <line x1="250" y1="268" x2="250" y2="288" stroke="currentColor" stroke-width="1.5" opacity="0.45" marker-end="url(#wf-ah)"/>
+  <rect x="160" y="288" width="180" height="44" rx="8" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.55"/>
+  <rect x="160" y="288" width="4" height="44" fill="#ff8c00"/>
+  <text x="250" y="308" font-size="14" font-weight="600" fill="currentColor" text-anchor="middle">Arms</text>
+  <text x="250" y="324" font-size="11" fill="currentColor" opacity="0.6" text-anchor="middle">DEF · FK · IK · IK/FK switch</text>
+  <line x1="250" y1="332" x2="250" y2="350" stroke="currentColor" stroke-width="1.5" opacity="0.45" marker-end="url(#wf-ah)"/>
+  <polygon points="250,350 320,376 250,402 180,376" fill="none" stroke="#F5C242" stroke-width="1.5"/>
+  <text x="250" y="380" font-size="12" font-weight="600" fill="currentColor" text-anchor="middle">Elbow OK?</text>
+  <line x1="250" y1="402" x2="250" y2="422" stroke="currentColor" stroke-width="1.5" opacity="0.45" marker-end="url(#wf-ah)"/>
+  <rect x="160" y="422" width="180" height="44" rx="8" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.55"/>
+  <rect x="160" y="422" width="4" height="44" fill="#00bcd4"/>
+  <text x="250" y="442" font-size="14" font-weight="600" fill="currentColor" text-anchor="middle">Legs</text>
+  <text x="250" y="458" font-size="11" fill="currentColor" opacity="0.6" text-anchor="middle">foot hierarchy · IK · pivots</text>
+  <line x1="250" y1="466" x2="250" y2="484" stroke="currentColor" stroke-width="1.5" opacity="0.45" marker-end="url(#wf-ah)"/>
+  <polygon points="250,484 320,510 250,536 180,510" fill="none" stroke="#F5C242" stroke-width="1.5"/>
+  <text x="250" y="514" font-size="12" font-weight="600" fill="currentColor" text-anchor="middle">Foot rolls?</text>
+  <line x1="250" y1="536" x2="250" y2="556" stroke="currentColor" stroke-width="1.5" opacity="0.45" marker-end="url(#wf-ah)"/>
+  <rect x="160" y="556" width="180" height="44" rx="8" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.55"/>
+  <rect x="160" y="556" width="4" height="44" fill="#B47EE8"/>
+  <text x="250" y="576" font-size="14" font-weight="600" fill="currentColor" text-anchor="middle">Polish</text>
+  <text x="250" y="592" font-size="11" fill="currentColor" opacity="0.6" text-anchor="middle">constraints · symmetry · test</text>
+
+  <!-- No-branch feedback loops (adjust pole / pivots, retry) -->
+  <g stroke="#E63946" stroke-width="1.5" opacity="0.7" fill="none" stroke-linecap="round" marker-end="url(#wf-ah)">
+    <path d="M 320 376 L 470 376 L 470 246 L 342 246"/>
+    <path d="M 320 510 L 470 510 L 470 444 L 342 444"/>
+  </g>
+
+  <text x="262" y="416" font-size="11" fill="#4ADE80" opacity="0.9">Yes</text>
+  <text x="262" y="550" font-size="11" fill="#4ADE80" opacity="0.9">Yes</text>
+  <text x="392" y="370" font-size="11" fill="#E63946" opacity="0.9">No · fix pole angle</text>
+  <text x="392" y="504" font-size="11" fill="#E63946" opacity="0.9">No · fix pivots</text>
+
+  <text x="560" y="232" font-size="12" font-weight="600" fill="currentColor" opacity="0.8">Build in order</text>
+  <text x="560" y="256" font-size="12" fill="currentColor" opacity="0.6">Each stage builds on the</text>
+  <text x="560" y="275" font-size="12" fill="currentColor" opacity="0.6">last. Test each limb before</text>
+  <text x="560" y="294" font-size="12" fill="currentColor" opacity="0.6">moving on, because a wrong</text>
+  <text x="560" y="313" font-size="12" fill="currentColor" opacity="0.6">pole or pivot only gets</text>
+  <text x="560" y="332" font-size="12" fill="currentColor" opacity="0.6">harder to fix later.</text>
+
+  <!-- Footer tip Variant B -->
+  <rect x="40" y="641" width="720" height="34" fill="none"/>
+  <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="663" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Build the spine first, then arms and legs off it, and verify each limb's IK before you polish constraints and symmetry.</text>
+</svg>
+
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 31 &#183; The full rig build runs top to bottom (Preparation, then Spine, Arms, and Legs in sequence, then Polish), with a check at each limb that loops back to fix problems before moving on. </figcaption>
+                </figure>
 
                 <h4>Project Phases</h4>
 
@@ -3363,6 +4135,14 @@
                     </ol>
                 </div>
 
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_26_rig_layer_organization.png" alt="Bone Collections panel organizing the rig into Controls, MCH, and DEF collections with per-collection color and visibility toggles" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1200" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#FF6B00"/><text x="115" y="84" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">ORG</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 32 &#183; Bone Collections keep the rig organized by separating animator-facing Controls (green) from hidden MCH (blue) and DEF (purple) bones &#183; each collection carries its own color and a visibility toggle so the viewport stays clean.</figcaption>
+                </figure>
+
                 <h4>Phase 2-6: Building the Rig</h4>
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
@@ -3466,6 +4246,14 @@
                     </ul>
                 </div>
 
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_35_complete_rig_beauty.png" alt="Complete biped rig in a neutral A-pose showing the full color-coded control set: center root, COG, chest and spine controls plus mirrored left and right arm and leg IK and FK controls" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#FF6B00"/><text x="115" y="84" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">RIG</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 33 &#183; The finished rig presents every control at once, with center controls in yellow, left-side controls in cyan and right-side controls in magenta, so an animator can read the whole control scheme at a glance.</figcaption>
+                </figure>
+
                 <h4>Comprehensive Rig Testing</h4>
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
@@ -3552,6 +4340,14 @@
                     </ul>
                 </div>
 
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_27_testing_poses_reference.png" alt="Six standard rig-test poses shown as labeled stick figures: T-pose, sitting, reaching up, contrapposto, action pose and walk pose, each with a verification checkmark" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#FF6B00"/><text x="115" y="84" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">TEST</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 34 &#183; Run the rig through a standard battery of poses (T-pose, sitting, reaching, contrapposto, action and walk) and confirm each one holds cleanly, because a rig that fails any of these will fail in a real shot.</figcaption>
+                </figure>
+
                 <h4>Success Criteria</h4>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
@@ -3621,6 +4417,14 @@
                         <li><strong>Check:</strong> Switch property must be separate for right side (arm_R_IKFK vs arm_L_IKFK)</li>
                     </ul>
                 </div>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_28_common_mistakes_grid.png" alt="Two-by-two problem-and-fix grid covering the four most common rigging failures: elbow flips backward, foot won't roll, spine breaks, and controls drift on switch, each pairing the broken state with its fix" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#FF6B00"/><text x="115" y="84" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">FIXES</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 35 &#183; The four failures that catch almost every new rigger (a flipping elbow, a foot that will not roll, a spine that breaks and controls that drift on an IK/FK switch) each shown beside the fix that resolves it.</figcaption>
+                </figure>
 
                 <blockquote>
                     <p><strong>🏆 Congratulations on Building a Professional Character Rig!</strong> This is a major milestone in your 3D journey! The rig you've just created uses the same principles and techniques found in rigs from Pixar, Disney, and major game studios. You've learned a skill set that takes many artists years to master. Professional character TD (Technical Director) positions require exactly what you just built. Whether you pursue rigging as a specialization or use these skills to rig your own characters for animation, you now have industry-level knowledge. Be proud of this achievement!</p>
@@ -3744,6 +4548,14 @@
                     </ul>
                 </div>
 
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_36_control_interface_reference.png" alt="Labeled control-interface reference showing a humanoid with every main control placed and named on the left and a control-legend table mapping each glyph to its name and function on the right" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#FF6B00"/><text x="115" y="84" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">REF</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 36 &#183; A single reference sheet pairs the placed controls with a legend mapping every glyph to its name and function, so a consistent color and naming scheme lets you find any control at a glance.</figcaption>
+                </figure>
+
                 <h4>Beyond Biped Rigging</h4>
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
@@ -3781,6 +4593,14 @@
                         <li>Complex topic deserving separate study</li>
                     </ul>
                 </div>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_37_weight_painting_integration.png" alt="Split-screen linking weight painting to rigging: a Weight Paint Mode view of a painted arm on the left and a Pose Mode view of the same mesh bending at the elbow on the right, sharing the same weights" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#FF6B00"/><text x="115" y="84" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">L38</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 37 &#183; The weights painted in Lesson 38 are what make this rig deform cleanly, so when a joint bends badly the fix lives in the weight painting rather than in the rig itself.</figcaption>
+                </figure>
 
                 <h4>Next Steps in Rigging</h4>
 
@@ -3825,6 +4645,14 @@
                     <p style="color: white;"><strong>This rig is your foundation for character animation. In upcoming lessons, you'll use these rigging skills to create animated performances that bring your characters to life!</strong></p>
                     <p style="color: white; margin-bottom: 0;"><em>Module 9: Character Creation is complete! Ready for advanced topics?</em> 🚀</p>
                 </div>
+
+                <figure style="margin:1.5rem 0;text-align:center">
+                    <div style="position:relative;display:inline-block;max-width:100%;font-size:0">
+                        <img src="images/lesson_39_38_animation_ready_rig.png" alt="Animation-ready rig in a dynamic running and reaching action pose with its full color-coded control set above a Dope Sheet strip showing keyframed control channels and a playhead" loading="lazy" style="display:block;max-width:100%;height:auto;margin:0;vertical-align:top">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><rect x="40" y="40" width="150" height="64" rx="10" fill="#FF6B00"/><text x="115" y="84" font-size="38" font-weight="700" text-anchor="middle" fill="#1a1a1a">READY</text></svg>
+                    </div>
+                    <figcaption style="font-size:0.85rem;opacity:0.75;margin-top:0.4rem;text-align:center;">Figure 38 &#183; A finished rig holding a dynamic action pose over a Dope Sheet of keyframed controls is the goal of all this work, a character ready to be posed and animated shot after shot.</figcaption>
+                </figure>
 
             </section>
 
