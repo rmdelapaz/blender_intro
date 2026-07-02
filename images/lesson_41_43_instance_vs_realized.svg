@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" color="#222" role="img" aria-labelledby="ivr-title ivr-desc" font-family="'Segoe UI',system-ui,sans-serif">
+<title id="ivr-title">Instances versus realized geometry</title>
+<desc id="ivr-desc">Two memory bars comparing 1000 instances sharing one mesh against 1000 realized copies duplicating the mesh, with a memory ratio callout.</desc>
+<rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+<text x="400" y="56" text-anchor="middle" font-size="26" font-weight="700" fill="currentColor">Instances vs Realized Geometry</text>
+<text x="400" y="84" text-anchor="middle" font-size="15" fill="currentColor" opacity="0.75">Same 1000 objects &#183; two very different memory costs</text>
+<line x1="60" y1="108" x2="740" y2="108" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+
+<!-- LEFT: instances -->
+<text x="60" y="138" font-size="17" font-weight="600" fill="currentColor">Instances (shared data)</text>
+<!-- one master mesh -->
+<rect x="60" y="156" width="120" height="70" rx="6" fill="#4ADE80" fill-opacity="0.15" stroke="#4ADE80" stroke-width="2"/>
+<text x="120" y="188" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">1 master</text>
+<text x="120" y="207" text-anchor="middle" font-size="12" fill="currentColor" opacity="0.7">mesh in memory</text>
+<!-- pointer rows -->
+<g stroke="#4ADE80" stroke-width="2" opacity="0.8">
+<line x1="180" y1="191" x2="250" y2="176"/>
+<line x1="180" y1="191" x2="250" y2="191"/>
+<line x1="180" y1="191" x2="250" y2="206"/>
+</g>
+<g fill="#4ADE80">
+<circle cx="258" cy="176" r="5"/><circle cx="278" cy="176" r="5"/><circle cx="298" cy="176" r="5"/>
+<circle cx="258" cy="191" r="5"/><circle cx="278" cy="191" r="5"/><circle cx="298" cy="191" r="5"/>
+<circle cx="258" cy="206" r="5"/><circle cx="278" cy="206" r="5"/><circle cx="298" cy="206" r="5"/>
+</g>
+<text x="278" y="228" text-anchor="middle" font-size="11.5" fill="currentColor" opacity="0.7">1000 refs</text>
+<!-- memory bar small -->
+<text x="60" y="262" font-size="13" fill="currentColor" opacity="0.75">Memory used</text>
+<rect x="60" y="272" width="90" height="34" rx="4" fill="#4ADE80"/>
+<rect x="150" y="272" width="290" height="34" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.2"/>
+<text x="105" y="294" text-anchor="middle" font-size="13" font-weight="700" fill="#0f1a14">~1x</text>
+
+<!-- divider -->
+<line x1="400" y1="130" x2="400" y2="330" stroke="currentColor" stroke-width="1" opacity="0.25"/>
+
+<!-- RIGHT: realized -->
+<text x="430" y="138" font-size="17" font-weight="600" fill="currentColor">Realized (duplicated data)</text>
+<g fill="#E63946" fill-opacity="0.85">
+<rect x="430" y="160" width="26" height="26" rx="3"/><rect x="462" y="160" width="26" height="26" rx="3"/><rect x="494" y="160" width="26" height="26" rx="3"/><rect x="526" y="160" width="26" height="26" rx="3"/><rect x="558" y="160" width="26" height="26" rx="3"/>
+<rect x="430" y="192" width="26" height="26" rx="3"/><rect x="462" y="192" width="26" height="26" rx="3"/><rect x="494" y="192" width="26" height="26" rx="3"/><rect x="526" y="192" width="26" height="26" rx="3"/><rect x="558" y="192" width="26" height="26" rx="3"/>
+</g>
+<text x="600" y="184" font-size="12" fill="currentColor" opacity="0.7">every copy carries its</text>
+<text x="600" y="200" font-size="12" fill="currentColor" opacity="0.7">own full mesh data</text>
+<!-- memory bar large -->
+<text x="430" y="262" font-size="13" fill="currentColor" opacity="0.75">Memory used</text>
+<rect x="430" y="272" width="310" height="34" rx="4" fill="#E63946"/>
+<text x="585" y="294" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">~1000x mesh data</text>
+
+<!-- ratio callout -->
+<rect x="60" y="352" width="680" height="60" rx="8" fill="#FF6B00" fill-opacity="0.1" stroke="#FF6B00" stroke-width="1.5"/>
+<text x="80" y="380" font-size="15" font-weight="700" fill="#FF6B00">Rule of thumb</text>
+<text x="80" y="401" font-size="14" fill="currentColor">Keep geometry instanced as long as you can &#183; Realize Instances only when a node needs it.</text>
+
+<!-- footer tip Variant B -->
+<rect x="60" y="506" width="4" height="34" rx="2" fill="#FF6B00"/>
+<text x="76" y="519" font-size="12.5" font-weight="600" fill="currentColor">Tip</text>
+<text x="76" y="537" font-size="12.5" fill="currentColor" opacity="0.8">Instance on Points stays cheap; Realize Instances is the expensive switch &#183; add it late, not early.</text>
+</svg>

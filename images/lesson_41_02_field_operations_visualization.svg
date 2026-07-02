@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560"
+     role="img" aria-labelledby="fov-title fov-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="#222">
+  <title id="fov-title">Field operations visualization</title>
+  <desc id="fov-desc">A grid of points across a surface. Each point holds its own value from a field, shown by color from blue at low through green and amber to red at high, and by height. A field is per-element data: one value for every point, not one value shared by all.</desc>
+
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">Field Operations</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">A field carries one value per element across the geometry</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <!-- Subhead -->
+  <text x="40" y="138" font-size="18" font-weight="600" fill="currentColor">Same grid, one value per point</text>
+
+  <!-- Point grid: 8 cols x 5 rows. Color + radius vary by a smooth "height" field (low left -> high right, plus a bump). -->
+  <!-- Row baseline y positions -->
+  <g>
+    <!-- We draw each point as circle; radius encodes height, fill encodes band. -->
+    <!-- Precomputed layout: x from 90..710 step ~88.6; y rows 190,240,290,340,390 -->
+    <!-- ROW 1 -->
+    <circle cx="90"  cy="190" r="5"  fill="#4A9EFF"/>
+    <circle cx="179" cy="190" r="6"  fill="#4A9EFF"/>
+    <circle cx="267" cy="190" r="7"  fill="#4ADE80"/>
+    <circle cx="356" cy="190" r="9"  fill="#4ADE80"/>
+    <circle cx="444" cy="190" r="10" fill="#F5C242"/>
+    <circle cx="533" cy="190" r="9"  fill="#F5C242"/>
+    <circle cx="621" cy="190" r="7"  fill="#4ADE80"/>
+    <circle cx="710" cy="190" r="6"  fill="#4A9EFF"/>
+    <!-- ROW 2 -->
+    <circle cx="90"  cy="245" r="6"  fill="#4A9EFF"/>
+    <circle cx="179" cy="245" r="7"  fill="#4ADE80"/>
+    <circle cx="267" cy="245" r="9"  fill="#4ADE80"/>
+    <circle cx="356" cy="245" r="11" fill="#F5C242"/>
+    <circle cx="444" cy="245" r="13" fill="#E63946"/>
+    <circle cx="533" cy="245" r="11" fill="#F5C242"/>
+    <circle cx="621" cy="245" r="9"  fill="#4ADE80"/>
+    <circle cx="710" cy="245" r="7"  fill="#4ADE80"/>
+    <!-- ROW 3 -->
+    <circle cx="90"  cy="300" r="6"  fill="#4A9EFF"/>
+    <circle cx="179" cy="300" r="8"  fill="#4ADE80"/>
+    <circle cx="267" cy="300" r="10" fill="#F5C242"/>
+    <circle cx="356" cy="300" r="13" fill="#E63946"/>
+    <circle cx="444" cy="300" r="14" fill="#E63946"/>
+    <circle cx="533" cy="300" r="12" fill="#F5C242"/>
+    <circle cx="621" cy="300" r="9"  fill="#4ADE80"/>
+    <circle cx="710" cy="300" r="6"  fill="#4A9EFF"/>
+    <!-- ROW 4 -->
+    <circle cx="90"  cy="355" r="5"  fill="#4A9EFF"/>
+    <circle cx="179" cy="355" r="7"  fill="#4ADE80"/>
+    <circle cx="267" cy="355" r="9"  fill="#4ADE80"/>
+    <circle cx="356" cy="355" r="11" fill="#F5C242"/>
+    <circle cx="444" cy="355" r="12" fill="#F5C242"/>
+    <circle cx="533" cy="355" r="10" fill="#4ADE80"/>
+    <circle cx="621" cy="355" r="8"  fill="#4ADE80"/>
+    <circle cx="710" cy="355" r="6"  fill="#4A9EFF"/>
+    <!-- ROW 5 -->
+    <circle cx="90"  cy="410" r="5"  fill="#4A9EFF"/>
+    <circle cx="179" cy="410" r="5"  fill="#4A9EFF"/>
+    <circle cx="267" cy="410" r="7"  fill="#4ADE80"/>
+    <circle cx="356" cy="410" r="8"  fill="#4ADE80"/>
+    <circle cx="444" cy="410" r="9"  fill="#4ADE80"/>
+    <circle cx="533" cy="410" r="7"  fill="#4ADE80"/>
+    <circle cx="621" cy="410" r="6"  fill="#4A9EFF"/>
+    <circle cx="710" cy="410" r="5"  fill="#4A9EFF"/>
+  </g>
+
+  <!-- value legend (color ramp) -->
+  <text x="40" y="452" font-size="13" font-weight="600" fill="currentColor">Field value</text>
+  <g>
+    <circle cx="130" cy="448" r="6" fill="#4A9EFF"/><text x="142" y="452" font-size="12" fill="currentColor" opacity="0.7">low</text>
+    <circle cx="205" cy="448" r="6" fill="#4ADE80"/><text x="217" y="452" font-size="12" fill="currentColor" opacity="0.7">mid</text>
+    <circle cx="285" cy="448" r="6" fill="#F5C242"/><text x="297" y="452" font-size="12" fill="currentColor" opacity="0.7">high</text>
+    <circle cx="370" cy="448" r="6" fill="#E63946"/><text x="382" y="452" font-size="12" fill="currentColor" opacity="0.7">peak</text>
+  </g>
+  <text x="40" y="478" font-size="13" fill="currentColor" opacity="0.6">Radius and color both read the point's own value. Change the field, and every point updates at once.</text>
+
+  <!-- Footer tip -->
+  <rect x="40" y="506" width="720" height="34" rx="0" fill="none"/>
+  <rect x="40" y="506" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="528" font-size="13" fill="currentColor">
+    <tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Position, Normal, Index, and Radius are all fields: ask any of them and you get one answer per element.
+  </text>
+</svg>
