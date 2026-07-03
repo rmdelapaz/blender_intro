@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="cdt-title cdt-desc" color="#222">
+<title id="cdt-title">Coordinate System Decision Tree</title>
+<desc id="cdt-desc">A decision tree for choosing a texture coordinate system: needing precise placement leads to UV, a directional pattern leads to Object, an angle-based effect leads to Normal, and otherwise Generated is the default choice.</desc>
+<style>
+.lbl{fill:currentColor;font-family:'Segoe UI',Arial,sans-serif;}
+.hd{font-size:26px;font-weight:700;}
+.q{fill:none;stroke:#4A9EFF;stroke-width:2;}
+.qt{font-size:14px;font-weight:600;}
+.branch{font-size:12px;font-weight:700;}
+.leaf{stroke-width:2;}
+.leaft{font-size:15px;font-weight:700;}
+.leafd{font-size:11px;fill:currentColor;opacity:.7;}
+.conn{fill:none;stroke:currentColor;stroke-width:1.5;opacity:.6;}
+</style>
+<text x="400" y="40" text-anchor="middle" class="lbl hd">Coordinate System Decision Tree</text>
+
+<!-- Q1 -->
+<g transform="translate(300,70)">
+<rect x="0" y="0" width="200" height="50" rx="8" class="q"/>
+<text x="100" y="24" text-anchor="middle" class="lbl qt">Need precise</text>
+<text x="100" y="40" text-anchor="middle" class="lbl qt">placement?</text>
+</g>
+<!-- Q1 yes -> UV -->
+<path class="conn" d="M300,95 L120,95 L120,140"/>
+<text x="200" y="88" text-anchor="middle" class="lbl branch" fill="#4ADE80">YES</text>
+<g transform="translate(40,140)">
+<rect x="0" y="0" width="160" height="56" rx="8" class="leaf" fill="#4ADE80" fill-opacity=".16" stroke="#4ADE80"/>
+<text x="80" y="26" text-anchor="middle" class="lbl leaft">UV</text>
+<text x="80" y="44" text-anchor="middle" class="lbl leafd">unwrap-controlled placement</text>
+</g>
+<!-- Q1 no -> Q2 -->
+<path class="conn" d="M400,120 L400,160"/>
+<text x="418" y="146" class="lbl branch" fill="#E63946">NO</text>
+
+<!-- Q2 directional pattern -->
+<g transform="translate(300,160)">
+<rect x="0" y="0" width="200" height="50" rx="8" class="q"/>
+<text x="100" y="24" text-anchor="middle" class="lbl qt">Directional</text>
+<text x="100" y="40" text-anchor="middle" class="lbl qt">pattern (grain)?</text>
+</g>
+<path class="conn" d="M500,185 L640,185 L640,240"/>
+<text x="575" y="178" text-anchor="middle" class="lbl branch" fill="#4ADE80">YES</text>
+<g transform="translate(560,240)">
+<rect x="0" y="0" width="160" height="56" rx="8" class="leaf" fill="#F5C242" fill-opacity=".16" stroke="#F5C242"/>
+<text x="80" y="26" text-anchor="middle" class="lbl leaft">Object</text>
+<text x="80" y="44" text-anchor="middle" class="lbl leafd">aligned to object axes</text>
+</g>
+<path class="conn" d="M400,210 L400,250"/>
+<text x="418" y="236" class="lbl branch" fill="#E63946">NO</text>
+
+<!-- Q3 angle-based -->
+<g transform="translate(300,250)">
+<rect x="0" y="0" width="200" height="50" rx="8" class="q"/>
+<text x="100" y="24" text-anchor="middle" class="lbl qt">Angle-based</text>
+<text x="100" y="40" text-anchor="middle" class="lbl qt">effect?</text>
+</g>
+<path class="conn" d="M500,275 L640,275 L640,340"/>
+<text x="575" y="268" text-anchor="middle" class="lbl branch" fill="#4ADE80">YES</text>
+<g transform="translate(560,340)">
+<rect x="0" y="0" width="160" height="56" rx="8" class="leaf" fill="#B47EE8" fill-opacity=".16" stroke="#B47EE8"/>
+<text x="80" y="26" text-anchor="middle" class="lbl leaft">Normal</text>
+<text x="80" y="44" text-anchor="middle" class="lbl leafd">driven by surface direction</text>
+</g>
+<path class="conn" d="M400,300 L400,360"/>
+<text x="418" y="336" class="lbl branch" fill="#E63946">NO</text>
+
+<!-- default Generated -->
+<g transform="translate(300,360)">
+<rect x="0" y="0" width="200" height="64" rx="8" class="leaf" fill="#4A9EFF" fill-opacity=".16" stroke="#4A9EFF"/>
+<text x="100" y="28" text-anchor="middle" class="lbl leaft">Generated</text>
+<text x="100" y="48" text-anchor="middle" class="lbl leafd">default, fits the bounding box</text>
+</g>
+
+<text x="400" y="470" text-anchor="middle" class="lbl qt" style="fill:currentColor;opacity:.85">Start at the top, take the first YES.</text>
+<text x="400" y="494" text-anchor="middle" class="lbl leafd">Generated needs no setup, UV needs an unwrap, Object follows the mesh, Normal reads the angle.</text>
+</svg>
