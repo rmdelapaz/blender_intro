@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680"
+     role="img" aria-labelledby="ock-title ock-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+     color="#222">
+  <title id="ock-title">Geometry Nodes Optimization Checklist</title>
+  <desc id="ock-desc">A checklist of seven practices for keeping procedural geometry-node setups fast: keep geometry as instances, filter early and coarsely, reduce point counts before heavy nodes, cap noise detail, prune unused branches, realize only at the end, and profile with the spreadsheet. Each item pairs a checkbox glyph with a one-line action and a short reason.</desc>
+
+  <rect x="0" y="0" width="800" height="3" fill="#FF6B00"/>
+
+  <text x="40" y="56" font-size="24" font-weight="700" fill="currentColor">OPTIMIZATION CHECKLIST</text>
+  <text x="40" y="84" font-size="14" fill="currentColor" opacity="0.65">Keep procedural node trees fast and responsive</text>
+  <line x1="40" y1="108" x2="760" y2="108" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+
+  <!-- Row template: checkbox at x=48, action text at x=92, reason below -->
+
+  <!-- 1 -->
+  <rect x="48" y="134" width="26" height="26" rx="5" fill="none" stroke="#4ADE80" stroke-width="2.5"/>
+  <path d="M 54 147 L 60 154 L 70 141" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="92" y="149" font-size="16" font-weight="600" fill="currentColor">Keep geometry as instances</text>
+  <text x="92" y="170" font-size="13" fill="currentColor" opacity="0.6">Instances share one mesh; realized copies duplicate all the data.</text>
+
+  <!-- 2 -->
+  <rect x="48" y="196" width="26" height="26" rx="5" fill="none" stroke="#4ADE80" stroke-width="2.5"/>
+  <path d="M 54 209 L 60 216 L 70 203" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="92" y="211" font-size="16" font-weight="600" fill="currentColor">Filter early, filter coarse</text>
+  <text x="92" y="232" font-size="13" fill="currentColor" opacity="0.6">Cut the element count with cheap masks before any expensive node.</text>
+
+  <!-- 3 -->
+  <rect x="48" y="258" width="26" height="26" rx="5" fill="none" stroke="#4ADE80" stroke-width="2.5"/>
+  <path d="M 54 271 L 60 278 L 70 265" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="92" y="273" font-size="16" font-weight="600" fill="currentColor">Reduce points before heavy work</text>
+  <text x="92" y="294" font-size="13" fill="currentColor" opacity="0.6">Distribute at the lowest density that still reads; scale up last.</text>
+
+  <!-- 4 -->
+  <rect x="48" y="320" width="26" height="26" rx="5" fill="none" stroke="#4ADE80" stroke-width="2.5"/>
+  <path d="M 54 333 L 60 340 L 70 327" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="92" y="335" font-size="16" font-weight="600" fill="currentColor">Cap noise Detail</text>
+  <text x="92" y="356" font-size="13" fill="currentColor" opacity="0.6">Every extra octave costs time; stop when the change stops showing.</text>
+
+  <!-- 5 -->
+  <rect x="48" y="382" width="26" height="26" rx="5" fill="none" stroke="#4ADE80" stroke-width="2.5"/>
+  <path d="M 54 395 L 60 402 L 70 389" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="92" y="397" font-size="16" font-weight="600" fill="currentColor">Prune unused branches</text>
+  <text x="92" y="418" font-size="13" fill="currentColor" opacity="0.6">Muted or disconnected nodes can still evaluate; delete dead paths.</text>
+
+  <!-- 6 -->
+  <rect x="48" y="444" width="26" height="26" rx="5" fill="none" stroke="#4ADE80" stroke-width="2.5"/>
+  <path d="M 54 457 L 60 464 L 70 451" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="92" y="459" font-size="16" font-weight="600" fill="currentColor">Realize only at the very end</text>
+  <text x="92" y="480" font-size="13" fill="currentColor" opacity="0.6">Realize Instances late, and only if a later node truly needs real mesh.</text>
+
+  <!-- 7 -->
+  <rect x="48" y="506" width="26" height="26" rx="5" fill="none" stroke="#4ADE80" stroke-width="2.5"/>
+  <path d="M 54 519 L 60 526 L 70 513" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="92" y="521" font-size="16" font-weight="600" fill="currentColor">Profile with the Spreadsheet</text>
+  <text x="92" y="542" font-size="13" fill="currentColor" opacity="0.6">Watch point and face counts per node to find the real bottleneck.</text>
+
+  <line x1="40" y1="572" x2="760" y2="572" stroke="currentColor" stroke-width="1" opacity="0.12"/>
+
+  <!-- Order-of-magnitude callout -->
+  <text x="48" y="600" font-size="13" fill="currentColor" opacity="0.7"><tspan font-weight="700" fill="#F5C242">Rule of thumb:</tspan> the cheapest element is the one you never generate. Kill count first, add detail second.</text>
+
+  <!-- Footer tip (Variant B, dense y=641/663) -->
+  <rect x="40" y="641" width="4" height="34" fill="#FF6B00"/>
+  <text x="58" y="663" font-size="13" fill="currentColor"><tspan font-weight="700" fill="#FF6B00">Tip:</tspan> Optimize the slowest node, not the whole tree. One heavy node usually dominates the cost.</text>
+</svg>
