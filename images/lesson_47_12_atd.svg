@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" role="img" aria-labelledby="atdTitle atdDesc" font-family="'Segoe UI',system-ui,-apple-system,sans-serif" color="#222">
+  <title id="atdTitle">Atmospheric Depth Cueing</title>
+  <desc id="atdDesc">How atmospheric perspective conveys distance. Objects near the camera stay sharp, dark and saturated; objects far away become progressively lighter, hazier and lower contrast as they fade toward the fog color. A distance gradient at the bottom shows the transition. This effect is driven by the Z-depth pass or a Mist pass, mapping distance to how much fog is mixed in.</desc>
+  <defs>
+    <linearGradient id="fog" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#12161c"/>
+      <stop offset="100%" stop-color="#8fa4bd"/>
+    </linearGradient>
+  </defs>
+  <style>
+    .hd{fill:currentColor;font-size:19px;font-weight:700;}
+    .sub{fill:#9aa4b2;font-size:11px;}
+    .lbl{fill:#ffffff;font-size:11px;font-weight:700;}
+    .note{fill:#d4d4d4;font-size:10px;}
+    .axl{fill:#0f0f0f;font-size:11px;font-weight:700;}
+  </style>
+  <text x="20" y="34" class="hd">Atmospheric depth: near sharp, far washed</text>
+  <text x="20" y="54" class="sub">Distance fades objects toward the fog color &#8212; the further away, the more haze mixed in.</text>
+
+  <!-- scene band -->
+  <rect x="20" y="76" width="720" height="200" rx="8" fill="url(#fog)"/>
+  <!-- near hill (dark, sharp) -->
+  <path d="M20 276 L20 200 Q 130 150 250 200 L250 276 Z" fill="#1a2a1e"/>
+  <!-- mid hill -->
+  <path d="M230 276 L230 215 Q 360 175 500 215 L500 276 Z" fill="#3a4a44" opacity="0.9"/>
+  <!-- far hill (light, hazy) -->
+  <path d="M470 276 L470 225 Q 600 195 740 225 L740 276 Z" fill="#6b7f96" opacity="0.75"/>
+  <!-- farthest ridge -->
+  <path d="M560 276 L560 235 Q 660 218 740 235 L740 276 Z" fill="#8093aa" opacity="0.6"/>
+
+  <!-- near tree -->
+  <rect x="70" y="205" width="8" height="40" fill="#0f1a12"/>
+  <circle cx="74" cy="200" r="22" fill="#16281a"/>
+  <!-- mid tree -->
+  <rect x="330" y="220" width="6" height="30" fill="#2a3a32"/>
+  <circle cx="333" cy="216" r="16" fill="#33473d" opacity="0.9"/>
+  <!-- far tree -->
+  <rect x="600" y="235" width="4" height="20" fill="#5f7288"/>
+  <circle cx="602" cy="232" r="11" fill="#6d8098" opacity="0.7"/>
+
+  <text x="60" y="130" class="lbl">NEAR</text>
+  <text x="40" y="148" class="note">sharp &#183; dark &#183; saturated</text>
+  <text x="350" y="120" class="lbl">MID</text>
+  <text x="600" y="110" class="lbl">FAR</text>
+  <text x="560" y="128" class="note">hazy &#183; light &#183; low contrast</text>
+
+  <!-- distance gradient bar -->
+  <text x="20" y="308" class="note" fill="#9aa4b2">Z-depth / Mist drives the mix:</text>
+  <rect x="200" y="296" width="540" height="22" rx="4" fill="url(#fog)" stroke="#555"/>
+  <text x="212" y="311" class="axl">near (0.0)</text>
+  <text x="660" y="311" class="axl" fill="#0f0f0f">far (1.0)</text>
+
+  <rect x="20" y="332" width="720" height="50" rx="7" fill="#1b1b1b" stroke="#4A9EFF"/>
+  <text x="36" y="353" class="note" fill="#4A9EFF" font-weight="700">Wire it up:</text>
+  <text x="110" y="353" class="note">Mix node, image over a fog-colored input, factor = normalized Z (or Mist pass).</text>
+  <text x="36" y="373" class="note">Keep foreground crisp; let the mix rise with distance so depth reads instantly.</text>
+</svg>

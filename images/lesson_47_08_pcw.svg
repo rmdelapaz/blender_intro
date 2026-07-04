@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" role="img" aria-labelledby="pcwTitle pcwDesc" font-family="'Segoe UI',system-ui,-apple-system,sans-serif" color="#222">
+  <title id="pcwTitle">Pass Compositing Wiring</title>
+  <desc id="pcwDesc">A schematic node tree showing how separate render passes are recombined in the compositor. The Render Layers node outputs Diffuse, Glossy, Ambient Occlusion and Z passes. Diffuse and Glossy are added together, Ambient Occlusion is multiplied over that result to deepen contact shadows, the Z pass drives a fog mix, and the final result goes to the Composite output. Operation nodes are labelled Add, Multiply and Mix.</desc>
+  <style>
+    .hd{fill:currentColor;font-size:19px;font-weight:700;}
+    .sub{fill:#9aa4b2;font-size:11px;}
+    .nt{fill:#ffffff;font-size:10px;font-weight:700;}
+    .pin{fill:#d4d4d4;font-size:8.5px;}
+    .op{fill:#3a2c05;font-size:11px;font-weight:700;}
+    .cap{fill:#9aa4b2;font-size:9.5px;}
+    .wire{fill:none;stroke-width:2;}
+  </style>
+  <text x="20" y="34" class="hd">Recombining passes into the final image</text>
+  <text x="20" y="54" class="sub">Split passes flow through math nodes (Add, Multiply, Mix) back into one Composite output.</text>
+
+  <!-- Render Layers -->
+  <rect x="20" y="90" width="130" height="150" rx="6" fill="#2a2a2a" stroke="#4ADE80" stroke-width="1.5"/>
+  <rect x="20" y="90" width="130" height="20" rx="6" fill="#4ADE80"/>
+  <text x="30" y="104" class="nt" fill="#14351f">Render Layers</text>
+  <text x="30" y="132" class="pin">Diffuse</text>
+  <circle cx="150" cy="128" r="4" fill="#c8c866"/>
+  <text x="30" y="160" class="pin">Glossy</text>
+  <circle cx="150" cy="156" r="4" fill="#c8c866"/>
+  <text x="30" y="188" class="pin">AO</text>
+  <circle cx="150" cy="184" r="4" fill="#c8c866"/>
+  <text x="30" y="216" class="pin">Z</text>
+  <circle cx="150" cy="212" r="4" fill="#4A9EFF"/>
+
+  <!-- Add node -->
+  <rect x="250" y="118" width="96" height="48" rx="6" fill="#2a2a2a" stroke="#4ADE80" stroke-width="1.5"/>
+  <rect x="250" y="118" width="96" height="18" rx="6" fill="#4ADE80"/>
+  <text x="272" y="131" class="op">Add</text>
+  <text x="258" y="156" class="pin">Diffuse + Glossy</text>
+  <circle cx="250" cy="142" r="4" fill="#c8c866"/>
+  <circle cx="250" cy="156" r="4" fill="#c8c866"/>
+  <circle cx="346" cy="149" r="4" fill="#c8c866"/>
+
+  <!-- Multiply node -->
+  <rect x="420" y="150" width="110" height="52" rx="6" fill="#2a2a2a" stroke="#B47EE8" stroke-width="1.5"/>
+  <rect x="420" y="150" width="110" height="18" rx="6" fill="#B47EE8"/>
+  <text x="440" y="163" class="nt">Multiply</text>
+  <text x="428" y="190" class="pin">result &#215; AO</text>
+  <circle cx="420" cy="178" r="4" fill="#c8c866"/>
+  <circle cx="420" cy="192" r="4" fill="#c8c866"/>
+  <circle cx="530" cy="182" r="4" fill="#c8c866"/>
+
+  <!-- Mix (fog) node -->
+  <rect x="590" y="118" width="110" height="60" rx="6" fill="#2a2a2a" stroke="#4A9EFF" stroke-width="1.5"/>
+  <rect x="590" y="118" width="110" height="18" rx="6" fill="#4A9EFF"/>
+  <text x="608" y="131" class="nt">Mix (fog)</text>
+  <text x="598" y="156" class="pin">image</text>
+  <text x="598" y="170" class="pin">fac = Z</text>
+  <circle cx="590" cy="150" r="4" fill="#c8c866"/>
+  <circle cx="590" cy="166" r="4" fill="#4A9EFF"/>
+  <circle cx="700" cy="148" r="4" fill="#c8c866"/>
+
+  <!-- Composite -->
+  <rect x="590" y="215" width="110" height="46" rx="6" fill="#2a2a2a" stroke="#FF6B00" stroke-width="1.5"/>
+  <rect x="590" y="215" width="110" height="18" rx="6" fill="#FF6B00"/>
+  <text x="610" y="228" class="nt">Composite</text>
+  <text x="598" y="252" class="pin">final output</text>
+  <circle cx="590" cy="245" r="4" fill="#c8c866"/>
+
+  <!-- wires -->
+  <path class="wire" d="M150 128 C 200 128 205 142 250 142" stroke="#c8c866"/>
+  <path class="wire" d="M150 156 C 200 156 205 156 250 156" stroke="#c8c866"/>
+  <path class="wire" d="M346 149 C 380 149 385 178 420 178" stroke="#c8c866"/>
+  <path class="wire" d="M150 184 C 260 184 320 192 420 192" stroke="#c8c866"/>
+  <path class="wire" d="M530 182 C 555 182 560 152 590 150" stroke="#c8c866"/>
+  <path class="wire" d="M150 212 C 400 300 470 172 590 166" stroke="#4A9EFF" stroke-dasharray="5 3"/>
+  <path class="wire" d="M700 148 C 730 148 730 200 645 215" stroke="#c8c866"/>
+
+  <text x="20" y="300" class="cap">Order matters: Add light components first, Multiply AO to deepen shadow, then Mix fog by Z last.</text>
+  <text x="20" y="322" class="cap">The Z pass (blue, dashed) is data &#8212; it drives the fog factor rather than being blended as color.</text>
+  <text x="20" y="352" class="cap">This mirrors the Add-mix mermaid but shows the full recombine chain end to end.</text>
+</svg>

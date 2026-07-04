@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" role="img" aria-labelledby="fxsTitle fxsDesc" font-family="'Segoe UI',system-ui,-apple-system,sans-serif" color="#222">
+  <title id="fxsTitle">Atmospheric Effect Stack Order</title>
+  <desc id="fxsDesc">The recommended order for stacking post-processing effects, shown as a vertical pipeline. From first to last: Glare and bloom to spread light from bright areas, then lens effects like chromatic aberration and distortion, then film grain for texture, then a final sharpen pass. Each stage explains why it sits where it does. Order matters because effects applied out of sequence compound incorrectly, for example sharpening before grain amplifies noise.</desc>
+  <style>
+    .hd{fill:currentColor;font-size:19px;font-weight:700;}
+    .sub{fill:#9aa4b2;font-size:11px;}
+    .st{fill:#ffffff;font-size:13px;font-weight:700;}
+    .wy{fill:#d4d4d4;font-size:10px;}
+    .num{fill:#0f0f0f;font-size:13px;font-weight:700;}
+    .flow{fill:#9aa4b2;font-size:20px;font-weight:700;}
+  </style>
+  <text x="20" y="34" class="hd">Stack effects in the right order</text>
+  <text x="20" y="54" class="sub">Out of order, effects compound wrong &#8212; sharpening before grain amplifies noise; grain before bloom gets washed out.</text>
+
+  <!-- stage 1 Glow/Bloom -->
+  <rect x="30" y="76" width="700" height="60" rx="8" fill="#1b1b1b" stroke="#F5C242" stroke-width="2"/>
+  <circle cx="66" cy="106" r="16" fill="#F5C242"/>
+  <text x="61" y="111" class="num">1</text>
+  <text x="100" y="102" class="st">Glare &amp; Bloom</text>
+  <text x="100" y="122" class="wy">Spread light from bright pixels first, while the image is still clean &#8212; blooms should read as light, not amplified grain.</text>
+  <text x="375" y="152" class="flow" text-anchor="middle">&#8595;</text>
+
+  <!-- stage 2 Lens -->
+  <rect x="30" y="160" width="700" height="60" rx="8" fill="#1b1b1b" stroke="#B47EE8" stroke-width="2"/>
+  <circle cx="66" cy="190" r="16" fill="#B47EE8"/>
+  <text x="61" y="195" class="num">2</text>
+  <text x="100" y="186" class="st">Lens effects</text>
+  <text x="100" y="206" class="wy">Chromatic aberration, distortion, vignette &#8212; simulate the lens the light passed through, applied to the bloomed image.</text>
+  <text x="375" y="236" class="flow" text-anchor="middle">&#8595;</text>
+
+  <!-- stage 3 Grain -->
+  <rect x="30" y="244" width="700" height="60" rx="8" fill="#1b1b1b" stroke="#4A9EFF" stroke-width="2"/>
+  <circle cx="66" cy="274" r="16" fill="#4A9EFF"/>
+  <text x="61" y="279" class="num">3</text>
+  <text x="100" y="270" class="st">Film grain</text>
+  <text x="100" y="290" class="wy">Add texture over the graded, lensed image &#8212; grain sits on top of the "film," not underneath the optical effects.</text>
+  <text x="375" y="320" class="flow" text-anchor="middle">&#8595;</text>
+
+  <!-- stage 4 Sharpen -->
+  <rect x="30" y="328" width="700" height="58" rx="8" fill="#1b1b1b" stroke="#FF6B00" stroke-width="2"/>
+  <circle cx="66" cy="357" r="16" fill="#FF6B00"/>
+  <text x="61" y="362" class="num">4</text>
+  <text x="100" y="352" class="st">Sharpen (last)</text>
+  <text x="100" y="372" class="wy">Final crispening for delivery &#8212; do it last so it isn't blurred by later steps, and keep it subtle to avoid haloing.</text>
+</svg>
