@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="rpf-title rpf-desc" color="#222" font-family="'Segoe UI',system-ui,sans-serif">
+<title id="rpf-title">Render passes: one render split into component passes and recombined</title>
+<desc id="rpf-desc">A single rendered frame separated into individual render passes (Diffuse, Glossy, Transmission, Emission, Ambient Occlusion, Z depth, Normal) which the compositor recombines into the final image, letting you adjust each component independently.</desc>
+<rect x="0" y="0" width="800" height="600" fill="none"/>
+<text x="400" y="36" text-anchor="middle" font-size="24" font-weight="700" fill="currentColor">What Are Render Passes?</text>
+<text x="400" y="60" text-anchor="middle" font-size="13.5" fill="currentColor" opacity="0.75">One render is stored as separate layers you can edit independently, then recombine</text>
+
+<!-- Source render -->
+<g>
+  <rect x="40" y="120" width="150" height="150" rx="10" fill="#2a2a2a" stroke="#FF6B00" stroke-width="2.5"/>
+  <text x="115" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">Single Render</text>
+  <rect x="58" y="138" width="114" height="80" rx="4" fill="#3a3a3a"/>
+  <circle cx="100" cy="182" r="26" fill="#555"/>
+  <circle cx="140" cy="172" r="16" fill="#6a6a6a"/>
+  <rect x="58" y="218" width="114" height="34" rx="3" fill="#333"/>
+  <text x="115" y="240" text-anchor="middle" font-size="11" fill="#d4d4d4">Combined</text>
+</g>
+
+<!-- fan-out wires from render to passes -->
+<g stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.9">
+  <path d="M190 160 C 260 160, 260 118, 330 118"/>
+  <path d="M190 172 C 260 172, 260 168, 330 168"/>
+  <path d="M190 185 C 260 185, 260 218, 330 218"/>
+  <path d="M190 205 C 260 205, 260 268, 330 268"/>
+  <path d="M190 225 C 260 225, 260 318, 330 318"/>
+  <path d="M190 240 C 260 240, 260 368, 330 368"/>
+  <path d="M190 255 C 260 255, 260 418, 330 418"/>
+</g>
+
+<!-- pass rows -->
+<g font-size="13">
+  <g>
+    <rect x="330" y="98" width="180" height="38" rx="6" fill="none" stroke="#F5C242" stroke-width="1.8"/>
+    <circle cx="352" cy="117" r="7" fill="#F5C242"/>
+    <text x="368" y="122" fill="currentColor" font-weight="600">Diffuse</text>
+    <text x="500" y="122" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">base color / matte light</text>
+  </g>
+  <g>
+    <rect x="330" y="148" width="180" height="38" rx="6" fill="none" stroke="#4A9EFF" stroke-width="1.8"/>
+    <circle cx="352" cy="167" r="7" fill="#4A9EFF"/>
+    <text x="368" y="172" fill="currentColor" font-weight="600">Glossy</text>
+    <text x="500" y="172" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">reflections / specular</text>
+  </g>
+  <g>
+    <rect x="330" y="198" width="180" height="38" rx="6" fill="none" stroke="#4A9EFF" stroke-width="1.8"/>
+    <circle cx="352" cy="217" r="7" fill="#4A9EFF"/>
+    <text x="368" y="222" fill="currentColor" font-weight="600">Transmission</text>
+    <text x="500" y="222" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">glass / refraction</text>
+  </g>
+  <g>
+    <rect x="330" y="248" width="180" height="38" rx="6" fill="none" stroke="#FF6B00" stroke-width="1.8"/>
+    <circle cx="352" cy="267" r="7" fill="#FF6B00"/>
+    <text x="368" y="272" fill="currentColor" font-weight="600">Emission</text>
+    <text x="500" y="272" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">glowing surfaces</text>
+  </g>
+  <g>
+    <rect x="330" y="298" width="180" height="38" rx="6" fill="none" stroke="#AAAAAA" stroke-width="1.8"/>
+    <circle cx="352" cy="317" r="7" fill="#AAAAAA"/>
+    <text x="368" y="322" fill="currentColor" font-weight="600">Ambient Occlusion</text>
+    <text x="500" y="322" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">contact shadow (Value)</text>
+  </g>
+  <g>
+    <rect x="330" y="348" width="180" height="38" rx="6" fill="none" stroke="#AAAAAA" stroke-width="1.8"/>
+    <circle cx="352" cy="367" r="7" fill="#AAAAAA"/>
+    <text x="368" y="372" fill="currentColor" font-weight="600">Z Depth</text>
+    <text x="500" y="372" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">distance / DOF (Value)</text>
+  </g>
+  <g>
+    <rect x="330" y="398" width="180" height="38" rx="6" fill="none" stroke="#4A9EFF" stroke-width="1.8"/>
+    <circle cx="352" cy="417" r="7" fill="#4A9EFF"/>
+    <text x="368" y="422" fill="currentColor" font-weight="600">Normal</text>
+    <text x="500" y="422" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">surface direction (Vector)</text>
+  </g>
+</g>
+
+<!-- recombine wires -->
+<g stroke="#4ADE80" stroke-width="2" fill="none" opacity="0.9">
+  <path d="M510 117 C 580 117, 580 300, 650 300"/>
+  <path d="M510 167 C 580 167, 580 305, 650 305"/>
+  <path d="M510 217 C 585 217, 585 310, 650 310"/>
+  <path d="M510 267 C 585 267, 585 315, 650 315"/>
+  <path d="M510 317 C 590 317, 590 320, 650 320"/>
+  <path d="M510 367 C 585 367, 585 325, 650 325"/>
+  <path d="M510 417 C 580 417, 580 330, 650 330"/>
+</g>
+
+<!-- final composite -->
+<g>
+  <rect x="650" y="255" width="120" height="130" rx="10" fill="#2a2a2a" stroke="#4ADE80" stroke-width="2.5"/>
+  <text x="710" y="248" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">Composite</text>
+  <rect x="664" y="272" width="92" height="66" rx="4" fill="#3a3a3a"/>
+  <circle cx="698" cy="308" r="20" fill="#666"/>
+  <circle cx="730" cy="300" r="12" fill="#7a7a7a"/>
+  <text x="710" y="360" text-anchor="middle" font-size="10.5" fill="#d4d4d4">final image</text>
+</g>
+
+<!-- footer note -->
+<g>
+  <rect x="60" y="520" width="680" height="56" rx="10" fill="none" stroke="#4ADE80" stroke-width="2"/>
+  <text x="82" y="546" font-size="13.5" font-weight="700" fill="#4ADE80">Why bother?</text>
+  <text x="82" y="567" font-size="12.5" fill="currentColor" opacity="0.88">Brighten only reflections, tint only the glow, or add depth-of-field &#8212; without re-rendering the whole scene.</text>
+</g>
+</svg>

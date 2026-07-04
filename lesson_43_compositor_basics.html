@@ -21,7 +21,7 @@
             themeVariables: {
                 primaryColor: '#f0f0f0',
                 primaryTextColor: '#333',
-                primaryBorderColor: '#667eea'
+                primaryBorderColor: '#888888'
             }
         });
     </script>
@@ -55,7 +55,7 @@
             </header>
 
             <!-- Learning Objectives -->
-            <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <div class="card" style="background: #2a2a2a; color: white;">
                 <h2 style="color: white;">🎯 What You'll Learn</h2>
                 <ul style="color: white;">
                     <li><strong>Compositor fundamentals:</strong> Understanding nodes, workflow, and the compositing pipeline</li>
@@ -146,7 +146,7 @@
                     H --> I[Polished Image]
                     
                     style A fill:#999,stroke:#333,stroke-width:2px,color:#fff
-                    style D fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style D fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style I fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
 
@@ -206,7 +206,7 @@
                 <div class="card">
                     <h4>🤔 The Decision Framework</h4>
                     
-                    <table>
+                    <div class="table-wrap" style="overflow-x:auto;"><table style="min-width:max-content;">
                         <thead>
                             <tr>
                                 <th>Task</th>
@@ -256,7 +256,7 @@
                                 <td>Fast, adjustable, no render impact</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table></div>
                     
                     <p style="margin-top: 1rem;"><strong>General Rule:</strong> If it affects light simulation (shadows, reflections, indirect lighting), do it in 3D and re-render. If it's a post-process effect (color, blur, glow), do it in Compositor. When in doubt, try Compositor first—it's faster!</p>
                 </div>
@@ -327,7 +327,7 @@
                     style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎯 Ready to Transform Your Renders?</h3>
                     <p style="color: white;">The Compositor is the secret weapon of professional 3D artists. It's where good becomes great, where renders become art. You're about to learn techniques that separate amateur work from professional results. The best part? Most of this is fast and fun—you'll see results immediately and can experiment freely. Let's dive into Blender's compositing workspace!</p>
                 </div>
@@ -442,7 +442,119 @@
                     </ul>
                 </div>
 
-                <h3>Key Nodes You'll Always Use</h3>
+                
+                <figure style="margin:2rem 0;font-size:0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="cif-title cif-desc" font-family="'Segoe UI',system-ui,-apple-system,sans-serif">
+<title id="cif-title">The Compositor interface layout</title>
+<desc id="cif-desc">An annotated map of Blender's Compositing workspace showing four regions: the node editor main area, the backdrop preview behind the nodes, the header bar across the top, and the N-panel sidebar on the right.</desc>
+
+<!-- ===== window frame ===== -->
+<rect x="20" y="70" width="760" height="500" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+
+<!-- ===== 1. HEADER BAR ===== -->
+<rect x="20" y="70" width="760" height="34" rx="8" fill="currentColor" opacity="0.08"/>
+<rect x="20" y="98" width="760" height="6" fill="currentColor" opacity="0.08"/>
+<g font-size="12" fill="currentColor">
+  <rect x="34" y="79" width="70" height="18" rx="3" fill="#4A9EFF" opacity="0.18"/>
+  <text x="69" y="92" text-anchor="middle" font-weight="600" fill="#4A9EFF">Compositor</text>
+  <rect x="116" y="79" width="82" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+  <text x="157" y="92" text-anchor="middle">Use Nodes</text>
+  <rect x="210" y="79" width="76" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+  <text x="248" y="92" text-anchor="middle">Backdrop</text>
+  <text x="320" y="92">View</text>
+  <text x="372" y="92">Select</text>
+  <text x="428" y="92">Add</text>
+  <text x="474" y="92">Node</text>
+</g>
+
+<!-- ===== 2. BACKDROP (preview behind nodes) ===== -->
+<rect x="40" y="120" width="470" height="330" rx="5" fill="#4A9EFF" opacity="0.06"/>
+<rect x="40" y="120" width="470" height="330" rx="5" fill="none" stroke="#4A9EFF" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.7"/>
+<!-- faux composited image hint inside backdrop -->
+<circle cx="180" cy="250" r="46" fill="currentColor" opacity="0.12"/>
+<rect x="250" y="300" width="150" height="90" rx="4" fill="currentColor" opacity="0.1"/>
+<text x="52" y="140" font-size="11" fill="#4A9EFF" font-weight="600" opacity="0.9">backdrop preview</text>
+
+<!-- ===== 3. NODE EDITOR nodes on top of backdrop ===== -->
+<!-- Render Layers node -->
+<g>
+  <rect x="70" y="180" width="120" height="66" rx="5" fill="currentColor" opacity="0.1"/>
+  <rect x="70" y="180" width="120" height="18" rx="5" fill="#4ADE80" opacity="0.85"/>
+  <rect x="70" y="189" width="120" height="9" fill="#4ADE80" opacity="0.85"/>
+  <text x="130" y="193" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0c2a17">Render Layers</text>
+  <text x="130" y="216" text-anchor="middle" font-size="9.5" fill="currentColor">Image</text>
+  <text x="130" y="232" text-anchor="middle" font-size="9.5" fill="currentColor" opacity="0.7">Alpha / Z</text>
+  <circle cx="190" cy="212" r="3.5" fill="#F5C242"/>
+</g>
+<!-- RGB Curves node -->
+<g>
+  <rect x="270" y="200" width="120" height="66" rx="5" fill="currentColor" opacity="0.1"/>
+  <rect x="270" y="200" width="120" height="18" rx="5" fill="#B47EE8" opacity="0.85"/>
+  <rect x="270" y="209" width="120" height="9" fill="#B47EE8" opacity="0.85"/>
+  <text x="330" y="213" text-anchor="middle" font-size="10.5" font-weight="700" fill="#22103a">RGB Curves</text>
+  <circle cx="270" cy="234" r="3.5" fill="#F5C242"/>
+  <circle cx="390" cy="234" r="3.5" fill="#F5C242"/>
+  <path d="M284 254 q22 -14 44 -22 t28 -6" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.7"/>
+</g>
+<!-- Composite node -->
+<g>
+  <rect x="410" y="330" width="86" height="48" rx="5" fill="currentColor" opacity="0.1"/>
+  <rect x="410" y="330" width="86" height="18" rx="5" fill="#FF6B00"/>
+  <rect x="410" y="339" width="86" height="9" fill="#FF6B00"/>
+  <text x="453" y="343" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff">Composite</text>
+  <text x="453" y="366" text-anchor="middle" font-size="9.5" fill="currentColor">Image</text>
+  <circle cx="410" cy="360" r="3.5" fill="#F5C242"/>
+</g>
+<!-- wires -->
+<path d="M190 212 C230 212 232 234 270 234" fill="none" stroke="#FF6B00" stroke-width="2"/>
+<path d="M390 234 C420 234 410 360 410 360" fill="none" stroke="#FF6B00" stroke-width="2"/>
+
+<!-- node-area label -->
+<text x="88" y="440" font-size="11" fill="currentColor" font-weight="600" opacity="0.75">node editor (main area)</text>
+
+<!-- ===== 4. N-PANEL sidebar ===== -->
+<rect x="524" y="120" width="240" height="330" rx="5" fill="currentColor" opacity="0.06"/>
+<rect x="524" y="120" width="240" height="330" rx="5" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.5"/>
+<g font-size="11" fill="currentColor">
+  <rect x="524" y="120" width="240" height="24" rx="5" fill="#F5C242" opacity="0.22"/>
+  <text x="536" y="136" font-weight="700" fill="#8a6410">N-panel &#183; sidebar</text>
+  <rect x="536" y="156" width="52" height="16" rx="3" fill="#F5C242" opacity="0.3"/>
+  <text x="562" y="168" text-anchor="middle" font-size="10" font-weight="600">Item</text>
+  <text x="600" y="168" font-size="10" opacity="0.7">Tool</text>
+  <text x="640" y="168" font-size="10" opacity="0.7">View</text>
+  <text x="536" y="196" opacity="0.85">Selected node:</text>
+  <text x="536" y="214" font-weight="600" fill="#B47EE8">RGB Curves</text>
+  <line x1="536" y1="226" x2="752" y2="226" stroke="currentColor" stroke-width="1" opacity="0.25"/>
+  <text x="536" y="248" opacity="0.7">Location  X / Y</text>
+  <text x="536" y="270" opacity="0.7">Dimensions</text>
+  <text x="536" y="292" opacity="0.7">Label</text>
+  <line x1="536" y1="304" x2="752" y2="304" stroke="currentColor" stroke-width="1" opacity="0.25"/>
+  <text x="536" y="326" opacity="0.85">Detailed node settings</text>
+  <text x="536" y="344" opacity="0.7">appear here for the</text>
+  <text x="536" y="362" opacity="0.7">active node.</text>
+  <text x="536" y="400" font-size="10" opacity="0.6">Toggle with N</text>
+</g>
+
+<!-- ===== number badges ===== -->
+<g font-size="13" font-weight="700">
+  <circle cx="40" cy="87" r="11" fill="#FF6B00"/><text x="40" y="92" text-anchor="middle" fill="#fff">1</text>
+  <circle cx="58" cy="138" r="11" fill="#4A9EFF"/><text x="58" y="143" text-anchor="middle" fill="#fff">2</text>
+  <circle cx="88" cy="168" r="11" fill="#4ADE80"/><text x="88" y="173" text-anchor="middle" fill="#0c2a17">3</text>
+  <circle cx="544" cy="132" r="11" fill="#F5C242"/><text x="544" y="137" text-anchor="middle" fill="#8a6410">4</text>
+</g>
+
+<!-- ===== legend ===== -->
+<g font-size="12" fill="currentColor">
+  <text x="20" y="500" font-weight="700">Four regions of the Compositing workspace</text>
+  <circle cx="30" cy="522" r="7" fill="#FF6B00"/><text x="44" y="526"><tspan font-weight="600">1 Header bar</tspan> &#183; Use Nodes, Backdrop, Add menu</text>
+  <circle cx="30" cy="544" r="7" fill="#4A9EFF"/><text x="44" y="548"><tspan font-weight="600">2 Backdrop</tspan> &#183; live composited image behind the nodes</text>
+  <circle cx="410" cy="522" r="7" fill="#4ADE80"/><text x="424" y="526"><tspan font-weight="600">3 Node editor</tspan> &#183; build the tree here</text>
+  <circle cx="410" cy="544" r="7" fill="#F5C242"/><text x="424" y="548"><tspan font-weight="600">4 N-panel</tspan> &#183; settings for the selected node</text>
+</g>
+</svg>
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">The Compositing workspace: the header bar (Use Nodes, Backdrop, Add), the backdrop preview, the node editor where the tree is built, and the N-panel showing settings for the selected node.</figcaption>
+                </figure>
+<h3>Key Nodes You'll Always Use</h3>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ The Essential Node Set</h4>
@@ -538,12 +650,98 @@
                     </ul>
                 </div>
 
-                <h3>Essential Keyboard Shortcuts</h3>
+                
+                <figure style="margin:2rem 0;font-size:0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="skt-title skt-desc" font-family="'Segoe UI',system-ui,sans-serif">
+<title id="skt-title">Compositor socket types and connection rules</title>
+<desc id="skt-desc">Legend of the three main compositor socket colours (yellow color/RGBA, gray value, blue vector) with a matrix showing which socket outputs may connect to which inputs and how Blender auto-converts mismatched types.</desc>
+<rect x="0" y="0" width="800" height="600" fill="none"/>
+<text x="400" y="38" text-anchor="middle" font-size="24" font-weight="700" fill="currentColor">Sockets &#38; Data Types</text>
+<text x="400" y="62" text-anchor="middle" font-size="14" fill="currentColor" opacity="0.75">Socket colour tells you what kind of data flows through the wire</text>
+
+<!-- Legend row -->
+<g>
+  <rect x="40" y="90" width="230" height="130" rx="10" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.9"/>
+  <circle cx="70" cy="122" r="11" fill="#F5C242" stroke="currentColor" stroke-width="1.5"/>
+  <text x="92" y="127" font-size="17" font-weight="700" fill="currentColor">Yellow &#8212; Color</text>
+  <text x="55" y="152" font-size="13" fill="currentColor" opacity="0.85">Full RGBA image data</text>
+  <text x="55" y="172" font-size="13" fill="currentColor" opacity="0.85">Red, Green, Blue + Alpha</text>
+  <text x="55" y="192" font-size="13" fill="currentColor" opacity="0.85">Render Layers Image,</text>
+  <text x="55" y="209" font-size="13" fill="currentColor" opacity="0.85">Composite input</text>
+</g>
+<g>
+  <rect x="285" y="90" width="230" height="130" rx="10" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.9"/>
+  <circle cx="315" cy="122" r="11" fill="#AAAAAA" stroke="currentColor" stroke-width="1.5"/>
+  <text x="337" y="127" font-size="17" font-weight="700" fill="currentColor">Gray &#8212; Value</text>
+  <text x="300" y="152" font-size="13" fill="currentColor" opacity="0.85">Single grayscale channel</text>
+  <text x="300" y="172" font-size="13" fill="currentColor" opacity="0.85">Factors, masks, Z depth,</text>
+  <text x="300" y="192" font-size="13" fill="currentColor" opacity="0.85">Mist, single-value maps</text>
+  <text x="300" y="209" font-size="13" fill="currentColor" opacity="0.85">0.0 to 1.0 range</text>
+</g>
+<g>
+  <rect x="530" y="90" width="230" height="130" rx="10" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.9"/>
+  <circle cx="560" cy="122" r="11" fill="#4A9EFF" stroke="currentColor" stroke-width="1.5"/>
+  <text x="582" y="127" font-size="17" font-weight="700" fill="currentColor">Blue &#8212; Vector</text>
+  <text x="545" y="152" font-size="13" fill="currentColor" opacity="0.85">Three-component data</text>
+  <text x="545" y="172" font-size="13" fill="currentColor" opacity="0.85">Normals, motion,</text>
+  <text x="545" y="192" font-size="13" fill="currentColor" opacity="0.85">UV / speed vectors</text>
+  <text x="545" y="209" font-size="13" fill="currentColor" opacity="0.85">XYZ per pixel</text>
+</g>
+
+<!-- Connection rule matrix -->
+<text x="400" y="270" text-anchor="middle" font-size="18" font-weight="700" fill="currentColor">Connection Rules</text>
+<text x="400" y="292" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.75">Blender auto-converts most mismatches &#8212; but the result is not always what you want</text>
+
+<g font-size="13" fill="currentColor">
+  <!-- header -->
+  <rect x="60" y="310" width="680" height="40" rx="6" fill="#2a2a2a"/>
+  <text x="150" y="335" text-anchor="middle" font-size="13" font-weight="700" fill="#d4d4d4">Output &#8594; Input</text>
+  <text x="330" y="335" text-anchor="middle" font-size="13" font-weight="700" fill="#d4d4d4">To Color</text>
+  <text x="480" y="335" text-anchor="middle" font-size="13" font-weight="700" fill="#d4d4d4">To Value</text>
+  <text x="640" y="335" text-anchor="middle" font-size="13" font-weight="700" fill="#d4d4d4">To Vector</text>
+
+  <!-- row: from Color -->
+  <line x1="60" y1="392" x2="740" y2="392" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+  <circle cx="80" cy="374" r="8" fill="#F5C242" stroke="currentColor" stroke-width="1"/>
+  <text x="98" y="379" font-weight="600">From Color</text>
+  <text x="330" y="379" text-anchor="middle" fill="#4ADE80" font-weight="700">direct</text>
+  <text x="480" y="379" text-anchor="middle">luminance avg</text>
+  <text x="640" y="379" text-anchor="middle">RGB &#8594; XYZ</text>
+
+  <!-- row: from Value -->
+  <line x1="60" y1="434" x2="740" y2="434" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+  <circle cx="80" cy="416" r="8" fill="#AAAAAA" stroke="currentColor" stroke-width="1"/>
+  <text x="98" y="421" font-weight="600">From Value</text>
+  <text x="330" y="421" text-anchor="middle">gray in RGB</text>
+  <text x="480" y="421" text-anchor="middle" fill="#4ADE80" font-weight="700">direct</text>
+  <text x="640" y="421" text-anchor="middle">copied to XYZ</text>
+
+  <!-- row: from Vector -->
+  <circle cx="80" cy="458" r="8" fill="#4A9EFF" stroke="currentColor" stroke-width="1"/>
+  <text x="98" y="463" font-weight="600">From Vector</text>
+  <text x="330" y="463" text-anchor="middle">XYZ &#8594; RGB</text>
+  <text x="480" y="463" text-anchor="middle">first component</text>
+  <text x="640" y="463" text-anchor="middle" fill="#4ADE80" font-weight="700">direct</text>
+</g>
+
+<!-- caution note -->
+<g>
+  <rect x="60" y="500" width="680" height="72" rx="10" fill="none" stroke="#F5C242" stroke-width="2"/>
+  <circle cx="88" cy="536" r="12" fill="#F5C242"/>
+  <text x="88" y="541" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a1a">!</text>
+  <text x="115" y="527" font-size="14" font-weight="700" fill="currentColor">Match types on purpose</text>
+  <text x="115" y="548" font-size="12.5" fill="currentColor" opacity="0.85">Feeding a Z-depth (Value) into a Color input works, but you see raw depth as brightness.</text>
+  <text x="115" y="565" font-size="12.5" fill="currentColor" opacity="0.85">Use Map Range or ColorRamp to shape a Value before it drives a factor or a color.</text>
+</g>
+</svg>
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">Compositor socket colours and connection rules. Yellow carries full RGBA colour, gray a single value, blue a three-component vector; Blender auto-converts mismatches, so match types deliberately.</figcaption>
+                </figure>
+<h3>Essential Keyboard Shortcuts</h3>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ Speed Up Your Workflow</h4>
                     
-                    <table>
+                    <div class="table-wrap" style="overflow-x:auto;"><table style="min-width:max-content;">
                         <thead>
                             <tr>
                                 <th>Shortcut</th>
@@ -613,7 +811,7 @@
                                 <td>Zoom to selected nodes</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table></div>
                     
                     <p style="margin-top: 1rem;"><strong>Pro Workflow Tip:</strong> Ctrl+Shift+Click on ANY node to instantly add a Viewer showing its output. This is the fastest way to check what any node is producing. Use it constantly while building!</p>
                 </div>
@@ -730,7 +928,7 @@
                     <p><strong>💡 Pro Workflow Insight:</strong> Professional compositors keep their node trees organized from the start. Use Frames (Ctrl+J) to group related nodes, add Reroute nodes (Shift+A → Layout → Reroute) to keep connections clean, and label important nodes. A messy node tree is hard to debug and modify later. Spend 5 seconds organizing now to save 30 minutes later when you need to adjust something!</p>
                 </blockquote>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎓 Interface Mastered!</h3>
                     <p style="color: white;">You now know your way around the Compositor interface! You understand the layout, the essential nodes, socket types, keyboard shortcuts, and the crucial Backdrop system. This foundation lets you work efficiently. The interface itself is simple—the power comes from the nodes you connect. Speaking of which, let's dive into render passes, which unlock the full potential of compositing!</p>
                 </div>
@@ -811,11 +1009,118 @@
                     I --> J[Final Image]
                     
                     style A fill:#999,stroke:#333,stroke-width:2px,color:#fff
-                    style H fill:#667eea,stroke:#333,stroke-width:2px,color:#fff
+                    style H fill:#3a3a3a,stroke:#333,stroke-width:2px,color:#fff
                     style J fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
                 </div>
 
-                <h3>Enabling Render Passes</h3>
+                
+                <figure style="margin:2rem 0;font-size:0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="rpf-title rpf-desc" font-family="'Segoe UI',system-ui,sans-serif">
+<title id="rpf-title">Render passes: one render split into component passes and recombined</title>
+<desc id="rpf-desc">A single rendered frame separated into individual render passes (Diffuse, Glossy, Transmission, Emission, Ambient Occlusion, Z depth, Normal) which the compositor recombines into the final image, letting you adjust each component independently.</desc>
+<rect x="0" y="0" width="800" height="600" fill="none"/>
+<text x="400" y="36" text-anchor="middle" font-size="24" font-weight="700" fill="currentColor">What Are Render Passes?</text>
+<text x="400" y="60" text-anchor="middle" font-size="13.5" fill="currentColor" opacity="0.75">One render is stored as separate layers you can edit independently, then recombine</text>
+
+<!-- Source render -->
+<g>
+  <rect x="40" y="120" width="150" height="150" rx="10" fill="#2a2a2a" stroke="#FF6B00" stroke-width="2.5"/>
+  <text x="115" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">Single Render</text>
+  <rect x="58" y="138" width="114" height="80" rx="4" fill="#3a3a3a"/>
+  <circle cx="100" cy="182" r="26" fill="#555"/>
+  <circle cx="140" cy="172" r="16" fill="#6a6a6a"/>
+  <rect x="58" y="218" width="114" height="34" rx="3" fill="#333"/>
+  <text x="115" y="240" text-anchor="middle" font-size="11" fill="#d4d4d4">Combined</text>
+</g>
+
+<!-- fan-out wires from render to passes -->
+<g stroke="#FF6B00" stroke-width="2" fill="none" opacity="0.9">
+  <path d="M190 160 C 260 160, 260 118, 330 118"/>
+  <path d="M190 172 C 260 172, 260 168, 330 168"/>
+  <path d="M190 185 C 260 185, 260 218, 330 218"/>
+  <path d="M190 205 C 260 205, 260 268, 330 268"/>
+  <path d="M190 225 C 260 225, 260 318, 330 318"/>
+  <path d="M190 240 C 260 240, 260 368, 330 368"/>
+  <path d="M190 255 C 260 255, 260 418, 330 418"/>
+</g>
+
+<!-- pass rows -->
+<g font-size="13">
+  <g>
+    <rect x="330" y="98" width="180" height="38" rx="6" fill="none" stroke="#F5C242" stroke-width="1.8"/>
+    <circle cx="352" cy="117" r="7" fill="#F5C242"/>
+    <text x="368" y="122" fill="currentColor" font-weight="600">Diffuse</text>
+    <text x="500" y="122" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">base color / matte light</text>
+  </g>
+  <g>
+    <rect x="330" y="148" width="180" height="38" rx="6" fill="none" stroke="#4A9EFF" stroke-width="1.8"/>
+    <circle cx="352" cy="167" r="7" fill="#4A9EFF"/>
+    <text x="368" y="172" fill="currentColor" font-weight="600">Glossy</text>
+    <text x="500" y="172" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">reflections / specular</text>
+  </g>
+  <g>
+    <rect x="330" y="198" width="180" height="38" rx="6" fill="none" stroke="#4A9EFF" stroke-width="1.8"/>
+    <circle cx="352" cy="217" r="7" fill="#4A9EFF"/>
+    <text x="368" y="222" fill="currentColor" font-weight="600">Transmission</text>
+    <text x="500" y="222" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">glass / refraction</text>
+  </g>
+  <g>
+    <rect x="330" y="248" width="180" height="38" rx="6" fill="none" stroke="#FF6B00" stroke-width="1.8"/>
+    <circle cx="352" cy="267" r="7" fill="#FF6B00"/>
+    <text x="368" y="272" fill="currentColor" font-weight="600">Emission</text>
+    <text x="500" y="272" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">glowing surfaces</text>
+  </g>
+  <g>
+    <rect x="330" y="298" width="180" height="38" rx="6" fill="none" stroke="#AAAAAA" stroke-width="1.8"/>
+    <circle cx="352" cy="317" r="7" fill="#AAAAAA"/>
+    <text x="368" y="322" fill="currentColor" font-weight="600">Ambient Occlusion</text>
+    <text x="500" y="322" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">contact shadow (Value)</text>
+  </g>
+  <g>
+    <rect x="330" y="348" width="180" height="38" rx="6" fill="none" stroke="#AAAAAA" stroke-width="1.8"/>
+    <circle cx="352" cy="367" r="7" fill="#AAAAAA"/>
+    <text x="368" y="372" fill="currentColor" font-weight="600">Z Depth</text>
+    <text x="500" y="372" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">distance / DOF (Value)</text>
+  </g>
+  <g>
+    <rect x="330" y="398" width="180" height="38" rx="6" fill="none" stroke="#4A9EFF" stroke-width="1.8"/>
+    <circle cx="352" cy="417" r="7" fill="#4A9EFF"/>
+    <text x="368" y="422" fill="currentColor" font-weight="600">Normal</text>
+    <text x="500" y="422" text-anchor="end" fill="currentColor" opacity="0.7" font-size="11">surface direction (Vector)</text>
+  </g>
+</g>
+
+<!-- recombine wires -->
+<g stroke="#4ADE80" stroke-width="2" fill="none" opacity="0.9">
+  <path d="M510 117 C 580 117, 580 300, 650 300"/>
+  <path d="M510 167 C 580 167, 580 305, 650 305"/>
+  <path d="M510 217 C 585 217, 585 310, 650 310"/>
+  <path d="M510 267 C 585 267, 585 315, 650 315"/>
+  <path d="M510 317 C 590 317, 590 320, 650 320"/>
+  <path d="M510 367 C 585 367, 585 325, 650 325"/>
+  <path d="M510 417 C 580 417, 580 330, 650 330"/>
+</g>
+
+<!-- final composite -->
+<g>
+  <rect x="650" y="255" width="120" height="130" rx="10" fill="#2a2a2a" stroke="#4ADE80" stroke-width="2.5"/>
+  <text x="710" y="248" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">Composite</text>
+  <rect x="664" y="272" width="92" height="66" rx="4" fill="#3a3a3a"/>
+  <circle cx="698" cy="308" r="20" fill="#666"/>
+  <circle cx="730" cy="300" r="12" fill="#7a7a7a"/>
+  <text x="710" y="360" text-anchor="middle" font-size="10.5" fill="#d4d4d4">final image</text>
+</g>
+
+<!-- footer note -->
+<g>
+  <rect x="60" y="520" width="680" height="56" rx="10" fill="none" stroke="#4ADE80" stroke-width="2"/>
+  <text x="82" y="546" font-size="13.5" font-weight="700" fill="#4ADE80">Why bother?</text>
+  <text x="82" y="567" font-size="12.5" fill="currentColor" opacity="0.88">Brighten only reflections, tint only the glow, or add depth-of-field &#8212; without re-rendering the whole scene.</text>
+</g>
+</svg>
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">A single render is stored as separate passes &#8212; Diffuse, Glossy, Transmission, Emission, Ambient Occlusion, Z depth and Normal &#8212; which the compositor recombines, letting you adjust each component without re-rendering.</figcaption>
+                </figure>
+<h3>Enabling Render Passes</h3>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ How to Enable Passes (Cycles)</h4>
@@ -854,7 +1159,110 @@
                     <p style="margin-top: 1rem;"><strong>Important Note:</strong> Passes are <strong>Cycles-specific</strong>. Eevee has different pass options (fewer available). For this lesson, we focus on Cycles passes as they're more comprehensive and industry-standard.</p>
                 </div>
 
-                <h3>Essential Render Passes Explained</h3>
+                
+                <figure style="margin:2rem 0;font-size:0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="pms-title pms-desc" font-family="'Segoe UI',system-ui,sans-serif">
+<title id="pms-title">View Layer Properties Passes panel</title>
+<desc id="pms-desc">Mock of the View Layer Properties Passes panel in Blender, split into a Data group (Z, Mist, Normal, Position, Vector, Ambient Occlusion, index passes) and a Light group (Diffuse, Glossy and Transmission each with Direct, Indirect and Color, plus Emission, Environment and Shadow), with checkboxes showing which passes to enable.</desc>
+<rect x="0" y="0" width="800" height="600" fill="none"/>
+<text x="400" y="34" text-anchor="middle" font-size="23" font-weight="700" fill="currentColor">Enabling Render Passes</text>
+<text x="400" y="57" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.75">Properties editor &#8594; View Layer Properties &#8594; Passes</text>
+
+<!-- panel frame -->
+<rect x="60" y="78" width="680" height="500" rx="12" fill="#2a2a2a" stroke="currentColor" stroke-width="1.5"/>
+
+<!-- panel header -->
+<rect x="60" y="78" width="680" height="40" rx="12" fill="#333"/>
+<rect x="60" y="100" width="680" height="18" fill="#333"/>
+<circle cx="86" cy="98" r="6" fill="#FF6B00"/>
+<text x="102" y="103" font-size="14" font-weight="700" fill="#d4d4d4">Passes</text>
+
+<!-- DATA GROUP -->
+<g>
+  <rect x="84" y="132" width="316" height="30" rx="5" fill="#3a3a3a"/>
+  <text x="100" y="152" font-size="14.5" font-weight="700" fill="#d4d4d4">Data</text>
+</g>
+<g font-size="13.5" fill="#d4d4d4">
+  <rect x="100" y="176" width="16" height="16" rx="3" fill="#4ADE80"/>
+  <path d="M103 184 l3 3 l6 -7" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+  <text x="126" y="189">Combined</text>
+
+  <rect x="100" y="204" width="16" height="16" rx="3" fill="#4ADE80"/>
+  <path d="M103 212 l3 3 l6 -7" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+  <text x="126" y="217">Z (depth)</text>
+  <text x="240" y="217" font-size="11" fill="#4A9EFF">for DOF / fog</text>
+
+  <rect x="100" y="232" width="16" height="16" rx="3" fill="#4ADE80"/>
+  <path d="M103 240 l3 3 l6 -7" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+  <text x="126" y="245">Mist</text>
+  <text x="240" y="245" font-size="11" fill="#4A9EFF">atmosphere</text>
+
+  <rect x="100" y="260" width="16" height="16" rx="3" fill="none" stroke="#888" stroke-width="1.6"/>
+  <text x="126" y="273" opacity="0.85">Normal</text>
+
+  <rect x="100" y="288" width="16" height="16" rx="3" fill="none" stroke="#888" stroke-width="1.6"/>
+  <text x="126" y="301" opacity="0.85">Position</text>
+
+  <rect x="100" y="316" width="16" height="16" rx="3" fill="none" stroke="#888" stroke-width="1.6"/>
+  <text x="126" y="329" opacity="0.85">Vector (motion)</text>
+
+  <rect x="100" y="344" width="16" height="16" rx="3" fill="#4ADE80"/>
+  <path d="M103 352 l3 3 l6 -7" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+  <text x="126" y="357">Ambient Occlusion</text>
+
+  <rect x="100" y="372" width="16" height="16" rx="3" fill="none" stroke="#888" stroke-width="1.6"/>
+  <text x="126" y="385" opacity="0.85">Material Index</text>
+
+  <rect x="100" y="400" width="16" height="16" rx="3" fill="none" stroke="#888" stroke-width="1.6"/>
+  <text x="126" y="413" opacity="0.85">Object Index</text>
+
+  <rect x="100" y="428" width="16" height="16" rx="3" fill="none" stroke="#888" stroke-width="1.6"/>
+  <text x="126" y="441" opacity="0.85">Cryptomatte</text>
+</g>
+
+<!-- LIGHT GROUP -->
+<g>
+  <rect x="418" y="132" width="298" height="30" rx="5" fill="#3a3a3a"/>
+  <text x="434" y="152" font-size="14.5" font-weight="700" fill="#d4d4d4">Light</text>
+</g>
+<g font-size="13" fill="#d4d4d4">
+  <text x="434" y="184" font-size="12" font-weight="700" fill="#F5C242">Diffuse</text>
+  <rect x="440" y="192" width="15" height="15" rx="3" fill="#4ADE80"/><path d="M443 200 l2.5 2.5 l5.5 -6" stroke="#1a1a1a" stroke-width="1.8" fill="none"/><text x="463" y="204" font-size="12">Direct</text>
+  <rect x="548" y="192" width="15" height="15" rx="3" fill="#4ADE80"/><path d="M551 200 l2.5 2.5 l5.5 -6" stroke="#1a1a1a" stroke-width="1.8" fill="none"/><text x="571" y="204" font-size="12">Indirect</text>
+  <rect x="656" y="192" width="15" height="15" rx="3" fill="none" stroke="#888" stroke-width="1.6"/><text x="679" y="204" font-size="12" opacity="0.85">Color</text>
+
+  <text x="434" y="236" font-size="12" font-weight="700" fill="#F5C242">Glossy</text>
+  <rect x="440" y="244" width="15" height="15" rx="3" fill="#4ADE80"/><path d="M443 252 l2.5 2.5 l5.5 -6" stroke="#1a1a1a" stroke-width="1.8" fill="none"/><text x="463" y="256" font-size="12">Direct</text>
+  <rect x="548" y="244" width="15" height="15" rx="3" fill="#4ADE80"/><path d="M551 252 l2.5 2.5 l5.5 -6" stroke="#1a1a1a" stroke-width="1.8" fill="none"/><text x="571" y="256" font-size="12">Indirect</text>
+  <rect x="656" y="244" width="15" height="15" rx="3" fill="none" stroke="#888" stroke-width="1.6"/><text x="679" y="256" font-size="12" opacity="0.85">Color</text>
+
+  <text x="434" y="288" font-size="12" font-weight="700" fill="#F5C242">Transmission</text>
+  <rect x="440" y="296" width="15" height="15" rx="3" fill="none" stroke="#888" stroke-width="1.6"/><text x="463" y="308" font-size="12" opacity="0.85">Direct</text>
+  <rect x="548" y="296" width="15" height="15" rx="3" fill="none" stroke="#888" stroke-width="1.6"/><text x="571" y="308" font-size="12" opacity="0.85">Indirect</text>
+  <rect x="656" y="296" width="15" height="15" rx="3" fill="none" stroke="#888" stroke-width="1.6"/><text x="679" y="308" font-size="12" opacity="0.85">Color</text>
+
+  <line x1="434" y1="330" x2="700" y2="330" stroke="currentColor" stroke-width="1" opacity="0.25"/>
+
+  <rect x="440" y="344" width="15" height="15" rx="3" fill="#4ADE80"/><path d="M443 352 l2.5 2.5 l5.5 -6" stroke="#1a1a1a" stroke-width="1.8" fill="none"/><text x="463" y="356" font-size="12.5">Emission</text>
+  <rect x="440" y="372" width="15" height="15" rx="3" fill="none" stroke="#888" stroke-width="1.6"/><text x="463" y="384" font-size="12.5" opacity="0.85">Environment</text>
+  <rect x="440" y="400" width="15" height="15" rx="3" fill="none" stroke="#888" stroke-width="1.6"/><text x="463" y="412" font-size="12.5" opacity="0.85">Shadow</text>
+  <rect x="440" y="428" width="15" height="15" rx="3" fill="none" stroke="#888" stroke-width="1.6"/><text x="463" y="440" font-size="12.5" opacity="0.85">Ambient Occlusion</text>
+</g>
+
+<!-- tip footer -->
+<g>
+  <rect x="84" y="470" width="632" height="90" rx="10" fill="none" stroke="#4ADE80" stroke-width="2"/>
+  <circle cx="112" cy="500" r="12" fill="#4ADE80"/>
+  <path d="M106 500 l4 4 l8 -9" stroke="#1a1a1a" stroke-width="2.2" fill="none"/>
+  <text x="136" y="494" font-size="14" font-weight="700" fill="currentColor">Enable only what you need</text>
+  <text x="136" y="516" font-size="12.5" fill="currentColor" opacity="0.88">Green ticks above are a sensible starter set: Z + Mist for depth effects, AO for contact shadows,</text>
+  <text x="136" y="534" font-size="12.5" fill="currentColor" opacity="0.88">Diffuse and Glossy Direct/Indirect for relighting, Emission for glows. Each pass adds render memory,</text>
+  <text x="136" y="552" font-size="12.5" fill="currentColor" opacity="0.88">so leave the rest off until a shot actually calls for them. Re-render after enabling new passes.</text>
+</g>
+</svg>
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">The View Layer Properties Passes panel. A sensible starter set (green ticks): Z and Mist for depth effects, Ambient Occlusion for contact shadow, Diffuse and Glossy Direct/Indirect for relighting, Emission for glows.</figcaption>
+                </figure>
+<h3>Essential Render Passes Explained</h3>
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
                     <h4>💡 The Most Useful Passes</h4>
@@ -1094,7 +1502,12 @@ Render Layers → AO Pass
                     <p style="margin-top: 1rem;"><strong>What You've Learned:</strong> Each pass isolates specific information. Z shows depth, AO shows occlusion, Diffuse shows base lighting, Glossy shows reflections. Understanding what each pass contains is crucial for using them effectively. Now you can adjust these components individually!</p>
                 </div>
 
-                <h3>Common Render Pass Workflows</h3>
+                
+                <figure style="margin:2rem 0;font-size:0;">
+                    <img src="images/lesson_43_10_render_pass_contact_sheet.png" width="1944" height="1298" alt="Render passes of a single scene" style="max-width:100%;height:auto;margin:0;vertical-align:top;border-radius:6px;">
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">One Cycles scene shown as six render passes &#8212; Combined, Diffuse, Glossy, Ambient Occlusion, Z depth and Normal &#8212; so you can see what each pass actually looks like.</figcaption>
+                </figure>
+<h3>Common Render Pass Workflows</h3>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ Professional Pass Usage Patterns</h4>
@@ -1170,7 +1583,7 @@ Render Layers → AO Pass
                     </ul>
                 </div>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎓 Render Passes Mastered!</h3>
                     <p style="color: white;">You now understand the power of render passes! You know what they are, why they're essential, which passes exist, and how to enable and access them. This knowledge unlocks professional-level control over your renders. Next, we'll explore the essential Compositor nodes you'll use to manipulate these passes and create stunning results. Time to build some node trees!</p>
                 </div>
@@ -1375,7 +1788,100 @@ Render Layers → AO Pass
                     </ul>
                 </div>
 
-                <h3>Converter Nodes (Data Manipulation)</h3>
+                
+                <figure style="margin:2rem 0;font-size:0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="blm-title blm-desc" font-family="'Segoe UI',system-ui,sans-serif">
+<title id="blm-title">Mix node blend modes and when to use each</title>
+<desc id="blm-desc">A decision chart for the Mix node blend modes: Add brightens and is used for light passes and glows, Multiply darkens and is used for ambient occlusion and shadow, Screen builds glows without clipping, Overlay boosts contrast, and Mix plainly blends two inputs by a factor. Each row shows a small black-and-white swatch demonstrating the result.</desc>
+<rect x="0" y="0" width="800" height="600" fill="none"/>
+<text x="400" y="34" text-anchor="middle" font-size="24" font-weight="700" fill="currentColor">Blend Modes: Which to Use</text>
+<text x="400" y="58" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.75">The Mix node blends two images; the mode decides how they combine</text>
+
+<!-- column headers -->
+<g font-size="12" font-weight="700" fill="currentColor" opacity="0.7">
+  <text x="70" y="92">MODE</text>
+  <text x="250" y="92" text-anchor="middle">RESULT</text>
+  <text x="360" y="92">WHAT IT DOES</text>
+  <text x="560" y="92">REACH FOR IT WHEN</text>
+</g>
+<line x1="40" y1="100" x2="760" y2="100" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+
+<!-- helper swatch: two overlapping squares A (dark-left) + B (light-right), result middle -->
+<!-- ADD -->
+<g>
+  <rect x="40" y="112" width="720" height="76" rx="8" fill="none" stroke="#4ADE80" stroke-width="1.6"/>
+  <text x="58" y="156" font-size="16" font-weight="700" fill="#4ADE80">Add</text>
+  <!-- swatch: two mid-grays sum to brighter -->
+  <rect x="212" y="126" width="22" height="48" fill="#555"/>
+  <rect x="236" y="126" width="22" height="48" fill="#888"/>
+  <rect x="260" y="126" width="22" height="48" fill="#e0e0e0"/>
+  <text x="360" y="145" font-size="13" fill="currentColor">Sums pixel values &#8212; always brightens</text>
+  <text x="360" y="165" font-size="11.5" fill="currentColor" opacity="0.7">Values stack, can blow past white</text>
+  <text x="560" y="145" font-size="12.5" fill="currentColor">Recombining light passes,</text>
+  <text x="560" y="163" font-size="12.5" fill="currentColor">adding glow / emission back in</text>
+</g>
+
+<!-- MULTIPLY -->
+<g>
+  <rect x="40" y="196" width="720" height="76" rx="8" fill="none" stroke="#E63946" stroke-width="1.6"/>
+  <text x="58" y="240" font-size="16" font-weight="700" fill="#E63946">Multiply</text>
+  <rect x="212" y="210" width="22" height="48" fill="#cfcfcf"/>
+  <rect x="236" y="210" width="22" height="48" fill="#888"/>
+  <rect x="260" y="210" width="22" height="48" fill="#4a4a4a"/>
+  <text x="360" y="229" font-size="13" fill="currentColor">Multiplies values &#8212; always darkens</text>
+  <text x="360" y="249" font-size="11.5" fill="currentColor" opacity="0.7">White keeps, black wipes out</text>
+  <text x="560" y="229" font-size="12.5" fill="currentColor">Applying ambient occlusion</text>
+  <text x="560" y="247" font-size="12.5" fill="currentColor">or a shadow pass onto color</text>
+</g>
+
+<!-- SCREEN -->
+<g>
+  <rect x="40" y="280" width="720" height="76" rx="8" fill="none" stroke="#4A9EFF" stroke-width="1.6"/>
+  <text x="58" y="324" font-size="16" font-weight="700" fill="#4A9EFF">Screen</text>
+  <rect x="212" y="294" width="22" height="48" fill="#4a4a4a"/>
+  <rect x="236" y="294" width="22" height="48" fill="#888"/>
+  <rect x="260" y="294" width="22" height="48" fill="#c4c4c4"/>
+  <text x="360" y="313" font-size="13" fill="currentColor">Inverse-multiply &#8212; brightens softly</text>
+  <text x="360" y="333" font-size="11.5" fill="currentColor" opacity="0.7">Lifts without harsh clipping</text>
+  <text x="560" y="313" font-size="12.5" fill="currentColor">Building up glows and haze</text>
+  <text x="560" y="331" font-size="12.5" fill="currentColor">that should not clip to white</text>
+</g>
+
+<!-- OVERLAY -->
+<g>
+  <rect x="40" y="364" width="720" height="76" rx="8" fill="none" stroke="#F5C242" stroke-width="1.6"/>
+  <text x="58" y="408" font-size="16" font-weight="700" fill="#F5C242">Overlay</text>
+  <rect x="212" y="378" width="22" height="48" fill="#3a3a3a"/>
+  <rect x="236" y="378" width="22" height="48" fill="#888"/>
+  <rect x="260" y="378" width="22" height="48" fill="#d8d8d8"/>
+  <text x="360" y="397" font-size="13" fill="currentColor">Darkens darks, brightens lights</text>
+  <text x="360" y="417" font-size="11.5" fill="currentColor" opacity="0.7">Punches up midtone contrast</text>
+  <text x="560" y="397" font-size="12.5" fill="currentColor">Adding contrast or texture,</text>
+  <text x="560" y="415" font-size="12.5" fill="currentColor">stylized grade overlays</text>
+</g>
+
+<!-- MIX -->
+<g>
+  <rect x="40" y="448" width="720" height="76" rx="8" fill="none" stroke="currentColor" stroke-width="1.6"/>
+  <text x="58" y="492" font-size="16" font-weight="700" fill="currentColor">Mix</text>
+  <rect x="212" y="462" width="22" height="48" fill="#3a3a3a"/>
+  <rect x="236" y="462" width="22" height="48" fill="#cfcfcf"/>
+  <rect x="260" y="462" width="22" height="48" fill="#818181"/>
+  <text x="360" y="481" font-size="13" fill="currentColor">Plain crossfade by Factor 0 to 1</text>
+  <text x="360" y="501" font-size="11.5" fill="currentColor" opacity="0.7">Factor 0.5 = half of each input</text>
+  <text x="560" y="481" font-size="12.5" fill="currentColor">Blending two versions, masking</text>
+  <text x="560" y="499" font-size="12.5" fill="currentColor">with a Factor input or matte</text>
+</g>
+
+<!-- footer key -->
+<g>
+  <rect x="40" y="540" width="720" height="44" rx="8" fill="none" stroke="#4ADE80" stroke-width="1.6"/>
+  <text x="58" y="567" font-size="12.5" fill="currentColor"><tspan font-weight="700" fill="#4ADE80">Rule of thumb:</tspan> Add and Screen lighten, Multiply darkens, Overlay adds contrast, Mix just blends by Factor.</text>
+</g>
+</svg>
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">Mix-node blend modes at a glance. Add and Screen lighten, Multiply darkens, Overlay boosts midtone contrast, and plain Mix crossfades by Factor &#8212; each row shows the grayscale result.</figcaption>
+                </figure>
+<h3>Converter Nodes (Data Manipulation)</h3>
 
                 <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
                     <h4>✅ Data Processing Nodes</h4>
@@ -1500,7 +2006,109 @@ Render Layers → AO Pass
                 <h3>Node Usage Patterns</h3>
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
-                    <h4>💡 Common Node Combinations</h4>
+                    
+                <figure style="margin:2rem 0;font-size:0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-labelledby="ndx-title ndx-desc" font-family="'Segoe UI',system-ui,sans-serif">
+<title id="ndx-title">Compositor node catalog by category</title>
+<desc id="ndx-desc">A reference map of the most-used compositor nodes grouped into five categories: Color (RGB Curves, Hue/Saturation, Bright/Contrast, Color Balance, Gamma, Exposure), Filter (Blur, Glare, Denoise, Sharpen, Dilate/Erode), Mix (Mix, Alpha Over, Z Combine), Converter (ColorRamp, RGB to BW, Set Alpha, Separate/Combine, Math), and Matte (ID Mask, Cryptomatte).</desc>
+<rect x="0" y="0" width="900" height="620" fill="none"/>
+<text x="450" y="34" text-anchor="middle" font-size="24" font-weight="700" fill="currentColor">Compositor Node Catalog</text>
+<text x="450" y="58" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.75">The nodes you reach for most, grouped by what they do</text>
+
+<!-- 5 columns; each header uses a role hex, body nodes are currentColor chips -->
+<!-- col geometry: x starts, width 160, gap 12 -->
+<!-- COLOR col -->
+<g>
+  <rect x="24" y="80" width="164" height="34" rx="7" fill="#FF6B00"/>
+  <text x="106" y="103" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a1a">Color</text>
+  <g font-size="12.5" fill="currentColor">
+    <rect x="30" y="126" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="106" y="145" text-anchor="middle">RGB Curves</text>
+    <rect x="30" y="164" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="106" y="183" text-anchor="middle">Hue / Saturation</text>
+    <rect x="30" y="202" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="106" y="221" text-anchor="middle">Bright / Contrast</text>
+    <rect x="30" y="240" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="106" y="259" text-anchor="middle">Color Balance</text>
+    <rect x="30" y="278" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="106" y="297" text-anchor="middle">Gamma</text>
+    <rect x="30" y="316" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="106" y="335" text-anchor="middle">Exposure</text>
+  </g>
+  <text x="106" y="368" text-anchor="middle" font-size="11" fill="#FF6B00">tone, grade, saturation</text>
+</g>
+
+<!-- FILTER col -->
+<g>
+  <rect x="200" y="80" width="164" height="34" rx="7" fill="#4A9EFF"/>
+  <text x="282" y="103" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a1a">Filter</text>
+  <g font-size="12.5" fill="currentColor">
+    <rect x="206" y="126" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="282" y="145" text-anchor="middle">Blur</text>
+    <rect x="206" y="164" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="282" y="183" text-anchor="middle">Glare</text>
+    <rect x="206" y="202" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="282" y="221" text-anchor="middle">Denoise</text>
+    <rect x="206" y="240" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="282" y="259" text-anchor="middle">Filter (sharpen)</text>
+    <rect x="206" y="278" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="282" y="297" text-anchor="middle">Dilate / Erode</text>
+  </g>
+  <text x="282" y="330" text-anchor="middle" font-size="11" fill="#4A9EFF">soften, glow, clean up</text>
+</g>
+
+<!-- MIX col -->
+<g>
+  <rect x="376" y="80" width="164" height="34" rx="7" fill="#4ADE80"/>
+  <text x="458" y="103" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a1a">Mix</text>
+  <g font-size="12.5" fill="currentColor">
+    <rect x="382" y="126" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="458" y="145" text-anchor="middle">Mix (blend modes)</text>
+    <rect x="382" y="164" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="458" y="183" text-anchor="middle">Alpha Over</text>
+    <rect x="382" y="202" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="458" y="221" text-anchor="middle">Z Combine</text>
+  </g>
+  <text x="458" y="254" text-anchor="middle" font-size="11" fill="#4ADE80">layer, composite, combine</text>
+</g>
+
+<!-- CONVERTER col -->
+<g>
+  <rect x="552" y="80" width="164" height="34" rx="7" fill="#F5C242"/>
+  <text x="634" y="103" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a1a">Converter</text>
+  <g font-size="12.5" fill="currentColor">
+    <rect x="558" y="126" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="634" y="145" text-anchor="middle">ColorRamp</text>
+    <rect x="558" y="164" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="634" y="183" text-anchor="middle">RGB to BW</text>
+    <rect x="558" y="202" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="634" y="221" text-anchor="middle">Set Alpha</text>
+    <rect x="558" y="240" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="634" y="259" text-anchor="middle">Separate / Combine</text>
+    <rect x="558" y="278" width="152" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="634" y="297" text-anchor="middle">Math</text>
+  </g>
+  <text x="634" y="330" text-anchor="middle" font-size="11" fill="#F5C242">reshape, split, remap data</text>
+</g>
+
+<!-- MATTE col -->
+<g>
+  <rect x="728" y="80" width="148" height="34" rx="7" fill="#B47EE8"/>
+  <text x="802" y="103" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a1a">Matte</text>
+  <g font-size="12.5" fill="currentColor">
+    <rect x="734" y="126" width="136" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="802" y="145" text-anchor="middle">ID Mask</text>
+    <rect x="734" y="164" width="136" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="802" y="183" text-anchor="middle">Cryptomatte</text>
+  </g>
+  <text x="802" y="216" text-anchor="middle" font-size="11" fill="#B47EE8">isolate objects / materials</text>
+</g>
+
+<!-- bottom usage-pattern strip -->
+<g>
+  <rect x="24" y="400" width="852" height="196" rx="12" fill="#2a2a2a"/>
+  <text x="46" y="430" font-size="15" font-weight="700" fill="#d4d4d4">Typical usage patterns</text>
+
+  <g font-size="12.5" fill="#d4d4d4">
+    <circle cx="52" cy="458" r="5" fill="#FF6B00"/>
+    <text x="66" y="463">Fix exposure and white balance first with RGB Curves and Color Balance, then push a look.</text>
+
+    <circle cx="52" cy="486" r="5" fill="#4A9EFF"/>
+    <text x="66" y="491">Add Glare (Fog Glow) for bloom on emissive areas; Blur for soft focus or fake depth.</text>
+
+    <circle cx="52" cy="514" r="5" fill="#4ADE80"/>
+    <text x="66" y="519">Use Alpha Over to lay one image on another; Z Combine to merge two renders by depth.</text>
+
+    <circle cx="52" cy="542" r="5" fill="#F5C242"/>
+    <text x="66" y="547">Drive a factor with ColorRamp or Math to shape a pass before it controls a Mix.</text>
+
+    <circle cx="52" cy="570" r="5" fill="#B47EE8"/>
+    <text x="66" y="575">Isolate one object with ID Mask or Cryptomatte, then grade only that selection.</text>
+  </g>
+</g>
+</svg>
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">The most-used compositor nodes grouped by job: Color for tone and grade, Filter for softening and glow, Mix for layering, Converter for reshaping data, and Matte for isolating objects.</figcaption>
+                </figure>
+<h4>💡 Common Node Combinations</h4>
                     
                     <p><strong>Basic Color Correction Stack:</strong></p>
                     <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;">
@@ -1547,7 +2155,7 @@ Adjusted Render → Mix Image 2
                     <p><strong>🎨 Node Efficiency Tip:</strong> Start simple, add complexity gradually. Begin with Render Layers → Composite (just showing render). Add one adjustment (RGB Curves). Test. Add effect (Glare). Test. Build step by step, checking results constantly. This iterative approach prevents overwhelming complexity and helps you understand what each node contributes. You can always delete nodes that don't help!</p>
                 </blockquote>
 
-                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card" style="background: #2a2a2a; color: white;">
                     <h3 style="color: white;">🎓 Essential Nodes Learned!</h3>
                     <p style="color: white;">You now have a solid toolkit of Compositor nodes! You understand color correction nodes (RGB Curves, HSV, Color Balance), effect nodes (Blur, Glare, Denoise), mixing nodes (Mix, Alpha Over), converters (ColorRamp, Set Alpha), and masking nodes (ID Mask, Cryptomatte). These are your building blocks. Next, we'll put them to use in a complete color correction workflow—taking a render from good to great with professional color grading!</p>
                 </div>
@@ -1663,7 +2271,108 @@ Adjusted Render → Mix Image 2
                     </ul>
                 </div>
 
-                <h3>Complete Color Grading Project</h3>
+                
+                <figure style="margin:2rem 0;font-size:0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 620" role="img" aria-labelledby="ccs-title ccs-desc" font-family="'Segoe UI',system-ui,sans-serif">
+<title id="ccs-title">Professional color correction node stack</title>
+<desc id="ccs-desc">A vertical schematic of a color-correction node chain: Render Layers feeds RGB Curves for exposure and contrast, then Hue/Saturation/Value for saturation, then Color Balance for the creative grade, then Composite. The order matters: fix technical problems first, then apply the creative look.</desc>
+<rect x="0" y="0" width="800" height="620" fill="none"/>
+<text x="400" y="34" text-anchor="middle" font-size="24" font-weight="700" fill="currentColor">Color Correction Stack</text>
+<text x="400" y="58" text-anchor="middle" font-size="13" fill="currentColor" opacity="0.75">Fix technical problems first, then apply the creative look</text>
+
+<!-- left: node chain; right: annotations -->
+<!-- node helper: rounded rect w/ header stripe -->
+
+<!-- 1 Render Layers -->
+<g>
+  <rect x="120" y="82" width="220" height="60" rx="8" fill="#2a2a2a" stroke="#4ADE80" stroke-width="2"/>
+  <rect x="120" y="82" width="220" height="22" rx="8" fill="#4ADE80"/>
+  <rect x="120" y="94" width="220" height="10" fill="#4ADE80"/>
+  <text x="230" y="98" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">INPUT</text>
+  <text x="230" y="128" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Render Layers</text>
+  <circle cx="340" cy="126" r="5" fill="#F5C242"/>
+</g>
+<!-- wire -->
+<path d="M230 142 L230 168" stroke="#FF6B00" stroke-width="2.5" fill="none"/>
+<polygon points="230,172 225,162 235,162" fill="#FF6B00"/>
+
+<!-- 2 RGB Curves -->
+<g>
+  <rect x="120" y="174" width="220" height="60" rx="8" fill="#2a2a2a" stroke="#FF6B00" stroke-width="2"/>
+  <rect x="120" y="174" width="220" height="22" rx="8" fill="#FF6B00"/>
+  <rect x="120" y="186" width="220" height="10" fill="#FF6B00"/>
+  <text x="230" y="190" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">FIX 1</text>
+  <text x="230" y="220" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">RGB Curves</text>
+  <circle cx="120" cy="218" r="5" fill="#F5C242"/><circle cx="340" cy="218" r="5" fill="#F5C242"/>
+</g>
+<path d="M230 234 L230 260" stroke="#FF6B00" stroke-width="2.5" fill="none"/>
+<polygon points="230,264 225,254 235,254" fill="#FF6B00"/>
+
+<!-- 3 Hue Sat -->
+<g>
+  <rect x="120" y="266" width="220" height="60" rx="8" fill="#2a2a2a" stroke="#FF6B00" stroke-width="2"/>
+  <rect x="120" y="266" width="220" height="22" rx="8" fill="#FF6B00"/>
+  <rect x="120" y="278" width="220" height="10" fill="#FF6B00"/>
+  <text x="230" y="282" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">FIX 2</text>
+  <text x="230" y="312" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Hue / Saturation / Value</text>
+  <circle cx="120" cy="310" r="5" fill="#F5C242"/><circle cx="340" cy="310" r="5" fill="#F5C242"/>
+</g>
+<path d="M230 326 L230 352" stroke="#FF6B00" stroke-width="2.5" fill="none"/>
+<polygon points="230,356 225,346 235,346" fill="#FF6B00"/>
+
+<!-- 4 Color Balance -->
+<g>
+  <rect x="120" y="358" width="220" height="60" rx="8" fill="#2a2a2a" stroke="#B47EE8" stroke-width="2"/>
+  <rect x="120" y="358" width="220" height="22" rx="8" fill="#B47EE8"/>
+  <rect x="120" y="370" width="220" height="10" fill="#B47EE8"/>
+  <text x="230" y="374" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">GRADE</text>
+  <text x="230" y="404" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Color Balance</text>
+  <circle cx="120" cy="402" r="5" fill="#F5C242"/><circle cx="340" cy="402" r="5" fill="#F5C242"/>
+</g>
+<path d="M230 418 L230 444" stroke="#FF6B00" stroke-width="2.5" fill="none"/>
+<polygon points="230,448 225,438 235,438" fill="#FF6B00"/>
+
+<!-- 5 Composite -->
+<g>
+  <rect x="120" y="450" width="220" height="60" rx="8" fill="#2a2a2a" stroke="#4ADE80" stroke-width="2"/>
+  <rect x="120" y="450" width="220" height="22" rx="8" fill="#4ADE80"/>
+  <rect x="120" y="462" width="220" height="10" fill="#4ADE80"/>
+  <text x="230" y="466" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">OUTPUT</text>
+  <text x="230" y="496" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Composite</text>
+  <circle cx="120" cy="494" r="5" fill="#F5C242"/>
+</g>
+
+<!-- right-side annotations -->
+<g font-size="12.5">
+  <path d="M344 204 L400 204" stroke="currentColor" stroke-width="1" opacity="0.4" stroke-dasharray="3 3"/>
+  <text x="410" y="199" font-weight="700" fill="#FF6B00">Exposure &#38; contrast</text>
+  <text x="410" y="217" fill="currentColor" opacity="0.85">Lift shadows, set white point,</text>
+  <text x="410" y="233" fill="currentColor" opacity="0.85">correct a flat or dark render.</text>
+
+  <path d="M344 296 L400 296" stroke="currentColor" stroke-width="1" opacity="0.4" stroke-dasharray="3 3"/>
+  <text x="410" y="291" font-weight="700" fill="#FF6B00">Saturation</text>
+  <text x="410" y="309" fill="currentColor" opacity="0.85">Tame or boost color intensity</text>
+  <text x="410" y="325" fill="currentColor" opacity="0.85">once brightness is neutral.</text>
+
+  <path d="M344 388 L400 388" stroke="currentColor" stroke-width="1" opacity="0.4" stroke-dasharray="3 3"/>
+  <text x="410" y="383" font-weight="700" fill="#B47EE8">The creative look</text>
+  <text x="410" y="401" fill="currentColor" opacity="0.85">Warm highlights, cool shadows,</text>
+  <text x="410" y="417" fill="currentColor" opacity="0.85">teal-and-orange, mood tint.</text>
+</g>
+
+<!-- why order matters callout -->
+<g>
+  <rect x="120" y="536" width="560" height="66" rx="10" fill="none" stroke="#F5C242" stroke-width="2"/>
+  <circle cx="148" cy="569" r="12" fill="#F5C242"/>
+  <text x="148" y="574" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a1a">!</text>
+  <text x="176" y="562" font-size="13" font-weight="700" fill="currentColor">Why the order matters</text>
+  <text x="176" y="583" font-size="12" fill="currentColor" opacity="0.88">Grade a broken image and you grade the problem too. Neutralize exposure and</text>
+  <text x="176" y="598" font-size="12" fill="currentColor" opacity="0.88">saturation first, so the creative Color Balance sits on a clean, predictable base.</text>
+</g>
+</svg>
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">A professional colour-correction stack: Render Layers &#8594; RGB Curves &#8594; Hue/Saturation/Value &#8594; Color Balance &#8594; Composite. Fix exposure and saturation first, then apply the creative grade on a clean base.</figcaption>
+                </figure>
+<h3>Complete Color Grading Project</h3>
 
                 <div class="card" style="background: #f3e5f5; border-left: 4px solid #9C27B0;">
                     <h4>🎯 Workshop: Professional Color Grade</h4>
@@ -1773,7 +2482,12 @@ Adjusted Render → Mix Image 2
                     </ul>
                 </div>
 
-                <h3>Common Color Grading Styles</h3>
+                
+                <figure style="margin:2rem 0;font-size:0;">
+                    <img src="images/lesson_43_11_color_grade_before_after.png" width="1458" height="732" alt="Colour grade before and after" style="max-width:100%;height:auto;margin:0;vertical-align:top;border-radius:6px;">
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">Before and after a full colour grade: the flat raw render on the left versus exposure, contrast, white balance and saturation applied on the right.</figcaption>
+                </figure>
+<h3>Common Color Grading Styles</h3>
 
                 <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
                     <h4>💡 Popular Looks and How to Achieve Them</h4>
@@ -1824,12 +2538,504 @@ Adjusted Render → Mix Image 2
                     </ul>
                 </div>
 
-                <h3>Summary and Best Practices</h3>
+            </section>
 
-                <section id="summary">
+            <!-- Filters and Effects -->
+            <section id="effects">
+                <h2>✨ Filters and Effects</h2>
+
+                <p>Color correction sets the foundation; effects add the polish that makes a render feel photographic or cinematic. This is where glows bloom around bright lights, backgrounds melt into soft depth of field, atmosphere fills the air with haze, and subtle lens imperfections sell the illusion that a real camera captured your scene. The Compositor makes every one of these effects fast, adjustable, and completely non-destructive. Best of all, most of them render in seconds rather than the hours they would cost in the 3D engine. Let&#39;s build a toolkit of the effects you&#39;ll reach for on almost every project.</p>
+
+                <h3>Glare: Glow and Bloom</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 The Glare Node</h4>
+
+                    <p><strong>The Glare node is your single most useful effect node.</strong> It adds bloom, streaks, and lens flares to the bright regions of an image, exactly the way light behaves in a real lens.</p>
+
+                    <p style="margin-top: 1rem;"><strong>Glare Types:</strong></p>
+                    <ul>
+                        <li><strong>Fog Glow:</strong> Soft, natural bloom radiating from bright areas &#8212; the most realistic option for everyday glow</li>
+                        <li><strong>Streaks:</strong> Radial star-like rays; great for lamps, the sun, and sci-fi lights</li>
+                        <li><strong>Ghosts:</strong> Lens-flare reflection artifacts along the light axis</li>
+                        <li><strong>Simple Star:</strong> Clean cross-shaped rays, subtle and controllable</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><strong>Key Settings:</strong></p>
+                    <ul>
+                        <li><strong>Threshold:</strong> Only pixels brighter than this value glow. Start near 1.0 so only true highlights bloom</li>
+                        <li><strong>Mix:</strong> Blends between the original and the glare; leave negative-to-zero for subtlety</li>
+                        <li><strong>Size:</strong> Controls how far the Fog Glow spreads</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><strong>Recommended wiring:</strong> Render Layers &#8594; Glare (Fog Glow, threshold ~1.0) &#8594; Composite. For extra control, mix the glare back over the original with a Mix node in Screen mode so you can dial the intensity precisely.</p>
+                </div>
+
+                <h3>Depth of Field and Blur</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Post-Process Depth of Field</h4>
+
+                    <p><strong>Rendering depth of field in Cycles is accurate but slow. Faking it in the Compositor with the Z pass is fast and surprisingly convincing.</strong></p>
+
+                    <ul>
+                        <li><strong>Enable the Z pass</strong> in View Layer Properties before rendering</li>
+                        <li><strong>Add a Blur node</strong> set to Variable Size, or use the dedicated Defocus node</li>
+                        <li><strong>Feed the Z pass</strong> into the blur&#39;s size input so distant pixels blur more than near ones</li>
+                        <li><strong>Tune the focal distance</strong> so your subject stays sharp while the background falls away</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><strong>Blur types recap:</strong> Flat is fastest, Gaussian is the smooth natural default, and Bokeh reproduces the shaped highlights of a real aperture. For believable DOF, Bokeh with a circular or hexagonal shape reads best.</p>
+                </div>
+
+                
+                <figure style="margin:2rem 0;font-size:0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="dof-title dof-desc" font-family="'Segoe UI',system-ui,sans-serif">
+<title id="dof-title">Depth of Field wiring using the Z pass to drive a Variable Blur</title>
+<desc id="dof-desc">Node graph: the Render Layers Image output feeds a Blur node set to Variable Size, while the Z depth pass feeds that Blur node's Size input; a focal-distance callout explains that near-focus pixels stay sharp and far pixels blur, and the result goes to Composite.</desc>
+
+<text x="400" y="42" text-anchor="middle" fill="currentColor" font-size="24" font-weight="700">Depth of Field: Z Pass Drives a Variable Blur</text>
+<text x="400" y="70" text-anchor="middle" fill="currentColor" font-size="14" opacity="0.75">Blur amount per pixel comes from scene depth &#8212; near stays crisp, far falls off</text>
+
+<!-- Render Layers node -->
+<g>
+<rect x="40" y="120" width="200" height="118" rx="8" fill="#2a2a2a" stroke="#4ADE80" stroke-width="2"/>
+<rect x="40" y="120" width="200" height="26" rx="8" fill="#4ADE80"/>
+<rect x="40" y="133" width="200" height="13" fill="#4ADE80"/>
+<text x="52" y="138" fill="#1a1a1a" font-size="13" font-weight="700">Render Layers</text>
+<text x="230" y="170" text-anchor="end" fill="currentColor" font-size="13">Image</text>
+<circle cx="240" cy="166" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="230" y="200" text-anchor="end" fill="currentColor" font-size="13">Z</text>
+<circle cx="240" cy="196" r="6" fill="#4A9EFF" stroke="#1a1a1a" stroke-width="1"/>
+<text x="230" y="228" text-anchor="end" fill="currentColor" font-size="12" opacity="0.6">Alpha</text>
+<circle cx="240" cy="224" r="5" fill="#888888" stroke="#1a1a1a" stroke-width="1"/>
+</g>
+
+<!-- Blur (Variable Size) node -->
+<g>
+<rect x="430" y="150" width="220" height="150" rx="8" fill="#2a2a2a" stroke="#4A9EFF" stroke-width="2"/>
+<rect x="430" y="150" width="220" height="26" rx="8" fill="#4A9EFF"/>
+<rect x="430" y="163" width="220" height="13" fill="#4A9EFF"/>
+<text x="442" y="168" fill="#1a1a1a" font-size="13" font-weight="700">Blur</text>
+<text x="638" y="168" text-anchor="end" fill="#1a1a1a" font-size="11" font-weight="700">Variable Size</text>
+<!-- inputs -->
+<circle cx="430" cy="200" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="446" y="204" fill="currentColor" font-size="12">Image</text>
+<circle cx="430" cy="232" r="6" fill="#4A9EFF" stroke="#1a1a1a" stroke-width="1"/>
+<text x="446" y="236" fill="currentColor" font-size="12">Size</text>
+<text x="446" y="266" fill="currentColor" font-size="11" opacity="0.7">Relative &#183; Bokeh</text>
+<text x="446" y="284" fill="currentColor" font-size="11" opacity="0.7">Size factor: tune strength</text>
+<!-- output -->
+<text x="638" y="236" text-anchor="end" fill="currentColor" font-size="12">Image</text>
+<circle cx="650" cy="232" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+</g>
+
+<!-- Composite node -->
+<g>
+<rect x="620" y="380" width="150" height="80" rx="8" fill="#2a2a2a" stroke="#FF6B00" stroke-width="2"/>
+<rect x="620" y="380" width="150" height="26" rx="8" fill="#FF6B00"/>
+<rect x="620" y="393" width="150" height="13" fill="#FF6B00"/>
+<text x="632" y="398" fill="#1a1a1a" font-size="13" font-weight="700">Composite</text>
+<circle cx="620" cy="430" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="636" y="434" fill="currentColor" font-size="12">Image</text>
+</g>
+
+<!-- wires -->
+<!-- Image -> Blur Image -->
+<path d="M246 166 C 330 166, 350 200, 424 200" fill="none" stroke="#F5C242" stroke-width="3"/>
+<!-- Z -> Blur Size (info blue, the key connection) -->
+<path d="M246 196 C 330 196, 350 232, 424 232" fill="none" stroke="#4A9EFF" stroke-width="3" stroke-dasharray="1 0"/>
+<!-- Blur out -> Composite -->
+<path d="M656 232 C 700 232, 695 340, 660 374" fill="none" stroke="#FF6B00" stroke-width="3"/>
+
+<!-- key-connection badge on the Z wire -->
+<rect x="300" y="204" width="118" height="22" rx="11" fill="#4A9EFF"/>
+<text x="359" y="219" text-anchor="middle" fill="#1a1a1a" font-size="11" font-weight="700">depth &#8594; blur size</text>
+
+<!-- focal distance callout -->
+<g>
+<rect x="40" y="330" width="360" height="170" rx="10" fill="#2a2a2a" stroke="#F5C242" stroke-width="1.5"/>
+<text x="60" y="360" fill="#F5C242" font-size="15" font-weight="700">Focal distance</text>
+<text x="60" y="386" fill="currentColor" font-size="12.5">The Z pass stores each pixel's distance from</text>
+<text x="60" y="404" fill="currentColor" font-size="12.5">the camera. Remap it so your subject's depth</text>
+<text x="60" y="422" fill="currentColor" font-size="12.5">reads as zero blur, and blur grows with the</text>
+<text x="60" y="440" fill="currentColor" font-size="12.5">distance away from that plane.</text>
+<!-- mini depth ramp -->
+<text x="60" y="470" fill="#4ADE80" font-size="12" font-weight="700">sharp</text>
+<rect x="110" y="460" width="230" height="12" rx="6" fill="#3a3a3a"/>
+<rect x="110" y="460" width="60" height="12" rx="6" fill="#4ADE80"/>
+<text x="348" y="470" text-anchor="end" fill="#4A9EFF" font-size="12" font-weight="700">far / blurred</text>
+<text x="60" y="490" fill="currentColor" font-size="11" opacity="0.7">near plane</text>
+<text x="340" y="490" text-anchor="end" fill="currentColor" font-size="11" opacity="0.7">background</text>
+</g>
+
+<!-- tip footer -->
+<rect x="430" y="500" width="330" height="60" rx="8" fill="#2a2a2a" stroke="#4ADE80" stroke-width="1.5"/>
+<text x="448" y="524" fill="#4ADE80" font-size="13" font-weight="700">Tip</text>
+<text x="448" y="544" fill="currentColor" font-size="12">Enable the Z pass first (View Layer &#8594; Passes),</text>
+<text x="448" y="558" fill="currentColor" font-size="12">then set Blur to Variable Size, not a fixed radius.</text>
+</svg>
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">Depth-of-field wiring: the Render Layers Image feeds a Blur set to Variable Size, while the Z pass drives that Blur&#39;s Size input, so near pixels stay sharp and distant pixels fall off.</figcaption>
+                </figure>
+
+                <figure style="margin:2rem 0;font-size:0;">
+                    <img src="images/lesson_43_14_dof_before_after.png" width="1446" height="720" alt="Depth of field before and after" style="max-width:100%;height:auto;margin:0;vertical-align:top;border-radius:6px;">
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">Depth of field before and after: everything sharp on the left, and a Z-driven variable blur on the right keeping the subject crisp while the background falls away.</figcaption>
+                </figure>
+<h3>Atmosphere: Mist and Fog</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Adding Depth with Haze</h4>
+
+                    <p>Atmosphere separates foreground from background and adds a sense of scale. The <strong>Mist pass</strong> gives you a depth-based grayscale gradient you can turn into haze.</p>
+
+                    <ul>
+                        <li><strong>Configure the Mist range</strong> in World Properties (start, depth) so the gradient covers your scene</li>
+                        <li><strong>Enable the Mist pass</strong> in View Layer Properties</li>
+                        <li><strong>Use the Mist pass as a Mix factor</strong> to blend a fog color over the image &#8211; distant areas receive more fog</li>
+                        <li><strong>Keep it subtle:</strong> a little haze reads as atmosphere; too much reads as a mistake</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><strong>Wiring:</strong> Render Layers Mist &#8594; ColorRamp (shape the falloff) &#8594; Mix Factor; fog color &#8594; Mix Image 2; render &#8594; Mix Image 1 &#8594; Composite.</p>
+                </div>
+
+                
+                <figure style="margin:2rem 0;font-size:0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="atm-title atm-desc" font-family="'Segoe UI',system-ui,sans-serif">
+<title id="atm-title">Atmosphere wiring: the Mist pass drives a Mix that blends fog color over the render</title>
+<desc id="atm-desc">Node graph: the Mist pass feeds a ColorRamp that shapes the fog falloff, whose output drives the Factor of a Mix node; a solid fog color feeds the Mix second image while the Render Layers image feeds the first, and the mixed result goes to Composite. Distant pixels pick up more fog.</desc>
+
+<text x="400" y="42" text-anchor="middle" fill="currentColor" font-size="24" font-weight="700">Atmosphere: Mist Pass Blends Fog by Depth</text>
+<text x="400" y="70" text-anchor="middle" fill="currentColor" font-size="14" opacity="0.75">ColorRamp shapes the falloff &#8212; the Mix factor grows with distance</text>
+
+<!-- Render Layers node -->
+<g>
+<rect x="30" y="110" width="180" height="120" rx="8" fill="#2a2a2a" stroke="#4ADE80" stroke-width="2"/>
+<rect x="30" y="110" width="180" height="26" rx="8" fill="#4ADE80"/>
+<rect x="30" y="123" width="180" height="13" fill="#4ADE80"/>
+<text x="42" y="128" fill="#1a1a1a" font-size="13" font-weight="700">Render Layers</text>
+<text x="200" y="162" text-anchor="end" fill="currentColor" font-size="13">Image</text>
+<circle cx="210" cy="158" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="200" y="196" text-anchor="end" fill="currentColor" font-size="13">Mist</text>
+<circle cx="210" cy="192" r="6" fill="#B47EE8" stroke="#1a1a1a" stroke-width="1"/>
+<text x="200" y="222" text-anchor="end" fill="currentColor" font-size="11" opacity="0.6">Z</text>
+<circle cx="210" cy="218" r="5" fill="#4A9EFF" stroke="#1a1a1a" stroke-width="1"/>
+</g>
+
+<!-- ColorRamp node -->
+<g>
+<rect x="300" y="250" width="180" height="110" rx="8" fill="#2a2a2a" stroke="#B47EE8" stroke-width="2"/>
+<rect x="300" y="250" width="180" height="26" rx="8" fill="#B47EE8"/>
+<rect x="300" y="263" width="180" height="13" fill="#B47EE8"/>
+<text x="312" y="268" fill="#1a1a1a" font-size="13" font-weight="700">ColorRamp</text>
+<circle cx="300" cy="300" r="6" fill="#888888" stroke="#1a1a1a" stroke-width="1"/>
+<text x="316" y="304" fill="currentColor" font-size="12">Fac</text>
+<!-- ramp swatch: black to white falloff -->
+<rect x="316" y="318" width="150" height="18" rx="3" fill="#3a3a3a"/>
+<rect x="316" y="318" width="150" height="18" rx="3" fill="#4A9EFF" opacity="0.15"/>
+<text x="316" y="352" fill="currentColor" font-size="10.5" opacity="0.7">shape the fog falloff curve</text>
+<text x="480" y="304" text-anchor="end" fill="currentColor" font-size="12">Image</text>
+<circle cx="480" cy="300" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+</g>
+
+<!-- fog color swatch node -->
+<g>
+<rect x="300" y="120" width="180" height="76" rx="8" fill="#2a2a2a" stroke="#F5C242" stroke-width="2"/>
+<rect x="300" y="120" width="180" height="26" rx="8" fill="#F5C242"/>
+<rect x="300" y="133" width="180" height="13" fill="#F5C242"/>
+<text x="312" y="138" fill="#1a1a1a" font-size="13" font-weight="700">Fog Color (RGB)</text>
+<rect x="316" y="156" width="30" height="26" rx="4" fill="#c9d4de" stroke="#1a1a1a" stroke-width="1"/>
+<text x="356" y="174" fill="currentColor" font-size="11.5">cool desaturated haze</text>
+<text x="480" y="174" text-anchor="end" fill="currentColor" font-size="12">Color</text>
+<circle cx="480" cy="170" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+</g>
+
+<!-- Mix node -->
+<g>
+<rect x="560" y="180" width="180" height="150" rx="8" fill="#2a2a2a" stroke="#FF6B00" stroke-width="2"/>
+<rect x="560" y="180" width="180" height="26" rx="8" fill="#FF6B00"/>
+<rect x="560" y="193" width="180" height="13" fill="#FF6B00"/>
+<text x="572" y="198" fill="#1a1a1a" font-size="13" font-weight="700">Mix</text>
+<text x="728" y="198" text-anchor="end" fill="#1a1a1a" font-size="11" font-weight="700">Mix / Add</text>
+<!-- inputs -->
+<circle cx="560" cy="230" r="6" fill="#888888" stroke="#1a1a1a" stroke-width="1"/>
+<text x="576" y="234" fill="currentColor" font-size="12">Fac</text>
+<circle cx="560" cy="266" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="576" y="270" fill="currentColor" font-size="12">Image 1 (render)</text>
+<circle cx="560" cy="302" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="576" y="306" fill="currentColor" font-size="12">Image 2 (fog)</text>
+<!-- output -->
+<text x="728" y="270" text-anchor="end" fill="currentColor" font-size="12">Image</text>
+<circle cx="740" cy="266" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+</g>
+
+<!-- Composite node -->
+<g>
+<rect x="590" y="400" width="150" height="80" rx="8" fill="#2a2a2a" stroke="#FF6B00" stroke-width="2"/>
+<rect x="590" y="400" width="150" height="26" rx="8" fill="#FF6B00"/>
+<rect x="590" y="413" width="150" height="13" fill="#FF6B00"/>
+<text x="602" y="418" fill="#1a1a1a" font-size="13" font-weight="700">Composite</text>
+<circle cx="590" cy="450" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="606" y="454" fill="currentColor" font-size="12">Image</text>
+</g>
+
+<!-- wires -->
+<!-- Mist -> ColorRamp Fac -->
+<path d="M216 192 C 250 192, 260 300, 294 300" fill="none" stroke="#B47EE8" stroke-width="3"/>
+<!-- ColorRamp Image -> Mix Fac -->
+<path d="M486 300 C 520 300, 528 230, 554 230" fill="none" stroke="#888888" stroke-width="3"/>
+<!-- Render Image -> Mix Image1 -->
+<path d="M216 158 C 400 150, 430 266, 554 266" fill="none" stroke="#F5C242" stroke-width="3"/>
+<!-- Fog Color -> Mix Image2 -->
+<path d="M486 170 C 520 170, 470 302, 554 302" fill="none" stroke="#F5C242" stroke-width="3"/>
+<!-- Mix out -> Composite -->
+<path d="M746 266 C 780 266, 700 380, 665 394" fill="none" stroke="#FF6B00" stroke-width="3"/>
+
+<!-- key badge on the mist->ramp wire -->
+<rect x="196" y="238" width="120" height="22" rx="11" fill="#B47EE8"/>
+<text x="256" y="253" text-anchor="middle" fill="#1a1a1a" font-size="11" font-weight="700">depth &#8594; fog factor</text>
+
+<!-- explainer callout -->
+<g>
+<rect x="30" y="400" width="360" height="160" rx="10" fill="#2a2a2a" stroke="#4A9EFF" stroke-width="1.5"/>
+<text x="50" y="428" fill="#4A9EFF" font-size="15" font-weight="700">How the Mist pass reads</text>
+<text x="50" y="454" fill="currentColor" font-size="12.5">Mist is a 0&#8211;1 depth mask: near geometry is black</text>
+<text x="50" y="472" fill="currentColor" font-size="12.5">(no fog), distance fades to white (full fog). The</text>
+<text x="50" y="490" fill="currentColor" font-size="12.5">ColorRamp bends that gradient so haze builds up</text>
+<text x="50" y="508" fill="currentColor" font-size="12.5">where you want it, then drives the Mix factor.</text>
+<!-- mini gradient -->
+<text x="50" y="538" fill="#4ADE80" font-size="12" font-weight="700">clear</text>
+<rect x="98" y="528" width="230" height="12" rx="6" fill="#3a3a3a"/>
+<rect x="98" y="528" width="70" height="12" rx="6" fill="#4ADE80"/>
+<text x="336" y="538" text-anchor="end" fill="#4A9EFF" font-size="12" font-weight="700">foggy</text>
+</g>
+
+<!-- set mist range tip -->
+<rect x="410" y="500" width="350" height="60" rx="8" fill="#2a2a2a" stroke="#F5C242" stroke-width="1.5"/>
+<text x="428" y="524" fill="#F5C242" font-size="13" font-weight="700">Set the Mist range</text>
+<text x="428" y="544" fill="currentColor" font-size="12">In World / View Layer, set Mist Start &amp; Depth to</text>
+<text x="428" y="558" fill="currentColor" font-size="12">frame your scene, or the mask reads all black.</text>
+</svg>
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">Atmosphere wiring: the Mist pass feeds a ColorRamp that shapes the fog falloff and drives a Mix factor, blending a cool fog colour over the render so haze builds up with distance.</figcaption>
+                </figure>
+<h3>Lens Effects: Vignette, Distortion, Grain</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ The Finishing Touches</h4>
+
+                    <p><strong>Vignette:</strong> Darkening the frame edges draws the eye inward. Build one with an Ellipse Mask (or a radial gradient) blurred and multiplied over the image at low strength.</p>
+
+                    <p style="margin-top: 1rem;"><strong>Lens Distortion:</strong> The Lens Distortion node adds barrel or pincushion curvature plus <strong>Dispersion</strong> for chromatic aberration &#8212; the subtle color fringing of a real lens. A tiny amount sells realism; a large amount becomes a stylistic effect.</p>
+
+                    <p style="margin-top: 1rem;"><strong>Film Grain:</strong> Overlay noise for a filmic texture. Generate it with a Noise texture (or a Movie Clip of grain) mixed over the image in Overlay or Add at low factor. Grain also helps hide banding in smooth gradients.</p>
+
+                    <p style="margin-top: 1rem;"><strong>Order matters:</strong> apply lens distortion and grain last, after color grading, so they affect the finished look rather than being graded themselves.</p>
+                </div>
+
+                <div class="mermaid">
+                    graph LR
+                    A[Graded Image] --> B[Glare<br/>Bloom]
+                    B --> C[Depth of Field<br/>Z-based Blur]
+                    C --> D[Atmosphere<br/>Mist Fog]
+                    D --> E[Lens Polish<br/>Vignette, Grain]
+                    E --> F[Final Image]
+
+                    style A fill:#999,stroke:#333,stroke-width:2px,color:#fff
+                    style B fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <blockquote>
+                    <p><strong>🎬 Effects Discipline:</strong> The mark of an amateur composite is effects turned up to maximum. The mark of a professional is restraint. Add each effect, then pull it back until you almost can&#39;t see it &#8212; that is usually the right amount. Effects should support the image, never announce themselves.</p>
+                </blockquote>
+
+                <div class="card" style="background: #2a2a2a; color: white;">
+                    <h3 style="color: white;">🎓 Effects Toolkit Ready!</h3>
+                    <p style="color: white;">You can now add glows, depth of field, atmosphere, and lens polish &#8212; the effects that turn a clean render into a photographic one. Combined with your color grading skills, you have everything needed to finish an image professionally. Time to put it all together in two complete projects, starting with a full cinematic color grade.</p>
+                </div>
+
+            </section>
+
+            <!-- Project 1: Color Grading -->
+            <section id="project-color-grade">
+                <h2>🎬 Project 1: Cinematic Color Grade</h2>
+
+                <p>Time to bring everything together on a real image. In this first project you&#39;ll take a flat, technically-correct render and grade it into a polished, cinematic frame from start to finish. We&#39;ll work in the deliberate order every professional follows: evaluate, correct, then style. By the end you&#39;ll have a repeatable node stack you can drop onto any render.</p>
+
+                <h3>Project Setup</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Before You Start</h4>
+                    <ul>
+                        <li><strong>Render any scene</strong> with a clear subject and some highlights &#8212; a product on a surface, a character, or an interior all work well</li>
+                        <li><strong>Switch to the Compositing workspace</strong> and enable Use Nodes and Backdrop</li>
+                        <li><strong>Confirm the flow:</strong> Render Layers &#8594; Composite should already be wired</li>
+                        <li><strong>Add a Viewer</strong> so you can watch every change live in the backdrop</li>
+                    </ul>
+                </div>
+
+                <h3>The Grading Stack, Step by Step</h3>
+
+                <div class="card" style="background: #f3e5f5; border-left: 4px solid #9C27B0;">
+                    <h4>🎯 Build It Node by Node</h4>
+
+                    <p><strong>Step 1 &#8212; Evaluate:</strong> Study the render before touching anything. Is it flat? Too dark? Too warm? Note the problems so your corrections are intentional.</p>
+
+                    <p style="margin-top: 1rem;"><strong>Step 2 &#8212; Exposure and Contrast (RGB Curves):</strong></p>
+                    <ul>
+                        <li>Insert RGB Curves between Render Layers and Composite</li>
+                        <li>On the C curve, lift the middle to set overall brightness</li>
+                        <li>Add a gentle S-curve &#8212; raise the highlights, lower the shadows &#8212; for depth</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><strong>Step 3 &#8212; White Balance:</strong></p>
+                    <ul>
+                        <li>Find something that should be neutral gray or white</li>
+                        <li>If it&#39;s too warm, raise the Blue curve slightly; too cool, raise the Red curve</li>
+                        <li>Neutral whites are the anchor of a believable image</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><strong>Step 4 &#8212; Saturation (Hue/Saturation/Value):</strong></p>
+                    <ul>
+                        <li>CG renders often run hot &#8211; pull saturation to about 0.92</li>
+                        <li>Or push to 1.1 &#8211; 1.2 if the image wants more punch</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><strong>Step 5 &#8212; Creative Grade (Color Balance):</strong></p>
+                    <ul>
+                        <li><strong>Lift / Shadows:</strong> nudge toward teal for cool, cinematic shadows</li>
+                        <li><strong>Gamma / Midtones:</strong> keep close to neutral</li>
+                        <li><strong>Gain / Highlights:</strong> nudge toward orange for warm highlights</li>
+                        <li>This complementary teal-and-orange split is the classic blockbuster look</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><strong>Step 6 &#8212; Final Polish:</strong> add a subtle vignette and a whisper of film grain to seat the grade. Mute the whole stack with M to compare against the original, then unmute &#8212; the difference should feel like a finished frame.</p>
+                </div>
+
+                <div class="mermaid">
+                    graph LR
+                    A[Render Layers] --> B[RGB Curves<br/>Exposure + Contrast]
+                    B --> C[White Balance]
+                    C --> D[Hue Sat Value<br/>Saturation]
+                    D --> E[Color Balance<br/>Teal and Orange]
+                    E --> F[Vignette + Grain]
+                    F --> G[Composite]
+
+                    style A fill:#999,stroke:#333,stroke-width:2px,color:#fff
+                    style E fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
+                    style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    
+                <figure style="margin:2rem 0;font-size:0;">
+                    <img src="images/lesson_43_12_teal_orange_grade_result.png" width="720" height="720" alt="Cinematic teal-and-orange grade result" style="max-width:100%;height:auto;margin:0;vertical-align:top;border-radius:6px;">
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">The Project&nbsp;1 payoff: a finished cinematic teal-and-orange grade with cool shadows and warm highlights.</figcaption>
+                </figure>
+<h4>💡 What to Watch For</h4>
+                    <ul>
+                        <li><strong>Skin tones:</strong> if your subject has skin, protect it &#8212; teal-and-orange looks great until faces turn orange</li>
+                        <li><strong>Crushed blacks:</strong> keep a little detail in the darkest shadows unless the look demands pure black</li>
+                        <li><strong>Blown highlights:</strong> pull back exposure before clipping bright areas to featureless white</li>
+                        <li><strong>Compare often:</strong> toggle mute constantly so you never over-grade by drifting</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #2a2a2a; color: white;">
+                    <h3 style="color: white;">🎓 Project 1 Complete!</h3>
+                    <p style="color: white;">You&#39;ve taken a raw render through a full professional grade: corrected exposure, balanced color, tuned saturation, and applied a cinematic look with polish on top. Save this node stack &#8212; it&#39;s the backbone of nearly every grade you&#39;ll build. Next, we add light and atmosphere in Project 2.</p>
+                </div>
+
+            </section>
+
+            <!-- Project 2: Glows and Atmosphere -->
+            <section id="project-glows">
+                <h2>🌟 Project 2: Glows and Atmosphere</h2>
+
+                <p>Our second project layers light and air onto a graded image. You&#39;ll make emissive objects bloom, add depth with atmospheric haze, and finish with lens effects &#8212; the combination that gives sci-fi shots, neon scenes, and moody interiors their glow. This builds directly on Project 1: grade first, then add these effects on top.</p>
+
+                <h3>Project Setup</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Before You Start</h4>
+                    <ul>
+                        <li><strong>Use a scene with bright or emissive elements</strong> &#8212; lamps, screens, neon, a bright window, or a sunset</li>
+                        <li><strong>Enable the Mist pass</strong> (and configure its range in World Properties) if you want atmospheric depth</li>
+                        <li><strong>Start from a graded image</strong> &#8212; ideally the Project 1 stack &#8212; so effects sit on a solid base</li>
+                    </ul>
+                </div>
+
+                <h3>Step 1: Add the Glow</h3>
+
+                <div class="card" style="background: #f3e5f5; border-left: 4px solid #9C27B0;">
+                    <h4>🎯 Bloom from Bright Areas</h4>
+                    <ul>
+                        <li>Add a Glare node after your grade, set to <strong>Fog Glow</strong></li>
+                        <li>Set the <strong>Threshold near 1.0</strong> so only genuine highlights bloom</li>
+                        <li>Tune <strong>Size</strong> for how far the glow spreads</li>
+                        <li>For control, mix the glare back over the graded image in <strong>Screen</strong> mode and dial the factor</li>
+                        <li><strong>Pro move:</strong> isolate the Emission pass and glare only that, so glowing materials bloom without washing out the rest of the frame</li>
+                    </ul>
+                </div>
+
+                
+                <figure style="margin:2rem 0;font-size:0;">
+                    <img src="images/lesson_43_13_glare_bloom_before_after.png" width="1446" height="720" alt="Glare bloom before and after" style="max-width:100%;height:auto;margin:0;vertical-align:top;border-radius:6px;">
+                    <figcaption style="font-size:0.9rem;color:#aaa;margin-top:0.5rem;text-align:center;">Glare before and after: the clean emissive render on the left, and the same frame with Fog&nbsp;Glow bloom haloing the bright areas on the right.</figcaption>
+                </figure>
+<h3>Step 2: Add Atmosphere</h3>
+
+                <div class="card" style="background: #e3f2fd; border-left: 4px solid #2196F3;">
+                    <h4>💡 Haze for Depth</h4>
+                    <ul>
+                        <li>Take the <strong>Mist pass</strong> and shape its falloff with a ColorRamp</li>
+                        <li>Use it as the <strong>factor</strong> in a Mix node blending a pale fog color over the image</li>
+                        <li>Distant areas receive more fog, pulling the background back and the subject forward</li>
+                        <li>Keep the fog color and strength subtle &#8211; atmosphere should be felt more than seen</li>
+                    </ul>
+                </div>
+
+                <h3>Step 3: Lens Finish</h3>
+
+                <div class="card" style="background: #e8f5e9; border-left: 4px solid #4CAF50;">
+                    <h4>✅ Seal the Look</h4>
+                    <ul>
+                        <li><strong>Vignette:</strong> multiply a soft dark-edged mask over the frame to focus the eye</li>
+                        <li><strong>Lens Distortion:</strong> add a touch of Dispersion for gentle chromatic aberration at the edges</li>
+                        <li><strong>Film Grain:</strong> overlay low-strength noise so glow and fog don&#39;t look too clean</li>
+                        <li>Apply these last, after glow and atmosphere, so they unify the whole composite</li>
+                    </ul>
+                </div>
+
+                <div class="mermaid">
+                    graph LR
+                    A[Graded Image] --> B[Glare<br/>Fog Glow]
+                    B --> C[Mist Mix<br/>Atmosphere]
+                    C --> D[Vignette]
+                    D --> E[Lens Distortion<br/>+ Grain]
+                    E --> F[Composite]
+
+                    style A fill:#999,stroke:#333,stroke-width:2px,color:#fff
+                    style B fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
+                    style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+                </div>
+
+                <blockquote>
+                    <p><strong>🎬 Combining Grade and Glow:</strong> Notice the pipeline order &#8212; grade first, then glow, then atmosphere, then lens polish. Reversing that order (glowing before grading, for instance) means your color adjustments fight the effects instead of guiding them. A clean, predictable order is what makes complex composites stay controllable.</p>
+                </blockquote>
+
+                <div class="card" style="background: #2a2a2a; color: white;">
+                    <h3 style="color: white;">🎓 Project 2 Complete!</h3>
+                    <p style="color: white;">You&#39;ve layered glow, atmosphere, and lens finish onto a graded render &#8212; the full post-processing pipeline from flat output to finished frame. With Projects 1 and 2 under your belt, you can take any render the last 10% of the way to professional. Let&#39;s wrap up with best practices to lock it all in.</p>
+                </div>
+
+            </section>
+
+            <!-- Summary -->
+            <section id="summary">
                     <h2>📋 Summary and Best Practices</h2>
                     
-                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <div class="card" style="background: #2a2a2a; color: white;">
                         <h3 style="color: white;">🎓 What You've Mastered</h3>
                         
                         <p style="color: white;"><strong>Core Concepts:</strong></p>
@@ -1909,7 +3115,6 @@ Adjusted Render → Mix Image 2
                         <p><strong>🎬 Final Thought:</strong> The Compositor is where your 3D work becomes a finished image. It's the bridge between technical rendering and artistic vision. Every professional 3D artist—whether working in film, games, visualization, or advertising—uses compositing to perfect their work. The skills you've learned here are universal and industry-standard. Now go forth and transform your renders into works of art!</p>
                     </blockquote>
 
-                </section>
             </section>
 
             <!-- Navigation Footer -->

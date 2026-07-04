@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="atm-title atm-desc" color="#222" font-family="'Segoe UI',system-ui,sans-serif">
+<title id="atm-title">Atmosphere wiring: the Mist pass drives a Mix that blends fog color over the render</title>
+<desc id="atm-desc">Node graph: the Mist pass feeds a ColorRamp that shapes the fog falloff, whose output drives the Factor of a Mix node; a solid fog color feeds the Mix second image while the Render Layers image feeds the first, and the mixed result goes to Composite. Distant pixels pick up more fog.</desc>
+
+<text x="400" y="42" text-anchor="middle" fill="currentColor" font-size="24" font-weight="700">Atmosphere: Mist Pass Blends Fog by Depth</text>
+<text x="400" y="70" text-anchor="middle" fill="currentColor" font-size="14" opacity="0.75">ColorRamp shapes the falloff &#8212; the Mix factor grows with distance</text>
+
+<!-- Render Layers node -->
+<g>
+<rect x="30" y="110" width="180" height="120" rx="8" fill="#2a2a2a" stroke="#4ADE80" stroke-width="2"/>
+<rect x="30" y="110" width="180" height="26" rx="8" fill="#4ADE80"/>
+<rect x="30" y="123" width="180" height="13" fill="#4ADE80"/>
+<text x="42" y="128" fill="#1a1a1a" font-size="13" font-weight="700">Render Layers</text>
+<text x="200" y="162" text-anchor="end" fill="currentColor" font-size="13">Image</text>
+<circle cx="210" cy="158" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="200" y="196" text-anchor="end" fill="currentColor" font-size="13">Mist</text>
+<circle cx="210" cy="192" r="6" fill="#B47EE8" stroke="#1a1a1a" stroke-width="1"/>
+<text x="200" y="222" text-anchor="end" fill="currentColor" font-size="11" opacity="0.6">Z</text>
+<circle cx="210" cy="218" r="5" fill="#4A9EFF" stroke="#1a1a1a" stroke-width="1"/>
+</g>
+
+<!-- ColorRamp node -->
+<g>
+<rect x="300" y="250" width="180" height="110" rx="8" fill="#2a2a2a" stroke="#B47EE8" stroke-width="2"/>
+<rect x="300" y="250" width="180" height="26" rx="8" fill="#B47EE8"/>
+<rect x="300" y="263" width="180" height="13" fill="#B47EE8"/>
+<text x="312" y="268" fill="#1a1a1a" font-size="13" font-weight="700">ColorRamp</text>
+<circle cx="300" cy="300" r="6" fill="#888888" stroke="#1a1a1a" stroke-width="1"/>
+<text x="316" y="304" fill="currentColor" font-size="12">Fac</text>
+<!-- ramp swatch: black to white falloff -->
+<rect x="316" y="318" width="150" height="18" rx="3" fill="#3a3a3a"/>
+<rect x="316" y="318" width="150" height="18" rx="3" fill="#4A9EFF" opacity="0.15"/>
+<text x="316" y="352" fill="currentColor" font-size="10.5" opacity="0.7">shape the fog falloff curve</text>
+<text x="480" y="304" text-anchor="end" fill="currentColor" font-size="12">Image</text>
+<circle cx="480" cy="300" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+</g>
+
+<!-- fog color swatch node -->
+<g>
+<rect x="300" y="120" width="180" height="76" rx="8" fill="#2a2a2a" stroke="#F5C242" stroke-width="2"/>
+<rect x="300" y="120" width="180" height="26" rx="8" fill="#F5C242"/>
+<rect x="300" y="133" width="180" height="13" fill="#F5C242"/>
+<text x="312" y="138" fill="#1a1a1a" font-size="13" font-weight="700">Fog Color (RGB)</text>
+<rect x="316" y="156" width="30" height="26" rx="4" fill="#c9d4de" stroke="#1a1a1a" stroke-width="1"/>
+<text x="356" y="174" fill="currentColor" font-size="11.5">cool desaturated haze</text>
+<text x="480" y="174" text-anchor="end" fill="currentColor" font-size="12">Color</text>
+<circle cx="480" cy="170" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+</g>
+
+<!-- Mix node -->
+<g>
+<rect x="560" y="180" width="180" height="150" rx="8" fill="#2a2a2a" stroke="#FF6B00" stroke-width="2"/>
+<rect x="560" y="180" width="180" height="26" rx="8" fill="#FF6B00"/>
+<rect x="560" y="193" width="180" height="13" fill="#FF6B00"/>
+<text x="572" y="198" fill="#1a1a1a" font-size="13" font-weight="700">Mix</text>
+<text x="728" y="198" text-anchor="end" fill="#1a1a1a" font-size="11" font-weight="700">Mix / Add</text>
+<!-- inputs -->
+<circle cx="560" cy="230" r="6" fill="#888888" stroke="#1a1a1a" stroke-width="1"/>
+<text x="576" y="234" fill="currentColor" font-size="12">Fac</text>
+<circle cx="560" cy="266" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="576" y="270" fill="currentColor" font-size="12">Image 1 (render)</text>
+<circle cx="560" cy="302" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="576" y="306" fill="currentColor" font-size="12">Image 2 (fog)</text>
+<!-- output -->
+<text x="728" y="270" text-anchor="end" fill="currentColor" font-size="12">Image</text>
+<circle cx="740" cy="266" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+</g>
+
+<!-- Composite node -->
+<g>
+<rect x="590" y="400" width="150" height="80" rx="8" fill="#2a2a2a" stroke="#FF6B00" stroke-width="2"/>
+<rect x="590" y="400" width="150" height="26" rx="8" fill="#FF6B00"/>
+<rect x="590" y="413" width="150" height="13" fill="#FF6B00"/>
+<text x="602" y="418" fill="#1a1a1a" font-size="13" font-weight="700">Composite</text>
+<circle cx="590" cy="450" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="606" y="454" fill="currentColor" font-size="12">Image</text>
+</g>
+
+<!-- wires -->
+<!-- Mist -> ColorRamp Fac -->
+<path d="M216 192 C 250 192, 260 300, 294 300" fill="none" stroke="#B47EE8" stroke-width="3"/>
+<!-- ColorRamp Image -> Mix Fac -->
+<path d="M486 300 C 520 300, 528 230, 554 230" fill="none" stroke="#888888" stroke-width="3"/>
+<!-- Render Image -> Mix Image1 -->
+<path d="M216 158 C 400 150, 430 266, 554 266" fill="none" stroke="#F5C242" stroke-width="3"/>
+<!-- Fog Color -> Mix Image2 -->
+<path d="M486 170 C 520 170, 470 302, 554 302" fill="none" stroke="#F5C242" stroke-width="3"/>
+<!-- Mix out -> Composite -->
+<path d="M746 266 C 780 266, 700 380, 665 394" fill="none" stroke="#FF6B00" stroke-width="3"/>
+
+<!-- key badge on the mist->ramp wire -->
+<rect x="196" y="238" width="120" height="22" rx="11" fill="#B47EE8"/>
+<text x="256" y="253" text-anchor="middle" fill="#1a1a1a" font-size="11" font-weight="700">depth &#8594; fog factor</text>
+
+<!-- explainer callout -->
+<g>
+<rect x="30" y="400" width="360" height="160" rx="10" fill="#2a2a2a" stroke="#4A9EFF" stroke-width="1.5"/>
+<text x="50" y="428" fill="#4A9EFF" font-size="15" font-weight="700">How the Mist pass reads</text>
+<text x="50" y="454" fill="currentColor" font-size="12.5">Mist is a 0&#8211;1 depth mask: near geometry is black</text>
+<text x="50" y="472" fill="currentColor" font-size="12.5">(no fog), distance fades to white (full fog). The</text>
+<text x="50" y="490" fill="currentColor" font-size="12.5">ColorRamp bends that gradient so haze builds up</text>
+<text x="50" y="508" fill="currentColor" font-size="12.5">where you want it, then drives the Mix factor.</text>
+<!-- mini gradient -->
+<text x="50" y="538" fill="#4ADE80" font-size="12" font-weight="700">clear</text>
+<rect x="98" y="528" width="230" height="12" rx="6" fill="#3a3a3a"/>
+<rect x="98" y="528" width="70" height="12" rx="6" fill="#4ADE80"/>
+<text x="336" y="538" text-anchor="end" fill="#4A9EFF" font-size="12" font-weight="700">foggy</text>
+</g>
+
+<!-- set mist range tip -->
+<rect x="410" y="500" width="350" height="60" rx="8" fill="#2a2a2a" stroke="#F5C242" stroke-width="1.5"/>
+<text x="428" y="524" fill="#F5C242" font-size="13" font-weight="700">Set the Mist range</text>
+<text x="428" y="544" fill="currentColor" font-size="12">In World / View Layer, set Mist Start &amp; Depth to</text>
+<text x="428" y="558" fill="currentColor" font-size="12">frame your scene, or the mask reads all black.</text>
+</svg>

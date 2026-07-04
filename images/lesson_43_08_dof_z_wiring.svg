@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="dof-title dof-desc" color="#222" font-family="'Segoe UI',system-ui,sans-serif">
+<title id="dof-title">Depth of Field wiring using the Z pass to drive a Variable Blur</title>
+<desc id="dof-desc">Node graph: the Render Layers Image output feeds a Blur node set to Variable Size, while the Z depth pass feeds that Blur node's Size input; a focal-distance callout explains that near-focus pixels stay sharp and far pixels blur, and the result goes to Composite.</desc>
+
+<text x="400" y="42" text-anchor="middle" fill="currentColor" font-size="24" font-weight="700">Depth of Field: Z Pass Drives a Variable Blur</text>
+<text x="400" y="70" text-anchor="middle" fill="currentColor" font-size="14" opacity="0.75">Blur amount per pixel comes from scene depth &#8212; near stays crisp, far falls off</text>
+
+<!-- Render Layers node -->
+<g>
+<rect x="40" y="120" width="200" height="118" rx="8" fill="#2a2a2a" stroke="#4ADE80" stroke-width="2"/>
+<rect x="40" y="120" width="200" height="26" rx="8" fill="#4ADE80"/>
+<rect x="40" y="133" width="200" height="13" fill="#4ADE80"/>
+<text x="52" y="138" fill="#1a1a1a" font-size="13" font-weight="700">Render Layers</text>
+<text x="230" y="170" text-anchor="end" fill="currentColor" font-size="13">Image</text>
+<circle cx="240" cy="166" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="230" y="200" text-anchor="end" fill="currentColor" font-size="13">Z</text>
+<circle cx="240" cy="196" r="6" fill="#4A9EFF" stroke="#1a1a1a" stroke-width="1"/>
+<text x="230" y="228" text-anchor="end" fill="currentColor" font-size="12" opacity="0.6">Alpha</text>
+<circle cx="240" cy="224" r="5" fill="#888888" stroke="#1a1a1a" stroke-width="1"/>
+</g>
+
+<!-- Blur (Variable Size) node -->
+<g>
+<rect x="430" y="150" width="220" height="150" rx="8" fill="#2a2a2a" stroke="#4A9EFF" stroke-width="2"/>
+<rect x="430" y="150" width="220" height="26" rx="8" fill="#4A9EFF"/>
+<rect x="430" y="163" width="220" height="13" fill="#4A9EFF"/>
+<text x="442" y="168" fill="#1a1a1a" font-size="13" font-weight="700">Blur</text>
+<text x="638" y="168" text-anchor="end" fill="#1a1a1a" font-size="11" font-weight="700">Variable Size</text>
+<!-- inputs -->
+<circle cx="430" cy="200" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="446" y="204" fill="currentColor" font-size="12">Image</text>
+<circle cx="430" cy="232" r="6" fill="#4A9EFF" stroke="#1a1a1a" stroke-width="1"/>
+<text x="446" y="236" fill="currentColor" font-size="12">Size</text>
+<text x="446" y="266" fill="currentColor" font-size="11" opacity="0.7">Relative &#183; Bokeh</text>
+<text x="446" y="284" fill="currentColor" font-size="11" opacity="0.7">Size factor: tune strength</text>
+<!-- output -->
+<text x="638" y="236" text-anchor="end" fill="currentColor" font-size="12">Image</text>
+<circle cx="650" cy="232" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+</g>
+
+<!-- Composite node -->
+<g>
+<rect x="620" y="380" width="150" height="80" rx="8" fill="#2a2a2a" stroke="#FF6B00" stroke-width="2"/>
+<rect x="620" y="380" width="150" height="26" rx="8" fill="#FF6B00"/>
+<rect x="620" y="393" width="150" height="13" fill="#FF6B00"/>
+<text x="632" y="398" fill="#1a1a1a" font-size="13" font-weight="700">Composite</text>
+<circle cx="620" cy="430" r="6" fill="#F5C242" stroke="#1a1a1a" stroke-width="1"/>
+<text x="636" y="434" fill="currentColor" font-size="12">Image</text>
+</g>
+
+<!-- wires -->
+<!-- Image -> Blur Image -->
+<path d="M246 166 C 330 166, 350 200, 424 200" fill="none" stroke="#F5C242" stroke-width="3"/>
+<!-- Z -> Blur Size (info blue, the key connection) -->
+<path d="M246 196 C 330 196, 350 232, 424 232" fill="none" stroke="#4A9EFF" stroke-width="3" stroke-dasharray="1 0"/>
+<!-- Blur out -> Composite -->
+<path d="M656 232 C 700 232, 695 340, 660 374" fill="none" stroke="#FF6B00" stroke-width="3"/>
+
+<!-- key-connection badge on the Z wire -->
+<rect x="300" y="204" width="118" height="22" rx="11" fill="#4A9EFF"/>
+<text x="359" y="219" text-anchor="middle" fill="#1a1a1a" font-size="11" font-weight="700">depth &#8594; blur size</text>
+
+<!-- focal distance callout -->
+<g>
+<rect x="40" y="330" width="360" height="170" rx="10" fill="#2a2a2a" stroke="#F5C242" stroke-width="1.5"/>
+<text x="60" y="360" fill="#F5C242" font-size="15" font-weight="700">Focal distance</text>
+<text x="60" y="386" fill="currentColor" font-size="12.5">The Z pass stores each pixel's distance from</text>
+<text x="60" y="404" fill="currentColor" font-size="12.5">the camera. Remap it so your subject's depth</text>
+<text x="60" y="422" fill="currentColor" font-size="12.5">reads as zero blur, and blur grows with the</text>
+<text x="60" y="440" fill="currentColor" font-size="12.5">distance away from that plane.</text>
+<!-- mini depth ramp -->
+<text x="60" y="470" fill="#4ADE80" font-size="12" font-weight="700">sharp</text>
+<rect x="110" y="460" width="230" height="12" rx="6" fill="#3a3a3a"/>
+<rect x="110" y="460" width="60" height="12" rx="6" fill="#4ADE80"/>
+<text x="348" y="470" text-anchor="end" fill="#4A9EFF" font-size="12" font-weight="700">far / blurred</text>
+<text x="60" y="490" fill="currentColor" font-size="11" opacity="0.7">near plane</text>
+<text x="340" y="490" text-anchor="end" fill="currentColor" font-size="11" opacity="0.7">background</text>
+</g>
+
+<!-- tip footer -->
+<rect x="430" y="500" width="330" height="60" rx="8" fill="#2a2a2a" stroke="#4ADE80" stroke-width="1.5"/>
+<text x="448" y="524" fill="#4ADE80" font-size="13" font-weight="700">Tip</text>
+<text x="448" y="544" fill="currentColor" font-size="12">Enable the Z pass first (View Layer &#8594; Passes),</text>
+<text x="448" y="558" fill="currentColor" font-size="12">then set Blur to Variable Size, not a fixed radius.</text>
+</svg>
