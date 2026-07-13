@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Blender's role in Phase 3 of the Story-to-Screen production pipeline: prop prep — modeling, UV and materials, and (for held props) setting the object origin at the grip so it snaps cleanly to a Unreal hand socket. The Blender side of the floating-sword fix.">
+<meta name="author" content="Ray De La Paz">
+<title>Blender in Phase 3 — Prop Prep</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  :root{
+    --bg:#0f1216; --panel:#171c22; --panel2:#1e252d; --ink:#e8edf2; --muted:#9aa7b4;
+    --line:#2a333d; --amber:#f2a33c; --amber-d:#c97f1e; --teal:#4fd1c5; --violet:#a78bfa;
+    --green:#5fd08a; --red:#f2708a; --chip:#232b34;
+    --shadow:0 1px 0 rgba(255,255,255,.03), 0 10px 30px rgba(0,0,0,.35);
+    --maxw:1000px;
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg:#f4f6f9; --panel:#ffffff; --panel2:#f0f3f7; --ink:#182028; --muted:#5d6b78;
+      --line:#e2e8ef; --chip:#eef2f7; --shadow:0 1px 2px rgba(16,24,32,.06), 0 12px 30px rgba(16,24,32,.08);}
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; padding:0 20px 80px;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto}
+  a{color:var(--teal)}
+  .crumbs{max-width:var(--maxw); margin:0 auto; padding:18px 0 0; font-size:13px; color:var(--muted)}
+  .crumbs a{color:var(--muted); text-decoration:none}
+  .crumbs a:hover{color:var(--ink)}
+  .crumbs .sep{padding:0 8px; color:var(--line)}
+  .stepstrip{max-width:var(--maxw); margin:18px auto 0; display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+  .stepstrip .step{display:inline-flex; align-items:center; gap:8px; text-decoration:none; font-size:13px; font-weight:600;
+    color:var(--muted); background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:5px 13px 5px 5px}
+  .stepstrip .step .sn{display:grid; place-items:center; width:22px; height:22px; border-radius:999px; font-size:12px; font-weight:800;
+    background:var(--chip); color:var(--muted); border:1px solid var(--line)}
+  .stepstrip .step:hover{border-color:var(--muted); color:var(--ink)}
+  .stepstrip .step.current{color:var(--ink); border-color:color-mix(in srgb,#f0955a 55%,var(--line)); background:color-mix(in srgb,#f0955a 10%,var(--panel))}
+  .stepstrip .step.current .sn{background:#f0955a; color:#20130a; border-color:transparent}
+  .stepstrip .ppl{margin-left:auto; font-size:12px; font-weight:700; color:var(--teal); text-decoration:none; white-space:nowrap; padding:6px 2px}
+  .stepstrip .ppl:hover{text-decoration:underline}
+  header.top{ max-width:var(--maxw); margin:0 auto; padding:24px 0 26px; border-bottom:1px solid var(--line); }
+  .eyebrow{color:#f0955a; font-weight:700; letter-spacing:.14em; text-transform:uppercase; font-size:12px}
+  h1{font-size:clamp(26px,4.4vw,40px); line-height:1.12; margin:.35em 0 .25em; letter-spacing:-.01em}
+  .flow{color:var(--muted); font-size:15px}
+  .flow b{color:var(--ink)}
+  .arrow{color:#f0955a; font-weight:700; padding:0 6px}
+  .diagram{max-width:var(--maxw); margin:24px auto 0; overflow-x:auto}
+  .diagram svg{width:100%; min-width:680px; height:auto; display:block}
+  .principle{
+    margin:30px auto 0; max-width:var(--maxw); background:linear-gradient(180deg,var(--panel2),var(--panel));
+    border:1px solid var(--line); border-left:4px solid #f0955a; border-radius:14px; padding:22px 24px; box-shadow:var(--shadow);
+  }
+  .principle .tag{color:#f0955a; font-weight:700; font-size:12px; letter-spacing:.1em; text-transform:uppercase}
+  .principle p{margin:.5em 0 0; font-size:17px}
+  .principle .em{color:var(--ink); font-weight:600}
+  h2.sec{font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin:46px auto 16px; max-width:var(--maxw); font-weight:700}
+  .phases{max-width:var(--maxw); margin:0 auto; display:grid; gap:14px}
+  .phase{ display:grid; grid-template-columns:56px 1fr; gap:18px; align-items:start;
+    background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px 20px; box-shadow:var(--shadow); }
+  .num{ width:44px; height:44px; border-radius:11px; display:grid; place-items:center; font-weight:800; font-size:18px;
+    background:var(--chip); color:#f0955a; border:1px solid var(--line); }
+  .phase h3{margin:2px 0 4px; font-size:19px}
+  .phase h3 .once{font-size:12px; font-weight:700; color:var(--teal); background:color-mix(in srgb,var(--teal) 14%, transparent);
+    border:1px solid color-mix(in srgb,var(--teal) 35%, transparent); padding:2px 8px; border-radius:999px; margin-left:8px; vertical-align:middle; letter-spacing:.02em}
+  .phase p{margin:.2em 0 .6em; color:var(--ink)}
+  .phase p .muted, .muted{color:var(--muted)}
+  .sub{margin:14px 0 0; padding:14px 0 0; border-top:1px dashed var(--line)}
+  .sub:first-of-type{border-top:none; padding-top:6px}
+  .sub h4{margin:0 0 4px; font-size:15px}
+  .sub h4 .st{display:inline-grid; place-items:center; width:22px; height:22px; border-radius:6px; font-size:12px; font-weight:800;
+    background:var(--chip); color:#f0955a; border:1px solid var(--line); margin-right:8px; vertical-align:middle}
+  .sub p{margin:.2em 0 .4em; color:var(--ink)}
+  ul.tight{margin:.2em 0 .6em; padding-left:18px}
+  ul.tight li{margin:.15em 0}
+  code{background:var(--chip); border:1px solid var(--line); border-radius:6px; padding:1px 6px; font-size:13px; color:var(--teal)}
+  .chips{display:flex; flex-wrap:wrap; gap:7px; margin-top:8px}
+  .chip{font-size:12px; font-weight:600; padding:4px 10px; border-radius:999px; background:var(--chip);
+    border:1px solid var(--line); color:var(--muted); text-decoration:none; display:inline-block}
+  a.chip:hover{border-color:var(--muted); color:var(--ink)}
+  .chip.blender{color:#f0955a; border-color:color-mix(in srgb,#f0955a 30%,var(--line))}
+  .chip.unreal{color:var(--teal); border-color:color-mix(in srgb,var(--teal) 30%,var(--line))}
+  .chip.lesson{color:#f0955a; border-color:color-mix(in srgb,#f0955a 30%,var(--line)); background:color-mix(in srgb,#f0955a 8%,var(--chip))}
+  .lessonrow{display:flex; flex-wrap:wrap; gap:7px; align-items:center; margin-top:10px}
+  .lessonrow .lbl{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-right:2px}
+  .tablewrap{max-width:var(--maxw); margin:0 auto; overflow-x:auto; border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow)}
+  table{border-collapse:collapse; width:100%; min-width:560px; background:var(--panel)}
+  th,td{text-align:left; padding:13px 18px; border-bottom:1px solid var(--line); font-size:15px; vertical-align:top}
+  th{background:var(--panel2); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+  tr:last-child td{border-bottom:none}
+  td b{color:var(--ink)}
+  .cards{max-width:var(--maxw); margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px 22px; box-shadow:var(--shadow)}
+  .card.key{grid-column:1/-1; border-left:4px solid var(--green)}
+  .card.warn{grid-column:1/-1; border-left:4px solid var(--amber)}
+  .card h4{margin:0 0 6px; font-size:16px}
+  .card h4 .dot{color:var(--amber)}
+  .card.key h4 .dot{color:var(--green)}
+  .card p{margin:.35em 0; color:var(--ink)}
+  footer{max-width:var(--maxw); margin:48px auto 0; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px}
+  footer a{color:var(--muted)}
+  @media (max-width:640px){
+    .cards{grid-template-columns:1fr}
+    .phase{grid-template-columns:44px 1fr; gap:14px; padding:16px}
+    .num{width:38px;height:38px;border-radius:9px;font-size:16px}
+  }
+  @media print{
+    body{background:#fff; color:#000; padding:0}
+    .phase,.card,.principle,.tablewrap{box-shadow:none; break-inside:avoid}
+    header.top{padding-top:8px}
+    .stepstrip{display:none}
+  }
+</style>
+</head>
+<body>
+
+<nav class="crumbs" aria-label="Breadcrumb">
+  <a href="index.html">Blender Course</a><span class="sep">/</span>
+  <a href="https://rays-daz3d.netlify.app/production-pipeline.html">Production Pipeline</a><span class="sep">/</span>
+  <span>Blender · Phase 3</span>
+</nav>
+
+<nav class="stepstrip" aria-label="Blender's steps in the pipeline">
+  <a class="step" href="blender-phase-1-asset-sourcing.html"><span class="sn">1</span> Asset sourcing</a>
+  <a class="step" href="blender-phase-2-character-finalization.html"><span class="sn">2</span> Character finalization</a>
+  <a class="step current" href="blender-phase-3-prop-prep.html" aria-current="page"><span class="sn">3</span> Prop prep</a>
+  <a class="step" href="blender-phase-4-animation-pose-library.html"><span class="sn">4</span> Animation</a>
+  <a class="ppl" href="https://rays-daz3d.netlify.app/production-pipeline.html">Full pipeline ↗</a>
+</nav>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Story-to-Screen Pipeline · Blender's Role</div>
+    <h1>Blender in Phase 3 — Prop Prep</h1>
+    <div class="flow">Blender builds the prop mesh — and for a <b>held</b> prop, sets the object <b>origin at the grip</b> so it snaps to a Unreal hand <b>socket</b> cleanly. This is the Blender side of the “floating sword” fix.</div>
+    <div class="diagram" role="img" aria-label="Phase 3: Blender models the prop and sets its origin at the grip point, so the prop attaches to the Unreal hand socket with no offset">
+      <svg viewBox="0 0 1000 150" xmlns="http://www.w3.org/2000/svg">
+        <style>
+          .nd{fill:var(--panel2);stroke:var(--line);stroke-width:1}
+          .ndb{fill:color-mix(in srgb,#f0955a 8%, var(--panel2));stroke:#f0955a;stroke-opacity:.55;stroke-width:1}
+          .nm{fill:var(--ink);font:700 15px system-ui,-apple-system,sans-serif}
+          .cap{fill:var(--muted);font:12.5px system-ui,-apple-system,sans-serif}
+          .gl{font:800 18px system-ui,-apple-system,sans-serif;text-anchor:middle}
+          .ar{fill:#f0955a;stroke:#f0955a}
+          .bl{fill:#f0955a}.blf{fill:#f0955a;fill-opacity:.16;stroke:#f0955a}
+          .teal{fill:var(--teal)}.tealf{fill:var(--teal);fill-opacity:.16;stroke:var(--teal)}
+          .amb{fill:var(--amber)}
+        </style>
+        <!-- sword schematic -->
+        <rect class="nd" x="10" y="30" width="270" height="90" rx="14"/>
+        <text class="cap" x="30" y="26" style="font-size:11px">the prop</text>
+        <line x1="40" y1="90" x2="170" y2="60" stroke="var(--muted)" stroke-width="6" stroke-linecap="round"/>
+        <line x1="150" y1="86" x2="176" y2="76" stroke="#e9c07a" stroke-width="10" stroke-linecap="round"/>
+        <circle cx="150" cy="86" r="7" class="amb"/>
+        <text class="cap amb" x="150" y="112" style="text-anchor:middle">origin = grip</text>
+        <text class="nm" x="196" y="70" style="font-size:13px">Held</text>
+        <text class="cap" x="196" y="88">prop mesh</text>
+
+        <rect class="ndb" x="320" y="30" width="360" height="90" rx="16"/>
+        <circle class="blf" cx="354" cy="75" r="19"/><text class="gl bl" x="354" y="81">B</text>
+        <text class="nm" x="382" y="62">Blender · prop prep</text>
+        <text class="cap" x="382" y="82">model · UV · materials</text>
+        <text class="cap amb" x="382" y="100">Set Origin → at the grip</text>
+
+        <rect class="nd" x="720" y="30" width="270" height="90" rx="14"/>
+        <circle class="tealf" cx="754" cy="75" r="19"/><text class="gl teal" x="754" y="81">U</text>
+        <text class="nm" x="782" y="70">Unreal hand socket</text>
+        <text class="cap" x="782" y="90">attach → no offset</text>
+
+        <g class="ar">
+          <line x1="282" y1="75" x2="310" y2="75" stroke-width="3"/><polygon points="310,67 310,83 326,75" stroke="none"/>
+          <line x1="682" y1="75" x2="710" y2="75" stroke-width="3"/><polygon points="710,67 710,83 726,75" stroke="none"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<section class="principle">
+  <div class="tag">Blender's job in Phase 3</div>
+  <p><span class="em">Static props are just mesh + materials. Held props are a mesh whose <em>origin sits at the grip</em>.</span>
+  That origin becomes the pivot Unreal uses when it attaches the prop to a hand socket — so the wrist drives the blade automatically, from every camera angle, with no hand-nudging. Getting the origin right in Blender is the whole game; everything else is ordinary modeling.</p>
+</section>
+
+<h2 class="sec">What Blender does in prop prep</h2>
+<div class="phases">
+  <div class="phase">
+    <div class="num">3</div>
+    <div>
+      <h3>Build the prop &amp; set its pivot <span class="muted" style="font-size:13px;font-weight:600">· once per prop</span></h3>
+      <p>Two flavors of prop, same start, one critical difference at the end: static props stay put; held props need their origin placed with intent.</p>
+
+      <div class="sub">
+        <h4><span class="st">A</span>Model the prop</h4>
+        <p>Hard-surface / box-model the prop with clean topology at real-world scale — the same discipline as <a href="blender-phase-1-asset-sourcing.html">Phase 1 asset sourcing</a>, focused on a single hero or set-dressing object.</p>
+      </div>
+
+      <div class="sub">
+        <h4><span class="st">B</span>UV unwrap &amp; author materials</h4>
+        <p>Unwrap, build PBR materials, and texture-paint detail as needed so the prop reads correctly under any lighting once it's in the shot.</p>
+      </div>
+
+      <div class="sub">
+        <h4><span class="st">C</span>Set the origin at the grip <span class="muted">(held props)</span></h4>
+        <p>Snap the 3D cursor to the grip point <span class="muted">(select the grip vertex/edge → <code>Shift&nbsp;S → Cursor to Selected</code>)</span>, then <code>Object → Set Origin → Origin to 3D Cursor</code>. The object origin is now the grip — and that is the point Unreal aligns to the hand socket.</p>
+      </div>
+
+      <div class="sub">
+        <h4><span class="st">D</span>Apply transforms</h4>
+        <p><code>Ctrl&nbsp;A → All Transforms</code> so scale is <code>1.0</code> and rotation is baked. A held prop with unapplied scale imports at the wrong size and the socket offset math goes sideways.</p>
+      </div>
+
+      <div class="sub">
+        <h4><span class="st">E</span>Export as a static mesh</h4>
+        <p>Export FBX/glTF with the origin preserved. In Unreal it's a Static Mesh that attaches to the character's hand socket — swappable, and correct in every pose because the pivot is right.</p>
+      </div>
+
+      <div class="lessonrow">
+        <span class="lbl">Learn it in</span>
+        <a class="chip lesson" href="lesson_04_basic_object_manipulation.html">4 · Origins &amp; Snapping</a>
+        <a class="chip lesson" href="lesson_07_modeling_your_first_object.html">7 · Modeling</a>
+        <a class="chip lesson" href="lesson_29_hard_surface_modeling.html">29 · Hard-Surface Modeling</a>
+        <a class="chip lesson" href="lesson_09_precision_modeling_techniques.html">9 · Precision Modeling</a>
+        <a class="chip lesson" href="lesson_12_uv_unwrapping_basics.html">12 · UV Unwrapping</a>
+        <a class="chip lesson" href="lesson_13_texture_painting_basics.html">13 · Texture Painting</a>
+      </div>
+      <div class="chips">
+        <span class="chip blender">Blender · model + UV + origin</span>
+        <span class="chip unreal">UE · Static Mesh → hand socket</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tablewrap" style="margin-top:14px">
+  <table>
+    <thead><tr><th>Prop type</th><th>Blender prep</th><th>In Unreal</th></tr></thead>
+    <tbody>
+      <tr><td><b>Static prop</b> <span class="muted">(set dressing)</span></td><td>mesh + UV + materials; origin wherever convenient</td><td>placed in the level</td></tr>
+      <tr><td><b>Held prop</b> <span class="muted">(sword, mug, tool)</span></td><td><b>origin set at the grip</b>; transforms applied</td><td><b>attached to a hand socket</b> — rides the wrist</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="cards" style="margin-top:14px">
+  <div class="card warn">
+    <h4><span class="dot">◆</span> The origin <em>is</em> the socket pivot</h4>
+    <p>If a held prop's origin isn't at the grip, it will float or offset from the hand at the socket <b>no matter how you pose the character</b> — the exact “floating sword” symptom. Nudging it per-shot never truly fixes it because the pivot is wrong at the source.</p>
+    <p><b>Fix:</b> set the origin to the grip in Blender, apply transforms, export. Then in Unreal it's just <code>attach-to-socket</code> and it's correct from every angle.</p>
+  </div>
+  <div class="card key">
+    <h4><span class="dot">◆</span> Two halves of one fix</h4>
+    <p>The socket lives on the character's skeleton (added once in Unreal, set up back in <a href="blender-phase-2-character-finalization.html">Phase 2</a>); the grip-pivot lives on the prop (set here in Phase 3). Get both right once and every shot just snaps together — see the <a href="https://rays-daz3d.netlify.app/production-pipeline.html">pipeline</a>'s “sword problem” card.</p>
+  </div>
+</div>
+
+<h2 class="sec">Where it goes next</h2>
+<div class="phases">
+  <div class="phase">
+    <div class="num">→</div>
+    <div>
+      <h3>Handing the prop on</h3>
+      <ul class="tight">
+        <li><b>Into Unreal:</b> the prop attaches to the hand socket during shot assembly — <a href="https://rays-daz3d.netlify.app/production-pipeline.html">pipeline</a>, Phases 3&nbsp;&amp;&nbsp;5.</li>
+        <li><b>Rides the animation:</b> once socketed, the prop follows the hand through every pose authored in <a href="blender-phase-4-animation-pose-library.html">Blender · Phase 4</a> — you never animate the prop directly.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>Blender's role · Phase 3 of the Daz → Blender → Unreal pipeline</span>
+  <span><a href="https://rays-daz3d.netlify.app/production-pipeline.html">Full pipeline ↗</a> · <a href="index.html">Blender course home</a></span>
+</footer>
+
+</body>
+</html>
