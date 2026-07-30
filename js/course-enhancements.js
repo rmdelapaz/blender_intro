@@ -373,9 +373,6 @@ function initLessonProgress() {
     
     localStorage.setItem('lessonProgress', JSON.stringify(progress));
     
-    if (currentPage === 'index') {
-        updateProgressIndicators(progress);
-    }
     
     window.addEventListener('beforeunload', function() {
         progress[currentPage].scrollPosition = window.scrollY;
@@ -386,32 +383,6 @@ function initLessonProgress() {
     if (savedPosition && savedPosition > 0) {
         setTimeout(function() { window.scrollTo(0, savedPosition); }, 100);
     }
-}
-
-/**
- * Update progress indicators on index page
- */
-function updateProgressIndicators(progress) {
-    var lessonLinks = document.querySelectorAll('.lesson-list a');
-    var completedCount = 0;
-    
-    lessonLinks.forEach(function(link) {
-        var href = link.getAttribute('href');
-        var pageName = href ? href.replace('.html', '') : '';
-        
-        if (progress[pageName] && progress[pageName].visited) {
-            link.classList.add('visited');
-            completedCount++;
-            
-            if (!link.querySelector('.checkmark')) {
-                var checkmark = document.createElement('span');
-                checkmark.className = 'checkmark';
-                checkmark.textContent = ' ✓';
-                checkmark.style.cssText = 'color:#10B981;font-weight:bold;margin-left:0.5rem;';
-                link.appendChild(checkmark);
-            }
-        }
-    });
 }
 
 /**
@@ -571,8 +542,7 @@ window.courseEnhancements = {
     debounce: debounce,
     throttle: throttle,
     initProgressIndicator: initProgressIndicator,
-    initSmoothScrolling: initSmoothScrolling,
-    updateProgressIndicators: updateProgressIndicators
+    initSmoothScrolling: initSmoothScrolling
 };
 
 console.log('Course enhancements initialized successfully');
